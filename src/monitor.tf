@@ -18,7 +18,7 @@ resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
 
 # Application insights
 resource "azurerm_application_insights" "application_insights" {
-  name                = format("%s-app-insights", local.project)
+  name                = format("%s-appinsights", local.project)
   location            = azurerm_resource_group.monitor_rg.location
   resource_group_name = azurerm_resource_group.monitor_rg.name
   application_type    = "other"

@@ -15,7 +15,7 @@ variable "env_short" {
 
 # Network
 variable "cidr_vnet" {
-    type = list(string)
+  type = list(string)
 }
 
 ## Monitor
