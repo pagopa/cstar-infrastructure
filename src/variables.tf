@@ -15,7 +15,18 @@ variable "env_short" {
 
 # Network
 variable "cidr_vnet" {
-  type = list(string)
+  type        = list(string)
+  description = "Virtual network address space."
+}
+
+variable "cidr_subnet_db" {
+  type        = list(string)
+  description = "Database network address space."
+}
+
+variable "cidr_subnet_k8s" {
+  type        = list(string)
+  description = "Subnet cluster kubernetes."
 }
 
 ## Monitor
