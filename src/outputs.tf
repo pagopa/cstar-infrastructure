@@ -1,0 +1,29 @@
+output "vnet_name" {
+  value = module.vnet.name
+}
+
+output "vnet_address_space" {
+  value = module.vnet.address_space
+}
+
+
+output "aks_cluster_name" {
+  value = module.aks.name
+}
+
+output "aks_fqdn" {
+  value = module.aks.fqdn
+}
+
+output "aks_private_fqdn" {
+  value = module.aks.private_fqdn
+}
+
+output "aks_client_certificate" {
+  value = module.aks.client_certificate
+}
+
+output "aks_kube_config" {
+  value     = module.aks.kube_config
+  sensitive = true
+}

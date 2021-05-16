@@ -45,20 +45,12 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_virtu
 
 # k8s cluster subnet 
 module "k8s_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
-  name                 = format("%s-k8s-snet", local.project)
-  address_prefixes     = var.cidr_subnet_k8s
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
-
-  delegation = {
-    name = "default"
-
-    service_delegation = {
-      name    = "Microsoft.Web/serverFarms"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  name                                           = format("%s-k8s-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_k8s
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  enforce_private_link_endpoint_network_policies = true
 
   service_endpoints = [
     "Microsoft.Web",
