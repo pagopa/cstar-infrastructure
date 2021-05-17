@@ -27,3 +27,12 @@ output "aks_kube_config" {
   value     = module.aks.kube_config
   sensitive = true
 }
+
+## key vault ##
+output "key_vault_uri" {
+  value = module.key_vault.vault_uri
+}
+
+output "key_vaulr_name" {
+  value = module.key_vault.name
+}
