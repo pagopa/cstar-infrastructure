@@ -56,6 +56,31 @@ variable "ad_key_vault_group_object_id" {
   default     = null
 }
 
+# apim 
+
+variable "cidr_subnet_apim" {
+  type        = list(string)
+  description = "Address prefixes subnet api management."
+  default     = null
+
+}
+
+variable "apim_publisher_name" {
+  type = string
+}
+
+variable "apim_publisher_email" {
+  type = string
+}
+
+variable "apim_notification_sender_email" {
+  type = string
+}
+
+variable "apim_sku" {
+  type = string
+}
+
 variable "tags" {
   type = map(any)
   default = {

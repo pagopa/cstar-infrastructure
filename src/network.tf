@@ -59,6 +59,18 @@ module "k8s_snet" {
 
 }
 
+# APIM subnet
+module "apim_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  name                 = format("%s-apim-snet", local.project)
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_subnet_apim
+
+  service_endpoints = ["Microsoft.Web"]
+
+  enforce_private_link_endpoint_network_policies = true
+}
 
 /*
 
@@ -84,17 +96,6 @@ resource "azurerm_public_ip" "apigateway_public_ip" {
   tags = var.tags
 }
 
-# APIM subnet
-module "apim_snet" {
-  name                 = format("%s-apim-snet", local.project)
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = var.cidr_subnet_apim
-
-  service_endpoints = ["Microsoft.Web"]
-
-  enforce_private_link_endpoint_network_policies = true
-}
 
 resource "azurerm_private_dns_zone" "api_private_dns_zone" {
   name                = var.apim_private_domain
