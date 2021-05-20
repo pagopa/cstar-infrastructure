@@ -36,3 +36,17 @@ output "key_vault_uri" {
 output "key_vaulr_name" {
   value = module.key_vault.name
 }
+
+## Jumpbox ##
+output "jumphost_ip" {
+  value = module.jumpbox.ip
+}
+
+output "jumphost_private_key" {
+  value     = module.jumpbox.tls_private_key
+  sensitive = true
+}
+
+output "jumphost_username" {
+  value = module.jumpbox.username
+}

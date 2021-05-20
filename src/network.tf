@@ -72,6 +72,15 @@ module "apim_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+module "jumpbox_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  name                 = format("%s-jumpbox-snet", local.project)
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_subnet_jumpbox
+
+}
+
 /*
 
 # Subnet to host the application gateway

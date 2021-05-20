@@ -24,9 +24,27 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_jumpbox" {
+  type        = list(string)
+  description = "Jumpbox subnet address space."
+}
+
+## AKS
+
 variable "cidr_subnet_k8s" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
+}
+
+variable "aks_availability_zones" {
+  type        = list(number)
+  description = "A list of Availability Zones across which the Node Pool should be spread."
+  default     = []
+}
+
+variable "kubernetes_version" {
+  type    = string
+  default = null
 }
 
 ## Monitor
