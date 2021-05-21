@@ -50,3 +50,17 @@ output "jumphost_private_key" {
 output "jumphost_username" {
   value = module.jumpbox.username
 }
+
+## Container registry ##
+output "container_registry_login_server" {
+  value = module.acr.login_server
+}
+
+output "container_registry_admin_username" {
+  value = module.acr.admin_username
+}
+
+output "container_registry_admin_password" {
+  value     = module.acr.admin_password
+  sensitive = true
+}
