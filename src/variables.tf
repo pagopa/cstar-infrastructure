@@ -99,6 +99,22 @@ variable "apim_sku" {
   type = string
 }
 
+# Azure DevOps Agent
+variable "enable_azdoa" {
+  type        = bool
+  description = "Enable Azure DevOps agent."
+}
+
+variable "cidr_subnet_azdoa" {
+  type        = list(string)
+  description = "Azure DevOps agent network address space."
+}
+
+variable "azdoa_scaleset_li_public_key" {
+  type        = string
+  description = "Azure DevOps agent public key."
+}
+
 variable "tags" {
   type = map(any)
   default = {
