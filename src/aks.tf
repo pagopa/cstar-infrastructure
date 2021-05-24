@@ -5,13 +5,14 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source              = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=main"
-  name                = format("%s-aks", local.project)
-  location            = azurerm_resource_group.rg_aks.location
-  dns_prefix          = format("%s-aks", local.project)
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  availability_zones  = var.aks_availability_zones
-  kubernetes_version  = var.kubernetes_version
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=main"
+  name                       = format("%s-aks", local.project)
+  location                   = azurerm_resource_group.rg_aks.location
+  dns_prefix                 = format("%s-aks", local.project)
+  resource_group_name        = azurerm_resource_group.rg_aks.name
+  availability_zones         = var.aks_availability_zones
+  kubernetes_version         = var.kubernetes_version
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
   private_cluster_enabled = true
 
