@@ -16,6 +16,8 @@ module "aks" {
 
   private_cluster_enabled = true
 
+  rbac_enabled = true
+
   vnet_subnet_id = module.k8s_snet.id
 
   network_profile = {
