@@ -29,8 +29,20 @@ variable "cidr_subnet_jumpbox" {
   description = "Jumpbox subnet address space."
 }
 
-## AKS
+## Public DNS Zone ##
+variable "dns_zone_prefix" {
+  type        = string
+  default     = null
+  description = "The dns subdomain."
+}
 
+variable "external_domain" {
+  type        = string
+  default     = null
+  description = "Domain for delegation"
+}
+
+## AKS ## 
 variable "cidr_subnet_k8s" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
