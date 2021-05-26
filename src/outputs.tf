@@ -64,3 +64,20 @@ output "container_registry_admin_password" {
   value     = module.acr.admin_password
   sensitive = true
 }
+
+## Api management ##
+output "apim_name" {
+  value = module.apim.name
+}
+
+output "apim_private_ip_addresses" {
+  value = module.apim.private_ip_addresses
+}
+
+output "apim_gateway_url" {
+  value = module.apim.gateway_url
+}
+
+output "apim_gateway_hostname" {
+  value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
+}

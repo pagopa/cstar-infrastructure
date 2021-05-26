@@ -29,6 +29,11 @@ variable "cidr_subnet_jumpbox" {
   description = "Jumpbox subnet address space."
 }
 
+variable "cidr_subnet_appgateway" {
+  type        = list(string)
+  description = "Application gateway address space."
+}
+
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {
   type        = string
@@ -109,6 +114,38 @@ variable "apim_notification_sender_email" {
 
 variable "apim_sku" {
   type = string
+}
+
+variable "apim_private_domain" {
+  type    = string
+  default = "api.cstar.pagopa.it"
+}
+
+## Application gateway
+variable "enable_custom_dns" {
+  type        = bool
+  default     = false
+  description = "Enable application gateway custom domain."
+}
+
+variable "app_gateway_certificate_name" {
+  type        = string
+  description = "Application gateway certificate name on Key Vault"
+  default     = null
+}
+
+variable "app_gateway_host_name" {
+  type        = string
+  description = "Application gateway host name"
+}
+
+variable "app_gateway_min_capacity" {
+  type    = number
+  default = 1
+}
+variable "app_gateway_max_capacity" {
+  type    = number
+  default = 2
 }
 
 # Azure DevOps Agent

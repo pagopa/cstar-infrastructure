@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "sec_rg" {
-  name     = format("%s-sev-rg", local.project)
+  name     = format("%s-sec-rg", local.project)
   location = var.location
 
   tags = var.tags
@@ -92,3 +92,18 @@ resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
   ]
 }
 */
+
+resource "azurerm_user_assigned_identity" "appgateway" {
+  resource_group_name = azurerm_resource_group.sec_rg.name
+  location            = azurerm_resource_group.sec_rg.location
+  name                = format("%s-appgateway-identity", local.project)
+
+  tags = var.tags
+}
+
+data "azurerm_key_vault_secret" "app_gw_cert" {
+  depends_on   = [azurerm_key_vault_access_policy.ad_group_policy]
+  count        = var.app_gateway_certificate_name != null ? 1 : 0
+  name         = var.app_gateway_certificate_name
+  key_vault_id = module.key_vault.id
+}
