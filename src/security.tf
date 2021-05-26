@@ -18,10 +18,9 @@ module "key_vault" {
   tags = var.tags
 }
 
-/* TODO
 ## api management policy ## 
 resource "azurerm_key_vault_access_policy" "api_management_policy" {
-  key_vault_id = azurerm_key_vault.key_vault.id
+  key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = module.apim.principal_id
 
@@ -30,7 +29,30 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
   certificate_permissions = ["Get", "List"]
   storage_permissions     = []
 }
-*/
+
+# terraform cloud policy
+resource "azurerm_key_vault_access_policy" "terraform_cloud_policy" {
+  key_vault_id = module.key_vault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
+
+  key_permissions = ["Get", "List", "Update", "Create", "Import", "Delete",
+    "Recover", "Backup", "Restore"
+  ]
+
+  secret_permissions = ["Get", "List", "Set", "Delete", "Recover", "Backup",
+    "Restore"
+  ]
+
+  certificate_permissions = ["Get", "List", "Update", "Create", "Import",
+    "Delete", "Recover", "Backup", "Restore", "ManageContacts", "ManageIssuers",
+    "GetIssuers", "ListIssuers", "SetIssuers", "DeleteIssuers", "Purge"
+  ]
+
+  storage_permissions = []
+
+}
+
 
 /*
 ## user assined identity: (application gateway) ##
@@ -106,4 +128,60 @@ data "azurerm_key_vault_secret" "app_gw_cert" {
   count        = var.app_gateway_certificate_name != null ? 1 : 0
   name         = var.app_gateway_certificate_name
   key_vault_id = module.key_vault.id
+}
+
+resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
+  depends_on = [
+    azurerm_key_vault_access_policy.api_management_policy
+  ]
+
+  name         = local.apim_cert_name_proxy_endpoint
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = format("CN=%s", trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."))
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = [
+          trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."),
+        ]
+      }
+    }
+  }
 }
