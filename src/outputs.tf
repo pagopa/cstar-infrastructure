@@ -81,3 +81,19 @@ output "apim_gateway_url" {
 output "apim_gateway_hostname" {
   value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
 }
+
+
+## Postgresql server
+output "postgresql_fqdn" {
+  value = module.postgresql.fqdn
+}
+
+output "postgresql_administrator_login" {
+  value     = data.azurerm_key_vault_secret.db_administrator_login.value
+  sensitive = true
+}
+
+output "postgresql_administrator_login_password" {
+  value     = data.azurerm_key_vault_secret.db_administrator_login_password.value
+  sensitive = true
+}

@@ -28,21 +28,6 @@ module "db_snet" {
 }
 
 
-resource "azurerm_private_dns_zone" "private_dns_zone_postgres" {
-  name                = "privatelink.postgres.database.azure.com"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_virtual_network_link" {
-  name                  = format("%s-private-dns-zone-link", local.project)
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone_postgres.name
-  virtual_network_id    = module.vnet.id
-
-  tags = var.tags
-}
-
-
 # k8s cluster subnet 
 module "k8s_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
@@ -56,7 +41,6 @@ module "k8s_snet" {
     "Microsoft.Web",
     "Microsoft.Storage"
   ]
-
 }
 
 # APIM subnet
@@ -72,6 +56,7 @@ module "apim_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+## Subnet jumpbox
 module "jumpbox_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
   name                 = format("%s-jumpbox-snet", local.project)
@@ -99,6 +84,7 @@ module "appgateway-snet" {
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
 }
+
 
 ## Application gateway public ip ##
 resource "azurerm_public_ip" "apigateway_public_ip" {

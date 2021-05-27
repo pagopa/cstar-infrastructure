@@ -164,6 +164,12 @@ variable "azdoa_scaleset_li_public_key" {
   description = "Azure DevOps agent public key."
 }
 
+## Database server postgresl 
+variable "db_sku_name" {
+  type        = string
+  description = "Specifies the SKU Name for this PostgreSQL Server."
+}
+
 variable "tags" {
   type = map(any)
   default = {
