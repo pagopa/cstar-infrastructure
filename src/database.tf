@@ -16,7 +16,7 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
 }
 
 module "postgresql" {
-  source                           = "/home/uolter/src/pagopa/azurerm/postgresql_server"
+  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=main"
   name                             = format("%s-postgresql", local.project)
   location                         = azurerm_resource_group.db_rg.location
   resource_group_name              = azurerm_resource_group.db_rg.name
