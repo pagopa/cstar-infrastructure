@@ -170,6 +170,41 @@ variable "db_sku_name" {
   description = "Specifies the SKU Name for this PostgreSQL Server."
 }
 
+## Event hub
+variable "ehns_sku_name" {
+  type        = string
+  description = "Defines which tier to use."
+  default     = "Basic"
+}
+
+variable "ehns_capacity" {
+  type        = number
+  description = "Specifies the Capacity / Throughput Units for a Standard SKU namespace."
+  default     = null
+}
+
+variable "ehns_maximum_throughput_units" {
+  type        = number
+  description = "Specifies the maximum number of throughput units when Auto Inflate is Enabled"
+  default     = null
+}
+
+variable "ehns_auto_inflate_enabled" {
+  type        = bool
+  description = "Is Auto Inflate enabled for the EventHub Namespace?"
+  default     = false
+}
+
+variable "eventhubs" {
+  type = list(object({
+    name              = string
+    partition_count   = number
+    message_retention = number
+  }))
+  default     = []
+  description = "List of eventhubs."
+}
+
 variable "tags" {
   type = map(any)
   default = {
