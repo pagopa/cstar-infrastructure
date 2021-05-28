@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  KAFKA_INTEGR_WINNER_CLIENT_ID: award-integration-winner
+  KAFKA_WINNER_CLIENT_ID: award-winner
+  LOG_LEVEL_BPD_AWARD_WINNER: INFO
+  POSTGRES_POOLSIZE: "2"
+  POSTGRES_REPLICA_SCHEMA: bpd_citizen
+  POSTGRES_SCHEMA: bpd_citizen
+  POSTGRES_SHOW_SQL: "true"
+kind: ConfigMap
+metadata:
+  name: bpdmsawardwinner
+  namespace: bpd

@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  CASHBACK_UPDATE_DATA_EXTRACTION_LIMIT: "100"
+  CASHBACK_UPDATE_PARALLEL_ENABLE: "false"
+  CITIZEN_DAO_TABLE_NAME_RANKING: bpd_citizen_ranking_new
+  CITIZEN_DAO_TABLE_NAME_RANKING_EXT: bpd_ranking_ext_new
+  CITIZEN_DB_SCHEMA: bpd_citizen
+  LOG_LEVEL_BPD_RANKING_PROCESSOR: INFO
+  POSTGRES_POOLSIZE: "2"
+  RANKING_UPDATE_DATA_EXTRACTION_LIMIT: "10"
+  RANKING_UPDATE_PARALLEL_ENABLE: "false"
+  TRANSACTION_DB_SCHEMA: bpd_winning_transaction
+  TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME: elab_ranking_new_b
+  TRANSACTION_EXTR_QUERY_LOCK_ENABLE: "false"
+kind: ConfigMap
+metadata:
+  name: bpdmsrankingprocessoroffline
+  namespace: bpd

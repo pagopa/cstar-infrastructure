@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  KAFKA_BPDTRX_ERROR_GROUP_ID: bpd-trx-error
+  KAFKA_BPDTRX_ERROR_TOPIC: bpd-trx-error
+  KAFKA_POINTTRX_GROUP_ID: bpd-point-processor
+  KAFKA_POINTTRX_TOPIC: bpd-trx
+  KAFKA_SAVETRX_GROUP_ID: bpd-trx-cashback
+  KAFKA_SAVETRX_TOPIC: bpd-trx-cashback
+  LOG_LEVEL_BPD_POINT_PROCESSOR: DEBUG
+  POSTGRES_SCHEMA: bpd_mcc_category
+  POSTGRES_SHOW_SQL: "true"
+kind: ConfigMap
+metadata:
+  name: bpdmspointprocessor
+  namespace: bpd

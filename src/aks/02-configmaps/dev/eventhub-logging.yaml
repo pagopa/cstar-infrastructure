@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  ENABLE_KAFKA_APPENDER: "TRUE"
+  KAFKA_APPENDER_BOOTSTRAP_SERVERS: bpd-hub-dev.servicebus.windows.net:9093
+  KAFKA_APPENDER_REQUEST_TIMEOUT_MS: "180000"
+  KAFKA_APPENDER_SASL_JAAS_CONFIG: |
+    org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://bpd-hub-dev.servicebus.windows.net/;SharedAccessKeyName=app;SharedAccessKey=3+X1wLKTuhGnFNAuX+AfRXKNSP37MVpl6xm6GqR3qEI=;EntityPath=bpd-log";
+  KAFKA_APPENDER_TOPIC: bpd-log
+kind: ConfigMap
+metadata:
+  name: eventhub-logging
+  namespace: bpd

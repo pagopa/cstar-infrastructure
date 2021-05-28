@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  LOG_LEVEL_FA_ENROLLMENT: DEBUG
+kind: ConfigMap
+metadata:
+  name: bpdmsenrollment
+  namespace: bpd

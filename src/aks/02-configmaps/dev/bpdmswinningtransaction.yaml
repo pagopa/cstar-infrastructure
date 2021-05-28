@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  ENABLE_CITIZEN_VALIDATION: "true"
+  KAFKA_BPDTRX_ERROR_GROUP_ID: bpd-trx-error
+  KAFKA_BPDTRX_ERROR_TOPIC: bpd-trx-error
+  KAFKA_SAVETRX_GROUP_ID: bpd-winning-transaction
+  KAFKA_SAVETRX_TOPIC: bpd-trx-cashback
+  LOG_LEVEL_BPD_WINNING_TRANSACTION: DEBUG
+  POSTGRES_POOLSIZE: "2"
+  POSTGRES_REPLICA_SCHEMA: bpd_winning_transaction
+  POSTGRES_SCHEMA: bpd_winning_transaction
+  POSTGRES_SHOW_SQL: "true"
+  WINN_TRX_SECONDARY_DB_ENABLE: "true"
+kind: ConfigMap
+metadata:
+  name: bpdmswinningtransaction
+  namespace: bpd

@@ -1,0 +1,62 @@
+apiVersion: v1
+data:
+  JAVA_TOOL_OPTIONS: -Xms128m -Xmx4g
+  LOG_LEVEL_BPD_NOTIFICATION: DEBUG
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_KO: '---\nit:\n    cta_1: \n        text:
+    "Modifica IBAN"\n        action: "ioit://CTA_BPD_IBAN_EDIT"\nen:\n    cta_1: \n        text:
+    "Edit IBAN"\n        action: "ioit://CTA_BPD_IBAN_EDIT"\n---\n\n\nSiamo spiacenti,
+    non è stato possibile effettuare il bonifico di € {{amount}} perché l''IBAN inserito
+    ({{IBAN}}) non è valido.\n\n**Non preoccuparti, hai ancora diritto al tuo rimborso!**\n\nSe
+    non l''hai già fatto, accedi al dettaglio del Cashback e modifica l''IBAN del
+    conto su cui ricevere il rimborso.\n\nNelle prossime settimane verrà effettuato
+    un nuovo tentativo: riceverai un altro messaggio in app con l''esito dell''operazione.\n\nIn
+    alternativa, puoi presentare un reclamo a Consap S.p.A., la Società incaricata
+    per l''erogazione dei rimborsi e per la gestione dei relativi reclami e contenziosi,
+    utilizzando il [Portale Reclami Cashback](https://reclamicashback.consap.it).'
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_KO_TECHNICAL: '---\nit:\n    cta_1:
+    \n        text: "Modifica IBAN"\n        action: "ioit://CTA_BPD_IBAN_EDIT"\nen:\n    cta_1:
+    \n        text: "Edit IBAN"\n        action: "ioit://CTA_BPD_IBAN_EDIT"\n---\n\n\nSiamo
+    spiacenti, non è stato possibile effettuare il bonifico di € {{amount}} perché
+    l''IBAN inserito non è valido.\n\n**Non preoccuparti, hai ancora diritto al tuo
+    rimborso!**\n\nSe non l''hai già fatto, accedi al dettaglio del Cashback e modifica
+    l''IBAN del conto su cui ricevere il rimborso.\n\nNelle prossime settimane verrà
+    effettuato un nuovo tentativo: riceverai un altro messaggio in app con l''esito
+    dell''operazione.\n\nIn alternativa, puoi presentare un reclamo a Consap S.p.A.,
+    la Società incaricata per l''erogazione dei rimborsi e per la gestione dei relativi
+    reclami e contenziosi, utilizzando il [Portale Reclami Cashback](https://reclamicashback.consap.it).'
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_OK: 'Ti informiamo che il bonifico
+    di **€ {{amount}}** relativo al Cashback accumulato nel periodo dal {{startDate}}
+    al {{endDate}}, è stato eseguito correttamente il giorno **{{executionDate}}**,\nall''IBAN
+    {{IBAN}}.\n\nIl CRO dell''operazione è: {{cro}}.\n\nSe l''accredito non è ancora
+    visibile sul tuo conto, lo sarà entro qualche giorno.\n\nGrazie per aver partecipato!'
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_OK_TECHNICAL: 'Ti informiamo
+    che il bonifico di **€ {{amount}}** relativo al Cashback accumulato nel periodo
+    dal {{startDate}} al {{endDate}}, è stato eseguito correttamente il giorno **{{executionDate}}**.\n\nIl
+    CRO dell''operazione è: {{cro}}.\n\nSe l''accredito non è ancora visibile, lo
+    sarà entro qualche giorno.\n\nPer maggiori informazioni, accedi all''app che hai
+    utilizzato per aderire al Cashback.\n\nGrazie per aver partecipato!'
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXNOTIFYTRY: "1"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXROW: "1000"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER: 0 */10 1-5 * * ?
+  NOTIFICATION_SERVICE_NOTIFY_WINNERS_MAXROW: "150"
+  NOTIFICATION_SERVICE_NOTIFY_WINNERS_SFTP_ENABLE: "false"
+  NOTIFICATION_SERVICE_NOTIFY_WINNERS_UPDATE_STATUS_ENABLE: "false"
+  NOTIFICATION_SERVICE_SEND_WINNERS_SCHEDULER: 0 00 00 * * ?
+  NOTIFICATION_SERVICE_UPDATE_WINNERS_SCHEDULER: 0 00 04 * * ?
+  POSTGRES_POOLSIZE: "2"
+  POSTGRES_SCHEMA: bpd_citizen
+  POSTGRES_SHOW_SQL: "true"
+  TEST: '---\nit:\n    cta_1: \n        text: "Modifica IBAN"\n        action: "ioit://CTA_BPD_IBAN_EDIT"\nen:\n    cta_1:
+    \n        text: "Edit IBAN"\n        action:ioit://CTA_BPD_IBAN_EDIT"\n---\n\n\nSiamo
+    spiacenti, non è stato possibile effettuare il bonifico di € {{amount}} perché
+    l''IBAN inserito non è valido.\n\n**Non preoccuparti, hai ancora diritto al tuo
+    rimborso!**\n\nSe non l''hai già fatto, accedi al dettaglio del Cashback e modifica
+    l''IBAN del conto su cui ricevere il rimborso.\n\nNelle prossime settimane verrà
+    effettuato un nuovo tentativo: riceverai un altro messaggio in app con l''esito
+    dell''operazione.\n\nIn alternativa, puoi presentare un reclamo a Consap S.p.A.,
+    la Società incaricata per l''erogazione dei rimborsi e per la gestione dei relativi
+    reclami e contenziosi, utilizzando il [Portale Reclami Cashback](https://reclamicashback.consap.it).'
+kind: ConfigMap
+metadata:
+  name: bpdmsnotificationmanager
+  namespace: bpd
