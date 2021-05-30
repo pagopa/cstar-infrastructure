@@ -1,5 +1,8 @@
 env       = "dev"
 env_short = "d"
+# ingress
+ingress_replica_count   ="2"
+ingress_load_balancer_ip="10.0.128.250"
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod_LOG_LEVEL_BPD_AWARD_PERIOD = "DEBUG"
 configmaps_bpdmsawardperiod_POSTGRES_POOLSIZE          = "2"
