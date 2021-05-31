@@ -64,14 +64,6 @@ variable "kubernetes_version" {
   default = null
 }
 
-variable "aks_storage_account_terraform_state_lock" {
-  type = object({
-    level = string
-    notes = string
-  })
-  default = null
-}
-
 ## Monitor
 variable "law_sku" {
   type        = string

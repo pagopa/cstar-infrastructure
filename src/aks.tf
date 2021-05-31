@@ -55,10 +55,6 @@ module "aks_storage_account_terraform_state" {
   enable_versioning        = true
   resource_group_name      = azurerm_resource_group.rg_aks.name
   location                 = var.location
-  lock_enabled             = var.aks_storage_account_terraform_state_lock != null
-  lock_name                = var.aks_storage_account_terraform_state_lock != null ? format("%s-sa-aksinfra-lock", local.project) : null
-  lock_level               = var.aks_storage_account_terraform_state_lock != null ? var.aks_storage_account_terraform_state_lock.level : "CanNotDelete"
-  lock_notes               = var.aks_storage_account_terraform_state_lock != null ? var.aks_storage_account_terraform_state_lock.notes : null
 
   tags = var.tags
 }
