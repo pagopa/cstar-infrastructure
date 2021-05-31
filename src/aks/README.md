@@ -51,13 +51,13 @@ We use an SSH connection to a jumbox host started on demand.
 
 ```sh
 ## ~/.ssh/config file configuration
-# Change project_aks_env_user and bastian_host_env_ip with correct values
-# Ask to an Azure Administrator the id_rsa_project_aks_env_user
+# Change project_aks_env_user, user and bastian_host_env_ip with correct values
+# Ask to an Azure Administrator the id_rsa_project_aks_env_user private key
 Host project_aks_env_user
   AddKeysToAgent yes
   UseKeychain yes
   HostName bastian_host_env_ip
-  User azureuser
+  User user
   IdentityFile ~/.ssh/id_rsa_project_aks_env_user
 ```
 
