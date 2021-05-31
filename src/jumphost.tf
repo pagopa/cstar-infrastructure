@@ -6,13 +6,12 @@ resource "azurerm_resource_group" "jumpbox_rg" {
 }
 
 module "jumpbox" {
-  // source              = "git::https://github.com/pagopa/azurerm.git//jumpbox?ref=main"
-  source              = "/Users/uolter/src/pagopa/azurerm/jumpbox"
-  name                = format("%s-jumpbox-vm", local.project)
-  resource_group_name = azurerm_resource_group.jumpbox_rg.name
-  location            = azurerm_resource_group.jumpbox_rg.location
-  subnet_id           = module.jumpbox_snet.id
-  sku                 = "18.04-LTS"
+  source                = "git::https://github.com/pagopa/azurerm.git//jumpbox?ref=main"
+  name                  = format("%s-jumpbox-vm", local.project)
+  resource_group_name   = azurerm_resource_group.jumpbox_rg.name
+  location              = azurerm_resource_group.jumpbox_rg.location
+  subnet_id             = module.jumpbox_snet.id
+  sku                   = "18.04-LTS"
   pip_allocation_method = "Static"
 
 

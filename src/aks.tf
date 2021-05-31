@@ -61,7 +61,7 @@ module "aks_storage_account_terraform_state" {
 
 # Containers
 resource "azurerm_storage_container" "aks_state" {
-  depends_on            = [module.aks_storage_account_terraform_state]
+  depends_on = [module.aks_storage_account_terraform_state]
 
   name                  = format("%s-aks-state", var.prefix)
   storage_account_name  = module.aks_storage_account_terraform_state.name
