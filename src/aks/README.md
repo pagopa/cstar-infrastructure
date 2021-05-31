@@ -50,6 +50,7 @@ We deploy a kubernetes in private mode so it is not public accessible.
 We use an SSH connection to a jumbox host started on demand.
 
 ```sh
+## ~/.ssh/config file configuration
 # Change project_aks_env_user and bastian_host_env_ip with correct values
 # Ask to an Azure Administrator the id_rsa_project_aks_env_user
 Host project_aks_env_user
