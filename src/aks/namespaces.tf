@@ -1,9 +1,3 @@
-resource "kubernetes_namespace" "ingress" {
-  metadata {
-    name = "ingress"
-  }
-}
-
 resource "kubernetes_namespace" "bpd" {
   metadata {
     name = "bpd"

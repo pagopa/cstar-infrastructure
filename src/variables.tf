@@ -66,9 +66,8 @@ variable "kubernetes_version" {
 
 variable "aks_storage_account_terraform_state_lock" {
   type = object({
-    lock_level = string
-    notes      = string
-    scope      = string
+    level = string
+    notes = string
   })
   default = null
 }

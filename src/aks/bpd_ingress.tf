@@ -4,10 +4,10 @@ resource "helm_release" "ingress" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   version    = "3.31.0"
-  namespace  = kubernetes_namespace.ingress.metadata[0].name
+  namespace  = kubernetes_namespace.bpd.metadata[0].name
 
   values = [
-    "${templatefile("${path.module}/ingress/loadbalancer.yaml", { load_balancer_ip = var.ingress_load_balancer_ip })}"
+    "${templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", { load_balancer_ip = var.ingress_load_balancer_ip })}"
   ]
 
   set {
