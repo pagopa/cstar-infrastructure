@@ -43,12 +43,11 @@ module "acr" {
 
 # Storage account to save aks terraform state
 module "aks_storage_account_terraform_state" {
-  # source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.3"
-  source = "/Users/pasqualedevita/Documents/github/azurerm/storage_account"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.4"
 
-  name            = replace(format("%s-sa", local.project), "-", "")
-  versioning_name = format("%s-sa-versioning", local.project)
-  lock_name       = format("%s-sa-lock", local.project)
+  name            = replace(format("%s-saaksinfra", local.project), "-", "")
+  versioning_name = format("%s-sa-aksinfra-versioning", local.project)
+  lock_name       = format("%s-sa-aksinfra-lock", local.project)
 
   account_kind             = "StorageV2"
   account_tier             = "Standard"
