@@ -1,6 +1,6 @@
-# terraform-infrastructure-template
+# kubernetes-infrastructure
 
-Terraform template repository for infrastructures projects
+This is a kubernetes infrastructure configuration.
 
 ## Requirements
 
