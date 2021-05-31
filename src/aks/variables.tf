@@ -50,6 +50,11 @@ variable "ingress_load_balancer_ip" {
   type = string
 }
 
+variable "default_service_port" {
+  type    = number
+  default = 8080
+}
+
 # bpdmsawardperiod
 
 variable "configmaps_bpdmsawardperiod_POSTGRES_POOLSIZE" {
