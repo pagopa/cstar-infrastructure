@@ -70,9 +70,9 @@ eval "$(ssh-agent -s)"
 
 ## Terraform modules
 
-Available PagoPA terraform modules:
+As PagoPA we build our standard Terraform modules, check available modules:
 
-- [azurerm](https://github.com/pagopa/azurerm): **Azure** terraform modules
+- [PagoPA Terraform modules](https://github.com/search?q=topic%3Aterraform-modules+org%3Apagopa&type=repositories)
 
 ## Setup configuration
 
