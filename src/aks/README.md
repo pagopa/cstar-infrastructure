@@ -85,7 +85,7 @@ To apply changes use `terraform.sh` script as follow:
 ```sh
 bash terraform.sh apply|plan|destroy ENV-PROJECT
 
-# example tp apply configuration to CSTAR project in DEV environment
+# example to apply configuration for CSTAR project in DEV environment
 bash terraform.sh apply DEV-CSTAR
 ```
 
