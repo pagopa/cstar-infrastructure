@@ -61,6 +61,13 @@ Host project_aks_env_user
   IdentityFile ~/.ssh/id_rsa_project_aks_env_user
 ```
 
+```sh
+# set rw permission to id_rsa_project_aks_env_user key only for current user
+chmod 600 ~/.ssh/id_rsa_project_aks_env_user
+# if nedded, restart ssh-agent
+eval "$(ssh-agent -s)"
+```
+
 ## Terraform modules
 
 Available PagoPA terraform modules:
