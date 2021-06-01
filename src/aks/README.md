@@ -44,10 +44,10 @@ In order to use Helm package manager for Kubernetes it's necessary to install he
 
 - [helm](https://helm.sh/docs/helm/helm_install/)
 
-### 5. Access to jumbbox (bastian host)
+### 5. Access to bastian host (jumpbox)
 
 We deploy a kubernetes in private mode so it is not public accessible.
-We use an SSH connection to a jumbox host started on demand.
+We use an SSH connection to a bastian host started on demand (jumpbox).
 
 ```sh
 ## ~/.ssh/config file configuration
