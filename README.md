@@ -20,6 +20,12 @@ After installation install terraform:
 tfenv install
 ```
 
+## Terraform modules
+
+As PagoPA we build our standard Terraform modules, check available modules:
+
+- [PagoPA Terraform modules](https://github.com/search?q=topic%3Aterraform-modules+org%3Apagopa&type=repositories)
+
 ## Apply changes
 
 To apply changes follow the standard terraform lifecycle once the code in this repository has been changed:
