@@ -91,8 +91,7 @@ variable "ad_key_vault_group_object_id" {
   default     = null
 }
 
-# apim 
-
+## apim 
 variable "cidr_subnet_apim" {
   type        = list(string)
   description = "Address prefixes subnet api management."
@@ -204,6 +203,24 @@ variable "eventhubs" {
   default     = []
   description = "List of eventhubs."
 }
+
+## Redis cache
+variable "redis_capacity" {
+  type    = number
+  default = 1
+}
+
+variable "redis_sku_name" {
+  type    = string
+  default = "Standard"
+}
+
+variable "redis_family" {
+  type    = string
+  default = "C"
+}
+
+
 
 variable "tags" {
   type = map(any)
