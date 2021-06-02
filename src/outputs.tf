@@ -82,7 +82,6 @@ output "apim_gateway_hostname" {
   value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
 }
 
-
 ## Postgresql server
 output "postgresql_fqdn" {
   value = module.postgresql.fqdn
@@ -96,4 +95,22 @@ output "postgresql_administrator_login" {
 output "postgresql_administrator_login_password" {
   value     = data.azurerm_key_vault_secret.db_administrator_login_password.value
   sensitive = true
+}
+
+## Redis cache
+output "redis_primary_access_key" {
+  value     = module.redis.primary_access_key
+  sensitive = true
+}
+
+output "redis_hostname" {
+  value = module.redis.hostname
+}
+
+output "redis_port" {
+  value = module.redis.port
+}
+
+output "redis_ssl_port" {
+  value = module.redis.ssl_port
 }

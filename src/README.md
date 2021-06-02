@@ -140,5 +140,9 @@
 | <a name="output_postgresql_administrator_login"></a> [postgresql\_administrator\_login](#output\_postgresql\_administrator\_login) | n/a |
 | <a name="output_postgresql_administrator_login_password"></a> [postgresql\_administrator\_login\_password](#output\_postgresql\_administrator\_login\_password) | n/a |
 | <a name="output_postgresql_fqdn"></a> [postgresql\_fqdn](#output\_postgresql\_fqdn) | # Postgresql server |
+| <a name="output_redis_hostname"></a> [redis\_hostname](#output\_redis\_hostname) | n/a |
+| <a name="output_redis_port"></a> [redis\_port](#output\_redis\_port) | n/a |
+| <a name="output_redis_primary_access_key"></a> [redis\_primary\_access\_key](#output\_redis\_primary\_access\_key) | # Redis cache |
+| <a name="output_redis_ssl_port"></a> [redis\_ssl\_port](#output\_redis\_ssl\_port) | n/a |
 | <a name="output_vnet_address_space"></a> [vnet\_address\_space](#output\_vnet\_address\_space) | n/a |
 | <a name="output_vnet_name"></a> [vnet\_name](#output\_vnet\_name) | n/a |
