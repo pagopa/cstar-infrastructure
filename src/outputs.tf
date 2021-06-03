@@ -114,3 +114,13 @@ output "redis_port" {
 output "redis_ssl_port" {
   value = module.redis.ssl_port
 }
+
+
+# Blob storage
+output "primary_blob_host" {
+  value = module.cstarblobstorage.primary_blob_host
+}
+
+output "primary_web_host" {
+  value = module.cstarblobstorage.primary_web_host
+}

@@ -52,12 +52,34 @@ module "api_bdp_hb_award_period" {
   display_name = "BPD HB Award Period API"
   path         = "bpd/hb/award-periods"
   protocols    = ["https"]
-  # TODO ---> the ip shoul be the aks xternal ip
+
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
 
   content_value = templatefile("./api/bpd_hb_award_period/swagger.json.tpl", {
   })
 
   xml_content = file("./api/bpd_hb_award_period/policy.xml")
+
+}
+
+module "api_bdp_info_privacy" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.2"
+
+  name                = "bpd-info-privacy"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = ""
+  display_name = "BPD Info Privacy"
+  path         = "cstar-bpd"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_info_privacy/swagger.json.tpl", {
+  })
+
+  xml_content = file("./api/bpd_info_privacy/policy.xml")
 
 }
