@@ -64,6 +64,12 @@ variable "kubernetes_version" {
   default = null
 }
 
+variable "aks_external_ip" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string

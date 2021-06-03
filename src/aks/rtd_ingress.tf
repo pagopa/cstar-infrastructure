@@ -1,8 +1,8 @@
 resource "kubernetes_ingress" "rtd_ingress" {
   depends_on = [helm_release.ingress]
-  
+
   metadata {
-    name = "${kubernetes_namespace.rtd.metadata[0].name}-ingress"
+    name      = "${kubernetes_namespace.rtd.metadata[0].name}-ingress"
     namespace = kubernetes_namespace.rtd.metadata[0].name
     annotations = {
       "kubernetes.io/ingress.class"                = "nginx"

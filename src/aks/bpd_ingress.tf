@@ -2,7 +2,7 @@ resource "kubernetes_ingress" "bpd_ingress" {
   depends_on = [helm_release.ingress]
 
   metadata {
-    name = "${kubernetes_namespace.bpd.metadata[0].name}-ingress"
+    name      = "${kubernetes_namespace.bpd.metadata[0].name}-ingress"
     namespace = kubernetes_namespace.bpd.metadata[0].name
     annotations = {
       "kubernetes.io/ingress.class"                = "nginx"
