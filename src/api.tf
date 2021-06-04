@@ -24,6 +24,8 @@ module "apim" {
   sku_name             = var.apim_sku
   virtual_network_type = "Internal"
 
+  # ßpolicy_path = "./api/base_policy.xml"
+
   tags = var.tags
 }
 
@@ -62,9 +64,18 @@ module "api_bdp_hb_award_period" {
 
 }
 
-module "api_bdp_info_privacy" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.2"
+resource "azurerm_api_management_api_operation_policy" "bdp_hb_award_period" {
+  depends_on          = [module.api_bdp_hb_award_period]
+  api_name            = "bpd-hb-award-period-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  operation_id        = "findAll"
 
+  xml_content = file("./api/bpd_hb_award_period/findall_policy.xml")
+}
+
+module "api_bdp_info_privacy" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.2"
   name                = "bpd-info-privacy"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -77,7 +88,7 @@ module "api_bdp_info_privacy" {
   service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_info_privacy/swagger.json.tpl", {
+  content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
   })
 
   xml_content = file("./api/bpd_info_privacy/policy.xml")

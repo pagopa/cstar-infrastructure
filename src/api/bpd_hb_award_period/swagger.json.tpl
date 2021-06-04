@@ -29,7 +29,7 @@
         "/": {
             "get": {
                 "description": "findAll",
-                "operationId": "5f983d5d70d400b2e059b34a",
+                "operationId": "findAll",
                 "summary": "findAll",
                 "parameters": [{
                     "name": "x-request-id",

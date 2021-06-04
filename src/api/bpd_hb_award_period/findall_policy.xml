@@ -1,0 +1,27 @@
+<policies>
+    <inbound>
+        <base />
+        <cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" caching-type="internal" />
+        <choose>
+            <!-- If API Management find it in the cache, make a request for it and store it -->
+            <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
+                <return-response response-variable-name="awardPeriodsResponse" />
+            </when>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <!-- Store result in cache -->
+                <cache-store-value key="awardPeriodsResponse" value="@(context.Response)" duration="86400" caching-type="internal" />
+            </when>
+        </choose>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
