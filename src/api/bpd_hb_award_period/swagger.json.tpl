@@ -58,7 +58,7 @@
         "/cache": {
             "get": {
                 "operationId": "testcache",
-                "summary": "TestCache",
+                "summary": "testcache",
                 "responses": {
                     "200": {
                         "description": ""

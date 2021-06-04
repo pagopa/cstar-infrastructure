@@ -1,0 +1,26 @@
+<policies>
+    <inbound>
+        <base />
+        <cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" />
+        <choose>
+            <!-- If API Management find it in the cache, make a request for it and store it -->
+            <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
+                <return-response response-variable-name="awardPeriodsResponse" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="500" reason="Error cache" />
+                </return-response>
+            </otherwise>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

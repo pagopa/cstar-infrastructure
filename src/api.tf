@@ -24,7 +24,7 @@ module "apim" {
   sku_name             = var.apim_sku
   virtual_network_type = "Internal"
 
-  # ßpolicy_path = "./api/base_policy.xml"
+  # policy_path = "./api/base_policy.xml"
 
   tags = var.tags
 }
@@ -60,11 +60,11 @@ module "api_bdp_hb_award_period" {
   content_value = templatefile("./api/bpd_hb_award_period/swagger.json.tpl", {
   })
 
-  xml_content = file("./api/bpd_hb_award_period/policy.xml")
+  xml_content = file("./api/base_policy.xml")
 
 }
 
-resource "azurerm_api_management_api_operation_policy" "bdp_hb_award_period" {
+resource "azurerm_api_management_api_operation_policy" "bdp_hb_award_period_findall" {
   depends_on          = [module.api_bdp_hb_award_period]
   api_name            = "bpd-hb-award-period-api"
   api_management_name = module.apim.name
@@ -72,6 +72,16 @@ resource "azurerm_api_management_api_operation_policy" "bdp_hb_award_period" {
   operation_id        = "findAll"
 
   xml_content = file("./api/bpd_hb_award_period/findall_policy.xml")
+}
+
+resource "azurerm_api_management_api_operation_policy" "bdp_hb_award_period_test_cache" {
+  depends_on          = [module.api_bdp_hb_award_period]
+  api_name            = "bpd-hb-award-period-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  operation_id        = "testcache"
+
+  xml_content = file("./api/bpd_hb_award_period/test_cache_policy.xml")
 }
 
 module "api_bdp_info_privacy" {
