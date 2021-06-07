@@ -70,6 +70,12 @@ variable "aks_external_ip" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "apim_reverse_proxy_ip" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "Apim managemtn reverse proxy ip."
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string

@@ -58,7 +58,7 @@ module "api_bdp_hb_award_period" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
 
   content_value = templatefile("./api/bpd_hb_award_period/swagger.json.tpl", {
-    host = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
+    host = module.apim.gateway_hostname
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -66,7 +66,7 @@ module "api_bdp_hb_award_period" {
   api_operation_policies = [
     {
       operation_id = "findAll",
-      xml_content  = file("./api/bpd_hb_award_period/findall_policy.xml")
+      xml_content  = file("./api/bpd_hb_award_period/get_findall_policy.xml")
     },
     {
       operation_id = "testcache"
@@ -90,7 +90,7 @@ module "api_bdp_info_privacy" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
-    host = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
+    host = module.apim.gateway_hostname
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -118,7 +118,7 @@ module "bpd_io_award_period" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
 
   content_value = templatefile("./api/bpd_io_award_period/swagger.json.tpl", {
-    host = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
+    host = module.apim.gateway_hostname
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -126,8 +126,38 @@ module "bpd_io_award_period" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content  = file("./api/bpd_io_award_period/findall_policy.xml")
+      xml_content  = file("./api/bpd_io_award_period/get_findall_policy.xml")
     }
   ]
 
+}
+
+module "api_bpd-io_payment_instrument" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-io-payment-instrument-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "Api and Models"
+  display_name = "BPD IO Payment Instrument API"
+  path         = "bpd/io/payment-instruments"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.aks_external_ip)
+
+  content_value = templatefile("./api/bpd_io_payment_instrument/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/bpd_io_payment_instrument/policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "enrollmentPaymentInstrumentIOUsingPUT",
+      xml_content = templatefile("./api/bpd_io_payment_instrument/put_enrollment_payment_instrument_io_policy.xml.tpl", {
+        reverse-proxy-ip = var.apim_reverse_proxy_ip
+      })
+    },
+  ]
 }

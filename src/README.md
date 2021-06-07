@@ -19,12 +19,13 @@
 | <a name="module_aks_storage_account_terraform_state"></a> [aks\_storage\_account\_terraform\_state](#module\_aks\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5 |  |
 | <a name="module_api_bdp_hb_award_period"></a> [api\_bdp\_hb\_award\_period](#module\_api\_bdp\_hb\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_api_bdp_info_privacy"></a> [api\_bdp\_info\_privacy](#module\_api\_bdp\_info\_privacy) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_api_bpd-io_payment_instrument"></a> [api\_bpd-io\_payment\_instrument](#module\_api\_bpd-io\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management?ref=main |  |
 | <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent?ref=v1.0.3 |  |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.3 |  |
-| <a name="module_bpd_io_award_period"></a> [bpd\_io\_award\_period](#module\_bpd\_io\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.2 |  |
+| <a name="module_bpd_io_award_period"></a> [bpd\_io\_award\_period](#module\_bpd\_io\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=main |  |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub?ref=main |  |
@@ -97,6 +98,7 @@
 | <a name="input_aks_availability_zones"></a> [aks\_availability\_zones](#input\_aks\_availability\_zones) | A list of Availability Zones across which the Node Pool should be spread. | `list(number)` | `[]` | no |
 | <a name="input_aks_external_ip"></a> [aks\_external\_ip](#input\_aks\_external\_ip) | AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller. | `string` | `"127.0.0.1"` | no |
 | <a name="input_apim_private_domain"></a> [apim\_private\_domain](#input\_apim\_private\_domain) | n/a | `string` | `"api.cstar.pagopa.it"` | no |
+| <a name="input_apim_reverse_proxy_ip"></a> [apim\_reverse\_proxy\_ip](#input\_apim\_reverse\_proxy\_ip) | Apim managemtn reverse proxy ip. | `string` | `"127.0.0.1"` | no |
 | <a name="input_app_gateway_certificate_name"></a> [app\_gateway\_certificate\_name](#input\_app\_gateway\_certificate\_name) | Application gateway certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `1` | no |
