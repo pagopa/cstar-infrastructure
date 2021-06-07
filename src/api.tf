@@ -250,3 +250,47 @@ module "api_bpd_tc" {
     },
   ]
 }
+
+resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
+  name                = "bpd-hb-citizen"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD HB Citizen API"
+  versioning_scheme   = "Segment"
+}
+
+module "bpd_hb_citizen_original" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+  name                = "bpd-hb-citizen-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
+
+  description  = "Api and Models"
+  display_name = "BPD HB Citizen API"
+  path         = "bpd/hb/citizens"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.aks_external_ip)
+
+  content_value = templatefile("./api/bpd_hb_citizen/original/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "delete",
+      xml_content = templatefile("./api/bpd_hb_citizen/original/del_delete_policy.xml.tpl", {
+        reverse-proxy-ip = var.apim_reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "enrollmentCitizenHB",
+      xml_content = templatefile("./api/bpd_hb_citizen/original/put_enrollment_citizen_hb.xml.tpl", {
+        reverse-proxy-ip = var.apim_reverse_proxy_ip
+      })
+    },
+  ]
+}
