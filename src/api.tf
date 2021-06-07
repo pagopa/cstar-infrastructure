@@ -187,3 +187,37 @@ module "api_bpd_pm_payment_instrument" {
 
   xml_content = file("./api/base_policy.xml")
 }
+
+module "api_bpd_tc" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-tc-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "Api and Models"
+  display_name = "BPD TC API"
+  path         = "bpd/tc"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.bpd_terms_and_conditions.name)
+
+  content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "getTermsAndConditionsUsingGET",
+      xml_content  = file("./api/bpd_tc/get_terms_and_conditions_html.xml")
+    },
+    {
+      operation_id = "getTermsAndConditionsPDF",
+      xml_content  = file("./api/bpd_tc/get_terms_and_conditions_pdf.xml")
+    },
+  ]
+
+
+}
