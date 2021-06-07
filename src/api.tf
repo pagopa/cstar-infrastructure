@@ -58,6 +58,7 @@ module "api_bdp_hb_award_period" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
 
   content_value = templatefile("./api/bpd_hb_award_period/swagger.json.tpl", {
+    host = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -89,6 +90,7 @@ module "api_bdp_info_privacy" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
+    host = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -99,11 +101,10 @@ module "api_bdp_info_privacy" {
       xml_content  = file("./api/bpd_info_privacy/cstarinfoprivacy_policy.xml")
     }
   ]
-
 }
 
 module "bpd_io_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.2"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
 
   name                = "bpd-io-award-period-api"
   api_management_name = module.apim.name
@@ -117,8 +118,16 @@ module "bpd_io_award_period" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
 
   content_value = templatefile("./api/bpd_io_award_period/swagger.json.tpl", {
+    host = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
   })
 
-  xml_content = file("./api/bpd_io_award_period/policy.xml")
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "findAllUsingGET"
+      xml_content  = file("./api/bpd_io_award_period/findall_policy.xml")
+    }
+  ]
 
 }

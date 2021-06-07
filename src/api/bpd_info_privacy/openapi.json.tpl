@@ -6,7 +6,7 @@
         "version": "1.0"
     },
     "servers": [{
-        "url": "https://prod.cstar.pagopa.it/cstar-bpd"
+        "url": "https://${host}/cstar-bpd"
     }],
     "paths": {
         "/info-privacy": {

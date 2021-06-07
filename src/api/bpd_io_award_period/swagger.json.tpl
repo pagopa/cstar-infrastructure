@@ -5,7 +5,7 @@
         "version": "1.0",
         "description": "Api and Models"
     },
-    "host": "prod.cstar.pagopa.it",
+    "host": "${host}",
     "basePath": "/bpd/io/award-periods",
     "schemes": ["https"],
     "paths": {
