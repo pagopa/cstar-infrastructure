@@ -188,6 +188,37 @@ module "api_bpd_pm_payment_instrument" {
   xml_content = file("./api/base_policy.xml")
 }
 
+module "api_bpd_io_backend_test" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-io-backend-test-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "TEST IO Backend API server."
+  display_name = "BPD IO Backend TEST API"
+  path         = "bpd/pagopa/api/v1"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/cstariobackendtest/bpd/pagopa/api/v1", var.aks_external_ip)
+
+  content_value = templatefile("./api/bpd_io_backend_test/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "getToken",
+      xml_content = templatefile("./api/bpd_io_backend_test/post_get_token.xml.tpl", {
+        aks_external_ip = var.aks_external_ip
+      })
+    },
+  ]
+
+}
+
 module "api_bpd_tc" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
 
@@ -218,6 +249,4 @@ module "api_bpd_tc" {
       xml_content  = file("./api/bpd_tc/get_terms_and_conditions_pdf.xml")
     },
   ]
-
-
 }
