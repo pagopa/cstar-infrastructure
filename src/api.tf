@@ -165,3 +165,25 @@ module "api_bpd-io_payment_instrument" {
     },
   ]
 }
+
+module "api_bpd_pm_payment_instrument" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-pm-payment-instrument"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = ""
+  display_name = "BPD PM Payment Instrument"
+  path         = "bpd/pm/payment-instrument"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.aks_external_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_pm_payment_instrument/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+}
