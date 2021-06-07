@@ -5,9 +5,13 @@ resource "kubernetes_secret" "bpdmsawardwinner" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-winner-outcome
     KAFKA_CSVCONSAP_INTEGR_SASL_JAAS_CONFIG = ""
+    #sasl jaas config string for topic bpd-winner-outcome
     KAFKA_CSVCONSAP_SASL_JAAS_CONFIG        = ""
+    #sasl jaas config string with listen only permission for topic bpd-winner-outcome
     KAFKA_INTEGR_WINNER_SASL_JAAS_CONFIG    = ""
+    #sasl jaas config string for topic bpd-winner-outcome
     KAFKA_WINNER_SASL_JAAS_CONFIG           = ""
   }
 
@@ -21,7 +25,9 @@ resource "kubernetes_secret" "bpdmscitizen" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_CZNTRX_SASL_JAAS_CONFIG = ""
+    #checkiban apikey - for test value is 'DUMMY'
     PAGOPA_CHECKIBAN_APIKEY       = ""
   }
 
@@ -35,8 +41,11 @@ resource "kubernetes_secret" "bpdmscitizenbatch" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-citizen-trx
     KAFKA_CITIZENTRX_SASL_JAAS_CONFIG = ""
+    #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_CZNTRX_SASL_JAAS_CONFIG     = ""
+    #sasl jaas config string for topic bpd-trx
     KAFKA_POINTTRX_SASL_JAAS_CONFIG   = ""
   }
 
@@ -50,9 +59,13 @@ resource "kubernetes_secret" "bpdmspaymentinstrument" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-citizen-trx
     KAFKA_CITIZENTRX_SASL_JAAS_CONFIG  = ""
+    #sasl jaas config string for topic rtd-pi
     KAFKA_PMDELETE_SASL_JAAS_CONFIG    = ""
+    #sasl jaas config string for topic bpd-trx-error
     KAFKA_RTDTX_ERROR_SASL_JAAS_CONFIG = ""
+    #sasl jaas config string for topic rtd-trx
     KAFKA_RTDTX_SASL_JAAS_CONFIG       = ""
   }
 
@@ -66,8 +79,11 @@ resource "kubernetes_secret" "bpdmspointprocessor" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-trx-error
     KAFKA_BPDTRX_ERROR_SASL_JAAS_CONFIG = ""
+    #sasl jaas config string for topic bpd-trx
     KAFKA_POINTTRX_SASL_JAAS_CONFIG     = ""
+    #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_SAVETRX_SASL_JAAS_CONFIG      = ""
   }
 
@@ -81,9 +97,13 @@ resource "kubernetes_secret" "bpdmstransactionerrormanager" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_BPDTRX_SASL_JAAS_CONFIG     = ""
+    #sasl jaas config string for topic bpd-trx
     KAFKA_BPDTRXCASH_SASL_JAAS_CONFIG = ""
+    #sasl jaas config string for topic bpd-trx-error
     KAFKA_BPDTXERR_SASL_JAAS_CONFIG   = ""
+    #sasl jaas config string for topic rtd-trx
     KAFKA_RTDTRX_SASL_JAAS_CONFIG     = ""
   }
 
@@ -97,7 +117,9 @@ resource "kubernetes_secret" "bpdmswinningtransaction" {
   }
 
   data = {
+    #sasl jaas config string for topic bpd-trx-error
     KAFKA_BPDTRX_ERROR_SASL_JAAS_CONFIG = ""
+    #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_SAVETRX_SASL_JAAS_CONFIG      = ""
   }
 
@@ -111,16 +133,26 @@ resource "kubernetes_secret" "postgres-credentials" {
   }
 
   data = {
+    #principal database name
     POSTGRES_DB_NAME          = ""
+    #principal database hostname or ip
     POSTGRES_HOST             = ""
+    #principal database password
     POSTGRES_PASSWORD         = ""
-    POSTGRES_REPLICA_DB_NAME  = ""
-    POSTGRES_REPLICA_HOST     = ""
-    POSTGRES_REPLICA_PASSWORD = ""
-    POSTGRES_REPLICA_SCHEMA   = ""
-    POSTGRES_REPLICA_USERNAME = ""
+    #principal database schema
     POSTGRES_SCHEMA           = ""
+    #principal database username
     POSTGRES_USERNAME         = ""
+    #replica database name
+    POSTGRES_REPLICA_DB_NAME  = ""
+    #replica database hostname or ip
+    POSTGRES_REPLICA_HOST     = ""
+    #replica database password
+    POSTGRES_REPLICA_PASSWORD = ""
+    #replica database schema
+    POSTGRES_REPLICA_SCHEMA   = ""
+    #replica database username
+    POSTGRES_REPLICA_USERNAME = ""
   }
 
   type = "Opaque"
