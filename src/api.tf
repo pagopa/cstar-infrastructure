@@ -159,5 +159,9 @@ module "api_bpd-io_payment_instrument" {
         reverse-proxy-ip = var.apim_reverse_proxy_ip
       })
     },
+    {
+      operation_id = "paymentinstrumentsnumber",
+      xml_content  = file("./api/bpd_io_payment_instrument/get_paymentinstrumentsnumber_policy.xml")
+    },
   ]
 }
