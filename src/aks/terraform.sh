@@ -54,7 +54,7 @@ export TF_VAR_k8s_apiserver_host="localhost"
 export TF_VAR_k8s_apiserver_insecure="true"
 export TF_VAR_k8s_kube_config_path="${kube_config_path}"
 
-export TF_DATA_DIR="${WORKDIR}/subscriptions/${SUBSCRIPTION}/.terraform"
+# export TF_DATA_DIR="${WORKDIR}/subscriptions/${SUBSCRIPTION}/.terraform"
 
 # init terraform backend
 terraform init \
