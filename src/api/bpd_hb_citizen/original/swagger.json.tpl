@@ -29,7 +29,7 @@
         "/{id}": {
             "get": {
                 "description": "find",
-                "operationId": "5f7d6ba3990aecbeb9fadf99",
+                "operationId": "find",
                 "summary": "find",
                 "parameters": [{
                     "name": "id",

@@ -292,5 +292,9 @@ module "bpd_hb_citizen_original" {
         reverse-proxy-ip = var.apim_reverse_proxy_ip
       })
     },
+    {
+      operation_id = "find",
+      xml_content  = file("./api/bpd_hb_citizen/original/get_find_policy.xml")
+    },
   ]
 }
