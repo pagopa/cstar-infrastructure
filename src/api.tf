@@ -55,7 +55,7 @@ module "api_bdp_hb_award_period" {
   path         = "bpd/hb/award-periods"
   protocols    = ["https"]
 
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_hb_award_period/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -115,7 +115,7 @@ module "bpd_io_award_period" {
   path         = "bpd/io/award-periods"
   protocols    = ["https"]
 
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.aks_external_ip)
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_award_period/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -129,7 +129,6 @@ module "bpd_io_award_period" {
       xml_content  = file("./api/bpd_io_award_period/get_findall_policy.xml")
     }
   ]
-
 }
 
 module "api_bpd-io_payment_instrument" {
@@ -144,7 +143,7 @@ module "api_bpd-io_payment_instrument" {
   path         = "bpd/io/payment-instruments"
   protocols    = ["https"]
 
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.aks_external_ip)
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_payment_instrument/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -156,7 +155,7 @@ module "api_bpd-io_payment_instrument" {
     {
       operation_id = "enrollmentPaymentInstrumentIOUsingPUT",
       xml_content = templatefile("./api/bpd_io_payment_instrument/put_enrollment_payment_instrument_io_policy.xml.tpl", {
-        reverse-proxy-ip = var.apim_reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
@@ -178,7 +177,7 @@ module "api_bpd_pm_payment_instrument" {
   path         = "bpd/pm/payment-instrument"
   protocols    = ["https"]
 
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.aks_external_ip)
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_pm_payment_instrument/openapi.json.tpl", {
@@ -200,7 +199,7 @@ module "api_bpd_io_backend_test" {
   path         = "bpd/pagopa/api/v1"
   protocols    = ["https"]
 
-  service_url = format("https://%s/cstariobackendtest/bpd/pagopa/api/v1", var.aks_external_ip)
+  service_url = format("https://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_backend_test/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -211,12 +210,11 @@ module "api_bpd_io_backend_test" {
   api_operation_policies = [
     {
       operation_id = "getToken",
-      xml_content = templatefile("./api/bpd_io_backend_test/post_get_token.xml.tpl", {
-        aks_external_ip = var.aks_external_ip
+      xml_content = templatefile("./api/bpd_io_backend_test/post_get_token_policy.xml.tpl", {
+        reverse_proxy_ip = var.reverse_proxy_ip
       })
     },
   ]
-
 }
 
 module "api_bpd_tc" {
@@ -231,7 +229,8 @@ module "api_bpd_tc" {
   path         = "bpd/tc"
   protocols    = ["https"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.bpd_terms_and_conditions.name)
+  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
+  azurerm_storage_container.bpd_terms_and_conditions.name)
 
   content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -251,6 +250,7 @@ module "api_bpd_tc" {
   ]
 }
 
+## BPD HB Citizen API
 resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
   name                = "bpd-hb-citizen"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -259,7 +259,8 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
   versioning_scheme   = "Segment"
 }
 
-module "bpd_hb_citizen_original" {
+### Original (swagger 2.0.x)
+module "bpd_hb_citizen_original_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
   name                = "bpd-hb-citizen-api"
   api_management_name = module.apim.name
@@ -271,7 +272,7 @@ module "bpd_hb_citizen_original" {
   path         = "bpd/hb/citizens"
   protocols    = ["https"]
 
-  service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.aks_external_ip)
+  service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_hb_citizen/original/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -283,13 +284,13 @@ module "bpd_hb_citizen_original" {
     {
       operation_id = "delete",
       xml_content = templatefile("./api/bpd_hb_citizen/original/del_delete_policy.xml.tpl", {
-        reverse-proxy-ip = var.apim_reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
       operation_id = "enrollmentCitizenHB",
       xml_content = templatefile("./api/bpd_hb_citizen/original/put_enrollment_citizen_hb.xml.tpl", {
-        reverse-proxy-ip = var.apim_reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
@@ -303,6 +304,57 @@ module "bpd_hb_citizen_original" {
     {
       operation_id = "updatePaymentMethod",
       xml_content  = file("./api/bpd_hb_citizen/original/patch_update_payment_method.xml")
+    },
+  ]
+}
+
+# V2 (openapi 3.0.x)
+module "bpd_hb_citizen_original_v2" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+  name                = "bpd-hb-citizen-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
+  api_version         = "v2"
+
+  description  = "Api and Models"
+  display_name = "BPD HB Citizen API"
+  path         = "bpd/hb/citizens"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile(format("./api/bpd_hb_citizen/v2/openapi.json.tpl"), {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "delete",
+      xml_content = templatefile("./api/bpd_hb_citizen/v2/del_delete_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "enrollmentCitizenHB",
+      xml_content = templatefile("./api/bpd_hb_citizen/v2/put_enrollment_citizen_hb.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "find",
+      xml_content  = file("./api/bpd_hb_citizen/v2/get_find_policy.xml")
+    },
+    {
+      operation_id = "findranking",
+      xml_content  = file("./api/bpd_hb_citizen/v2/get_find_ranking.xml")
+    },
+    {
+      operation_id = "updatePaymentMethod",
+      xml_content  = file("./api/bpd_hb_citizen/v2/patch_update_payment_method.xml")
     },
   ]
 }
