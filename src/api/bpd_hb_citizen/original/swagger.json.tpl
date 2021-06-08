@@ -64,7 +64,7 @@
             },
             "patch": {
                 "description": "updatePaymentMethod",
-                "operationId": "5f7d6ba376aac3553a7d7997",
+                "operationId": "updatePaymentMethod",
                 "summary": "updatePaymentMethod",
                 "parameters": [{
                     "name": "id",

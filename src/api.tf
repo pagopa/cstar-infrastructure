@@ -296,5 +296,13 @@ module "bpd_hb_citizen_original" {
       operation_id = "find",
       xml_content  = file("./api/bpd_hb_citizen/original/get_find_policy.xml")
     },
+    {
+      operation_id = "findranking",
+      xml_content  = file("./api/bpd_hb_citizen/original/get_find_ranking.xml")
+    },
+    {
+      operation_id = "updatePaymentMethod",
+      xml_content  = file("./api/bpd_hb_citizen/original/patch_update_payment_method.xml")
+    },
   ]
 }
