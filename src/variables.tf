@@ -132,6 +132,22 @@ variable "apim_private_domain" {
   default = "api.cstar.pagopa.it"
 }
 
+variable "pm_backend_host" {
+  type        = string
+  description = "Payment manager backend host"
+}
+
+variable "pm_timeout_sec" {
+  type        = number
+  description = "Payment manager timeout (sec)"
+  default     = 5
+}
+
+variable "pm_client_certificate_thumbprint" {
+  type        = string
+  description = "Payment manager client certificate thumberprint."
+}
+
 ## Application gateway
 variable "enable_custom_dns" {
   type        = bool
@@ -231,8 +247,6 @@ variable "redis_family" {
   type    = string
   default = "C"
 }
-
-
 
 variable "tags" {
   type = map(any)

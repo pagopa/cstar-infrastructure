@@ -82,6 +82,23 @@ output "apim_gateway_hostname" {
   value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
 }
 
+output "balanced_proxy_ip" {
+  value = var.balanced_proxy_ip
+}
+
+output "reverse_proxy_ip" {
+  value = var.reverse_proxy_ip
+}
+
+output "pm_backend_host" {
+  value = var.pm_backend_host
+}
+
+output "pm_client_certificate_thumbprint" {
+  value     = var.pm_client_certificate_thumbprint
+  sensitive = true
+}
+
 ## Postgresql server
 output "postgresql_fqdn" {
   value = module.postgresql.fqdn

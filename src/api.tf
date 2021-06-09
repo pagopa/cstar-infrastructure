@@ -250,7 +250,7 @@ module "api_bpd_tc" {
   ]
 }
 
-## BPD HB Citizen API
+## 01 BPD HB Citizen API
 resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
   name                = "bpd-hb-citizen"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -258,6 +258,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
   display_name        = "BPD HB Citizen API"
   versioning_scheme   = "Segment"
 }
+
 
 ### Original (swagger 2.0.x)
 module "bpd_hb_citizen_original_original" {
@@ -356,5 +357,48 @@ module "bpd_hb_citizen_original_v2" {
       operation_id = "updatePaymentMethod",
       xml_content  = file("./api/bpd_hb_citizen/v2/patch_update_payment_method.xml")
     },
+  ]
+}
+
+## 02 BPD HB Payment Instruments API ##
+resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
+  name                = "bpd-hb-payment-instruments"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD HB Payment Instruments API"
+  versioning_scheme   = "Segment"
+}
+
+module "bpd_hb_payment_instruments" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+  name                = "bpd-hb-payment-instruments"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
+
+  description  = ""
+  display_name = "BPD HB Payment Instruments API"
+  path         = "bpd/hb/payment-instruments"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_payment_instruments/original/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      # delete BPay deletePaymentInstrumentHB
+      operation_id = "5fdb377a52411ce8e7b9d5f6",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/del_bpay_delete_payment_Instrument_HB_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    }
   ]
 }
