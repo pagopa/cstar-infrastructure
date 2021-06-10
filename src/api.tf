@@ -103,34 +103,6 @@ module "api_bdp_info_privacy" {
   ]
 }
 
-module "bpd_io_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
-
-  name                = "bpd-io-award-period-api"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  description  = "Api and Models"
-  display_name = "BPD IO Award Period API"
-  path         = "bpd/io/award-periods"
-  protocols    = ["https"]
-
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
-
-  content_value = templatefile("./api/bpd_io_award_period/swagger.json.tpl", {
-    host = module.apim.gateway_hostname
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  api_operation_policies = [
-    {
-      operation_id = "findAllUsingGET"
-      xml_content  = file("./api/bpd_io_award_period/get_findall_policy.xml")
-    }
-  ]
-}
-
 module "api_bpd-io_payment_instrument" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
 
@@ -553,7 +525,6 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" 
   versioning_scheme   = "Segment"
 }
 
-
 ### original ###
 module "bpd_hb_winning_transactions" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
@@ -617,5 +588,76 @@ module "bpd_hb_winning_transactions_v2" {
         reverse-proxy-IP = var.reverse_proxy_ip
       })
     },
+  ]
+}
+
+## BPD IO Award Period API ##
+resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
+  name                = "bpd-io-award-period"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD IO Award Period API"
+  versioning_scheme   = "Segment"
+}
+
+### original ###
+module "bpd_io_award_period" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-io-award-period"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
+
+  description  = "findAll"
+  display_name = "BPD IO Award Period API"
+  path         = "bpd/io/award-periods"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/bpd_io_award_period/original/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "findAllUsingGET"
+      xml_content  = file("./api/bpd_io_award_period/original/findAllUsingGET_policy.xml")
+    }
+  ]
+}
+
+### v2 ###
+module "bpd_io_award_period_v2" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-io-award-period"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  api_version         = "v2"
+
+  description  = "findAll"
+  display_name = "BPD IO Award Period API"
+  path         = "bpd/io/award-periods"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_io_award_period/v2/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "findAllUsingGET"
+      xml_content  = file("./api/bpd_io_award_period/v2/findAllUsingGET_policy.xml")
+    }
   ]
 }
