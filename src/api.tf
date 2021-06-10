@@ -505,6 +505,41 @@ module "bpd_hb_payment_instruments_v2" {
   xml_content = file("./api/base_policy.xml")
 
   api_operation_policies = [
-    
+    {
+      # BPay deletePaymentInstrumentHB
+      operation_id = "5fdb377a52411ce8e7b9d5f6",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
+    {
+      # Get BPay statusPaymentInstrumentHB
+      operation_id = "5fdb37ee7e211f8e0ac2dc45",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
+    {
+      # Del deletePaymentInstrumentHB
+      operation_id = "deletepaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
+    {
+      # get statusPaymentInstrumentHB
+      operation_id = "statuspaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
   ]
 }
