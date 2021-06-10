@@ -410,12 +410,32 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # Dev deletePaymentInstrumentHB
+      # Del deletePaymentInstrumentHB
       operation_id = "deletepaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/del_delete_payment_instrument_hb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
+    {
+      # put enrollPaymentInstrumentHB
+      operation_id = "enrollPaymentInstrumentHB",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/put_enroll_payment_instrument_hb_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # put enrollPaymentInstrumentHB BPay
+      operation_id = "5f98984972e5123d4571984b",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/put_enroll_payment_instrument_hb_bpay_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
   ]
