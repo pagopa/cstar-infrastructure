@@ -468,5 +468,14 @@ module "bpd_hb_payment_instruments" {
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
+    {
+      # get statusPaymentInstrumentHB
+      operation_id = "statuspaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
   ]
 }
