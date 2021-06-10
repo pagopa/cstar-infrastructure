@@ -369,6 +369,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
   versioning_scheme   = "Segment"
 }
 
+### Original ###
 module "bpd_hb_payment_instruments" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
   name                = "bpd-hb-payment-instruments"
@@ -477,5 +478,33 @@ module "bpd_hb_payment_instruments" {
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
       })
     },
+  ]
+}
+
+### V2 ###
+module "bpd_hb_payment_instruments_v2" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+  name                = "bpd-hb-payment-instruments"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
+  api_version         = "v2"
+
+  description  = ""
+  display_name = "BPD HB Payment Instruments API"
+  path         = "bpd/hb/payment-instruments"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_payment_instruments/v2/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    
   ]
 }
