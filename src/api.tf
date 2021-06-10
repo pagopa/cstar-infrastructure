@@ -394,7 +394,7 @@ module "bpd_hb_payment_instruments" {
     {
       # Del BPay deletePaymentInstrumentHB
       operation_id = "5fdb377a52411ce8e7b9d5f6",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/del_bpay_delete_payment_Instrument_hb_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb377a52411ce8e7b9d5f6_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
@@ -403,7 +403,7 @@ module "bpd_hb_payment_instruments" {
     {
       # Get BPay statusPaymentInstrumentHB
       operation_id = "5fdb37ee7e211f8e0ac2dc45",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/get_bpay_status_paymentInstrument_hb_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
@@ -412,7 +412,7 @@ module "bpd_hb_payment_instruments" {
     {
       # Del deletePaymentInstrumentHB
       operation_id = "deletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/del_delete_payment_instrument_hb_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
@@ -421,7 +421,7 @@ module "bpd_hb_payment_instruments" {
     {
       # put enrollPaymentInstrumentHB
       operation_id = "enrollPaymentInstrumentHB",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/put_enroll_payment_instrument_hb_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/enrollPaymentInstrumentHB_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
@@ -431,7 +431,27 @@ module "bpd_hb_payment_instruments" {
     {
       # put enrollPaymentInstrumentHB BPay
       operation_id = "5f98984972e5123d4571984b",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/put_enroll_payment_instrument_hb_bpay_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5f98984972e5123d4571984b_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # put enrollPaymentInstrumentHB BPay
+      operation_id = "5faade7fc12a87300a91769a",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5faade7fc12a87300a91769a_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # put enrollPaymentInstrumentHB Other
+      operation_id = "6040bbd70a02ff56cad6aefd",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/6040bbd70a02ff56cad6aefd_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
