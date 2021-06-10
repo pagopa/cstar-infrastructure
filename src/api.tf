@@ -458,5 +458,15 @@ module "bpd_hb_payment_instruments" {
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
+    {
+      # put enrollPaymentInstrumentHB Satispay
+      operation_id = "5fabb9644b1afaae5cc91a19",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fabb9644b1afaae5cc91a19_policy.xml.tpl", {
+        pm-backend-host                      = var.pm_backend_host,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
   ]
 }
