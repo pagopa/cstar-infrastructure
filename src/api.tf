@@ -261,7 +261,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
 
 
 ### Original (swagger 2.0.x)
-module "bpd_hb_citizen_original_original" {
+module "bpd_hb_citizen_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
   name                = "bpd-hb-citizen-api"
   api_management_name = module.apim.name
@@ -539,6 +539,82 @@ module "bpd_hb_payment_instruments_v2" {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+      })
+    },
+  ]
+}
+
+## BPD HB Winning Transactions API ##
+resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" {
+  name                = "bpd-hb-winning-transactions"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD HB Winning Transactions API"
+  versioning_scheme   = "Segment"
+}
+
+
+### original ###
+module "bpd_hb_winning_transactions" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+  name                = "bpd-hb-winning-transactions"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
+
+  description  = "Api and Models"
+  display_name = "BPD HB Winning Transactions API"
+  path         = "bpd/hb/winning-transactions"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/bpd_hb_winning_transactions/original/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      # get getTotalCashback
+      operation_id = "5f983f1e4d8a629c492473c1",
+      xml_content = templatefile("./api/bpd_hb_winning_transactions/original/5f983f1e4d8a629c492473c1_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+  ]
+}
+
+### v2 ###
+module "bpd_hb_winning_transactions_v2" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+  name                = "bpd-hb-winning-transactions"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
+  api_version         = "v2"
+
+  description  = "Api and Models"
+  display_name = "BPD HB Winning Transactions API"
+  path         = "bpd/hb/winning-transactions"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/bpd/hb/winning-transactions/v2", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_winning_transactions/v2/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      # get getTotalCashback
+      operation_id = "5f983f1e4d8a629c492473c1",
+      xml_content = templatefile("./api/bpd_hb_winning_transactions/v2/5f983f1e4d8a629c492473c1_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
       })
     },
   ]
