@@ -661,3 +661,62 @@ module "bpd_io_award_period_v2" {
     }
   ]
 }
+
+## BPD IO Citizen API ##
+resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
+  name                = "bpd-io-citizen"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD IO Citizen API"
+  versioning_scheme   = "Segment"
+}
+
+### original ###
+module "bpd_io_citizen" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main"
+
+  name                = "bpd-io-citizen"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
+
+  description  = "Api and Models"
+  display_name = "BPD IO Citizen API"
+  path         = "bpd/io/citizen"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/bpd_io_citizen/original/swagger.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "deleteUsingDELETE"
+      xml_content = templatefile("./api/bpd_io_citizen/original/deleteUsingDELETE_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "enrollment"
+      xml_content = templatefile("./api/bpd_io_citizen/original/enrollment_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "findUsingGET"
+      xml_content  = file("./api/bpd_io_citizen/original/findUsingGET_policy.xml")
+    },
+    {
+      operation_id = "findRankingUsingGET"
+      xml_content  = file("./api/bpd_io_citizen/original/findRankingUsingGET_policy.xml")
+    },
+    {
+      operation_id = "updatePaymentMethodUsingPATCH"
+      xml_content  = file("./api/bpd_io_citizen/original/updatePaymentMethodUsingPATCH_policy.xml")
+    },
+  ]
+}
