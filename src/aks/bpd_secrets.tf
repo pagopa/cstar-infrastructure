@@ -126,6 +126,20 @@ resource "kubernetes_secret" "bpdmswinningtransaction" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "bpdmsnotificationmanager" {
+  metadata {
+    name      = "bpdmsnotificationmanager"
+    namespace = kubernetes_namespace.bpd.metadata[0].name
+  }
+
+  data = {
+    NOTIFICATION_SERVICE_NOTIFY_WINNERS_PUBLIC_KEY = ""
+    NOTIFICATION_SFTP_PRIVATE_KEY                  = ""
+  }
+
+  type = "Opaque"
+}
+
 resource "kubernetes_secret" "postgres-credentials" {
   metadata {
     name      = "postgres-credentials"
