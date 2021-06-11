@@ -15,7 +15,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_acr"></a> [acr](#module\_acr) | git::https://github.com/pagopa/azurerm.git//container_registry?ref=main |  |
-| <a name="module_aks"></a> [aks](#module\_aks) | /Users/uolter/src/pagopa/azurerm/kubernetes_cluster |  |
+| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=main |  |
 | <a name="module_aks_storage_account_terraform_state"></a> [aks\_storage\_account\_terraform\_state](#module\_aks\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5 |  |
 | <a name="module_api_bdp_hb_award_period"></a> [api\_bdp\_hb\_award\_period](#module\_api\_bdp\_hb\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_api_bdp_info_privacy"></a> [api\_bdp\_info\_privacy](#module\_api\_bdp\_info\_privacy) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
@@ -28,10 +28,14 @@
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent?ref=v1.0.3 |  |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.3 |  |
-| <a name="module_bpd_hb_citizen_original_original"></a> [bpd\_hb\_citizen\_original\_original](#module\_bpd\_hb\_citizen\_original\_original) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_bpd_hb_citizen_original"></a> [bpd\_hb\_citizen\_original](#module\_bpd\_hb\_citizen\_original) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_bpd_hb_citizen_original_v2"></a> [bpd\_hb\_citizen\_original\_v2](#module\_bpd\_hb\_citizen\_original\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_bpd_hb_payment_instruments"></a> [bpd\_hb\_payment\_instruments](#module\_bpd\_hb\_payment\_instruments) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_bpd_hb_payment_instruments_v2"></a> [bpd\_hb\_payment\_instruments\_v2](#module\_bpd\_hb\_payment\_instruments\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_bpd_hb_winning_transactions"></a> [bpd\_hb\_winning\_transactions](#module\_bpd\_hb\_winning\_transactions) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_bpd_hb_winning_transactions_v2"></a> [bpd\_hb\_winning\_transactions\_v2](#module\_bpd\_hb\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_bpd_io_award_period"></a> [bpd\_io\_award\_period](#module\_bpd\_io\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_bpd_io_award_period_v2"></a> [bpd\_io\_award\_period\_v2](#module\_bpd\_io\_award\_period\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=main |  |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub?ref=main |  |
@@ -49,6 +53,8 @@
 |------|------|
 | [azurerm_api_management_api_version_set.bpd_hb_citizen](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_api_version_set.bpd_hb_payment_instruments](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
+| [azurerm_api_management_api_version_set.bpd_hb_winning_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
+| [azurerm_api_management_api_version_set.bpd_io_award_period](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_custom_domain.api_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_custom_domain) | resource |
 | [azurerm_application_gateway.app_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/application_gateway) | resource |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/application_insights) | resource |
