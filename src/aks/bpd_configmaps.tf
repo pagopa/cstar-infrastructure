@@ -313,7 +313,7 @@ resource "kubernetes_config_map" "bpd-eventhub-logging" {
   }
 
   data = {
-    ENABLE_KAFKA_APPENDER             = "TRUE"
+    ENABLE_KAFKA_APPENDER             = "FALSE"
     KAFKA_APPENDER_BOOTSTRAP_SERVERS  = local.event_hub_connection
     KAFKA_APPENDER_REQUEST_TIMEOUT_MS = "180000"
     KAFKA_APPENDER_SASL_JAAS_CONFIG   = "" #TODO maybe it's a secret

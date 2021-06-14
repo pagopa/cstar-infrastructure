@@ -32,7 +32,7 @@ resource "azurerm_storage_container" "aks_state" {
   container_access_type = "private"
 }
 
-## Storage account to save aks terraform state
+## Storage account to save cstar blob
 module "cstarblobstorage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
 
@@ -68,4 +68,13 @@ resource "azurerm_storage_container" "info_privacy" {
   name                  = "info-privacy"
   storage_account_name  = module.cstarblobstorage.name
   container_access_type = "blob"
+}
+
+resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
+  #tfsec:ignore:AZU023
+  name         = "blobstorage-cstar-key"
+  value        = module.cstarblobstorage.primary_access_key
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault.id
 }

@@ -52,3 +52,10 @@ configmaps_bpdmstransactionerrormanager_TRXERROR_DB_NAME                        
 configmaps_bpdmswinningtransaction_LOG_LEVEL_BPD_WINNING_TRANSACTION = "DEBUG"
 configmaps_bpdmswinningtransaction_POSTGRES_POOLSIZE                 = "2"
 configmaps_bpdmswinningtransaction_POSTGRES_SHOW_SQL                 = "true"
+# rtdpaymentinstrumentmanager
+configmaps_rtdpaymentinstrumentmanager = {
+  JAVA_TOOL_OPTIONS                        = "-Xms128m -Xmx2g"
+  POSTGRES_POOLSIZE                        = "2"
+  POSTGRES_SHOW_SQL                        = "true"
+  LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER = "INFO"
+}

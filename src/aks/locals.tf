@@ -5,4 +5,5 @@ locals {
   key_vault_resource_group  = format("%s-sec-rg", local.project)
   postgres_hostname         = "${format("%s-postgresql", local.project)}.postgres.database.azure.com"
   postgres_replica_hostname = "${format("%s-postgresql-rep", local.project)}.postgres.database.azure.com"
+  storage_account_name      = replace(format("%s-blobstorage", local.project), "-", "")
 }

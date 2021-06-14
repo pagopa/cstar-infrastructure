@@ -28,6 +28,7 @@ module "key_vault_secrets_query" {
     "notification-service-notify-winners-public-key",
     "notification-sftp-password",
     "pagopa-checkiban-apikey",
+    "storageaccount-cstarblob-key",
     "url-backend-io-token-value"
   ]
 }
