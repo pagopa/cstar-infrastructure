@@ -104,7 +104,7 @@ output "pm_backend_host" {
 }
 
 output "pm_client_certificate_thumbprint" {
-  value     = var.pm_client_certificate_thumbprint
+  value     = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
   sensitive = true
 }
 
