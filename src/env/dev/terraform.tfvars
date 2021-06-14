@@ -26,7 +26,7 @@ eventhubs = [
     consumers         = ["bpd-citizen"]
     keys = [
       {
-        name   = "bpd-payment-instruments"
+        name   = "bpd-payment-instrument"
         listen = false
         send   = true
         manage = false
@@ -46,7 +46,7 @@ eventhubs = [
     consumers         = ["bpd-point-processor"]
     keys = [
       {
-        name   = "bpd-payment-instruments"
+        name   = "bpd-payment-instrument"
         listen = false
         send   = true
         manage = false
