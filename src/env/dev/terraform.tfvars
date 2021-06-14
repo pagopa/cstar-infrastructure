@@ -56,6 +56,12 @@ eventhubs = [
         listen = true
         send   = false
         manage = false
+      },
+      {
+        name   = "bpd-citizen" // TODO Check
+        listen = true
+        send   = false
+        manage = false
       }
     ]
   },
@@ -91,6 +97,12 @@ eventhubs = [
       },
       {
         name   = "bpd-transaction-error-manager"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "bpd-payment-instrument" // TODO Check
         listen = true
         send   = false
         manage = false
