@@ -292,3 +292,16 @@ resource "azurerm_application_gateway" "app_gateway" {
 
   tags = var.tags
 }
+
+module "nat_gateway" {
+  source = "git::https://github.com/pagopa/azurerm.git//nat_gateway?ref=main"
+
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  name                = format("%s-natgw", local.project)
+  location            = var.location
+  # TODO: associate the nat gateway to one or more subnet
+  subnet_ids = []
+  tags       = var.tags
+
+
+}
