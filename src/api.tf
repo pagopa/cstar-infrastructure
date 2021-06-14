@@ -370,7 +370,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb377a52411ce8e7b9d5f6_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -379,7 +379,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -388,7 +388,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -397,7 +397,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/enrollPaymentInstrumentHB_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -407,7 +407,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5f98984972e5123d4571984b_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -417,7 +417,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5faade7fc12a87300a91769a_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -427,7 +427,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/6040bbd70a02ff56cad6aefd_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -437,7 +437,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fabb9644b1afaae5cc91a19_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -447,7 +447,7 @@ module "bpd_hb_payment_instruments" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
   ]
@@ -483,7 +483,7 @@ module "bpd_hb_payment_instruments_v2" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -492,7 +492,7 @@ module "bpd_hb_payment_instruments_v2" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -501,7 +501,7 @@ module "bpd_hb_payment_instruments_v2" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -510,7 +510,7 @@ module "bpd_hb_payment_instruments_v2" {
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-host                      = var.pm_backend_host,
         pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = var.pm_client_certificate_thumbprint
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
   ]
@@ -717,6 +717,62 @@ module "bpd_io_citizen" {
     {
       operation_id = "updatePaymentMethodUsingPATCH"
       xml_content  = file("./api/bpd_io_citizen/original/updatePaymentMethodUsingPATCH_policy.xml")
+    },
+  ]
+}
+
+### v2 ###
+module "bpd_io_citizen_v2" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "bpd-io-citizen"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
+  api_version         = "v2"
+
+  description  = "Api and Models"
+  display_name = "BPD IO Citizen API"
+  path         = "bpd/io/citizen"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_io_citizen/v2/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "deleteUsingDELETE"
+      xml_content = templatefile("./api/bpd_io_citizen/v2/deleteUsingDELETE_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "enrollment"
+      xml_content = templatefile("./api/bpd_io_citizen/v2/enrollment_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "findUsingGET"
+      xml_content  = file("./api/bpd_io_citizen/v2/findUsingGET_policy.xml")
+    },
+    {
+      operation_id = "findRankingUsingGET"
+      xml_content  = file("./api/bpd_io_citizen/v2/findRankingUsingGET_policy.xml")
+    },
+    {
+      operation_id = "findRankingMilestoneUsingGET"
+      xml_content  = file("./api/bpd_io_citizen/v2/findRankingMilestoneUsingGET_policy.xml")
+    },
+    {
+      operation_id = "updatePaymentMethodUsingPATCH"
+      xml_content  = file("./api/bpd_io_citizen/v2/updatePaymentMethodUsingPATCH_policy.xml")
     },
   ]
 }

@@ -143,11 +143,6 @@ variable "pm_timeout_sec" {
   default     = 5
 }
 
-variable "pm_client_certificate_thumbprint" {
-  type        = string
-  description = "Payment manager client certificate thumberprint."
-}
-
 ## Application gateway
 variable "enable_custom_dns" {
   type        = bool
