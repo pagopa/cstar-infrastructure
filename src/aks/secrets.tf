@@ -6,5 +6,28 @@ module "key_vault_secrets_query" {
 
   secrets = [
     "db-administrator-login",
+    "db-bpd-login",
+    "db-bpd-password",
+    "evh-bpd-winner-outcome-award-winner-key",
+    "evh-bpd-citizen-trx-bpd-citizen-key",
+    "evh-bpd-citizen-trx-bpd-payment-instrument-key",
+    "evh-bpd-trx-bpd-citizen-key",
+    "evh-bpd-trx-bpd-payment-instrument-key",
+    "evh-bpd-trx-bpd-point-processor-key",
+    "evh-bpd-trx-cashback-bpd-point-processor-key",
+    "evh-bpd-trx-cashback-bpd-winning-transaction-key",
+    "evh-bpd-trx-error-bpd-payment-instrument-key",
+    "evh-bpd-trx-error-bpd-point-processor-key",
+    "evh-bpd-trx-error-bpd-transaction-error-manager-key",
+    "evh-bpd-winner-outcome-award-winner-key",
+    "evh-bpd-winner-outcome-award-winner-integration-key",
+    "evh-rtd-pi-rtd-service-connector-key",
+    "evh-rtd-trx-bpd-payment-instrument-key",
+    "evh-rtd-trx-rtd-csv-connector-key",
+    "notification-sftp-private-key",
+    "notification-service-notify-winners-public-key",
+    "notification-sftp-password",
+    "pagopa-checkiban-apikey",
+    "url-backend-io-token-value"
   ]
 }

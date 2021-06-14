@@ -26,7 +26,7 @@ eventhubs = [
     consumers         = ["bpd-citizen"]
     keys = [
       {
-        name   = "bpd-payment-instruments"
+        name   = "bpd-payment-instrument"
         listen = false
         send   = true
         manage = false
@@ -46,13 +46,19 @@ eventhubs = [
     consumers         = ["bpd-point-processor"]
     keys = [
       {
-        name   = "bpd-payment-instruments"
+        name   = "bpd-payment-instrument"
         listen = false
         send   = true
         manage = false
       },
       {
         name   = "bpd-point-processor"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "bpd-citizen" // TODO Check
         listen = true
         send   = false
         manage = false
@@ -87,9 +93,16 @@ eventhubs = [
         name   = "bpd-point-processor"
         listen = false
         send   = true
-      manage = false },
+        manage = false
+      },
       {
         name   = "bpd-transaction-error-manager"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "bpd-payment-instrument" // TODO Check
         listen = true
         send   = false
         manage = false
@@ -99,16 +112,25 @@ eventhubs = [
     partitions        = 1
     message_retention = 1
     consumers         = []
-    keys = [{
-      name   = "award-winner"
-      listen = true
-      send   = true
-      manage = true },
+    keys = [
+      {
+        name   = "award-winner"
+        listen = true
+        send   = true
+        manage = true
+      },
       {
         name   = "consap-csv-connector"
         listen = false
         send   = true
-  manage = false }] },
+        manage = false
+      },
+      {
+        name   = "award-winner-integration" //TODO Check
+        listen = true
+        send   = true
+        manage = false
+  }] },
   {
     name              = "rtd-trx"
     partitions        = 1
@@ -119,11 +141,25 @@ eventhubs = [
         name   = "rtd-csv-connector"
         listen = false
         send   = true
-      manage = false },
+        manage = false
+      },
       {
         name   = "bpd-payment-instrument"
         listen = true
         send   = false
+        manage = false
+      }
+  ] },
+  {
+    name              = "rtd-pi" //TODO Check
+    partitions        = 1
+    message_retention = 1
+    consumers         = []
+    keys = [
+      {
+        name   = "rtd-service-connector"
+        listen = false
+        send   = true
         manage = false
       }
 ] }]

@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.8"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.9"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -22,3 +22,13 @@ module "event_hub" {
 }
 
 
+resource "azurerm_key_vault_secret" "event_hub_keys" {
+  for_each = module.event_hub.key_ids
+
+  #tfsec:ignore:AZU023
+  name         = format("evh-%s-%s", replace(each.key, ".", "-"), "key")
+  value        = module.event_hub.keys[each.key].primary_key
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault.id
+}
