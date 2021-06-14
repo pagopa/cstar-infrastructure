@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "jumpbox_rg" {
 }
 
 module "jumpbox" {
-  source                = "git::https://github.com/pagopa/azurerm.git//jumpbox?ref=main"
+  source                = "git::https://github.com/pagopa/azurerm.git//jumpbox?ref=v1.0.7"
   name                  = format("%s-jumpbox-vm", local.project)
   resource_group_name   = azurerm_resource_group.jumpbox_rg.name
   location              = azurerm_resource_group.jumpbox_rg.location

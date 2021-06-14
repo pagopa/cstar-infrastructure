@@ -34,7 +34,7 @@ resource "azurerm_storage_container" "aks_state" {
 
 ## Storage account to save aks terraform state
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=main"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
 
   name                     = replace(format("%s-blobstorage", local.project), "-", "")
   account_kind             = "BlobStorage"

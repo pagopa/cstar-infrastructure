@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 }
 
 module "vnet" {
-  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=main"
+  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.7"
   name                = format("%s-vnet", local.project)
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -18,7 +18,7 @@ module "vnet" {
 
 ## Database subnet
 module "db_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                                           = format("%s-db-snet", local.project)
   address_prefixes                               = var.cidr_subnet_db
   resource_group_name                            = azurerm_resource_group.rg_vnet.name
@@ -30,7 +30,7 @@ module "db_snet" {
 
 # k8s cluster subnet 
 module "k8s_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                                           = format("%s-k8s-snet", local.project)
   address_prefixes                               = var.cidr_subnet_k8s
   resource_group_name                            = azurerm_resource_group.rg_vnet.name
@@ -45,7 +45,7 @@ module "k8s_snet" {
 
 # APIM subnet
 module "apim_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                 = format("%s-apim-snet", local.project)
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -58,7 +58,7 @@ module "apim_snet" {
 
 ## Subnet jumpbox
 module "jumpbox_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                 = format("%s-jumpbox-snet", local.project)
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -78,7 +78,7 @@ module "azdoa_snet" {
 
 # Subnet to host the application gateway
 module "appgateway-snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=main"
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                 = format("%s-appgateway-snet", local.project)
   address_prefixes     = var.cidr_subnet_appgateway
   resource_group_name  = azurerm_resource_group.rg_vnet.name
@@ -294,7 +294,7 @@ resource "azurerm_application_gateway" "app_gateway" {
 }
 
 module "nat_gateway" {
-  source = "git::https://github.com/pagopa/azurerm.git//nat_gateway?ref=main"
+  source = "git::https://github.com/pagopa/azurerm.git//nat_gateway?ref=v1.0.7"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   name                = format("%s-natgw", local.project)

@@ -223,13 +223,20 @@ variable "ehns_auto_inflate_enabled" {
 }
 
 variable "eventhubs" {
+  description = "A list of event hubs to add to namespace."
   type = list(object({
     name              = string
-    partition_count   = number
+    partitions        = number
     message_retention = number
+    consumers         = list(string)
+    keys = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
   }))
-  default     = []
-  description = "List of eventhubs."
+  default = []
 }
 
 ## Redis cache
