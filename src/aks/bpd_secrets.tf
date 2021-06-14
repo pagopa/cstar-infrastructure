@@ -31,8 +31,7 @@ resource "kubernetes_secret" "bpdmscitizen" {
   data = {
     #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_CZNTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-cashback.bpd-point-processor-key"])
-    #checkiban apikey - for test value is 'DUMMY'
-    PAGOPA_CHECKIBAN_APIKEY = module.key_vault_secrets_query.values["pagopa-iban-subscription-key"]
+    PAGOPA_CHECKIBAN_APIKEY       = module.key_vault_secrets_query.values["pagopa-checkiban-apikey"]
   }
 
   type = "Opaque"
@@ -137,8 +136,10 @@ resource "kubernetes_secret" "bpdmsnotificationmanager" {
   }
 
   data = {
-    NOTIFICATION_SERVICE_NOTIFY_WINNERS_PUBLIC_KEY = ""
-    NOTIFICATION_SFTP_PRIVATE_KEY                  = ""
+    NOTIFICATION_SERVICE_NOTIFY_WINNERS_PUBLIC_KEY = module.key_vault_secrets_query.values["notification-service-notify-winners-public-key"]
+    NOTIFICATION_SFTP_PRIVATE_KEY                  = module.key_vault_secrets_query.values["notification-sftp-private-key"]
+    SFTP_PASSWORD                                  = module.key_vault_secrets_query.values["notification-sftp-password"]
+    URL_BACKEND_IO_TOKEN_VALUE                     = module.key_vault_secrets_query.values["url-backend-io-token-value"]
   }
 
   type = "Opaque"

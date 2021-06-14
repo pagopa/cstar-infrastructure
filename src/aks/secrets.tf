@@ -24,6 +24,10 @@ module "key_vault_secrets_query" {
     "evh-rtd-pi.rtd-service-connector-key",
     "evh-rtd-trx.bpd-payment-instrument-key",
     "evh-rtd-trx.rtd-csv-connector-key",
-    "pagopa-iban-subscription-key"
+    "notification-sftp-private-key",
+    "notification-service-notify-winners-public-key",
+    "notification-sftp-password",
+    "pagopa-checkiban-apikey",
+    "url-backend-io-token-value"
   ]
 }
