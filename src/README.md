@@ -36,6 +36,7 @@
 | <a name="module_bpd_hb_winning_transactions_v2"></a> [bpd\_hb\_winning\_transactions\_v2](#module\_bpd\_hb\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_bpd_io_award_period"></a> [bpd\_io\_award\_period](#module\_bpd\_io\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_bpd_io_award_period_v2"></a> [bpd\_io\_award\_period\_v2](#module\_bpd\_io\_award\_period\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
+| <a name="module_bpd_io_citizen"></a> [bpd\_io\_citizen](#module\_bpd\_io\_citizen) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=main |  |
 | <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=main |  |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub?ref=main |  |
@@ -43,6 +44,7 @@
 | <a name="module_jumpbox_snet"></a> [jumpbox\_snet](#module\_jumpbox\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=main |  |
 | <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | git::https://github.com/pagopa/azurerm.git//key_vault?ref=main |  |
+| <a name="module_nat_gateway"></a> [nat\_gateway](#module\_nat\_gateway) | git::https://github.com/pagopa/azurerm.git//nat_gateway?ref=main |  |
 | <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=main |  |
 | <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache?ref=main |  |
 | <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network?ref=main |  |
@@ -55,6 +57,7 @@
 | [azurerm_api_management_api_version_set.bpd_hb_payment_instruments](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_api_version_set.bpd_hb_winning_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_api_version_set.bpd_io_award_period](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
+| [azurerm_api_management_api_version_set.bpd_io_citizen](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_custom_domain.api_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_custom_domain) | resource |
 | [azurerm_application_gateway.app_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/application_gateway) | resource |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/application_insights) | resource |
@@ -161,6 +164,8 @@
 | <a name="output_jumphost_username"></a> [jumphost\_username](#output\_jumphost\_username) | n/a |
 | <a name="output_key_vaulr_name"></a> [key\_vaulr\_name](#output\_key\_vaulr\_name) | n/a |
 | <a name="output_key_vault_uri"></a> [key\_vault\_uri](#output\_key\_vault\_uri) | # key vault ## |
+| <a name="output_nat_gateway_public_ip_address"></a> [nat\_gateway\_public\_ip\_address](#output\_nat\_gateway\_public\_ip\_address) | # nat gateway. |
+| <a name="output_nat_gateway_public_ip_fqdn"></a> [nat\_gateway\_public\_ip\_fqdn](#output\_nat\_gateway\_public\_ip\_fqdn) | n/a |
 | <a name="output_pm_backend_host"></a> [pm\_backend\_host](#output\_pm\_backend\_host) | n/a |
 | <a name="output_pm_client_certificate_thumbprint"></a> [pm\_client\_certificate\_thumbprint](#output\_pm\_client\_certificate\_thumbprint) | n/a |
 | <a name="output_postgresql_administrator_login"></a> [postgresql\_administrator\_login](#output\_postgresql\_administrator\_login) | n/a |
