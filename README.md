@@ -31,11 +31,11 @@ As PagoPA we build our standard Terraform modules, check available modules:
 To apply changes follow the standard terraform lifecycle once the code in this repository has been changed:
 
 ```sh
-terraform init
+terraform.sh init [dev|uat|prod]
 
-terraform plan
+terraform.sh plan [dev|uat|prod]
 
-terraform apply
+terraform.sh apply [dev|uat|prod]
 ```
 
 ## Terraform lock.hcl
