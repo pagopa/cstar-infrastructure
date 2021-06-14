@@ -6,5 +6,7 @@ module "key_vault_secrets_query" {
 
   secrets = [
     "db-administrator-login",
+    "db-bpd-login",
+    "db-bpd-password",
   ]
 }

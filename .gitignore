@@ -31,3 +31,4 @@ override.tf.json
 *.DS_Store
 
 .bastianhost.ini
+.idea
