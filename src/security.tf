@@ -13,7 +13,7 @@ module "key_vault" {
   resource_group_name = azurerm_resource_group.sec_rg.name
   tenant_id           = data.azurerm_client_config.current.tenant_id
 
-  terraform_cloud_object_id = data.azurerm_client_config.current.client_id
+  // terraform_cloud_object_id = data.azurerm_client_config.current.client_id
 
   tags = var.tags
 }
@@ -31,6 +31,7 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
 }
 
 # terraform cloud policy
+/*
 resource "azurerm_key_vault_access_policy" "terraform_cloud_policy" {
   key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
@@ -52,7 +53,7 @@ resource "azurerm_key_vault_access_policy" "terraform_cloud_policy" {
   storage_permissions = []
 
 }
-
+*/
 
 /*
 ## user assined identity: (application gateway) ##

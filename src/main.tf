@@ -6,14 +6,7 @@ terraform {
     }
   }
 
-  # terraform cloud.
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "PagoPa"
-    workspaces {
-      prefix = "cstar-"
-    }
-  }
+  backend "azurerm" {}
 }
 provider "azurerm" {
   features {}
