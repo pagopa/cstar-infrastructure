@@ -201,7 +201,7 @@ variable "db_sku_name" {
 variable "ehns_sku_name" {
   type        = string
   description = "Defines which tier to use."
-  default     = "Standard"
+  default     = "Basic"
 }
 
 variable "ehns_capacity" {
