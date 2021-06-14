@@ -19,6 +19,9 @@ module "key_vault_secrets_query" {
     "evh-bpd-trx-error.bpd-payment-instrument-key",
     "evh-bpd-trx-error.bpd-point-processor-key",
     "evh-bpd-trx-error.bpd-transaction-error-manager-key",
+    "evh-bpd-winner-outcome.award-winner-key",
+    "evh-bpd-winner-outcome.award-winner-integration-key",
+    "evh-rtd-pi.rtd-service-connector-key",
     "evh-rtd-trx.bpd-payment-instrument-key",
     "evh-rtd-trx.rtd-csv-connector-key",
     "pagopa-iban-subscription-key"

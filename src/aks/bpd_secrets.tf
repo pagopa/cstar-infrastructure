@@ -14,7 +14,7 @@ resource "kubernetes_secret" "bpdmsawardwinner" {
     #sasl jaas config string for topic bpd-winner-outcome
     KAFKA_CSVCONSAP_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner", module.key_vault_secrets_query.values["evh-bpd-winner-outcome.award-winner-key"])
     #sasl jaas config string with listen only permission for topic bpd-winner-outcome
-    KAFKA_INTEGR_WINNER_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner-integration", "XXXX") //TODO
+    KAFKA_INTEGR_WINNER_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner-integration", module.key_vault_secrets_query.values["evh-bpd-winner-outcome.award-winner-integration-key"])
     #sasl jaas config string for topic bpd-winner-outcome
     KAFKA_WINNER_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner", module.key_vault_secrets_query.values["evh-bpd-winner-outcome.award-winner-key"])
   }
@@ -66,7 +66,7 @@ resource "kubernetes_secret" "bpdmspaymentinstrument" {
     #sasl jaas config string for topic bpd-citizen-trx
     KAFKA_CITIZENTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-citizen-trx", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-bpd-citizen-trx.bpd-payment-instrument-key"])
     #sasl jaas config string for topic rtd-pi
-    KAFKA_PMDELETE_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-pi", "rtd-service-connector","missing") // TODO
+    KAFKA_PMDELETE_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-pi", "rtd-service-connector", module.key_vault_secrets_query.values["evh-rtd-pi.rtd-service-connector-key"])
     #sasl jaas config string for topic bpd-trx-error
     KAFKA_RTDTX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-error", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-bpd-trx-error.bpd-payment-instrument-key"])
     #sasl jaas config string for topic rtd-trx
@@ -166,7 +166,7 @@ resource "kubernetes_secret" "postgres-credentials" {
     #replica database password
     POSTGRES_REPLICA_PASSWORD = module.key_vault_secrets_query.values["db-bpd-password"]
     #replica database username
-    POSTGRES_REPLICA_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-replica-login"], local.postgres_replica_hostname)
+    POSTGRES_REPLICA_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"], local.postgres_replica_hostname)
   }
 
   type = "Opaque"
