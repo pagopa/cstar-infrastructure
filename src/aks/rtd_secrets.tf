@@ -21,13 +21,13 @@ resource "kubernetes_secret" "rtdtransactionmanager" {
 
   data = {
     #sasl jaas config string for topic fa-trx
-    KAFKA_INVTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "fa-trx", "XXXX", module.key_vault_secrets_query.values["evh-bpd-winner-outcome-award-winner-key"].value)
+    KAFKA_INVTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "fa-trx", "XXXX", module.key_vault_secrets_query.values["evh-fa-trx-XXXX-key"].value)
     #sasl jaas config string for topic bpd-trx
     KAFKA_POINTTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-bpd-point-processor-key"].value)
     #sasl jaas config string for topic rtd-trx-error
-    KAFKA_RTDTX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx-error", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-bpd-trx-error-bpd-payment-instrument-key"].value)
+    KAFKA_RTDTX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx-error", "XXXX", module.key_vault_secrets_query.values["evh-rtd-trx-error-XXXX-key"].value)
     #sasl jaas config string for topic rtd-trx
-    KAFKA_RTDTX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-rtd-trx-bpd-payment-instrument-key"].value)
+    KAFKA_RTDTX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "XXXX", module.key_vault_secrets_query.values["evh-rtd-trx-XXXXX-key"].value)
   }
 
   type = "Opaque"
