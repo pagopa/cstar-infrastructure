@@ -150,20 +150,7 @@ eventhubs = [
         send   = false
         manage = false
       }
-  ] },
-  {
-    name              = "rtd-pi" //TODO Check
-    partitions        = 1
-    message_retention = 1
-    consumers         = []
-    keys = [
-      {
-        name   = "rtd-service-connector"
-        listen = false
-        send   = true
-        manage = false
-      }
-] }]
+  ] }]
 external_domain  = "pagopa.it"
 pm_backend_host  = "127.0.0.1"
 reverse_proxy_ip = "10.0.128.250"

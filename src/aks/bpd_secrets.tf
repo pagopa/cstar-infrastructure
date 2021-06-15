@@ -64,8 +64,6 @@ resource "kubernetes_secret" "bpdmspaymentinstrument" {
   data = {
     #sasl jaas config string for topic bpd-citizen-trx
     KAFKA_CITIZENTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-citizen-trx", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-bpd-citizen-trx-bpd-payment-instrument-key"].value)
-    #sasl jaas config string for topic rtd-pi
-    KAFKA_PMDELETE_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-pi", "rtd-service-connector", module.key_vault_secrets_query.values["evh-rtd-pi-rtd-service-connector-key"].value)
     #sasl jaas config string for topic bpd-trx-error
     KAFKA_RTDTX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-error", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-bpd-trx-error-bpd-payment-instrument-key"].value)
     #sasl jaas config string for topic rtd-trx
