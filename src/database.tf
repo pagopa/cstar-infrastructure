@@ -16,7 +16,7 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
 }
 
 module "postgresql" {
-  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.7"
+  source                         = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.9"
   name                             = format("%s-postgresql", local.project)
   location                         = azurerm_resource_group.db_rg.location
   resource_group_name              = azurerm_resource_group.db_rg.name
@@ -29,4 +29,12 @@ module "postgresql" {
   ssl_minimal_tls_version_enforced = "TLS1_2"
 
   tags = var.tags
+}
+
+resource "azurerm_postgresql_database" "bpd_db" {
+  name                = "bpd"
+  resource_group_name = azurerm_resource_group.db_rg.name
+  server_name         = module.postgresql.name
+  charset             = "UTF8"
+  collation           = "Italian_Italy.1252"
 }
