@@ -13,6 +13,7 @@ resource "kubernetes_secret" "azure-storage" {
   type = "Opaque"
 }
 
+/* TODO
 resource "kubernetes_secret" "rtdtransactionmanager" {
   metadata {
     name      = "rtdtransactionmanager"
@@ -32,6 +33,7 @@ resource "kubernetes_secret" "rtdtransactionmanager" {
 
   type = "Opaque"
 }
+*/
 
 resource "kubernetes_secret" "postgres-credentials" {
   metadata {
