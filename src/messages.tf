@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.9"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.11"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -15,6 +15,9 @@ module "event_hub" {
   sku                      = var.ehns_sku_name
   capacity                 = var.ehns_capacity
   maximum_throughput_units = var.ehns_maximum_throughput_units
+
+  virtual_network_id = module.vnet.id
+  subnet_id          = module.eventhub_snet.id
 
   eventhubs = var.eventhubs
 

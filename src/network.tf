@@ -27,6 +27,16 @@ module "db_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+## Eventhub subnet
+module "eventhub_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                                           = format("%s-eventhub-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_eventhub
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = ["Microsoft.EventHub"]
+  enforce_private_link_endpoint_network_policies = true
+}
 
 # k8s cluster subnet 
 module "k8s_snet" {
