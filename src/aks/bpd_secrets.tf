@@ -143,7 +143,7 @@ resource "kubernetes_secret" "bpdmsnotificationmanager" {
   type = "Opaque"
 }
 
-resource "kubernetes_secret" "postgres-credentials" {
+resource "kubernetes_secret" "bpd-postgres-credentials" {
   metadata {
     name      = "postgres-credentials"
     namespace = kubernetes_namespace.bpd.metadata[0].name

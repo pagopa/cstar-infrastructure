@@ -35,7 +35,7 @@ resource "kubernetes_secret" "rtdtransactionmanager" {
 }
 */
 
-resource "kubernetes_secret" "postgres-credentials" {
+resource "kubernetes_secret" "rtd-postgres-credentials" {
   metadata {
     name      = "postgres-credentials"
     namespace = kubernetes_namespace.rtd.metadata[0].name

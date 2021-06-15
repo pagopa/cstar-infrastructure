@@ -72,7 +72,7 @@ resource "azurerm_storage_container" "info_privacy" {
 
 resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
   #tfsec:ignore:AZU023
-  name         = "blobstorage-cstar-key"
+  name         = "storageaccount-cstarblob-key"
   value        = module.cstarblobstorage.primary_access_key
   content_type = "text/plain"
 
