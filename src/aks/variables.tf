@@ -225,3 +225,7 @@ variable "configmaps_bpdmswinningtransaction_POSTGRES_POOLSIZE" {
 variable "configmaps_bpdmswinningtransaction_POSTGRES_SHOW_SQL" {
   type = string
 }
+
+variable "configmaps_rtdpaymentinstrumentmanager" {
+  type = map(string)
+}

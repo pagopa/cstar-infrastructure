@@ -8,6 +8,10 @@ module "key_vault_secrets_query" {
     "db-administrator-login",
     "db-bpd-login",
     "db-bpd-password",
+    "db-fa-login",
+    "db-fa-password",
+    "db-rtd-login",
+    "db-rtd-password",
     "evh-bpd-winner-outcome-award-winner-key",
     "evh-bpd-citizen-trx-bpd-citizen-key",
     "evh-bpd-citizen-trx-bpd-payment-instrument-key",
@@ -27,6 +31,7 @@ module "key_vault_secrets_query" {
     "notification-service-notify-winners-public-key",
     "notification-sftp-password",
     "pagopa-checkiban-apikey",
+    "storageaccount-cstarblob-key",
     "url-backend-io-token-value"
   ]
 }
