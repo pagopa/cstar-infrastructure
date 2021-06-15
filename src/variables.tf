@@ -24,6 +24,11 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_eventhub" {
+  type        = list(string)
+  description = "Eventhub network address space."
+}
+
 variable "cidr_subnet_jumpbox" {
   type        = list(string)
   description = "Jumpbox subnet address space."
