@@ -27,7 +27,7 @@ module "db_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
-## Database subnet
+## Eventhub subnet
 module "eventhub_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                                           = format("%s-eventhub-snet", local.project)
