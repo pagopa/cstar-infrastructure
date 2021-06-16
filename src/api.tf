@@ -776,3 +776,37 @@ module "bpd_io_citizen_v2" {
     },
   ]
 }
+
+## BPD IO Winning Transactions API ##
+resource "azurerm_api_management_api_version_set" "bdp_io_winning_transactions" {
+  name                = "bdp-io-winning-transactions"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD IO Winning Transactions API"
+  versioning_scheme   = "Segment"
+}
+
+### original ###
+module "bdp_io_winning_transactions" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "bdp-io-winning-transactions"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
+
+  description  = "Api and Models"
+  display_name = "BPD IO Winning Transactions API"
+  path         = "bpd/io/winning-transactions"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/bdp_io_winning_transactions/original/swagger.xml.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = []
+}
