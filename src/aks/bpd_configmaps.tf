@@ -28,7 +28,8 @@ resource "kubernetes_config_map" "bpdmsawardwinner" {
     POSTGRES_REPLICA_SCHEMA       = "bpd_citizen"
     POSTGRES_SCHEMA               = "bpd_citizen"
     },
-  var.configmaps_bpdmsawardwinner)
+    var.configmaps_bpdmsawardwinner
+  )
 }
 
 resource "kubernetes_config_map" "bpdmscitizen" {
@@ -44,7 +45,8 @@ resource "kubernetes_config_map" "bpdmscitizen" {
     POSTGRES_REPLICA_SCHEMA     = "bpd_citizen"
     POSTGRES_SCHEMA             = "bpd_citizen"
     REST_CLIENT_LOGGER_LEVEL    = "BASIC"
-  }, var.configmaps_bpdmscitizen)
+    }, var.configmaps_bpdmscitizen
+  )
 }
 
 resource "kubernetes_config_map" "bpdmscitizenbatch" {
@@ -64,7 +66,8 @@ resource "kubernetes_config_map" "bpdmscitizenbatch" {
     POSTGRES_REPLICA_SCHEMA   = "bpd_citizen"
     POSTGRES_SCHEMA           = "bpd_citizen"
     REST_CLIENT_LOGGER_LEVEL  = "BASIC"
-  }, var.configmaps_bpdmscitizenbatch)
+    }, var.configmaps_bpdmscitizenbatch
+  )
 }
 
 resource "kubernetes_config_map" "bpdmsenrollment" {
@@ -92,7 +95,8 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
     TEST                                                              = "${file("${path.module}/configmaps/bpdmsnotificationmanager/TEST.txt")}"
     },
-  var.configmaps_bpdmsnotificationmanager)
+    var.configmaps_bpdmsnotificationmanager
+  )
 }
 
 resource "kubernetes_config_map" "bpdmspaymentinstrument" {
@@ -115,7 +119,8 @@ resource "kubernetes_config_map" "bpdmspaymentinstrument" {
     PAYINSTR_SECONDARY_DB_ENABLE     = "true"
     POSTGRES_REPLICA_SCHEMA          = "bpd_payment_instrument"
     POSTGRES_SCHEMA                  = "bpd_payment_instrument"
-  }, var.configmaps_bpdmspaymentinstrument)
+    }, var.configmaps_bpdmspaymentinstrument
+  )
 }
 
 resource "kubernetes_config_map" "bpdmspointprocessor" {
@@ -133,7 +138,8 @@ resource "kubernetes_config_map" "bpdmspointprocessor" {
     KAFKA_SAVETRX_TOPIC         = "bpd-trx-cashback"
     POSTGRES_SCHEMA             = "bpd_mcc_category"
     },
-  var.configmaps_bpdmspointprocessor)
+    var.configmaps_bpdmspointprocessor
+  )
 }
 
 resource "kubernetes_config_map" "bpdmsrankingprocessor" {
@@ -148,7 +154,8 @@ resource "kubernetes_config_map" "bpdmsrankingprocessor" {
     CITIZEN_DB_SCHEMA                     = "bpd_citizen"
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME = "elab_ranking_b"
-  }, var.configmaps_bpdmsrankingprocessor)
+    }, var.configmaps_bpdmsrankingprocessor
+  )
 }
 
 resource "kubernetes_config_map" "bpdmsrankingprocessoroffline" {
@@ -168,7 +175,8 @@ resource "kubernetes_config_map" "bpdmsrankingprocessoroffline" {
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME = "elab_ranking_new_b"
     TRANSACTION_EXTR_QUERY_LOCK_ENABLE    = "false"
-  }, var.configmaps_bpdmsrankingprocessoroffline)
+    }, var.configmaps_bpdmsrankingprocessoroffline
+  )
 }
 
 resource "kubernetes_config_map" "bpdmsrankingprocessorpoc" {
@@ -189,7 +197,8 @@ resource "kubernetes_config_map" "bpdmsrankingprocessorpoc" {
     CITIZEN_DB_SCHEMA                                      = "bpd_citizen"
     TRANSACTION_DB_SCHEMA                                  = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME                  = "elab_ranking_new_b"
-  }, var.configmaps_bpdmsrankingprocessorpoc)
+    }, var.configmaps_bpdmsrankingprocessorpoc
+  )
 }
 
 resource "kubernetes_config_map" "bpdmstransactionerrormanager" {
@@ -208,7 +217,8 @@ resource "kubernetes_config_map" "bpdmstransactionerrormanager" {
     KAFKA_RTDTRX_TOPIC       = "rtd-trx"
     TRXERROR_DB_NAME         = "bpd"
     POSTGRES_SCHEMA          = "bpd_error_record"
-  }, var.configmaps_bpdmstransactionerrormanager)
+    }, var.configmaps_bpdmstransactionerrormanager
+  )
 }
 
 resource "kubernetes_config_map" "bpdmswinningtransaction" {
@@ -224,7 +234,8 @@ resource "kubernetes_config_map" "bpdmswinningtransaction" {
     KAFKA_SAVETRX_TOPIC         = "bpd-trx-cashback"
     POSTGRES_REPLICA_SCHEMA     = "bpd_winning_transaction"
     POSTGRES_SCHEMA             = "bpd_winning_transaction"
-  }, var.configmaps_bpdmswinningtransaction)
+    }, var.configmaps_bpdmswinningtransaction
+  )
 }
 
 resource "kubernetes_config_map" "bpd-eventhub-common" {
