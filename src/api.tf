@@ -879,14 +879,32 @@ module "rtd_payment_instrument" {
 
   xml_content = file("./api/base_policy.xml")
 
-  api_operation_policies = [
-    /**
-    {
-      operation_id = "getTotalScoreUsingGET"
-      xml_content = templatefile("./api/bdp_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
-      })
-    },
-    */
-  ]
+  api_operation_policies = []
+}
+
+## RTD Payment Instrument Manager API ## 
+module "rdt_payment_instrument_manager" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "rdt-payment-instrument-manager"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
+
+  description  = ""
+  display_name = "RTD Payment Instrument Manager API"
+  path         = "rtd/payment-instrument-manager"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
+
+
+
+  content_value = templatefile("./api/rdt_payment_instrument_manager/swagger.xml.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = []
 }
