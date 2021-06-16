@@ -81,6 +81,12 @@ variable "reverse_proxy_ip" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "aks_num_outbound_ips" {
+  type        = number
+  default     = 1
+  description = "How many outbound ips allocate for AKS cluster"
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string

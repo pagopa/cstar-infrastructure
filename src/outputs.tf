@@ -37,6 +37,10 @@ output "aks_kube_config" {
   sensitive = true
 }
 
+output "aks_outbound_ips" {
+  value = azurerm_public_ip.aks_outbound.*.ip_address
+}
+
 ## key vault ##
 output "key_vault_uri" {
   value = module.key_vault.vault_uri

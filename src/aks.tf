@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.7"
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.12"
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
@@ -25,9 +25,12 @@ module "aks" {
     docker_bridge_cidr = "172.17.0.1/16"
     dns_service_ip     = "10.1.0.10"
     network_plugin     = "azure"
-    outbound_type      = null
+    network_policy     = null
+    outbound_type      = "loadBalancer"
     service_cidr       = "10.1.0.0/16"
   }
+
+  outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
 
   tags = var.tags
 }

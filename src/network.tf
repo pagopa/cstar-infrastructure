@@ -315,3 +315,16 @@ module "nat_gateway" {
 
 
 }
+
+resource "azurerm_public_ip" "aks_outbound" {
+  count = var.aks_num_outbound_ips
+
+  name                = format("%s-aksoutbound-pip-%02d", local.project, count.index + 1)
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  location            = azurerm_resource_group.rg_vnet.location
+  sku                 = "Standard"
+  allocation_method   = "Static"
+
+  tags = var.tags
+}
+
