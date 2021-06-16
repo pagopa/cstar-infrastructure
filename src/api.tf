@@ -855,3 +855,38 @@ module "bdp_io_winning_transactions_v2" {
     },
   ]
 }
+
+## RTD Payment Instrument API ##
+module "rtd_payment_instrument" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "rtd-payment-instrument"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
+
+  description  = ""
+  display_name = "RTD Payment Instrument API"
+  path         = "rtd/payment-instruments"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_payment_instrument/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    /**
+    {
+      operation_id = "getTotalScoreUsingGET"
+      xml_content = templatefile("./api/bdp_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+    */
+  ]
+}
