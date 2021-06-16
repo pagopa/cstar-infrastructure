@@ -203,6 +203,12 @@ variable "db_sku_name" {
   description = "Specifies the SKU Name for this PostgreSQL Server."
 }
 
+variable "db_enable_replica" {
+  type        = bool
+  default     = false
+  description = "Create a PostgreSQL Server Replica."
+}
+
 ## Event hub
 variable "ehns_sku_name" {
   type        = string

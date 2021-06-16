@@ -127,6 +127,10 @@ output "postgresql_administrator_login_password" {
   sensitive = true
 }
 
+output "postgresql_replica_fqdn" {
+  value = module.postgresql.replica_fqdn
+}
+
 ## Redis cache
 output "redis_primary_access_key" {
   value     = module.redis.primary_access_key
