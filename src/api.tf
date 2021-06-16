@@ -808,5 +808,12 @@ module "bdp_io_winning_transactions" {
 
   xml_content = file("./api/base_policy.xml")
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "getTotalScoreUsingGET"
+      xml_content = templatefile("./api/bdp_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
+        reverse-proxy-IP = var.reverse_proxy_ip
+      })
+    },
+  ]
 }
