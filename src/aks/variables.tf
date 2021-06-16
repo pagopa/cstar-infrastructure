@@ -57,174 +57,84 @@ variable "default_service_port" {
 
 # bpdmsawardperiod
 
-variable "configmaps_bpdmsawardperiod_POSTGRES_POOLSIZE" {
-  type = string
-}
-
-variable "configmaps_bpdmsawardperiod_POSTGRES_SHOW_SQL" {
-  type = string
-}
-
-variable "configmaps_bpdmsawardperiod_LOG_LEVEL_BPD_AWARD_PERIOD" {
-  type = string
+variable "configmaps_bpdmsawardperiod" {
+  type = map(string)
 }
 
 # bpdmsawardwinner
 
-variable "configmaps_bpdmsawardwinner_LOG_LEVEL_BPD_AWARD_WINNER" {
-  type = string
-}
-
-variable "configmaps_bpdmsawardwinner_POSTGRES_POOLSIZE" {
-  type = string
-}
-
-variable "configmaps_bpdmsawardwinner_POSTGRES_SHOW_SQL" {
-  type = string
+variable "configmaps_bpdmsawardwinner" {
+  type = map(string)
 }
 
 # bpdmscitizen
 
-variable "configmaps_bpdmscitizen_LOG_LEVEL_CITIZEN" {
-  type = string
-}
-
-variable "configmaps_bpdmscitizen_PAGOPA_CHECKIBAN_URL" {
-  type = string
-}
-
-variable "configmaps_bpdmscitizen_POSTGRES_SHOW_SQL" {
-  type = string
-}
-
-variable "configmaps_bpdmscitizen_POSTGRES_POOLSIZE" {
-  type = string
+variable "configmaps_bpdmscitizen" {
+  type = map(string)
 }
 
 # bpdmscitizenbatch
 
-variable "configmaps_bpdmscitizenbatch_LOG_LEVEL_CITIZEN" {
-  type = string
-}
-
-variable "configmaps_bpdmscitizenbatch_POSTGRES_SHOW_SQL" {
-  type = string
-}
-
-variable "configmaps_bpdmscitizenbatch_POSTGRES_POOLSIZE" {
-  type = string
+variable "configmaps_bpdmscitizenbatch" {
+  type = map(string)
 }
 
 # bpdmsenrollment
 
-variable "configmaps_bpdmsenrollment_LOG_LEVEL_FA_ENROLLMENT" {
-  type = string
+variable "configmaps_bpdmsenrollment" {
+  type = map(string)
 }
 
 # bpdmsnotificationmanager
 
-variable "configmaps_bpdmsnotificationmanager_JAVA_TOOL_OPTIONS" {
-  type = string
-}
-
-variable "configmaps_bpdmsnotificationmanager_LOG_LEVEL_BPD_NOTIFICATION" {
-  type = string
-}
-
-variable "configmaps_bpdmsnotificationmanager_POSTGRES_POOLSIZE" {
-  type = string
-}
-
-variable "configmaps_bpdmsnotificationmanager_POSTGRES_SHOW_SQL" {
-  type = string
+variable "configmaps_bpdmsnotificationmanager" {
+  type = map(string)
 }
 
 # bpdmspaymentinstrument
 
-variable "configmaps_bpdmspaymentinstrument_POSTGRES_POOLSIZE" {
-  type = string
-}
-
-variable "configmaps_bpdmspaymentinstrument_POSTGRES_SHOW_SQL" {
-  type = string
+variable "configmaps_bpdmspaymentinstrument" {
+  type = map(string)
 }
 
 # bpdmspointprocessor
 
-variable "configmaps_bpdmspointprocessor_LOG_LEVEL_BPD_POINT_PROCESSOR" {
-  type = string
-}
-
-variable "configmaps_bpdmspointprocessor_POSTGRES_SHOW_SQL" {
-  type = string
+variable "configmaps_bpdmspointprocessor" {
+  type = map(string)
 }
 
 # bpdmsrankingprocessor
 
-variable "configmaps_bpdmsrankingprocessor_LOG_LEVEL_BPD_RANKING_PROCESSOR" {
-  type = string
-}
-
-variable "configmaps_bpdmsrankingprocessor_POSTGRES_POOLSIZE" {
-  type = string
+variable "configmaps_bpdmsrankingprocessor" {
+  type = map(string)
 }
 
 # bpdmsrankingprocessoroffline
 
-variable "configmaps_bpdmsrankingprocessoroffline_LOG_LEVEL_BPD_RANKING_PROCESSOR" {
-  type = string
-}
-
-variable "configmaps_bpdmsrankingprocessoroffline_POSTGRES_POOLSIZE" {
-  type = string
+variable "configmaps_bpdmsrankingprocessoroffline" {
+  type = map(string)
 }
 
 # bpdmsrankingprocessorpoc
 
-variable "configmaps_bpdmsrankingprocessorpoc_JAVA_TOOL_OPTIONS" {
-  type = string
-}
-
-variable "configmaps_bpdmsrankingprocessorpoc_LOG_LEVEL_BPD_RANKING_PROCESSOR" {
-  type = string
-}
-
-variable "configmaps_bpdmsrankingprocessorpoc_POSTGRES_POOLSIZE" {
-  type = string
+variable "configmaps_bpdmsrankingprocessorpoc" {
+  type = map(string)
 }
 
 
 # bpdmstransactionerrormanager
 
-variable "configmaps_bpdmstransactionerrormanager_LOG_LEVEL_BPD_TRANSACTION_ERROR_MANAGER" {
-  type = string
-}
-
-variable "configmaps_bpdmstransactionerrormanager_POSTGRES_POOLSIZE" {
-  type = string
-}
-
-variable "configmaps_bpdmstransactionerrormanager_POSTGRES_SHOW_SQL" {
-  type = string
-}
-
-variable "configmaps_bpdmstransactionerrormanager_TRXERROR_DB_NAME" {
-  type = string
+variable "configmaps_bpdmstransactionerrormanager" {
+  type = map(string)
 }
 
 # bpdmswinningtransaction
 
-variable "configmaps_bpdmswinningtransaction_LOG_LEVEL_BPD_WINNING_TRANSACTION" {
-  type = string
+variable "configmaps_bpdmswinningtransaction" {
+  type = map(string)
 }
 
-variable "configmaps_bpdmswinningtransaction_POSTGRES_POOLSIZE" {
-  type = string
-}
-
-variable "configmaps_bpdmswinningtransaction_POSTGRES_SHOW_SQL" {
-  type = string
-}
+# rtdpaymentinstrumentmanager
 
 variable "configmaps_rtdpaymentinstrumentmanager" {
   type = map(string)
