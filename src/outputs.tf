@@ -38,7 +38,7 @@ output "aks_kube_config" {
 }
 
 output "aks_outbound_ips" {
-  value = azurerm_public_ip.aks_outbound.*.id
+  value = azurerm_public_ip.aks_outbound.*.ip_address
 }
 
 ## key vault ##
