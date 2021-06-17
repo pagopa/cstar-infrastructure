@@ -293,6 +293,8 @@ module "pm_admin_panel" {
         PM-backend-host                      = var.pm_backend_host,
         PM-Timeout-Sec                       = var.pm_timeout_sec
         BPD-PM-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        PM-Ip-Filter-From                    = var.pm_ip_filter_range.from
+        PM-Ip-Filter-To                      = var.pm_ip_filter_range.to
       })
     },
   ]

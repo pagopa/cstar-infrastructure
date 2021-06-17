@@ -154,6 +154,13 @@ variable "pm_timeout_sec" {
   default     = 5
 }
 
+variable "pm_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
 ## Application gateway
 variable "enable_custom_dns" {
   type        = bool

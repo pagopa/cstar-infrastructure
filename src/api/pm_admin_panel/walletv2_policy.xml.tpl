@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <ip-filter action="allow">
-            <address-range from="10.230.1.1" to="10.230.1.255" />
+            <address-range from="${PM-Ip-Filter-From}" to="${PM-Ip-Filter-To}" />
         </ip-filter>
         <set-variable name="fiscalcode" value="@(context.Request.Headers.GetValueOrDefault("Fiscal-Code",""))" />
         <set-variable name="basicAuthDetails" value="@{

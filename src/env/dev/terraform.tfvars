@@ -151,8 +151,12 @@ eventhubs = [
         manage = false
       }
 ] }]
-external_domain  = "pagopa.it"
-pm_backend_host  = "127.0.0.1"
+external_domain = "pagopa.it"
+pm_backend_host = "127.0.0.1"
+pm_ip_filter_range = {
+  from = "10.230.1.1"
+  to   = "10.230.1.255"
+}
 reverse_proxy_ip = "10.0.128.250"
 tags = {
   CreatedBy   = "Terraform"
