@@ -232,10 +232,10 @@ module "rtd_payment_instrument" {
 }
 
 ## RTD Payment Instrument Manager API ##
-module "rdt_payment_instrument_manager" {
+module "rtd_payment_instrument_manager" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
 
-  name                = "rdt-payment-instrument-manager"
+  name                = "rtd-payment-instrument-manager"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -249,11 +249,13 @@ module "rdt_payment_instrument_manager" {
 
 
 
-  content_value = templatefile("./api/rdt_payment_instrument_manager/swagger.xml.tpl", {
+  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
     host = module.apim.gateway_hostname
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.rtd_api_product.product_id]
 
   api_operation_policies = []
 }
@@ -281,6 +283,8 @@ module "pm_admin_panel" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.wisp_api_product.product_id]
 
   api_operation_policies = [
     {
