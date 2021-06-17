@@ -47,6 +47,32 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
 ## API ##
 #########
 
+## azureblob ## 
+module "api_azureblob" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = "azureblob"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = ""
+  display_name = "azureblob"
+  path         = "pagopastorage"
+  protocols    = ["https"]
+
+  service_url = format("https://%s/pagopastorage", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/azureblob/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.rtd_api_product.product_id]
+
+  api_operation_policies = []
+}
+
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
