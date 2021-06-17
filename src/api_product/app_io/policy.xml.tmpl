@@ -20,7 +20,6 @@
                       <set-header name="Authorization" exists-action="override">
                           <value>@("Bearer " +(string)context.Variables["token"])</value>
                       </set-header>
-                      <proxy url="http://{{Balanced-proxy-IP}}:8181" />
                     %{ endif ~}
                 </send-request>
                 <choose>
