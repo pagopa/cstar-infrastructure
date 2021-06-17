@@ -226,6 +226,8 @@ module "rtd_payment_instrument" {
 
   xml_content = file("./api/base_policy.xml")
 
+  product_ids = [module.batch_api_product.product_id]
+
   api_operation_policies = []
 }
 
@@ -900,6 +902,8 @@ module "bdp_hb_award_period" {
 
   xml_content = file("./api/base_policy.xml")
 
+  product_ids = [module.issuer_api_product.product_id]
+
   api_operation_policies = [
     {
       # findall
@@ -932,6 +936,8 @@ module "bdp_hb_award_period_v2" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.issuer_api_product.product_id]
 
   api_operation_policies = [
     {
