@@ -49,7 +49,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
 
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-info-privacy"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -79,7 +79,7 @@ module "api_bdp_info_privacy" {
 }
 
 module "api_bpd-io_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-payment-instrument-api"
   api_management_name = module.apim.name
@@ -115,7 +115,7 @@ module "api_bpd-io_payment_instrument" {
 }
 
 module "api_bpd_pm_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-pm-payment-instrument"
   api_management_name = module.apim.name
@@ -139,7 +139,7 @@ module "api_bpd_pm_payment_instrument" {
 }
 
 module "api_bpd_io_backend_test" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-backend-test-api"
   api_management_name = module.apim.name
@@ -171,7 +171,7 @@ module "api_bpd_io_backend_test" {
 }
 
 module "api_bpd_tc" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-tc-api"
   api_management_name = module.apim.name
@@ -207,7 +207,7 @@ module "api_bpd_tc" {
 
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "rtd-payment-instrument"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -233,7 +233,7 @@ module "rtd_payment_instrument" {
 
 ## RTD Payment Instrument Manager API ##
 module "rtd_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "rtd-payment-instrument-manager"
   api_management_name = module.apim.name
@@ -263,7 +263,7 @@ module "rtd_payment_instrument_manager" {
 
 ## pm-admin-panel ##
 module "pm_admin_panel" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "pm-admin-panel"
   api_management_name = module.apim.name
@@ -311,7 +311,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
 
 ### Original (swagger 2.0.x)
 module "bpd_hb_citizen_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-hb-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -362,7 +362,7 @@ module "bpd_hb_citizen_original" {
 
 # V2 (openapi 3.0.x)
 module "bpd_hb_citizen_original_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-hb-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -424,7 +424,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
 
 ### Original ###
 module "bpd_hb_payment_instruments" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-hb-payment-instruments"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -538,7 +538,7 @@ module "bpd_hb_payment_instruments" {
 
 ### V2 ###
 module "bpd_hb_payment_instruments_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-hb-payment-instruments"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -612,7 +612,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" 
 
 ### original ###
 module "bpd_hb_winning_transactions" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-hb-winning-transactions"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -646,7 +646,7 @@ module "bpd_hb_winning_transactions" {
 
 ### v2 ###
 module "bpd_hb_winning_transactions_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = "bpd-hb-winning-transactions"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -691,7 +691,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-award-period"
   api_management_name = module.apim.name
@@ -723,7 +723,7 @@ module "bpd_io_award_period" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-award-period"
   api_management_name = module.apim.name
@@ -766,7 +766,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
 
 ### original ###
 module "bpd_io_citizen" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-citizen"
   api_management_name = module.apim.name
@@ -818,7 +818,7 @@ module "bpd_io_citizen" {
 
 ### v2 ###
 module "bpd_io_citizen_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-citizen"
   api_management_name = module.apim.name
@@ -885,7 +885,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
 
 ### Original ###
 module "bdp_hb_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-hb-award-period"
   api_management_name = module.apim.name
@@ -919,7 +919,7 @@ module "bdp_hb_award_period" {
 
 ### v2 ###
 module "bdp_hb_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-hb-award-period"
   api_management_name = module.apim.name
@@ -963,7 +963,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" 
 
 ### original ###
 module "bpd_io_winning_transactions" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-winning-transactions"
   api_management_name = module.apim.name
@@ -997,7 +997,7 @@ module "bpd_io_winning_transactions" {
 
 ### v2 ###
 module "bpd_io_winning_transactions_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
   name                = "bpd-io-winning-transactions"
   api_management_name = module.apim.name
@@ -1040,7 +1040,7 @@ module "bpd_io_winning_transactions_v2" {
 ##############
 
 module "app_io_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "app-io-product"
   display_name = "APP_IO_PRODUCT"
@@ -1059,7 +1059,7 @@ module "app_io_product" {
 }
 
 module "batch_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "batch-api-product"
   display_name = "BATCH_API_PRODUCT"
@@ -1076,7 +1076,7 @@ module "batch_api_product" {
 }
 
 module "bpd_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "bpd-api-product"
   display_name = "BPD_API_PRODUCT"
@@ -1093,7 +1093,7 @@ module "bpd_api_product" {
 }
 
 module "issuer_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "issuer-api-product"
   display_name = "Issuer_API_Product"
@@ -1104,13 +1104,13 @@ module "issuer_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/issuer_api/policy.xml")
 }
 
 module "pm_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "pm-api-product"
   display_name = "PM_API_PRODUCT"
@@ -1121,13 +1121,13 @@ module "pm_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/pm_api/policy.xml")
 }
 
 module "rtd_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "rtd-api-product"
   display_name = "RTD_API_Product"
@@ -1138,14 +1138,14 @@ module "rtd_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/rtd_api/policy.xml")
 }
 
 
 module "wisp_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "wisp-api-product"
   display_name = "WISP_API_Product"
@@ -1156,7 +1156,8 @@ module "wisp_api_product" {
 
   published             = false
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/wisp_api/policy.xml")
+
 }
