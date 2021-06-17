@@ -187,6 +187,131 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
   }
 }
 
+# This certificate is used to enable HTTPS on the App Gw listener which is used by IO APP
+# Just for testing purposes. It should be substituted by a properly signed cert
+resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
+
+  name         = format("%s-cert-io-cstar", local.project)
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = format("CN=%s", "dev-iocstar.pagopa.it")
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = [
+          "dev-iocstar.pagopa.it",
+        ]
+      }
+    }
+  }
+}
+
+# This certificate is used to enable HTTPS on the App Gw listener which is used by Issuers and Acquirers
+# Just for testing purposes. It should be substituted by a properly signed cert
+resource "azurerm_key_vault_certificate" "app_gw_cstar" {
+
+  name         = format("%s-cert-cstar", local.project)
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = format("CN=%s", "dev-cstar.pagopa.it")
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = [
+          "dev-iocstar.pagopa.it",
+        ]
+      }
+    }
+  }
+}
+
+data "azurerm_key_vault_secret" "app_gw_io_cstar" {
+  depends_on    = [azurerm_key_vault_access_policy.ad_group_policy]
+  count         = var.env_short == "d" ? 1 : 0
+  # name         = var.app_gw_io_cert_name
+  name          = azurerm_key_vault_certificate.app_gw_io_cstar.name
+  key_vault_id  = module.key_vault.id
+}
+data "azurerm_key_vault_secret" "app_gw_cstar" {
+  depends_on    = [azurerm_key_vault_access_policy.ad_group_policy]
+  count         = var.env_short == "d" ? 1 : 0
+  # name         = var.app_gw_cert_name
+  name          = azurerm_key_vault_certificate.app_gw_cstar.name
+  key_vault_id  = module.key_vault.id
+}
+
 data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
   name         = "BPD-PM-client-certificate-thumbprint"
   key_vault_id = module.key_vault.id

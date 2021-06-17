@@ -145,6 +145,85 @@ locals {
   http_to_https_redirect_rule     = format("%s-appgw-http-to-https-redirect-rule", local.project)
 }
 
+# Multilistener configuraiton
+module app_gw {
+  source = "./modules/app_gw"
+
+  # Naming
+  prefix                = local.project 
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  location              = azurerm_resource_group.rg_vnet.location
+  name                  = format("%smultiite-app-gw", local.project)
+
+  # SKU
+  sku_name              = "WAF_v2"
+  sku_tier              = "WAF_v2"
+
+  # Networking
+  subnet_id             = module.appgateway-snet.id
+  public_ip_id          = azurerm_public_ip.apigateway_public_ip.id
+
+  # Configure backends
+  backends = {
+    apim = {
+      protocol  = "Http"
+      host      = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port      = 80
+      probe     = "/status-0123456789abcdef"
+    }
+  }
+
+  # Configure listeners
+  listeners = {
+    app_io = {
+      protocol = "Https"
+      # TO BE ASSESSED
+      # host = trimsuffix(azurerm_dns_a_record.api[0].fqdn, ".")
+      host = "dev-iocstar.pagopa.it"
+      port = 443
+      certificate = {
+        name = data.azurerm_key_vault_secret.app_gw_io_cstar[0].name
+        id = trimsuffix(data.azurerm_key_vault_secret.app_gw_io_cstar[0].id, data.azurerm_key_vault_secret.app_gw_io_cstar[0].version)
+      }
+    }
+
+    issuer_acquirer = {
+      protocol = "Https"
+      # TO BE ASSESSED
+      # host = trimsuffix(azurerm_dns_a_record.broker[0].fqdn, ".")
+      host = "dev-cstar.pagopa.it"
+      port = 443
+      certificate = {
+        name = data.azurerm_key_vault_secret.app_gw_cstar[0].name
+        id = trimsuffix(data.azurerm_key_vault_secret.app_gw_cstar[0].id, data.azurerm_key_vault_secret.app_gw_cstar[0].version)
+      }
+    }
+  }
+
+  # maps listener to backend
+  routes = {
+
+    api = {
+      listener = "app_io"
+      backend = "apim"
+    }
+
+    broker = {
+      listener = "issuer_acquirer"
+      backend  = "apim"
+    }
+  }
+  
+
+  # TLS
+  identity_ids          = [azurerm_user_assigned_identity.appgateway.id]
+
+  # Scaling
+  app_gateway_min_capacity = "1"
+  app_gateway_max_capacity = "2"
+
+}
+
 resource "azurerm_application_gateway" "app_gateway" {
   name                = format("%s-api-gateway", local.project)
   resource_group_name = azurerm_resource_group.rg_vnet.name
