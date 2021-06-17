@@ -242,7 +242,43 @@ module "rdt_payment_instrument_manager" {
   api_operation_policies = []
 }
 
-# Version sets (API with versions) #
+
+## pm-admin-panel ##
+module "pm_admin_panel" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "pm-admin-panel"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = ""
+  display_name = "pm-admin-panel"
+  path         = "backoffice"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/backoffice", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/pm_admin_panel/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      operation_id = "walletv2",
+      xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml.tpl", {
+        PM-backend-host                      = var.pm_backend_host,
+        PM-Timeout-Sec                       = var.pm_timeout_sec
+        BPD-PM-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+      })
+    },
+  ]
+}
+
+# Version sets (APIs with version) #
 
 ## BPD HB Citizen API
 resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
