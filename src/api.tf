@@ -43,12 +43,23 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   # }
 }
 
-module "api_bdp_hb_award_period" {
+## BPD HB Award Period API ##
+resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
+  name                = "bpd-hb-award-period"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD HB Award Period API"
+  versioning_scheme   = "Segment"
+}
+
+### Original ###
+module "bdp_hb_award_period" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
 
-  name                = "bpd-hb-award-period-api"
+  name                = "bpd-hb-award-period"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
 
   description  = "Api and Models"
   display_name = "BPD HB Award Period API"
@@ -57,7 +68,8 @@ module "api_bdp_hb_award_period" {
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bpd_hb_award_period/swagger.json.tpl", {
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_award_period/original/openapi.json.tpl", {
     host = module.apim.gateway_hostname
   })
 
@@ -65,16 +77,49 @@ module "api_bdp_hb_award_period" {
 
   api_operation_policies = [
     {
-      operation_id = "findAll",
-      xml_content  = file("./api/bpd_hb_award_period/get_findall_policy.xml")
-    },
-    {
-      operation_id = "testcache"
-      xml_content  = file("./api/bpd_hb_award_period/test_cache_policy.xml")
+      # findall
+      operation_id = "5f983d5d70d400b2e059b34a",
+      xml_content  = file("./api/bpd_hb_award_period/original/get_findall_policy.xml")
     }
   ]
 }
 
+### Original ###
+module "bdp_hb_award_period_v2" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "bpd-hb-award-period"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
+  api_version         = "v2"
+
+  description  = "Api and Models"
+  display_name = "BPD HB Award Period API"
+  path         = "bpd/hb/award-periods"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_award_period/v2/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      # findall
+      operation_id = "5f983d5d70d400b2e059b34a",
+      xml_content  = file("./api/bpd_hb_award_period/v2/get_findall_policy.xml")
+    }
+  ]
+}
+
+
+
+## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
   name                = "bpd-info-privacy"
@@ -230,7 +275,6 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
   display_name        = "BPD HB Citizen API"
   versioning_scheme   = "Segment"
 }
-
 
 ### Original (swagger 2.0.x)
 module "bpd_hb_citizen_original" {
