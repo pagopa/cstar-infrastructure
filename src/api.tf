@@ -943,8 +943,8 @@ module "bdp_hb_award_period_v2" {
 }
 
 ## 07 BPD IO Winning Transactions API ##
-resource "azurerm_api_management_api_version_set" "bdp_io_winning_transactions" {
-  name                = "bdp-io-winning-transactions"
+resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" {
+  name                = "bpd-io-winning-transactions"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Winning Transactions API"
@@ -952,13 +952,13 @@ resource "azurerm_api_management_api_version_set" "bdp_io_winning_transactions" 
 }
 
 ### original ###
-module "bdp_io_winning_transactions" {
+module "bpd_io_winning_transactions" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
 
-  name                = "bdp-io-winning-transactions"
+  name                = "bpd-io-winning-transactions"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
+  version_set_id      = azurerm_api_management_api_version_set.bpd_io_winning_transactions.id
 
   description  = "Api and Models"
   display_name = "BPD IO Winning Transactions API"
@@ -967,18 +967,18 @@ module "bdp_io_winning_transactions" {
 
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bdp_io_winning_transactions/original/swagger.xml.tpl", {
+  content_value = templatefile("./api/bpd_io_winning_transactions/original/swagger.xml.tpl", {
     host = module.apim.gateway_hostname
   })
 
-  xml_content = file("./api/bdp_io_winning_transactions/base_policy.xml")
+  xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
 
   api_operation_policies = [
     {
       operation_id = "getTotalScoreUsingGET"
-      xml_content = templatefile("./api/bdp_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
         reverse-proxy-IP = var.reverse_proxy_ip
       })
     },
@@ -986,13 +986,13 @@ module "bdp_io_winning_transactions" {
 }
 
 ### v2 ###
-module "bdp_io_winning_transactions_v2" {
+module "bpd_io_winning_transactions_v2" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
 
-  name                = "bdp-io-winning-transactions"
+  name                = "bpd-io-winning-transactions"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
+  version_set_id      = azurerm_api_management_api_version_set.bpd_io_winning_transactions.id
   api_version         = "v2"
 
   description  = "Api and Models"
@@ -1003,22 +1003,22 @@ module "bdp_io_winning_transactions_v2" {
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bdp_io_winning_transactions/v2/openapi.json.tpl", {
+  content_value = templatefile("./api/bpd_io_winning_transactions/v2/openapi.json.tpl", {
     host = module.apim.gateway_hostname
   })
 
-  xml_content = file("./api/bdp_io_winning_transactions/base_policy.xml")
+  xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
 
   api_operation_policies = [
     {
       operation_id = "findwinningtransactionsusingget"
-      xml_content  = file("./api/bdp_io_winning_transactions/v2/findwinningtransactionsusingget_policy.xml")
+      xml_content  = file("./api/bpd_io_winning_transactions/v2/findwinningtransactionsusingget_policy.xml")
     },
     {
       operation_id = "getTotalScoreUsingGET"
-      xml_content = templatefile("./api/bdp_io_winning_transactions/v2/getTotalScoreUsingGET_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_winning_transactions/v2/getTotalScoreUsingGET_policy.xml.tpl", {
         reverse-proxy-IP = var.reverse_proxy_ip
       })
     },
