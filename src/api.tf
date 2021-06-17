@@ -43,82 +43,6 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   # }
 }
 
-## BPD HB Award Period API ##
-resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
-  name                = "bpd-hb-award-period"
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-  display_name        = "BPD HB Award Period API"
-  versioning_scheme   = "Segment"
-}
-
-### Original ###
-module "bdp_hb_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
-
-  name                = "bpd-hb-award-period"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
-
-  description  = "Api and Models"
-  display_name = "BPD HB Award Period API"
-  path         = "bpd/hb/award-periods"
-  protocols    = ["https"]
-
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_award_period/original/openapi.json.tpl", {
-    host = module.apim.gateway_hostname
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  api_operation_policies = [
-    {
-      # findall
-      operation_id = "5f983d5d70d400b2e059b34a",
-      xml_content  = file("./api/bpd_hb_award_period/original/get_findall_policy.xml")
-    }
-  ]
-}
-
-### Original ###
-module "bdp_hb_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
-
-  name                = "bpd-hb-award-period"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
-  api_version         = "v2"
-
-  description  = "Api and Models"
-  display_name = "BPD HB Award Period API"
-  path         = "bpd/hb/award-periods"
-  protocols    = ["https"]
-
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_award_period/v2/openapi.json.tpl", {
-    host = module.apim.gateway_hostname
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  api_operation_policies = [
-    {
-      # findall
-      operation_id = "5f983d5d70d400b2e059b34a",
-      xml_content  = file("./api/bpd_hb_award_period/v2/get_findall_policy.xml")
-    }
-  ]
-}
-
-
-
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
@@ -267,7 +191,60 @@ module "api_bpd_tc" {
   ]
 }
 
-## 01 BPD HB Citizen API
+## RTD Payment Instrument API ##
+module "rtd_payment_instrument" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+  name                = "rtd-payment-instrument"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = ""
+  display_name = "RTD Payment Instrument API"
+  path         = "rtd/payment-instruments"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_payment_instrument/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = []
+}
+
+## RTD Payment Instrument Manager API ## 
+module "rdt_payment_instrument_manager" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "rdt-payment-instrument-manager"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = ""
+  display_name = "RTD Payment Instrument Manager API"
+  path         = "rtd/payment-instrument-manager"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
+
+
+
+  content_value = templatefile("./api/rdt_payment_instrument_manager/swagger.xml.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = []
+}
+
+# Version sets (API with versions) #
+
+## BPD HB Citizen API
 resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
   name                = "bpd-hb-citizen"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -560,7 +537,7 @@ module "bpd_hb_payment_instruments_v2" {
   ]
 }
 
-## BPD HB Winning Transactions API ##
+## 03 BPD HB Winning Transactions API ##
 resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" {
   name                = "bpd-hb-winning-transactions"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -635,7 +612,7 @@ module "bpd_hb_winning_transactions_v2" {
   ]
 }
 
-## BPD IO Award Period API ##
+## 04 BPD IO Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
   name                = "bpd-io-award-period"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -706,7 +683,7 @@ module "bpd_io_award_period_v2" {
   ]
 }
 
-## BPD IO Citizen API ##
+## 05 BPD IO Citizen API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
   name                = "bpd-io-citizen"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -821,7 +798,81 @@ module "bpd_io_citizen_v2" {
   ]
 }
 
-## BPD IO Winning Transactions API ##
+## 06 BPD HB Award Period API ##
+resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
+  name                = "bpd-hb-award-period"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "BPD HB Award Period API"
+  versioning_scheme   = "Segment"
+}
+
+### Original ###
+module "bdp_hb_award_period" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "bpd-hb-award-period"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
+
+  description  = "Api and Models"
+  display_name = "BPD HB Award Period API"
+  path         = "bpd/hb/award-periods"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_award_period/original/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      # findall
+      operation_id = "5f983d5d70d400b2e059b34a",
+      xml_content  = file("./api/bpd_hb_award_period/original/get_findall_policy.xml")
+    }
+  ]
+}
+
+### v2 ###
+module "bdp_hb_award_period_v2" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
+
+  name                = "bpd-hb-award-period"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
+  api_version         = "v2"
+
+  description  = "Api and Models"
+  display_name = "BPD HB Award Period API"
+  path         = "bpd/hb/award-periods"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_hb_award_period/v2/openapi.json.tpl", {
+    host = module.apim.gateway_hostname
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  api_operation_policies = [
+    {
+      # findall
+      operation_id = "5f983d5d70d400b2e059b34a",
+      xml_content  = file("./api/bpd_hb_award_period/v2/get_findall_policy.xml")
+    }
+  ]
+}
+
+## 07 BPD IO Winning Transactions API ##
 resource "azurerm_api_management_api_version_set" "bdp_io_winning_transactions" {
   name                = "bdp-io-winning-transactions"
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -900,55 +951,3 @@ module "bdp_io_winning_transactions_v2" {
   ]
 }
 
-## RTD Payment Instrument API ##
-module "rtd_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
-
-  name                = "rtd-payment-instrument"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
-
-  description  = ""
-  display_name = "RTD Payment Instrument API"
-  path         = "rtd/payment-instruments"
-  protocols    = ["https"]
-
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/rtd_payment_instrument/openapi.json.tpl", {
-    host = module.apim.gateway_hostname
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  api_operation_policies = []
-}
-
-## RTD Payment Instrument Manager API ## 
-module "rdt_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
-
-  name                = "rdt-payment-instrument-manager"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bdp_io_winning_transactions.id
-
-  description  = ""
-  display_name = "RTD Payment Instrument Manager API"
-  path         = "rtd/payment-instrument-manager"
-  protocols    = ["https"]
-
-  service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
-
-
-
-  content_value = templatefile("./api/rdt_payment_instrument_manager/swagger.xml.tpl", {
-    host = module.apim.gateway_hostname
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  api_operation_policies = []
-}
