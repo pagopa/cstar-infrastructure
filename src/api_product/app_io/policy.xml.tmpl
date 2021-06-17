@@ -11,7 +11,7 @@
                 <send-request mode="new" response-variable-name="tokenstate" timeout="{{AppIO_Timeout_Sec}}" ignore-error="true">
                     %{ if env_short != "p" ~}
                       <!--MOCK UAT-->
-                      <set-url>@("https://prod.cstar.pagopa.it/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
+                      <set-url>@("https://${host_mock}/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
                       <set-method>GET</set-method>
                     %{ else ~}
                       <!--AppIO Produzione-->

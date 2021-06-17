@@ -1083,6 +1083,7 @@ module "app_io_product" {
 
   policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
     env_short = var.env_short
+    host_mock = module.apim.gateway_hostname
   })
 }
 
