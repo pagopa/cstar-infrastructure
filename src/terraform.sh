@@ -4,6 +4,8 @@ set -e
 
 action=$1
 env=$2
+shift 2
+other=$@
 
 if [ -z "$action" ]; then
   echo "Missed action: init, apply, plan"
@@ -17,12 +19,11 @@ fi
 
 if echo "init plan apply refresh" | grep -w $action > /dev/null; then
   if [ $action = "init" ]; then
-    terraform $action -backend-config="./env/$env/backend.tfvars"
+    terraform $action -backend-config="./env/$env/backend.tfvars" $other
   else
-    terraform $action -var-file="./env/$env/terraform.tfvars"
+    terraform $action -var-file="./env/$env/terraform.tfvars" $other
   fi
 else
     echo "Action not allowed."
     exit 1
 fi
-
