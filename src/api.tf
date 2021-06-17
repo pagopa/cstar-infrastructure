@@ -43,6 +43,10 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   # }
 }
 
+#########
+## API ##
+#########
+
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
@@ -63,6 +67,8 @@ module "api_bdp_info_privacy" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.bpd_api_product.product_id]
 
   api_operation_policies = [
     {
@@ -91,6 +97,8 @@ module "api_bpd-io_payment_instrument" {
   })
 
   xml_content = file("./api/bpd_io_payment_instrument/policy.xml")
+
+  product_ids = [module.app_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -126,6 +134,8 @@ module "api_bpd_pm_payment_instrument" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.pm_api_product.product_id]
 }
 
 module "api_bpd_io_backend_test" {
@@ -147,6 +157,8 @@ module "api_bpd_io_backend_test" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.bpd_api_product.product_id]
 
   api_operation_policies = [
     {
@@ -178,6 +190,8 @@ module "api_bpd_tc" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.bpd_api_product.product_id]
 
   api_operation_policies = [
     {
@@ -215,7 +229,7 @@ module "rtd_payment_instrument" {
   api_operation_policies = []
 }
 
-## RTD Payment Instrument Manager API ## 
+## RTD Payment Instrument Manager API ##
 module "rdt_payment_instrument_manager" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.7"
 
@@ -310,6 +324,8 @@ module "bpd_hb_citizen_original" {
 
   xml_content = file("./api/base_policy.xml")
 
+  product_ids = [module.issuer_api_product.product_id]
+
   api_operation_policies = [
     {
       operation_id = "delete",
@@ -360,6 +376,8 @@ module "bpd_hb_citizen_original_v2" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.issuer_api_product.product_id]
 
   api_operation_policies = [
     {
@@ -419,6 +437,8 @@ module "bpd_hb_payment_instruments" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.issuer_api_product.product_id]
 
   api_operation_policies = [
     {
@@ -533,6 +553,8 @@ module "bpd_hb_payment_instruments_v2" {
 
   xml_content = file("./api/base_policy.xml")
 
+  product_ids = [module.issuer_api_product.product_id]
+
   api_operation_policies = [
     {
       # BPay deletePaymentInstrumentHB
@@ -603,6 +625,8 @@ module "bpd_hb_winning_transactions" {
 
   xml_content = file("./api/base_policy.xml")
 
+  product_ids = [module.issuer_api_product.product_id]
+
   api_operation_policies = [
     {
       # get getTotalCashback
@@ -636,6 +660,8 @@ module "bpd_hb_winning_transactions_v2" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.issuer_api_product.product_id]
 
   api_operation_policies = [
     {
@@ -679,6 +705,8 @@ module "bpd_io_award_period" {
 
   xml_content = file("./api/base_policy.xml")
 
+  product_ids = [module.app_io_product.product_id]
+
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
@@ -710,6 +738,8 @@ module "bpd_io_award_period_v2" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.app_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -749,6 +779,8 @@ module "bpd_io_citizen" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.app_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -801,6 +833,8 @@ module "bpd_io_citizen_v2" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.app_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -939,6 +973,8 @@ module "bdp_io_winning_transactions" {
 
   xml_content = file("./api/bdp_io_winning_transactions/base_policy.xml")
 
+  product_ids = [module.app_io_product.product_id]
+
   api_operation_policies = [
     {
       operation_id = "getTotalScoreUsingGET"
@@ -973,6 +1009,8 @@ module "bdp_io_winning_transactions_v2" {
 
   xml_content = file("./api/bdp_io_winning_transactions/base_policy.xml")
 
+  product_ids = [module.app_io_product.product_id]
+
   api_operation_policies = [
     {
       operation_id = "findwinningtransactionsusingget"
@@ -987,3 +1025,128 @@ module "bdp_io_winning_transactions_v2" {
   ]
 }
 
+##############
+## Products ##
+##############
+
+module "app_io_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "app-io-product"
+  display_name = "APP_IO_PRODUCT"
+  description  = "APP_IO_PRODUCT"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = false
+  approval_required     = false
+
+  policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
+    env_short = var.env_short
+  })
+}
+
+module "batch_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "batch-api-product"
+  display_name = "BATCH_API_PRODUCT"
+  description  = "BATCH_API_PRODUCT"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = false
+  subscription_required = true
+  approval_required     = false
+
+  policy_xml = file("./api_product/batch_api/policy.xml")
+}
+
+module "bpd_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "bpd-api-product"
+  display_name = "BPD_API_PRODUCT"
+  description  = "BPD_API_PRODUCT"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = false
+  approval_required     = false
+
+  policy_xml = file("./api_product/batch_api/policy.xml")
+}
+
+module "issuer_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "issuer-api-product"
+  display_name = "Issuer_API_Product"
+  description  = "Issuer_API_Product"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = true
+  approval_required     = true
+
+  policy_xml = file("./api_product/issuer_api/policy.xml")
+}
+
+module "pm_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "pm-api-product"
+  display_name = "PM_API_PRODUCT"
+  description  = "PM_API_PRODUCT"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = true
+  approval_required     = true
+
+  policy_xml = file("./api_product/pm_api/policy.xml")
+}
+
+module "rtd_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "rtd-api-product"
+  display_name = "RTD_API_Product"
+  description  = "RTD_API_Product"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = true
+  approval_required     = true
+
+  policy_xml = file("./api_product/rtd_api/policy.xml")
+}
+
+
+module "wisp_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.15"
+
+  product_id   = "wisp-api-product"
+  display_name = "WISP_API_Product"
+  description  = "WISP_API_Product"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = false
+  subscription_required = true
+  approval_required     = true
+
+  policy_xml = file("./api_product/wisp_api/policy.xml")
+}
