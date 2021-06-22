@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.12"
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.19"
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
@@ -43,4 +43,13 @@ module "acr" {
   admin_enabled       = false
 
   tags = var.tags
+}
+
+
+
+# add the role to the identity the kubernetes cluster was assigned
+resource "azurerm_role_assignment" "aks_to_acr" {
+  scope                = module.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = module.aks.kubelet_identity_id
 }
