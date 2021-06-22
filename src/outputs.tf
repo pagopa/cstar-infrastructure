@@ -96,6 +96,15 @@ output "apim_gateway_hostname" {
   value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
 }
 
+## Application gateway.
+output "app_gateway_public_ip" {
+  value = azurerm_public_ip.apigateway_public_ip.ip_address
+}
+
+output "app_gateway_fqdn" {
+  value = azurerm_public_ip.apigateway_public_ip.fqdn
+}
+
 output "balanced_proxy_ip" {
   value = var.balanced_proxy_ip
 }
@@ -159,3 +168,5 @@ output "primary_blob_host" {
 output "primary_web_host" {
   value = module.cstarblobstorage.primary_web_host
 }
+
+
