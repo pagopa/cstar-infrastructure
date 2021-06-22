@@ -211,8 +211,8 @@ variable "db_sku_name" {
 }
 
 variable "db_geo_redundant_backup_enabled" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Turn Geo-redundant server backups on/off."
 }
 

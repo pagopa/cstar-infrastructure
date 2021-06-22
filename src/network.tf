@@ -303,6 +303,7 @@ resource "azurerm_application_gateway" "app_gateway" {
   tags = var.tags
 }
 
+/*
 module "nat_gateway" {
   source = "git::https://github.com/pagopa/azurerm.git//nat_gateway?ref=v1.0.7"
 
@@ -313,8 +314,8 @@ module "nat_gateway" {
   subnet_ids = []
   tags       = var.tags
 
-
 }
+*/
 
 resource "azurerm_public_ip" "aks_outbound" {
   count = var.aks_num_outbound_ips

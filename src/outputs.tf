@@ -7,6 +7,7 @@ output "vnet_address_space" {
 }
 
 ## nat gateway.
+/*
 output "nat_gateway_public_ip_address" {
   value = module.nat_gateway.public_ip_address
 }
@@ -14,7 +15,7 @@ output "nat_gateway_public_ip_address" {
 output "nat_gateway_public_ip_fqdn" {
   value = module.nat_gateway.public_ip_fqdn
 }
-
+*/
 
 output "aks_cluster_name" {
   value = module.aks.name
