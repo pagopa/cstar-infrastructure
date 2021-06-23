@@ -25,3 +25,12 @@ resource "azurerm_application_insights" "application_insights" {
 
   tags = var.tags
 }
+
+resource "azurerm_key_vault_secret" "application_insights_key" {
+  #tfsec:ignore:AZU023
+  name         = "appinsights-instrumentation-key"
+  value        = azurerm_application_insights.application_insights.instrumentation_key
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault.id
+}

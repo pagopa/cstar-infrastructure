@@ -5,9 +5,10 @@ resource "kubernetes_secret" "azure-storage" {
   }
 
   data = {
-    BLOB_SA_EXPIRY_TIME      = "5"
-    BLOB_SA_PROTOCOL         = "https"
-    BLOB_STORAGE_CONN_STRING = format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", local.storage_account_name, module.key_vault_secrets_query.values["storageaccount-cstarblob-key"].value)
+    BLOB_SA_EXPIRY_TIME                   = "5"
+    BLOB_SA_PROTOCOL                      = "https"
+    BLOB_STORAGE_CONN_STRING              = format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", local.storage_account_name, module.key_vault_secrets_query.values["storageaccount-cstarblob-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"

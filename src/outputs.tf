@@ -47,7 +47,7 @@ output "key_vault_uri" {
   value = module.key_vault.vault_uri
 }
 
-output "key_vaulr_name" {
+output "key_vault_name" {
   value = module.key_vault.name
 }
 
