@@ -6,5 +6,5 @@ locals {
   postgres_hostname               = "${format("%s-postgresql", local.project)}.postgres.database.azure.com"
   postgres_replica_hostname       = "${format("%s-postgresql-rep", local.project)}.postgres.database.azure.com"
   storage_account_name            = replace(format("%s-blobstorage", local.project), "-", "")
-  appinsights_instrumentation_key = format("InstrumentationKey=%s", module.key_vault_secrets_query.values["evh-bpd-winner-outcome-award-winner-key"].value)
+  appinsights_instrumentation_key = format("InstrumentationKey=%s", module.key_vault_secrets_query.values["appinsights-instrumentation-key"].value)
 }
