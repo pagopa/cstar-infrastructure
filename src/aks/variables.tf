@@ -55,6 +55,12 @@ variable "default_service_port" {
   default = 8080
 }
 
+# cstariobackendtest
+
+variable "configmaps_cstariobackendtest" {
+  type = map(string)
+}
+
 # bpdmsawardperiod
 
 variable "configmaps_bpdmsawardperiod" {
