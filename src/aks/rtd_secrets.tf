@@ -5,9 +5,10 @@ resource "kubernetes_secret" "azure-storage" {
   }
 
   data = {
-    BLOB_SA_EXPIRY_TIME      = "5"
-    BLOB_SA_PROTOCOL         = "https"
-    BLOB_STORAGE_CONN_STRING = format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", local.storage_account_name, module.key_vault_secrets_query.values["storageaccount-cstarblob-key"].value)
+    BLOB_SA_EXPIRY_TIME                   = "5"
+    BLOB_SA_PROTOCOL                      = "https"
+    BLOB_STORAGE_CONN_STRING              = format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", local.storage_account_name, module.key_vault_secrets_query.values["storageaccount-cstarblob-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -68,6 +69,20 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
     POSTGRES_PASSWORD         = module.key_vault_secrets_query.values["db-rtd-password"].value
     POSTGRES_SCHEMA           = "rtd"
     POSTGRES_USERNAME         = format("%s@%s", module.key_vault_secrets_query.values["db-rtd-login"].value, local.postgres_hostname)
+  }
+
+  type = "Opaque"
+}
+
+# not yet used by any deployment, but maybe useful for the future
+resource "kubernetes_secret" "rtd-common-secrets" {
+  metadata {
+    name      = "rtdcommonsecrets"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"

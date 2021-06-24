@@ -210,6 +210,12 @@ variable "db_sku_name" {
   description = "Specifies the SKU Name for this PostgreSQL Server."
 }
 
+variable "db_geo_redundant_backup_enabled" {
+  type        = bool
+  default     = false
+  description = "Turn Geo-redundant server backups on/off."
+}
+
 variable "db_enable_replica" {
   type        = bool
   default     = false

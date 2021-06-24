@@ -1,3 +1,22 @@
+resource "kubernetes_config_map" "cstariobackendtest" {
+  metadata {
+    name      = "cstariobackendtest"
+    namespace = kubernetes_namespace.bpd.metadata[0].name
+  }
+
+  data = merge({
+    BACKEND_IO_LOG_LEVEL                = "INFO"
+    BACKEND_IO_SERVER_ACCESSLOG_ENABLED = "true"
+    BACKEND_IO_SERVER_ACCESSLOG_PATTERN = "%%{yyyy/MM/dd HH:mm:ss.SSS}t %T %D %F %I %m %U %q"
+    BACKEND_IO_SERVER_PROCESSOR_CACHE   = "300"
+    BACKEND_IO_SERVER_THREAD_MAX        = "500"
+    JAVA_TOOL_OPTIONS                   = "-Xmx1g"
+
+    },
+    var.configmaps_cstariobackendtest
+  )
+}
+
 resource "kubernetes_config_map" "bpdmsawardperiod" {
   metadata {
     name      = "bpdmsawardperiod"

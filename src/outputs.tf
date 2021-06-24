@@ -7,6 +7,7 @@ output "vnet_address_space" {
 }
 
 ## nat gateway.
+/*
 output "nat_gateway_public_ip_address" {
   value = module.nat_gateway.public_ip_address
 }
@@ -14,7 +15,7 @@ output "nat_gateway_public_ip_address" {
 output "nat_gateway_public_ip_fqdn" {
   value = module.nat_gateway.public_ip_fqdn
 }
-
+*/
 
 output "aks_cluster_name" {
   value = module.aks.name
@@ -46,7 +47,7 @@ output "key_vault_uri" {
   value = module.key_vault.vault_uri
 }
 
-output "key_vaulr_name" {
+output "key_vault_name" {
   value = module.key_vault.name
 }
 
@@ -93,6 +94,15 @@ output "apim_gateway_url" {
 
 output "apim_gateway_hostname" {
   value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
+}
+
+## Application gateway.
+output "app_gateway_public_ip" {
+  value = azurerm_public_ip.apigateway_public_ip.ip_address
+}
+
+output "app_gateway_fqdn" {
+  value = azurerm_public_ip.apigateway_public_ip.fqdn
 }
 
 output "balanced_proxy_ip" {
@@ -158,3 +168,5 @@ output "primary_blob_host" {
 output "primary_web_host" {
   value = module.cstarblobstorage.primary_web_host
 }
+
+

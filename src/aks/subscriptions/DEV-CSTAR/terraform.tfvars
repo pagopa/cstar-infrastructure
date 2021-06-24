@@ -5,6 +5,9 @@ env_short = "d"
 ingress_replica_count    = "2"
 ingress_load_balancer_ip = "10.0.128.250"
 
+# cstariobackendtest
+configmaps_cstariobackendtest = {}
+
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod = {
   LOG_LEVEL_BPD_AWARD_PERIOD = "DEBUG"
@@ -97,7 +100,7 @@ configmaps_bpdmsrankingprocessor = {
   MILESTONE_UPDATE_SINGLE_PROCESS_ENABLE                 = "false"
   MILESTONE_UPDATE_THREAD_POOL_SIZE                      = "1"
   POSTGRES_POOLSIZE                                      = "2"
-  RANKING_PROCESSOR_CRON                                 = "'-'"
+  RANKING_PROCESSOR_CRON                                 = "-"
   RANKING_UPDATE_DATA_EXTRACTION_LIMIT                   = "1000"
   RANKING_UPDATE_ENABLE                                  = "true"
   RANKING_UPDATE_PARALLEL_ENABLE                         = "false"

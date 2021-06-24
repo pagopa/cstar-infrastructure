@@ -16,7 +16,7 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
 }
 
 module "postgresql" {
-  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.14"
+  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.17"
   name                             = format("%s-postgresql", local.project)
   location                         = azurerm_resource_group.db_rg.location
   resource_group_name              = azurerm_resource_group.db_rg.name
@@ -26,6 +26,7 @@ module "postgresql" {
   administrator_login_password     = data.azurerm_key_vault_secret.db_administrator_login_password.value
   sku_name                         = var.db_sku_name
   db_version                       = 10
+  geo_redundant_backup_enabled     = var.db_geo_redundant_backup_enabled
   enable_replica                   = var.db_enable_replica
   ssl_minimal_tls_version_enforced = "TLS1_2"
 
