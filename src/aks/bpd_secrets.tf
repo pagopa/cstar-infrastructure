@@ -16,7 +16,8 @@ resource "kubernetes_secret" "bpdmsawardwinner" {
     #sasl jaas config string with listen only permission for topic bpd-winner-outcome
     KAFKA_INTEGR_WINNER_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner-integration", module.key_vault_secrets_query.values["evh-bpd-winner-outcome-award-winner-integration-key"].value)
     #sasl jaas config string for topic bpd-winner-outcome
-    KAFKA_WINNER_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner", module.key_vault_secrets_query.values["evh-bpd-winner-outcome-award-winner-key"].value)
+    KAFKA_WINNER_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "bpd-winner-outcome", "award-winner", module.key_vault_secrets_query.values["evh-bpd-winner-outcome-award-winner-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -30,8 +31,9 @@ resource "kubernetes_secret" "bpdmscitizen" {
 
   data = {
     #sasl jaas config string for topic bpd-trx-cashback
-    KAFKA_CZNTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-point-processor-key"].value)
-    PAGOPA_CHECKIBAN_APIKEY       = module.key_vault_secrets_query.values["pagopa-checkiban-apikey"].value
+    KAFKA_CZNTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-point-processor-key"].value)
+    PAGOPA_CHECKIBAN_APIKEY               = module.key_vault_secrets_query.values["pagopa-checkiban-apikey"].value
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -49,7 +51,8 @@ resource "kubernetes_secret" "bpdmscitizenbatch" {
     #sasl jaas config string for topic bpd-trx-cashback
     KAFKA_CZNTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-point-processor-key"].value)
     #sasl jaas config string for topic bpd-trx
-    KAFKA_POINTTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx", "bpd-citizen", module.key_vault_secrets_query.values["evh-bpd-trx-bpd-citizen-key"].value)
+    KAFKA_POINTTRX_SASL_JAAS_CONFIG       = format(local.jaas_config_template, "bpd-trx", "bpd-citizen", module.key_vault_secrets_query.values["evh-bpd-trx-bpd-citizen-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -67,7 +70,8 @@ resource "kubernetes_secret" "bpdmspaymentinstrument" {
     #sasl jaas config string for topic bpd-trx-error
     KAFKA_RTDTX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-error", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-bpd-trx-error-bpd-payment-instrument-key"].value)
     #sasl jaas config string for topic rtd-trx
-    KAFKA_RTDTX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-rtd-trx-bpd-payment-instrument-key"].value)
+    KAFKA_RTDTX_SASL_JAAS_CONFIG          = format(local.jaas_config_template, "rtd-trx", "bpd-payment-instrument", module.key_vault_secrets_query.values["evh-rtd-trx-bpd-payment-instrument-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -85,7 +89,8 @@ resource "kubernetes_secret" "bpdmspointprocessor" {
     #sasl jaas config string for topic bpd-trx
     KAFKA_POINTTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-bpd-point-processor-key"].value)
     #sasl jaas config string for topic bpd-trx-cashback
-    KAFKA_SAVETRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-point-processor-key"].value)
+    KAFKA_SAVETRX_SASL_JAAS_CONFIG        = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-point-processor-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -105,7 +110,8 @@ resource "kubernetes_secret" "bpdmstransactionerrormanager" {
     #sasl jaas config string for topic bpd-trx-error
     KAFKA_BPDTXERR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-error", "bpd-transaction-error-manager", module.key_vault_secrets_query.values["evh-bpd-trx-error-bpd-transaction-error-manager-key"].value)
     #sasl jaas config string for topic rtd-trx
-    KAFKA_RTDTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "rtd-csv-connector", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-csv-connector-key"].value)
+    KAFKA_RTDTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "rtd-trx", "rtd-csv-connector", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-csv-connector-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -121,7 +127,8 @@ resource "kubernetes_secret" "bpdmswinningtransaction" {
     #sasl jaas config string for topic bpd-trx-error
     KAFKA_BPDTRX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-error", "bpd-point-processor", module.key_vault_secrets_query.values["evh-bpd-trx-error-bpd-point-processor-key"].value)
     #sasl jaas config string for topic bpd-trx-cashback
-    KAFKA_SAVETRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-winning-transaction", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-winning-transaction-key"].value)
+    KAFKA_SAVETRX_SASL_JAAS_CONFIG        = format(local.jaas_config_template, "bpd-trx-cashback", "bpd-winning-transaction", module.key_vault_secrets_query.values["evh-bpd-trx-cashback-bpd-winning-transaction-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -138,6 +145,7 @@ resource "kubernetes_secret" "bpdmsnotificationmanager" {
     NOTIFICATION_SFTP_PRIVATE_KEY                  = module.key_vault_secrets_query.values["notification-sftp-private-key"].value
     SFTP_PASSWORD                                  = module.key_vault_secrets_query.values["notification-sftp-password"].value
     URL_BACKEND_IO_TOKEN_VALUE                     = module.key_vault_secrets_query.values["url-backend-io-token-value"].value
+    APPLICATIONINSIGHTS_CONNECTION_STRING          = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"
@@ -166,6 +174,20 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
     POSTGRES_REPLICA_PASSWORD = module.key_vault_secrets_query.values["db-bpd-password"].value
     #replica database username
     POSTGRES_REPLICA_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_replica_hostname)
+  }
+
+  type = "Opaque"
+}
+
+# not yet used by any deployment, but maybe useful for the future
+resource "kubernetes_secret" "bpd-common-secrets" {
+  metadata {
+    name      = "bpdcommonsecrets"
+    namespace = kubernetes_namespace.bpd.metadata[0].name
+  }
+
+  data = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
   type = "Opaque"

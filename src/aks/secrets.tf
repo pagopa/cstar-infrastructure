@@ -5,6 +5,7 @@ module "key_vault_secrets_query" {
   key_vault_name = local.key_vault
 
   secrets = [
+    "appinsights-instrumentation-key",
     "db-administrator-login",
     "db-bpd-login",
     "db-bpd-password",
