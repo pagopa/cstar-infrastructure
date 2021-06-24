@@ -73,3 +73,17 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
 
   type = "Opaque"
 }
+
+# not yet used by any deployment, but maybe useful for the future
+resource "kubernetes_secret" "rtd-common-secrets" {
+  metadata {
+    name      = "rtdcommonsecrets"
+    namespace = kubernetes_namespace.bpd.metadata[0].name
+  }
+
+  data = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}
