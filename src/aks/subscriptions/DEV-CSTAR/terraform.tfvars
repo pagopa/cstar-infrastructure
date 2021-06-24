@@ -54,7 +54,7 @@ configmaps_bpdmsenrollment = {
 
 # bpdmsnotificationmanager
 configmaps_bpdmsnotificationmanager = {
-  JAVA_TOOL_OPTIONS                                        = "-Xms128m -Xmx4g"
+  JAVA_TOOL_OPTIONS                                        = "-Xms128m -Xmx4g -javaagent:/applicationinsights-agent-3.1.0.jar"
   LOG_LEVEL_BPD_NOTIFICATION                               = "DEBUG"
   POSTGRES_POOLSIZE                                        = "2"
   POSTGRES_SHOW_SQL                                        = "true"
@@ -120,7 +120,7 @@ configmaps_bpdmsrankingprocessorpoc = {
   CASHBACK_UPDATE_RETRY_LIMIT                          = "10"
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT = "2"
   CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                = "true"
-  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g"
+  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent-3.1.0.jar"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                      = "INFO"
   MILESTONE_UPDATE_ENABLE                              = "false"
   MILESTONE_UPDATE_RETRY_LIMIT                         = "10"
@@ -158,7 +158,7 @@ configmaps_bpdmswinningtransaction = {
 
 # rtdpaymentinstrumentmanager
 configmaps_rtdpaymentinstrumentmanager = {
-  JAVA_TOOL_OPTIONS                        = "-Xms128m -Xmx2g"
+  JAVA_TOOL_OPTIONS                        = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent-3.1.0.jar"
   POSTGRES_POOLSIZE                        = "2"
   POSTGRES_SHOW_SQL                        = "true"
   LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER = "INFO"
