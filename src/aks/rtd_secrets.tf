@@ -78,7 +78,7 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
 resource "kubernetes_secret" "rtd-common-secrets" {
   metadata {
     name      = "rtdcommonsecrets"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.rtd.metadata[0].name
   }
 
   data = {
