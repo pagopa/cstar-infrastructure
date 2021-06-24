@@ -146,30 +146,28 @@ locals {
 }
 
 # Multilistener configuraiton
-module app_gw {
+module "app_gw" {
   source = "./modules/app_gw"
 
-  # Naming
-  prefix                = local.project 
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  location              = azurerm_resource_group.rg_vnet.location
-  name                  = format("%smultiite-app-gw", local.project)
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  location            = azurerm_resource_group.rg_vnet.location
+  name                = format("%s-app-gw", local.project)
 
   # SKU
-  sku_name              = "WAF_v2"
-  sku_tier              = "WAF_v2"
+  sku_name = "WAF_v2"
+  sku_tier = "WAF_v2"
 
   # Networking
-  subnet_id             = module.appgateway-snet.id
-  public_ip_id          = azurerm_public_ip.apigateway_public_ip.id
+  subnet_id    = module.appgateway-snet.id
+  public_ip_id = azurerm_public_ip.apigateway_public_ip.id
 
   # Configure backends
   backends = {
     apim = {
-      protocol  = "Http"
-      host      = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
-      port      = 80
-      probe     = "/status-0123456789abcdef"
+      protocol = "Http"
+      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port     = 80
+      probe    = "/status-0123456789abcdef"
     }
   }
 
@@ -183,7 +181,7 @@ module app_gw {
       port = 443
       certificate = {
         name = data.azurerm_key_vault_secret.app_gw_io_cstar[0].name
-        id = trimsuffix(data.azurerm_key_vault_secret.app_gw_io_cstar[0].id, data.azurerm_key_vault_secret.app_gw_io_cstar[0].version)
+        id   = trimsuffix(data.azurerm_key_vault_secret.app_gw_io_cstar[0].id, data.azurerm_key_vault_secret.app_gw_io_cstar[0].version)
       }
     }
 
@@ -195,7 +193,7 @@ module app_gw {
       port = 443
       certificate = {
         name = data.azurerm_key_vault_secret.app_gw_cstar[0].name
-        id = trimsuffix(data.azurerm_key_vault_secret.app_gw_cstar[0].id, data.azurerm_key_vault_secret.app_gw_cstar[0].version)
+        id   = trimsuffix(data.azurerm_key_vault_secret.app_gw_cstar[0].id, data.azurerm_key_vault_secret.app_gw_cstar[0].version)
       }
     }
   }
@@ -205,7 +203,7 @@ module app_gw {
 
     api = {
       listener = "app_io"
-      backend = "apim"
+      backend  = "apim"
     }
 
     broker = {
@@ -213,10 +211,10 @@ module app_gw {
       backend  = "apim"
     }
   }
-  
+
 
   # TLS
-  identity_ids          = [azurerm_user_assigned_identity.appgateway.id]
+  identity_ids = [azurerm_user_assigned_identity.appgateway.id]
 
   # Scaling
   app_gateway_min_capacity = "1"

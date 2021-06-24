@@ -298,18 +298,18 @@ resource "azurerm_key_vault_certificate" "app_gw_cstar" {
 }
 
 data "azurerm_key_vault_secret" "app_gw_io_cstar" {
-  depends_on    = [azurerm_key_vault_access_policy.ad_group_policy]
-  count         = var.env_short == "d" ? 1 : 0
+  depends_on = [azurerm_key_vault_access_policy.ad_group_policy]
+  count      = var.env_short == "d" ? 1 : 0
   # name         = var.app_gw_io_cert_name
-  name          = azurerm_key_vault_certificate.app_gw_io_cstar.name
-  key_vault_id  = module.key_vault.id
+  name         = azurerm_key_vault_certificate.app_gw_io_cstar.name
+  key_vault_id = module.key_vault.id
 }
 data "azurerm_key_vault_secret" "app_gw_cstar" {
-  depends_on    = [azurerm_key_vault_access_policy.ad_group_policy]
-  count         = var.env_short == "d" ? 1 : 0
+  depends_on = [azurerm_key_vault_access_policy.ad_group_policy]
+  count      = var.env_short == "d" ? 1 : 0
   # name         = var.app_gw_cert_name
-  name          = azurerm_key_vault_certificate.app_gw_cstar.name
-  key_vault_id  = module.key_vault.id
+  name         = azurerm_key_vault_certificate.app_gw_cstar.name
+  key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {

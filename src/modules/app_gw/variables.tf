@@ -1,19 +1,14 @@
 variable "resource_group_name" {
-  type        = string
+  type = string
 }
 
 variable "location" {
-  type        = string
-  default     = "westeurope"
-}
-
-variable "prefix" {
-  description = "String value prepended to the name of resources"
-  type        = string
+  type    = string
+  default = "westeurope"
 }
 
 variable "name" {
-  type        = string
+  type = string
 }
 
 variable "sku_name" {
@@ -39,22 +34,22 @@ variable "public_ip_id" {
 }
 
 variable "backends" {
-  type        = map(object({
+  type = map(object({
     protocol = string
-    host = string
-    port = number
-    probe = string
+    host     = string
+    port     = number
+    probe    = string
   }))
 }
 
 variable "listeners" {
   type = map(object({
     protocol = string
-    host = string
-    port = number
+    host     = string
+    port     = number
     certificate = object({
       name = string
-      id = string
+      id   = string
     })
   }))
 }
@@ -69,15 +64,15 @@ variable "routes" {
 # TLS
 
 variable "identity_ids" {
-  type        = list(string)
+  type = list(string)
 }
 
 # Scaling
 
 variable "app_gateway_max_capacity" {
-  type        = string
+  type = string
 }
 
 variable "app_gateway_min_capacity" {
-  type        = string
+  type = string
 }

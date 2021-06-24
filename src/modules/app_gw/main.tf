@@ -1,26 +1,26 @@
-resource "azurerm_application_gateway" "api_gateway" {
+resource "azurerm_application_gateway" "this" {
   name                = var.name
   resource_group_name = var.resource_group_name
   location            = var.location
 
   sku {
-    name     = var.sku_name
-    tier     = var.sku_tier
+    name = var.sku_name
+    tier = var.sku_tier
   }
 
   gateway_ip_configuration {
-    name      = format("%s-appgw-subnet-conf", var.prefix)
+    name      = format("%s-snet-conf", var.name)
     subnet_id = var.subnet_id
   }
 
   frontend_ip_configuration {
-    name                 = format("%s-appgw-ip-conf", var.prefix)
+    name                 = format("%s-ip-conf", var.name)
     public_ip_address_id = var.public_ip_id
   }
 
   backend_address_pool {
-    name         = format("%s-appgw-be-address-pool", var.prefix)
-    fqdns        = [ for backend in values(var.backends) : backend.host ]
+    name         = format("%s-address-pool", var.name)
+    fqdns        = [for backend in values(var.backends) : backend.host]
     ip_addresses = []
   }
 
@@ -30,7 +30,7 @@ resource "azurerm_application_gateway" "api_gateway" {
     iterator = backend
 
     content {
-      name                  = format("%s-appgw-%s-http-settings", var.prefix, backend.key)
+      name                  = format("%s-%s-http-settings", var.name, backend.key)
       host_name             = backend.value.host
       cookie_based_affinity = "Disabled"
       path                  = ""
@@ -63,10 +63,10 @@ resource "azurerm_application_gateway" "api_gateway" {
   }
 
   dynamic "frontend_port" {
-    for_each = distinct( [ for listener in values(var.listeners) : listener.port ] )
+    for_each = distinct([for listener in values(var.listeners) : listener.port])
 
     content {
-      name = format("%s-appgw-%d-port", var.prefix, frontend_port.value)
+      name = format("%s-%d-port", var.name, frontend_port.value)
       port = frontend_port.value
     }
   }
@@ -76,8 +76,8 @@ resource "azurerm_application_gateway" "api_gateway" {
     iterator = listener
 
     content {
-      name                  = listener.value.certificate.name
-      key_vault_secret_id   = listener.value.certificate.id
+      name                = listener.value.certificate.name
+      key_vault_secret_id = listener.value.certificate.id
     }
   }
 
@@ -86,26 +86,26 @@ resource "azurerm_application_gateway" "api_gateway" {
     iterator = listener
 
     content {
-      name                           = format("%s-appgw-%s-listener", var.prefix, listener.key)
-      frontend_ip_configuration_name = format("%s-appgw-ip-conf", var.prefix)
-      frontend_port_name             = format("%s-appgw-%d-port", var.prefix, listener.value.port)
+      name                           = format("%s-%s-listener", var.name, listener.key)
+      frontend_ip_configuration_name = format("%s-ip-conf", var.name)
+      frontend_port_name             = format("%s-%d-port", var.name, listener.value.port)
       protocol                       = "Https"
       ssl_certificate_name           = listener.value.certificate.name
       require_sni                    = true
       host_name                      = listener.value.host
-    } 
+    }
   }
 
   dynamic "request_routing_rule" {
     for_each = var.routes
     iterator = route
 
-    content  {
-      name                       = format("%s-appgw-%s-reqs-routing-rule", var.prefix, route.key)
+    content {
+      name                       = format("%s-%s-reqs-routing-rule", var.name, route.key)
       rule_type                  = "Basic"
-      http_listener_name         = format("%s-appgw-%s-listener", var.prefix, route.value.listener)
-      backend_address_pool_name  = format("%s-appgw-be-address-pool", var.prefix)
-      backend_http_settings_name = format("%s-appgw-%s-http-settings", var.prefix, route.value.backend)
+      http_listener_name         = format("%s-%s-listener", var.name, route.value.listener)
+      backend_address_pool_name  = format("%s-address-pool", var.name)
+      backend_http_settings_name = format("%s-%s-http-settings", var.name, route.value.backend)
     }
   }
 
