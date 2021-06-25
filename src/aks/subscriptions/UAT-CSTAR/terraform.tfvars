@@ -8,7 +8,7 @@ ingress_load_balancer_ip = "x.x.x.x"
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod = {
   JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "configmaps_bpdmsawardperiod"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardperiod"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   AWARD_PERIOD_POOLSIZE                             = "20"
   AWARD_PERIOD_READ_ONLY                            = "true"
