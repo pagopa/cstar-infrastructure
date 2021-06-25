@@ -76,11 +76,10 @@ configmaps_bpdmsenrollment = {
 
 # bpdmsnotificationmanager
 configmaps_bpdmsnotificationmanager = {
-  JAVA_TOOL_OPTIONS                                                = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                                = "-Xms256m -Xmx6g -javaagent:/applicationinsights-agent-3.1.0.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                                    = "bpdmsnotificationmanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL                = "OFF"
   BPD_AWARD_PERIOD_HOST                                            = "bpdmsawardperiod"
-  JAVA_TOOL_OPTIONS                                                = "-Xms256m -Xmx6g"
   LOG_LEVEL_BPD_NOTIFICATION                                       = "INFO"
   NOT_MANAGER_DB_BATCH_SIZE                                        = "30000"
   NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_LOOP_PER_RUN         = "1"
@@ -119,7 +118,6 @@ configmaps_bpdmspaymentinstrument = {
   POSTGRES_POOLSIZE                                 = "20"
   POSTGRES_REPLICA_POOLSIZE                         = "15"
   POSTGRES_SHOW_SQL                                 = "false"
-
 }
 
 # bpdmspointprocessor
@@ -135,7 +133,7 @@ configmaps_bpdmspointprocessor = {
 
 # bpdmsrankingprocessor
 configmaps_bpdmsrankingprocessor = {
-  JAVA_TOOL_OPTIONS                                      = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent-3.1.0.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "bpdmsrankingprocessor"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   CASHBACK_UPDATE_PARALLEL_ENABLE                        = "true"
@@ -147,7 +145,6 @@ configmaps_bpdmsrankingprocessor = {
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT   = "500"
   CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                  = "true"
   CASHBACK_UPDATE_TRANSFER_MAX_DEPTH                     = "P6M"
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                        = "INFO"
   MILESTONE_UPDATE_ENABLE                                = "true"
   MILESTONE_UPDATE_RETRY_LIMIT                           = "10"
@@ -172,14 +169,13 @@ configmaps_bpdmsrankingprocessoroffline = {
 
 # bpdmsrankingprocessorpoc
 configmaps_bpdmsrankingprocessorpoc = {
-  JAVA_TOOL_OPTIONS                                    = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent-3.1.0.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                        = "bpdmsrankingprocessorpoc"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL    = "OFF"
   CASHBACK_UPDATE_PAYMENT_ENABLE                       = "true"
   CASHBACK_UPDATE_RETRY_LIMIT                          = "10"
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT = "500"
   CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                = "true"
-  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                      = "INFO"
   MILESTONE_UPDATE_ENABLE                              = "true"
   MILESTONE_UPDATE_RETRY_LIMIT                         = "10"
@@ -224,10 +220,9 @@ configmaps_bpdmswinningtransaction = {
 
 # rtdpaymentinstrumentmanager
 configmaps_rtdpaymentinstrumentmanager = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx6g -javaagent:/applicationinsights-agent-3.1.0.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "rtdpaymentinstrumentmanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
-  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx6g"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "false"
   LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER          = "INFO"
