@@ -75,9 +75,9 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
 }
 
 # not yet used by any deployment, but maybe useful for the future
-resource "kubernetes_secret" "rtd-common-secrets" {
+resource "kubernetes_secret" "rtd-application-insights" {
   metadata {
-    name      = "rtdcommonsecrets"
+    name      = "application-insights"
     namespace = kubernetes_namespace.rtd.metadata[0].name
   }
 
