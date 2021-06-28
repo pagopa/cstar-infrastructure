@@ -7,14 +7,14 @@ ingress_load_balancer_ip = "10.0.128.250"
 
 # cstariobackendtest
 configmaps_cstariobackendtest = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "cstariobackendtest"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
 }
 
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardperiod"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   LOG_LEVEL_BPD_AWARD_PERIOD                        = "DEBUG"
@@ -24,7 +24,7 @@ configmaps_bpdmsawardperiod = {
 
 # bpdmsawardwinner
 configmaps_bpdmsawardwinner = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardwinner"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   LOG_LEVEL_BPD_AWARD_WINNER                        = "INFO"
@@ -34,7 +34,7 @@ configmaps_bpdmsawardwinner = {
 
 # bpdmscitizen
 configmaps_bpdmscitizen = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmscitizen"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   CITIZEN_SECONDARY_DB_ENABLE                       = "true"
@@ -51,7 +51,7 @@ configmaps_bpdmscitizen = {
 
 # bpdmscitizenbatch
 configmaps_bpdmscitizenbatch = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmscitizenbatch"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   BPD_CITIZEN_CHECKIBAN_PROXY_ENABLE                = "false"
@@ -65,7 +65,7 @@ configmaps_bpdmscitizenbatch = {
 
 # bpdmsenrollment
 configmaps_bpdmsenrollment = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsenrollment"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   LOG_LEVEL_FA_ENROLLMENT                           = "DEBUG"
@@ -73,7 +73,7 @@ configmaps_bpdmsenrollment = {
 
 # bpdmsnotificationmanager
 configmaps_bpdmsnotificationmanager = {
-  JAVA_TOOL_OPTIONS                                        = "-Xms128m -Xmx4g -javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                        = "-Xms128m -Xmx4g -javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                            = "bpdmsnotificationmanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL        = "OFF"
   LOG_LEVEL_BPD_NOTIFICATION                               = "DEBUG"
@@ -92,7 +92,7 @@ configmaps_bpdmsnotificationmanager = {
 
 # bpdmspaymentinstrument
 configmaps_bpdmspaymentinstrument = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmspaymentinstrument"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
@@ -101,7 +101,7 @@ configmaps_bpdmspaymentinstrument = {
 
 # bpdmspointprocessor
 configmaps_bpdmspointprocessor = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmspointprocessor"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   LOG_LEVEL_BPD_POINT_PROCESSOR                     = "DEBUG"
@@ -110,7 +110,7 @@ configmaps_bpdmspointprocessor = {
 
 # bpdmsrankingprocessor
 configmaps_bpdmsrankingprocessor = {
-  JAVA_TOOL_OPTIONS                                      = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                      = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "bpdmsrankingprocessor"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   CASHBACK_UPDATE_PARALLEL_ENABLE                        = "false"
@@ -140,7 +140,7 @@ configmaps_bpdmsrankingprocessor = {
 
 # bpdmsrankingprocessoroffline
 configmaps_bpdmsrankingprocessoroffline = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsrankingprocessoroffline"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                   = "INFO"
@@ -149,7 +149,7 @@ configmaps_bpdmsrankingprocessoroffline = {
 
 # bpdmsrankingprocessorpoc
 configmaps_bpdmsrankingprocessorpoc = {
-  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                        = "bpdmsrankingprocessorpoc"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL    = "OFF"
   CASHBACK_UPDATE_PAYMENT_ENABLE                       = "false"
@@ -174,7 +174,7 @@ configmaps_bpdmsrankingprocessorpoc = {
 
 # bpdmstransactionerrormanager
 configmaps_bpdmstransactionerrormanager = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmstransactionerrormanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   TRXERROR_DB_NAME                                  = "bpd_test"
@@ -186,7 +186,7 @@ configmaps_bpdmstransactionerrormanager = {
 
 # bpdmswinningtransaction
 configmaps_bpdmswinningtransaction = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmswinningtransaction"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   ENABLE_CITIZEN_VALIDATION                         = "true"
@@ -198,7 +198,7 @@ configmaps_bpdmswinningtransaction = {
 
 # rtdpaymentinstrumentmanager
 configmaps_rtdpaymentinstrumentmanager = {
-  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent-3.1.0.jar"
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "rtdpaymentinstrumentmanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
