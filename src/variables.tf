@@ -143,6 +143,12 @@ variable "apim_private_domain" {
   default = "api.cstar.pagopa.it"
 }
 
+variable "appio_timeout_sec" {
+  type        = number
+  description = "AppIo timeout (sec)"
+  default     = 5
+}
+
 variable "pm_backend_host" {
   type        = string
   description = "Payment manager backend host"
