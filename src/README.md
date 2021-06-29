@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -8,61 +9,61 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | = 2.59.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 2.59.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_acr"></a> [acr](#module\_acr) | git::https://github.com/pagopa/azurerm.git//container_registry?ref=v1.0.7 |  |
-| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.19 |  |
-| <a name="module_aks_storage_account_terraform_state"></a> [aks\_storage\_account\_terraform\_state](#module\_aks\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5 |  |
-| <a name="module_api_azureblob"></a> [api\_azureblob](#module\_api\_azureblob) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_api_bdp_info_privacy"></a> [api\_bdp\_info\_privacy](#module\_api\_bdp\_info\_privacy) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_api_bpd-io_payment_instrument"></a> [api\_bpd-io\_payment\_instrument](#module\_api\_bpd-io\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_api_bpd_io_backend_test"></a> [api\_bpd\_io\_backend\_test](#module\_api\_bpd\_io\_backend\_test) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_api_bpd_pm_payment_instrument"></a> [api\_bpd\_pm\_payment\_instrument](#module\_api\_bpd\_pm\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_api_bpd_tc"></a> [api\_bpd\_tc](#module\_api\_bpd\_tc) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.7 |  |
-| <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent?ref=v1.0.3 |  |
-| <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.3 |  |
-| <a name="module_batch_api_product"></a> [batch\_api\_product](#module\_batch\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_bdp_hb_award_period"></a> [bdp\_hb\_award\_period](#module\_bdp\_hb\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bdp_hb_award_period_v2"></a> [bdp\_hb\_award\_period\_v2](#module\_bdp\_hb\_award\_period\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_api_product"></a> [bpd\_api\_product](#module\_bpd\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_bpd_hb_citizen_original"></a> [bpd\_hb\_citizen\_original](#module\_bpd\_hb\_citizen\_original) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_hb_citizen_original_v2"></a> [bpd\_hb\_citizen\_original\_v2](#module\_bpd\_hb\_citizen\_original\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_hb_payment_instruments"></a> [bpd\_hb\_payment\_instruments](#module\_bpd\_hb\_payment\_instruments) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_hb_payment_instruments_v2"></a> [bpd\_hb\_payment\_instruments\_v2](#module\_bpd\_hb\_payment\_instruments\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_hb_winning_transactions"></a> [bpd\_hb\_winning\_transactions](#module\_bpd\_hb\_winning\_transactions) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_hb_winning_transactions_v2"></a> [bpd\_hb\_winning\_transactions\_v2](#module\_bpd\_hb\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_io_award_period"></a> [bpd\_io\_award\_period](#module\_bpd\_io\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_io_award_period_v2"></a> [bpd\_io\_award\_period\_v2](#module\_bpd\_io\_award\_period\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_io_citizen"></a> [bpd\_io\_citizen](#module\_bpd\_io\_citizen) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_io_citizen_v2"></a> [bpd\_io\_citizen\_v2](#module\_bpd\_io\_citizen\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_io_winning_transactions"></a> [bpd\_io\_winning\_transactions](#module\_bpd\_io\_winning\_transactions) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_bpd_io_winning_transactions_v2"></a> [bpd\_io\_winning\_transactions\_v2](#module\_bpd\_io\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7 |  |
-| <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.11 |  |
-| <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_issuer_api_product"></a> [issuer\_api\_product](#module\_issuer\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_jumpbox"></a> [jumpbox](#module\_jumpbox) | git::https://github.com/pagopa/azurerm.git//jumpbox?ref=v1.0.7 |  |
-| <a name="module_jumpbox_snet"></a> [jumpbox\_snet](#module\_jumpbox\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.7 |  |
-| <a name="module_pm_admin_panel"></a> [pm\_admin\_panel](#module\_pm\_admin\_panel) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_pm_api_product"></a> [pm\_api\_product](#module\_pm\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.17 |  |
-| <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.7 |  |
-| <a name="module_rtd_api_product"></a> [rtd\_api\_product](#module\_rtd\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.7 |  |
-| <a name="module_wisp_api_product"></a> [wisp\_api\_product](#module\_wisp\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
+| <a name="module_acr"></a> [acr](#module\_acr) | git::https://github.com/pagopa/azurerm.git//container_registry | v1.0.7 |
+| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster | v1.0.19 |
+| <a name="module_aks_storage_account_terraform_state"></a> [aks\_storage\_account\_terraform\_state](#module\_aks\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account | v1.0.5 |
+| <a name="module_api_azureblob"></a> [api\_azureblob](#module\_api\_azureblob) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_api_bdp_info_privacy"></a> [api\_bdp\_info\_privacy](#module\_api\_bdp\_info\_privacy) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_api_bpd-io_payment_instrument"></a> [api\_bpd-io\_payment\_instrument](#module\_api\_bpd-io\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_api_bpd_io_backend_test"></a> [api\_bpd\_io\_backend\_test](#module\_api\_bpd\_io\_backend\_test) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_api_bpd_pm_payment_instrument"></a> [api\_bpd\_pm\_payment\_instrument](#module\_api\_bpd\_pm\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_api_bpd_tc"></a> [api\_bpd\_tc](#module\_api\_bpd\_tc) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management | v1.0.20 |
+| <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
+| <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent | v1.0.3 |
+| <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.3 |
+| <a name="module_batch_api_product"></a> [batch\_api\_product](#module\_batch\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
+| <a name="module_bdp_hb_award_period"></a> [bdp\_hb\_award\_period](#module\_bdp\_hb\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bdp_hb_award_period_v2"></a> [bdp\_hb\_award\_period\_v2](#module\_bdp\_hb\_award\_period\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_api_product"></a> [bpd\_api\_product](#module\_bpd\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
+| <a name="module_bpd_hb_citizen_original"></a> [bpd\_hb\_citizen\_original](#module\_bpd\_hb\_citizen\_original) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_hb_citizen_original_v2"></a> [bpd\_hb\_citizen\_original\_v2](#module\_bpd\_hb\_citizen\_original\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_hb_payment_instruments"></a> [bpd\_hb\_payment\_instruments](#module\_bpd\_hb\_payment\_instruments) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_hb_payment_instruments_v2"></a> [bpd\_hb\_payment\_instruments\_v2](#module\_bpd\_hb\_payment\_instruments\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_hb_winning_transactions"></a> [bpd\_hb\_winning\_transactions](#module\_bpd\_hb\_winning\_transactions) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_hb_winning_transactions_v2"></a> [bpd\_hb\_winning\_transactions\_v2](#module\_bpd\_hb\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_io_award_period"></a> [bpd\_io\_award\_period](#module\_bpd\_io\_award\_period) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_io_award_period_v2"></a> [bpd\_io\_award\_period\_v2](#module\_bpd\_io\_award\_period\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_io_citizen"></a> [bpd\_io\_citizen](#module\_bpd\_io\_citizen) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_io_citizen_v2"></a> [bpd\_io\_citizen\_v2](#module\_bpd\_io\_citizen\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_io_winning_transactions"></a> [bpd\_io\_winning\_transactions](#module\_bpd\_io\_winning\_transactions) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_bpd_io_winning_transactions_v2"></a> [bpd\_io\_winning\_transactions\_v2](#module\_bpd\_io\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v1.0.7 |
+| <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub | v1.0.11 |
+| <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_issuer_api_product"></a> [issuer\_api\_product](#module\_issuer\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
+| <a name="module_jumpbox"></a> [jumpbox](#module\_jumpbox) | git::https://github.com/pagopa/azurerm.git//jumpbox | v1.0.7 |
+| <a name="module_jumpbox_snet"></a> [jumpbox\_snet](#module\_jumpbox\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | git::https://github.com/pagopa/azurerm.git//key_vault | v1.0.7 |
+| <a name="module_pm_admin_panel"></a> [pm\_admin\_panel](#module\_pm\_admin\_panel) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_pm_api_product"></a> [pm\_api\_product](#module\_pm\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
+| <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server | v1.0.17 |
+| <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache | v1.0.7 |
+| <a name="module_rtd_api_product"></a> [rtd\_api\_product](#module\_rtd\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
+| <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network | v1.0.7 |
+| <a name="module_wisp_api_product"></a> [wisp\_api\_product](#module\_wisp\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
 
 ## Resources
 
@@ -82,6 +83,7 @@
 | [azurerm_key_vault_access_policy.ad_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.api_management_policy](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_certificate.apim_proxy_endpoint_cert](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_certificate) | resource |
+| [azurerm_key_vault_secret.application_insights_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.cstar_blobstorage_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/log_analytics_workspace) | resource |
@@ -143,6 +145,7 @@
 | <a name="input_app_gateway_certificate_name"></a> [app\_gateway\_certificate\_name](#input\_app\_gateway\_certificate\_name) | Application gateway certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `1` | no |
+| <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
 | <a name="input_balanced_proxy_ip"></a> [balanced\_proxy\_ip](#input\_balanced\_proxy\_ip) | n/a | `string` | `"127.0.0.1"` | no |
 | <a name="input_cidr_subnet_apim"></a> [cidr\_subnet\_apim](#input\_cidr\_subnet\_apim) | Address prefixes subnet api management. | `list(string)` | `null` | no |
 | <a name="input_db_enable_replica"></a> [db\_enable\_replica](#input\_db\_enable\_replica) | Create a PostgreSQL Server Replica. | `bool` | `false` | no |
@@ -191,7 +194,7 @@
 | <a name="output_jumphost_ip"></a> [jumphost\_ip](#output\_jumphost\_ip) | # Jumpbox ## |
 | <a name="output_jumphost_private_key"></a> [jumphost\_private\_key](#output\_jumphost\_private\_key) | n/a |
 | <a name="output_jumphost_username"></a> [jumphost\_username](#output\_jumphost\_username) | n/a |
-| <a name="output_key_vaulr_name"></a> [key\_vaulr\_name](#output\_key\_vaulr\_name) | n/a |
+| <a name="output_key_vault_name"></a> [key\_vault\_name](#output\_key\_vault\_name) | n/a |
 | <a name="output_key_vault_uri"></a> [key\_vault\_uri](#output\_key\_vault\_uri) | # key vault ## |
 | <a name="output_pm_backend_host"></a> [pm\_backend\_host](#output\_pm\_backend\_host) | n/a |
 | <a name="output_pm_client_certificate_thumbprint"></a> [pm\_client\_certificate\_thumbprint](#output\_pm\_client\_certificate\_thumbprint) | n/a |
@@ -208,3 +211,4 @@
 | <a name="output_reverse_proxy_ip"></a> [reverse\_proxy\_ip](#output\_reverse\_proxy\_ip) | n/a |
 | <a name="output_vnet_address_space"></a> [vnet\_address\_space](#output\_vnet\_address\_space) | n/a |
 | <a name="output_vnet_name"></a> [vnet\_name](#output\_vnet\_name) | n/a |
+<!-- END_TF_DOCS -->
