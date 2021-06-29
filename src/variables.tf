@@ -64,6 +64,18 @@ variable "aks_availability_zones" {
   default     = []
 }
 
+variable "aks_vm_size" {
+  type        = string
+  default     = "Standard_DS3_v2"
+  description = "The size of the AKS Virtual Machine in the Node Pool."
+}
+
+variable "aks_node_count" {
+  type        = number
+  description = "The initial number of the AKS nodes which should exist in this Node Pool."
+  default     = 1
+}
+
 variable "kubernetes_version" {
   type    = string
   default = null
