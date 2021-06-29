@@ -73,10 +73,8 @@ data "azuread_group" "adgroup_admin" {
   display_name = format("%s-adgroup-admin", local.project)
 }
 
-
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "ad_group_policy" {
-  count        = var.ad_key_vault_group_object_id != null ? 1 : 0
   key_vault_id = module.key_vault.id
 
   tenant_id = data.azurerm_client_config.current.tenant_id
