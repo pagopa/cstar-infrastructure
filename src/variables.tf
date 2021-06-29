@@ -64,6 +64,11 @@ variable "aks_availability_zones" {
   default     = []
 }
 
+variable "ad_aks_admin_group_object_id" {
+  type        = string
+  description = "ID of the Azure AD group for AKS cluster-admin access"
+}
+
 variable "aks_vm_size" {
   type        = string
   default     = "Standard_DS3_v2"
