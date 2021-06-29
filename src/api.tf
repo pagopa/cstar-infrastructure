@@ -14,7 +14,7 @@ locals {
 ###########################
 
 module "apim" {
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=fix-output-apim"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.21"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = format("%s-apim", local.project)
