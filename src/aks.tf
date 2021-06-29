@@ -20,7 +20,7 @@ module "aks" {
   private_cluster_enabled = true
 
   rbac_enabled       = true
-  aad_admin_group_id = var.ad_aks_admin_group_object_id
+  aad_admin_group_id = data.azuread_group.adgroup_admin.object_id
 
   vnet_id        = module.vnet.id
   vnet_subnet_id = module.k8s_snet.id

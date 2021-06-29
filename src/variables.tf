@@ -64,11 +64,6 @@ variable "aks_availability_zones" {
   default     = []
 }
 
-variable "ad_aks_admin_group_object_id" {
-  type        = string
-  description = "ID of the Azure AD group for AKS cluster-admin access"
-}
-
 variable "aks_vm_size" {
   type        = string
   default     = "Standard_DS3_v2"
@@ -121,14 +116,6 @@ variable "law_daily_quota_gb" {
   type        = number
   description = "The workspace daily quota for ingestion in GB."
   default     = -1
-}
-
-
-# key vault
-variable "ad_key_vault_group_object_id" {
-  type        = string
-  description = "Id active directory group allowed to query the keyault."
-  default     = null
 }
 
 ## apim 
