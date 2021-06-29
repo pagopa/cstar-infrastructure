@@ -14,6 +14,9 @@ module "aks" {
   kubernetes_version         = var.kubernetes_version
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
+  vm_size    = var.aks_vm_size
+  node_count = var.aks_node_count
+
   private_cluster_enabled = true
 
   rbac_enabled = true
