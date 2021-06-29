@@ -1,4 +1,3 @@
-ad_key_vault_group_object_id   = "3c7414d1-a2de-465f-a43c-0ffb06dd3416"
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
 apim_publisher_name            = "PagoPa Centro Stella DEV"

@@ -118,14 +118,6 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-
-# key vault
-variable "ad_key_vault_group_object_id" {
-  type        = string
-  description = "Id active directory group allowed to query the keyault."
-  default     = null
-}
-
 ## apim 
 variable "cidr_subnet_apim" {
   type        = list(string)
