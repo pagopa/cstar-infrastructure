@@ -5,4 +5,5 @@ output "azure_devops_sa_token" {
 
 output "azure_devops_sa_cacrt" {
   value     = data.kubernetes_secret.azure_devops_secret.data["ca.crt"]
+  sensitive = true
 }
