@@ -17,6 +17,8 @@ set -e
 
 COMMAND=$1
 SUBSCRIPTION=$2
+shift 2
+other=$@
 
 if [ -z "${SUBSCRIPTION}" ]; then
     printf "\e[1;31mYou must provide a subscription as first argument.\n"
@@ -61,4 +63,14 @@ terraform init \
     -backend-config="storage_account_name=${storage_account_name}" \
     -backend-config="resource_group_name=${resource_group_name}"
 
-HELM_DEBUG=1 terraform "${COMMAND}" --var-file="${WORKDIR}/subscriptions/${SUBSCRIPTION}/terraform.tfvars"
+export HELM_DEBUG=1
+if echo "plan apply refresh import output" | grep -w ${COMMAND} > /dev/null; then
+  if [ ${COMMAND} = "output" ]; then
+    terraform ${COMMAND} $other
+  else
+    terraform ${COMMAND} --var-file="${WORKDIR}/subscriptions/${SUBSCRIPTION}/terraform.tfvars" $other
+  fi
+else
+    echo "Action not allowed."
+    exit 1
+fi
