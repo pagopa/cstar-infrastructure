@@ -1,7 +1,7 @@
 resource "kubernetes_service_account" "azure_devops" {
   metadata {
     name      = "azure-devops"
-    namespace = "default"
+    namespace = "kube-system"
   }
   automount_service_account_token = false
 }
@@ -39,12 +39,13 @@ resource "kubernetes_role_binding" "deployer_binding" {
   subject {
     kind      = "ServiceAccount"
     name      = "azure-devops"
-    namespace = "default"
+    namespace = "kube-system"
   }
 }
 
 data "kubernetes_secret" "azure_devops_secret" {
   metadata {
-    name = kubernetes_service_account.azure_devops.default_secret_name
+    name      = kubernetes_service_account.azure_devops.default_secret_name
+    namespace = "kube-system"
   }
 }
