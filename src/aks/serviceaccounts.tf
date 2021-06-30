@@ -41,3 +41,9 @@ resource "kubernetes_role_binding" "deployer_binding" {
     namespace = "default"
   }
 }
+
+data "kubernetes_secret" "azure_devops_secret" {
+  metadata {
+    name = kubernetes_service_account.azure_devops.default_secret_name
+  }
+}
