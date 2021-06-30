@@ -67,7 +67,7 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
     POSTGRES_HOST             = local.postgres_hostname
     POSTGRES_RTD_HOST         = local.postgres_hostname
     POSTGRES_PASSWORD         = module.key_vault_secrets_query.values["db-rtd-password"].value
-    POSTGRES_SCHEMA           = "rtd"
+    POSTGRES_SCHEMA           = "rtd_database"
     POSTGRES_USERNAME         = format("%s@%s", module.key_vault_secrets_query.values["db-rtd-login"].value, local.postgres_hostname)
   }
 
