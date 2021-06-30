@@ -61,4 +61,4 @@ terraform init \
     -backend-config="storage_account_name=${storage_account_name}" \
     -backend-config="resource_group_name=${resource_group_name}"
 
-terraform "${COMMAND}" --var-file="${WORKDIR}/subscriptions/${SUBSCRIPTION}/terraform.tfvars"
+HELM_DEBUG=1 terraform "${COMMAND}" --var-file="${WORKDIR}/subscriptions/${SUBSCRIPTION}/terraform.tfvars"
