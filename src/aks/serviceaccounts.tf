@@ -1,24 +1,34 @@
 resource "kubernetes_service_account" "azure_devops" {
   metadata {
-    name = "azure-devops"
+    name      = "azure-devops"
+    namespace = "default"
   }
 }
 
-resource "kubernetes_cluster_role" "deployer" {
+resource "kubernetes_cluster_role" "cluster_deployer" {
   metadata {
     name = "cluster-deployer"
   }
 
   rule {
     api_groups = [""]
-    resources = ["deployments", "service"]
-    verbs = ["get", "list", "watch", "create", "update", "patch", "delete"]
+    resources  = ["services"]
+    verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
+  }
+
+  rule {
+    api_groups = ["extensions", "apps"]
+    resources  = ["deployments"]
+    verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
   }
 }
 
-resource "kubernetes_cluster_role_binding" "deployer_binding" {
+resource "kubernetes_role_binding" "deployer_binding" {
+  for_each = toset(["bpd", "rtd", "fa"])
+
   metadata {
-    name = "deployer-binding"
+    name      = "deployer-binding"
+    namespace = each.key
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
