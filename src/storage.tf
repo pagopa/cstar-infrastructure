@@ -32,6 +32,33 @@ resource "azurerm_storage_container" "aks_state" {
   container_access_type = "private"
 }
 
+## Storage account to save psql terraform state
+module "psql_storage_account_terraform_state" {
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5"
+
+  name            = replace(format("%s-sapsqlinfra", local.project), "-", "")
+  versioning_name = format("%s-sa-psqlinfra-versioning", local.project)
+
+  account_kind             = "StorageV2"
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  access_tier              = "Hot"
+  enable_versioning        = true
+  resource_group_name      = azurerm_resource_group.db_rg.name
+  location                 = var.location
+
+  tags = var.tags
+}
+
+# Container to stare the status file
+resource "azurerm_storage_container" "aks_state" {
+  depends_on = [module.psql_storage_account_terraform_state]
+
+  name                  = format("%s-psql-state", var.prefix)
+  storage_account_name  = module.psql_storage_account_terraform_state.name
+  container_access_type = "private"
+}
+
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
