@@ -18,7 +18,7 @@ terraform {
 }
 
 data "azurerm_key_vault_secret" "psql_admin_username" {
-  count = var.psql_username != null ? 1 : 0
+  count = var.psql_username != null ? 0 : 1
 
   name         = "db-administrator-login"
   key_vault_id = local.key_vault_id
@@ -26,7 +26,7 @@ data "azurerm_key_vault_secret" "psql_admin_username" {
 
 
 data "azurerm_key_vault_secret" "psql_admin_password" {
-  count = var.psql_password != null ? 1 : 0
+  count = var.psql_password != null ? 0 : 1
 
   name         = "db-administrator-login-password"
   key_vault_id = local.key_vault_id
