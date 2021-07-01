@@ -44,6 +44,7 @@ variable "users" {
     password = string
     grants = list(object({
       object_type = string
+      database    = string
       schema      = string
       privileges  = list(string)
     }))
