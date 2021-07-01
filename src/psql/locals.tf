@@ -4,12 +4,12 @@ locals {
   users_map = { for user in var.users : user.name => user }
 
   grants = { for grant in flatten([for user in var.users : [for grant in user.grants :
-   {
-    database : grant.database
-    username : user.name
-    schema : grant.schema
-    object_type : grant.object_type
-    privileges : grant.privileges
+    {
+      database : grant.database
+      username : user.name
+      schema : grant.schema
+      object_type : grant.object_type
+      privileges : grant.privileges
   }]]) : "${grant.username}_${grant.database}_${grant.schema}_${grant.object_type}" => grant }
 
   project = format("%s-%s", var.prefix, var.env_short)
