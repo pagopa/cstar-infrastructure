@@ -41,7 +41,6 @@ variable "users" {
   description = "List of users with grants."
   type = list(object({
     name     = string
-    password = string
     grants = list(object({
       object_type = string
       database    = string

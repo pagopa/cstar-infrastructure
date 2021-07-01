@@ -5,7 +5,6 @@ psql_servername = "cstar-d-postgresql"
 users = [
   {
     name     = "BPD_USER"
-    password = null
     grants = [
       {
         object_type : "table"

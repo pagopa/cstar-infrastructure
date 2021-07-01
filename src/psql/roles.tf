@@ -1,10 +1,3 @@
-resource "random_string" "user" {
-  for_each = local.users_map
-
-  length  = 16
-  special = true
-  upper   = true
-}
 
 resource "postgresql_role" "user" {
   for_each = local.users_map
@@ -16,17 +9,14 @@ resource "postgresql_role" "user" {
   create_role     = false
   inherit         = true
   replication     = false
-  password        = random_string.user[each.key].result
+  password        = data.azurerm_key_vault_secret.user_password[each.key].value
 }
 
-resource "azurerm_key_vault_secret" "user_password" {
+data "azurerm_key_vault_secret" "user_password" {
   for_each = local.users_map
 
-  #tfsec:ignore:AZU023
   name         = "db-${lower(replace(each.key, "_", "-"))}-password"
-  value        = postgresql_role.user[each.key].password
   key_vault_id = local.key_vault_id
-  content_type = "text/plain"
 }
 
 resource "postgresql_grant" "user_privileges" {

@@ -51,7 +51,7 @@ module "psql_storage_account_terraform_state" {
 }
 
 # Container to stare the status file
-resource "azurerm_storage_container" "aks_state" {
+resource "azurerm_storage_container" "psql_state" {
   depends_on = [module.psql_storage_account_terraform_state]
 
   name                  = format("%s-psql-state", var.prefix)
