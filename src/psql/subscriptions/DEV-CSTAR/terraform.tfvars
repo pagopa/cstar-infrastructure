@@ -7,6 +7,48 @@ users = [
     name = "BPD_USER"
     grants = [
       {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_award_period"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_citizen"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_dashboard_pagopa"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_error_record"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_mcc_category"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_payment_instrument"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_winning_transaction"
+        privileges  = ["USAGE"]
+      },
+      {
         object_type = "table"
         database    = "bpd"
         schema      = "bpd_award_period"
@@ -47,12 +89,6 @@ users = [
         database    = "bpd"
         schema      = "bpd_winning_transaction"
         privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
-      },
-      {
-        object_type = "schema"
-        database    = "bpd"
-        schema      = "bpd_award_period"
-        privileges  = ["USAGE"]
       }
     ]
   },
