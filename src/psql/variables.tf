@@ -30,7 +30,6 @@ variable "psql_servername" {
 
 variable "psql_username" {
   type    = string
-  default = null
 }
 
 variable "psql_password" {

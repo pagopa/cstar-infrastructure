@@ -17,10 +17,18 @@ terraform {
   }
 }
 
+data "azurerm_key_vault_secret" "psql_admin_username" {
+  count = var.psql_username != null ? 1 : 0
+
+  name         = "db-administrator-login"
+  key_vault_id = local.key_vault_id
+}
+
+
 data "azurerm_key_vault_secret" "psql_admin_password" {
   count = var.psql_password != null ? 1 : 0
 
-  name         = "db-administrator-password"
+  name         = "db-administrator-login-password"
   key_vault_id = local.key_vault_id
 }
 
@@ -28,7 +36,7 @@ data "azurerm_key_vault_secret" "psql_admin_password" {
 provider "postgresql" {
   host            = var.psql_hostname
   port            = var.psql_port
-  username        = "${var.psql_username}@${var.psql_servername}"
+  username        = "${var.psql_username != null ? var.psql_username : data.azurerm_key_vault_secret.psql_admin_username[0].value}@${var.psql_servername}"
   password        = var.psql_password != null ? var.psql_password : data.azurerm_key_vault_secret.psql_admin_password[0].value
   sslmode         = "require"
   superuser       = false
