@@ -8,7 +8,7 @@ module "key_vault_secrets_query" {
     "appinsights-instrumentation-key",
     "db-administrator-login",
     "db-bpd-login",
-    "db-bpd-password",
+    "db-bpd-user-password",
     "db-fa-login",
     "db-fa-password",
     "db-rtd-login",
