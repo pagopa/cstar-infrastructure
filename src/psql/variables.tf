@@ -41,7 +41,7 @@ variable "psql_password" {
 variable "users" {
   description = "List of users with grants."
   type = list(object({
-    name     = string
+    name = string
     grants = list(object({
       object_type = string
       database    = string

@@ -6,6 +6,7 @@ locals {
   grants = flatten([for user in var.users : [for grant in user.grants : {
     database : grant.database
     username : user.name
+    schema : grant.schema
     object_type : grant.object_type
     privileges : grant.privileges
   }]])
