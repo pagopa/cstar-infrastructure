@@ -145,7 +145,7 @@ locals {
   http_to_https_redirect_rule     = format("%s-appgw-http-to-https-redirect-rule", local.project)
 }
 
-# Multilistener configuraiton
+# Application gateway: Multilistener configuraiton
 module "app_gw" {
   source = "./modules/app_gw"
 
@@ -175,25 +175,21 @@ module "app_gw" {
   listeners = {
     app_io = {
       protocol = "Https"
-      # TO BE ASSESSED
-      # host = trimsuffix(azurerm_dns_a_record.api[0].fqdn, ".")
-      host = "dev-iocstar.pagopa.it"
-      port = 443
+      host     = format("%s-iocstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
       certificate = {
-        name = data.azurerm_key_vault_secret.app_gw_io_cstar[0].name
-        id   = trimsuffix(data.azurerm_key_vault_secret.app_gw_io_cstar[0].id, data.azurerm_key_vault_secret.app_gw_io_cstar[0].version)
+        name = azurerm_key_vault_certificate.app_gw_io_cstar.name
+        id   = azurerm_key_vault_certificate.app_gw_io_cstar.secret_id
       }
     }
 
     issuer_acquirer = {
       protocol = "Https"
-      # TO BE ASSESSED
-      # host = trimsuffix(azurerm_dns_a_record.broker[0].fqdn, ".")
-      host = "dev-cstar.pagopa.it"
-      port = 443
+      host     = format("%s-cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
       certificate = {
-        name = data.azurerm_key_vault_secret.app_gw_cstar[0].name
-        id   = trimsuffix(data.azurerm_key_vault_secret.app_gw_cstar[0].id, data.azurerm_key_vault_secret.app_gw_cstar[0].version)
+        name = azurerm_key_vault_certificate.app_gw_cstar.name
+        id   = azurerm_key_vault_certificate.app_gw_cstar.secret_id
       }
     }
   }
@@ -222,6 +218,7 @@ module "app_gw" {
 
 }
 
+/*
 resource "azurerm_application_gateway" "app_gateway" {
   name                = format("%s-api-gateway", local.project)
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -379,6 +376,8 @@ resource "azurerm_application_gateway" "app_gateway" {
 
   tags = var.tags
 }
+
+*/
 
 /*
 module "nat_gateway" {

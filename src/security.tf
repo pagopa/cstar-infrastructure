@@ -55,19 +55,17 @@ resource "azurerm_key_vault_access_policy" "terraform_cloud_policy" {
 }
 */
 
-/*
 ## user assined identity: (application gateway) ##
 resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
-  key_vault_id = azurerm_key_vault.key_vault.id
-
+  key_vault_id            = module.key_vault.id
   tenant_id               = data.azurerm_client_config.current.tenant_id
-  object_id               = azurerm_user_assigned_identity.main.principal_id
+  object_id               = azurerm_user_assigned_identity.appgateway.principal_id
   key_permissions         = ["Get", "List"]
   secret_permissions      = ["Get", "List"]
   certificate_permissions = ["Get", "List"]
   storage_permissions     = []
 }
-*/
+
 
 data "azuread_group" "adgroup_admin" {
   display_name = format("%s-adgroup-admin", local.project)
@@ -125,13 +123,6 @@ resource "azurerm_user_assigned_identity" "appgateway" {
   name                = format("%s-appgateway-identity", local.project)
 
   tags = var.tags
-}
-
-data "azurerm_key_vault_secret" "app_gw_cert" {
-  depends_on   = [azurerm_key_vault_access_policy.ad_group_policy]
-  count        = var.app_gateway_certificate_name != null ? 1 : 0
-  name         = var.app_gateway_certificate_name
-  key_vault_id = module.key_vault.id
 }
 
 resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
@@ -298,21 +289,6 @@ resource "azurerm_key_vault_certificate" "app_gw_cstar" {
       }
     }
   }
-}
-
-data "azurerm_key_vault_secret" "app_gw_io_cstar" {
-  depends_on = [azurerm_key_vault_access_policy.ad_group_policy]
-  count      = var.env_short == "d" ? 1 : 0
-  # name         = var.app_gw_io_cert_name
-  name         = azurerm_key_vault_certificate.app_gw_io_cstar.name
-  key_vault_id = module.key_vault.id
-}
-data "azurerm_key_vault_secret" "app_gw_cstar" {
-  depends_on = [azurerm_key_vault_access_policy.ad_group_policy]
-  count      = var.env_short == "d" ? 1 : 0
-  # name         = var.app_gw_cert_name
-  name         = azurerm_key_vault_certificate.app_gw_cstar.name
-  key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
