@@ -49,3 +49,21 @@ data "kubernetes_secret" "azure_devops_secret" {
     namespace = "kube-system"
   }
 }
+
+resource "azurerm_key_vault_secret" "azure_devops_sa_token" {
+  depends_on = [kubernetes_service_account.azure_devops]
+  #tfsec:ignore:AZU023
+  name         = "aks-azure-devops-sa-token"
+  value        = data.kubernetes_secret.azure_devops_secret.data["token"]
+  key_vault_id = local.key_vault_id
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "azure_devops_sa_cacrt" {
+  depends_on = [kubernetes_service_account.azure_devops]
+  #tfsec:ignore:AZU023
+  name         = "aks-azure-devops-sa-cacrt"
+  value        = data.kubernetes_secret.azure_devops_secret.data["ca.crt"]
+  key_vault_id = local.key_vault_id
+  content_type = "text/plain"
+}
