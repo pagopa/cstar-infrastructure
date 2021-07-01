@@ -12,7 +12,6 @@ variable "env_short" {
   type = string
 }
 
-
 # Network
 variable "cidr_vnet" {
   type        = list(string)
