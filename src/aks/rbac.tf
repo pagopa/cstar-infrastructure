@@ -8,18 +8,18 @@ resource "kubernetes_cluster_role" "cluster_reader" {
   }
 
   rule {
-    api_groups = ["extensions", "apps", ""]
-    resources  = ["pods", "namespaces"]
+    api_groups = [""]
+    resources  = ["namespaces", "pods", "deployments", "services", "configmaps"]
     verbs      = ["get", "list", "watch"]
   }
 }
 
-resource "kubernetes_role_binding" "reader_binding" {
-  for_each = toset(var.rbac_namespaces)
+resource "kubernetes_cluster_role_binding" "reader_binding" {
+  # for_each = toset(var.rbac_namespaces)
 
   metadata {
-    name      = "reader-binding"
-    namespace = each.key
+    name = "reader-binding"
+    # namespace = each.key
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
