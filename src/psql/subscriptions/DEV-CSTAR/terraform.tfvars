@@ -48,6 +48,12 @@ users = [
         schema      = "bpd_winning_transaction"
         privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
       },
+      {
+        object_type = "schema"
+        database    = "bpd"
+        schema      = "bpd_award_period"
+        privileges  = ["USAGE"]
+      }
     ]
   },
 ]

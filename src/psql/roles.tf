@@ -20,11 +20,11 @@ data "azurerm_key_vault_secret" "user_password" {
 }
 
 resource "postgresql_grant" "user_privileges" {
-  count = length(local.grants)
+  for_each = local.grants
 
-  database    = local.grants[count.index].database
-  schema      = local.grants[count.index].schema
-  role        = postgresql_role.user[local.grants[count.index].username].name
-  object_type = local.grants[count.index].object_type
-  privileges  = local.grants[count.index].privileges
+  database    = each.value.database
+  schema      = each.value.schema
+  role        = postgresql_role.user[each.value.username].name
+  object_type = each.value.object_type
+  privileges  = each.value.privileges
 }
