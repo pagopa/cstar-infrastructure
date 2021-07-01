@@ -6,55 +6,76 @@ ingress_replica_count    = "2"
 ingress_load_balancer_ip = "10.0.128.250"
 
 # cstariobackendtest
-configmaps_cstariobackendtest = {}
+configmaps_cstariobackendtest = {
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "cstariobackendtest"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+}
 
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod = {
-  LOG_LEVEL_BPD_AWARD_PERIOD = "DEBUG"
-  POSTGRES_POOLSIZE          = "2"
-  POSTGRES_SHOW_SQL          = "true"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardperiod"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  LOG_LEVEL_BPD_AWARD_PERIOD                        = "DEBUG"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
 }
 
 # bpdmsawardwinner
 configmaps_bpdmsawardwinner = {
-  LOG_LEVEL_BPD_AWARD_WINNER = "INFO"
-  POSTGRES_POOLSIZE          = "2"
-  POSTGRES_SHOW_SQL          = "true"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardwinner"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  LOG_LEVEL_BPD_AWARD_WINNER                        = "INFO"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
 }
 
 # bpdmscitizen
 configmaps_bpdmscitizen = {
-  CITIZEN_SECONDARY_DB_ENABLE        = "true"
-  BPD_CITIZEN_CHECKIBAN_PROXY_ENABLE = "false"
-  PAGOPA_CHECKIBAN_URL               = "https://bpd-dev.azure-api.net"
-  KAFKA_CITIZENTRX_ENABLE            = "false"
-  KAFKA_CITIZENTRX_TOPIC             = ""
-  KAFKA_POINTTRX_ENABLE              = "false"
-  KAFKA_POINTTRX_TOPIC               = ""
-  LOG_LEVEL_CITIZEN                  = "DEBUG"
-  POSTGRES_SHOW_SQL                  = "true"
-  POSTGRES_POOLSIZE                  = "2"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmscitizen"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  CITIZEN_SECONDARY_DB_ENABLE                       = "true"
+  BPD_CITIZEN_CHECKIBAN_PROXY_ENABLE                = "false"
+  PAGOPA_CHECKIBAN_URL                              = "https://bpd-dev.azure-api.net"
+  KAFKA_CITIZENTRX_ENABLE                           = "false"
+  KAFKA_CITIZENTRX_TOPIC                            = ""
+  KAFKA_POINTTRX_ENABLE                             = "false"
+  KAFKA_POINTTRX_TOPIC                              = ""
+  LOG_LEVEL_CITIZEN                                 = "DEBUG"
+  POSTGRES_SHOW_SQL                                 = "true"
+  POSTGRES_POOLSIZE                                 = "2"
 }
 
 # bpdmscitizenbatch
 configmaps_bpdmscitizenbatch = {
-  BPD_CITIZEN_CHECKIBAN_PROXY_ENABLE = "false"
-  CITIZEN_SECONDARY_DB_ENABLE        = "true"
-  KAFKA_CITIZENTRX_ENABLE            = "true"
-  KAFKA_POINTTRX_ENABLE              = "true"
-  LOG_LEVEL_CITIZEN                  = "DEBUG"
-  POSTGRES_SHOW_SQL                  = "true"
-  POSTGRES_POOLSIZE                  = "2"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmscitizenbatch"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  BPD_CITIZEN_CHECKIBAN_PROXY_ENABLE                = "false"
+  CITIZEN_SECONDARY_DB_ENABLE                       = "true"
+  KAFKA_CITIZENTRX_ENABLE                           = "true"
+  KAFKA_POINTTRX_ENABLE                             = "true"
+  LOG_LEVEL_CITIZEN                                 = "DEBUG"
+  POSTGRES_SHOW_SQL                                 = "true"
+  POSTGRES_POOLSIZE                                 = "2"
 }
 
 # bpdmsenrollment
 configmaps_bpdmsenrollment = {
-  LOG_LEVEL_FA_ENROLLMENT = "DEBUG"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsenrollment"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  LOG_LEVEL_FA_ENROLLMENT                           = "DEBUG"
 }
 
 # bpdmsnotificationmanager
 configmaps_bpdmsnotificationmanager = {
-  JAVA_TOOL_OPTIONS                                        = "-Xms128m -Xmx4g"
+  JAVA_TOOL_OPTIONS                                        = "-Xms128m -Xmx4g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                            = "bpdmsnotificationmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL        = "OFF"
   LOG_LEVEL_BPD_NOTIFICATION                               = "DEBUG"
   POSTGRES_POOLSIZE                                        = "2"
   POSTGRES_SHOW_SQL                                        = "true"
@@ -71,18 +92,27 @@ configmaps_bpdmsnotificationmanager = {
 
 # bpdmspaymentinstrument
 configmaps_bpdmspaymentinstrument = {
-  POSTGRES_POOLSIZE = "2"
-  POSTGRES_SHOW_SQL = "true"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmspaymentinstrument"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
 }
 
 # bpdmspointprocessor
 configmaps_bpdmspointprocessor = {
-  LOG_LEVEL_BPD_POINT_PROCESSOR = "DEBUG"
-  POSTGRES_SHOW_SQL             = "true"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmspointprocessor"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  LOG_LEVEL_BPD_POINT_PROCESSOR                     = "DEBUG"
+  POSTGRES_SHOW_SQL                                 = "true"
 }
 
 # bpdmsrankingprocessor
 configmaps_bpdmsrankingprocessor = {
+  JAVA_TOOL_OPTIONS                                      = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                          = "bpdmsrankingprocessor"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   CASHBACK_UPDATE_PARALLEL_ENABLE                        = "false"
   CASHBACK_UPDATE_PARTIAL_TRANSFER_DATA_EXTRACTION_LIMIT = "1000"
   CASHBACK_UPDATE_PARTIAL_TRANSFER_ENABLE                = "true"
@@ -110,17 +140,22 @@ configmaps_bpdmsrankingprocessor = {
 
 # bpdmsrankingprocessoroffline
 configmaps_bpdmsrankingprocessoroffline = {
-  LOG_LEVEL_BPD_RANKING_PROCESSOR = "INFO"
-  POSTGRES_POOLSIZE               = "2"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsrankingprocessoroffline"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  LOG_LEVEL_BPD_RANKING_PROCESSOR                   = "INFO"
+  POSTGRES_POOLSIZE                                 = "2"
 }
 
 # bpdmsrankingprocessorpoc
 configmaps_bpdmsrankingprocessorpoc = {
+  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                        = "bpdmsrankingprocessorpoc"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL    = "OFF"
   CASHBACK_UPDATE_PAYMENT_ENABLE                       = "false"
   CASHBACK_UPDATE_RETRY_LIMIT                          = "10"
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT = "2"
   CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                = "true"
-  JAVA_TOOL_OPTIONS                                    = "-Xms128m -Xmx2g"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                      = "INFO"
   MILESTONE_UPDATE_ENABLE                              = "false"
   MILESTONE_UPDATE_RETRY_LIMIT                         = "10"
@@ -135,31 +170,38 @@ configmaps_bpdmsrankingprocessorpoc = {
   REDIS_UPDATE_ENABLE                                  = "false"
   TRANSACTION_EXTR_QUERY_LOCK_ENABLE                   = "true"
   TRANSACTION_EXTR_QUERY_TRANSFER_MAX_DEPTH            = "25 months"
-
 }
 
 # bpdmstransactionerrormanager
 configmaps_bpdmstransactionerrormanager = {
-  TRXERROR_DB_NAME                        = "bpd_test"
-  KAFKA_BPDTXERR_GROUPID                  = "bpd-trx-error"
-  LOG_LEVEL_BPD_TRANSACTION_ERROR_MANAGER = "INFO"
-  POSTGRES_POOLSIZE                       = "2"
-  POSTGRES_SHOW_SQL                       = "true"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmstransactionerrormanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  TRXERROR_DB_NAME                                  = "bpd_test"
+  KAFKA_BPDTXERR_GROUPID                            = "bpd-trx-error"
+  LOG_LEVEL_BPD_TRANSACTION_ERROR_MANAGER           = "INFO"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
 }
 
 # bpdmswinningtransaction
 configmaps_bpdmswinningtransaction = {
-  ENABLE_CITIZEN_VALIDATION         = "true"
-  LOG_LEVEL_BPD_WINNING_TRANSACTION = "DEBUG"
-  POSTGRES_POOLSIZE                 = "2"
-  POSTGRES_SHOW_SQL                 = "true"
-  WINN_TRX_SECONDARY_DB_ENABLE      = "true"
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmswinningtransaction"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  ENABLE_CITIZEN_VALIDATION                         = "true"
+  LOG_LEVEL_BPD_WINNING_TRANSACTION                 = "DEBUG"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  WINN_TRX_SECONDARY_DB_ENABLE                      = "true"
 }
 
 # rtdpaymentinstrumentmanager
 configmaps_rtdpaymentinstrumentmanager = {
-  JAVA_TOOL_OPTIONS                        = "-Xms128m -Xmx2g"
-  POSTGRES_POOLSIZE                        = "2"
-  POSTGRES_SHOW_SQL                        = "true"
-  LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER = "INFO"
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "rtdpaymentinstrumentmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER          = "INFO"
 }

@@ -67,7 +67,7 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
     POSTGRES_HOST             = local.postgres_hostname
     POSTGRES_RTD_HOST         = local.postgres_hostname
     POSTGRES_PASSWORD         = module.key_vault_secrets_query.values["db-rtd-password"].value
-    POSTGRES_SCHEMA           = "rtd"
+    POSTGRES_SCHEMA           = "rtd_database"
     POSTGRES_USERNAME         = format("%s@%s", module.key_vault_secrets_query.values["db-rtd-login"].value, local.postgres_hostname)
   }
 
@@ -75,9 +75,9 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
 }
 
 # not yet used by any deployment, but maybe useful for the future
-resource "kubernetes_secret" "rtd-common-secrets" {
+resource "kubernetes_secret" "rtd-application-insights" {
   metadata {
-    name      = "rtdcommonsecrets"
+    name      = "application-insights"
     namespace = kubernetes_namespace.rtd.metadata[0].name
   }
 

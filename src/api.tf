@@ -14,7 +14,7 @@ locals {
 ###########################
 
 module "apim" {
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.7"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.21"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = format("%s-apim", local.project)
@@ -23,6 +23,8 @@ module "apim" {
   publisher_email      = var.apim_publisher_email
   sku_name             = var.apim_sku
   virtual_network_type = "Internal"
+
+  application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 
   # policy_path = "./api/base_policy.xml"
 
@@ -1082,8 +1084,9 @@ module "app_io_product" {
   approval_required     = false
 
   policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
-    env_short = var.env_short
-    host_mock = module.apim.gateway_hostname
+    env_short         = var.env_short
+    host_mock         = module.apim.gateway_hostname
+    appio_timeout_sec = var.appio_timeout_sec
   })
 }
 

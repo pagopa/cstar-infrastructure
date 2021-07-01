@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.19"
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.22"
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
@@ -14,9 +14,13 @@ module "aks" {
   kubernetes_version         = var.kubernetes_version
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
+  vm_size    = var.aks_vm_size
+  node_count = var.aks_node_count
+
   private_cluster_enabled = true
 
-  rbac_enabled = true
+  rbac_enabled       = true
+  aad_admin_group_id = data.azuread_group.adgroup_admin.object_id
 
   vnet_id        = module.vnet.id
   vnet_subnet_id = module.k8s_snet.id

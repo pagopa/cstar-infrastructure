@@ -64,6 +64,18 @@ variable "aks_availability_zones" {
   default     = []
 }
 
+variable "aks_vm_size" {
+  type        = string
+  default     = "Standard_DS3_v2"
+  description = "The size of the AKS Virtual Machine in the Node Pool."
+}
+
+variable "aks_node_count" {
+  type        = number
+  description = "The initial number of the AKS nodes which should exist in this Node Pool."
+  default     = 1
+}
+
 variable "kubernetes_version" {
   type    = string
   default = null
@@ -106,14 +118,6 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-
-# key vault
-variable "ad_key_vault_group_object_id" {
-  type        = string
-  description = "Id active directory group allowed to query the keyault."
-  default     = null
-}
-
 ## apim 
 variable "cidr_subnet_apim" {
   type        = list(string)
@@ -141,6 +145,12 @@ variable "apim_sku" {
 variable "apim_private_domain" {
   type    = string
   default = "api.cstar.pagopa.it"
+}
+
+variable "appio_timeout_sec" {
+  type        = number
+  description = "AppIo timeout (sec)"
+  default     = 5
 }
 
 variable "pm_backend_host" {

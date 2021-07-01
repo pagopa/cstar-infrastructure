@@ -8,7 +8,7 @@
         <choose>
             <!-- If API Management doesn’t find it in the cache, make a request for it and store it -->
             <when condition="@(!context.Variables.ContainsKey("fiscalCode"))">
-                <send-request mode="new" response-variable-name="tokenstate" timeout="{{AppIO_Timeout_Sec}}" ignore-error="true">
+                <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
                     %{ if env_short != "p" ~}
                       <!--MOCK UAT-->
                       <set-url>@("https://${host_mock}/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>

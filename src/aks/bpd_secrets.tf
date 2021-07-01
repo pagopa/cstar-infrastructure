@@ -180,9 +180,9 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
 }
 
 # not yet used by any deployment, but maybe useful for the future
-resource "kubernetes_secret" "bpd-common-secrets" {
+resource "kubernetes_secret" "bpd-application-insights" {
   metadata {
-    name      = "bpdcommonsecrets"
+    name      = "application-insights"
     namespace = kubernetes_namespace.bpd.metadata[0].name
   }
 
