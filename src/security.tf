@@ -62,7 +62,7 @@ resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
   object_id               = azurerm_user_assigned_identity.appgateway.principal_id
   key_permissions         = ["Get", "List"]
   secret_permissions      = ["Get", "List"]
-  certificate_permissions = ["Get", "List"]
+  certificate_permissions = ["Get", "List", "Purge"]
   storage_permissions     = []
 }
 
@@ -185,7 +185,7 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
 # Just for testing purposes. It should be substituted by a properly signed cert
 resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 
-  name         = format("%s-cert-io-cstar", local.project)
+  name         = format("%s-cert-io", local.project)
   key_vault_id = module.key_vault.id
 
   certificate_policy {
@@ -224,12 +224,12 @@ resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
         "keyEncipherment",
       ]
 
-      subject            = format("CN=%s", "dev-iocstar.pagopa.it")
+      subject            = format("CN=%s-io.cstar.pagopa.it", lower(var.tags["Environment"]))
       validity_in_months = 12
 
       subject_alternative_names {
         dns_names = [
-          "dev-iocstar.pagopa.it",
+          format("%s-io.cstar.pagopa.it", lower(var.tags["Environment"])),
         ]
       }
     }
@@ -240,7 +240,7 @@ resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 # Just for testing purposes. It should be substituted by a properly signed cert
 resource "azurerm_key_vault_certificate" "app_gw_cstar" {
 
-  name         = format("%s-cert-cstar", local.project)
+  name         = format("%s-cert", local.project)
   key_vault_id = module.key_vault.id
 
   certificate_policy {
@@ -279,12 +279,12 @@ resource "azurerm_key_vault_certificate" "app_gw_cstar" {
         "keyEncipherment",
       ]
 
-      subject            = format("CN=%s", "dev-cstar.pagopa.it")
+      subject            = format("CN=%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       validity_in_months = 12
 
       subject_alternative_names {
         dns_names = [
-          "dev-iocstar.pagopa.it",
+          format("%s.cstar.pagopa.it", lower(var.tags["Environment"])),
         ]
       }
     }

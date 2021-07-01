@@ -175,7 +175,7 @@ module "app_gw" {
   listeners = {
     app_io = {
       protocol = "Https"
-      host     = format("%s-iocstar.pagopa.it", lower(var.tags["Environment"]))
+      host     = format("%s-io.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
         name = azurerm_key_vault_certificate.app_gw_io_cstar.name
@@ -185,7 +185,7 @@ module "app_gw" {
 
     issuer_acquirer = {
       protocol = "Https"
-      host     = format("%s-cstar.pagopa.it", lower(var.tags["Environment"]))
+      host     = format("%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
         name = azurerm_key_vault_certificate.app_gw_cstar.name
