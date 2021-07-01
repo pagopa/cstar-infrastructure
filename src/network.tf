@@ -145,6 +145,80 @@ locals {
   http_to_https_redirect_rule     = format("%s-appgw-http-to-https-redirect-rule", local.project)
 }
 
+# Application gateway: Multilistener configuraiton
+module "app_gw" {
+  source = "./modules/app_gw"
+
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  location            = azurerm_resource_group.rg_vnet.location
+  name                = format("%s-app-gw", local.project)
+
+  # SKU
+  sku_name = "WAF_v2"
+  sku_tier = "WAF_v2"
+
+  # Networking
+  subnet_id    = module.appgateway-snet.id
+  public_ip_id = azurerm_public_ip.apigateway_public_ip.id
+
+  # Configure backends
+  backends = {
+    apim = {
+      protocol = "Http"
+      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port     = 80
+      probe    = "/status-0123456789abcdef"
+    }
+  }
+
+  # Configure listeners
+  listeners = {
+    app_io = {
+      protocol = "Https"
+      host     = format("%s-io.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+      certificate = {
+        name = azurerm_key_vault_certificate.app_gw_io_cstar.name
+        id   = azurerm_key_vault_certificate.app_gw_io_cstar.secret_id
+      }
+    }
+
+    issuer_acquirer = {
+      protocol = "Https"
+      host     = format("%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+      certificate = {
+        name = azurerm_key_vault_certificate.app_gw_cstar.name
+        id   = azurerm_key_vault_certificate.app_gw_cstar.secret_id
+      }
+    }
+  }
+
+  # maps listener to backend
+  routes = {
+
+    api = {
+      listener = "app_io"
+      backend  = "apim"
+    }
+
+    broker = {
+      listener = "issuer_acquirer"
+      backend  = "apim"
+    }
+  }
+
+
+  # TLS
+  identity_ids = [azurerm_user_assigned_identity.appgateway.id]
+
+  # Scaling
+  app_gateway_min_capacity = "1"
+  app_gateway_max_capacity = "2"
+
+}
+
+/*
 resource "azurerm_application_gateway" "app_gateway" {
   name                = format("%s-api-gateway", local.project)
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -302,6 +376,8 @@ resource "azurerm_application_gateway" "app_gateway" {
 
   tags = var.tags
 }
+
+*/
 
 /*
 module "nat_gateway" {
