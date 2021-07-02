@@ -13,11 +13,22 @@ resource "kubernetes_cluster_role" "cluster_reader" {
     verbs      = ["get", "list", "watch"]
   }
 
+  dynamic "rule" {
+    for_each = var.env_short == "d" ? [""] : []
+
+    content {
+      api_groups = [""]
+      resources  = ["secrets"]
+      verbs      = ["get", "list", "watch"]
+    }
+  }
+
   rule {
     api_groups = ["extensions", "apps"]
     resources  = ["deployments", "replicasets"]
     verbs      = ["get", "list", "watch"]
   }
+
   rule {
     api_groups = ["networking.k8s.io"]
     resources  = ["ingresses"]
