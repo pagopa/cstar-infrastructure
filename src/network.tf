@@ -179,7 +179,7 @@ module "app_gw" {
       port     = 443
       certificate = {
         name = azurerm_key_vault_certificate.app_gw_io_cstar.name
-        id   = azurerm_key_vault_certificate.app_gw_io_cstar.secret_id
+        id   = trimsuffix(azurerm_key_vault_certificate.app_gw_io_cstar.secret_id, azurerm_key_vault_certificate.app_gw_io_cstar.version)
       }
     }
 
@@ -189,7 +189,7 @@ module "app_gw" {
       port     = 443
       certificate = {
         name = azurerm_key_vault_certificate.app_gw_cstar.name
-        id   = azurerm_key_vault_certificate.app_gw_cstar.secret_id
+        id   = trimsuffix(azurerm_key_vault_certificate.app_gw_cstar.secret_id, azurerm_key_vault_certificate.app_gw_cstar.version)
       }
     }
   }
