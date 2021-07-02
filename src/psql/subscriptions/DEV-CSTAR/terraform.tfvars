@@ -58,7 +58,7 @@ users = [
         object_type = "table"
         database    = "bpd"
         schema      = "bpd_citizen"
-        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE"]
       },
       {
         object_type = "table"
