@@ -12,7 +12,7 @@ module "key_vault_secrets_query" {
     "db-fa-login",
     "db-fa-password",
     "db-rtd-login",
-    "db-rtd-password",
+    "db-rtd-user-password",
     "evh-bpd-winner-outcome-award-winner-key",
     "evh-bpd-citizen-trx-bpd-citizen-key",
     "evh-bpd-citizen-trx-bpd-payment-instrument-key",
