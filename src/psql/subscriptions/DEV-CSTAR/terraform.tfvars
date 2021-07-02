@@ -92,4 +92,21 @@ users = [
       }
     ]
   },
+  {
+    name = "RTD_USER"
+    grants = [
+      {
+        object_type = "schema"
+        database = "rtd"
+        schema = "rtd_database"
+        privileges = ["USAGE"]
+      },
+      {
+        object_type = "table"
+        database    = "rtd"
+        schema      = "rtd_database"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      }
+    ]
+  }
 ]
