@@ -9,7 +9,13 @@ resource "kubernetes_cluster_role" "cluster_reader" {
 
   rule {
     api_groups = [""]
-    resources  = ["namespaces", "pods", "deployments", "services", "configmaps"]
+    resources  = ["namespaces", "pods", "pods/log", "services", "configmaps"]
+    verbs      = ["get", "list", "watch"]
+  }
+  
+  rule {
+    api_groups = ["extensions", "apps"]
+    resources  = ["deployments", "replicasets"]
     verbs      = ["get", "list", "watch"]
   }
 }
