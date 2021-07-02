@@ -1,6 +1,14 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/hashicorp/azuread" {
+  version     = "1.6.0"
+  constraints = "1.6.0"
+  hashes = [
+    "h1:+8Cs8ACb9DnDF8lw8pPLlsGxw+QW5fyjG6H6kszCavU=",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/azurerm" {
   version     = "2.60.0"
   constraints = "~> 2.60.0"

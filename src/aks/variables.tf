@@ -35,6 +35,10 @@ variable "k8s_apiserver_insecure" {
   default = false
 }
 
+variable "rbac_namespaces" {
+  type = list(string)
+}
+
 variable "event_hub_port" {
   type    = number
   default = 9093
