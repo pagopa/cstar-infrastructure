@@ -159,7 +159,7 @@ pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
 }
-reverse_proxy_ip = "10.0.128.250"
+reverse_proxy_ip = "10.230.8.250"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
