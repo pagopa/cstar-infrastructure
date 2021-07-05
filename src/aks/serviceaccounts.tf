@@ -25,7 +25,7 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 }
 
 resource "kubernetes_role_binding" "deployer_binding" {
-  for_each = toset(["bpd", "rtd", "fa"])
+  for_each = toset(var.rbac_namespaces)
 
   metadata {
     name      = "deployer-binding"

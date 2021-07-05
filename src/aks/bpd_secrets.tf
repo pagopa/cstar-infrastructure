@@ -163,7 +163,7 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
     #principal database hostname or ip
     POSTGRES_HOST = local.postgres_hostname
     #principal database password
-    POSTGRES_PASSWORD = module.key_vault_secrets_query.values["db-bpd-password"].value
+    POSTGRES_PASSWORD = module.key_vault_secrets_query.values["db-bpd-user-password"].value
     #principal database username
     POSTGRES_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
     #replica database name
@@ -171,7 +171,7 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
     #replica database hostname or ip
     POSTGRES_REPLICA_HOST = local.postgres_replica_hostname
     #replica database password
-    POSTGRES_REPLICA_PASSWORD = module.key_vault_secrets_query.values["db-bpd-password"].value
+    POSTGRES_REPLICA_PASSWORD = module.key_vault_secrets_query.values["db-bpd-user-password"].value
     #replica database username
     POSTGRES_REPLICA_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_replica_hostname)
   }

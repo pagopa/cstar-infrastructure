@@ -45,17 +45,17 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
   data = {
     POSTGRES_AWARD_DB_NAME    = "bpd"
     POSTGRES_AWARD_HOST       = local.postgres_hostname
-    POSTGRES_AWARD_PASSWORD   = module.key_vault_secrets_query.values["db-bpd-password"].value
+    POSTGRES_AWARD_PASSWORD   = module.key_vault_secrets_query.values["db-bpd-user-password"].value
     POSTGRES_AWARD_SCHEMA     = "bpd_award_period"
     POSTGRES_AWARD_USERNAME   = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
     POSTGRES_BPD_DB_NAME      = "bpd"
     POSTGRES_BPD_HOST         = local.postgres_hostname
-    POSTGRES_BPD_PASSWORD     = module.key_vault_secrets_query.values["db-bpd-password"].value
+    POSTGRES_BPD_PASSWORD     = module.key_vault_secrets_query.values["db-bpd-user-password"].value
     POSTGRES_BPD_SCHEMA       = "bpd_payment_instrument"
     POSTGRES_BPD_USERNAME     = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
     POSTGRES_CITIZEN_DB_NAME  = "bpd"
     POSTGRES_CITIZEN_HOST     = local.postgres_hostname
-    POSTGRES_CITIZEN_PASSWORD = module.key_vault_secrets_query.values["db-bpd-password"].value
+    POSTGRES_CITIZEN_PASSWORD = module.key_vault_secrets_query.values["db-bpd-user-password"].value
     POSTGRES_CITIZEN_SCHEMA   = "bpd_citizen"
     POSTGRES_CITIZEN_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
     POSTGRES_FA_DB_NAME       = "fa"
@@ -66,7 +66,7 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
     POSTGRES_DB_NAME          = "rtd"
     POSTGRES_HOST             = local.postgres_hostname
     POSTGRES_RTD_HOST         = local.postgres_hostname
-    POSTGRES_PASSWORD         = module.key_vault_secrets_query.values["db-rtd-password"].value
+    POSTGRES_PASSWORD         = module.key_vault_secrets_query.values["db-rtd-user-password"].value
     POSTGRES_SCHEMA           = "rtd_database"
     POSTGRES_USERNAME         = format("%s@%s", module.key_vault_secrets_query.values["db-rtd-login"].value, local.postgres_hostname)
   }

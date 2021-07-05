@@ -5,6 +5,8 @@ env_short = "d"
 ingress_replica_count    = "2"
 ingress_load_balancer_ip = "10.0.128.250"
 
+rbac_namespaces = ["bpd", "rtd", "fa"]
+
 # cstariobackendtest
 configmaps_cstariobackendtest = {
   JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
