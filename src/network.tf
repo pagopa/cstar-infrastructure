@@ -216,6 +216,8 @@ module "app_gw" {
   app_gateway_min_capacity = "1"
   app_gateway_max_capacity = "2"
 
+
+  tags = var.tags
 }
 
 /*
