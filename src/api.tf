@@ -59,7 +59,7 @@ module "api_azureblob" {
   description  = ""
   display_name = "azureblob"
   path         = "pagopastorage"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/pagopastorage", var.reverse_proxy_ip)
 
@@ -85,7 +85,7 @@ module "api_bdp_info_privacy" {
   description  = ""
   display_name = "BPD Info Privacy"
   path         = "cstar-bpd"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
 
@@ -116,7 +116,7 @@ module "api_bpd-io_payment_instrument" {
   description  = "Api and Models"
   display_name = "BPD IO Payment Instrument API"
   path         = "bpd/io/payment-instruments"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -152,7 +152,7 @@ module "api_bpd_pm_payment_instrument" {
   description  = ""
   display_name = "BPD PM Payment Instrument"
   path         = "bpd/pm/payment-instrument"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -176,7 +176,7 @@ module "api_bpd_io_backend_test" {
   description  = "TEST IO Backend API server."
   display_name = "BPD IO Backend TEST API"
   path         = "bpd/pagopa/api/v1"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
 
@@ -208,7 +208,7 @@ module "api_bpd_tc" {
   description  = "Api and Models"
   display_name = "BPD TC API"
   path         = "bpd/tc"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
   azurerm_storage_container.bpd_terms_and_conditions.name)
@@ -243,7 +243,7 @@ module "rtd_payment_instrument" {
   description  = ""
   display_name = "RTD Payment Instrument API"
   path         = "rtd/payment-instruments"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -271,7 +271,7 @@ module "rtd_payment_instrument_manager" {
   description  = ""
   display_name = "RTD Payment Instrument Manager API"
   path         = "rtd/payment-instrument-manager"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
 
@@ -301,7 +301,7 @@ module "pm_admin_panel" {
   description  = ""
   display_name = "pm-admin-panel"
   path         = "backoffice"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/backoffice", var.reverse_proxy_ip)
 
@@ -350,7 +350,7 @@ module "bpd_hb_citizen_original" {
   description  = "Api and Models"
   display_name = "BPD HB Citizen API"
   path         = "bpd/hb/citizens"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
@@ -402,7 +402,7 @@ module "bpd_hb_citizen_original_v2" {
   description  = "Api and Models"
   display_name = "BPD HB Citizen API"
   path         = "bpd/hb/citizens"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
@@ -463,7 +463,7 @@ module "bpd_hb_payment_instruments" {
   description  = ""
   display_name = "BPD HB Payment Instruments API"
   path         = "bpd/hb/payment-instruments"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -578,7 +578,7 @@ module "bpd_hb_payment_instruments_v2" {
   description  = ""
   display_name = "BPD HB Payment Instruments API"
   path         = "bpd/hb/payment-instruments"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -651,7 +651,7 @@ module "bpd_hb_winning_transactions" {
   description  = "Api and Models"
   display_name = "BPD HB Winning Transactions API"
   path         = "bpd/hb/winning-transactions"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
@@ -686,7 +686,7 @@ module "bpd_hb_winning_transactions_v2" {
   description  = "Api and Models"
   display_name = "BPD HB Winning Transactions API"
   path         = "bpd/hb/winning-transactions"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("https://%s/bpd/hb/winning-transactions/v2", var.reverse_proxy_ip)
 
@@ -731,7 +731,7 @@ module "bpd_io_award_period" {
   description  = "findAll"
   display_name = "BPD IO Award Period API"
   path         = "bpd/io/award-periods"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
@@ -764,7 +764,7 @@ module "bpd_io_award_period_v2" {
   description  = "findAll"
   display_name = "BPD IO Award Period API"
   path         = "bpd/io/award-periods"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
@@ -806,7 +806,7 @@ module "bpd_io_citizen" {
   description  = "Api and Models"
   display_name = "BPD IO Citizen API"
   path         = "bpd/io/citizen"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
@@ -859,7 +859,7 @@ module "bpd_io_citizen_v2" {
   description  = "Api and Models"
   display_name = "BPD IO Citizen API"
   path         = "bpd/io/citizen"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
@@ -925,7 +925,7 @@ module "bdp_hb_award_period" {
   description  = "Api and Models"
   display_name = "BPD HB Award Period API"
   path         = "bpd/hb/award-periods"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
@@ -960,7 +960,7 @@ module "bdp_hb_award_period_v2" {
   description  = "Api and Models"
   display_name = "BPD HB Award Period API"
   path         = "bpd/hb/award-periods"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
@@ -1003,7 +1003,7 @@ module "bpd_io_winning_transactions" {
   description  = "Api and Models"
   display_name = "BPD IO Winning Transactions API"
   path         = "bpd/io/winning-transactions"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
@@ -1038,7 +1038,7 @@ module "bpd_io_winning_transactions_v2" {
   description  = "Api and Models"
   display_name = "BPD IO Winning Transactions API"
   path         = "bpd/io/winning-transactions"
-  protocols    = ["https"]
+  protocols    = ["https", "http"]
 
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 

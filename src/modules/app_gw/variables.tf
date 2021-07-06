@@ -76,3 +76,7 @@ variable "app_gateway_max_capacity" {
 variable "app_gateway_min_capacity" {
   type = string
 }
+
+variable "tags" {
+  type = map(any)
+}
