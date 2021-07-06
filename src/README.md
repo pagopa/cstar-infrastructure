@@ -62,6 +62,7 @@
 | <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.17 |  |
 | <a name="module_psql_storage_account_terraform_state"></a> [psql\_storage\_account\_terraform\_state](#module\_psql\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5 |  |
 | <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.7 |  |
+| <a name="module_route_table_peering_sia"></a> [route\_table\_peering\_sia](#module\_route\_table\_peering\_sia) | git::https://github.com/pagopa/azurerm.git//route_table?ref=v1.0.25 |  |
 | <a name="module_rtd_api_product"></a> [rtd\_api\_product](#module\_rtd\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
 | <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
