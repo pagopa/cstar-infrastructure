@@ -97,9 +97,9 @@ users = [
     grants = [
       {
         object_type = "schema"
-        database = "rtd"
-        schema = "rtd_database"
-        privileges = ["USAGE"]
+        database    = "rtd"
+        schema      = "rtd_database"
+        privileges  = ["USAGE"]
       },
       {
         object_type = "table"

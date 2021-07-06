@@ -64,7 +64,7 @@ terraform init \
     -backend-config="resource_group_name=${resource_group_name}"
 
 export HELM_DEBUG=1
-if echo "plan apply refresh import output" | grep -w ${COMMAND} > /dev/null; then
+if echo "plan apply refresh import output destroy" | grep -w ${COMMAND} > /dev/null; then
   if [ ${COMMAND} = "output" ]; then
     terraform ${COMMAND} $other
   else

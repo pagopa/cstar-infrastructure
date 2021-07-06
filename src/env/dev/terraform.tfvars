@@ -5,20 +5,22 @@ apim_sku                       = "Developer_1"
 app_gateway_host_name          = "api.cstar-dev.pagopa.it"
 azdoa_scaleset_li_public_key   = "sensitive"
 balanced_proxy_ip              = "127.0.0.1"
-cidr_subnet_apim               = ["10.0.1.0/24"]
-cidr_subnet_appgateway         = ["10.0.4.0/24"]
-cidr_subnet_azdoa              = ["10.0.250.0/24"]
-cidr_subnet_db                 = ["10.0.0.0/24"]
-cidr_subnet_eventhub           = ["10.0.5.0/24"]
-cidr_subnet_jumpbox            = ["10.0.2.0/24"]
-cidr_subnet_k8s                = ["10.0.128.0/22"]
-cidr_vnet                      = ["10.0.0.0/16"]
-db_sku_name                    = "GP_Gen5_2"
-db_enable_replica              = true
-dns_zone_prefix                = "cstar-dev"
-ehns_sku_name                  = "Standard"
-enable_azdoa                   = true
-env_short                      = "d"
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=31.d6627231
+cidr_vnet              = ["10.230.8.0/21"]
+cidr_subnet_k8s        = ["10.230.8.0/22"]
+cidr_subnet_appgateway = ["10.230.12.0/24"]
+cidr_subnet_apim       = ["10.230.13.0/26"]
+cidr_subnet_db         = ["10.230.13.64/26"]
+cidr_subnet_eventhub   = ["10.230.13.128/27"]
+cidr_subnet_azdoa      = ["10.230.13.160/27"]
+cidr_subnet_jumpbox    = ["10.230.13.192/27"]
+
+db_sku_name       = "GP_Gen5_2"
+db_enable_replica = true
+dns_zone_prefix   = "cstar-dev"
+ehns_sku_name     = "Standard"
+enable_azdoa      = true
+env_short         = "d"
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
@@ -157,7 +159,9 @@ pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
 }
-reverse_proxy_ip = "10.0.128.250"
+
+# This is the k8s ingress controller ip. It must be in the aks subnet range.  
+reverse_proxy_ip = "10.230.8.250"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"

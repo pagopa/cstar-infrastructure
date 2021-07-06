@@ -3,7 +3,7 @@ env_short = "d"
 
 # ingress
 ingress_replica_count    = "2"
-ingress_load_balancer_ip = "10.0.128.250"
+ingress_load_balancer_ip = "10.230.8.250"
 
 rbac_namespaces = ["bpd", "rtd", "fa"]
 
