@@ -89,11 +89,11 @@ output "apim_private_ip_addresses" {
 }
 
 output "apim_gateway_url" {
-  value = module.apim.gateway_url
+  value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name)
 }
 
 output "apim_gateway_hostname" {
-  value = regex("https?://([\\d\\w\\-\\.]+)", module.apim.gateway_url)[0]
+  value = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
 }
 
 ## Application gateway.
