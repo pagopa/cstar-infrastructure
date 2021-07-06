@@ -244,28 +244,28 @@ module "route_table_peering_sia" {
 
   routes = [{
     # production
-    name                   = "to-centro-stella-prod-subnet"
+    name                   = "to-sia-prod-subnet"
     address_prefix         = "10.70.132.0/24"
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = "10.70.249.10"
     },
     {
       # uat
-      name                   = "to-centro-stella-uat-subnet"
+      name                   = "to-sia-uat-subnet"
       address_prefix         = "10.70.67.0/24"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
     },
     {
       # uat
-      name                   = "to-apim-centro-stella-uat-subnet"
+      name                   = "to-apim-sia-uat-subnet"
       address_prefix         = "10.70.66.0/24"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
     },
     {
       # prod
-      name                   = "to-apim-centro-stella-prod-subnet"
+      name                   = "to-apim-sia-prod-subnet"
       address_prefix         = "10.70.133.0/24"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
