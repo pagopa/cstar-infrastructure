@@ -159,6 +159,8 @@ pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
 }
+
+# This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.230.8.250"
 tags = {
   CreatedBy   = "Terraform"
