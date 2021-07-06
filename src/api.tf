@@ -61,7 +61,7 @@ module "api_azureblob" {
   path         = "pagopastorage"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/pagopastorage", var.reverse_proxy_ip)
+  service_url = format("http://%s/pagopastorage", var.reverse_proxy_ip)
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/openapi.json.tpl", {
@@ -178,7 +178,7 @@ module "api_bpd_io_backend_test" {
   path         = "bpd/pagopa/api/v1"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
+  service_url = format("http://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_backend_test/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -352,7 +352,7 @@ module "bpd_hb_citizen_original" {
   path         = "bpd/hb/citizens"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
+  service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_hb_citizen/original/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -404,7 +404,7 @@ module "bpd_hb_citizen_original_v2" {
   path         = "bpd/hb/citizens"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
+  service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
   content_format = "openapi"
   content_value = templatefile(format("./api/bpd_hb_citizen/v2/openapi.json.tpl"), {
@@ -465,7 +465,7 @@ module "bpd_hb_payment_instruments" {
   path         = "bpd/hb/payment-instruments"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_hb_payment_instruments/original/openapi.json.tpl", {
@@ -580,7 +580,7 @@ module "bpd_hb_payment_instruments_v2" {
   path         = "bpd/hb/payment-instruments"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
+  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_hb_payment_instruments/v2/openapi.json.tpl", {
@@ -653,7 +653,7 @@ module "bpd_hb_winning_transactions" {
   path         = "bpd/hb/winning-transactions"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
+  service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_hb_winning_transactions/original/swagger.json.tpl", {
     host = module.apim.gateway_hostname
@@ -688,7 +688,7 @@ module "bpd_hb_winning_transactions_v2" {
   path         = "bpd/hb/winning-transactions"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/bpd/hb/winning-transactions/v2", var.reverse_proxy_ip)
+  service_url = format("http://%s/bpd/hb/winning-transactions/v2", var.reverse_proxy_ip)
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_hb_winning_transactions/v2/openapi.json.tpl", {
