@@ -71,6 +71,7 @@ module "api_azureblob" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.rtd_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = []
 }
@@ -127,6 +128,7 @@ module "api_bpd-io_payment_instrument" {
   xml_content = file("./api/bpd_io_payment_instrument/policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -164,6 +166,7 @@ module "api_bpd_pm_payment_instrument" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.pm_api_product.product_id]
+  subscription_required = true
 }
 
 module "api_bpd_io_backend_test" {
@@ -255,6 +258,7 @@ module "rtd_payment_instrument" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.batch_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = []
 }
@@ -284,6 +288,7 @@ module "rtd_payment_instrument_manager" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.rtd_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = []
 }
@@ -313,6 +318,7 @@ module "pm_admin_panel" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.wisp_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -361,6 +367,7 @@ module "bpd_hb_citizen_original" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -414,6 +421,7 @@ module "bpd_hb_citizen_original_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -475,6 +483,7 @@ module "bpd_hb_payment_instruments" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -590,6 +599,7 @@ module "bpd_hb_payment_instruments_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -662,6 +672,7 @@ module "bpd_hb_winning_transactions" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -698,6 +709,7 @@ module "bpd_hb_winning_transactions_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -742,6 +754,7 @@ module "bpd_io_award_period" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -776,6 +789,7 @@ module "bpd_io_award_period_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -817,6 +831,7 @@ module "bpd_io_citizen" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -871,6 +886,7 @@ module "bpd_io_citizen_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -937,6 +953,7 @@ module "bdp_hb_award_period" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -972,6 +989,7 @@ module "bdp_hb_award_period_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.issuer_api_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -1014,6 +1032,7 @@ module "bpd_io_winning_transactions" {
   xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
@@ -1050,6 +1069,7 @@ module "bpd_io_winning_transactions_v2" {
   xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
 
   product_ids = [module.app_io_product.product_id]
+  subscription_required = true
 
   api_operation_policies = [
     {
