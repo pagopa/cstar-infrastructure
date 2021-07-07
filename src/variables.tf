@@ -189,11 +189,6 @@ variable "app_gateway_certificate_name" {
   default     = null
 }
 
-variable "app_gateway_host_name" {
-  type        = string
-  description = "Application gateway host name"
-}
-
 variable "app_gateway_min_capacity" {
   type    = number
   default = 1
