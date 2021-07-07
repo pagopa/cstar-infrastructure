@@ -82,6 +82,12 @@
 | [azurerm_api_management_api_version_set.bpd_io_winning_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_custom_domain.api_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/api_management_custom_domain) | resource |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/application_insights) | resource |
+| [azurerm_dns_a_record.dns-a-developer-production-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns-a-developer-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns-a-management-production-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns-a-management-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns-a-prod-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns-a-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_ns_record.cstar_dev_pagopa_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/dns_zone) | resource |
 | [azurerm_key_vault_access_policy.ad_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_access_policy) | resource |
