@@ -259,7 +259,7 @@ module "route_table_peering_sia" {
     {
       # uat
       name                   = "to-apim-sia-uat-subnet"
-      address_prefix         = "10.70.66.0/24"
+      address_prefix         = "10.70.65.0/24"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
     },
