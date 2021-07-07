@@ -1085,7 +1085,7 @@ module "app_io_product" {
 
   policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
     env_short         = var.env_short
-    host_mock         = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    reverse_proxy_ip  = var.reverse_proxy_ip
     appio_timeout_sec = var.appio_timeout_sec
   })
 }
@@ -1121,7 +1121,7 @@ module "bpd_api_product" {
   subscription_required = false
   approval_required     = false
 
-  policy_xml = file("./api_product/batch_api/policy.xml")
+  policy_xml = file("./api_product/bpd_api/policy.xml")
 }
 
 module "issuer_api_product" {
