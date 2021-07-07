@@ -1085,7 +1085,7 @@ module "app_io_product" {
 
   policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
     env_short         = var.env_short
-    host_mock         = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    reverse_proxy_ip  = var.reverse_proxy_ip
     appio_timeout_sec = var.appio_timeout_sec
   })
 }
