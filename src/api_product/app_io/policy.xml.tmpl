@@ -10,8 +10,8 @@
             <when condition="@(!context.Variables.ContainsKey("fiscalCode"))">
                 <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
                     %{ if env_short != "p" ~}
-                      <!--MOCK UAT-->
-                      <set-url>@("https://${host_mock}/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
+                      <!--MOCK-->
+                      <set-url>@("http://${host_mock}/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
                       <set-method>GET</set-method>
                     %{ else ~}
                       <!--AppIO Produzione-->
