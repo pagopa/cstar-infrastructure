@@ -185,7 +185,7 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
 # Just for testing purposes. It should be substituted by a properly signed cert
 resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 
-  name         = format("%s-cert-io", local.project)
+  name         = format("%s-cert-api-io", local.project)
   key_vault_id = module.key_vault.id
 
   certificate_policy {
@@ -224,12 +224,12 @@ resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
         "keyEncipherment",
       ]
 
-      subject            = format("CN=%s-io.cstar.pagopa.it", lower(var.tags["Environment"]))
+      subject            = var.env_short == "p" ? "CN=api-io.cstar.pagopa.it" : format("CN=api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       validity_in_months = 12
 
       subject_alternative_names {
         dns_names = [
-          format("%s-io.cstar.pagopa.it", lower(var.tags["Environment"])),
+          var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"])),
         ]
       }
     }
@@ -240,7 +240,7 @@ resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 # Just for testing purposes. It should be substituted by a properly signed cert
 resource "azurerm_key_vault_certificate" "app_gw_cstar" {
 
-  name         = format("%s-cert", local.project)
+  name         = format("%s-cert-api", local.project)
   key_vault_id = module.key_vault.id
 
   certificate_policy {
@@ -279,12 +279,12 @@ resource "azurerm_key_vault_certificate" "app_gw_cstar" {
         "keyEncipherment",
       ]
 
-      subject            = format("CN=%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      subject            = var.env_short == "p" ? "CN=api.%s.cstar.pagopa.it" : format("CN=api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       validity_in_months = 12
 
       subject_alternative_names {
         dns_names = [
-          format("%s.cstar.pagopa.it", lower(var.tags["Environment"])),
+          var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"])),
         ]
       }
     }

@@ -17,7 +17,7 @@ cidr_subnet_jumpbox    = ["10.230.13.192/27"]
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
-dns_zone_prefix   = "cstar-dev"
+dns_zone_prefix   = "dev.cstar"
 ehns_sku_name     = "Standard"
 enable_azdoa      = true
 env_short         = "d"
