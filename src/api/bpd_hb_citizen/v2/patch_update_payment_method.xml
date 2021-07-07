@@ -13,7 +13,7 @@
 <policies>
     <inbound>
         <base />
-        <set-variable name="v_fiscalcode" value="@(context.Request.Body.As<JObject>(preserveContent: true)["id"])" />
+        <set-variable name="v_fiscalcode" value="@((string)context.Request.Body.As<JObject>(preserveContent: true)["id"])" />
         <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcitizen")" caching-type="external" />
         <rewrite-uri template="@("/"+(string)context.Variables["v_fiscalcode"])" copy-unmatched-params="true" />
     </inbound>
