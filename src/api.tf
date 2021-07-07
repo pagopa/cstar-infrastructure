@@ -1121,7 +1121,7 @@ module "bpd_api_product" {
   subscription_required = false
   approval_required     = false
 
-  policy_xml = file("./api_product/batch_api/policy.xml")
+  policy_xml = file("./api_product/bpd_api/policy.xml")
 }
 
 module "issuer_api_product" {
