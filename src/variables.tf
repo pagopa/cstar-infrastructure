@@ -51,6 +51,12 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
+variable "dns_default_ttl_sec" {
+  type        = number
+  description = "value"
+  default     = 3600
+}
+
 ## AKS ## 
 variable "cidr_subnet_k8s" {
   type        = list(string)
