@@ -9,7 +9,7 @@ resource "azurerm_dns_zone" "public" {
 # Dev public DNS delegation
 resource "azurerm_dns_ns_record" "cstar_dev_pagopa_it_ns" {
   count               = var.env_short == "p" ? 1 : 0
-  name                = format("%s-dev-ns-record", local.project)
+  name                = "dev"
   zone_name           = azurerm_dns_zone.public[0].name
   resource_group_name = azurerm_resource_group.rg_vnet.name
   records = [
@@ -22,7 +22,7 @@ resource "azurerm_dns_ns_record" "cstar_dev_pagopa_it_ns" {
   tags = var.tags
 }
 
-## Prod records 
+## Prod ONLY records 
 resource "azurerm_dns_a_record" "dns-a-prod-cstar" {
   count               = var.env_short == "p" ? 1 : 0
   name                = "prod"
@@ -75,6 +75,25 @@ resource "azurerm_dns_a_record" "dns-a-management-test-cstar" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = var.dns_default_ttl_sec
   records             = ["104.45.74.7"]
+  tags                = var.tags
+}
+
+# application gateway records
+resource "azurerm_dns_a_record" "dns_a_appgw_api" {
+  name                = "api"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = [azurerm_public_ip.apigateway_public_ip.ip_address]
+  tags                = var.tags
+}
+
+resource "azurerm_dns_a_record" "dns_a_appgw_api_io" {
+  name                = "api-io"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = [azurerm_public_ip.apigateway_public_ip.ip_address]
   tags                = var.tags
 }
 

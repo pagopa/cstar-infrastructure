@@ -105,6 +105,14 @@ output "app_gateway_fqdn" {
   value = azurerm_public_ip.apigateway_public_ip.fqdn
 }
 
+output "api_fqdn" {
+  value = azurerm_dns_a_record.dns_a_appgw_api.fqdn
+}
+
+output "api_io_fqdn" {
+  value = azurerm_dns_a_record.dns_a_appgw_api_io.fqdn
+}
+
 output "balanced_proxy_ip" {
   value = var.balanced_proxy_ip
 }
