@@ -16,10 +16,10 @@ cidr_subnet_jumpbox    = ["10.230.13.192/27"]
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
-dns_zone_prefix   = "dev.cstar"
+dns_zone_prefix   = "cstar"
 ehns_sku_name     = "Standard"
 enable_azdoa      = true
-env_short         = "d"
+env_short         = "p"
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
@@ -163,7 +163,7 @@ pm_ip_filter_range = {
 reverse_proxy_ip = "10.230.8.250"
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
+  Environment = "Prod"
   Owner       = "cstar"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"

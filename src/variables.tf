@@ -51,6 +51,12 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
+variable "dns_default_ttl_sec" {
+  type        = number
+  description = "value"
+  default     = 3600
+}
+
 ## AKS ## 
 variable "cidr_subnet_k8s" {
   type        = list(string)
@@ -181,11 +187,6 @@ variable "app_gateway_certificate_name" {
   type        = string
   description = "Application gateway certificate name on Key Vault"
   default     = null
-}
-
-variable "app_gateway_host_name" {
-  type        = string
-  description = "Application gateway host name"
 }
 
 variable "app_gateway_min_capacity" {
