@@ -20,7 +20,7 @@
                 <choose>
                     <when condition="@(!context.Variables.ContainsKey("salt"))">
                         <send-request mode="new" response-variable-name="saltPMResponse" timeout="${pm-timeout-sec}" ignore-error="true">
-                            <set-url>@("https://${pm-backend-host}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
+                            <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
                             <set-method>GET</set-method>
                             <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
                         </send-request>

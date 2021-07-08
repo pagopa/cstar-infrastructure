@@ -121,8 +121,8 @@ output "reverse_proxy_ip" {
   value = var.reverse_proxy_ip
 }
 
-output "pm_backend_host" {
-  value = var.pm_backend_host
+output "pm_backend_url" {
+  value = var.pm_backend_url
 }
 
 output "pm_client_certificate_thumbprint" {
