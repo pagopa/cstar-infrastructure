@@ -178,8 +178,8 @@ module "app_gw" {
       host     = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
-        name = azurerm_key_vault_certificate.app_gw_io_cstar.name
-        id   = trimsuffix(azurerm_key_vault_certificate.app_gw_io_cstar.secret_id, azurerm_key_vault_certificate.app_gw_io_cstar.version)
+        name = var.app_gateway_api_io_certificate_name != null ? var.app_gateway_api_io_certificate_name : azurerm_key_vault_certificate.app_gw_io_cstar[0].name
+        id   = var.app_gateway_api_io_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_io_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id, azurerm_key_vault_certificate.app_gw_io_cstar[0].version)
       }
     }
 
@@ -188,8 +188,8 @@ module "app_gw" {
       host     = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
-        name = azurerm_key_vault_certificate.app_gw_cstar.name
-        id   = trimsuffix(azurerm_key_vault_certificate.app_gw_cstar.secret_id, azurerm_key_vault_certificate.app_gw_cstar.version)
+        name = var.app_gateway_api_certificate_name != null ? var.app_gateway_api_certificate_name : azurerm_key_vault_certificate.app_gw_cstar[0].name
+        id   = var.app_gateway_api_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, azurerm_key_vault_certificate.app_gw_cstar[0].version)
       }
     }
   }

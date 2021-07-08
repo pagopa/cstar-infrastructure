@@ -180,11 +180,8 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
     }
   }
 }
-
-# This certificate is used to enable HTTPS on the App Gw listener which is used by IO APP
-# Just for testing purposes. It should be substituted by a properly signed cert
 resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
-
+  count        = var.app_gateway_api_io_certificate_name != null ? 0 : 1
   name         = format("%s-cert-api-io", local.project)
   key_vault_id = module.key_vault.id
 
@@ -236,10 +233,8 @@ resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   }
 }
 
-# This certificate is used to enable HTTPS on the App Gw listener which is used by Issuers and Acquirers
-# Just for testing purposes. It should be substituted by a properly signed cert
 resource "azurerm_key_vault_certificate" "app_gw_cstar" {
-
+  count        = var.app_gateway_api_certificate_name != null ? 0 : 1
   name         = format("%s-cert-api", local.project)
   key_vault_id = module.key_vault.id
 
@@ -289,6 +284,18 @@ resource "azurerm_key_vault_certificate" "app_gw_cstar" {
       }
     }
   }
+}
+
+data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
+  count        = var.app_gateway_api_io_certificate_name != null ? 1 : 0
+  name         = var.app_gateway_api_io_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_certificate" "app_gw_cstar" {
+  count        = var.app_gateway_api_certificate_name != null ? 1 : 0
+  name         = var.app_gateway_api_certificate_name
+  key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
