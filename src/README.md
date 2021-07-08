@@ -130,6 +130,8 @@
 | [azurerm_user_assigned_identity.appgateway](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/user_assigned_identity) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/group) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/client_config) | data source |
+| [azurerm_key_vault_certificate.app_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_certificate) | data source |
+| [azurerm_key_vault_certificate.app_gw_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
@@ -161,6 +163,8 @@
 | <a name="input_aks_num_outbound_ips"></a> [aks\_num\_outbound\_ips](#input\_aks\_num\_outbound\_ips) | How many outbound ips allocate for AKS cluster | `number` | `1` | no |
 | <a name="input_aks_vm_size"></a> [aks\_vm\_size](#input\_aks\_vm\_size) | The size of the AKS Virtual Machine in the Node Pool. | `string` | `"Standard_DS3_v2"` | no |
 | <a name="input_apim_private_domain"></a> [apim\_private\_domain](#input\_apim\_private\_domain) | n/a | `string` | `"api.cstar.pagopa.it"` | no |
+| <a name="input_app_gateway_api_certificate_name"></a> [app\_gateway\_api\_certificate\_name](#input\_app\_gateway\_api\_certificate\_name) | Application gateway api certificate name on Key Vault | `string` | `null` | no |
+| <a name="input_app_gateway_api_io_certificate_name"></a> [app\_gateway\_api\_io\_certificate\_name](#input\_app\_gateway\_api\_io\_certificate\_name) | Application gateway api io certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_certificate_name"></a> [app\_gateway\_certificate\_name](#input\_app\_gateway\_certificate\_name) | Application gateway certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `1` | no |
