@@ -89,6 +89,12 @@ users = [
         database    = "bpd"
         schema      = "bpd_winning_transaction"
         privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_payment_instrument"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
       }
     ]
   },
