@@ -14,7 +14,7 @@ cidr_subnet_eventhub   = ["10.230.13.128/27"]
 cidr_subnet_azdoa      = ["10.230.13.160/27"]
 cidr_subnet_jumpbox    = ["10.230.13.192/27"]
 
-devops_service_connection_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
+devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
@@ -155,7 +155,7 @@ eventhubs = [
       }
 ] }]
 external_domain = "pagopa.it"
-pm_backend_url = "http://10.230.8.250/cstariobackendtest"
+pm_backend_url  = "http://10.230.8.250/cstariobackendtest"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
