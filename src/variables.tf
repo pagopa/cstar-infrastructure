@@ -189,6 +189,12 @@ variable "app_gateway_certificate_name" {
   default     = null
 }
 
+variable "devops_service_connection_object_id" {
+  type        = string
+  description = "Azure deveops service connection id."
+  default     = null
+}
+
 variable "app_gateway_min_capacity" {
   type    = number
   default = 1
