@@ -26,7 +26,7 @@ return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding
 
 }" />
         <send-request mode="new" response-variable-name="walletresponse" timeout="${PM-Timeout-Sec}" ignore-error="true">
-            <set-url>@("https://${PM-backend-host}/pp-admin-panel/v1/external/walletv2")</set-url>
+            <set-url>@("${pm-backend-url}/pp-admin-panel/v1/external/walletv2")</set-url>
             <set-method>GET</set-method>
             <set-header name="Authorization" exists-action="override">
                 <value>@(context.Variables.GetValueOrDefault<string>("basicAuthDetails"))</value>

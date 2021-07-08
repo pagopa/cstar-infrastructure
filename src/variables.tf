@@ -158,9 +158,9 @@ variable "appio_timeout_sec" {
   default     = 5
 }
 
-variable "pm_backend_host" {
+variable "pm_backend_url" {
   type        = string
-  description = "Payment manager backend host"
+  description = "Payment manager backend url"
 }
 
 variable "pm_timeout_sec" {

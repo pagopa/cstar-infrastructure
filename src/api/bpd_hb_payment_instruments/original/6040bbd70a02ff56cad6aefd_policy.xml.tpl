@@ -22,7 +22,7 @@
                 <set-variable name="additionalInfo" value="@(context.Request.Body.As<JObject>(preserveContent: true)["additionalInfo"])" />
                 <set-variable name="additionalInfo2" value="@(context.Request.Body.As<JObject>(preserveContent: true)["additionalInfo2"])" />
                 <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
-                    <set-url>@("https://${pm-backend-host}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
+                    <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
                     <set-method>POST</set-method>
                     <set-header name="Content-Type" exists-action="override">
                         <value>application/json</value>
