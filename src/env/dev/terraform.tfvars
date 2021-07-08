@@ -14,6 +14,8 @@ cidr_subnet_eventhub   = ["10.230.13.128/27"]
 cidr_subnet_azdoa      = ["10.230.13.160/27"]
 cidr_subnet_jumpbox    = ["10.230.13.192/27"]
 
+devops_service_connection_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
+
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
 dns_zone_prefix   = "dev.cstar"

@@ -87,13 +87,13 @@ resource "azurerm_key_vault_access_policy" "ad_group_policy" {
   ]
 }
 
-/*
+
 ## azure devops ##
 resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
-  count        = var.cert_renew_app_object_id == null ? 0 : 1
-  key_vault_id = azurerm_key_vault.key_vault.id
+  count        = var.devops_service_connection_id == null ? 0 : 1
+  key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = var.cert_renew_app_object_id
+  object_id    = var.devops_service_connection_id
 
   key_permissions = [
     "Get",
@@ -115,7 +115,7 @@ resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
     "Import",
   ]
 }
-*/
+
 
 resource "azurerm_user_assigned_identity" "appgateway" {
   resource_group_name = azurerm_resource_group.sec_rg.name
