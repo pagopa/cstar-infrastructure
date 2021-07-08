@@ -760,7 +760,9 @@ module "bpd_io_award_period" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content  = file("./api/bpd_io_award_period/original/findAllUsingGET_policy.xml")
+      xml_content  = templatefile("./api/bpd_io_award_period/original/findAllUsingGET_policy.xml.tmpl", {
+                         env_short         = var.env_short
+                       })
     }
   ]
 }
@@ -795,7 +797,9 @@ module "bpd_io_award_period_v2" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content  = file("./api/bpd_io_award_period/v2/findAllUsingGET_policy.xml")
+      xml_content  =  templatefile("./api/bpd_io_award_period/v2/findAllUsingGET_policy.xml.tmpl", {
+                                  env_short         = var.env_short
+                                })
     }
   ]
 }
