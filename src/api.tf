@@ -325,7 +325,7 @@ module "pm_admin_panel" {
     {
       operation_id = "walletv2",
       xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml.tpl", {
-        PM-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         PM-Timeout-Sec                       = var.pm_timeout_sec
         BPD-PM-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         PM-Ip-Filter-From                    = var.pm_ip_filter_range.from
@@ -491,7 +491,7 @@ module "bpd_hb_payment_instruments" {
       # Del BPay deletePaymentInstrumentHB
       operation_id = "5fdb377a52411ce8e7b9d5f6",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb377a52411ce8e7b9d5f6_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -500,7 +500,7 @@ module "bpd_hb_payment_instruments" {
       # Get BPay statusPaymentInstrumentHB
       operation_id = "5fdb37ee7e211f8e0ac2dc45",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -509,7 +509,7 @@ module "bpd_hb_payment_instruments" {
       # Del deletePaymentInstrumentHB
       operation_id = "deletepaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -518,7 +518,7 @@ module "bpd_hb_payment_instruments" {
       # put enrollPaymentInstrumentHB
       operation_id = "enrollPaymentInstrumentHB",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/enrollPaymentInstrumentHB_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
@@ -528,7 +528,7 @@ module "bpd_hb_payment_instruments" {
       # put enrollPaymentInstrumentHB BPay
       operation_id = "5f98984972e5123d4571984b",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5f98984972e5123d4571984b_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
@@ -538,7 +538,7 @@ module "bpd_hb_payment_instruments" {
       # put enrollPaymentInstrumentHB BPay
       operation_id = "5faade7fc12a87300a91769a",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5faade7fc12a87300a91769a_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
@@ -548,7 +548,7 @@ module "bpd_hb_payment_instruments" {
       # put enrollPaymentInstrumentHB Other
       operation_id = "6040bbd70a02ff56cad6aefd",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/6040bbd70a02ff56cad6aefd_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
@@ -558,7 +558,7 @@ module "bpd_hb_payment_instruments" {
       # put enrollPaymentInstrumentHB Satispay
       operation_id = "5fabb9644b1afaae5cc91a19",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fabb9644b1afaae5cc91a19_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         reverse-proxy-ip                     = var.reverse_proxy_ip
@@ -568,7 +568,7 @@ module "bpd_hb_payment_instruments" {
       # get statusPaymentInstrumentHB
       operation_id = "statuspaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -607,7 +607,7 @@ module "bpd_hb_payment_instruments_v2" {
       # BPay deletePaymentInstrumentHB
       operation_id = "5fdb377a52411ce8e7b9d5f6",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -616,7 +616,7 @@ module "bpd_hb_payment_instruments_v2" {
       # Get BPay statusPaymentInstrumentHB
       operation_id = "5fdb37ee7e211f8e0ac2dc45",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -625,7 +625,7 @@ module "bpd_hb_payment_instruments_v2" {
       # Del deletePaymentInstrumentHB
       operation_id = "deletepaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -634,7 +634,7 @@ module "bpd_hb_payment_instruments_v2" {
       # get statusPaymentInstrumentHB
       operation_id = "statuspaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-host                      = var.pm_backend_host,
+        pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
@@ -760,7 +760,9 @@ module "bpd_io_award_period" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content  = file("./api/bpd_io_award_period/original/findAllUsingGET_policy.xml")
+      xml_content = templatefile("./api/bpd_io_award_period/original/findAllUsingGET_policy.xml.tmpl", {
+        env_short = var.env_short
+      })
     }
   ]
 }
@@ -795,7 +797,9 @@ module "bpd_io_award_period_v2" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content  = file("./api/bpd_io_award_period/v2/findAllUsingGET_policy.xml")
+      xml_content = templatefile("./api/bpd_io_award_period/v2/findAllUsingGET_policy.xml.tmpl", {
+        env_short = var.env_short
+      })
     }
   ]
 }

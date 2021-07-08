@@ -1,0 +1,60 @@
+<!--
+   IMPORTANT:
+   - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.
+   - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.
+   - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.
+   - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.
+   - To remove a policy, delete the corresponding policy statement from the policy document.
+   - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.
+   - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.
+   - Policies are applied in the order of their appearance, from the top down.
+   - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
+-->
+<policies>
+    <inbound>
+        <base />
+        %{ if env_short == "p" ~}
+            <return-response>
+                <set-status code="200" reason="OK" />
+                <set-header name="Content-Type" exists-action="override">
+                    <value>application/json</value>
+                </set-header>
+                <set-body>[     {         "awardPeriodId": 1,         "startDate": "2020-12-08",         "endDate": "2020-12-31",         "minTransactionNumber": 10,         "maxAmount": 0,         "minPosition": 0,         "maxTransactionCashback": 15,         "maxPeriodCashback": 150,         "cashbackPercentage": 10,         "gracePeriod": 10,         "status": "CLOSED",         "maxTransactionEvaluated": 150     },     {         "awardPeriodId": 4,         "startDate": "2022-01-01",         "endDate": "2022-06-30",         "minTransactionNumber": 50,         "maxAmount": 1500,         "minPosition": 100000,         "maxTransactionCashback": 15,         "maxPeriodCashback": 150,         "cashbackPercentage": 10,         "gracePeriod": 15,         "status": "ACTIVE",         "maxTransactionEvaluated": 150     },     {         "awardPeriodId": 2,         "startDate": "2021-01-01",         "endDate": "2021-06-30",         "minTransactionNumber": 50,         "maxAmount": 1500,         "minPosition": 100000,         "maxTransactionCashback": 15,         "maxPeriodCashback": 150,         "cashbackPercentage": 10,         "gracePeriod": 15,         "status": "CLOSED",         "maxTransactionEvaluated": 150     } ]</set-body>
+            </return-response>
+            <!--<cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" caching-type="internal" />-->
+            <choose>
+                <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
+                    <return-response response-variable-name="awardPeriodsResponse" />
+                </when>
+            </choose>
+        %{ else ~}
+            <cache-lookup-value key="awardPeriodsResponseV2" variable-name="awardPeriodsResponseV2" caching-type="internal" />
+            <choose>
+                <!-- If API Management find it in the cache, make a request for it and store it -->
+                <when condition="@(context.Variables.ContainsKey("awardPeriodsResponseV2"))">
+                    <return-response response-variable-name="awardPeriodsResponseV2" />
+                </when>
+                <otherwise>
+                    <set-query-parameter name="version" exists-action="override">
+                        <value>2</value>
+                    </set-query-parameter>
+                </otherwise>
+            </choose>
+        %{ endif ~}
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <!-- Store result in cache -->
+                <cache-store-value key="awardPeriodsResponseV2" value="@(context.Response)" duration="3600" caching-type="internal" />
+            </when>
+        </choose>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

@@ -29,7 +29,7 @@
                 <set-variable name="flagPreferredPaymentPI" value="@(context.Request.Body.As<JObject>(preserveContent: true)["infoPaymentInstrument"]["flagPreferredPaymentPI"])" />
                 <set-variable name="flagPreferredIncomingPI" value="@(context.Request.Body.As<JObject>(preserveContent: true)["infoPaymentInstrument"]["flagPreferredIncomingPI"])" />
                 <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
-                    <set-url>@("https://${pm-backend-host}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
+                    <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
                     <set-method>POST</set-method>
                     <set-header name="Content-Type" exists-action="override">
                         <value>application/json</value>

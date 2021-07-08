@@ -158,9 +158,9 @@ variable "appio_timeout_sec" {
   default     = 5
 }
 
-variable "pm_backend_host" {
+variable "pm_backend_url" {
   type        = string
-  description = "Payment manager backend host"
+  description = "Payment manager backend url"
 }
 
 variable "pm_timeout_sec" {
@@ -183,6 +183,17 @@ variable "enable_custom_dns" {
   description = "Enable application gateway custom domain."
 }
 
+variable "app_gateway_certificate_name" {
+  type        = string
+  description = "Application gateway certificate name on Key Vault"
+  default     = null
+}
+
+variable "devops_service_connection_object_id" {
+  type        = string
+  description = "Azure deveops service connection id."
+  default     = null
+}
 variable "app_gateway_min_capacity" {
   type    = number
   default = 1
