@@ -89,7 +89,49 @@ users = [
         database    = "bpd"
         schema      = "bpd_winning_transaction"
         privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
-      }
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_award_period"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_citizen"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_dashboard_pagopa"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_error_record"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_mcc_category"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_payment_instrument"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
+      {
+        object_type = "sequence"
+        database    = "bpd"
+        schema      = "bpd_winning_transaction"
+        privileges  = ["USAGE", "SELECT", "UPDATE"]
+      },
     ]
   },
   {
