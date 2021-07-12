@@ -25,7 +25,7 @@
 | <a name="module_api_bpd_io_backend_test"></a> [api\_bpd\_io\_backend\_test](#module\_api\_bpd\_io\_backend\_test) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_api_bpd_pm_payment_instrument"></a> [api\_bpd\_pm\_payment\_instrument](#module\_api\_bpd\_pm\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_api_bpd_tc"></a> [api\_bpd\_tc](#module\_api\_bpd\_tc) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.21 |  |
+| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.26 |  |
 | <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
 | <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | ./modules/app_gw |  |
 | <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
@@ -67,6 +67,8 @@
 | <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.7 |  |
+| <a name="module_vnet_integration"></a> [vnet\_integration](#module\_vnet\_integration) | git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.26 |  |
+| <a name="module_vnet_peering"></a> [vnet\_peering](#module\_vnet\_peering) | git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30 |  |
 | <a name="module_wisp_api_product"></a> [wisp\_api\_product](#module\_wisp\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
 
 ## Resources
@@ -146,6 +148,7 @@
 | <a name="input_apim_publisher_name"></a> [apim\_publisher\_name](#input\_apim\_publisher\_name) | n/a | `string` | n/a | yes |
 | <a name="input_apim_sku"></a> [apim\_sku](#input\_apim\_sku) | n/a | `string` | n/a | yes |
 | <a name="input_azdoa_scaleset_li_public_key"></a> [azdoa\_scaleset\_li\_public\_key](#input\_azdoa\_scaleset\_li\_public\_key) | Azure DevOps agent public key. | `string` | n/a | yes |
+| <a name="input_cidr_integration_vnet"></a> [cidr\_integration\_vnet](#input\_cidr\_integration\_vnet) | Virtual network to peer with sia subscription. It should host apim and event hub. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_appgateway"></a> [cidr\_subnet\_appgateway](#input\_cidr\_subnet\_appgateway) | Application gateway address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_db"></a> [cidr\_subnet\_db](#input\_cidr\_subnet\_db) | Database network address space. | `list(string)` | n/a | yes |
