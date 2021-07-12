@@ -291,7 +291,21 @@ module "rtd_payment_instrument_manager" {
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "get-hash-salt",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+      })
+    },
+    {
+      operation_id = "get-hashed-pans",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans_policy.xml.tpl", {
+        host = trim(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")
+      })
+    },
+  ]
 }
 
 

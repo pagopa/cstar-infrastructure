@@ -104,7 +104,8 @@
 | [azurerm_key_vault_secret.cstar_blobstorage_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/log_analytics_workspace) | resource |
-| [azurerm_monitor_action_group.p0action](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_postgresql_database.bpd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/postgresql_database) | resource |
 | [azurerm_postgresql_database.fa_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/postgresql_database) | resource |
 | [azurerm_postgresql_database.rtd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/postgresql_database) | resource |
@@ -137,6 +138,7 @@
 | [azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
