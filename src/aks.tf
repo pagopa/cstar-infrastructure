@@ -27,11 +27,11 @@ module "aks" {
 
   network_profile = {
     docker_bridge_cidr = "172.17.0.1/16"
-    dns_service_ip     = "10.1.0.10"
+    dns_service_ip     = "10.2.0.10"
     network_plugin     = "azure"
     network_policy     = null
     outbound_type      = "loadBalancer"
-    service_cidr       = "10.1.0.0/16"
+    service_cidr       = "10.2.0.0/16"
   }
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
