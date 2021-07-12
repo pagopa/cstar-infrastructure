@@ -2,8 +2,7 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
 apim_publisher_name            = "PagoPa Centro Stella DEV"
 apim_sku                       = "Developer_1"
-azdoa_scaleset_li_public_key   = "sensitive"
-balanced_proxy_ip              = "127.0.0.1"
+
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=31.d6627231
 cidr_vnet              = ["10.230.8.0/21"]
 cidr_subnet_k8s        = ["10.230.8.0/22"]
@@ -18,10 +17,81 @@ devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
-dns_zone_prefix   = "dev.cstar"
-ehns_sku_name     = "Standard"
-enable_azdoa      = true
-env_short         = "d"
+db_metric_alerts = {
+  cpu = {
+    aggregation = "Average"
+    metric_name = "cpu_percent"
+    operator    = "GreaterThan"
+    threshold   = 70
+    frequency   = "PT1M"
+    window_size = "PT5M"
+    dimension   = {}
+  }
+  memory = {
+    aggregation = "Average"
+    metric_name = "memory_percent"
+    operator    = "GreaterThan"
+    threshold   = 75
+    frequency   = "PT1M"
+    window_size = "PT5M"
+    dimension   = {}
+  }
+  io = {
+    aggregation = "Average"
+    metric_name = "io_consumption_percent"
+    operator    = "GreaterThan"
+    threshold   = 55
+    frequency   = "PT1M"
+    window_size = "PT5M"
+    dimension   = {}
+  }
+  # https://docs.microsoft.com/it-it/azure/postgresql/concepts-limits
+  # GP_Gen5_2 -| 145 / 100 * 80 = 116
+  # GP_Gen5_32 -| 1495 / 100 * 80 = 1196
+  max_active_connections = {
+    aggregation = "Average"
+    metric_name = "active_connections"
+    operator    = "GreaterThan"
+    threshold   = 116
+    frequency   = "PT5M"
+    window_size = "PT5M"
+    dimension   = {}
+  }
+  min_active_connections = {
+    aggregation = "Average"
+    metric_name = "active_connections"
+    operator    = "LessThanOrEqual"
+    threshold   = 0
+    frequency   = "PT5M"
+    window_size = "PT15M"
+    dimension   = {}
+  }
+  failed_connections = {
+    aggregation = "Total"
+    metric_name = "connections_failed"
+    operator    = "GreaterThan"
+    threshold   = 10
+    frequency   = "PT5M"
+    window_size = "PT15M"
+    dimension   = {}
+  }
+  replica_lag = {
+    aggregation = "Average"
+    metric_name = "pg_replica_log_delay_in_seconds"
+    operator    = "GreaterThan"
+    threshold   = 60
+    frequency   = "PT1M"
+    window_size = "PT5M"
+    dimension   = {}
+  }
+}
+
+dns_zone_prefix = "dev.cstar"
+
+ehns_sku_name = "Standard"
+enable_azdoa  = true
+env_short     = "d"
+
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
@@ -155,7 +225,10 @@ eventhubs = [
       }
 ] }]
 external_domain = "pagopa.it"
-pm_backend_url  = "http://10.230.8.250/cstariobackendtest/pagopa-mock"
+
+monitor_notification_email = "matteo.gazzetta@bitrock.it"
+
+pm_backend_url = "http://10.230.8.250/cstariobackendtest/pagopa-mock"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"

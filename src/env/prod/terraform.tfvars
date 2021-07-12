@@ -2,8 +2,8 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
 apim_publisher_name            = "PagoPa Centro Stella DEV"
 apim_sku                       = "Developer_1"
-azdoa_scaleset_li_public_key   = "sensitive"
-balanced_proxy_ip              = "127.0.0.1"
+
+
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=31.d6627231
 cidr_vnet              = ["10.230.8.0/21"]
 cidr_subnet_k8s        = ["10.230.8.0/22"]
