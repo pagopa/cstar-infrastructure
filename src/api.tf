@@ -335,6 +335,38 @@ module "pm_admin_panel" {
   ]
 }
 
+## pm-api ##
+module "pm_api" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+
+  name                = "pm-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = ""
+  display_name = "pm-api"
+  path         = "pm-proxy"
+  protocols    = ["https", "http"]
+
+  service_url = format("%s", var.pm_backend_url)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/pm_proxy/open_api_rtd_1.7.1.yaml.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = templatefile("./api/pm_proxy/base_policy.xml", {
+    pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+  })
+
+  product_ids           = []
+  subscription_required = false
+
+  api_operation_policies = []
+}
+
+
 # Version sets (APIs with version) #
 
 ## BPD HB Citizen API

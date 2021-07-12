@@ -155,7 +155,8 @@ eventhubs = [
       }
 ] }]
 external_domain = "pagopa.it"
-pm_backend_url  = "http://10.230.8.250/cstariobackendtest"
+pm_backend_url  = "http://10.230.8.250/cstariobackendtest/pagopa-mock"
+pm_backend_proxy_url  = "http://10.230.13.5/pm-proxy"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"

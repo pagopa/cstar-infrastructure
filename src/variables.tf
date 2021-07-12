@@ -163,6 +163,11 @@ variable "pm_backend_url" {
   description = "Payment manager backend url"
 }
 
+variable "pm_backend_proxy_url" {
+  type        = string
+  description = "Payment manager backend proxy url"
+}
+
 variable "pm_timeout_sec" {
   type        = number
   description = "Payment manager timeout (sec)"

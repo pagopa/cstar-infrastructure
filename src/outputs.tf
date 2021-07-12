@@ -125,6 +125,10 @@ output "pm_backend_url" {
   value = var.pm_backend_url
 }
 
+output "pm_backend_proxy_url" {
+  value = var.pm_backend_proxy_url
+}
+
 output "pm_client_certificate_thumbprint" {
   value     = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
   sensitive = true
