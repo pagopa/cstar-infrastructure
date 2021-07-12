@@ -361,7 +361,7 @@ module "pm_api" {
   })
 
   product_ids           = []
-  subscription_required = false
+  subscription_required = true
 
   api_operation_policies = []
 }
