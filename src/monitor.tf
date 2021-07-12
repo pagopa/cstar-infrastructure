@@ -34,3 +34,15 @@ resource "azurerm_key_vault_secret" "application_insights_key" {
 
   key_vault_id = module.key_vault.id
 }
+
+resource "azurerm_monitor_action_group" "p0action" {
+  name                = "CriticalAlertsAction"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  short_name          = "p0action"
+
+  email_receiver {
+    name                    = "sendnotification"
+    email_address           = var.monitor_notification_email
+    use_common_alert_schema = true
+  }
+}
