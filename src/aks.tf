@@ -29,7 +29,7 @@ module "aks" {
     docker_bridge_cidr = "172.17.0.1/16"
     dns_service_ip     = "10.2.0.10"
     network_plugin     = "azure"
-    network_policy     = null
+    network_policy     = "azure"
     outbound_type      = "loadBalancer"
     service_cidr       = "10.2.0.0/16"
   }

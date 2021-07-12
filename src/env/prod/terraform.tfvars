@@ -26,6 +26,10 @@ dns_zone_prefix   = "cstar"
 enable_azdoa      = true
 env_short         = "p"
 
+aks_availability_zones = [1, 2, 3]
+aks_node_count         = 6
+aks_vm_size            = "Standard_DS8_v3"
+
 ehns_sku_name                 = "Standard"
 ehns_capacity                 = 5
 ehns_auto_inflate_enabled     = true
@@ -33,8 +37,8 @@ ehns_maximum_throughput_units = 5
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
-    partitions        = 1
-    message_retention = 1
+    partitions        = 32
+    message_retention = 7
     consumers         = ["bpd-citizen"]
     keys = [
       {
@@ -53,8 +57,8 @@ eventhubs = [
   },
   {
     name              = "bpd-trx"
-    partitions        = 1
-    message_retention = 1
+    partitions        = 32
+    message_retention = 7
     consumers         = ["bpd-point-processor"]
     keys = [
       {
@@ -79,8 +83,8 @@ eventhubs = [
   },
   {
     name              = "bpd-trx-cashback"
-    partitions        = 1
-    message_retention = 1
+    partitions        = 32
+    message_retention = 7
     consumers         = ["bpd-winning-transaction"]
     keys = [{
       name   = "bpd-point-processor"
@@ -97,8 +101,8 @@ eventhubs = [
   ] },
   {
     name              = "bpd-trx-error"
-    partitions        = 1
-    message_retention = 1
+    partitions        = 3
+    message_retention = 7
     consumers         = ["bpd-transaction-error-manager"]
     keys = [
       {
@@ -121,8 +125,8 @@ eventhubs = [
       }
   ] },
   { name              = "bpd-winner-outcome"
-    partitions        = 1
-    message_retention = 1
+    partitions        = 32
+    message_retention = 7
     consumers         = []
     keys = [
       {
@@ -145,8 +149,8 @@ eventhubs = [
   }] },
   {
     name              = "rtd-trx"
-    partitions        = 1
-    message_retention = 1
+    partitions        = 32
+    message_retention = 7
     consumers         = ["bpd-payment-instrument"]
     keys = [
       {
