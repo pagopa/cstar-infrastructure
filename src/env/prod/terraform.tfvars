@@ -1,25 +1,35 @@
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
-apim_publisher_name            = "PagoPa Centro Stella DEV"
-apim_sku                       = "Developer_1"
+apim_publisher_name            = "PagoPa Centro Stella PROD"
+apim_sku                       = "Premium_1"
 azdoa_scaleset_li_public_key   = "sensitive"
 balanced_proxy_ip              = "127.0.0.1"
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=31.d6627231
-cidr_vnet              = ["10.230.8.0/21"]
-cidr_subnet_k8s        = ["10.230.8.0/22"]
-cidr_subnet_appgateway = ["10.230.12.0/24"]
-cidr_subnet_apim       = ["10.230.13.0/26"]
-cidr_subnet_db         = ["10.230.13.64/26"]
-cidr_subnet_eventhub   = ["10.230.13.128/27"]
-cidr_subnet_azdoa      = ["10.230.13.160/27"]
-cidr_subnet_jumpbox    = ["10.230.13.192/27"]
+cidr_vnet                      = ["10.1.0.0/16"]
+
+cidr_subnet_k8s        = ["10.1.0.0/17"]
+cidr_subnet_appgateway = ["10.1.128.0/24"]
+cidr_subnet_db         = ["10.1.129.0/24"]
+cidr_subnet_azdoa      = ["10.1.130.0/24"]
+cidr_subnet_jumpbox    = ["10.1.131.0/24"]
+
+# integration vnet
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
+cidr_integration_vnet = ["10.230.6.0/24"]
+cidr_subnet_apim      = ["10.230.6.0/26"]
+cidr_subnet_eventhub  = ["10.230.6.64/26"]
+
+# devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
 dns_zone_prefix   = "cstar"
-ehns_sku_name     = "Standard"
 enable_azdoa      = true
 env_short         = "p"
+
+ehns_sku_name                 = "Standard"
+ehns_capacity                 = 5
+ehns_auto_inflate_enabled     = true
+ehns_maximum_throughput_units = 5
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
@@ -153,14 +163,19 @@ eventhubs = [
       }
 ] }]
 external_domain = "pagopa.it"
-pm_backend_url  = "https://127.0.0.1"
+#TODO pm ip uat?
+pm_backend_url = "http://10.230.8.250/cstariobackendtest"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
 }
 
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
-reverse_proxy_ip = "10.230.8.250"
+reverse_proxy_ip = "10.1.0.250"
+
+# Note: removing these will create self signed certificates
+# app_gateway_api_certificate_name    = "api-dev-cstar-pagopa-it"
+# app_gateway_api_io_certificate_name = "api-io-dev-cstar-pagopa-it"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"
