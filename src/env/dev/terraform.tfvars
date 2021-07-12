@@ -226,7 +226,7 @@ eventhubs = [
 ] }]
 external_domain = "pagopa.it"
 
-monitor_notification_email = "matteo.gazzetta@bitrock.it"
+monitor_notification_email = "io-operations@pagopa.it"
 
 pm_backend_url = "http://10.230.8.250/cstariobackendtest/pagopa-mock"
 pm_ip_filter_range = {

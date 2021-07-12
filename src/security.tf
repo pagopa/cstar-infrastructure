@@ -302,3 +302,8 @@ data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
   name         = "BPD-PM-client-certificate-thumbprint"
   key_vault_id = module.key_vault.id
 }
+
+data "azurerm_key_vault_secret" "monitor_notification_slack_email" {
+  name         = "monitor-notification-slack-email"
+  key_vault_id = module.key_vault.id
+}
