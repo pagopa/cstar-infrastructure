@@ -87,7 +87,7 @@ module "apim_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                 = format("%s-apim-snet", local.project)
   resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
+  virtual_network_name = module.vnet_integration.name
   address_prefixes     = var.cidr_subnet_apim
 
   service_endpoints = ["Microsoft.Web"]
@@ -110,14 +110,14 @@ module "eventhub_snet" {
 module "vnet_peering" {
   source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30"
 
-  location                   = azurerm_resource_group.rg_vnet.location
-  source_resource_group_name = azurerm_resource_group.rg_vnet.name
+  location = azurerm_resource_group.rg_vnet.location
 
+  source_resource_group_name       = azurerm_resource_group.rg_vnet.name
   source_virtual_network_name      = module.vnet.name
-  source_remote_virtual_network_id = module.vnet_integration.id
+  source_remote_virtual_network_id = module.vnet.id
   target_resource_group_name       = azurerm_resource_group.rg_vnet.name
   target_virtual_network_name      = module.vnet_integration.name
-  target_remote_virtual_network_id = module.vnet.id
+  target_remote_virtual_network_id = module.vnet_integration.id
 }
 
 ## Application gateway public ip ##
@@ -264,7 +264,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.k8s_snet.id, module.apim_snet.id]
+  subnet_ids = [module.apim_snet.id]
 
   routes = [{
     # production
