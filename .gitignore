@@ -33,3 +33,6 @@ override.tf.json
 .bastianhost.ini
 .idea
 log.txt
+
+# No need lock in modules
+*/modules/*/.terraform.lock.hcl

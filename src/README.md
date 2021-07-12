@@ -59,7 +59,7 @@
 | <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.7 |  |
 | <a name="module_pm_admin_panel"></a> [pm\_admin\_panel](#module\_pm\_admin\_panel) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_pm_api_product"></a> [pm\_api\_product](#module\_pm\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
-| <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.17 |  |
+| <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.27 |  |
 | <a name="module_psql_storage_account_terraform_state"></a> [psql\_storage\_account\_terraform\_state](#module\_psql\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5 |  |
 | <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.7 |  |
 | <a name="module_route_table_peering_sia"></a> [route\_table\_peering\_sia](#module\_route\_table\_peering\_sia) | git::https://github.com/pagopa/azurerm.git//route_table?ref=v1.0.25 |  |
@@ -105,6 +105,8 @@
 | [azurerm_key_vault_secret.cstar_blobstorage_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/log_analytics_workspace) | resource |
+| [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_postgresql_database.bpd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/postgresql_database) | resource |
 | [azurerm_postgresql_database.fa_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/postgresql_database) | resource |
 | [azurerm_postgresql_database.rtd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/resources/postgresql_database) | resource |
@@ -137,6 +139,7 @@
 | [azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.59.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
@@ -147,7 +150,6 @@
 | <a name="input_apim_publisher_email"></a> [apim\_publisher\_email](#input\_apim\_publisher\_email) | n/a | `string` | n/a | yes |
 | <a name="input_apim_publisher_name"></a> [apim\_publisher\_name](#input\_apim\_publisher\_name) | n/a | `string` | n/a | yes |
 | <a name="input_apim_sku"></a> [apim\_sku](#input\_apim\_sku) | n/a | `string` | n/a | yes |
-| <a name="input_azdoa_scaleset_li_public_key"></a> [azdoa\_scaleset\_li\_public\_key](#input\_azdoa\_scaleset\_li\_public\_key) | Azure DevOps agent public key. | `string` | n/a | yes |
 | <a name="input_cidr_integration_vnet"></a> [cidr\_integration\_vnet](#input\_cidr\_integration\_vnet) | Virtual network to peer with sia subscription. It should host apim and event hub. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_appgateway"></a> [cidr\_subnet\_appgateway](#input\_cidr\_subnet\_appgateway) | Application gateway address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
@@ -159,6 +161,7 @@
 | <a name="input_db_sku_name"></a> [db\_sku\_name](#input\_db\_sku\_name) | Specifies the SKU Name for this PostgreSQL Server. | `string` | n/a | yes |
 | <a name="input_enable_azdoa"></a> [enable\_azdoa](#input\_enable\_azdoa) | Enable Azure DevOps agent. | `bool` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
+| <a name="input_monitor_notification_email"></a> [monitor\_notification\_email](#input\_monitor\_notification\_email) | email address for alerts notification | `string` | n/a | yes |
 | <a name="input_pm_backend_url"></a> [pm\_backend\_url](#input\_pm\_backend\_url) | Payment manager backend url | `string` | n/a | yes |
 | <a name="input_pm_ip_filter_range"></a> [pm\_ip\_filter\_range](#input\_pm\_ip\_filter\_range) | n/a | <pre>object({<br>    from = string<br>    to   = string<br>  })</pre> | n/a | yes |
 | <a name="input_aks_availability_zones"></a> [aks\_availability\_zones](#input\_aks\_availability\_zones) | A list of Availability Zones across which the Node Pool should be spread. | `list(number)` | `[]` | no |
@@ -172,10 +175,10 @@
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `1` | no |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
-| <a name="input_balanced_proxy_ip"></a> [balanced\_proxy\_ip](#input\_balanced\_proxy\_ip) | n/a | `string` | `"127.0.0.1"` | no |
 | <a name="input_cidr_subnet_apim"></a> [cidr\_subnet\_apim](#input\_cidr\_subnet\_apim) | Address prefixes subnet api management. | `list(string)` | `null` | no |
 | <a name="input_db_enable_replica"></a> [db\_enable\_replica](#input\_db\_enable\_replica) | Create a PostgreSQL Server Replica. | `bool` | `false` | no |
 | <a name="input_db_geo_redundant_backup_enabled"></a> [db\_geo\_redundant\_backup\_enabled](#input\_db\_geo\_redundant\_backup\_enabled) | Turn Geo-redundant server backups on/off. | `bool` | `false` | no |
+| <a name="input_db_metric_alerts"></a> [db\_metric\_alerts](#input\_db\_metric\_alerts) | Map of name = criteria objects, see these docs for options<br>https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers<br>https://docs.microsoft.com/en-us/azure/postgresql/concepts-limits#maximum-connections | <pre>map(object({<br>    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]<br>    aggregation = string<br>    metric_name = string<br>    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]<br>    operator  = string<br>    threshold = number<br>    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H<br>    frequency = string<br>    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.<br>    window_size = string<br><br>    dimension = map(object({<br>      name     = string<br>      operator = string<br>      values   = list(string)<br>    }))<br>  }))</pre> | `{}` | no |
 | <a name="input_devops_service_connection_object_id"></a> [devops\_service\_connection\_object\_id](#input\_devops\_service\_connection\_object\_id) | Azure deveops service connection id. | `string` | `null` | no |
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `null` | no |
@@ -217,7 +220,6 @@
 | <a name="output_apim_private_ip_addresses"></a> [apim\_private\_ip\_addresses](#output\_apim\_private\_ip\_addresses) | n/a |
 | <a name="output_app_gateway_fqdn"></a> [app\_gateway\_fqdn](#output\_app\_gateway\_fqdn) | n/a |
 | <a name="output_app_gateway_public_ip"></a> [app\_gateway\_public\_ip](#output\_app\_gateway\_public\_ip) | # Application gateway. |
-| <a name="output_balanced_proxy_ip"></a> [balanced\_proxy\_ip](#output\_balanced\_proxy\_ip) | n/a |
 | <a name="output_container_registry_admin_password"></a> [container\_registry\_admin\_password](#output\_container\_registry\_admin\_password) | n/a |
 | <a name="output_container_registry_admin_username"></a> [container\_registry\_admin\_username](#output\_container\_registry\_admin\_username) | n/a |
 | <a name="output_container_registry_login_server"></a> [container\_registry\_login\_server](#output\_container\_registry\_login\_server) | # Container registry ## |
