@@ -16,7 +16,7 @@ module "event_hub" {
   capacity                 = var.ehns_capacity
   maximum_throughput_units = var.ehns_maximum_throughput_units
 
-  virtual_network_id = module.vnet.id
+  virtual_network_id = module.vnet_integration.id
   subnet_id          = module.eventhub_snet.id
 
   eventhubs = var.eventhubs

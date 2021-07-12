@@ -38,6 +38,11 @@ variable "cidr_subnet_appgateway" {
   description = "Application gateway address space."
 }
 
+variable "cidr_integration_vnet" {
+  type        = list(string)
+  description = "Virtual network to peer with sia subscription. It should host apim and event hub."
+}
+
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {
   type        = string
