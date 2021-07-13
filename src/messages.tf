@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.11"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=eventhub-alerts"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -20,6 +20,17 @@ module "event_hub" {
   subnet_id          = module.eventhub_snet.id
 
   eventhubs = var.eventhubs
+
+  metric_alerts = var.ehns_metric_alerts
+  action = [
+    {
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    },   {
+      action_group_id    = azurerm_monitor_action_group.email.id
+      webhook_properties = null
+    }
+  ]
 
   tags = var.tags
 }
