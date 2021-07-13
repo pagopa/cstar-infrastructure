@@ -35,6 +35,14 @@ module "aks" {
     service_cidr       = "10.2.0.0/16"
   }
 
+  metric_alerts = var.aks_metric_alerts
+  action = [
+    {
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    }
+  ]
+
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
 
   tags = var.tags

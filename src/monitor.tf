@@ -45,6 +45,8 @@ resource "azurerm_monitor_action_group" "email" {
     email_address           = data.azurerm_key_vault_secret.monitor_notification_email.value
     use_common_alert_schema = true
   }
+
+  tags = var.tags
 }
 
 resource "azurerm_monitor_action_group" "slack" {
@@ -56,4 +58,6 @@ resource "azurerm_monitor_action_group" "slack" {
     name          = "sendtoslack"
     email_address = data.azurerm_key_vault_secret.monitor_notification_slack_email.value
   }
+
+  tags = var.tags
 }
