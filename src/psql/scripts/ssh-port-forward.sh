@@ -7,6 +7,7 @@ test -n "$DESTINATION_IP" || (echo missing DESTINATION_IP; exit 1)
 test -n "$USERNAME"    || (echo missing USERNAME; exit 1)
 test -n "$RANDOM_PORT" || (echo missing RANDOM_PORT; exit 1)
 test -n "$TARGET"      || (echo missing TARGET; exit 1)
+test -n "$SOCKET_FILE"      || (echo missing SOCKET_FILE; exit 1)
 
 set +e
 
@@ -20,11 +21,11 @@ for try in {0..5}; do
     echo "Trying to port forward retry #$try"
     # The following command MUST NOT print to the stdio otherwise it will just
     # inherit the pipe from the parent process and will hold terraform's lock
-    ssh -f -o StrictHostKeyChecking=no \
-        -o ControlMaster=no \
+    ssh -o StrictHostKeyChecking=no \
+        -N -f -M -S "${SOCKET_FILE}" \
         "$USERNAME@$DESTINATION_IP" \
-        -L "127.0.0.1:$RANDOM_PORT:$TARGET" \
-        sleep 15m &> log.txt  # This is the special ingredient!
+        -L "$(ipconfig getifaddr en0):$RANDOM_PORT:$TARGET" \
+        &> log.txt  # This is the special ingredient!
     success="$?"
     if [ "$success" -eq 0 ]; then
         cleanup 0
