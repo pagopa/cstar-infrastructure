@@ -1,6 +1,6 @@
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
-apim_publisher_name            = "PagoPa Centro Stella UAT"
+apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Developer_1"
 cidr_vnet                      = ["10.1.0.0/16"]
 
