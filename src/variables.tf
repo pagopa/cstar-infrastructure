@@ -38,6 +38,11 @@ variable "cidr_subnet_appgateway" {
   description = "Application gateway address space."
 }
 
+variable "cidr_integration_vnet" {
+  type        = list(string)
+  description = "Virtual network to peer with sia subscription. It should host apim and event hub."
+}
+
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {
   type        = string
@@ -84,6 +89,12 @@ variable "aks_node_count" {
 variable "kubernetes_version" {
   type    = string
   default = null
+}
+
+variable "aks_sku_tier" {
+  type        = string
+  description = "The SKU Tier that should be used for this Kubernetes Cluster."
+  default     = "Free"
 }
 
 variable "reverse_proxy_ip" {
@@ -147,12 +158,6 @@ variable "law_daily_quota_gb" {
   description = "The workspace daily quota for ingestion in GB."
   default     = -1
 }
-
-variable "monitor_notification_email" {
-  type        = string
-  description = "email address for alerts notification"
-}
-
 
 ## apim 
 variable "cidr_subnet_apim" {
@@ -328,6 +333,12 @@ variable "ehns_maximum_throughput_units" {
 variable "ehns_auto_inflate_enabled" {
   type        = bool
   description = "Is Auto Inflate enabled for the EventHub Namespace?"
+  default     = false
+}
+
+variable "ehns_zone_redundant" {
+  type        = bool
+  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
   default     = false
 }
 

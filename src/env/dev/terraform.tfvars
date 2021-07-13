@@ -1,6 +1,6 @@
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
-apim_publisher_name            = "PagoPa Centro Stella DEV"
+apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
 aks_metric_alerts = {
@@ -418,8 +418,6 @@ eventhubs = [
       }
 ] }]
 external_domain = "pagopa.it"
-
-monitor_notification_email = "io-operations@pagopa.it"
 
 pm_backend_url = "http://10.230.8.250/cstariobackendtest/pagopa-mock"
 pm_ip_filter_range = {

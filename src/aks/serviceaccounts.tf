@@ -25,6 +25,12 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 }
 
 resource "kubernetes_role_binding" "deployer_binding" {
+  depends_on = [
+    kubernetes_namespace.bpd,
+    kubernetes_namespace.fa,
+    kubernetes_namespace.rtd
+  ]
+
   for_each = toset(var.rbac_namespaces)
 
   metadata {

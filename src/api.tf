@@ -14,7 +14,7 @@ locals {
 ###########################
 
 module "apim" {
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.21"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.26"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = format("%s-apim", local.project)
@@ -24,11 +24,16 @@ module "apim" {
   sku_name             = var.apim_sku
   virtual_network_type = "Internal"
 
-  application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
+  # application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
+  application_insights_instrumentation_key = null
 
   # policy_path = "./api/base_policy.xml"
 
   tags = var.tags
+
+  depends_on = [
+    azurerm_application_insights.application_insights
+  ]
 }
 
 resource "azurerm_api_management_custom_domain" "api_custom_domain" {

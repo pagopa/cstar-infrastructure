@@ -27,17 +27,6 @@ module "db_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
-## Eventhub subnet
-module "eventhub_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
-  name                                           = format("%s-eventhub-snet", local.project)
-  address_prefixes                               = var.cidr_subnet_eventhub
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = module.vnet.name
-  service_endpoints                              = ["Microsoft.EventHub"]
-  enforce_private_link_endpoint_network_policies = true
-}
-
 # k8s cluster subnet 
 module "k8s_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
@@ -51,19 +40,6 @@ module "k8s_snet" {
     "Microsoft.Web",
     "Microsoft.Storage"
   ]
-}
-
-# APIM subnet
-module "apim_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
-  name                 = format("%s-apim-snet", local.project)
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
-  address_prefixes     = var.cidr_subnet_apim
-
-  service_endpoints = ["Microsoft.Web"]
-
-  enforce_private_link_endpoint_network_policies = true
 }
 
 ## Subnet jumpbox
@@ -95,6 +71,54 @@ module "appgateway-snet" {
   virtual_network_name = module.vnet.name
 }
 
+# vnet integration
+module "vnet_integration" {
+  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.26"
+  name                = format("%s-integration-vnet", local.project)
+  location            = azurerm_resource_group.rg_vnet.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  address_space       = var.cidr_integration_vnet
+
+  tags = var.tags
+}
+
+# APIM subnet
+module "apim_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                 = format("%s-apim-snet", local.project)
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet_integration.name
+  address_prefixes     = var.cidr_subnet_apim
+
+  service_endpoints = ["Microsoft.Web"]
+
+  enforce_private_link_endpoint_network_policies = true
+}
+
+## Eventhub subnet
+module "eventhub_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                                           = format("%s-eventhub-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_eventhub
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet_integration.name
+  service_endpoints                              = ["Microsoft.EventHub"]
+  enforce_private_link_endpoint_network_policies = true
+}
+
+## Peering between the vnet(main) and integration vnet 
+module "vnet_peering" {
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30"
+
+  location = azurerm_resource_group.rg_vnet.location
+
+  source_resource_group_name       = azurerm_resource_group.rg_vnet.name
+  source_virtual_network_name      = module.vnet.name
+  source_remote_virtual_network_id = module.vnet.id
+  target_resource_group_name       = azurerm_resource_group.rg_vnet.name
+  target_virtual_network_name      = module.vnet_integration.name
+  target_remote_virtual_network_id = module.vnet_integration.id
+}
 
 ## Application gateway public ip ##
 resource "azurerm_public_ip" "apigateway_public_ip" {
@@ -240,7 +264,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.k8s_snet.id, module.apim_snet.id]
+  subnet_ids = [module.apim_snet.id]
 
   routes = [{
     # production
