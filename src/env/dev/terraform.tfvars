@@ -3,6 +3,199 @@ apim_publisher_email           = "io-operations@pagopa.it"
 apim_publisher_name            = "PagoPa Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
+aks_metric_alerts = {
+  node_cpu = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/nodes"
+    metric_name      = "cpuUsagePercentage"
+    operator         = "GreaterThan"
+    threshold        = 80
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "host"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ],
+  }
+  node_memory = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/nodes"
+    metric_name      = "memoryWorkingSetPercentage"
+    operator         = "GreaterThan"
+    threshold        = 80
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "host"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ],
+  }
+  node_disk = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/nodes"
+    metric_name      = "DiskUsedPercentage"
+    operator         = "GreaterThan"
+    threshold        = 80
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "host"
+        operator = "Include"
+        values   = ["*"]
+      },
+      {
+        name     = "device"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ],
+  }
+  node_not_ready = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/nodes"
+    metric_name      = "nodesCount"
+    operator         = "GreaterThan"
+    threshold        = 0
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "status"
+        operator = "Include"
+        values   = ["NotReady"]
+      }
+    ],
+  }
+  pods_failed = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/pods"
+    metric_name      = "podCount"
+    operator         = "GreaterThan"
+    threshold        = 0
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "phase"
+        operator = "Include"
+        values   = ["Failed"]
+      }
+    ]
+  }
+  pods_ready = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/pods"
+    metric_name      = "PodReadyPercentage"
+    operator         = "LessThan"
+    threshold        = 80
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "kubernetes namespace"
+        operator = "Include"
+        values   = ["*"]
+      },
+      {
+        name     = "controllerName"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ]
+  }
+  container_cpu = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/containers"
+    metric_name      = "cpuExceededPercentage"
+    operator         = "GreaterThan"
+    threshold        = 95
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "kubernetes namespace"
+        operator = "Include"
+        values   = ["*"]
+      },
+      {
+        name     = "controllerName"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ]
+  }
+  container_memory = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/containers"
+    metric_name      = "memoryWorkingSetExceededPercentage"
+    operator         = "GreaterThan"
+    threshold        = 95
+    frequency        = "PT1M"
+    window_size      = "PT5M"
+    dimension = [
+      {
+        name     = "kubernetes namespace"
+        operator = "Include"
+        values   = ["*"]
+      },
+      {
+        name     = "controllerName"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ]
+  }
+  container_oom = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/pods"
+    metric_name      = "oomKilledContainerCount"
+    operator         = "GreaterThan"
+    threshold        = 0
+    frequency        = "PT1M"
+    window_size      = "PT1M"
+    dimension = [
+      {
+        name     = "kubernetes namespace"
+        operator = "Include"
+        values   = ["*"]
+      },
+      {
+        name     = "controllerName"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ]
+  }
+  container_restart = {
+    aggregation      = "Average"
+    metric_namespace = "Insights.Container/pods"
+    metric_name      = "restartingContainerCount"
+    operator         = "GreaterThan"
+    threshold        = 0
+    frequency        = "PT1M"
+    window_size      = "PT1M"
+    dimension = [
+      {
+        name     = "kubernetes namespace"
+        operator = "Include"
+        values   = ["*"]
+      },
+      {
+        name     = "controllerName"
+        operator = "Include"
+        values   = ["*"]
+      }
+    ]
+  }
+}
+
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=31.d6627231
 cidr_vnet              = ["10.230.8.0/21"]
 cidr_subnet_k8s        = ["10.230.8.0/22"]
@@ -25,7 +218,7 @@ db_metric_alerts = {
     threshold   = 70
     frequency   = "PT1M"
     window_size = "PT5M"
-    dimension   = {}
+    dimension   = []
   }
   memory = {
     aggregation = "Average"
@@ -34,7 +227,7 @@ db_metric_alerts = {
     threshold   = 75
     frequency   = "PT1M"
     window_size = "PT5M"
-    dimension   = {}
+    dimension   = []
   }
   io = {
     aggregation = "Average"
@@ -43,7 +236,7 @@ db_metric_alerts = {
     threshold   = 55
     frequency   = "PT1M"
     window_size = "PT5M"
-    dimension   = {}
+    dimension   = []
   }
   # https://docs.microsoft.com/it-it/azure/postgresql/concepts-limits
   # GP_Gen5_2 -| 145 / 100 * 80 = 116
@@ -55,7 +248,7 @@ db_metric_alerts = {
     threshold   = 116
     frequency   = "PT5M"
     window_size = "PT5M"
-    dimension   = {}
+    dimension   = []
   }
   min_active_connections = {
     aggregation = "Average"
@@ -64,7 +257,7 @@ db_metric_alerts = {
     threshold   = 0
     frequency   = "PT5M"
     window_size = "PT15M"
-    dimension   = {}
+    dimension   = []
   }
   failed_connections = {
     aggregation = "Total"
@@ -73,7 +266,7 @@ db_metric_alerts = {
     threshold   = 10
     frequency   = "PT5M"
     window_size = "PT15M"
-    dimension   = {}
+    dimension   = []
   }
   replica_lag = {
     aggregation = "Average"
@@ -82,7 +275,7 @@ db_metric_alerts = {
     threshold   = 60
     frequency   = "PT1M"
     window_size = "PT5M"
-    dimension   = {}
+    dimension   = []
   }
 }
 

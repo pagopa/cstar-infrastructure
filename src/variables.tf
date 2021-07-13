@@ -98,6 +98,37 @@ variable "aks_num_outbound_ips" {
   description = "How many outbound ips allocate for AKS cluster"
 }
 
+variable "aks_metric_alerts" {
+  default = {}
+
+  description = <<EOD
+Map of name = criteria objects
+EOD
+
+  type = map(object({
+    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
+    aggregation = string
+    # "Insights.Container/pods" "Insights.Container/nodes"
+    metric_namespace = string
+    metric_name      = string
+    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
+    operator  = string
+    threshold = number
+    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
+    frequency = string
+    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
+    window_size = string
+
+    dimension = list(object(
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
+    ))
+  }))
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string
@@ -265,11 +296,13 @@ EOD
     # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
     window_size = string
 
-    dimension = map(object({
-      name     = string
-      operator = string
-      values   = list(string)
-    }))
+    dimension = list(object(
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
+    ))
   }))
 }
 
