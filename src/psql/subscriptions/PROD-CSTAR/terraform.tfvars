@@ -1,6 +1,6 @@
 env             = "pro"
 env_short       = "p"
-psql_servername = "cstar-u-postgresql"
+psql_servername = "cstar-p-postgresql"
 
 users = [
   {
