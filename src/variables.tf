@@ -303,6 +303,12 @@ variable "ehns_auto_inflate_enabled" {
   default     = false
 }
 
+variable "ehns_zone_redundant" {
+  type        = bool
+  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
+  default     = false
+}
+
 variable "eventhubs" {
   description = "A list of event hubs to add to namespace."
   type = list(object({

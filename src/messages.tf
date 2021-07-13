@@ -15,6 +15,7 @@ module "event_hub" {
   sku                      = var.ehns_sku_name
   capacity                 = var.ehns_capacity
   maximum_throughput_units = var.ehns_maximum_throughput_units
+  zone_redundant           = var.ehns_zone_redundant
 
   virtual_network_id = module.vnet_integration.id
   subnet_id          = module.eventhub_snet.id

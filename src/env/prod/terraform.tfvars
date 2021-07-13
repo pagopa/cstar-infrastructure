@@ -33,6 +33,7 @@ ehns_sku_name                 = "Standard"
 ehns_capacity                 = 5
 ehns_auto_inflate_enabled     = true
 ehns_maximum_throughput_units = 5
+ehns_zone_redundant           = true
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
