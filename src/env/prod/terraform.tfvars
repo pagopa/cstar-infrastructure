@@ -16,7 +16,7 @@ cidr_integration_vnet = ["10.230.6.0/24"]
 cidr_subnet_apim      = ["10.230.6.0/26"]
 cidr_subnet_eventhub  = ["10.230.6.64/26"]
 
-devops_service_connection_object_id = "e27da977-9db4-4f00-8e48-c499c880c730"
+devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = true
