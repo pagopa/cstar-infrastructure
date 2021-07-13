@@ -42,7 +42,7 @@ resource "azurerm_monitor_action_group" "email" {
 
   email_receiver {
     name                    = "sendtooperations"
-    email_address           = var.monitor_notification_email
+    email_address           = data.azurerm_key_vault_secret.monitor_notification_email.value
     use_common_alert_schema = true
   }
 }

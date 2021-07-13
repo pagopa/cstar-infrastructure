@@ -158,8 +158,6 @@ eventhubs = [
 ] }]
 external_domain = "pagopa.it"
 
-monitor_notification_email = "io-operations@pagopa.it"
-
 #TODO pm ip uat?
 pm_backend_url = "http://10.230.8.250/cstariobackendtest"
 pm_ip_filter_range = {
