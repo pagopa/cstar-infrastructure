@@ -53,7 +53,7 @@ resource "azurerm_monitor_action_group" "slack" {
   short_name          = "SlackPagoPa"
 
   email_receiver {
-    name                    = "sendtoslack"
-    email_address           = data.azurerm_key_vault_secret.monitor_notification_slack_email.value
+    name          = "sendtoslack"
+    email_address = data.azurerm_key_vault_secret.monitor_notification_slack_email.value
   }
 }

@@ -27,6 +27,7 @@ env_short         = "p"
 aks_availability_zones = [1, 2, 3]
 aks_node_count         = 6
 aks_vm_size            = "Standard_D8S_v3"
+aks_sku_tier           = "Paid"
 
 ehns_sku_name                 = "Standard"
 ehns_capacity                 = 5
