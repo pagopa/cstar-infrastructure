@@ -3,7 +3,16 @@ env_short = "u"
 
 # ingress
 ingress_replica_count    = "2"
-ingress_load_balancer_ip = "x.x.x.x"
+ingress_load_balancer_ip = "10.1.0.250"
+
+rbac_namespaces = ["bpd", "rtd", "fa"]
+
+# cstariobackendtest
+configmaps_cstariobackendtest = {
+  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "cstariobackendtest"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+}
 
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod = {
