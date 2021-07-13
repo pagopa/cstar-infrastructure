@@ -4,7 +4,7 @@
 # Apply the configuration relative to a given subscription
 # Subscription are defined in ./subscription
 # Usage:
-#  ./flyway.sh info|validate|migrate ENV-CSTAR bpd|rtd schema1|schema2
+#  ./flyway.sh info|validate|migrate ENV-CSTAR bpd|rtd
 #
 #  ./flyway.sh migrate DEV-CSTAR bpd
 #  ./flyway.sh migrate UAT-CSTAR bpd
@@ -50,18 +50,20 @@ export USERNAME="${vm_user_name}"
 export TARGET="${psql_private_fqdn}:5432"
 export SOCKET_FILE="/tmp/$SUBSCRIPTION-flyway-sock"
 export RANDOM_PORT=$(echo $((10000 + $RANDOM % 60000)))
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export TUNNEL_IP=$(${WORKDIR}/scripts/ip_address.sh)
+else
+  TUNNEL_IP="localhost"
+fi
 
 bash scripts/ssh-port-forward.sh
 trap "ssh -S $SOCKET_FILE -O exit $USERNAME@$DESTINATION_IP" EXIT
-
-export TF_VAR_psql_port="${RANDOM_PORT}"
-export TF_VAR_psql_hostname="localhost"
 
 terraform init \
     -backend-config="storage_account_name=${storage_account_name}" \
     -backend-config="resource_group_name=${resource_group_name}"
 
-export FLYWAY_URL="jdbc:postgresql://$(ipconfig getifaddr en0):${RANDOM_PORT}/${DATABASE}?sslmode=require"
+export FLYWAY_URL="jdbc:postgresql://${TUNNEL_IP}:${RANDOM_PORT}/${DATABASE}?sslmode=require"
 export FLYWAY_USER=$(terraform output -raw psql_username)
 export FLYWAY_PASSWORD=$(terraform output -raw psql_password)
 export FLYWAY_DOCKER_TAG="7.11.1-alpine"

@@ -24,7 +24,7 @@ for try in {0..5}; do
     ssh -o StrictHostKeyChecking=no \
         -N -f -M -S "${SOCKET_FILE}" \
         "$USERNAME@$DESTINATION_IP" \
-        -L "$(ipconfig getifaddr en0):$RANDOM_PORT:$TARGET" \
+        -L "${TUNNEL_IP:-127.0.0.1}:$RANDOM_PORT:$TARGET" \
         &> log.txt  # This is the special ingredient!
     success="$?"
     if [ "$success" -eq 0 ]; then
