@@ -22,6 +22,21 @@ resource "azurerm_dns_ns_record" "cstar_dev_pagopa_it_ns" {
   tags = var.tags
 }
 
+resource "azurerm_dns_ns_record" "cstar_uat_pagopa_it_ns" {
+  count               = var.env_short == "p" ? 1 : 0
+  name                = "uat"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  records = [
+    "ns1-07.azure-dns.com.",
+    "ns2-07.azure-dns.net.",
+    "ns3-07.azure-dns.org.",
+    "ns4-07.azure-dns.info.",
+  ]
+  ttl  = var.dns_default_ttl_sec
+  tags = var.tags
+}
+
 ## Prod ONLY records 
 resource "azurerm_dns_a_record" "dns-a-prod-cstar" {
   count               = var.env_short == "p" ? 1 : 0
