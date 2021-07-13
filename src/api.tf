@@ -356,7 +356,7 @@ module "pm_api" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = templatefile("./api/pm_proxy/base_policy.xml", {
+  xml_content = templatefile("./api/pm_proxy/base_policy.xml.tpl", {
     pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
   })
 

@@ -86,12 +86,6 @@ variable "kubernetes_version" {
   default = null
 }
 
-variable "balanced_proxy_ip" {
-  type        = string
-  default     = "127.0.0.1"
-  description = ""
-}
-
 variable "reverse_proxy_ip" {
   type        = string
   default     = "127.0.0.1"
@@ -122,6 +116,12 @@ variable "law_daily_quota_gb" {
   description = "The workspace daily quota for ingestion in GB."
   default     = -1
 }
+
+variable "monitor_notification_email" {
+  type        = string
+  description = "email address for alerts notification"
+}
+
 
 ## apim 
 variable "cidr_subnet_apim" {
@@ -231,11 +231,6 @@ variable "cidr_subnet_azdoa" {
   description = "Azure DevOps agent network address space."
 }
 
-variable "azdoa_scaleset_li_public_key" {
-  type        = string
-  description = "Azure DevOps agent public key."
-}
-
 ## Database server postgresl 
 variable "db_sku_name" {
   type        = string
@@ -252,6 +247,35 @@ variable "db_enable_replica" {
   type        = bool
   default     = false
   description = "Create a PostgreSQL Server Replica."
+}
+
+variable "db_metric_alerts" {
+  default = {}
+
+  description = <<EOD
+Map of name = criteria objects, see these docs for options
+https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers
+https://docs.microsoft.com/en-us/azure/postgresql/concepts-limits#maximum-connections
+EOD
+
+  type = map(object({
+    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
+    aggregation = string
+    metric_name = string
+    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
+    operator  = string
+    threshold = number
+    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
+    frequency = string
+    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
+    window_size = string
+
+    dimension = map(object({
+      name     = string
+      operator = string
+      values   = list(string)
+    }))
+  }))
 }
 
 ## Event hub

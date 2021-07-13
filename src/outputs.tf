@@ -113,10 +113,6 @@ output "api_io_fqdn" {
   value = azurerm_dns_a_record.dns_a_appgw_api_io.fqdn
 }
 
-output "balanced_proxy_ip" {
-  value = var.balanced_proxy_ip
-}
-
 output "reverse_proxy_ip" {
   value = var.reverse_proxy_ip
 }
