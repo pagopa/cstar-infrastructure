@@ -36,21 +36,21 @@ resource "azurerm_key_vault_secret" "application_insights_key" {
 }
 
 resource "azurerm_monitor_action_group" "email" {
-  name                = "PagoPa"
+  name                = "PagoPA"
   resource_group_name = azurerm_resource_group.monitor_rg.name
-  short_name          = "PagoPa"
+  short_name          = "PagoPA"
 
   email_receiver {
     name                    = "sendtooperations"
-    email_address           = var.monitor_notification_email
+    email_address           = data.azurerm_key_vault_secret.monitor_notification_email.value
     use_common_alert_schema = true
   }
 }
 
 resource "azurerm_monitor_action_group" "slack" {
-  name                = "SlackPagoPa"
+  name                = "SlackPagoPA"
   resource_group_name = azurerm_resource_group.monitor_rg.name
-  short_name          = "SlackPagoPa"
+  short_name          = "SlackPagoPA"
 
   email_receiver {
     name          = "sendtoslack"

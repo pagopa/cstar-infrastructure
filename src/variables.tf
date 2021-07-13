@@ -128,12 +128,6 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-variable "monitor_notification_email" {
-  type        = string
-  description = "email address for alerts notification"
-}
-
-
 ## apim 
 variable "cidr_subnet_apim" {
   type        = list(string)

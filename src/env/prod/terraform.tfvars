@@ -1,6 +1,6 @@
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
-apim_publisher_name            = "PagoPa Centro Stella PROD"
+apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
 cidr_vnet                      = ["10.1.0.0/16"]
 
@@ -166,8 +166,6 @@ eventhubs = [
       }
 ] }]
 external_domain = "pagopa.it"
-
-monitor_notification_email = "io-operations@pagopa.it"
 
 #TODO pm ip uat?
 pm_backend_url = "http://10.230.8.250/cstariobackendtest"
