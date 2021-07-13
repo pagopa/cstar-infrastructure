@@ -110,7 +110,7 @@ EOD
     aggregation = string
     # "Insights.Container/pods" "Insights.Container/nodes"
     metric_namespace = string
-    metric_name = string
+    metric_name      = string
     # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
     operator  = string
     threshold = number
@@ -120,11 +120,11 @@ EOD
     window_size = string
 
     dimension = list(object(
-    {
-      name     = string
-      operator = string
-      values   = list(string)
-    }
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
     ))
   }))
 }
@@ -297,11 +297,11 @@ EOD
     window_size = string
 
     dimension = list(object(
-    {
-      name     = string
-      operator = string
-      values   = list(string)
-    }
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
     ))
   }))
 }

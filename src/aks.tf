@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=fix-dimension-type"
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.31"
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
@@ -37,9 +37,9 @@ module "aks" {
   metric_alerts = var.aks_metric_alerts
   action = [
     {
-    action_group_id    = azurerm_monitor_action_group.slack.id
-    webhook_properties = null
-  }
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    }
   ]
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
