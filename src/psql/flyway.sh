@@ -42,8 +42,8 @@ printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
 printf "Storage Account Name: %s\n" "${storage_account_name}"
 
-## remove .flyway dir to avoid error changing subscription
-rm -rf "${WORKDIR}/.flyway"
+## remove .terraform dir to avoid error changing subscription
+rm -rf "${WORKDIR}/.terraform"
 
 export DESTINATION_IP="${vm_public_ip}"
 export USERNAME="${vm_user_name}"
