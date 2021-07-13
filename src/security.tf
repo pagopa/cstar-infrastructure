@@ -95,14 +95,6 @@ resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = var.devops_service_connection_object_id
 
-  key_permissions = [
-    "Get",
-    "List",
-    "Update",
-    "Create",
-    "Import",
-  ]
-
   secret_permissions = [
     "Get",
     "List",
@@ -115,7 +107,6 @@ resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
     "Import",
   ]
 }
-
 
 resource "azurerm_user_assigned_identity" "appgateway" {
   resource_group_name = azurerm_resource_group.sec_rg.name
