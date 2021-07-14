@@ -381,12 +381,6 @@ variable "redis_family" {
   default = "C"
 }
 
-variable "redis_subnet_id" {
-  type        = string
-  description = "The ID of the Subnet within which the Redis Cache should be deployed."
-  default     = null
-}
-
 variable "tags" {
   type = map(any)
   default = {
