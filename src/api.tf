@@ -24,8 +24,7 @@ module "apim" {
   sku_name             = var.apim_sku
   virtual_network_type = "Internal"
 
-  # application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
-  application_insights_instrumentation_key = null
+  application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 
   # policy_path = "./api/base_policy.xml"
 
