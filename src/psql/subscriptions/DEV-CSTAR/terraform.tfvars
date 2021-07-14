@@ -150,5 +150,145 @@ users = [
         privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
       }
     ]
+  },
+  {
+    name = "BPD_AWARD_PERIOD_REMOTE_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "bpd"
+        schema      = null
+        privileges  = ["CONNECT"]
+    }]
+  },
+  {
+    name = "BPD_PAYMENT_INSTRUMENT_REMOTE_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "bpd"
+        schema      = null
+        privileges  = ["CONNECT"]
+      }
+    ]
+  },
+  {
+    name = "BPD_WINNING_TRANSACTION_REMOTE_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "bpd"
+        schema      = null
+        privileges  = ["CONNECT"]
+      }
+    ]
+  },
+  {
+    name = "DASHBOARD_PAGOPA_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "bpd"
+        schema      = null
+        privileges  = ["CONNECT", "CREATE", "TEMPORARY"]
+      }
+    ]
+  },
+  {
+    name = "FA_PAYMENT_INSTRUMENT_REMOTE_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "fa"
+        schema      = null
+        privileges  = ["CONNECT"]
+      }
+    ]
+  },
+  {
+    name = "FA_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "fa"
+        schema      = null
+        privileges  = ["CONNECT", "CREATE", "TEMPORARY"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_customer"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_merchant"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_payment_instrument"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_transaction"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_customer"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_merchant"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_payment_instrument"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_transaction"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+    ]
+  },
+  {
+    name = "MONITORING_USER"
+    grants = [
+      {
+        object_type = "database"
+        database    = "bpd"
+        schema      = null
+        privileges  = ["CONNECT"]
+      },
+      {
+        object_type = "database"
+        database    = "fa"
+        schema      = null
+        privileges  = ["CONNECT"]
+      },
+      {
+        object_type = "database"
+        database    = "rtd"
+        schema      = null
+        privileges  = ["CONNECT"]
+      }
+    ]
+  },
+  {
+    name   = "tkm_acquirer_manager"
+    grants = []
   }
 ]
