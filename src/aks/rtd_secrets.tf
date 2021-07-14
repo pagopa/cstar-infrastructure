@@ -60,7 +60,7 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
     POSTGRES_CITIZEN_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
     POSTGRES_FA_DB_NAME       = "fa"
     POSTGRES_FA_HOST          = local.postgres_hostname
-    POSTGRES_FA_PASSWORD      = module.key_vault_secrets_query.values["db-fa-password"].value
+    POSTGRES_FA_PASSWORD      = module.key_vault_secrets_query.values["db-fa-user-password"].value
     POSTGRES_FA_SCHEMA        = "fa_payment_instrument"
     POSTGRES_FA_USERNAME      = format("%s@%s", module.key_vault_secrets_query.values["db-fa-login"].value, local.postgres_hostname)
     POSTGRES_DB_NAME          = "rtd"
