@@ -23,6 +23,12 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_redis" {
+  type        = list(string)
+  description = "Redis network address space."
+  default     = []
+}
+
 variable "cidr_subnet_eventhub" {
   type        = list(string)
   description = "Eventhub network address space."
