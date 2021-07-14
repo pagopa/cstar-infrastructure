@@ -12,6 +12,7 @@ output "psql_password" {
   sensitive = true
 }
 
+
 output "fa_payment_instrument_remote_user_password" {
   value     = data.azurerm_key_vault_secret.user_password["FA_PAYMENT_INSTRUMENT_REMOTE_USER"].value
   sensitive = true
