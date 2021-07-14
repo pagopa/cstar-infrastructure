@@ -264,7 +264,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.apim_snet.id]
+  subnet_ids = [module.apim_snet.id, module.eventhub_snet.id]
 
   routes = [{
     # production
