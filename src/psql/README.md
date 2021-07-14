@@ -2,6 +2,9 @@
 
 This is a psql infrastructure configuration.
 
+- Roles and Grants via terraform
+- Schema Migration with [Flyway](https://flywaydb.org/documentation/concepts/migrations.html)
+
 ## Requirements
 
 ### 1. terraform
@@ -109,4 +112,28 @@ https://github.com/antonbabenko/pre-commit-terraform#how-to-install
 
 ```sh
 pre-commit run -a
+```
+
+## Flyway
+
+SQL Migrations file are under `migrations/${DB_NAME}` for each database.
+
+To apply changes use `flyway.sh` script as follow:
+
+```sh
+bash terraform.sh info|validate|migrate ENV-PROJECT DB_NAME
+```
+
+For example:
+
+```sh
+./flyway.sh info DEV-CSTAR bpd
+```
+
+```sh
+./flyway.sh validate DEV-CSTAR bpd -ignorePendingMigrations=true
+```
+
+```sh
+./flyway.sh migrate DEV-CSTAR bpd -target=1
 ```

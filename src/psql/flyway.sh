@@ -42,8 +42,6 @@ printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
 printf "Storage Account Name: %s\n" "${storage_account_name}"
 
-## remove .terraform dir to avoid error changing subscription
-rm -rf "${WORKDIR}/.terraform"
 
 export DESTINATION_IP="${vm_public_ip}"
 export USERNAME="${vm_user_name}"
@@ -59,15 +57,23 @@ fi
 bash scripts/ssh-port-forward.sh
 trap "ssh -S $SOCKET_FILE -O exit $USERNAME@$DESTINATION_IP" EXIT
 
-terraform init \
+terraform init -reconfigure \
     -backend-config="storage_account_name=${storage_account_name}" \
     -backend-config="resource_group_name=${resource_group_name}"
 
 export FLYWAY_URL="jdbc:postgresql://${TUNNEL_IP}:${RANDOM_PORT}/${DATABASE}?sslmode=require"
 export FLYWAY_USER=$(terraform output -raw psql_username)
 export FLYWAY_PASSWORD=$(terraform output -raw psql_password)
+export SERVER_NAME=$(terraform output -raw psql_servername)
 export FLYWAY_DOCKER_TAG="7.11.1-alpine"
 
-docker run --rm -it --network=host -v "${WORKDIR}/migrations/${DATABASE}/${SCHEMA}":/flyway/sql \
+export FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD=$(terraform output -raw fa_payment_instrument_remote_user_password)
+export BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD=$(terraform output -raw bpd_payment_instrument_remote_user_password)
+
+docker run --rm -it --network=host -v "${WORKDIR}/migrations/${DATABASE}":/flyway/sql \
   flyway/flyway:${FLYWAY_DOCKER_TAG} \
-  -url="${FLYWAY_URL}" -user=$FLYWAY_USER -password=$FLYWAY_PASSWORD "$COMMAND" $other
+  -url="${FLYWAY_URL}" -user=$FLYWAY_USER -password=$FLYWAY_PASSWORD \
+  -validateMigrationNaming=true \
+  -placeholders.faPaymentInstrumentRemoteUserPassword="${FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD}" \
+  -placeholders.bpdPaymentInstrumentRemoteUserPassword="${BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD}" \
+  -placeholders.serverName=$SERVER_NAME "$COMMAND" $other

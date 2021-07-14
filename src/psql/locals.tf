@@ -10,7 +10,7 @@ locals {
       schema : grant.schema
       object_type : grant.object_type
       privileges : grant.privileges
-  }]]) : "${grant.username}_${grant.database}_${grant.schema}_${grant.object_type}" => grant }
+  }]]) : "${grant.username}_${grant.database}_${grant.schema != null ? format("%s_", grant.schema) : "_"}${grant.object_type}" => grant }
 
   project = format("%s-%s", var.prefix, var.env_short)
 

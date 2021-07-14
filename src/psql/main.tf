@@ -34,13 +34,14 @@ data "azurerm_key_vault_secret" "psql_admin_password" {
 
 
 provider "postgresql" {
-  host            = var.psql_hostname
-  port            = var.psql_port
-  username        = "${local.psql_username}@${var.psql_servername}"
-  password        = local.psql_password
-  sslmode         = "require"
-  superuser       = false
-  connect_timeout = 15
+  host             = var.psql_hostname
+  port             = var.psql_port
+  username         = "${local.psql_username}@${var.psql_servername}"
+  password         = local.psql_password
+  sslmode          = "require"
+  expected_version = "10"
+  superuser        = false
+  connect_timeout  = 15
 }
 
 provider "azurerm" {

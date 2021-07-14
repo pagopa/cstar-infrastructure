@@ -61,7 +61,7 @@ resource "azurerm_postgresql_database" "bpd_db" {
   resource_group_name = azurerm_resource_group.db_rg.name
   server_name         = module.postgresql.name
   charset             = "UTF8"
-  collation           = "Italian_Italy.1252"
+  collation           = "English_United States.1252"
 }
 
 resource "azurerm_postgresql_database" "rtd_db" {
