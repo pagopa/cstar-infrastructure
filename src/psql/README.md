@@ -121,7 +121,7 @@ SQL Migrations file are under `migrations/${DB_NAME}` for each database.
 To apply changes use `flyway.sh` script as follow:
 
 ```sh
-bash terraform.sh info|validate|migrate ENV-PROJECT DB_NAME
+bash flyway.sh info|validate|migrate ENV-PROJECT DB_NAME
 ```
 
 For example:
