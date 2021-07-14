@@ -213,7 +213,55 @@ users = [
         database    = "fa"
         schema      = null
         privileges  = ["CONNECT", "CREATE", "TEMPORARY"]
-      }
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_customer"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_merchant"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_payment_instrument"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_transaction"
+        privileges  = ["USAGE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_customer"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_merchant"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_payment_instrument"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_transaction"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
     ]
   },
   {
