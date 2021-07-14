@@ -10,6 +10,7 @@ module "redis" {
   family                = var.redis_family
   sku_name              = var.redis_sku_name
   enable_authentication = true
+  subnet_id             = var.redis_subnet_id
 
   tags = var.tags
 }

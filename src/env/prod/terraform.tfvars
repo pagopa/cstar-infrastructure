@@ -7,6 +7,7 @@ cidr_vnet                      = ["10.1.0.0/16"]
 cidr_subnet_k8s        = ["10.1.0.0/17"]
 cidr_subnet_appgateway = ["10.1.128.0/24"]
 cidr_subnet_db         = ["10.1.129.0/24"]
+cidr_subnet_redis      = ["10.1.132.0/24"]
 cidr_subnet_azdoa      = ["10.1.130.0/24"]
 cidr_subnet_jumpbox    = ["10.1.131.0/24"]
 
@@ -174,6 +175,9 @@ pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
 }
+
+redis_sku_name = "Premium"
+redis_family   = "P"
 
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"

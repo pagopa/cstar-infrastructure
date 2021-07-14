@@ -23,6 +23,12 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_redis" {
+  type        = list(string)
+  description = "Redis network address space."
+  default     = []
+}
+
 variable "cidr_subnet_eventhub" {
   type        = list(string)
   description = "Eventhub network address space."
@@ -373,6 +379,12 @@ variable "redis_sku_name" {
 variable "redis_family" {
   type    = string
   default = "C"
+}
+
+variable "redis_subnet_id" {
+  type        = string
+  description = "The ID of the Subnet within which the Redis Cache should be deployed."
+  default     = null
 }
 
 variable "tags" {
