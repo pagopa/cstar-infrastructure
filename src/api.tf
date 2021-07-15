@@ -244,7 +244,7 @@ module "api_bpd_tc" {
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "rtd-payment-instrument"
+  name                = "rtd-payment-instrument-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -272,7 +272,7 @@ module "rtd_payment_instrument" {
 module "rtd_payment_instrument_manager" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "rtd-payment-instrument-manager"
+  name                = "rtd-payment-instrument-manager-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -468,7 +468,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
 ### Original ###
 module "bpd_hb_payment_instruments" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-payment-instruments"
+  name                = "bpd-hb-payment-instruments-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
@@ -583,7 +583,7 @@ module "bpd_hb_payment_instruments" {
 ### V2 ###
 module "bpd_hb_payment_instruments_v2" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-payment-instruments"
+  name                = "bpd-hb-payment-instruments-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
@@ -658,7 +658,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" 
 ### original ###
 module "bpd_hb_winning_transactions" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-winning-transactions"
+  name                = "bpd-hb-winning-transactions-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
@@ -693,7 +693,7 @@ module "bpd_hb_winning_transactions" {
 ### v2 ###
 module "bpd_hb_winning_transactions_v2" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-winning-transactions"
+  name                = "bpd-hb-winning-transactions-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
@@ -740,7 +740,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 module "bpd_io_award_period" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-award-period"
+  name                = "bpd-io-award-period-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
@@ -775,7 +775,7 @@ module "bpd_io_award_period" {
 module "bpd_io_award_period_v2" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-award-period"
+  name                = "bpd-io-award-period-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
@@ -821,7 +821,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
 module "bpd_io_citizen" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-citizen"
+  name                = "bpd-io-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
@@ -874,7 +874,7 @@ module "bpd_io_citizen" {
 module "bpd_io_citizen_v2" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-citizen"
+  name                = "bpd-io-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
@@ -942,7 +942,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
 module "bdp_hb_award_period" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-hb-award-period"
+  name                = "bpd-hb-award-period-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
@@ -977,7 +977,7 @@ module "bdp_hb_award_period" {
 module "bdp_hb_award_period_v2" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-hb-award-period"
+  name                = "bpd-hb-award-period-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
@@ -1022,7 +1022,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" 
 module "bpd_io_winning_transactions" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-winning-transactions"
+  name                = "bpd-io-winning-transactions-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_winning_transactions.id
@@ -1057,7 +1057,7 @@ module "bpd_io_winning_transactions" {
 module "bpd_io_winning_transactions_v2" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-winning-transactions"
+  name                = "bpd-io-winning-transactions-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_winning_transactions.id
