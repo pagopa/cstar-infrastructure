@@ -33,9 +33,35 @@
                         <set-variable name="bypassCacheStorage" value="true" />
                     </when>
                     <otherwise>
+                        %{ if env_short != "u" ~}
                         <return-response>
                             <set-status code="401" reason="Unauthorized" />
                         </return-response>
+                        %{ else ~}
+                        <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
+                            <set-url>https://app-backend.io.italia.it/bpd/api/v1/user</set-url>
+                            <set-method>GET</set-method>
+                            <set-header name="Authorization" exists-action="override">
+                                <value>@("Bearer " +(string)context.Variables["token"])</value>
+                            </set-header>
+                        </send-request>
+                        <choose>
+                            <when condition="@(context.Variables["tokenstate"] == null)">
+                                <return-response>
+                                    <set-status code="504" reason="Backend IO Timeout" />
+                                </return-response>
+                            </when>
+                            <when condition="@(((IResponse)context.Variables["tokenstate"]).StatusCode == 200)">
+                                <set-variable name="fiscalCode" value="@((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>()["fiscal_code"])" />
+                                <set-variable name="bypassCacheStorage" value="true" />
+                            </when>
+                            <otherwise>
+                                <return-response>
+                                    <set-status code="401" reason="Unauthorized" />
+                                </return-response>
+                            </otherwise>
+                        </choose>
+                        %{ endif ~}
                     </otherwise>
                 </choose>
             </when>
