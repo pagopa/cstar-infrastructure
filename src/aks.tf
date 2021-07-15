@@ -40,6 +40,10 @@ module "aks" {
     {
       action_group_id    = azurerm_monitor_action_group.slack.id
       webhook_properties = null
+    },
+    {
+      action_group_id    = azurerm_monitor_action_group.email.id
+      webhook_properties = null
     }
   ]
 
