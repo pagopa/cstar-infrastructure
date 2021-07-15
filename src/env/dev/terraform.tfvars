@@ -372,9 +372,9 @@ eventhubs = [
         manage = false
       },
       {
-        name   = "bpd-citizen" // TODO Check
-        listen = true
-        send   = false
+        name   = "bpd-citizen"
+        listen = false
+        send   = true
         manage = false
       }
     ]
@@ -416,9 +416,9 @@ eventhubs = [
         manage = false
       },
       {
-        name   = "bpd-payment-instrument" // TODO Check
-        listen = true
-        send   = false
+        name   = "bpd-payment-instrument"
+        listen = false
+        send   = true
         manage = false
       }
   ] },
