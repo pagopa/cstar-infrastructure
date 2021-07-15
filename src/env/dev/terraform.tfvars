@@ -372,9 +372,9 @@ eventhubs = [
         manage = false
       },
       {
-        name   = "bpd-citizen" // TODO Check
-        listen = true
-        send   = false
+        name   = "bpd-citizen"
+        listen = false
+        send   = true
         manage = false
       }
     ]
