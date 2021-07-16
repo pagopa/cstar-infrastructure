@@ -320,7 +320,7 @@ module "vpn_snet" {
 
 
 module "vpn" {
-  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=vpn-gateway"
+  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.35"
 
   name                = format("%s-vpn", local.project)
   location            = var.location
