@@ -61,6 +61,11 @@ variable "vpn_sku" {
   description = "VPN Gateway SKU"
 }
 
+variable "vpn_pip_sku" {
+  type        = string
+  default     = "Basic"
+  description = "VPN GW PIP SKU"
+}
 
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {

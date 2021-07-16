@@ -323,12 +323,13 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
-  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.35"
+  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=vpn-pip-sku"
 
   name                = format("%s-vpn", local.project)
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   sku                 = var.vpn_sku
+  pip_sku             = var.vpn_pip_sku
   subnet_id           = module.vpn_snet.id
 
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
