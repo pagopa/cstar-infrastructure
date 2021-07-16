@@ -328,6 +328,8 @@ module "vpn" {
   sku                 = var.vpn_sku
   subnet_id           = module.vpn_snet.id
 
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+
   vpn_client_configuration = [
     {
       address_space         = ["172.16.1.0/24"],
@@ -341,4 +343,6 @@ module "vpn" {
       root_certificate      = []
     }
   ]
+
+  tags = var.tags
 }
