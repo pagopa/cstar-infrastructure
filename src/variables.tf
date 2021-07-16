@@ -61,10 +61,6 @@ variable "vpn_sku" {
   description = "VPN Gateway SKU"
 }
 
-variable "vpn_aad_audience" {
-  type        = string
-  description = "VPN AAD Audience"
-}
 
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {

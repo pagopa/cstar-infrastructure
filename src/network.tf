@@ -317,8 +317,9 @@ module "vpn_snet" {
   service_endpoints                              = []
   enforce_private_link_endpoint_network_policies = true
 }
-
-
+data "azuread_application" "vpn_app" {
+  display_name = "format("%s-app-vpn", local.project)"
+}
 module "vpn" {
   source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.35"
 
@@ -335,7 +336,7 @@ module "vpn" {
     {
       address_space         = ["172.16.1.0/24"],
       vpn_client_protocols  = ["OpenVPN"],
-      aad_audience          = var.vpn_aad_audience
+      aad_audience          = data.azuread_application.vpn_app.application_id
       aad_issuer            = format("https://sts.windows.net/%s/", data.azurerm_subscription.current.tenant_id)
       aad_tenant            = format("https://login.microsoftonline.com/%s", data.azurerm_subscription.current.tenant_id)
       radius_server_address = null
