@@ -49,6 +49,24 @@ variable "cidr_integration_vnet" {
   description = "Virtual network to peer with sia subscription. It should host apim and event hub."
 }
 
+variable "cidr_subnet_vpn" {
+  type        = list(string)
+  description = "VPN network address space."
+}
+
+## VPN ##
+variable "vpn_sku" {
+  type        = string
+  default     = "VpnGw1"
+  description = "VPN Gateway SKU"
+}
+
+variable "vpn_pip_sku" {
+  type        = string
+  default     = "Basic"
+  description = "VPN GW PIP SKU"
+}
+
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {
   type        = string

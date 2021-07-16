@@ -14,15 +14,16 @@ locals {
 ###########################
 
 module "apim" {
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.26"
-  subnet_id            = module.apim_snet.id
-  location             = azurerm_resource_group.rg_api.location
-  name                 = format("%s-apim", local.project)
-  resource_group_name  = azurerm_resource_group.rg_api.name
-  publisher_name       = var.apim_publisher_name
-  publisher_email      = var.apim_publisher_email
-  sku_name             = var.apim_sku
-  virtual_network_type = "Internal"
+  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.36"
+  subnet_id               = module.apim_snet.id
+  location                = azurerm_resource_group.rg_api.location
+  name                    = format("%s-apim", local.project)
+  resource_group_name     = azurerm_resource_group.rg_api.name
+  publisher_name          = var.apim_publisher_name
+  publisher_email         = var.apim_publisher_email
+  sku_name                = var.apim_sku
+  virtual_network_type    = "Internal"
+  redis_connection_string = module.redis.primary_connection_string
 
   application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 

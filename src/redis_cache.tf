@@ -1,6 +1,6 @@
 module "redis" {
 
-  source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.37"
 
   name                  = format("%s-redis", local.project)
   resource_group_name   = azurerm_resource_group.db_rg.name

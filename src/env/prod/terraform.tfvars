@@ -205,6 +205,7 @@ cidr_subnet_db         = ["10.1.129.0/24"]
 cidr_subnet_redis      = ["10.1.132.0/24"]
 cidr_subnet_azdoa      = ["10.1.130.0/24"]
 cidr_subnet_jumpbox    = ["10.1.131.0/24"]
+cidr_subnet_vpn        = ["10.1.132.0/24"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
