@@ -55,7 +55,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
 
 ## azureblob ## 
 module "api_azureblob" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "azureblob"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -72,7 +72,7 @@ module "api_azureblob" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
@@ -82,7 +82,7 @@ module "api_azureblob" {
 
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-info-privacy"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -99,7 +99,7 @@ module "api_bdp_info_privacy" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.bpd_api_product.product_id]
   subscription_required = true
@@ -113,7 +113,7 @@ module "api_bdp_info_privacy" {
 }
 
 module "api_bpd-io_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-payment-instrument-api"
   api_management_name = module.apim.name
@@ -150,7 +150,7 @@ module "api_bpd-io_payment_instrument" {
 }
 
 module "api_bpd_pm_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-pm-payment-instrument"
   api_management_name = module.apim.name
@@ -168,14 +168,14 @@ module "api_bpd_pm_payment_instrument" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.pm_api_product.product_id]
   subscription_required = true
 }
 
 module "api_bpd_io_backend_test" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-backend-test-api"
   api_management_name = module.apim.name
@@ -192,7 +192,7 @@ module "api_bpd_io_backend_test" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.bpd_api_product.product_id]
 
@@ -207,7 +207,7 @@ module "api_bpd_io_backend_test" {
 }
 
 module "api_bpd_tc" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-tc-api"
   api_management_name = module.apim.name
@@ -225,7 +225,7 @@ module "api_bpd_tc" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids = [module.bpd_api_product.product_id]
 
@@ -235,7 +235,8 @@ module "api_bpd_tc" {
       xml_content  = file("./api/bpd_tc/get_terms_and_conditions_html.xml")
     },
     {
-      operation_id = "getTermsAndConditionsPDF",
+      # getTermsAndConditionsPDF
+      operation_id = "5f15cdd06497f9cbb5eeef30",
       xml_content  = file("./api/bpd_tc/get_terms_and_conditions_pdf.xml")
     },
   ]
@@ -243,7 +244,7 @@ module "api_bpd_tc" {
 
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "rtd-payment-instrument-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -260,7 +261,7 @@ module "rtd_payment_instrument" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.batch_api_product.product_id]
   subscription_required = true
@@ -270,7 +271,7 @@ module "rtd_payment_instrument" {
 
 ## RTD Payment Instrument Manager API ##
 module "rtd_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "rtd-payment-instrument-manager-api"
   api_management_name = module.apim.name
@@ -290,7 +291,7 @@ module "rtd_payment_instrument_manager" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
@@ -301,7 +302,7 @@ module "rtd_payment_instrument_manager" {
 
 ## pm-admin-panel ##
 module "pm_admin_panel" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "pm-admin-panel"
   api_management_name = module.apim.name
@@ -320,7 +321,7 @@ module "pm_admin_panel" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.wisp_api_product.product_id]
   subscription_required = true
@@ -343,7 +344,8 @@ module "pm_admin_panel" {
 
 ## BPD HB Citizen API
 resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
-  name                = "bpd-hb-citizen"
+  # name              = "bpd-hb-citizen"
+  name                = "606c753d93570c8771d22b1c"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Citizen API"
@@ -352,11 +354,12 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
 
 ### Original (swagger 2.0.x)
 module "bpd_hb_citizen_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-hb-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
+  revision            = 3
 
   description  = "Api and Models"
   display_name = "BPD HB Citizen API"
@@ -369,7 +372,7 @@ module "bpd_hb_citizen_original" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -404,7 +407,7 @@ module "bpd_hb_citizen_original" {
 
 # V2 (openapi 3.0.x)
 module "bpd_hb_citizen_original_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-hb-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -423,7 +426,7 @@ module "bpd_hb_citizen_original_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -458,7 +461,8 @@ module "bpd_hb_citizen_original_v2" {
 
 ## 02 BPD HB Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
-  name                = "bpd-hb-payment-instruments"
+  # name                = "bpd-hb-payment-instruments"
+  name                = "606c75c259d0886ad88a1b54"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Payment Instruments API"
@@ -467,11 +471,12 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
 
 ### Original ###
 module "bpd_hb_payment_instruments" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-hb-payment-instruments-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
+  revision            = 2
 
   description  = ""
   display_name = "BPD HB Payment Instruments API"
@@ -485,7 +490,7 @@ module "bpd_hb_payment_instruments" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -582,7 +587,7 @@ module "bpd_hb_payment_instruments" {
 
 ### V2 ###
 module "bpd_hb_payment_instruments_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-hb-payment-instruments-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -601,7 +606,7 @@ module "bpd_hb_payment_instruments_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -648,7 +653,8 @@ module "bpd_hb_payment_instruments_v2" {
 
 ## 03 BPD HB Winning Transactions API ##
 resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" {
-  name                = "bpd-hb-winning-transactions"
+  # name                = "bpd-hb-winning-transactions"
+  name                = "606c760a0df254ffad31879e"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Winning Transactions API"
@@ -657,7 +663,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" 
 
 ### original ###
 module "bpd_hb_winning_transactions" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-hb-winning-transactions-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -674,7 +680,7 @@ module "bpd_hb_winning_transactions" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -692,7 +698,7 @@ module "bpd_hb_winning_transactions" {
 
 ### v2 ###
 module "bpd_hb_winning_transactions_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
   name                = "bpd-hb-winning-transactions-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -711,7 +717,7 @@ module "bpd_hb_winning_transactions_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -729,7 +735,8 @@ module "bpd_hb_winning_transactions_v2" {
 
 ## 04 BPD IO Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
-  name                = "bpd-io-award-period"
+  # name                = "bpd-io-award-period"
+  name                = "60be7e4abfe9135952da42f9"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Award Period API"
@@ -738,12 +745,13 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-award-period-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision            = 4
 
   description  = "findAll"
   display_name = "BPD IO Award Period API"
@@ -756,7 +764,7 @@ module "bpd_io_award_period" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
@@ -773,7 +781,7 @@ module "bpd_io_award_period" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-award-period-api"
   api_management_name = module.apim.name
@@ -793,9 +801,9 @@ module "bpd_io_award_period_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.app_io_product.product_id]
+  # product_ids           = [module.app_io_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -810,7 +818,8 @@ module "bpd_io_award_period_v2" {
 
 ## 05 BPD IO Citizen API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
-  name                = "bpd-io-citizen"
+  # name                = "bpd-io-citizen"
+  name                = "606c76581684f47ab701ba47"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Citizen API"
@@ -819,12 +828,13 @@ resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
 
 ### original ###
 module "bpd_io_citizen" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
+  revision            = 4
 
   description  = "Api and Models"
   display_name = "BPD IO Citizen API"
@@ -837,7 +847,7 @@ module "bpd_io_citizen" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
@@ -872,13 +882,14 @@ module "bpd_io_citizen" {
 
 ### v2 ###
 module "bpd_io_citizen_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-citizen-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
   api_version         = "v2"
+  revision            = 2
 
   description  = "Api and Models"
   display_name = "BPD IO Citizen API"
@@ -892,7 +903,7 @@ module "bpd_io_citizen_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
@@ -931,7 +942,7 @@ module "bpd_io_citizen_v2" {
 
 ## 06 BPD HB Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
-  name                = "bpd-hb-award-period"
+  name                = "60be7df8df2f23decce821de"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Award Period API"
@@ -940,12 +951,13 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
 
 ### Original ###
 module "bdp_hb_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-hb-award-period-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
+  revision            = 2
 
   description  = "Api and Models"
   display_name = "BPD HB Award Period API"
@@ -959,7 +971,7 @@ module "bdp_hb_award_period" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -975,7 +987,7 @@ module "bdp_hb_award_period" {
 
 ### v2 ###
 module "bdp_hb_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-hb-award-period-api"
   api_management_name = module.apim.name
@@ -995,7 +1007,7 @@ module "bdp_hb_award_period_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  # xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
   subscription_required = true
@@ -1011,7 +1023,8 @@ module "bdp_hb_award_period_v2" {
 
 ## 07 BPD IO Winning Transactions API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" {
-  name                = "bpd-io-winning-transactions"
+  # name                = "bpd-io-winning-transactions"
+  name                = "606c769de852a09526073ce6"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Winning Transactions API"
@@ -1020,7 +1033,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" 
 
 ### original ###
 module "bpd_io_winning_transactions" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-winning-transactions-api"
   api_management_name = module.apim.name
@@ -1038,7 +1051,7 @@ module "bpd_io_winning_transactions" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
+  # xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
@@ -1055,7 +1068,7 @@ module "bpd_io_winning_transactions" {
 
 ### v2 ###
 module "bpd_io_winning_transactions_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.34"
 
   name                = "bpd-io-winning-transactions-api"
   api_management_name = module.apim.name
@@ -1075,7 +1088,7 @@ module "bpd_io_winning_transactions_v2" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
+  # xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
