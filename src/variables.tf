@@ -57,7 +57,7 @@ variable "cidr_subnet_vpn" {
 ## VPN ##
 variable "vpn_sku" {
   type        = string
-  default     = "VpnGw1"
+  default     = "VpnGw1AZ"
   description = "VPN Gateway SKU"
 }
 
