@@ -1110,7 +1110,7 @@ module "app_io_product" {
 
   published             = true
   subscription_required = false
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
     env_short         = var.env_short
@@ -1131,7 +1131,7 @@ module "batch_api_product" {
 
   published             = false
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/batch_api/policy.xml")
 }
@@ -1148,7 +1148,7 @@ module "bpd_api_product" {
 
   published             = true
   subscription_required = false
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/bpd_api/policy.xml")
 }
@@ -1165,7 +1165,7 @@ module "issuer_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/issuer_api/policy.xml")
 }
@@ -1182,7 +1182,7 @@ module "pm_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/pm_api/policy.xml")
 }
@@ -1199,7 +1199,7 @@ module "rtd_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/rtd_api/policy.xml")
 }
@@ -1217,7 +1217,7 @@ module "wisp_api_product" {
 
   published             = false
   subscription_required = true
-  approval_required     = true
+  approval_required     = false
 
   policy_xml = file("./api_product/wisp_api/policy.xml")
 
