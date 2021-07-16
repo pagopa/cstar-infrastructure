@@ -205,6 +205,7 @@ cidr_subnet_db         = ["10.230.13.64/26"]
 cidr_subnet_eventhub   = ["10.230.13.128/27"]
 cidr_subnet_azdoa      = ["10.230.13.160/27"]
 cidr_subnet_jumpbox    = ["10.230.13.192/27"]
+cidr_subnet_vpn        = ["10.230.13.224/27"]
 
 devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 

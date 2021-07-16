@@ -105,3 +105,27 @@ resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
 
   key_vault_id = module.key_vault.id
 }
+
+## Storage account to save logs
+module "operations_logs" {
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
+
+  name                = replace(format("%s-sa-ops-logs", local.project), "-", "")
+  versioning_name     = format("%s-sa-ops-versioning", local.project)
+  resource_group_name = azurerm_resource_group.rg_storage.name
+  location            = var.location
+
+  account_kind             = "StorageV2"
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  access_tier              = "Hot"
+  enable_versioning        = true
+
+  lock_enabled = true
+  lock_name    = "storage-logs"
+  lock_level   = "CanNotDelete"
+  lock_notes   = null
+
+
+  tags = var.tags
+}
