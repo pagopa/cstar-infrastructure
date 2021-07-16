@@ -317,9 +317,11 @@ module "vpn_snet" {
   service_endpoints                              = []
   enforce_private_link_endpoint_network_policies = true
 }
+
 data "azuread_application" "vpn_app" {
-  display_name = "format("%s-app-vpn", local.project)"
+  display_name = format("%s-app-vpn", local.project)
 }
+
 module "vpn" {
   source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.35"
 

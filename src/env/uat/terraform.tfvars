@@ -485,8 +485,6 @@ reverse_proxy_ip = "10.1.0.250"
 app_gateway_api_certificate_name    = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name = "api-io-uat-cstar-pagopa-it"
 
-vpn_aad_audience = "4c8715ea-d120-4cc6-b7ec-a33f184e2dea"
-
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
