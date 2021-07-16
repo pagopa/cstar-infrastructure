@@ -323,7 +323,7 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
-  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=vpn-pip-sku"
+  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.36"
 
   name                = format("%s-vpn", local.project)
   location            = var.location
