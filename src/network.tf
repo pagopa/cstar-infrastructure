@@ -329,6 +329,7 @@ module "vpn" {
   subnet_id           = module.vpn_snet.id
 
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+  log_storage_account_id     = module.operations_logs.id
 
   vpn_client_configuration = [
     {
