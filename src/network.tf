@@ -306,3 +306,39 @@ module "route_table_peering_sia" {
 
   tags = var.tags
 }
+
+## VPN subnet
+module "vpn_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                                           = "GatewaySubnet"
+  address_prefixes                               = var.cidr_subnet_vpn
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = []
+  enforce_private_link_endpoint_network_policies = true
+}
+
+
+module "vpn" {
+  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=vpn-gateway"
+
+  name                = format("%s-vpn", local.project)
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  sku                 = var.vpn_sku
+  subnet_id           = module.vpn_snet.id
+
+  vpn_client_configuration = [
+    {
+      address_space         = ["172.16.1.0/24"],
+      vpn_client_protocols  = ["OpenVPN"],
+      aad_audience          = var.vpn_aad_audience
+      aad_issuer            = format("https://sts.windows.net/%s/", data.azurerm_subscription.current.tenant_id)
+      aad_tenant            = format("https://login.microsoftonline.com/%s", data.azurerm_subscription.current.tenant_id)
+      radius_server_address = null
+      radius_server_secret  = null
+      revoked_certificate   = []
+      root_certificate      = []
+    }
+  ]
+}

@@ -205,6 +205,7 @@ cidr_subnet_appgateway = ["10.1.128.0/24"]
 cidr_subnet_db         = ["10.1.129.0/24"]
 cidr_subnet_azdoa      = ["10.1.130.0/24"]
 cidr_subnet_jumpbox    = ["10.1.131.0/24"]
+cidr_subnet_vpn        = ["10.1.132.0/24"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -483,6 +484,8 @@ reverse_proxy_ip = "10.1.0.250"
 # Note: removing these will create self signed certificates
 app_gateway_api_certificate_name    = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name = "api-io-uat-cstar-pagopa-it"
+
+vpn_aad_audience = "4c8715ea-d120-4cc6-b7ec-a33f184e2dea"
 
 tags = {
   CreatedBy   = "Terraform"
