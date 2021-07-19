@@ -55,7 +55,7 @@ db_backup="fa"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d "${db_backup}" "${dump_file}.${db_backup}/"
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/"
 
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
@@ -67,7 +67,7 @@ db_backup="rtd"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d "${db_backup}" "${dump_file}.${db_backup}/"
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/"
 
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
@@ -79,7 +79,7 @@ db_backup="bpd"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d "${db_backup}" "${dump_file}.${db_backup}/"
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/"
 
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"

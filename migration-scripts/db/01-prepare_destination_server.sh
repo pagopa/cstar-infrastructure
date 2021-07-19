@@ -22,14 +22,8 @@ sleep 30s
 echo "restarting cstar-${environment_short}-postgresql"
 az postgres server restart -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql"
 
-## Destroy and recreate database
+## Destroy databases
 
-# bash terraform.sh init "${environment}" -reconfigure
-
-# bash terraform.sh destroy "${environment}" -target=azurerm_postgresql_database.bpd_db
-# bash terraform.sh destroy "${environment}" -target=azurerm_postgresql_database.rtd_db
-# bash terraform.sh destroy "${environment}" -target=azurerm_postgresql_database.fa_db
-
-# bash terraform.sh apply "${environment}" -target=azurerm_postgresql_database.bpd_db
-# bash terraform.sh apply "${environment}" -target=azurerm_postgresql_database.rtd_db
-# bash terraform.sh apply "${environment}" -target=azurerm_postgresql_database.fa_db
+az postgres db delete -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n fa
+az postgres db delete -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n rtd
+az postgres db delete -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n bpd
