@@ -16,7 +16,7 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
 }
 
 module "postgresql" {
-  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.27"
+  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.36"
   name                             = format("%s-postgresql", local.project)
   location                         = azurerm_resource_group.db_rg.location
   resource_group_name              = azurerm_resource_group.db_rg.name
@@ -30,26 +30,32 @@ module "postgresql" {
   enable_replica                   = var.db_enable_replica
   ssl_minimal_tls_version_enforced = "TLS1_2"
 
+  network_rules = {
+    ip_rules = []
+    # dblink
+    allow_access_to_azure_services = true
+  }
+
   monitor_metric_alert_criteria         = var.db_metric_alerts
   replica_monitor_metric_alert_criteria = var.db_metric_alerts
   action = [
     {
       action_group_id    = azurerm_monitor_action_group.email.id
-      webhook_properties = {}
+      webhook_properties = null
     },
     {
       action_group_id    = azurerm_monitor_action_group.slack.id
-      webhook_properties = {}
+      webhook_properties = null
     }
   ]
   replica_action = [
     {
       action_group_id    = azurerm_monitor_action_group.email.id
-      webhook_properties = {}
+      webhook_properties = null
     },
     {
       action_group_id    = azurerm_monitor_action_group.slack.id
-      webhook_properties = {}
+      webhook_properties = null
     }
   ]
 
@@ -61,7 +67,7 @@ resource "azurerm_postgresql_database" "bpd_db" {
   resource_group_name = azurerm_resource_group.db_rg.name
   server_name         = module.postgresql.name
   charset             = "UTF8"
-  collation           = "Italian_Italy.1252"
+  collation           = "English_United States.1252"
 }
 
 resource "azurerm_postgresql_database" "rtd_db" {

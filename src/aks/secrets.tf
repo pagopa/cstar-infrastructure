@@ -10,7 +10,7 @@ module "key_vault_secrets_query" {
     "db-bpd-login",
     "db-bpd-user-password",
     "db-fa-login",
-    "db-fa-password",
+    "db-fa-user-password",
     "db-rtd-login",
     "db-rtd-user-password",
     "evh-bpd-winner-outcome-award-winner-key",

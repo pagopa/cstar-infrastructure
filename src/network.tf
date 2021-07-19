@@ -27,15 +27,13 @@ module "db_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
-## Eventhub subnet
-module "eventhub_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
-  name                                           = format("%s-eventhub-snet", local.project)
-  address_prefixes                               = var.cidr_subnet_eventhub
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = module.vnet.name
-  service_endpoints                              = ["Microsoft.EventHub"]
-  enforce_private_link_endpoint_network_policies = true
+module "redis_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
+  name                 = format("%s-redis-snet", local.project)
+  address_prefixes     = var.cidr_subnet_redis
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
 }
 
 # k8s cluster subnet 
@@ -51,19 +49,6 @@ module "k8s_snet" {
     "Microsoft.Web",
     "Microsoft.Storage"
   ]
-}
-
-# APIM subnet
-module "apim_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
-  name                 = format("%s-apim-snet", local.project)
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
-  address_prefixes     = var.cidr_subnet_apim
-
-  service_endpoints = ["Microsoft.Web"]
-
-  enforce_private_link_endpoint_network_policies = true
 }
 
 ## Subnet jumpbox
@@ -95,6 +80,54 @@ module "appgateway-snet" {
   virtual_network_name = module.vnet.name
 }
 
+# vnet integration
+module "vnet_integration" {
+  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.26"
+  name                = format("%s-integration-vnet", local.project)
+  location            = azurerm_resource_group.rg_vnet.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  address_space       = var.cidr_integration_vnet
+
+  tags = var.tags
+}
+
+# APIM subnet
+module "apim_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                 = format("%s-apim-snet", local.project)
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet_integration.name
+  address_prefixes     = var.cidr_subnet_apim
+
+  service_endpoints = ["Microsoft.Web"]
+
+  enforce_private_link_endpoint_network_policies = true
+}
+
+## Eventhub subnet
+module "eventhub_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                                           = format("%s-eventhub-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_eventhub
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet_integration.name
+  service_endpoints                              = ["Microsoft.EventHub"]
+  enforce_private_link_endpoint_network_policies = true
+}
+
+## Peering between the vnet(main) and integration vnet 
+module "vnet_peering" {
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30"
+
+  location = azurerm_resource_group.rg_vnet.location
+
+  source_resource_group_name       = azurerm_resource_group.rg_vnet.name
+  source_virtual_network_name      = module.vnet.name
+  source_remote_virtual_network_id = module.vnet.id
+  target_resource_group_name       = azurerm_resource_group.rg_vnet.name
+  target_virtual_network_name      = module.vnet_integration.name
+  target_remote_virtual_network_id = module.vnet_integration.id
+}
 
 ## Application gateway public ip ##
 resource "azurerm_public_ip" "apigateway_public_ip" {
@@ -240,7 +273,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.k8s_snet.id, module.apim_snet.id]
+  subnet_ids = [module.apim_snet.id, module.eventhub_snet.id]
 
   routes = [{
     # production
@@ -270,6 +303,51 @@ module "route_table_peering_sia" {
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
   }]
+
+  tags = var.tags
+}
+
+## VPN subnet
+module "vpn_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                                           = "GatewaySubnet"
+  address_prefixes                               = var.cidr_subnet_vpn
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = []
+  enforce_private_link_endpoint_network_policies = true
+}
+
+data "azuread_application" "vpn_app" {
+  display_name = format("%s-app-vpn", local.project)
+}
+
+module "vpn" {
+  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.36"
+
+  name                = format("%s-vpn", local.project)
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  sku                 = var.vpn_sku
+  pip_sku             = var.vpn_pip_sku
+  subnet_id           = module.vpn_snet.id
+
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+  log_storage_account_id     = module.operations_logs.id
+
+  vpn_client_configuration = [
+    {
+      address_space         = ["172.16.1.0/24"],
+      vpn_client_protocols  = ["OpenVPN"],
+      aad_audience          = data.azuread_application.vpn_app.application_id
+      aad_issuer            = format("https://sts.windows.net/%s/", data.azurerm_subscription.current.tenant_id)
+      aad_tenant            = format("https://login.microsoftonline.com/%s", data.azurerm_subscription.current.tenant_id)
+      radius_server_address = null
+      radius_server_secret  = null
+      revoked_certificate   = []
+      root_certificate      = []
+    }
+  ]
 
   tags = var.tags
 }

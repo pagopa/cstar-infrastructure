@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.22"
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.32"
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
@@ -16,6 +16,7 @@ module "aks" {
 
   vm_size    = var.aks_vm_size
   node_count = var.aks_node_count
+  sku_tier   = var.aks_sku_tier
 
   private_cluster_enabled = true
 
@@ -27,12 +28,24 @@ module "aks" {
 
   network_profile = {
     docker_bridge_cidr = "172.17.0.1/16"
-    dns_service_ip     = "10.1.0.10"
+    dns_service_ip     = "10.2.0.10"
     network_plugin     = "azure"
-    network_policy     = null
+    network_policy     = "azure"
     outbound_type      = "loadBalancer"
-    service_cidr       = "10.1.0.0/16"
+    service_cidr       = "10.2.0.0/16"
   }
+
+  metric_alerts = var.aks_metric_alerts
+  action = [
+    {
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    },
+    {
+      action_group_id    = azurerm_monitor_action_group.email.id
+      webhook_properties = null
+    }
+  ]
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
 

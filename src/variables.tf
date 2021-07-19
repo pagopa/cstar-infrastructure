@@ -23,6 +23,12 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_redis" {
+  type        = list(string)
+  description = "Redis network address space."
+  default     = []
+}
+
 variable "cidr_subnet_eventhub" {
   type        = list(string)
   description = "Eventhub network address space."
@@ -36,6 +42,29 @@ variable "cidr_subnet_jumpbox" {
 variable "cidr_subnet_appgateway" {
   type        = list(string)
   description = "Application gateway address space."
+}
+
+variable "cidr_integration_vnet" {
+  type        = list(string)
+  description = "Virtual network to peer with sia subscription. It should host apim and event hub."
+}
+
+variable "cidr_subnet_vpn" {
+  type        = list(string)
+  description = "VPN network address space."
+}
+
+## VPN ##
+variable "vpn_sku" {
+  type        = string
+  default     = "VpnGw1"
+  description = "VPN Gateway SKU"
+}
+
+variable "vpn_pip_sku" {
+  type        = string
+  default     = "Basic"
+  description = "VPN GW PIP SKU"
 }
 
 ## Public DNS Zone ##
@@ -86,6 +115,12 @@ variable "kubernetes_version" {
   default = null
 }
 
+variable "aks_sku_tier" {
+  type        = string
+  description = "The SKU Tier that should be used for this Kubernetes Cluster."
+  default     = "Free"
+}
+
 variable "reverse_proxy_ip" {
   type        = string
   default     = "127.0.0.1"
@@ -96,6 +131,37 @@ variable "aks_num_outbound_ips" {
   type        = number
   default     = 1
   description = "How many outbound ips allocate for AKS cluster"
+}
+
+variable "aks_metric_alerts" {
+  default = {}
+
+  description = <<EOD
+Map of name = criteria objects
+EOD
+
+  type = map(object({
+    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
+    aggregation = string
+    # "Insights.Container/pods" "Insights.Container/nodes"
+    metric_namespace = string
+    metric_name      = string
+    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
+    operator  = string
+    threshold = number
+    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
+    frequency = string
+    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
+    window_size = string
+
+    dimension = list(object(
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
+    ))
+  }))
 }
 
 ## Monitor
@@ -116,12 +182,6 @@ variable "law_daily_quota_gb" {
   description = "The workspace daily quota for ingestion in GB."
   default     = -1
 }
-
-variable "monitor_notification_email" {
-  type        = string
-  description = "email address for alerts notification"
-}
-
 
 ## apim 
 variable "cidr_subnet_apim" {
@@ -265,11 +325,13 @@ EOD
     # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
     window_size = string
 
-    dimension = map(object({
-      name     = string
-      operator = string
-      values   = list(string)
-    }))
+    dimension = list(object(
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
+    ))
   }))
 }
 
@@ -298,6 +360,12 @@ variable "ehns_auto_inflate_enabled" {
   default     = false
 }
 
+variable "ehns_zone_redundant" {
+  type        = bool
+  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
+  default     = false
+}
+
 variable "eventhubs" {
   description = "A list of event hubs to add to namespace."
   type = list(object({
@@ -313,6 +381,36 @@ variable "eventhubs" {
     }))
   }))
   default = []
+}
+
+variable "ehns_metric_alerts" {
+  default = {}
+
+  description = <<EOD
+Map of name = criteria objects
+EOD
+
+  type = map(object({
+    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
+    aggregation = string
+    metric_name = string
+    description = string
+    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
+    operator  = string
+    threshold = number
+    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
+    frequency = string
+    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
+    window_size = string
+
+    dimension = list(object(
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
+    ))
+  }))
 }
 
 ## Redis cache

@@ -1,9 +1,14 @@
-env       = "pro"
+env       = "prod"
 env_short = "p"
 
 # ingress
-ingress_replica_count    = "2"
-ingress_load_balancer_ip = "x.x.x.x"
+ingress_replica_count    = "6"
+ingress_load_balancer_ip = "10.1.0.250"
+
+rbac_namespaces = ["bpd", "rtd", "fa"]
+
+# cstariobackendtest
+configmaps_cstariobackendtest = {}
 
 # bpdmsawardperiod
 configmaps_bpdmsawardperiod = {
