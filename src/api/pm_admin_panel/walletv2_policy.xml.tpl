@@ -34,7 +34,9 @@ return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding
             <set-header name="Fiscal-Code" exists-action="override">
                 <value>@(context.Variables.GetValueOrDefault<string>("fiscalcode"))</value>
             </set-header>
-            <authentication-certificate thumbprint="${BPD-PM-client-certificate-thumbprint}" />
+            %{ if env_short != "d" ~}
+            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+            %{ endif ~}
         </send-request>
         <return-response response-variable-name="walletresponse" />
     </inbound>

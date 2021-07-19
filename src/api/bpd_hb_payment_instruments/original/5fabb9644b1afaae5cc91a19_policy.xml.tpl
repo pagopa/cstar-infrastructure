@@ -31,7 +31,9 @@
 									new JObject(
 										new JProperty("id",(string)context.Request.MatchedParameters["id"])))).ToString();
                     }</set-body>
+                    %{ if env_short != "d" ~}
                     <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+                    %{ endif ~}
                 </send-request>
                 <choose>
                     <when condition="@(context.Variables["hpan"] == null)">

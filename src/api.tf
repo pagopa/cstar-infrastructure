@@ -296,7 +296,22 @@ module "rtd_payment_instrument_manager" {
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "get-hash-salt",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      operation_id = "get-hashed-pans",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans_policy.xml.tpl", {
+        host = trim(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")
+      })
+    },
+  ]
 }
 
 
@@ -332,7 +347,8 @@ module "pm_admin_panel" {
       xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         PM-Timeout-Sec                       = var.pm_timeout_sec
-        BPD-PM-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
         PM-Ip-Filter-From                    = var.pm_ip_filter_range.from
         PM-Ip-Filter-To                      = var.pm_ip_filter_range.to
       })
@@ -499,6 +515,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
     {
@@ -508,6 +525,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
     {
@@ -517,6 +535,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
     {
@@ -526,6 +545,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -536,6 +556,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -546,6 +567,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -556,6 +578,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -566,6 +589,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
     },
@@ -576,6 +600,7 @@ module "bpd_hb_payment_instruments" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
   ]
@@ -615,6 +640,7 @@ module "bpd_hb_payment_instruments_v2" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
     {
@@ -624,6 +650,7 @@ module "bpd_hb_payment_instruments_v2" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
     {
@@ -633,6 +660,7 @@ module "bpd_hb_payment_instruments_v2" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
     {
@@ -642,6 +670,7 @@ module "bpd_hb_payment_instruments_v2" {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
       })
     },
   ]
