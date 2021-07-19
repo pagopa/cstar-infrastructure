@@ -42,26 +42,28 @@ printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
 printf "Storage Account Name: %s\n" "${storage_account_name}"
 
+# removed using vpn
+# export DESTINATION_IP="${vm_public_ip}"
+# export USERNAME="${vm_user_name}"
+# export TARGET="${psql_private_fqdn}:5432"
+# export SOCKET_FILE="/tmp/$SUBSCRIPTION-flyway-sock"
+# export RANDOM_PORT=$(echo $((10000 + $RANDOM % 60000)))
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#   export TUNNEL_IP=$(${WORKDIR}/scripts/ip_address.sh)
+# else
+#   TUNNEL_IP="localhost"
+# fi
 
-export DESTINATION_IP="${vm_public_ip}"
-export USERNAME="${vm_user_name}"
-export TARGET="${psql_private_fqdn}:5432"
-export SOCKET_FILE="/tmp/$SUBSCRIPTION-flyway-sock"
-export RANDOM_PORT=$(echo $((10000 + $RANDOM % 60000)))
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  export TUNNEL_IP=$(${WORKDIR}/scripts/ip_address.sh)
-else
-  TUNNEL_IP="localhost"
-fi
-
-bash scripts/ssh-port-forward.sh
-trap "ssh -S $SOCKET_FILE -O exit $USERNAME@$DESTINATION_IP" EXIT
+# bash scripts/ssh-port-forward.sh
+# trap "ssh -S $SOCKET_FILE -O exit $USERNAME@$DESTINATION_IP" EXIT
 
 terraform init -reconfigure \
     -backend-config="storage_account_name=${storage_account_name}" \
     -backend-config="resource_group_name=${resource_group_name}"
 
-export FLYWAY_URL="jdbc:postgresql://${TUNNEL_IP}:${RANDOM_PORT}/${DATABASE}?sslmode=require"
+# removed using vpn
+# export FLYWAY_URL="jdbc:postgresql://${TUNNEL_IP}:${RANDOM_PORT}/${DATABASE}?sslmode=require"
+export FLYWAY_URL="jdbc:postgresql://${psql_private_fqdn}:5432/${DATABASE}?sslmode=require"
 export FLYWAY_USER=$(terraform output -raw psql_username)
 export FLYWAY_PASSWORD=$(terraform output -raw psql_password)
 export SERVER_NAME=$(terraform output -raw psql_servername)
