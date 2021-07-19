@@ -22,7 +22,9 @@
                         <send-request mode="new" response-variable-name="saltPMResponse" timeout="${pm-timeout-sec}" ignore-error="true">
                             <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
                             <set-method>GET</set-method>              
+                            %{ if env_short != "d" ~}
                             <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+                            %{ endif ~}
                         </send-request>
                         <choose>
                             <when condition="@(((IResponse)context.Variables["saltPMResponse"]).StatusCode != 200)">
