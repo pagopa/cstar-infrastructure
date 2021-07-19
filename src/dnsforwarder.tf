@@ -66,6 +66,7 @@ resource "azurerm_container_group" "coredns_forwarder" {
 
     }
 
+    /*
     readiness_probe {
       http_get {
         path   = "/ready"
@@ -91,6 +92,7 @@ resource "azurerm_container_group" "coredns_forwarder" {
       success_threshold     = 1
       timeout_seconds       = 5
     }
+*/
 
     volume {
       mount_path = "/app/conf"
