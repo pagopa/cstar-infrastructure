@@ -216,7 +216,7 @@ cidr_subnet_eventhub  = ["10.230.7.64/26"]
 
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 
-db_sku_name       = "GP_Gen5_2"
+db_sku_name       = "GP_Gen5_8"
 db_enable_replica = true
 db_metric_alerts = {
   cpu = {
@@ -248,12 +248,13 @@ db_metric_alerts = {
   }
   # https://docs.microsoft.com/it-it/azure/postgresql/concepts-limits
   # GP_Gen5_2 -| 145 / 100 * 80 = 116
+  # GP_Gen5_8 -| 475 / 100 * 80 = 380
   # GP_Gen5_32 -| 1495 / 100 * 80 = 1196
   max_active_connections = {
     aggregation = "Average"
     metric_name = "active_connections"
     operator    = "GreaterThan"
-    threshold   = 116
+    threshold   = 380
     frequency   = "PT5M"
     window_size = "PT5M"
     dimension   = []
