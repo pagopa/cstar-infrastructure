@@ -54,6 +54,11 @@ variable "cidr_subnet_vpn" {
   description = "VPN network address space."
 }
 
+variable "cidr_subnet_dnsforwarder" {
+  type        = list(string)
+  description = "DNS Forwarder network address space."
+}
+
 ## VPN ##
 variable "vpn_sku" {
   type        = string

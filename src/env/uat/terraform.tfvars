@@ -197,15 +197,16 @@ aks_metric_alerts = {
   }
 }
 
-
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=33.df9ce3000
 cidr_vnet = ["10.1.0.0/16"]
 
-cidr_subnet_k8s        = ["10.1.0.0/17"]
-cidr_subnet_appgateway = ["10.1.128.0/24"]
-cidr_subnet_db         = ["10.1.129.0/24"]
-cidr_subnet_azdoa      = ["10.1.130.0/24"]
-cidr_subnet_jumpbox    = ["10.1.131.0/24"]
-cidr_subnet_vpn        = ["10.1.132.0/24"]
+cidr_subnet_k8s          = ["10.1.0.0/17"]
+cidr_subnet_appgateway   = ["10.1.128.0/24"]
+cidr_subnet_db           = ["10.1.129.0/24"]
+cidr_subnet_azdoa        = ["10.1.130.0/24"]
+cidr_subnet_jumpbox      = ["10.1.131.0/24"]
+cidr_subnet_vpn          = ["10.1.132.0/24"]
+cidr_subnet_dnsforwarder = ["10.1.133.0/29"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31

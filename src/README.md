@@ -12,6 +12,8 @@
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 1.6.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 2.68.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.1.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.1.0 |
 
 ## Modules
 
@@ -51,6 +53,7 @@
 | <a name="module_bpd_io_winning_transactions_v2"></a> [bpd\_io\_winning\_transactions\_v2](#module\_bpd\_io\_winning\_transactions\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
 | <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v1.0.7 |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
+| <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub | v1.0.33 |
 | <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_issuer_api_product"></a> [issuer\_api\_product](#module\_issuer\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
@@ -89,6 +92,7 @@
 | [azurerm_api_management_api_version_set.bpd_io_winning_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_custom_domain.api_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/api_management_custom_domain) | resource |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/application_insights) | resource |
+| [azurerm_container_group.coredns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/container_group) | resource |
 | [azurerm_dns_a_record.dns-a-developer-production-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-developer-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-management-production-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/dns_a_record) | resource |
@@ -113,6 +117,7 @@
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_network_profile.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/network_profile) | resource |
 | [azurerm_postgresql_database.bpd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/postgresql_database) | resource |
 | [azurerm_postgresql_database.fa_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/postgresql_database) | resource |
 | [azurerm_postgresql_database.rtd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/postgresql_database) | resource |
@@ -123,6 +128,7 @@
 | [azurerm_public_ip.apigateway_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/public_ip) | resource |
 | [azurerm_resource_group.azdo_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.db_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.jumpbox_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.msg_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
@@ -132,12 +138,15 @@
 | [azurerm_resource_group.rg_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.sec_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.aks_to_acr](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/role_assignment) | resource |
+| [azurerm_storage_account.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_account) | resource |
 | [azurerm_storage_container.aks_state](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.bpd_terms_and_conditions](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cstar_exports](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.info_privacy](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.psql_state](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_container) | resource |
+| [azurerm_storage_share.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/storage_share) | resource |
 | [azurerm_user_assigned_identity.appgateway](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/resources/user_assigned_identity) | resource |
+| [null_resource.upload_corefile](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azuread_application.vpn_app](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/application) | data source |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/group) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/data-sources/client_config) | data source |
@@ -149,6 +158,7 @@
 | [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.68.0/docs/data-sources/subscription) | data source |
+| [local_file.corefile](https://registry.terraform.io/providers/hashicorp/local/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
@@ -162,6 +172,7 @@
 | <a name="input_cidr_subnet_appgateway"></a> [cidr\_subnet\_appgateway](#input\_cidr\_subnet\_appgateway) | Application gateway address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_db"></a> [cidr\_subnet\_db](#input\_cidr\_subnet\_db) | Database network address space. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_dnsforwarder"></a> [cidr\_subnet\_dnsforwarder](#input\_cidr\_subnet\_dnsforwarder) | DNS Forwarder network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_eventhub"></a> [cidr\_subnet\_eventhub](#input\_cidr\_subnet\_eventhub) | Eventhub network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_jumpbox"></a> [cidr\_subnet\_jumpbox](#input\_cidr\_subnet\_jumpbox) | Jumpbox subnet address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_k8s"></a> [cidr\_subnet\_k8s](#input\_cidr\_subnet\_k8s) | Subnet cluster kubernetes. | `list(string)` | n/a | yes |
