@@ -129,3 +129,45 @@ module "operations_logs" {
 
   tags = var.tags
 }
+
+###########################
+##         Blobs         ##
+###########################
+
+## Terms and Conditions HTML
+data "local_file" "tc_html" {
+  filename = "${path.module}/blob/tc/bpd-tc.html"
+}
+resource "null_resource" "upload_tc_html" {
+  triggers = {
+    "changes-in-config" : md5(data.local_file.tc_html.content)
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage azcopy blob upload
+                --account-name ${module.cstarblobstorage.name} \
+                --account-key ${module.cstarblobstorage.primary_access_key} \
+                --container ${azurerm_storage_container.bpd_terms_and_conditions.name} \
+                --source "${path.module}/blob/tc/bpd-tc.html"
+          EOT
+  }
+}
+
+## Terms and Conditions PDF
+data "local_file" "tc_pdf" {
+  filename = "${path.module}/blob/tc/bpd-tc.pdf"
+}
+resource "null_resource" "upload_tc_pdf" {
+  triggers = {
+    "changes-in-config" : md5(data.local_file.tc_pdf.content)
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage azcopy blob upload
+                --account-name ${module.cstarblobstorage.name} \
+                --account-key ${module.cstarblobstorage.primary_access_key} \
+                --container ${azurerm_storage_container.bpd_terms_and_conditions.name} \
+                --source "${path.module}/blob/tc/bpd-tc.pdf"
+          EOT
+  }
+}
