@@ -154,12 +154,12 @@ resource "null_resource" "upload_tc_html" {
 }
 
 ## Terms and Conditions PDF
-data "local_file" "tc_html" {
+data "local_file" "tc_pdf" {
   filename = "${path.module}/blob/tc/bpd-tc.pdf"
 }
 resource "null_resource" "upload_tc_pdf" {
   triggers = {
-    "changes-in-config" : md5(data.local_file.pdf.content)
+    "changes-in-config" : md5(data.local_file.tc_pdf.content)
   }
   provisioner "local-exec" {
     command = <<EOT
