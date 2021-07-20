@@ -25,7 +25,7 @@ then
 fi
 
 ## UAT
-# export PGPASSWORD="XXXX"
+# export PGPASSWORD="XXXXXX"
 # db_user="XXXX"
 # db_host="XXXX"
 
@@ -36,7 +36,8 @@ fi
 
 #### VARS CHANGE ME
 
-log_file="${dump_dir}/log_restore.txt"
+date_restore=$(date +%Y-%m-%d-%H_%M_%S)
+log_file="${dump_dir}/log_restore_${date_restore}.txt"
 dump_file="${dump_dir}/db.dump"
 
 #### INIT SCRIPT
@@ -55,7 +56,7 @@ db_backup="fa"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/"
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/" >> "${log_file}" 2>&1
 
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
@@ -67,7 +68,7 @@ db_backup="rtd"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/"
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/" >> "${log_file}" 2>&1
 
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
@@ -79,7 +80,7 @@ db_backup="bpd"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/"
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/" >> "${log_file}" 2>&1
 
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
