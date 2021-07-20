@@ -144,7 +144,7 @@ resource "null_resource" "upload_tc_html" {
   }
   provisioner "local-exec" {
     command = <<EOT
-              az storage azcopy blob upload
+              az storage azcopy blob upload \
                 --account-name ${module.cstarblobstorage.name} \
                 --account-key ${module.cstarblobstorage.primary_access_key} \
                 --container ${azurerm_storage_container.bpd_terms_and_conditions.name} \
@@ -163,7 +163,7 @@ resource "null_resource" "upload_tc_pdf" {
   }
   provisioner "local-exec" {
     command = <<EOT
-              az storage azcopy blob upload
+              az storage azcopy blob upload \
                 --account-name ${module.cstarblobstorage.name} \
                 --account-key ${module.cstarblobstorage.primary_access_key} \
                 --container ${azurerm_storage_container.bpd_terms_and_conditions.name} \
