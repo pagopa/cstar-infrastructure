@@ -106,36 +106,31 @@ resource "azurerm_container_group" "coredns_forwarder" {
 
   }
 
-  # temp disabled the command az storage file upload fails with message:
-  # The specifed resource name contains invalid characters. 
-  # depends_on = [
-  #   null_resource.upload_corefile
-  # ]
+
+  depends_on = [
+    null_resource.upload_corefile
+  ]
 
   tags = var.tags
 }
 
-# temp disabled the command az storage file upload fails with message:
-# The specifed resource name contains invalid characters. 
+data "local_file" "corefile" {
+  filename = "${path.module}/dns/Corefile"
+}
 
-# data "local_file" "corefile" {
-#   filename = "${path.module}/dns/Corefile"
-# }
+resource "null_resource" "upload_corefile" {
 
-# resource "null_resource" "upload_corefile" {
+  triggers = {
+    "changes-in-config" : md5(data.local_file.corefile.content)
+  }
 
-#   triggers = {
-#     "changes-in-config" : md5(data.local_file.corefile.content)
-#   }
-
-#   provisioner "local-exec" {
-#     command = <<EOT
-#               az storage file upload \
-#                 --account-name ${azurerm_storage_account.dns_forwarder.name} \
-#                 --account-key ${azurerm_storage_account.dns_forwarder.primary_access_key} \
-#                 --share-name ${azurerm_storage_share.dns_forwarder.name} \
-#                 --source "${path.module}/dns/Corefile" \
-#                 --path "/"
-#           EOT
-#   }
-# }
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage file upload \
+                --account-name ${azurerm_storage_account.dns_forwarder.name} \
+                --account-key ${azurerm_storage_account.dns_forwarder.primary_access_key} \
+                --share-name ${azurerm_storage_share.dns_forwarder.name} \
+                --source "${path.module}/dns/Corefile"
+          EOT
+  }
+}
