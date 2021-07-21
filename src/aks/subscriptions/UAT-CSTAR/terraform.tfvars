@@ -38,6 +38,7 @@ configmaps_bpdmsawardwinner = {
   LOG_LEVEL_BPD_AWARD_WINNER                        = "INFO"
   POSTGRES_POOLSIZE                                 = "20"
   POSTGRES_SHOW_SQL                                 = "true"
+  AWARD_WINNER_SERVICE_UPDATE_AWARD_WINNER_SCHEDULER= "0 0 1 * * ?"
 }
 
 # bpdmscitizen
