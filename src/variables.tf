@@ -436,7 +436,7 @@ variable "redis_family" {
 
 # LB
 variable "lb_integration_frontend_ip" {
-  type = string
+  type    = string
   default = null
 }
 

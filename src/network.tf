@@ -385,11 +385,10 @@ resource "azurerm_network_profile" "dns_forwarder" {
   }
 }
 
-
 module "integration_lb" {
   count = var.env_short != "d" ? 1 : 0
 
-  source                                 = "git::https://github.com/pagopa/azurerm.git//load_balancer?ref=load-balancer-module"
+  source                                 = "git::https://github.com/pagopa/azurerm.git//load_balancer?ref=v1.0.39"
   name                                   = format("%s-integration", local.project)
   resource_group_name                    = azurerm_resource_group.rg_vnet.name
   location                               = var.location
