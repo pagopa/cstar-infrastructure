@@ -6,7 +6,7 @@ resource "azurerm_dns_zone" "public" {
   tags = var.tags
 }
 
-# Dev public DNS delegation
+# DEV public DNS delegation
 resource "azurerm_dns_ns_record" "cstar_dev_pagopa_it_ns" {
   count               = var.env_short == "p" ? 1 : 0
   name                = "dev"
@@ -22,6 +22,7 @@ resource "azurerm_dns_ns_record" "cstar_dev_pagopa_it_ns" {
   tags = var.tags
 }
 
+# UAT public DNS delegation
 resource "azurerm_dns_ns_record" "cstar_uat_pagopa_it_ns" {
   count               = var.env_short == "p" ? 1 : 0
   name                = "uat"
