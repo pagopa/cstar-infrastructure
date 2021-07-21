@@ -384,3 +384,51 @@ resource "azurerm_network_profile" "dns_forwarder" {
     }
   }
 }
+
+
+module "integration_lb" {
+  count = var.env_short != "d" ? 1 : 0
+
+  source                                 = "git::https://github.com/pagopa/azurerm.git//load_balancer?ref=load-balancer-module"
+  name                                   = format("%s-integration", local.project)
+  resource_group_name                    = azurerm_resource_group.rg_vnet.name
+  location                               = var.location
+  type                                   = "private"
+  frontend_subnet_id                     = module.eventhub_snet.id # TODO
+  frontend_private_ip_address_allocation = "Static"
+  frontend_private_ip_address            = var.lb_integration_frontend_ip
+  lb_sku                                 = "Standard"
+  pip_sku                                = "Standard" #`pip_sku` must match `lb_sku`
+
+  lb_backend_pools = [
+    {
+      name = "sftp-sia"
+      ips = [
+        {
+          ip      = "10.92.8.180" # TODO
+          vnet_id = module.vnet_integration.id
+        }
+      ]
+    }
+  ]
+
+  lb_port = {
+    sftp-sia = {
+      frontend_port     = "8022"
+      protocol          = "Tcp"
+      backend_port      = "8022",
+      backend_pool_name = "sftp-sia"
+      probe_name        = "tcp-8022"
+    }
+  }
+
+  lb_probe = {
+    tcp-8022 = {
+      protocol     = "Tcp"
+      port         = "8022"
+      request_path = ""
+    }
+  }
+
+  tags = var.tags
+}

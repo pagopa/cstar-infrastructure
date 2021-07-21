@@ -487,6 +487,8 @@ reverse_proxy_ip = "10.1.0.250"
 app_gateway_api_certificate_name    = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name = "api-io-uat-cstar-pagopa-it"
 
+lb_integration_frontend_ip = "10.230.7.69"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"

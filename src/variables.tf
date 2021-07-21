@@ -434,6 +434,12 @@ variable "redis_family" {
   default = "C"
 }
 
+# LB
+variable "lb_integration_frontend_ip" {
+  type = string
+  default = null
+}
+
 variable "tags" {
   type = map(any)
   default = {

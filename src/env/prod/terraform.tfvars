@@ -501,6 +501,8 @@ reverse_proxy_ip = "10.1.0.250"
 app_gateway_api_certificate_name    = "api-cstar-pagopa-it"
 app_gateway_api_io_certificate_name = "api-io-cstar-pagopa-it"
 
+lb_integration_frontend_ip = "10.230.6.69"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"
