@@ -106,6 +106,7 @@ resource "azurerm_container_group" "coredns_forwarder" {
 
   }
 
+
   depends_on = [
     null_resource.upload_corefile
   ]
@@ -129,8 +130,7 @@ resource "null_resource" "upload_corefile" {
                 --account-name ${azurerm_storage_account.dns_forwarder.name} \
                 --account-key ${azurerm_storage_account.dns_forwarder.primary_access_key} \
                 --share-name ${azurerm_storage_share.dns_forwarder.name} \
-                --source "${path.module}/dns/Corefile" \
-                --path "/"
+                --source "${path.module}/dns/Corefile"
           EOT
   }
 }
