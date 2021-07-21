@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.33"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=eventhub-multiple-networklinks"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -17,8 +17,8 @@ module "event_hub" {
   maximum_throughput_units = var.ehns_maximum_throughput_units
   zone_redundant           = var.ehns_zone_redundant
 
-  virtual_network_id = module.vnet_integration.id
-  subnet_id          = module.eventhub_snet.id
+  virtual_network_ids = [module.vnet_integration.id, module.vnet.id]
+  subnet_id           = module.eventhub_snet.id
 
   eventhubs = var.eventhubs
 
