@@ -26,12 +26,13 @@ configmaps_bpdmsawardperiod = {
 
 # bpdmsawardwinner
 configmaps_bpdmsawardwinner = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardwinner"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
-  LOG_LEVEL_BPD_AWARD_WINNER                        = "INFO"
-  POSTGRES_POOLSIZE                                 = "2"
-  POSTGRES_SHOW_SQL                                 = "true"
+  JAVA_TOOL_OPTIONS                                  = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                      = "bpdmsawardwinner"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL  = "OFF"
+  LOG_LEVEL_BPD_AWARD_WINNER                         = "INFO"
+  POSTGRES_POOLSIZE                                  = "2"
+  POSTGRES_SHOW_SQL                                  = "true"
+  AWARD_WINNER_SERVICE_UPDATE_AWARD_WINNER_SCHEDULER = "0 0 1 * * ?"
 }
 
 # bpdmscitizen
