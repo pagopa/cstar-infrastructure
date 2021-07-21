@@ -24,16 +24,16 @@ configmaps_bpdmsawardperiod = {
 
 # bpdmsawardwinner
 configmaps_bpdmsawardwinner = {
-  JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsawardwinner"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
-  KAFKA_WINNER_CONCURRENCY                          = "4"
-  KAFKA_WINNER_POLL_INTERVAL                        = "300000"
-  KAFKA_WINNER_POLL_RECORDS                         = "500"
-  LOG_LEVEL_BPD_AWARD_WINNER                        = "INFO"
-  POSTGRES_POOLSIZE                                 = "20"
-  POSTGRES_SHOW_SQL                                 = "true"
-  AWARD_WINNER_SERVICE_UPDATE_AWARD_WINNER_SCHEDULER= "0 0 1 * * ?"
+  JAVA_TOOL_OPTIONS                                  = "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                      = "bpdmsawardwinner"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL  = "OFF"
+  KAFKA_WINNER_CONCURRENCY                           = "4"
+  KAFKA_WINNER_POLL_INTERVAL                         = "300000"
+  KAFKA_WINNER_POLL_RECORDS                          = "500"
+  LOG_LEVEL_BPD_AWARD_WINNER                         = "INFO"
+  POSTGRES_POOLSIZE                                  = "20"
+  POSTGRES_SHOW_SQL                                  = "true"
+  AWARD_WINNER_SERVICE_UPDATE_AWARD_WINNER_SCHEDULER = "0 0 1 * * ?"
 }
 
 # bpdmscitizen
