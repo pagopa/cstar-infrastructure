@@ -104,7 +104,7 @@ configmaps_bpdmsnotificationmanager = {
   NOTIFICATION_SERVICE_UPDATE_RANKING_THREAD_POOL                  = "2"
   POSTGRES_POOLSIZE                                                = "5"
   POSTGRES_SHOW_SQL                                                = "false"
-  SFTP_HOST                                                        = "10.92.8.180"
+  SFTP_HOST                                                        = "10.230.6.69" # lb_integration_frontend_ip
   SFTP_PORT                                                        = "8022"
 }
 
