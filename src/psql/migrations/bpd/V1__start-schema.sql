@@ -2130,6 +2130,8 @@ CREATE SERVER bpd_award_period_remote FOREIGN DATA WRAPPER dblink_fdw OPTIONS (
     port '5432'
     );
 
+ALTER SERVER bpd_award_period_remote
+	OPTIONS (sslmode 'require');
 
 --
 -- Name: USER MAPPING BPD_USER SERVER bpd_award_period_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -2137,6 +2139,10 @@ CREATE SERVER bpd_award_period_remote FOREIGN DATA WRAPPER dblink_fdw OPTIONS (
 
 CREATE USER MAPPING FOR "BPD_USER" SERVER bpd_award_period_remote;
 
+ALTER USER MAPPING
+	FOR "BPD_USER"
+	SERVER bpd_award_period_remote
+	OPTIONS (user 'BPD_USER@${serverName}', password '${bpdUserPassword}');
 
 --
 -- Name: bpd_payment_instrument_remote; Type: SERVER; Schema: -; Owner: -
@@ -2148,6 +2154,8 @@ CREATE SERVER bpd_payment_instrument_remote FOREIGN DATA WRAPPER dblink_fdw OPTI
     port '5432'
     );
 
+ALTER SERVER bpd_payment_instrument_remote
+	OPTIONS (sslmode 'require');
 
 --
 -- Name: USER MAPPING BPD_USER SERVER bpd_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -2155,13 +2163,17 @@ CREATE SERVER bpd_payment_instrument_remote FOREIGN DATA WRAPPER dblink_fdw OPTI
 
 CREATE USER MAPPING FOR "BPD_USER" SERVER bpd_payment_instrument_remote;
 
+ALTER USER MAPPING
+	FOR "BPD_USER"
+	SERVER bpd_payment_instrument_remote
+	OPTIONS (user 'BPD_USER@${serverName}', password '${bpdUserPassword}');
 
 --
 -- Name: USER MAPPING ddsadmin SERVER bpd_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
 --
 
-CREATE USER MAPPING FOR ddsadmin SERVER bpd_payment_instrument_remote;
-
+-- ?????
+-- CREATE USER MAPPING FOR ddsadmin SERVER bpd_payment_instrument_remote;
 
 --
 -- Name: bpd_winning_transaction_remote; Type: SERVER; Schema: -; Owner: -
@@ -2173,6 +2185,8 @@ CREATE SERVER bpd_winning_transaction_remote FOREIGN DATA WRAPPER dblink_fdw OPT
     port '5432'
     );
 
+ALTER SERVER bpd_winning_transaction_remote
+	OPTIONS (sslmode 'require');
 
 --
 -- Name: USER MAPPING BPD_USER SERVER bpd_winning_transaction_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -2180,6 +2194,10 @@ CREATE SERVER bpd_winning_transaction_remote FOREIGN DATA WRAPPER dblink_fdw OPT
 
 CREATE USER MAPPING FOR "BPD_USER" SERVER bpd_winning_transaction_remote;
 
+ALTER USER MAPPING
+	FOR "BPD_USER"
+	SERVER bpd_winning_transaction_remote
+	OPTIONS (user 'BPD_USER@${serverName}', password '${bpdUserPassword}');
 
 SET default_tablespace = '';
 

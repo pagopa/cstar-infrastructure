@@ -42,10 +42,14 @@ printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
 printf "Storage Account Name: %s\n" "${storage_account_name}"
 
+psql_server_name=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:name}" | head -1)
+psql_server_private_fqdn=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:fullyQualifiedDomainName}" | head -1)
+keyvault_name=$(az keyvault list -o tsv --query "[?contains(name,'kv')].{Name:name}")
+
 # removed using vpn
 # export DESTINATION_IP="${vm_public_ip}"
 # export USERNAME="${vm_user_name}"
-# export TARGET="${psql_private_fqdn}:5432"
+# export TARGET="${psql_server_private_fqdn}:5432"
 # export SOCKET_FILE="/tmp/$SUBSCRIPTION-flyway-sock"
 # export RANDOM_PORT=$(echo $((10000 + $RANDOM % 60000)))
 # if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -56,26 +60,51 @@ printf "Storage Account Name: %s\n" "${storage_account_name}"
 
 # bash scripts/ssh-port-forward.sh
 # trap "ssh -S $SOCKET_FILE -O exit $USERNAME@$DESTINATION_IP" EXIT
-
-terraform init -reconfigure \
-    -backend-config="storage_account_name=${storage_account_name}" \
-    -backend-config="resource_group_name=${resource_group_name}"
-
-# removed using vpn
 # export FLYWAY_URL="jdbc:postgresql://${TUNNEL_IP}:${RANDOM_PORT}/${DATABASE}?sslmode=require"
-export FLYWAY_URL="jdbc:postgresql://${psql_private_fqdn}:5432/${DATABASE}?sslmode=require"
-export FLYWAY_USER=$(terraform output -raw psql_username)
-export FLYWAY_PASSWORD=$(terraform output -raw psql_password)
-export SERVER_NAME=$(terraform output -raw psql_servername)
+
+administrator_login=$(az keyvault secret show --name db-administrator-login --vault-name "${keyvault_name}" -o tsv --query value)
+administrator_login_password=$(az keyvault secret show --name db-administrator-login-password --vault-name "${keyvault_name}" -o tsv --query value)
+
+export FLYWAY_URL="jdbc:postgresql://${psql_server_private_fqdn}:5432/${DATABASE}?sslmode=require"
+export FLYWAY_USER="${administrator_login}@${psql_server_name}"
+export FLYWAY_PASSWORD="${administrator_login_password}"
+export SERVER_NAME="${psql_server_name}"
 export FLYWAY_DOCKER_TAG="7.11.1-alpine"
 
-export FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD=$(terraform output -raw fa_payment_instrument_remote_user_password)
-export BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD=$(terraform output -raw bpd_payment_instrument_remote_user_password)
+bpd_user_password=$(az keyvault secret show --name db-bpd-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+rtd_user_password=$(az keyvault secret show --name db-rtd-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+fa_user_password=$(az keyvault secret show --name db-fa-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+fa_payment_instrument_remote_user_password=$(az keyvault secret show --name db-fa-payment-instrument-remote-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+bpd_payment_instrument_remote_user_password=$(az keyvault secret show --name db-bpd-payment-instrument-remote-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+bpd_award_period_remote_user_password=$(az keyvault secret show --name db-bpd-award-period-remote-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+bpd_winning_transaction_remote_user_password=$(az keyvault secret show --name db-bpd-winning-transaction-remote-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+dashboard_pagopa_user_password=$(az keyvault secret show --name db-dashboard-pagopa-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+monitoring_user_password=$(az keyvault secret show --name db-monitoring-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+tkm_acquirer_manager_user_password=$(az keyvault secret show --name db-tkm-acquirer-manager-password --vault-name "${keyvault_name}" -o tsv --query value)
+
+export BPD_USER_PASSWORD="${bpd_user_password}"
+export RTD_USER_PASSWORD="${rtd_user_password}"
+export FA_USER_PASSWORD="${fa_user_password}"
+export FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD="${fa_payment_instrument_remote_user_password}"
+export BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD="${bpd_payment_instrument_remote_user_password}"
+export BPD_AWARD_PERIOD_REMOTE_USER_PASSWORD="${bpd_award_period_remote_user_password}"
+export BPD_WINNING_TRANSACTION_REMOTE_USER_PASSWORD="${bpd_winning_transaction_remote_user_password}"
+export DASHBOARD_PAGOPA_USER_PASSWORD="${dashboard_pagopa_user_password}"
+export MONITORING_USER_PASSWORD="${monitoring_user_password}"
+export TKM_ACQUIRER_MANAGER_USER_PASSWORD="${tkm_acquirer_manager_user_password}"
 
 docker run --rm -it --network=host -v "${WORKDIR}/migrations/${DATABASE}":/flyway/sql \
-  flyway/flyway:${FLYWAY_DOCKER_TAG} \
-  -url="${FLYWAY_URL}" -user=$FLYWAY_USER -password=$FLYWAY_PASSWORD \
+  flyway/flyway:"${FLYWAY_DOCKER_TAG}" \
+  -url="${FLYWAY_URL}" -user="${FLYWAY_USER}" -password="${FLYWAY_PASSWORD}" \
   -validateMigrationNaming=true \
+  -placeholders.bpdUserPassword="${BPD_USER_PASSWORD}" \
+  -placeholders.rtdUserPassword="${RTD_USER_PASSWORD}" \
+  -placeholders.faUserPassword="${FA_USER_PASSWORD}" \
   -placeholders.faPaymentInstrumentRemoteUserPassword="${FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD}" \
   -placeholders.bpdPaymentInstrumentRemoteUserPassword="${BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD}" \
-  -placeholders.serverName=$SERVER_NAME "$COMMAND" $other
+  -placeholders.bpdAwardPeriodRemoteUserPassword="${BPD_AWARD_PERIOD_REMOTE_USER_PASSWORD}" \
+  -placeholders.bpdWinningTransactionRemoteUserPassword="${BPD_WINNING_TRANSACTION_REMOTE_USER_PASSWORD}" \
+  -placeholders.dashboardPagopaUserPassword="${DASHBOARD_PAGOPA_USER_PASSWORD}" \
+  -placeholders.monitoringUserPassword="${MONITORING_USER_PASSWORD}" \
+  -placeholders.tkmAcquirerManagerUserPassword="${TKM_ACQUIRER_MANAGER_USER_PASSWORD}" \
+  -placeholders.serverName="${SERVER_NAME}" "${COMMAND}" "${other}"

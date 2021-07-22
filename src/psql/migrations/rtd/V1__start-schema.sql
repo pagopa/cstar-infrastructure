@@ -110,6 +110,8 @@ CREATE SERVER bpd_payment_instrument_remote FOREIGN DATA WRAPPER dblink_fdw OPTI
     port '5432'
     );
 
+ALTER SERVER bpd_payment_instrument_remote
+	OPTIONS (sslmode 'require');
 
 --
 -- Name: USER MAPPING MONITORING_USER SERVER bpd_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -117,6 +119,10 @@ CREATE SERVER bpd_payment_instrument_remote FOREIGN DATA WRAPPER dblink_fdw OPTI
 
 CREATE USER MAPPING FOR "MONITORING_USER" SERVER bpd_payment_instrument_remote;
 
+ALTER USER MAPPING
+	FOR "MONITORING_USER"
+	SERVER bpd_payment_instrument_remote
+	OPTIONS (user 'MONITORING_USER@${serverName}', password '${monitoringUserPassword}');
 
 --
 -- Name: USER MAPPING RTD_USER SERVER bpd_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -124,6 +130,10 @@ CREATE USER MAPPING FOR "MONITORING_USER" SERVER bpd_payment_instrument_remote;
 
 CREATE USER MAPPING FOR "RTD_USER" SERVER bpd_payment_instrument_remote;
 
+ALTER USER MAPPING
+	FOR "RTD_USER"
+	SERVER bpd_payment_instrument_remote
+	OPTIONS (user 'RTD_USER@${serverName}', password '${rtdUserPassword}');
 
 --
 -- Name: USER MAPPING ddsadmin SERVER bpd_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -131,9 +141,8 @@ CREATE USER MAPPING FOR "RTD_USER" SERVER bpd_payment_instrument_remote;
 
 CREATE USER MAPPING FOR ddsadmin SERVER bpd_payment_instrument_remote OPTIONS (
     password '${bpdPaymentInstrumentRemoteUserPassword}',
-    "user" 'BPD_PAYMENT_INSTRUMENT_REMOTE_USER@${serverName}.postgres.database.azure.com'
+    "user" 'BPD_PAYMENT_INSTRUMENT_REMOTE_USER@${serverName}'
     );
-
 
 --
 -- Name: fa_payment_instrument_remote; Type: SERVER; Schema: -; Owner: -
@@ -145,6 +154,8 @@ CREATE SERVER fa_payment_instrument_remote FOREIGN DATA WRAPPER dblink_fdw OPTIO
     port '5432'
     );
 
+ALTER SERVER fa_payment_instrument_remote
+	OPTIONS (sslmode 'require');
 
 --
 -- Name: USER MAPPING MONITORING_USER SERVER fa_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -152,6 +163,10 @@ CREATE SERVER fa_payment_instrument_remote FOREIGN DATA WRAPPER dblink_fdw OPTIO
 
 CREATE USER MAPPING FOR "MONITORING_USER" SERVER fa_payment_instrument_remote;
 
+ALTER USER MAPPING
+	FOR "MONITORING_USER"
+	SERVER fa_payment_instrument_remote
+	OPTIONS (user 'MONITORING_USER@${serverName}', password '${monitoringUserPassword}');
 
 --
 -- Name: USER MAPPING RTD_USER SERVER fa_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -159,6 +174,10 @@ CREATE USER MAPPING FOR "MONITORING_USER" SERVER fa_payment_instrument_remote;
 
 CREATE USER MAPPING FOR "RTD_USER" SERVER fa_payment_instrument_remote;
 
+ALTER USER MAPPING
+	FOR "RTD_USER"
+	SERVER fa_payment_instrument_remote
+	OPTIONS (user 'RTD_USER@${serverName}', password '${rtdUserPassword}');
 
 --
 -- Name: USER MAPPING ddsadmin SERVER fa_payment_instrument_remote; Type: USER MAPPING; Schema: -; Owner: -
@@ -166,7 +185,7 @@ CREATE USER MAPPING FOR "RTD_USER" SERVER fa_payment_instrument_remote;
 
 CREATE USER MAPPING FOR ddsadmin SERVER fa_payment_instrument_remote OPTIONS (
     password '${faPaymentInstrumentRemoteUserPassword}',
-    "user" 'FA_PAYMENT_INSTRUMENT_REMOTE_USER@${serverName}.postgres.database.azure.com'
+    "user" 'FA_PAYMENT_INSTRUMENT_REMOTE_USER@${serverName}'
     );
 
 

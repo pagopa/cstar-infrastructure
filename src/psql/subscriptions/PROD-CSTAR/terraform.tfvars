@@ -1,4 +1,4 @@
-env             = "pro"
+env             = "prod"
 env_short       = "p"
 psql_servername = "cstar-p-postgresql"
 

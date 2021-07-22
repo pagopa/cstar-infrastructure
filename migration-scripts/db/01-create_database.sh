@@ -17,6 +17,7 @@ cd "../../src/psql/"
 
 bash flyway.sh info "${subscription}" postgres
 bash flyway.sh migrate "${subscription}" postgres -target=1
+bash flyway.sh migrate "${subscription}" postgres -target=2
 
 bash flyway.sh info "${subscription}" fa
 bash flyway.sh migrate "${subscription}" fa -target=1
