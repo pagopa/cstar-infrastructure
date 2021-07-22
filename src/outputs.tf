@@ -174,3 +174,7 @@ output "primary_web_host" {
 }
 
 
+output "password" {
+  value     = random_password.password.result
+  sensitive = true
+}

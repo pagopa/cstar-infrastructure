@@ -115,6 +115,16 @@ module "eventhub_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+module "lb_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  name                                           = format("%s-lb-snet", local.project)
+  address_prefixes                               = ["10.230.7.128/28"]
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet_integration.name
+  service_endpoints                              = []
+  enforce_private_link_endpoint_network_policies = true
+}
+
 ## Peering between the vnet(main) and integration vnet 
 module "vnet_peering" {
   source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30"
@@ -275,7 +285,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.apim_snet.id, module.eventhub_snet.id]
+  subnet_ids = [module.apim_snet.id, module.eventhub_snet.id, module.lb_snet.id]
 
   routes = [{
     # production
@@ -390,12 +400,12 @@ resource "azurerm_network_profile" "dns_forwarder" {
 module "integration_lb" {
   count = var.env_short != "d" ? 1 : 0
 
-  source                                 = "git::https://github.com/pagopa/azurerm.git//load_balancer?ref=v1.0.39"
+  source                                 = "git::https://github.com/pagopa/azurerm.git//load_balancer?ref=fix-lb-module"
   name                                   = format("%s-integration", local.project)
   resource_group_name                    = azurerm_resource_group.rg_vnet.name
   location                               = var.location
   type                                   = "private"
-  frontend_subnet_id                     = module.eventhub_snet.id # TODO
+  frontend_subnet_id                     = module.lb_snet.id
   frontend_private_ip_address_allocation = "Static"
   frontend_private_ip_address            = var.lb_integration_frontend_ip
   lb_sku                                 = "Standard"
@@ -432,4 +442,113 @@ module "integration_lb" {
   }
 
   tags = var.tags
+}
+
+
+resource "azurerm_network_interface" "hub-nva-nic" {
+  name                          = format("%s-nva-nic", local.project)
+  location                      = var.location
+  resource_group_name           = azurerm_resource_group.rg_vnet.name
+  enable_ip_forwarding          = true
+  enable_accelerated_networking = true
+
+  ip_configuration {
+    name                          = "ip-config-nva"
+    subnet_id                     = module.lb_snet.id
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.230.7.133" # TODO
+  }
+
+  tags = var.tags
+}
+
+resource "random_password" "password" {
+  length           = 16
+  special          = true
+  override_special = "_%@"
+}
+
+
+resource "azurerm_virtual_machine" "hub-nva-vm" {
+  name                  = format("%s-nva-vm", local.project)
+  location              = var.location
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  network_interface_ids = [azurerm_network_interface.hub-nva-nic.id]
+  vm_size               = "Standard_D4s_v3"
+
+  storage_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
+    version   = "latest"
+  }
+
+  storage_os_disk {
+    name              = "myosdisk1"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  os_profile {
+    computer_name  = format("%s-nva-vm", local.project)
+    admin_username = "azureuser"
+    admin_password = random_password.password.result
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_virtual_machine_extension" "enable-routes" {
+  name                 = "enable-iptables-routes"
+  virtual_machine_id   = azurerm_virtual_machine.hub-nva-vm.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+
+  # sudo iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 10.230.7.133
+  settings = <<SETTINGS
+    {
+        "fileUris": [
+        "https://raw.githubusercontent.com/mspnp/reference-architectures/master/scripts/linux/enable-ip-forwarding.sh"
+        ],
+        "commandToExecute": "bash enable-ip-forwarding.sh"
+    }
+SETTINGS
+
+  tags = var.tags
+}
+
+resource "azurerm_route_table" "hub-gateway-rt" {
+  name                          = "hub-gateway-rt"
+  location                      = var.location
+  resource_group_name           = azurerm_resource_group.rg_vnet.name
+  disable_bgp_route_propagation = false
+
+  route { # TODO
+    name                   = "to-sia-uat-subnet"
+    address_prefix         = "10.70.67.0/24"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.230.7.133"
+  }
+
+  route { # TODO
+    name                   = "to-apim-sia-uat-subnet"
+    address_prefix         = "10.70.65.0/24"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.230.7.133"
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_subnet_route_table_association" "hub-gateway-rt-hub-vnet-gateway-subnet" {
+  subnet_id      = module.k8s_snet.id
+  route_table_id = azurerm_route_table.hub-gateway-rt.id
+  depends_on     = [module.lb_snet]
 }

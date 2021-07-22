@@ -3,7 +3,7 @@ apim_publisher_email           = "io-operations@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Premium_1"
 
-
+aks_node_count = 3
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -487,7 +487,7 @@ reverse_proxy_ip = "10.1.0.250"
 app_gateway_api_certificate_name    = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name = "api-io-uat-cstar-pagopa-it"
 
-lb_integration_frontend_ip = "10.230.7.69"
+lb_integration_frontend_ip = "10.230.7.132"
 
 tags = {
   CreatedBy   = "Terraform"
