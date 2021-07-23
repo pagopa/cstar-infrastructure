@@ -18,11 +18,13 @@ cd ".bash .bash src/psql/"
 bash flyway.sh info "${subscription}" fa
 bash flyway.sh migrate "${subscription}" fa -target=2
 
-bash flyway.sh info "${subscription}" rtd
-bash flyway.sh migrate "${subscription}" rtd -target=2
-
+# TODO Test if restoring bpd before rtd works
 bash flyway.sh info "${subscription}" bpd
 bash flyway.sh migrate "${subscription}" bpd -target=2
+
+# TODO fails on REFRESH MATERIALIZED VIEW rtd_database.payment_instrument_hpans; for permission denied
+bash flyway.sh info "${subscription}" rtd
+bash flyway.sh migrate "${subscription}" rtd -target=2
 
 # this apply will fail
 bash terraform.sh apply "${subscription}" -target='postgresql_role.user["BPD_USER"]'

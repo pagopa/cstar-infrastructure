@@ -107,4 +107,4 @@ docker run --rm -it --network=host -v "${WORKDIR}/migrations/${DATABASE}":/flywa
   -placeholders.dashboardPagopaUserPassword="${DASHBOARD_PAGOPA_USER_PASSWORD}" \
   -placeholders.monitoringUserPassword="${MONITORING_USER_PASSWORD}" \
   -placeholders.tkmAcquirerManagerUserPassword="${TKM_ACQUIRER_MANAGER_USER_PASSWORD}" \
-  -placeholders.serverName="${SERVER_NAME}" "${COMMAND}" "${other}"
+  -placeholders.serverName="${SERVER_NAME}" "${COMMAND}" ${other}
