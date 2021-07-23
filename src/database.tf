@@ -16,7 +16,7 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
 }
 
 module "postgresql" {
-  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.38"
+  source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.41"
   name                             = format("%s-postgresql", local.project)
   location                         = azurerm_resource_group.db_rg.location
   resource_group_name              = azurerm_resource_group.db_rg.name
@@ -35,6 +35,9 @@ module "postgresql" {
     # dblink
     allow_access_to_azure_services = true
   }
+
+  configuration         = var.db_configuration
+  configuration_replica = var.db_configuration
 
   monitor_metric_alert_criteria         = var.db_metric_alerts
   replica_monitor_metric_alert_criteria = var.db_metric_alerts
