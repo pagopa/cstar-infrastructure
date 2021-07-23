@@ -218,6 +218,16 @@ devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 
 db_sku_name       = "GP_Gen5_8"
 db_enable_replica = true
+db_configuration = {
+  autovacuum_work_mem         = "2000000"
+  effective_cache_size        = "10485760"
+  log_autovacuum_min_duration = "5000"
+  log_connections             = "off"
+  log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
+  log_temp_files              = "4096"
+  maintenance_work_mem        = "1048576"
+  max_wal_size                = "4096"
+}
 db_metric_alerts = {
   cpu = {
     aggregation = "Average"
