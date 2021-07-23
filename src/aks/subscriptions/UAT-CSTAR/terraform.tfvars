@@ -112,6 +112,8 @@ configmaps_bpdmsnotificationmanager = {
   POSTGRES_POOLSIZE                                        = "5"
   POSTGRES_SHOW_SQL                                        = "false"
   REST_CLIENT_LOGGER_LEVEL                                 = "BASIC"
+  SFTP_HOST                                                = "193.203.229.79"
+  SFTP_PORT                                                = "20022"
 }
 
 # bpdmspaymentinstrument

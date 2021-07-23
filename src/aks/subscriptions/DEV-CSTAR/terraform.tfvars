@@ -91,6 +91,8 @@ configmaps_bpdmsnotificationmanager = {
   NOTIFICATION_SERVICE_NOTIFY_WINNERS_UPDATE_STATUS_ENABLE = "false"
   NOTIFICATION_SERVICE_SEND_WINNERS_SCHEDULER              = "0 00 00 * * ?"
   NOTIFICATION_SERVICE_UPDATE_WINNERS_SCHEDULER            = "0 00 04 * * ?"
+  SFTP_HOST                                                = "193.203.229.79"
+  SFTP_PORT                                                = "20022"
 }
 
 # bpdmspaymentinstrument
