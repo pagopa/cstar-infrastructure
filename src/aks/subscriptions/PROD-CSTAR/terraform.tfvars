@@ -149,6 +149,7 @@ configmaps_bpdmsrankingprocessor = {
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT   = "500"
   CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                  = "true"
   CASHBACK_UPDATE_TRANSFER_MAX_DEPTH                     = "P6M"
+  ENABLE_KAFKA_APPENDER                                  = "FALSE"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                        = "INFO"
   MILESTONE_UPDATE_ENABLE                                = "true"
   MILESTONE_UPDATE_RETRY_LIMIT                           = "10"

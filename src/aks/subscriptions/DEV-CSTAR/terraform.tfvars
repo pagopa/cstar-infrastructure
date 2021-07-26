@@ -129,6 +129,7 @@ configmaps_bpdmsrankingprocessor = {
   CASHBACK_UPDATE_TRANSFER_MAX_DEPTH                     = "P1M"
   CITIZEN_DB_IDLE_TIMEOUT                                = "10000"
   CITIZEN_DB_MIN_IDLE                                    = "1"
+  ENABLE_KAFKA_APPENDER                                  = "FALSE"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                        = "INFO"
   MILESTONE_UPDATE_ENABLE                                = "false"
   MILESTONE_UPDATE_RETRY_LIMIT                           = "10"
