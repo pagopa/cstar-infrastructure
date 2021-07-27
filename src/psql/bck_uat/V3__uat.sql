@@ -1,0 +1,11 @@
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument ADD par_s varchar(32) NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument ADD par_enrollment_t timestamptz(0) NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument ADD par_cancellation_t timestamptz(0) NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument ADD last_tkm_update_t timestamptz NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument_history ADD channel_s varchar(20) NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument_history ADD par_s varchar(32) NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument_history ADD par_activation_t timestamptz(0) NULL;
+ALTER TABLE bpd_payment_instrument.bpd_payment_instrument_history ADD par_deactivation_t timestamptz(0) NULL;
+ALTER TABLE bpd_winning_transaction.bpd_winning_transaction ADD par_s varchar(32) NULL;
+ALTER TABLE bpd_winning_transaction.bpd_winning_transaction ADD hpan_master_s varchar(64) NULL;
+ALTER TABLE bpd_award_period.bpd_award_period ADD min_amount_n numeric NULL;

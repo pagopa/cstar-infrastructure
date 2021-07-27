@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 ### UAT
-# environment_short="u"
-# environment="uat"
-# subscription="UAT-CSTAR"
+environment_short="u"
+environment="uat"
+subscription="UAT-CSTAR"
 
 ### PROD
 # environment_short="p"
