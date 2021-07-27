@@ -80,6 +80,32 @@ CREATE SCHEMA bpd_winning_transaction;
 ALTER SCHEMA bpd_winning_transaction OWNER TO ddsadmin;
 
 --
+
+GRANT ALL ON SCHEMA bpd_award_period TO "BPD_USER";
+GRANT USAGE ON SCHEMA bpd_award_period TO "BPD_AWARD_PERIOD_REMOTE_USER";
+GRANT USAGE ON SCHEMA bpd_award_period TO "MONITORING_USER";
+GRANT USAGE ON SCHEMA bpd_award_period TO "DASHBOARD_PAGOPA_USER";
+GRANT ALL ON SCHEMA bpd_citizen TO "BPD_USER";
+GRANT USAGE ON SCHEMA bpd_citizen TO "MONITORING_USER";
+GRANT USAGE ON SCHEMA bpd_citizen TO "DASHBOARD_PAGOPA_USER";
+GRANT USAGE ON SCHEMA bpd_dashboard_pagopa TO "DASHBOARD_PAGOPA_USER";
+GRANT ALL ON SCHEMA bpd_error_record TO "BPD_USER";
+GRANT USAGE ON SCHEMA bpd_error_record TO "DASHBOARD_PAGOPA_USER";
+GRANT USAGE ON SCHEMA bpd_error_record TO "MONITORING_USER";
+GRANT ALL ON SCHEMA bpd_mcc_category TO "BPD_USER";
+GRANT USAGE ON SCHEMA bpd_mcc_category TO "MONITORING_USER";
+GRANT ALL ON SCHEMA bpd_payment_instrument TO "BPD_USER";
+GRANT USAGE ON SCHEMA bpd_payment_instrument TO "BPD_PAYMENT_INSTRUMENT_REMOTE_USER";
+GRANT USAGE ON SCHEMA bpd_payment_instrument TO "MONITORING_USER";
+GRANT USAGE ON SCHEMA bpd_payment_instrument TO "DASHBOARD_PAGOPA_USER";
+GRANT ALL ON SCHEMA bpd_winning_transaction TO "BPD_USER";
+GRANT USAGE ON SCHEMA bpd_winning_transaction TO "BPD_WINNING_TRANSACTION_REMOTE_USER";
+GRANT USAGE ON SCHEMA bpd_winning_transaction TO "MONITORING_USER";
+GRANT USAGE ON SCHEMA bpd_winning_transaction TO "DASHBOARD_PAGOPA_USER";
+
+--
+
+--
 -- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
 --
 
