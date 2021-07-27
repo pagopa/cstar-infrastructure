@@ -483,8 +483,7 @@ eventhubs = [
 ] }]
 external_domain = "pagopa.it"
 
-#TODO pm ip uat?
-pm_backend_url = "http://10.230.8.250/cstariobackendtest"
+pm_backend_url = "https://10.49.20.119:444"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
