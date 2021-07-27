@@ -18,6 +18,21 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
+ALTER USER MAPPING
+	FOR "BPD_USER"
+	SERVER bpd_award_period_remote
+	OPTIONS (user 'BPD_USER@${serverName}', password '${bpdUserPassword}');
+
+ALTER USER MAPPING
+	FOR "BPD_USER"
+	SERVER bpd_payment_instrument_remote
+	OPTIONS (user 'BPD_USER@${serverName}', password '${bpdUserPassword}');
+
+ALTER USER MAPPING
+	FOR "BPD_USER"
+	SERVER bpd_winning_transaction_remote
+	OPTIONS (user 'BPD_USER@${serverName}', password '${bpdUserPassword}');
+
 --
 -- Name: bpd_award_period bpd_award_period_pkey; Type: CONSTRAINT; Schema: bpd_award_period; Owner: ddsadmin
 --
