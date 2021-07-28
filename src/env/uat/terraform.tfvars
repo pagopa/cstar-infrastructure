@@ -1,7 +1,7 @@
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_email           = "io-operations@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
-apim_sku                       = "Premium_1"
+apim_sku                       = "Developer_1"
 
 
 aks_metric_alerts = {
