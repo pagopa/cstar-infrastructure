@@ -27,25 +27,26 @@ fi
 ## UAT
 # export PGPASSWORD="XXXXXX"
 # db_user="XXXX"
-# db_host="XXXX"
+# env="uat"
 
 ## PROD
 # export PGPASSWORD="XXXXXX"
 # db_user="XXXX"
-# db_host="XXXX"
+# env="prod"
 
 #### VARS CHANGE ME
 
+db_host="13.69.105.208"
 date_restore=$(date +%Y-%m-%d-%H_%M_%S)
-log_file="${dump_dir}/log_restore_${date_restore}.txt"
-dump_file="${dump_dir}/db.dump"
+log_dir="log_restore_${env}_${date_restore}"
+timeline_file="${log_dir}/restore_timeline.txt"
 
 #### INIT SCRIPT
 
-mkdir -p "${dump_dir}"
+mkdir -p "${log_dir}"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore_cstar script start" > "${log_file}"
+echo "${CURR_DATE} - restore_cstar script start" > "${timeline_file}"
 
 ##############
 
@@ -54,38 +55,38 @@ echo "${CURR_DATE} - restore_cstar script start" > "${log_file}"
 db_backup="fa"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
+echo "${CURR_DATE} - restore ${db_backup} start" >> "${timeline_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/" >> "${log_file}" 2>&1
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 -d "${db_backup}" "${dump_dir}/${db_backup}" -v 2>&1 | tee "${log_dir}/${db_backup}_data.out"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
+echo "${CURR_DATE} - restore ${db_backup} finish" >> "${timeline_file}"
 
 ## rtd
 
 db_backup="rtd"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
+echo "${CURR_DATE} - restore ${db_backup} start" >> "${timeline_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/" >> "${log_file}" 2>&1
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 -d "${db_backup}" "${dump_dir}/${db_backup}" -v 2>&1 | tee "${log_dir}/${db_backup}_data.out"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
+echo "${CURR_DATE} - restore ${db_backup} finish" >> "${timeline_file}"
 
 ## bpd
 
 db_backup="bpd"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore ${db_backup} start" >> "${log_file}"
+echo "${CURR_DATE} - restore ${db_backup} start" >> "${timeline_file}"
 
-pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 --format=d -C -d postgres "${dump_file}.${db_backup}/" >> "${log_file}" 2>&1
+pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 -d "${db_backup}" "${dump_dir}/${db_backup}" -v 2>&1 | tee "${log_dir}/${db_backup}_data.out"
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore ${db_backup} finish" >> "${log_file}"
+echo "${CURR_DATE} - restore ${db_backup} finish" >> "${timeline_file}"
 
 ##############
 
 CURR_DATE=$(date)
-echo "${CURR_DATE} - restore_cstar script finish" >> "${log_file}"
+echo "${CURR_DATE} - restore_cstar script finish" >> "${timeline_file}"
