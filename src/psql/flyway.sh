@@ -46,22 +46,6 @@ psql_server_name=$(az postgres server list -o tsv --query "[?contains(name,'post
 psql_server_private_fqdn=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:fullyQualifiedDomainName}" | head -1)
 keyvault_name=$(az keyvault list -o tsv --query "[?contains(name,'kv')].{Name:name}")
 
-# removed using vpn
-# export DESTINATION_IP="${vm_public_ip}"
-# export USERNAME="${vm_user_name}"
-# export TARGET="${psql_server_private_fqdn}:5432"
-# export SOCKET_FILE="/tmp/$SUBSCRIPTION-flyway-sock"
-# export RANDOM_PORT=$(echo $((10000 + $RANDOM % 60000)))
-# if [[ "$OSTYPE" == "darwin"* ]]; then
-#   export TUNNEL_IP=$(${WORKDIR}/scripts/ip_address.sh)
-# else
-#   TUNNEL_IP="localhost"
-# fi
-
-# bash scripts/ssh-port-forward.sh
-# trap "ssh -S $SOCKET_FILE -O exit $USERNAME@$DESTINATION_IP" EXIT
-# export FLYWAY_URL="jdbc:postgresql://${TUNNEL_IP}:${RANDOM_PORT}/${DATABASE}?sslmode=require"
-
 administrator_login=$(az keyvault secret show --name db-administrator-login --vault-name "${keyvault_name}" -o tsv --query value)
 administrator_login_password=$(az keyvault secret show --name db-administrator-login-password --vault-name "${keyvault_name}" -o tsv --query value)
 
@@ -93,7 +77,7 @@ export DASHBOARD_PAGOPA_USER_PASSWORD="${dashboard_pagopa_user_password}"
 export MONITORING_USER_PASSWORD="${monitoring_user_password}"
 export TKM_ACQUIRER_MANAGER_USER_PASSWORD="${tkm_acquirer_manager_user_password}"
 
-docker run --rm -it --network=host -v "${WORKDIR}/migrations/${DATABASE}":/flyway/sql \
+docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}":/flyway/sql \
   flyway/flyway:"${FLYWAY_DOCKER_TAG}" \
   -url="${FLYWAY_URL}" -user="${FLYWAY_USER}" -password="${FLYWAY_PASSWORD}" \
   -validateMigrationNaming=true \

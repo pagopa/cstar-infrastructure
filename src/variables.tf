@@ -309,6 +309,12 @@ variable "db_enable_replica" {
   description = "Create a PostgreSQL Server Replica."
 }
 
+variable "db_storage_mb" {
+  type        = number
+  description = "Max storage allowed for a server"
+  default     = 5120
+}
+
 variable "db_configuration" {
   type        = map(string)
   description = "PostgreSQL Server configuration"
