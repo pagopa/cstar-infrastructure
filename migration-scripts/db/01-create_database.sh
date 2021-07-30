@@ -7,9 +7,9 @@
 # subscription="UAT-CSTAR"
 
 ### PROD
-# environment_short="p"
-# environment="prod"
-# subscription="PROD-CSTAR"
+environment_short="p"
+environment="prod"
+subscription="PROD-CSTAR"
 
 ### psql dir
 
@@ -24,7 +24,6 @@ bash flyway.sh migrate "${subscription}" bpd -target=2
 bash flyway.sh migrate "${subscription}" fa -target=1
 bash flyway.sh migrate "${subscription}" fa -target=2
 
-bash flyway.sh info "${subscription}" rtd
 bash flyway.sh migrate "${subscription}" rtd -target=1
 bash flyway.sh migrate "${subscription}" rtd -target=2
 
