@@ -128,7 +128,7 @@ module "vnet_peering" {
   target_resource_group_name       = azurerm_resource_group.rg_vnet.name
   target_virtual_network_name      = module.vnet_integration.name
   target_remote_virtual_network_id = module.vnet_integration.id
-  target_use_remote_gateways       = true # needed by vpn gateway for enabling routing from vnet to vnet_integration
+  target_use_remote_gateways       = false # needed by vnet peering with SIA
 }
 
 ## Application gateway public ip ##
