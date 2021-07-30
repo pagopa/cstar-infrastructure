@@ -37,11 +37,3 @@ az postgres server restart -g "cstar-${environment_short}-db-rg" -n "cstar-${env
 echo "finish restart cstar-${environment_short}-postgresql-rep"
 
 sleep 120s
-
-## Destroy databases no with flyway
-
-# echo "start destroy cstar-${environment_short}-postgresql databases"
-# az postgres db delete -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n "fa" --yes
-# az postgres db delete -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n "rtd" --yes
-# az postgres db delete -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n "bpd" --yes
-# echo "finish cstar-${environment_short}-postgresql databases"
