@@ -15,29 +15,29 @@
 #
 # pg_restore -j 8 --format=d -C -d postgres /tmp/newout.dir/
 
-#### VARS CHANGE ME
-dump_dir="/datadrive/dbexport/dump_XXXX"
+curr_env=$1
 
+if [ ! -f ".env.${curr_env}" ] 
+then
+    echo "File .env.${curr_env} DOES NOT exists."
+    exit 1
+fi
+
+# shellcheck disable=SC1090
+source ".env.${curr_env}"
+
+# shellcheck disable=SC2154
 if [ ! -d "${dump_dir}" ] 
 then
     echo "Directory ${dump_dir} DOES NOT exists."
     exit 1
 fi
 
-## UAT
-# export PGPASSWORD="XXXXXX"
-# db_user="XXXX"
-# env="uat"
+# shellcheck disable=SC2154
+export PGPASSWORD="${pg_password}"
 
-## PROD
-# export PGPASSWORD="XXXXXX"
-# db_user="XXXX"
-# env="prod"
-
-#### VARS CHANGE ME
-
-db_host="13.69.105.208"
 date_restore=$(date +%Y-%m-%d-%H_%M_%S)
+# shellcheck disable=SC2154
 log_dir="log_restore_${env}_${date_restore}"
 timeline_file="${log_dir}/restore_timeline.txt"
 
@@ -57,6 +57,7 @@ db_backup="fa"
 CURR_DATE=$(date)
 echo "${CURR_DATE} - restore ${db_backup} start" >> "${timeline_file}"
 
+# shellcheck disable=SC2154
 pg_restore -h "${db_host}" -p 5432 -U "${db_user}" -j 8 -d "${db_backup}" "${dump_dir}/${db_backup}" -v 2>&1 | tee "${log_dir}/${db_backup}_data.out"
 
 CURR_DATE=$(date)
