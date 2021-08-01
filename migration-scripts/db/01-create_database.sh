@@ -7,9 +7,9 @@
 # subscription="UAT-CSTAR"
 
 ### PROD
-environment_short="p"
-environment="prod"
-subscription="PROD-CSTAR"
+# environment_short="p"
+# environment="prod"
+# subscription="PROD-CSTAR"
 
 ### psql dir
 
