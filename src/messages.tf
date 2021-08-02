@@ -37,11 +37,10 @@ module "event_hub" {
   tags = var.tags
 }
 
-
+#tfsec:ignore:AZU023
 resource "azurerm_key_vault_secret" "event_hub_keys" {
   for_each = module.event_hub.key_ids
 
-  #tfsec:ignore:AZU023
   name         = format("evh-%s-%s", replace(each.key, ".", "-"), "key")
   value        = module.event_hub.keys[each.key].primary_key
   content_type = "text/plain"

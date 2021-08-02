@@ -60,22 +60,22 @@ data "kubernetes_secret" "azure_devops_secret" {
   }
 }
 
+#tfsec:ignore:AZU023
 resource "azurerm_key_vault_secret" "azure_devops_sa_token" {
-  depends_on = [kubernetes_service_account.azure_devops]
-  #tfsec:ignore:AZU023
-  name = "aks-azure-devops-sa-token"
-  # base64 value
-  value        = data.kubernetes_secret.azure_devops_secret.binary_data["token"]
-  key_vault_id = local.key_vault_id
+  depends_on   = [kubernetes_service_account.azure_devops]
+  name         = "aks-azure-devops-sa-token"
+  value        = data.kubernetes_secret.azure_devops_secret.binary_data["token"] # base64 value
   content_type = "text/plain"
+
+  key_vault_id = local.key_vault_id
 }
 
+#tfsec:ignore:AZU023
 resource "azurerm_key_vault_secret" "azure_devops_sa_cacrt" {
-  depends_on = [kubernetes_service_account.azure_devops]
-  #tfsec:ignore:AZU023
-  name = "aks-azure-devops-sa-cacrt"
-  # base64 value
-  value        = data.kubernetes_secret.azure_devops_secret.binary_data["ca.crt"]
-  key_vault_id = local.key_vault_id
+  depends_on   = [kubernetes_service_account.azure_devops]
+  name         = "aks-azure-devops-sa-cacrt"
+  value        = data.kubernetes_secret.azure_devops_secret.binary_data["ca.crt"] # base64 value
   content_type = "text/plain"
+
+  key_vault_id = local.key_vault_id
 }
