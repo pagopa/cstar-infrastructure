@@ -25,6 +25,7 @@ module "postgresql" {
   administrator_login              = data.azurerm_key_vault_secret.db_administrator_login.value
   administrator_login_password     = data.azurerm_key_vault_secret.db_administrator_login_password.value
   sku_name                         = var.db_sku_name
+  storage_mb                       = var.db_storage_mb
   db_version                       = 10
   geo_redundant_backup_enabled     = var.db_geo_redundant_backup_enabled
   enable_replica                   = var.db_enable_replica

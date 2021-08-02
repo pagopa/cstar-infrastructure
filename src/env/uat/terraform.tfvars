@@ -218,6 +218,7 @@ devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 
 db_sku_name       = "GP_Gen5_8"
 db_enable_replica = true
+db_storage_mb     = 204800 # 200 GB
 db_configuration = {
   autovacuum_work_mem         = "2000000"
   effective_cache_size        = "10485760"
