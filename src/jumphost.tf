@@ -5,6 +5,7 @@ resource "azurerm_resource_group" "jumpbox_rg" {
   tags = var.tags
 }
 
+#tfsec:ignore:AZU024
 module "jumpbox" {
   source                = "git::https://github.com/pagopa/azurerm.git//jumpbox?ref=v1.0.7"
   name                  = format("%s-jumpbox-vm", local.project)
