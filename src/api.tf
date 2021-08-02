@@ -1195,7 +1195,7 @@ module "issuer_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = false
+  approval_required     = true
 
   policy_xml = file("./api_product/issuer_api/policy.xml")
 }
@@ -1212,7 +1212,7 @@ module "pm_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = false
+  approval_required     = true
 
   policy_xml = file("./api_product/pm_api/policy.xml")
 }
@@ -1229,7 +1229,7 @@ module "rtd_api_product" {
 
   published             = true
   subscription_required = true
-  approval_required     = false
+  approval_required     = true
 
   policy_xml = file("./api_product/rtd_api/policy.xml")
 }
@@ -1247,7 +1247,7 @@ module "wisp_api_product" {
 
   published             = false
   subscription_required = true
-  approval_required     = false
+  approval_required     = true
 
   policy_xml = file("./api_product/wisp_api/policy.xml")
 
