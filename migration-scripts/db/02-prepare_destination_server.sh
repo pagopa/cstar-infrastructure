@@ -37,8 +37,8 @@ echo "finish update configuration cstar-${environment_short}-postgresql-rep"
 
 sleep 60s
 
-az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql-rep" --sku-name "MO_Gen5_32"
-az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql" --sku-name "MO_Gen5_32"
+az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql-rep" --sku-name "MO_Gen5_32" --storage-size "5242880"
+az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql" --sku-name "MO_Gen5_32" --storage-size "5242880"
 
 echo "start restart cstar-${environment_short}-postgresql"
 az postgres server restart -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql"
