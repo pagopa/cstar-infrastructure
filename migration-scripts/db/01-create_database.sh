@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 
+curr_env=$1
 
-### UAT
-# environment_short="u"
-# environment="uat"
-# subscription="UAT-CSTAR"
+if [ ! -f ".env.${curr_env}" ] 
+then
+    echo "File .env.${curr_env} DOES NOT exists."
+    exit 1
+fi
 
-### PROD
-# environment_short="p"
-# environment="prod"
-# subscription="PROD-CSTAR"
+# shellcheck disable=SC1090
+source ".env.${curr_env}"
 
 ### psql dir
 
-cd "../../src/psql/"
+cd "../../src/psql/" || exit
 
+# shellcheck disable=SC2154
 bash flyway.sh migrate "${subscription}" postgres -target=1
 bash flyway.sh migrate "${subscription}" postgres -target=2
 
