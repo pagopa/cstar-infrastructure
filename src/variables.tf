@@ -200,10 +200,6 @@ variable "apim_publisher_name" {
   type = string
 }
 
-variable "apim_publisher_email" {
-  type = string
-}
-
 variable "apim_notification_sender_email" {
   type = string
 }
