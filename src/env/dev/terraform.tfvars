@@ -198,6 +198,7 @@ aks_metric_alerts = {
 
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=37.d662f38c40
 cidr_vnet                = ["10.230.8.0/21"]
+cidr_integration_vnet    = ["10.230.5.0/24"]
 cidr_subnet_k8s          = ["10.230.8.0/22"]
 cidr_subnet_appgateway   = ["10.230.12.0/24"]
 cidr_subnet_apim         = ["10.230.13.0/26"]
