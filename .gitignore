@@ -36,3 +36,6 @@ log.txt
 
 # No need lock in modules
 */modules/*/.terraform.lock.hcl
+
+.env.prod
+.env.uat
