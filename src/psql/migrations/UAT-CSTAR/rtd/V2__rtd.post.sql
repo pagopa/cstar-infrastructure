@@ -60,7 +60,7 @@ ALTER DEFAULT PRIVILEGES FOR ROLE ddsadmin GRANT SELECT ON TABLES  TO "MONITORIN
 -- Name: payment_instrument_hpans; Type: MATERIALIZED VIEW DATA; Schema: rtd_database; Owner: RTD_USER
 --
 
-REFRESH MATERIALIZED VIEW rtd_database.payment_instrument_hpans;
+-- REFRESH MATERIALIZED VIEW rtd_database.payment_instrument_hpans;
 
 
 --
