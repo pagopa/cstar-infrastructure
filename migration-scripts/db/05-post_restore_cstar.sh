@@ -15,6 +15,10 @@ source ".env.${curr_env}"
 az account set -s "${subscription}"
 
 # shellcheck disable=SC2154
+az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql" --sku-name "${sku_name}"
+az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql-rep" --sku-name "${sku_name}"
+
+# shellcheck disable=SC2154
 echo "start update configuration cstar-${environment_short}-postgresql"
 az postgres server configuration set -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n "maintenance_work_mem" --value "1048576"
 az postgres server configuration set -g "cstar-${environment_short}-db-rg" -s "cstar-${environment_short}-postgresql" -n "work_mem"
@@ -36,10 +40,6 @@ az postgres server configuration set -g "cstar-${environment_short}-db-rg" -s "c
 echo "finish update configuration cstar-${environment_short}-postgresql-rep"
 
 sleep 60s
-
-# shellcheck disable=SC2154
-az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql-rep" --sku-name "${sku_name}"
-az postgres server update -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql" --sku-name "${sku_name}"
 
 echo "start restart cstar-${environment_short}-postgresql"
 az postgres server restart -g "cstar-${environment_short}-db-rg" -n "cstar-${environment_short}-postgresql"
