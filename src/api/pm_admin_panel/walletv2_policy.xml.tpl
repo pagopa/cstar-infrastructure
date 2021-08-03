@@ -22,7 +22,7 @@ var username = context.Variables.GetValueOrDefault<string>("userDenominato");
 
 var password = context.Variables.GetValueOrDefault<string>("passDenominato");
 
-return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("cruscotto" + ":" + "Qw4&1fsr3!AL"));
+return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("cruscotto" + ":" + "${CRUSCOTTO-Basic-Auth-Pwd}"));
 
 }" />
         <send-request mode="new" response-variable-name="walletresponse" timeout="${PM-Timeout-Sec}" ignore-error="true">
