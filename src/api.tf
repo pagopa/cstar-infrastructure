@@ -351,6 +351,7 @@ module "pm_admin_panel" {
         env_short                            = var.env_short
         PM-Ip-Filter-From                    = var.pm_ip_filter_range.from
         PM-Ip-Filter-To                      = var.pm_ip_filter_range.to
+        CRUSCOTTO-Basic-Auth-Pwd             = data.azurerm_key_vault_secret.cruscotto-basic-auth-pwd.value
       })
     },
   ]
