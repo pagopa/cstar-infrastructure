@@ -1185,7 +1185,7 @@ module "bpd_api_product" {
 }
 
 module "issuer_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
 
   product_id   = "issuer-api-product"
   display_name = "Issuer_API_Product"
@@ -1197,6 +1197,8 @@ module "issuer_api_product" {
   published             = true
   subscription_required = true
   approval_required     = true
+
+  subscriptions_limit = 50
 
   policy_xml = file("./api_product/issuer_api/policy.xml")
 }
@@ -1219,7 +1221,7 @@ module "pm_api_product" {
 }
 
 module "rtd_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
 
   product_id   = "rtd-api-product"
   display_name = "RTD_API_Product"
@@ -1231,6 +1233,8 @@ module "rtd_api_product" {
   published             = true
   subscription_required = true
   approval_required     = true
+
+  subscriptions_limit = 50
 
   policy_xml = file("./api_product/rtd_api/policy.xml")
 }
