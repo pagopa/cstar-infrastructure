@@ -329,7 +329,7 @@ module "pm_admin_panel" {
   path         = "backoffice"
   protocols    = ["https", "http"]
 
-  service_url = format("http://%s/backoffice", var.reverse_proxy_ip)
+  service_url = ""
 
   content_format = "openapi"
   content_value = templatefile("./api/pm_admin_panel/openapi.json.tpl", {
