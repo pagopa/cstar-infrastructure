@@ -1204,7 +1204,7 @@ module "issuer_api_product" {
 }
 
 module "pm_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
 
   product_id   = "pm-api-product"
   display_name = "PM_API_PRODUCT"
@@ -1216,6 +1216,7 @@ module "pm_api_product" {
   published             = true
   subscription_required = true
   approval_required     = true
+  subscriptions_limit   = 50
 
   policy_xml = file("./api_product/pm_api/policy.xml")
 }
@@ -1241,7 +1242,7 @@ module "rtd_api_product" {
 
 
 module "wisp_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
 
   product_id   = "wisp-api-product"
   display_name = "WISP_API_Product"
@@ -1253,6 +1254,7 @@ module "wisp_api_product" {
   published             = false
   subscription_required = true
   approval_required     = true
+  subscriptions_limit   = 50
 
   policy_xml = file("./api_product/wisp_api/policy.xml")
 
