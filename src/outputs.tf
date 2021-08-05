@@ -122,7 +122,7 @@ output "pm_backend_url" {
 }
 
 output "pm_client_certificate_thumbprint" {
-  value     = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+  value     = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
   sensitive = true
 }
 

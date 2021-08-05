@@ -213,6 +213,12 @@ variable "apim_private_domain" {
   default = "api.cstar.pagopa.it"
 }
 
+variable "apim_certificate_names" {
+  type        = list(string)
+  default     = []
+  description = "List of key vault certificate name"
+}
+
 variable "appio_timeout_sec" {
   type        = number
   description = "AppIo timeout (sec)"

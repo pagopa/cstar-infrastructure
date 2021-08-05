@@ -14,8 +14,7 @@ locals {
 ###########################
 
 module "apim" {
-  # source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.36"
-  source                  = "/Users/uolter/src/pagopa/azurerm/api_management"
+  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.43"
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)
@@ -28,8 +27,8 @@ module "apim" {
 
   application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 
-  key_vault_id = module.key_vault.id
-  certificate_names = ["BPD-PM"]
+  key_vault_id      = module.key_vault.id
+  certificate_names = var.apim_certificate_names
 
   tags = var.tags
 
@@ -302,9 +301,9 @@ module "rtd_payment_instrument_manager" {
     {
       operation_id = "get-hash-salt",
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        rtd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.rtd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        rtd-pm-client-certificate-id = data.azurerm_key_vault_certificate.rtd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
@@ -347,13 +346,13 @@ module "pm_admin_panel" {
     {
       operation_id = "walletv2",
       xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        PM-Timeout-Sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
-        PM-Ip-Filter-From                    = var.pm_ip_filter_range.from
-        PM-Ip-Filter-To                      = var.pm_ip_filter_range.to
-        CRUSCOTTO-Basic-Auth-Pwd             = data.azurerm_key_vault_secret.cruscotto-basic-auth-pwd.value
+        pm-backend-url               = var.pm_backend_url,
+        PM-Timeout-Sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
+        PM-Ip-Filter-From            = var.pm_ip_filter_range.from
+        PM-Ip-Filter-To              = var.pm_ip_filter_range.to
+        CRUSCOTTO-Basic-Auth-Pwd     = data.azurerm_key_vault_secret.cruscotto-basic-auth-pwd.value
       })
     },
   ]
@@ -515,95 +514,95 @@ module "bpd_hb_payment_instruments" {
       # Del BPay deletePaymentInstrumentHB
       operation_id = "5fdb377a52411ce8e7b9d5f6",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb377a52411ce8e7b9d5f6_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
       # Get BPay statusPaymentInstrumentHB
       operation_id = "5fdb37ee7e211f8e0ac2dc45",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
       # Del deletePaymentInstrumentHB
       operation_id = "deletepaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
       # put enrollPaymentInstrumentHB
       operation_id = "enrollPaymentInstrumentHB",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/enrollPaymentInstrumentHB_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
+        reverse-proxy-ip             = var.reverse_proxy_ip
       })
     },
     {
       # put enrollPaymentInstrumentHB BPay
       operation_id = "5f98984972e5123d4571984b",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5f98984972e5123d4571984b_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
+        reverse-proxy-ip             = var.reverse_proxy_ip
       })
     },
     {
       # put enrollPaymentInstrumentHB BPay
       operation_id = "5faade7fc12a87300a91769a",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5faade7fc12a87300a91769a_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
+        reverse-proxy-ip             = var.reverse_proxy_ip
       })
     },
     {
       # put enrollPaymentInstrumentHB Other
       operation_id = "6040bbd70a02ff56cad6aefd",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/6040bbd70a02ff56cad6aefd_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
+        reverse-proxy-ip             = var.reverse_proxy_ip
       })
     },
     {
       # put enrollPaymentInstrumentHB Satispay
       operation_id = "5fabb9644b1afaae5cc91a19",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fabb9644b1afaae5cc91a19_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
+        reverse-proxy-ip             = var.reverse_proxy_ip
       })
     },
     {
       # get statusPaymentInstrumentHB
       operation_id = "statuspaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
   ]
@@ -640,40 +639,40 @@ module "bpd_hb_payment_instruments_v2" {
       # BPay deletePaymentInstrumentHB
       operation_id = "5fdb377a52411ce8e7b9d5f6",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
       # Get BPay statusPaymentInstrumentHB
       operation_id = "5fdb37ee7e211f8e0ac2dc45",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
       # Del deletePaymentInstrumentHB
       operation_id = "deletepaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
     {
       # get statusPaymentInstrumentHB
       operation_id = "statuspaymentinstrumenthb",
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-id         = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
-        env_short                            = var.env_short
+        pm-backend-url               = var.pm_backend_url,
+        pm-timeout-sec               = var.pm_timeout_sec
+        bpd-pm-client-certificate-id = data.azurerm_key_vault_certificate.bpd_pm_client_certificate.thumbprint
+        env_short                    = var.env_short
       })
     },
   ]

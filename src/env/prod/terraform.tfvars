@@ -1,6 +1,7 @@
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
+apim_certificate_names         = ["BPD-PM", "RTD-PM"]
 
 aks_metric_alerts = {
   node_cpu = {
