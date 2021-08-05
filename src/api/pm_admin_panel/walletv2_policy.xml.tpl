@@ -35,7 +35,7 @@ return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding
                 <value>@(context.Variables.GetValueOrDefault<string>("fiscalcode"))</value>
             </set-header>
             %{ if env_short != "d" ~}
-            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+            <authentication-certificate certificate-id="${bpd-pm-client-certificate-id}" />
             %{ endif ~}
         </send-request>
         <return-response response-variable-name="walletresponse" />

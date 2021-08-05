@@ -25,7 +25,7 @@
                 <set-backend-service base-url="${pm-backend-url}/pp-restapi-rtd/v1" />
                 <rewrite-uri template="/static-contents/wallets/hashing" />
                 %{ if env_short != "d" ~}
-                <authentication-certificate thumbprint="${rtd-pm-client-certificate-thumbprint}" />
+                <authentication-certificate certificate-id="${rtd-pm-client-certificate-id}" />
                 %{ endif ~}
             </otherwise>
         </choose>

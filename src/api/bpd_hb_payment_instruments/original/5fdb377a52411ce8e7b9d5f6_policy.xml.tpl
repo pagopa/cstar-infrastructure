@@ -11,7 +11,7 @@
                             <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
                             <set-method>GET</set-method>
                             %{ if env_short != "d" ~}
-                            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+                            <authentication-certificate certificate-id="${bpd-pm-client-certificate-id}" />
                             %{ endif ~}
                         </send-request>
                         <choose>
