@@ -14,7 +14,8 @@ locals {
 ###########################
 
 module "apim" {
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.36"
+  # source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.36"
+  source                  = "/Users/uolter/src/pagopa/azurerm/api_management"
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)
@@ -28,6 +29,13 @@ module "apim" {
   application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 
   # policy_path = "./api/base_policy.xml"
+
+  certificates = [
+    {
+      name                = "BPD-PM"
+      key_vault_secret_id = "https://cstar-u-kv.vault.azure.net/secrets/BPD-PM"
+    }
+  ]
 
   tags = var.tags
 
