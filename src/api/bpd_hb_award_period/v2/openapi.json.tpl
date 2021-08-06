@@ -13,7 +13,7 @@
             "get": {
                 "summary": "findAll",
                 "description": "findAll",
-                "operationId": "get_findall",
+                "operationId": "getfindall",
                 "parameters": [{
                     "name": "x-request-id",
                     "in": "header",

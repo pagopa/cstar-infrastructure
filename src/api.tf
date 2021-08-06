@@ -491,7 +491,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
 }
 
 ### Original ###
-module "bpd_hb_payment_instruments" {
+module "bpd_hb_payment_instruments_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-bpd-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
@@ -704,7 +704,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" 
 }
 
 ### original ###
-module "bpd_hb_winning_transactions" {
+module "bpd_hb_winning_transactions_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-bpd-hb-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
@@ -785,7 +785,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 }
 
 ### original ###
-module "bpd_io_award_period" {
+module "bpd_io_award_period_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
@@ -864,7 +864,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
 }
 
 ### original ###
-module "bpd_io_citizen" {
+module "bpd_io_citizen_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
@@ -983,7 +983,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
 }
 
 ### Original ###
-module "bdp_hb_award_period" {
+module "bdp_hb_award_period_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-bpd-hb-award-period-api", var.env_short)
   api_management_name = module.apim.name
@@ -1010,8 +1010,8 @@ module "bdp_hb_award_period" {
   api_operation_policies = [
     {
       # findall
-      operation_id = "get_findall",
-      xml_content  = file("./api/bpd_hb_award_period/original/get_findall_policy.xml")
+      operation_id = "getfindall",
+      xml_content  = file("./api/bpd_hb_award_period/original/getfindall_policy.xml")
     }
   ]
 }
@@ -1045,8 +1045,8 @@ module "bdp_hb_award_period_v2" {
   api_operation_policies = [
     {
       # findall
-      operation_id = "get_findall",
-      xml_content  = file("./api/bpd_hb_award_period/v2/get_findall_policy.xml")
+      operation_id = "getfindall",
+      xml_content  = file("./api/bpd_hb_award_period/v2/getfindall_policy.xml")
     }
   ]
 }
