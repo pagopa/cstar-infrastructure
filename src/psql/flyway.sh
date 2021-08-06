@@ -35,7 +35,7 @@ az account set -s "${SUBSCRIPTION}"
 
 # shellcheck disable=SC1090
 source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/backend.ini"
-source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
+
 
 # shellcheck disable=SC2154
 printf "Subscription: %s\n" "${SUBSCRIPTION}"
