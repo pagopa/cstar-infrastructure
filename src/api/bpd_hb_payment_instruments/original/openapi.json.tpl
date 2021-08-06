@@ -12,7 +12,7 @@
             "delete": {
                 "summary": "deletePaymentInstrumentHB",
                 "description": "deletePaymentInstrumentHB",
-                "operationId": "deletepaymentinstrumenthb",
+                "operationId": "deldeletepaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "path",
@@ -40,7 +40,7 @@
             "get": {
                 "summary": "statusPaymentInstrumentHB",
                 "description": "statusPaymentInstrumentHB",
-                "operationId": "statuspaymentinstrumenthb",
+                "operationId": "getbpaystatuspaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "path",
@@ -70,7 +70,7 @@
             "put": {
                 "summary": "enrollPaymentInstrumentHB",
                 "description": "enrollPaymentInstrumentHB",
-                "operationId": "enrollpaymentinstrumenthb",
+                "operationId": "putenrollpaymentinstrumenthb",
                 "requestBody": {
                     "description": "request",
                     "content": {
@@ -134,7 +134,7 @@
             "put": {
                 "summary": "enrollPaymentInstrumentHB BPay",
                 "description": "enrollPaymentInstrumentHB BPay",
-                "operationId": "5faade7fc12a87300a91769a",
+                "operationId": "putenrollpaymentinstrumenthbbpayid",
                 "parameters": [{
                     "name": "id",
                     "in": "path",
@@ -212,7 +212,7 @@
             "put": {
                 "summary": "enrollPaymentInstrumentHB Satispay",
                 "description": "enrollPaymentInstrumentHB Satispay",
-                "operationId": "5fabb9644b1afaae5cc91a19",
+                "operationId": "putenrollpaymentinstrumenthbsatispay",
                 "parameters": [{
                     "name": "id",
                     "in": "path",
@@ -272,7 +272,7 @@
             "put": {
                 "summary": "enrollPaymentInstrumentHB BPay",
                 "description": "enrollPaymentInstrumentHB BancomatPay",
-                "operationId": "5f98984972e5123d4571984b",
+                "operationId": "putenrollpaymentinstrumenthbbpay",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -297,7 +297,7 @@
             "get": {
                 "summary": "BPay statusPaymentInstrumentHB",
                 "description": "BPay statusPaymentInstrumentHB",
-                "operationId": "5fdb37ee7e211f8e0ac2dc45",
+                "operationId": "getstatuspaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "query",
@@ -325,7 +325,7 @@
             "delete": {
                 "summary": "BPay deletePaymentInstrumentHB",
                 "description": "BPay deletePaymentInstrumentHB",
-                "operationId": "5fdb377a52411ce8e7b9d5f6",
+                "operationId": "delbpaydeletepaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "query",
@@ -355,7 +355,7 @@
             "put": {
                 "summary": "enrollPaymentInstrumentHB Other",
                 "description": "enrollPaymentInstrumentHB Other",
-                "operationId": "6040bbd70a02ff56cad6aefd",
+                "operationId": "putenrollpaymentinstrumenthbother",
                 "requestBody": {
                     "description": "request",
                     "content": {

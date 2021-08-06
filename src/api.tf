@@ -14,7 +14,7 @@ locals {
 ###########################
 
 module "apim" {
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.36"
+  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.44"
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)
@@ -24,6 +24,13 @@ module "apim" {
   sku_name                = var.apim_sku
   virtual_network_type    = "Internal"
   redis_connection_string = module.redis.primary_connection_string
+  # This enables the Username and Password Identity Provider
+  sign_up_enabled = true
+  sign_up_terms_of_service = {
+    consent_required = false
+    enabled          = false
+    text             = ""
+  }
 
   application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 
@@ -84,7 +91,7 @@ module "api_azureblob" {
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-info-privacy"
+  name                = format("%s-bpd-info-privacy", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -116,7 +123,7 @@ module "api_bdp_info_privacy" {
 module "api_bpd-io_payment_instrument" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-payment-instrument-api"
+  name                = format("%s-bpd-io-payment-instrument-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -153,7 +160,7 @@ module "api_bpd-io_payment_instrument" {
 module "api_bpd_pm_payment_instrument" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-pm-payment-instrument"
+  name                = format("%s-bpd-pm-payment-instrument", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -178,7 +185,7 @@ module "api_bpd_pm_payment_instrument" {
 module "api_bpd_io_backend_test" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-io-backend-test-api"
+  name                = format("%s-bpd-io-backend-test-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -210,7 +217,7 @@ module "api_bpd_io_backend_test" {
 module "api_bpd_tc" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "bpd-tc-api"
+  name                = format("%s-bpd-tc-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -245,7 +252,7 @@ module "api_bpd_tc" {
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "rtd-payment-instrument-api"
+  name                = format("%s-rtd-payment-instrument-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -273,7 +280,7 @@ module "rtd_payment_instrument" {
 module "rtd_payment_instrument_manager" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "rtd-payment-instrument-manager-api"
+  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -319,7 +326,7 @@ module "rtd_payment_instrument_manager" {
 module "pm_admin_panel" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = "pm-admin-panel"
+  name                = format("%s-pm-admin-panel", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -371,7 +378,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
 ### Original (swagger 2.0.x)
 module "bpd_hb_citizen_original" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-citizen-api"
+  name                = format("%s-bpd-hb-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
@@ -423,7 +430,7 @@ module "bpd_hb_citizen_original" {
 # V2 (openapi 3.0.x)
 module "bpd_hb_citizen_original_v2" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-citizen-api"
+  name                = format("%s-bpd-hb-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
@@ -486,7 +493,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
 ### Original ###
 module "bpd_hb_payment_instruments" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-payment-instruments-api"
+  name                = format("%s-bpd-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
@@ -510,9 +517,9 @@ module "bpd_hb_payment_instruments" {
 
   api_operation_policies = [
     {
-      # Del BPay deletePaymentInstrumentHB
-      operation_id = "5fdb377a52411ce8e7b9d5f6",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb377a52411ce8e7b9d5f6_policy.xml.tpl", {
+      # DEL BPay deletePaymentInstrumentHB
+      operation_id = "delbpaydeletepaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/delbpaydeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -520,9 +527,9 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # Get BPay statusPaymentInstrumentHB
-      operation_id = "5fdb37ee7e211f8e0ac2dc45",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
+      # GET BPay statusPaymentInstrumentHB
+      operation_id = "getbpaystatuspaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/getbpaystatuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -530,9 +537,9 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # Del deletePaymentInstrumentHB
-      operation_id = "deletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
+      # DEL deletePaymentInstrumentHB
+      operation_id = "deldeletepaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deldeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -540,20 +547,9 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # put enrollPaymentInstrumentHB
-      operation_id = "enrollPaymentInstrumentHB",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/enrollPaymentInstrumentHB_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
-      })
-    },
-    {
-      # put enrollPaymentInstrumentHB BPay
-      operation_id = "5f98984972e5123d4571984b",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5f98984972e5123d4571984b_policy.xml.tpl", {
+      # PUT enrollPaymentInstrumentHB
+      operation_id = "putenrollpaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -562,9 +558,9 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # put enrollPaymentInstrumentHB BPay
-      operation_id = "5faade7fc12a87300a91769a",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5faade7fc12a87300a91769a_policy.xml.tpl", {
+      # PUT enrollPaymentInstrumentHB BPay
+      operation_id = "putenrollpaymentinstrumenthbbpay",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbbpay_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -573,9 +569,9 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # put enrollPaymentInstrumentHB Other
-      operation_id = "6040bbd70a02ff56cad6aefd",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/6040bbd70a02ff56cad6aefd_policy.xml.tpl", {
+      # PUT enrollPaymentInstrumentHB BPay ID
+      operation_id = "putenrollpaymentinstrumenthbbpayid",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbbpayid_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -584,9 +580,9 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # put enrollPaymentInstrumentHB Satispay
-      operation_id = "5fabb9644b1afaae5cc91a19",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fabb9644b1afaae5cc91a19_policy.xml.tpl", {
+      # PUT enrollPaymentInstrumentHB Other
+      operation_id = "putenrollpaymentinstrumenthbother",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbother_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -595,9 +591,20 @@ module "bpd_hb_payment_instruments" {
       })
     },
     {
-      # get statusPaymentInstrumentHB
-      operation_id = "statuspaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
+      # PUT enrollPaymentInstrumentHB Satispay
+      operation_id = "putenrollpaymentinstrumenthbsatispay",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbsatispay_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # GET statusPaymentInstrumentHB
+      operation_id = "getstatuspaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/getstatuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -610,7 +617,7 @@ module "bpd_hb_payment_instruments" {
 ### V2 ###
 module "bpd_hb_payment_instruments_v2" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-payment-instruments-api"
+  name                = format("%s-bpd-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
@@ -635,9 +642,9 @@ module "bpd_hb_payment_instruments_v2" {
 
   api_operation_policies = [
     {
-      # BPay deletePaymentInstrumentHB
-      operation_id = "5fdb377a52411ce8e7b9d5f6",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
+      # DEL BPay deletePaymentInstrumentHB
+      operation_id = "delbpaydeletepaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/delbpaydeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -645,9 +652,9 @@ module "bpd_hb_payment_instruments_v2" {
       })
     },
     {
-      # Get BPay statusPaymentInstrumentHB
-      operation_id = "5fdb37ee7e211f8e0ac2dc45",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/5fdb37ee7e211f8e0ac2dc45_policy.xml.tpl", {
+      # GET BPay statusPaymentInstrumentHB
+      operation_id = "getbpaystatuspaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/getbpaystatuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -655,9 +662,9 @@ module "bpd_hb_payment_instruments_v2" {
       })
     },
     {
-      # Del deletePaymentInstrumentHB
-      operation_id = "deletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deletepaymentinstrumenthb_policy.xml.tpl", {
+      # DEL deletePaymentInstrumentHB
+      operation_id = "deldeletepaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/deldeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -665,9 +672,19 @@ module "bpd_hb_payment_instruments_v2" {
       })
     },
     {
-      # get statusPaymentInstrumentHB
-      operation_id = "statuspaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/statuspaymentinstrumenthb_policy.xml.tpl", {
+      # PATCH patchPaymentInstrument
+      operation_id = "patchpatchpaymentinstrument",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/patchpatchpaymentinstrument_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      # GET statusPaymentInstrumentHB
+      operation_id = "getstatuspaymentinstrumenthb",
+      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/getstatuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
