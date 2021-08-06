@@ -17,7 +17,7 @@
         <set-query-parameter name="fiscalCode" exists-action="override">
             <value>@((string)context.Variables["fiscalCode"])</value>
         </set-query-parameter>
-        <set-backend-service base-url="http://${reverse-proxy-IP}/bpdmscitizen/bpd/citizens" />
+        <set-backend-service base-url="http://${reverse-proxy-ip}/bpdmscitizen/bpd/citizens" />
     </inbound>
     <backend>
         <base />

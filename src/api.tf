@@ -368,7 +368,7 @@ module "pm_admin_panel" {
 
 ## BPD HB Citizen API
 resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
-  name                = "bpd-hb-citizen"
+  name                = format("%s-bpd-hb-citizen", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Citizen API"
@@ -428,7 +428,7 @@ module "bpd_hb_citizen_original" {
 }
 
 # V2 (openapi 3.0.x)
-module "bpd_hb_citizen_original_v2" {
+module "bpd_hb_citizen_v2" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-bpd-hb-citizen-api", var.env_short)
   api_management_name = module.apim.name
@@ -483,7 +483,7 @@ module "bpd_hb_citizen_original_v2" {
 
 ## 02 BPD HB Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
-  name                = "bpd-hb-payment-instruments"
+  name                = format("%s-bpd-hb-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Payment Instruments API"
@@ -706,7 +706,7 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" 
 ### original ###
 module "bpd_hb_winning_transactions" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-winning-transactions-api"
+  name                = format("%s-bpd-hb-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
@@ -729,10 +729,10 @@ module "bpd_hb_winning_transactions" {
 
   api_operation_policies = [
     {
-      # get getTotalCashback
-      operation_id = "5f983f1e4d8a629c492473c1",
-      xml_content = templatefile("./api/bpd_hb_winning_transactions/original/5f983f1e4d8a629c492473c1_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+      # GET getTotalCashback
+      operation_id = "getgettotalcashback",
+      xml_content = templatefile("./api/bpd_hb_winning_transactions/original/getgettotalcashback_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
   ]
@@ -741,7 +741,7 @@ module "bpd_hb_winning_transactions" {
 ### v2 ###
 module "bpd_hb_winning_transactions_v2" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "bpd-hb-winning-transactions-api"
+  name                = format("%s-bpd-hb-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
@@ -766,10 +766,10 @@ module "bpd_hb_winning_transactions_v2" {
 
   api_operation_policies = [
     {
-      # get getTotalCashback
-      operation_id = "5f983f1e4d8a629c492473c1",
-      xml_content = templatefile("./api/bpd_hb_winning_transactions/v2/5f983f1e4d8a629c492473c1_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+      # GET getTotalCashback
+      operation_id = "getgettotalcashback",
+      xml_content = templatefile("./api/bpd_hb_winning_transactions/v2/getgettotalcashback_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
   ]
@@ -777,7 +777,7 @@ module "bpd_hb_winning_transactions_v2" {
 
 ## 04 BPD IO Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
-  name                = "bpd-io-award-period"
+  name                = format("%s-bpd-io-award-period", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Award Period API"
@@ -786,9 +786,8 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-io-award-period-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
@@ -821,9 +820,8 @@ module "bpd_io_award_period" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-io-award-period-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
@@ -858,7 +856,7 @@ module "bpd_io_award_period_v2" {
 
 ## 05 BPD IO Citizen API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
-  name                = "bpd-io-citizen"
+  name                = format("%s-bpd-io-citizen", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Citizen API"
@@ -867,9 +865,8 @@ resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
 
 ### original ###
 module "bpd_io_citizen" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-io-citizen-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
@@ -894,13 +891,13 @@ module "bpd_io_citizen" {
     {
       operation_id = "deleteUsingDELETE"
       xml_content = templatefile("./api/bpd_io_citizen/original/deleteUsingDELETE_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
       operation_id = "enrollment"
       xml_content = templatefile("./api/bpd_io_citizen/original/enrollment_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
@@ -920,9 +917,8 @@ module "bpd_io_citizen" {
 
 ### v2 ###
 module "bpd_io_citizen_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-io-citizen-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_citizen.id
@@ -949,13 +945,13 @@ module "bpd_io_citizen_v2" {
     {
       operation_id = "deleteUsingDELETE"
       xml_content = templatefile("./api/bpd_io_citizen/v2/deleteUsingDELETE_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
       operation_id = "enrollment"
       xml_content = templatefile("./api/bpd_io_citizen/v2/enrollment_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
@@ -979,7 +975,7 @@ module "bpd_io_citizen_v2" {
 
 ## 06 BPD HB Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
-  name                = "bpd-hb-award-period"
+  name                = format("%s-bpd-hb-award-period", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD HB Award Period API"
@@ -988,9 +984,8 @@ resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
 
 ### Original ###
 module "bdp_hb_award_period" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-hb-award-period-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-hb-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
@@ -1015,7 +1010,7 @@ module "bdp_hb_award_period" {
   api_operation_policies = [
     {
       # findall
-      operation_id = "5f983d5d70d400b2e059b34a",
+      operation_id = "get_findall",
       xml_content  = file("./api/bpd_hb_award_period/original/get_findall_policy.xml")
     }
   ]
@@ -1023,9 +1018,8 @@ module "bdp_hb_award_period" {
 
 ### v2 ###
 module "bdp_hb_award_period_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-hb-award-period-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-hb-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
@@ -1051,7 +1045,7 @@ module "bdp_hb_award_period_v2" {
   api_operation_policies = [
     {
       # findall
-      operation_id = "5f983d5d70d400b2e059b34a",
+      operation_id = "get_findall",
       xml_content  = file("./api/bpd_hb_award_period/v2/get_findall_policy.xml")
     }
   ]
@@ -1059,7 +1053,7 @@ module "bdp_hb_award_period_v2" {
 
 ## 07 BPD IO Winning Transactions API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" {
-  name                = "bpd-io-winning-transactions"
+  name                = format("%s-bpd-io-winning-transactions", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
   display_name        = "BPD IO Winning Transactions API"
@@ -1067,10 +1061,9 @@ resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" 
 }
 
 ### original ###
-module "bpd_io_winning_transactions" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-io-winning-transactions-api"
+module "bpd_io_winning_transactions_original" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-io-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_winning_transactions.id
@@ -1095,7 +1088,7 @@ module "bpd_io_winning_transactions" {
     {
       operation_id = "getTotalScoreUsingGET"
       xml_content = templatefile("./api/bpd_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
   ]
@@ -1103,9 +1096,8 @@ module "bpd_io_winning_transactions" {
 
 ### v2 ###
 module "bpd_io_winning_transactions_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = "bpd-io-winning-transactions-api"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-bpd-io-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_winning_transactions.id
@@ -1136,7 +1128,7 @@ module "bpd_io_winning_transactions_v2" {
     {
       operation_id = "getTotalScoreUsingGET"
       xml_content = templatefile("./api/bpd_io_winning_transactions/v2/getTotalScoreUsingGET_policy.xml.tpl", {
-        reverse-proxy-IP = var.reverse_proxy_ip
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
   ]

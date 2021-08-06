@@ -1,14 +1,3 @@
-resource "kubernetes_config_map" "rtdmspaymentinstrumentmanager" {
-  metadata {
-    name      = "rtdmspaymentinstrumentmanager"
-    namespace = kubernetes_namespace.rtd.metadata[0].name
-  }
-
-  data = {
-    BATCH_EXTR_PARTIAL_FILE = "true"
-  }
-}
-
 resource "kubernetes_config_map" "rtdpaymentinstrumentmanager" {
   metadata {
     name      = "rtdpaymentinstrumentmanager"
@@ -28,24 +17,6 @@ resource "kubernetes_config_map" "rtdpaymentinstrumentmanager" {
     },
     var.configmaps_rtdpaymentinstrumentmanager
   )
-}
-
-resource "kubernetes_config_map" "rtdtransactionmanager" {
-  metadata {
-    name      = "rtdtransactionmanager"
-    namespace = kubernetes_namespace.rtd.metadata[0].name
-  }
-
-  data = {
-    KAFKA_INVTRX_GROUP_ID      = "fa-trx"
-    KAFKA_INVTRX_TOPIC         = "fa-trx"
-    KAFKA_POINTTRX_GROUP_ID    = "bpd-trx"
-    KAFKA_POINTTRX_TOPIC       = "bpd-trx"
-    KAFKA_RTDTX_ERROR_GROUP_ID = "rtd-trx"
-    KAFKA_RTDTX_ERROR_TOPIC    = "rtd-trx-error"
-    KAFKA_RTDTX_GROUP_ID       = "transaction-manager"
-    KAFKA_RTDTX_TOPIC          = "rtd-trx"
-  }
 }
 
 resource "kubernetes_config_map" "rtd-eventhub-common" {

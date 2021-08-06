@@ -13,7 +13,7 @@
             "get": {
                 "summary": "getTotalCashback",
                 "description": "getTotalCashback",
-                "operationId": "5f983f1e4d8a629c492473c1",
+                "operationId": "getgettotalcashback",
                 "parameters": [{
                     "name": "awardPeriodId",
                     "in": "query",
