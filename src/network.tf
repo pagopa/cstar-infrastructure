@@ -207,17 +207,19 @@ module "app_gw" {
   # Configure backends
   backends = {
     apim = {
-      protocol = "Http"
-      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
-      port     = 80
-      probe    = "/status-0123456789abcdef"
+      protocol   = "Http"
+      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port       = 80
+      probe      = "/status-0123456789abcdef"
+      probe_name = "probe-apim"
     }
 
     portal = {
-      protocol = "Http"
-      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, ".")
-      port     = 80
-      probe    = "/signin"
+      protocol   = "Http"
+      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, ".")
+      port       = 80
+      probe      = "/signin"
+      probe_name = "probe-portal"
     }
   }
 

@@ -37,7 +37,7 @@ resource "azurerm_application_gateway" "this" {
       port                  = backend.value.port
       protocol              = backend.value.protocol
       request_timeout       = 60
-      probe_name            = "probe-apim"
+      probe_name            = backend.value.probe_name
     }
   }
 
