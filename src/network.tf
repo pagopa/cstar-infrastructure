@@ -163,6 +163,14 @@ resource "azurerm_private_dns_a_record" "private_dns_a_record_api" {
   records             = module.apim.*.private_ip_addresses[0]
 }
 
+resource "azurerm_private_dns_a_record" "private_dns_a_record_dev_portal" {
+  name                = format("%s-portal", local.project)
+  zone_name           = azurerm_private_dns_zone.api_private_dns_zone.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = 300
+  records             = module.apim.*.private_ip_addresses[0]
+}
+
 
 ## Application gateway ## 
 # Since these variables are re-used - a locals block makes this more maintainable
@@ -204,6 +212,13 @@ module "app_gw" {
       port     = 80
       probe    = "/status-0123456789abcdef"
     }
+
+    portal = {
+      protocol = "Http"
+      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, ".")
+      port     = 80
+      probe    = "/signin"
+    }
   }
 
   # Configure listeners
@@ -227,6 +242,17 @@ module "app_gw" {
         id   = var.app_gateway_api_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, azurerm_key_vault_certificate.app_gw_cstar[0].version)
       }
     }
+
+    portal = {
+      protocol = "Https"
+      host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+      certificate = {
+        name = var.portal_certificate_name != null ? var.portal_certificate_name : azurerm_key_vault_certificate.portal[0].name
+        # TODO ... change the certificate data ...
+        id = var.portal_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.portal[0].secret_id, azurerm_key_vault_certificate.portal[0].version)
+      }
+    }
   }
 
   # maps listener to backend
@@ -240,6 +266,11 @@ module "app_gw" {
     broker = {
       listener = "issuer_acquirer"
       backend  = "apim"
+    }
+
+    portal = {
+      listener = "portal"
+      backend  = "portal"
     }
   }
 

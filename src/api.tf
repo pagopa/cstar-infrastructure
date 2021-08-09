@@ -7,6 +7,7 @@ resource "azurerm_resource_group" "rg_api" {
 
 locals {
   apim_cert_name_proxy_endpoint = format("%s-proxy-endpoint-cert", local.project)
+  apim_cert_dev_portal_endpoint = format("%s-dev-portal-cert", local.project)
 }
 
 ###########################
@@ -51,10 +52,10 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
     key_vault_id = azurerm_key_vault_certificate.apim_proxy_endpoint_cert.secret_id
   }
 
-  # developer_portal {
-  #   host_name    = "portal.example.com"
-  #   key_vault_id = azurerm_key_vault_certificate.test.secret_id
-  # }
+  developer_portal {
+    host_name    = trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, ".")
+    key_vault_id = azurerm_key_vault_certificate.apim_dev_portal_cert.secret_id
+  }
 }
 
 #########

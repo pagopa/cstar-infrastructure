@@ -250,6 +250,12 @@ variable "app_gateway_certificate_name" {
   default     = null
 }
 
+variable "portal_certificate_name" {
+  type        = string
+  description = "Developer portal certificate name on Key Vault"
+  default     = null
+}
+
 variable "devops_service_connection_object_id" {
   type        = string
   description = "Azure deveops service connection id."

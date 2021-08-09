@@ -113,3 +113,12 @@ resource "azurerm_dns_a_record" "dns_a_appgw_api_io" {
   tags                = var.tags
 }
 
+# apim developer portal
+resource "azurerm_dns_a_record" "dns_a_apim_dev_portal" {
+  name                = "portal"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = [azurerm_public_ip.apigateway_public_ip.ip_address]
+  tags                = var.tags
+}

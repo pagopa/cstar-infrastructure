@@ -171,6 +171,63 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
     }
   }
 }
+
+
+resource "azurerm_key_vault_certificate" "apim_dev_portal_cert" {
+  depends_on = [
+    azurerm_key_vault_access_policy.api_management_policy
+  ]
+
+  name         = local.apim_cert_dev_portal_endpoint
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = format("CN=%s", trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, "."))
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = [
+          trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, "."),
+        ]
+      }
+    }
+  }
+}
 resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   count        = var.app_gateway_api_io_certificate_name != null ? 0 : 1
   name         = format("%s-cert-api-io", local.project)
@@ -224,6 +281,8 @@ resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   }
 }
 
+# Application gateway certificates
+
 resource "azurerm_key_vault_certificate" "app_gw_cstar" {
   count        = var.app_gateway_api_certificate_name != null ? 0 : 1
   name         = format("%s-cert-api", local.project)
@@ -271,6 +330,60 @@ resource "azurerm_key_vault_certificate" "app_gw_cstar" {
       subject_alternative_names {
         dns_names = [
           var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"])),
+        ]
+      }
+    }
+  }
+}
+
+
+resource "azurerm_key_vault_certificate" "portal" {
+  count        = var.portal_certificate_name != null ? 0 : 1
+  name         = format("%s-cert-portal", local.project)
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = var.env_short == "p" ? "CN=portal.%s.cstar.pagopa.it" : format("CN=portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = [
+          var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"])),
         ]
       }
     }
