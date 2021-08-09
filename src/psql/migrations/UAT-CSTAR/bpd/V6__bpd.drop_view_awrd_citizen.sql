@@ -1,0 +1,1 @@
+DROP VIEW bpd_dashboard_pagopa.v_bpd_award_citizen_v2;

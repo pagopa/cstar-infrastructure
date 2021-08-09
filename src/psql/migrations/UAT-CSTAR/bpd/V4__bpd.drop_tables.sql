@@ -1,0 +1,15 @@
+DROP TABLE bpd_award_period.bpd_award_period_bck;
+DROP TABLE bpd_citizen.bpd_citizen_deleted;
+DROP TABLE bpd_citizen.bpd_citizen_ranking_bck;
+DROP TABLE bpd_citizen.bpd_elab_transaction_temp;
+DROP TABLE bpd_payment_instrument.tmp_payment_instrument;
+DROP TABLE bpd_winning_transaction.bpd_winning_transaction_recovery;
+DROP TABLE bpd_citizen.bpd_citizen_ranking_recovery;
+DROP TABLE bpd_citizen.bpd_temp_citizen;
+DROP TABLE bpd_winning_transaction.bpd_fiscal_code_performance_tmp;
+DROP TABLE bpd_winning_transaction.temp_hpan_nft;
+DROP TABLE bpd_citizen.bpd_citizen_ranking_deleted;
+DROP TABLE bpd_citizen.temp_citizen_and_pay;
+DROP TABLE bpd_winning_transaction.bpd_winning_transaction_p2;
+DROP TABLE bpd_citizen.bpd_citizen_ranking_parimerito;
+DROP TABLE bpd_payment_instrument.bonifica_pm;

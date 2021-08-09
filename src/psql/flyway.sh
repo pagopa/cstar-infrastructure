@@ -35,12 +35,11 @@ az account set -s "${SUBSCRIPTION}"
 
 # shellcheck disable=SC1090
 source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/backend.ini"
-source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
+
 
 # shellcheck disable=SC2154
 printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
-printf "Storage Account Name: %s\n" "${storage_account_name}"
 
 psql_server_name=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:name}" | head -1)
 psql_server_private_fqdn=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:fullyQualifiedDomainName}" | head -1)
