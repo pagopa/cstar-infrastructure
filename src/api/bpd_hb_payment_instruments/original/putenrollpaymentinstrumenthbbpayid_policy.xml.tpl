@@ -12,10 +12,22 @@
 -->
 <policies>
     <inbound>
+        <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param"))" />
+        <!-- Extract Token from Authorization header parameter -->
         <choose>
             <when condition="@(context.Request.Body != null && context.Request.Body.As<JObject>(preserveContent: true)["fiscalCode"] != null)">
                 <set-variable name="taxCode" value="@(context.Request.Body.As<JObject>(preserveContent: true)["fiscalCode"])" />
                 <set-variable name="channel" value="@(context.Request.Body.As<JObject>(preserveContent: true)["channel"])" />
+                <set-variable name="groupCode" value="@(context.Request.Body.As<JObject>(preserveContent: true)["groupCode"])" />
+                <set-variable name="instituteCode" value="@(context.Request.Body.As<JObject>(preserveContent: true)["instituteCode"])" />
+                <set-variable name="bank" value="@(context.Request.Body.As<JObject>(preserveContent: true)["bank"])" />
+                <set-variable name="nameHolder" value="@(context.Request.Body.As<JObject>(preserveContent: true)["nameHolder"])" />
+                <set-variable name="surnameHolder" value="@(context.Request.Body.As<JObject>(preserveContent: true)["surnameHolder"])" />
+                <set-variable name="phoneNumber" value="@(context.Request.Body.As<JObject>(preserveContent: true)["phoneNumber"])" />
+                <set-variable name="serviceStatus" value="@(context.Request.Body.As<JObject>(preserveContent: true)["serviceStatus"])" />
+                <set-variable name="iban" value="@(context.Request.Body.As<JObject>(preserveContent: true)["infoPaymentInstrument"]["iban"])" />
+                <set-variable name="flagPreferredPaymentPI" value="@(context.Request.Body.As<JObject>(preserveContent: true)["infoPaymentInstrument"]["flagPreferredPaymentPI"])" />
+                <set-variable name="flagPreferredIncomingPI" value="@(context.Request.Body.As<JObject>(preserveContent: true)["infoPaymentInstrument"]["flagPreferredIncomingPI"])" />
                 <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
                     <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
                     <set-method>POST</set-method>
@@ -26,14 +38,26 @@
                         return new JObject(
                                 new JProperty("taxCode", context.Variables["taxCode"]),
                                 new JProperty("channel", context.Variables["channel"]),
-                                new JProperty("walletType", "Satispay"),
+                                new JProperty("walletType", "BPay"),
 								new JProperty("info",
 									new JObject(
-										new JProperty("id",(string)context.Request.MatchedParameters["id"])))).ToString();
+										new JProperty("codGruppo",context.Variables["groupCode"]),
+										new JProperty("codIstituto", context.Variables["instituteCode"]),
+										new JProperty("nomeBanca", context.Variables["bank"]),
+										new JProperty("nomeOffuscato", context.Variables["nameHolder"]),
+										new JProperty("cognomeOffuscato", context.Variables["surnameHolder"]),
+										new JProperty("numeroTelefonicoOffuscato", context.Variables["phoneNumber"]),
+                                        new JProperty("UIDCriptato", (string)context.Request.MatchedParameters["id"]),
+                                        new JProperty("statoServizio", context.Variables["serviceStatus"]),
+										new JProperty("infoStrumenti", new JObject(
+                                            new JProperty("iban", context.Variables["iban"]),
+                                            new JProperty("flgPreferitoPagamento", context.Variables["flagPreferredPaymentPI"]),
+                                            new JProperty("flgPreferitoRicezione", context.Variables["flagPreferredIncomingPI"])                                        
+                                        ))))).ToString();
                     }</set-body>
                     %{ if env_short != "d" ~}
-                    <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-                    %{ endif ~}
+<authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+%{ endif ~}
                 </send-request>
                 <choose>
                     <when condition="@(context.Variables["hpan"] == null)">

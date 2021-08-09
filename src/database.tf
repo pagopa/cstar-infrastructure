@@ -15,6 +15,7 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
   key_vault_id = module.key_vault.id
 }
 
+#tfsec:ignore:azure-database-no-public-access
 module "postgresql" {
   source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.41"
   name                             = format("%s-postgresql", local.project)

@@ -13,7 +13,6 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="http://${reverse-proxy-IP}/bpdmscitizen/bpd/citizens" />
     </inbound>
     <backend>
         <base />

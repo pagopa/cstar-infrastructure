@@ -13,7 +13,7 @@
             "delete": {
                 "summary": "deletePaymentInstrumentHB",
                 "description": "deletePaymentInstrumentHB",
-                "operationId": "deletepaymentinstrumenthb",
+                "operationId": "deldeletepaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "header",
@@ -41,7 +41,7 @@
             "get": {
                 "summary": "statusPaymentInstrumentHB",
                 "description": "statusPaymentInstrumentHB",
-                "operationId": "statuspaymentinstrumenthb",
+                "operationId": "getstatuspaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "header",
@@ -83,7 +83,7 @@
             "patch": {
                 "summary": "patchPaymentInstrument",
                 "description": "patchPaymentInstrument",
-                "operationId": "patchPaymentInstrument",
+                "operationId": "patchpatchpaymentinstrument",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -129,7 +129,7 @@
             "get": {
                 "summary": "BPay statusPaymentInstrumentHB",
                 "description": "BPay statusPaymentInstrumentHB",
-                "operationId": "5fdb37ee7e211f8e0ac2dc45",
+                "operationId": "getbpaystatuspaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "query",
@@ -171,7 +171,7 @@
             "delete": {
                 "summary": "BPay deletePaymentInstrumentHB",
                 "description": "BPay deletePaymentInstrumentHB",
-                "operationId": "5fdb377a52411ce8e7b9d5f6",
+                "operationId": "delbpaydeletepaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "query",

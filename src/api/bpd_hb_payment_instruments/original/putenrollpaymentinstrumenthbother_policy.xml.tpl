@@ -42,8 +42,8 @@
                                        ))).ToString();
                    }</set-body>
                     %{ if env_short != "d" ~}
-                    <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-                    %{ endif ~}
+<authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+%{ endif ~}
                 </send-request>
                 <choose>
                     <when condition="@(context.Variables["hpan"] == null)">

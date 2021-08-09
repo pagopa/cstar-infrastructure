@@ -13,7 +13,7 @@
             "get": {
                 "summary": "findAll",
                 "description": "findAll",
-                "operationId": "5f983d5d70d400b2e059b34a",
+                "operationId": "getfindall",
                 "parameters": [{
                     "name": "x-request-id",
                     "in": "header",
