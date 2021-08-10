@@ -118,7 +118,7 @@
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_network_profile.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/network_profile) | resource |
 | [azurerm_private_dns_a_record.private_dns_a_record_api](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/private_dns_a_record) | resource |
-| [azurerm_private_dns_zone.api_private_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/private_dns_zone) | resource |
+| [azurerm_private_dns_zone.private_private_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.api_private_dns_zone_virtual_network_link](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_public_ip.aks_outbound](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/public_ip) | resource |
 | [azurerm_public_ip.apigateway_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/public_ip) | resource |

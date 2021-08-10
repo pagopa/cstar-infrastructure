@@ -116,12 +116,18 @@ resource "azurerm_user_assigned_identity" "appgateway" {
   tags = var.tags
 }
 
+resource "random_string" "apim_proxy_cert_suffix" {
+  length  = 6
+  special = false
+  number  = true
+}
+
 resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
   depends_on = [
     azurerm_key_vault_access_policy.api_management_policy
   ]
 
-  name         = local.apim_cert_name_proxy_endpoint
+  name         = format("%s-%s", local.apim_cert_name_proxy_endpoint, random_string.apim_proxy_cert_suffix.result)
   key_vault_id = module.key_vault.id
 
   certificate_policy {
@@ -166,11 +172,13 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
       subject_alternative_names {
         dns_names = [
           trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."),
+          trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, "."),
         ]
       }
     }
   }
 }
+
 resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   count        = var.app_gateway_api_io_certificate_name != null ? 0 : 1
   name         = format("%s-cert-api-io", local.project)
@@ -286,6 +294,17 @@ data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 data "azurerm_key_vault_certificate" "app_gw_cstar" {
   count        = var.app_gateway_api_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_certificate" "portal_cstar" {
+  count        = var.app_gateway_portal_certificate_name != null ? 1 : 0
+  name         = var.app_gateway_portal_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_certificate" "portal_internal_cstar" {
+  name         = "portal-internal-cstar-pagopa-it"
   key_vault_id = module.key_vault.id
 }
 

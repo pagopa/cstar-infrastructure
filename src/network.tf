@@ -143,21 +143,37 @@ resource "azurerm_public_ip" "apigateway_public_ip" {
 }
 
 
-resource "azurerm_private_dns_zone" "api_private_dns_zone" {
-  name                = var.apim_private_domain
+resource "azurerm_private_dns_zone" "private_private_dns_zone" {
+  name                = var.internal_private_domain
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "api_private_dns_zone_virtual_network_link" {
+resource "azurerm_private_dns_zone_virtual_network_link" "private_private_dns_zone_virtual_network_link" {
   name                  = format("%s-api-private-dns-zone-link", local.project)
   resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.api_private_dns_zone.name
+  private_dns_zone_name = azurerm_private_dns_zone.private_private_dns_zone.name
   virtual_network_id    = module.vnet.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "private_integration_dns_zone_virtual_network_link" {
+  name                  = format("%s-integration-private-dns-zone-link", local.project)
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.private_private_dns_zone.name
+  virtual_network_id    = module.vnet_integration.id
 }
 
 resource "azurerm_private_dns_a_record" "private_dns_a_record_api" {
   name                = module.apim.name
-  zone_name           = azurerm_private_dns_zone.api_private_dns_zone.name
+  zone_name           = azurerm_private_dns_zone.private_private_dns_zone.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = 300
+  records             = module.apim.*.private_ip_addresses[0]
+}
+
+# dev portal
+resource "azurerm_private_dns_a_record" "private_dns_a_record_portal" {
+  name                = "portal"
+  zone_name           = azurerm_private_dns_zone.private_private_dns_zone.name
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = 300
   records             = module.apim.*.private_ip_addresses[0]
@@ -199,10 +215,19 @@ module "app_gw" {
   # Configure backends
   backends = {
     apim = {
-      protocol = "Http"
-      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
-      port     = 80
-      probe    = "/status-0123456789abcdef"
+      protocol   = "Http"
+      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port       = 80
+      probe      = "/status-0123456789abcdef"
+      probe_name = "probe-apim"
+    }
+
+    portal = {
+      protocol   = "Http"
+      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
+      port       = 80
+      probe      = "/signin"
+      probe_name = "probe-portal"
     }
   }
 
@@ -227,6 +252,18 @@ module "app_gw" {
         id   = var.app_gateway_api_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, azurerm_key_vault_certificate.app_gw_cstar[0].version)
       }
     }
+
+    portal = {
+      protocol = "Https"
+      host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+
+      #TODO: add self signed cert support as above.
+      certificate = {
+        name = var.app_gateway_portal_certificate_name
+        id   = trimsuffix(data.azurerm_key_vault_certificate.portal_cstar[0].secret_id, data.azurerm_key_vault_certificate.portal_cstar[0].version)
+      }
+    }
   }
 
   # maps listener to backend
@@ -240,6 +277,11 @@ module "app_gw" {
     broker = {
       listener = "issuer_acquirer"
       backend  = "apim"
+    }
+
+    portal = {
+      listener = "portal"
+      backend  = "portal"
     }
   }
 

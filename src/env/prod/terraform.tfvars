@@ -510,6 +510,7 @@ reverse_proxy_ip = "10.1.0.250"
 # Note: removing these will create self signed certificates
 app_gateway_api_certificate_name    = "api-cstar-pagopa-it"
 app_gateway_api_io_certificate_name = "api-io-cstar-pagopa-it"
+app_gateway_portal_certificate_name = "portal-cstar-pagopa-it"
 
 tags = {
   CreatedBy   = "Terraform"

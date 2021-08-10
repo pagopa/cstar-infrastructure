@@ -208,9 +208,9 @@ variable "apim_sku" {
   type = string
 }
 
-variable "apim_private_domain" {
+variable "internal_private_domain" {
   type    = string
-  default = "api.cstar.pagopa.it"
+  default = "internal.cstar.pagopa.it"
 }
 
 variable "appio_timeout_sec" {
@@ -267,6 +267,12 @@ variable "app_gateway_max_capacity" {
 variable "app_gateway_api_certificate_name" {
   type        = string
   description = "Application gateway api certificate name on Key Vault"
+  default     = null
+}
+
+variable "app_gateway_portal_certificate_name" {
+  type        = string
+  description = "Application gateway developer portal certificate name on Key Vault"
   default     = null
 }
 
