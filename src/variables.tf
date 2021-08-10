@@ -210,7 +210,7 @@ variable "apim_sku" {
 
 variable "apim_private_domain" {
   type    = string
-  default = "api.cstar.pagopa.it"
+  default = "cstar.pagopa.it"
 }
 
 variable "appio_timeout_sec" {

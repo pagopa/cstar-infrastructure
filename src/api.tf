@@ -53,8 +53,10 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   }
 
   developer_portal {
-    host_name    = trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, ".")
-    key_vault_id = azurerm_key_vault_certificate.apim_dev_portal_cert.secret_id
+    # host_name    = trim(azurerm_private_dns_a_record.private_dns_a_record_dev_portal.fqdn, ".")
+    host_name = "portal.cstar.pagopa.it"
+    #TODO  remove the data 
+    key_vault_id = azurerm_key_vault_certificate.dev_portal_cert[0].secret_id
   }
 }
 

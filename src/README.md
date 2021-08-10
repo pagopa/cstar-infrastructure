@@ -108,11 +108,11 @@
 | [azurerm_key_vault_access_policy.api_management_policy](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.app_gateway_policy](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.cert_renew_policy](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_access_policy) | resource |
-| [azurerm_key_vault_certificate.apim_dev_portal_cert](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
+| [azurerm_key_vault_certificate.dev_portal_cert](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_certificate.apim_proxy_endpoint_cert](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_certificate.app_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_certificate.app_gw_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
-| [azurerm_key_vault_certificate.portal](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
+| [azurerm_key_vault_certificate.dev_portal](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_secret.application_insights_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.cstar_blobstorage_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/key_vault_secret) | resource |

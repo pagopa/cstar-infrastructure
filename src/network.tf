@@ -164,7 +164,7 @@ resource "azurerm_private_dns_a_record" "private_dns_a_record_api" {
 }
 
 resource "azurerm_private_dns_a_record" "private_dns_a_record_dev_portal" {
-  name                = format("%s-portal", local.project)
+  name                = "portal"
   zone_name           = azurerm_private_dns_zone.api_private_dns_zone.name
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = 300
@@ -250,9 +250,9 @@ module "app_gw" {
       host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
-        name = var.portal_certificate_name != null ? var.portal_certificate_name : azurerm_key_vault_certificate.portal[0].name
+        name = var.portal_certificate_name != null ? var.portal_certificate_name : azurerm_key_vault_certificate.dev_portal_cert[0].name
         # TODO ... change the certificate data ...
-        id = var.portal_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.portal[0].secret_id, azurerm_key_vault_certificate.portal[0].version)
+        id = var.portal_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.dev_portal_cert[0].secret_id, azurerm_key_vault_certificate.dev_portal_cert[0].version)
       }
     }
   }
