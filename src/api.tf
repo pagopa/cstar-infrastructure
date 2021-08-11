@@ -59,6 +59,14 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
       data.azurerm_key_vault_certificate.portal_internal_cstar.version
     )
   }
+
+  management {
+    host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_management.fqdn, ".")
+    key_vault_id = trimsuffix(
+      data.azurerm_key_vault_certificate.management_internal_cstar.secret_id,
+      data.azurerm_key_vault_certificate.management_internal_cstar.version
+    )
+  }
 }
 
 #########

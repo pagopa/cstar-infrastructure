@@ -282,6 +282,18 @@ variable "app_gateway_api_io_certificate_name" {
   default     = null
 }
 
+variable "apim_portal_internal_certificate_name" {
+  type        = string
+  description = "Apim custom domain developer portal internal certificate name on Key Vault"
+  default     = null
+}
+
+variable "apim_management_internal_certificate_name" {
+  type        = string
+  description = "Apim custom domain managemnet internal certificate name on Key Vault"
+  default     = null
+}
+
 # Azure DevOps Agent
 variable "enable_azdoa" {
   type        = bool

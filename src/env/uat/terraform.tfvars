@@ -298,8 +298,9 @@ db_metric_alerts = {
   }
 }
 
-dns_zone_prefix = "uat.cstar"
-ehns_sku_name   = "Standard"
+dns_zone_prefix         = "uat.cstar"
+internal_private_domain = "internal.uat.cstar.pagopa.it"
+ehns_sku_name           = "Standard"
 
 ehns_metric_alerts = {
   no_trx = {
@@ -492,9 +493,11 @@ pm_ip_filter_range = {
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"
 
-# Note: removing these will create self signed certificates
-app_gateway_api_certificate_name    = "api-uat-cstar-pagopa-it"
-app_gateway_api_io_certificate_name = "api-io-uat-cstar-pagopa-it"
+app_gateway_api_certificate_name          = "api-uat-cstar-pagopa-it"
+app_gateway_api_io_certificate_name       = "api-io-uat-cstar-pagopa-it"
+app_gateway_portal_certificate_name       = "portal-uat-cstar-pagopa-it"
+apim_portal_internal_certificate_name     = "portal-internal-uat-cstar-pagopa-it"
+apim_management_internal_certificate_name = "management-internal-uat-cstar-pagopa-it"
 
 tags = {
   CreatedBy   = "Terraform"
