@@ -488,8 +488,13 @@ pm_ip_filter_range = {
 reverse_proxy_ip = "10.230.8.250"
 
 # Note: removing these will create self signed certificates
-app_gateway_api_certificate_name    = "api-dev-cstar-pagopa-it"
-app_gateway_api_io_certificate_name = "api-io-dev-cstar-pagopa-it"
+app_gateway_api_certificate_name          = "api-dev-cstar-pagopa-it"
+app_gateway_api_io_certificate_name       = "api-io-dev-cstar-pagopa-it"
+app_gateway_portal_certificate_name       = "portal-dev-cstar-pagopa-it"
+app_gateway_management_certificate_name   = "management-dev-cstar-pagopa-it"
+apim_portal_internal_certificate_name     = "portal-internal-dev-cstar-pagopa-it"
+apim_management_internal_certificate_name = "management-internal-dev-cstar-pagopa-it"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"

@@ -191,6 +191,15 @@ module "app_gw" {
       probe      = "/signin"
       probe_name = "probe-portal"
     }
+
+
+    management = {
+      protocol   = "Https"
+      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_management.fqdn, ".")
+      port       = 443
+      probe      = "/ServiceStatus"
+      probe_name = "probe-management"
+    }
   }
 
   # Configure listeners
@@ -226,10 +235,24 @@ module "app_gw" {
       host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
 
-      #TODO: add self signed cert support as above.
       certificate = {
         name = var.app_gateway_portal_certificate_name
         id   = trimsuffix(data.azurerm_key_vault_certificate.portal_cstar[0].secret_id, data.azurerm_key_vault_certificate.portal_cstar[0].version)
+      }
+    }
+
+    management = {
+      protocol = "Https"
+      host     = var.env_short == "p" ? "management.internal.cstar.pagopa.it" : format("management.internal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+
+      #TODO: add self signed cert support as above.
+      certificate = {
+        name = var.apim_management_internal_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.management_internal_cstar.secret_id,
+          data.azurerm_key_vault_certificate.management_internal_cstar.version
+        )
       }
     }
   }
@@ -250,6 +273,11 @@ module "app_gw" {
     portal = {
       listener = "portal"
       backend  = "portal"
+    }
+
+    mangement = {
+      listener = "management"
+      backend  = "management"
     }
   }
 

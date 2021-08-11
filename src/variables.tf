@@ -276,6 +276,12 @@ variable "app_gateway_portal_certificate_name" {
   default     = null
 }
 
+variable "app_gateway_management_certificate_name" {
+  type        = string
+  description = "Application gateway api management certificate name on Key Vault"
+  default     = null
+}
+
 variable "app_gateway_api_io_certificate_name" {
   type        = string
   description = "Application gateway api io certificate name on Key Vault"

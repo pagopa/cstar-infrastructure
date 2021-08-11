@@ -201,6 +201,12 @@ data "azurerm_key_vault_certificate" "portal_cstar" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_certificate" "management_cstar" {
+  count        = var.app_gateway_management_certificate_name != null ? 1 : 0
+  name         = var.app_gateway_management_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_certificate" "portal_internal_cstar" {
   name         = var.apim_portal_internal_certificate_name
   key_vault_id = module.key_vault.id
