@@ -223,9 +223,9 @@ module "app_gw" {
     }
 
     portal = {
-      protocol   = "Http"
+      protocol   = "Https"
       host       = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
-      port       = 80
+      port       = 443
       probe      = "/signin"
       probe_name = "probe-portal"
     }
