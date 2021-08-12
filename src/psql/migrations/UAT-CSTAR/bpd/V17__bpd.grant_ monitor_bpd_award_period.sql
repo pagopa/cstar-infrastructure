@@ -1,0 +1,1 @@
+GRANT USAGE ON SCHEMA bpd_award_period TO "MONITORING_USER";
