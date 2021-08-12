@@ -116,12 +116,21 @@ resource "azurerm_user_assigned_identity" "appgateway" {
   tags = var.tags
 }
 
+resource "random_string" "apim_proxy_cert_suffix" {
+  length  = 6
+  special = false
+  number  = true
+}
+
 resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
   depends_on = [
     azurerm_key_vault_access_policy.api_management_policy
   ]
 
-  name         = local.apim_cert_name_proxy_endpoint
+  name = format("%s-%s",
+    local.apim_cert_name_proxy_endpoint,
+    random_string.apim_proxy_cert_suffix.result
+  )
   key_vault_id = module.key_vault.id
 
   certificate_policy {
@@ -171,111 +180,7 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
     }
   }
 }
-resource "azurerm_key_vault_certificate" "app_gw_io_cstar" {
-  count        = var.app_gateway_api_io_certificate_name != null ? 0 : 1
-  name         = format("%s-cert-api-io", local.project)
-  key_vault_id = module.key_vault.id
 
-  certificate_policy {
-    issuer_parameters {
-      name = "Self"
-    }
-
-    key_properties {
-      exportable = true
-      key_size   = 2048
-      key_type   = "RSA"
-      reuse_key  = true
-    }
-
-    lifetime_action {
-      action {
-        action_type = "AutoRenew"
-      }
-
-      trigger {
-        days_before_expiry = 30
-      }
-    }
-
-    secret_properties {
-      content_type = "application/x-pkcs12"
-    }
-
-    x509_certificate_properties {
-      key_usage = [
-        "cRLSign",
-        "dataEncipherment",
-        "digitalSignature",
-        "keyAgreement",
-        "keyCertSign",
-        "keyEncipherment",
-      ]
-
-      subject            = var.env_short == "p" ? "CN=api-io.cstar.pagopa.it" : format("CN=api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      validity_in_months = 12
-
-      subject_alternative_names {
-        dns_names = [
-          var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"])),
-        ]
-      }
-    }
-  }
-}
-
-resource "azurerm_key_vault_certificate" "app_gw_cstar" {
-  count        = var.app_gateway_api_certificate_name != null ? 0 : 1
-  name         = format("%s-cert-api", local.project)
-  key_vault_id = module.key_vault.id
-
-  certificate_policy {
-    issuer_parameters {
-      name = "Self"
-    }
-
-    key_properties {
-      exportable = true
-      key_size   = 2048
-      key_type   = "RSA"
-      reuse_key  = true
-    }
-
-    lifetime_action {
-      action {
-        action_type = "AutoRenew"
-      }
-
-      trigger {
-        days_before_expiry = 30
-      }
-    }
-
-    secret_properties {
-      content_type = "application/x-pkcs12"
-    }
-
-    x509_certificate_properties {
-      key_usage = [
-        "cRLSign",
-        "dataEncipherment",
-        "digitalSignature",
-        "keyAgreement",
-        "keyCertSign",
-        "keyEncipherment",
-      ]
-
-      subject            = var.env_short == "p" ? "CN=api.%s.cstar.pagopa.it" : format("CN=api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      validity_in_months = 12
-
-      subject_alternative_names {
-        dns_names = [
-          var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"])),
-        ]
-      }
-    }
-  }
-}
 
 data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   count        = var.app_gateway_api_io_certificate_name != null ? 1 : 0
@@ -286,6 +191,16 @@ data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 data "azurerm_key_vault_certificate" "app_gw_cstar" {
   count        = var.app_gateway_api_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_certificate" "portal_cstar" {
+  name         = var.app_gateway_portal_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_certificate" "management_cstar" {
+  name         = var.app_gateway_management_certificate_name
   key_vault_id = module.key_vault.id
 }
 

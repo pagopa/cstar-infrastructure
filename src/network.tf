@@ -142,28 +142,6 @@ resource "azurerm_public_ip" "apigateway_public_ip" {
   tags = var.tags
 }
 
-
-resource "azurerm_private_dns_zone" "api_private_dns_zone" {
-  name                = var.apim_private_domain
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "api_private_dns_zone_virtual_network_link" {
-  name                  = format("%s-api-private-dns-zone-link", local.project)
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.api_private_dns_zone.name
-  virtual_network_id    = module.vnet.id
-}
-
-resource "azurerm_private_dns_a_record" "private_dns_a_record_api" {
-  name                = module.apim.name
-  zone_name           = azurerm_private_dns_zone.api_private_dns_zone.name
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  ttl                 = 300
-  records             = module.apim.*.private_ip_addresses[0]
-}
-
-
 ## Application gateway ## 
 # Since these variables are re-used - a locals block makes this more maintainable
 locals {
@@ -199,10 +177,30 @@ module "app_gw" {
   # Configure backends
   backends = {
     apim = {
-      protocol = "Http"
-      host     = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
-      port     = 80
-      probe    = "/status-0123456789abcdef"
+      protocol     = "Http"
+      host         = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port         = 80
+      ip_addresses = null
+      probe        = "/status-0123456789abcdef"
+      probe_name   = "probe-apim"
+    }
+
+    portal = {
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
+      probe        = "/signin"
+      probe_name   = "probe-portal"
+    }
+
+    management = {
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns-a-managementcstar[0].fqdn, ".")
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
+      probe        = "/ServiceStatus"
+      probe_name   = "probe-management"
     }
   }
 
@@ -213,8 +211,11 @@ module "app_gw" {
       host     = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
-        name = var.app_gateway_api_io_certificate_name != null ? var.app_gateway_api_io_certificate_name : azurerm_key_vault_certificate.app_gw_io_cstar[0].name
-        id   = var.app_gateway_api_io_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_io_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id, azurerm_key_vault_certificate.app_gw_io_cstar[0].version)
+        name = var.app_gateway_api_io_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id,
+          data.azurerm_key_vault_certificate.app_gw_io_cstar[0].version
+        )
       }
     }
 
@@ -223,8 +224,40 @@ module "app_gw" {
       host     = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
       certificate = {
-        name = var.app_gateway_api_certificate_name != null ? var.app_gateway_api_certificate_name : azurerm_key_vault_certificate.app_gw_cstar[0].name
-        id   = var.app_gateway_api_certificate_name != null ? trimsuffix(data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, data.azurerm_key_vault_certificate.app_gw_cstar[0].version) : trimsuffix(azurerm_key_vault_certificate.app_gw_cstar[0].secret_id, azurerm_key_vault_certificate.app_gw_cstar[0].version)
+        name = var.app_gateway_api_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id,
+          data.azurerm_key_vault_certificate.app_gw_cstar[0].version
+        )
+      }
+    }
+
+    portal = {
+      protocol = "Https"
+      host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+
+      certificate = {
+        name = var.app_gateway_portal_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.portal_cstar.secret_id,
+          data.azurerm_key_vault_certificate.portal_cstar.version
+        )
+      }
+    }
+
+    management = {
+      protocol = "Https"
+      host     = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port     = 443
+
+      #TODO: add self signed cert support as above.
+      certificate = {
+        name = var.apim_management_internal_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.management_cstar.secret_id,
+          data.azurerm_key_vault_certificate.management_cstar.version
+        )
       }
     }
   }
@@ -240,6 +273,16 @@ module "app_gw" {
     broker = {
       listener = "issuer_acquirer"
       backend  = "apim"
+    }
+
+    portal = {
+      listener = "portal"
+      backend  = "portal"
+    }
+
+    mangement = {
+      listener = "management"
+      backend  = "management"
     }
   }
 
