@@ -20,10 +20,10 @@
                 <choose>
                     <when condition="@(!context.Variables.ContainsKey("salt"))">
                         <send-request mode="new" response-variable-name="saltPMResponse" timeout="${pm-timeout-sec}" ignore-error="true">
-                            <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
+                            <set-url>@("https://${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
                             <set-method>GET</set-method>
                             %{ if env_short != "d" ~}
-                            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+                                <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
                             %{ endif ~}
                         </send-request>
                         <choose>
@@ -42,7 +42,6 @@
                 <set-variable name="hashpan" value="@{
                     System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
                     byte[] hashByte = hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes((string)context.Request.MatchedParameters["id"]+(string)context.Variables["salt"]));
-
                     StringBuilder builder = new StringBuilder();  
                     for (int i = 0; i < hashByte.Length; i++)  
                     {  
