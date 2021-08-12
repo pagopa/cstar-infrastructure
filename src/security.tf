@@ -175,7 +175,6 @@ resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
       subject_alternative_names {
         dns_names = [
           trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."),
-          trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, "."),
         ]
       }
     }
