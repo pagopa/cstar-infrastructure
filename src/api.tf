@@ -53,18 +53,22 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   }
 
   developer_portal {
-    host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
+    # host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
+    host_name = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
     key_vault_id = trimsuffix(
-      data.azurerm_key_vault_certificate.portal_internal_cstar.secret_id,
-      data.azurerm_key_vault_certificate.portal_internal_cstar.version
+      #data.azurerm_key_vault_certificate.portal_internal_cstar.secret_id,
+      #data.azurerm_key_vault_certificate.portal_internal_cstar.version
+      data.azurerm_key_vault_certificate.portal_cstar[0].secret_id,
+      data.azurerm_key_vault_certificate.portal_cstar[0].version
     )
   }
 
   management {
-    host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_management.fqdn, ".")
+    # host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_management.fqdn, ".")
+    host_name = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
     key_vault_id = trimsuffix(
-      data.azurerm_key_vault_certificate.management_internal_cstar.secret_id,
-      data.azurerm_key_vault_certificate.management_internal_cstar.version
+      data.azurerm_key_vault_certificate.management_cstar[0].secret_id,
+      data.azurerm_key_vault_certificate.management_cstar[0].version
     )
   }
 }

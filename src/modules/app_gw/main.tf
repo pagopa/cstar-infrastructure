@@ -18,19 +18,23 @@ resource "azurerm_application_gateway" "this" {
     public_ip_address_id = var.public_ip_id
   }
 
-  backend_address_pool {
-    name         = format("%s-address-pool", var.name)
-    fqdns        = [for backend in values(var.backends) : backend.host]
-    ip_addresses = []
-  }
 
+  dynamic "backend_address_pool" {
+    for_each = var.backends
+    iterator = backend
+    content {
+      name         = format("%s-address-pool", backend.key)
+      fqdns        = backend.value.ip_addresses == null ? [backend.value.host] : null
+      ip_addresses = backend.value.ip_addresses
+    }
+  }
 
   dynamic "backend_http_settings" {
     for_each = var.backends
     iterator = backend
 
     content {
-      name                  = format("%s-%s-http-settings", var.name, backend.key)
+      name                  = format("%s-http-settings", backend.key)
       host_name             = backend.value.host
       cookie_based_affinity = "Disabled"
       path                  = ""
@@ -86,7 +90,7 @@ resource "azurerm_application_gateway" "this" {
     iterator = listener
 
     content {
-      name                           = format("%s-%s-listener", var.name, listener.key)
+      name                           = format("%s-listener", listener.key)
       frontend_ip_configuration_name = format("%s-ip-conf", var.name)
       frontend_port_name             = format("%s-%d-port", var.name, listener.value.port)
       protocol                       = "Https"
@@ -101,13 +105,14 @@ resource "azurerm_application_gateway" "this" {
     iterator = route
 
     content {
-      name                       = format("%s-%s-reqs-routing-rule", var.name, route.key)
+      name                       = format("%s-reqs-routing-rule", route.key)
       rule_type                  = "Basic"
-      http_listener_name         = format("%s-%s-listener", var.name, route.value.listener)
-      backend_address_pool_name  = format("%s-address-pool", var.name)
-      backend_http_settings_name = format("%s-%s-http-settings", var.name, route.value.backend)
+      http_listener_name         = format("%s-listener", route.value.listener)
+      backend_address_pool_name  = format("%s-address-pool", route.value.backend)
+      backend_http_settings_name = format("%s-http-settings", route.value.backend)
     }
   }
+
 
   identity {
     type         = "UserAssigned"

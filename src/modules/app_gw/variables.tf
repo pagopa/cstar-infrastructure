@@ -35,11 +35,12 @@ variable "public_ip_id" {
 
 variable "backends" {
   type = map(object({
-    protocol   = string
-    host       = string
-    port       = number
-    probe      = string
-    probe_name = string
+    protocol     = string
+    host         = string
+    port         = number
+    ip_addresses = list(string)
+    probe        = string
+    probe_name   = string
   }))
 }
 

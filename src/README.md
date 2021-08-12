@@ -97,6 +97,7 @@
 | [azurerm_dns_a_record.dns-a-developer-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-management-production-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-management-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns-a-managementcstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-prod-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_apim_dev_portal](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/dns_a_record) | resource |
@@ -154,9 +155,8 @@
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/client_config) | data source |
 | [azurerm_key_vault_certificate.app_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.app_gw_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_certificate) | data source |
-| [azurerm_key_vault_certificate.management_internal_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_certificate) | data source |
+| [azurerm_key_vault_certificate.management_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.portal_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_certificate) | data source |
-| [azurerm_key_vault_certificate.portal_internal_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_secret.apim_publisher_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.cruscotto-basic-auth-pwd](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
@@ -203,6 +203,7 @@
 | <a name="input_app_gateway_api_certificate_name"></a> [app\_gateway\_api\_certificate\_name](#input\_app\_gateway\_api\_certificate\_name) | Application gateway api certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_api_io_certificate_name"></a> [app\_gateway\_api\_io\_certificate\_name](#input\_app\_gateway\_api\_io\_certificate\_name) | Application gateway api io certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_certificate_name"></a> [app\_gateway\_certificate\_name](#input\_app\_gateway\_certificate\_name) | Application gateway certificate name on Key Vault | `string` | `null` | no |
+| <a name="input_app_gateway_management_certificate_name"></a> [app\_gateway\_management\_certificate\_name](#input\_app\_gateway\_management\_certificate\_name) | Application gateway api management certificate name on Key Vault | `string` | `null` | no |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `1` | no |
 | <a name="input_app_gateway_portal_certificate_name"></a> [app\_gateway\_portal\_certificate\_name](#input\_app\_gateway\_portal\_certificate\_name) | Application gateway developer portal certificate name on Key Vault | `string` | `null` | no |

@@ -125,7 +125,7 @@ resource "azurerm_dns_a_record" "dns_a_apim_dev_portal" {
 
 resource "azurerm_dns_a_record" "dns-a-managementcstar" {
   count               = var.env_short == "p" ? 0 : 1
-  name                = format("management.internal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+  name                = "management"
   zone_name           = azurerm_dns_zone.public[0].name
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = var.dns_default_ttl_sec

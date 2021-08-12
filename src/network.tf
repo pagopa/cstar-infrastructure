@@ -177,28 +177,30 @@ module "app_gw" {
   # Configure backends
   backends = {
     apim = {
-      protocol   = "Http"
-      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
-      port       = 80
-      probe      = "/status-0123456789abcdef"
-      probe_name = "probe-apim"
+      protocol     = "Http"
+      host         = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      port         = 80
+      ip_addresses = null
+      probe        = "/status-0123456789abcdef"
+      probe_name   = "probe-apim"
     }
 
     portal = {
-      protocol   = "Https"
-      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
-      port       = 443
-      probe      = "/signin"
-      probe_name = "probe-portal"
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
+      probe        = "/signin"
+      probe_name   = "probe-portal"
     }
 
-
     management = {
-      protocol   = "Https"
-      host       = trim(azurerm_private_dns_a_record.private_dns_a_record_management.fqdn, ".")
-      port       = 443
-      probe      = "/ServiceStatus"
-      probe_name = "probe-management"
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns-a-managementcstar[0].fqdn, ".")
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
+      probe        = "/ServiceStatus"
+      probe_name   = "probe-management"
     }
   }
 
@@ -237,21 +239,24 @@ module "app_gw" {
 
       certificate = {
         name = var.app_gateway_portal_certificate_name
-        id   = trimsuffix(data.azurerm_key_vault_certificate.portal_cstar[0].secret_id, data.azurerm_key_vault_certificate.portal_cstar[0].version)
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.portal_cstar.secret_id,
+          data.azurerm_key_vault_certificate.portal_cstar.version
+        )
       }
     }
 
     management = {
       protocol = "Https"
-      host     = var.env_short == "p" ? "management.internal.cstar.pagopa.it" : format("management.internal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      host     = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
 
       #TODO: add self signed cert support as above.
       certificate = {
         name = var.apim_management_internal_certificate_name
         id = trimsuffix(
-          data.azurerm_key_vault_certificate.management_internal_cstar.secret_id,
-          data.azurerm_key_vault_certificate.management_internal_cstar.version
+          data.azurerm_key_vault_certificate.management_cstar.secret_id,
+          data.azurerm_key_vault_certificate.management_cstar.version
         )
       }
     }
