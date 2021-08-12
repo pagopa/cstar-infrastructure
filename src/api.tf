@@ -8,14 +8,18 @@ resource "azurerm_resource_group" "rg_api" {
 locals {
   apim_cert_name_proxy_endpoint   = format("%s-proxy-endpoint-cert", local.project)
   portal_cert_name_proxy_endpoint = format("%s-proxy-endpoint-cert", "portal")
+
+  portal_domain     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+  management_domain = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
 }
+
 
 ###########################
 ## Api Management (apim) ## 
 ###########################
 
 module "apim" {
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.44"
+  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.45"
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)
@@ -35,7 +39,11 @@ module "apim" {
 
   application_insights_instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
 
-  # policy_path = "./api/base_policy.xml"
+  xml_content = templatefile("./api/base_policy.tpl", {
+    portal-domain         = local.portal_domain
+    management-api-domain = local.management_domain
+    apim-name             = format("%s-apim", local.project)
+  })
 
   tags = var.tags
 
@@ -54,7 +62,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
 
   developer_portal {
     # host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
-    host_name = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+    host_name = local.portal_domain
     key_vault_id = trimsuffix(
       data.azurerm_key_vault_certificate.portal_cstar.secret_id,
       data.azurerm_key_vault_certificate.portal_cstar.version
@@ -62,8 +70,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   }
 
   management {
-    # host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_management.fqdn, ".")
-    host_name = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+    host_name = local.management_domain
     key_vault_id = trimsuffix(
       data.azurerm_key_vault_certificate.management_cstar.secret_id,
       data.azurerm_key_vault_certificate.management_cstar.version
