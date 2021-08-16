@@ -211,7 +211,7 @@ cidr_subnet_dnsforwarder = ["10.230.14.0/29"]
 devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 
 db_sku_name       = "GP_Gen5_2"
-db_enable_replica = true
+db_enable_replica = false
 db_configuration = {
   autovacuum_work_mem         = "2000000"
   effective_cache_size        = "10485760"
