@@ -33,14 +33,14 @@ echo "FA user: ${FA_USER}"
 
 echo "Change BPD username and password"
 
-PGPASSWORD=${ADMIN_PASSWORD}  psql -h ${db_server_host} -u ddsadmin@cstar-u-postgresql -c "ALTER ROLE ${BPD_USER} WITH PASSWORD '${BPD_PASSWORD}';"
+PGPASSWORD=${ADMIN_PASSWORD}  psql -h ${db_server_host} -U ddsadmin@cstar-u-postgresql -c "ALTER ROLE ${BPD_USER} WITH PASSWORD '${BPD_PASSWORD}';"
 
 echo "Change RTD username and password"
 
-PGPASSWORD=${ADMIN_PASSWORD}  psql -h ${db_server_host} -u ddsadmin@cstar-u-postgresql -c "ALTER ROLE ${RTD_USER} WITH PASSWORD '${RTD_PASSWORD}';"
+PGPASSWORD=${ADMIN_PASSWORD}  psql -h ${db_server_host} -U ddsadmin@cstar-u-postgresql -c "ALTER ROLE ${RTD_USER} WITH PASSWORD '${RTD_PASSWORD}';"
 
 echo "Change FA username and password"
 
-PGPASSWORD=${ADMIN_PASSWORD}  psql -h ${db_server_host} -u ddsadmin@cstar-u-postgresql -c "ALTER ROLE ${FA_USER} WITH PASSWORD '${FA_PASSWORD}';"
+PGPASSWORD=${ADMIN_PASSWORD}  psql -h ${db_server_host} -U ddsadmin@cstar-u-postgresql -c "ALTER ROLE ${FA_USER} WITH PASSWORD '${FA_PASSWORD}';"
 
 echo "Done !"
