@@ -216,7 +216,7 @@ cidr_subnet_eventhub  = ["10.230.6.64/26"]
 
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 
-db_sku_name                     = "GP_Gen5_32"
+db_sku_name                     = "GP_Gen5_16"
 db_geo_redundant_backup_enabled = true
 db_enable_replica               = true
 db_storage_mb                   = 5242880 # 5TB
