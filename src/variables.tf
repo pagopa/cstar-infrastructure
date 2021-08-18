@@ -250,12 +250,6 @@ variable "enable_custom_dns" {
   description = "Enable application gateway custom domain."
 }
 
-variable "app_gateway_certificate_name" {
-  type        = string
-  description = "Application gateway certificate name on Key Vault"
-  default     = null
-}
-
 variable "devops_service_connection_object_id" {
   type        = string
   description = "Azure deveops service connection id."
@@ -273,37 +267,31 @@ variable "app_gateway_max_capacity" {
 variable "app_gateway_api_certificate_name" {
   type        = string
   description = "Application gateway api certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_portal_certificate_name" {
   type        = string
   description = "Application gateway developer portal certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_management_certificate_name" {
   type        = string
   description = "Application gateway api management certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_api_io_certificate_name" {
   type        = string
   description = "Application gateway api io certificate name on Key Vault"
-  default     = null
 }
 
 variable "apim_portal_internal_certificate_name" {
   type        = string
   description = "Apim custom domain developer portal internal certificate name on Key Vault"
-  default     = null
 }
 
 variable "apim_management_internal_certificate_name" {
   type        = string
   description = "Apim custom domain managemnet internal certificate name on Key Vault"
-  default     = null
 }
 
 # Azure DevOps Agent

@@ -487,7 +487,6 @@ pm_ip_filter_range = {
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.230.8.250"
 
-# Note: removing these will create self signed certificates
 app_gateway_api_certificate_name          = "api-dev-cstar-pagopa-it"
 app_gateway_api_io_certificate_name       = "api-io-dev-cstar-pagopa-it"
 app_gateway_portal_certificate_name       = "portal-dev-cstar-pagopa-it"

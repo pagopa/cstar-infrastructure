@@ -116,72 +116,6 @@ resource "azurerm_user_assigned_identity" "appgateway" {
   tags = var.tags
 }
 
-resource "random_string" "apim_proxy_cert_suffix" {
-  length  = 6
-  special = false
-  number  = true
-}
-
-resource "azurerm_key_vault_certificate" "apim_proxy_endpoint_cert" {
-  depends_on = [
-    azurerm_key_vault_access_policy.api_management_policy
-  ]
-
-  name = format("%s-%s",
-    local.apim_cert_name_proxy_endpoint,
-    random_string.apim_proxy_cert_suffix.result
-  )
-  key_vault_id = module.key_vault.id
-
-  certificate_policy {
-    issuer_parameters {
-      name = "Self"
-    }
-
-    key_properties {
-      exportable = true
-      key_size   = 2048
-      key_type   = "RSA"
-      reuse_key  = true
-    }
-
-    lifetime_action {
-      action {
-        action_type = "AutoRenew"
-      }
-
-      trigger {
-        days_before_expiry = 30
-      }
-    }
-
-    secret_properties {
-      content_type = "application/x-pkcs12"
-    }
-
-    x509_certificate_properties {
-      key_usage = [
-        "cRLSign",
-        "dataEncipherment",
-        "digitalSignature",
-        "keyAgreement",
-        "keyCertSign",
-        "keyEncipherment",
-      ]
-
-      subject            = format("CN=%s", trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."))
-      validity_in_months = 12
-
-      subject_alternative_names {
-        dns_names = [
-          trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."),
-        ]
-      }
-    }
-  }
-}
-
-
 data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   count        = var.app_gateway_api_io_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_io_certificate_name
@@ -189,7 +123,6 @@ data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 }
 
 data "azurerm_key_vault_certificate" "app_gw_cstar" {
-  count        = var.app_gateway_api_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_certificate_name
   key_vault_id = module.key_vault.id
 }
