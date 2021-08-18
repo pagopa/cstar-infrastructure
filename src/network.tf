@@ -177,10 +177,10 @@ module "app_gw" {
   # Configure backends
   backends = {
     apim = {
-      protocol     = "Http"
+      protocol     = "Https"
       host         = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
-      port         = 80
-      ip_addresses = null
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
       probe        = "/status-0123456789abcdef"
       probe_name   = "probe-apim"
     }
