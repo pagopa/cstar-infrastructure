@@ -169,6 +169,12 @@ EOD
   }))
 }
 
+variable "aks_alerts_enabled" {
+  type        = bool
+  default     = true
+  description = "Aks alert enabled?"
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string
@@ -341,6 +347,12 @@ variable "db_configuration" {
   default     = {}
 }
 
+variable "db_alerts_enabled" {
+  type        = bool
+  default     = false
+  description = "Database alrts enabled?"
+}
+
 variable "db_metric_alerts" {
   default = {}
 
@@ -420,6 +432,11 @@ variable "eventhubs" {
   default = []
 }
 
+variable "ehns_alerts_enabled" {
+  type        = bool
+  default     = true
+  description = "Event hub alerts enabled?"
+}
 variable "ehns_metric_alerts" {
   default = {}
 

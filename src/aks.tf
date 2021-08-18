@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.32"
+  source                     = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.46"
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
@@ -46,6 +46,8 @@ module "aks" {
       webhook_properties = null
     }
   ]
+
+  alerts_enabled = var.aks_alerts_enabled
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
 
