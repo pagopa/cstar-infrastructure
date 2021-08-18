@@ -116,12 +116,6 @@ resource "azurerm_user_assigned_identity" "appgateway" {
   tags = var.tags
 }
 
-resource "random_string" "apim_proxy_cert_suffix" {
-  length  = 6
-  special = false
-  number  = true
-}
-
 data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   count        = var.app_gateway_api_io_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_io_certificate_name
@@ -129,7 +123,6 @@ data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
 }
 
 data "azurerm_key_vault_certificate" "app_gw_cstar" {
-  count        = var.app_gateway_api_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_certificate_name
   key_vault_id = module.key_vault.id
 }

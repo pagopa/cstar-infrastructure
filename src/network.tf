@@ -178,7 +178,7 @@ module "app_gw" {
   backends = {
     apim = {
       protocol     = "Https"
-      host         = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+      host         = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
       port         = 443
       ip_addresses = module.apim.private_ip_addresses
       probe        = "/status-0123456789abcdef"
@@ -228,8 +228,8 @@ module "app_gw" {
       certificate = {
         name = var.app_gateway_api_certificate_name
         id = trimsuffix(
-          data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id,
-          data.azurerm_key_vault_certificate.app_gw_cstar[0].version
+          data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.app_gw_cstar.version
         )
       }
     }

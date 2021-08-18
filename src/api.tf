@@ -60,8 +60,8 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
     # host_name    = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
     host_name = local.api_domain
     key_vault_id = trimsuffix(
-      data.azurerm_key_vault_certificate.app_gw_cstar[0].secret_id,
-      data.azurerm_key_vault_certificate.app_gw_cstar[0].version
+      data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
+      data.azurerm_key_vault_certificate.app_gw_cstar.version
     )
   }
 

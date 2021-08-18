@@ -250,12 +250,6 @@ variable "enable_custom_dns" {
   description = "Enable application gateway custom domain."
 }
 
-variable "app_gateway_certificate_name" {
-  type        = string
-  description = "Application gateway certificate name on Key Vault"
-  default     = null
-}
-
 variable "devops_service_connection_object_id" {
   type        = string
   description = "Azure deveops service connection id."
@@ -273,7 +267,6 @@ variable "app_gateway_max_capacity" {
 variable "app_gateway_api_certificate_name" {
   type        = string
   description = "Application gateway api certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_portal_certificate_name" {
