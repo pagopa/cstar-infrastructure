@@ -344,7 +344,7 @@ resource "null_resource" "ssl_profile" {
               --client-auth-config True \
               --policy-type Predefined \
               --policy-name AppGwSslPolicy20170401 \
-              --trusted-client-cert  "/subscriptions/${data.azurerm_subscription.current.id}/resourceGroups/${azurerm_resource_group.rg_vnet.name}/providers/Microsoft.Network/applicationGateways/${module.app_gw.name}/trustedClientCertificates/cstar-${var.env_short}-issuer-chain"  \
+              --trusted-client-cert  "${data.azurerm_subscription.current.id}/resourceGroups/${azurerm_resource_group.rg_vnet.name}/providers/Microsoft.Network/applicationGateways/${module.app_gw.name}/trustedClientCertificates/cstar-${var.env_short}-issuer-chain"  \
               --debug
           EOT
   }
