@@ -9,32 +9,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
-
-
---
--- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
-
-
---
--- Name: hypopg; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS hypopg WITH SCHEMA public;
-
-
---
--- Name: EXTENSION hypopg; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION hypopg IS 'Hypothetical indexes for PostgreSQL';
 
 
 ALTER SERVER bpd_award_period_remote
