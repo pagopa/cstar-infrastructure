@@ -493,6 +493,7 @@ app_gateway_portal_certificate_name       = "portal-dev-cstar-pagopa-it"
 app_gateway_management_certificate_name   = "management-dev-cstar-pagopa-it"
 apim_portal_internal_certificate_name     = "portal-internal-dev-cstar-pagopa-it"
 apim_management_internal_certificate_name = "management-internal-dev-cstar-pagopa-it"
+app_gw_load_client_certificate            = false
 
 tags = {
   CreatedBy   = "Terraform"

@@ -300,6 +300,57 @@ module "app_gw" {
   tags = var.tags
 }
 
+data "azurerm_key_vault_secret" "issuer_chain" {
+  count        = var.app_gw_load_client_certificate ? 1 : 0
+  name         = "cstar-u-issuer-chain"
+  key_vault_id = module.key_vault.id
+}
+
+resource "local_file" "issuer_chain" {
+  count    = var.app_gw_load_client_certificate ? 1 : 0
+  content  = data.azurerm_key_vault_secret.issuer_chain[0].value
+  filename = "/tmp/cstar-${var.env_short}-issuer-chain.pem"
+}
+
+resource "null_resource" "client_cert" {
+  count = var.app_gw_load_client_certificate ? 1 : 0
+  depends_on = [
+    module.app_gw, local_file.issuer_chain
+  ]
+
+  provisioner "local-exec" {
+    command = <<EOT
+              az network application-gateway client-cert add \
+              --gateway-name ${module.app_gw.name} \
+              --resource-group ${azurerm_resource_group.rg_vnet.name} \
+              --name cstar-${var.env_short}-issuer-chain \
+              --data /tmp/cstar-${var.env_short}-issuer-chain.pem
+          EOT
+  }
+}
+
+resource "null_resource" "ssl_profile" {
+  count = var.app_gw_load_client_certificate ? 1 : 0
+  depends_on = [
+    null_resource.client_cert
+  ]
+
+  provisioner "local-exec" {
+    command = <<EOT
+              az network application-gateway ssl-profile add \
+              --gateway-name ${module.app_gw.name} \
+              --resource-group ${azurerm_resource_group.rg_vnet.name} \
+              --name cstar-${var.env_short}-issuer-mauth-profile \
+              --client-auth-config True \
+              --policy-type Predefined \
+              --policy-name AppGwSslPolicy20170401 \
+              --trusted-client-cert  "${data.azurerm_subscription.current.id}/resourceGroups/${azurerm_resource_group.rg_vnet.name}/providers/Microsoft.Network/applicationGateways/${module.app_gw.name}/trustedClientCertificates/cstar-${var.env_short}-issuer-chain"  \
+              --debug
+          EOT
+  }
+
+
+}
 resource "azurerm_public_ip" "aks_outbound" {
   count = var.aks_num_outbound_ips
 
