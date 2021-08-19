@@ -211,7 +211,7 @@ cidr_subnet_dnsforwarder = ["10.230.14.0/29"]
 devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 
 db_sku_name       = "GP_Gen5_2"
-db_enable_replica = true
+db_enable_replica = false
 db_configuration = {
   autovacuum_work_mem         = "2000000"
   effective_cache_size        = "10485760"
@@ -487,13 +487,13 @@ pm_ip_filter_range = {
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.230.8.250"
 
-# Note: removing these will create self signed certificates
 app_gateway_api_certificate_name          = "api-dev-cstar-pagopa-it"
 app_gateway_api_io_certificate_name       = "api-io-dev-cstar-pagopa-it"
 app_gateway_portal_certificate_name       = "portal-dev-cstar-pagopa-it"
 app_gateway_management_certificate_name   = "management-dev-cstar-pagopa-it"
 apim_portal_internal_certificate_name     = "portal-internal-dev-cstar-pagopa-it"
 apim_management_internal_certificate_name = "management-internal-dev-cstar-pagopa-it"
+app_gw_load_client_certificate            = false
 
 tags = {
   CreatedBy   = "Terraform"

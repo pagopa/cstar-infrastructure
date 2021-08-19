@@ -169,6 +169,12 @@ EOD
   }))
 }
 
+variable "aks_alerts_enabled" {
+  type        = bool
+  default     = true
+  description = "Aks alert enabled?"
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string
@@ -244,12 +250,6 @@ variable "enable_custom_dns" {
   description = "Enable application gateway custom domain."
 }
 
-variable "app_gateway_certificate_name" {
-  type        = string
-  description = "Application gateway certificate name on Key Vault"
-  default     = null
-}
-
 variable "devops_service_connection_object_id" {
   type        = string
   description = "Azure deveops service connection id."
@@ -267,37 +267,37 @@ variable "app_gateway_max_capacity" {
 variable "app_gateway_api_certificate_name" {
   type        = string
   description = "Application gateway api certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_portal_certificate_name" {
   type        = string
   description = "Application gateway developer portal certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_management_certificate_name" {
   type        = string
   description = "Application gateway api management certificate name on Key Vault"
-  default     = null
 }
 
 variable "app_gateway_api_io_certificate_name" {
   type        = string
   description = "Application gateway api io certificate name on Key Vault"
-  default     = null
 }
 
 variable "apim_portal_internal_certificate_name" {
   type        = string
   description = "Apim custom domain developer portal internal certificate name on Key Vault"
-  default     = null
 }
 
 variable "apim_management_internal_certificate_name" {
   type        = string
   description = "Apim custom domain managemnet internal certificate name on Key Vault"
-  default     = null
+}
+
+variable "app_gw_load_client_certificate" {
+  type        = bool
+  default     = true
+  description = "Load client certificate in app gateway"
 }
 
 # Azure DevOps Agent
@@ -339,6 +339,12 @@ variable "db_configuration" {
   type        = map(string)
   description = "PostgreSQL Server configuration"
   default     = {}
+}
+
+variable "db_alerts_enabled" {
+  type        = bool
+  default     = false
+  description = "Database alrts enabled?"
 }
 
 variable "db_metric_alerts" {
@@ -420,6 +426,11 @@ variable "eventhubs" {
   default = []
 }
 
+variable "ehns_alerts_enabled" {
+  type        = bool
+  default     = true
+  description = "Event hub alerts enabled?"
+}
 variable "ehns_metric_alerts" {
   default = {}
 

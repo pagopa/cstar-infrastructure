@@ -173,7 +173,7 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
     #replica database password
     POSTGRES_REPLICA_PASSWORD = module.key_vault_secrets_query.values["db-bpd-user-password"].value
     #replica database username
-    POSTGRES_REPLICA_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_replica_hostname)
+    POSTGRES_REPLICA_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, var.env_short == "p" ? local.postgres_replica_hostname : local.postgres_hostname)
   }
 
   type = "Opaque"

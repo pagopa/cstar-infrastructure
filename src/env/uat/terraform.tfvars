@@ -3,6 +3,7 @@ apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Developer_1"
 
 
+aks_alerts_enabled = false
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -216,7 +217,7 @@ cidr_subnet_eventhub  = ["10.230.7.64/26"]
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 
 db_sku_name       = "GP_Gen5_8"
-db_enable_replica = true
+db_enable_replica = false
 db_storage_mb     = 204800 # 200 GB
 db_configuration = {
   autovacuum_work_mem         = "2000000"
@@ -228,6 +229,7 @@ db_configuration = {
   maintenance_work_mem        = "1048576"
   max_wal_size                = "4096"
 }
+db_alerts_enabled = false
 db_metric_alerts = {
   cpu = {
     aggregation = "Average"
@@ -302,6 +304,7 @@ dns_zone_prefix         = "uat.cstar"
 internal_private_domain = "internal.uat.cstar.pagopa.it"
 ehns_sku_name           = "Standard"
 
+ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
     aggregation = "Total"
