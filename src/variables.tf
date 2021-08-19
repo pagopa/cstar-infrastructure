@@ -294,6 +294,12 @@ variable "apim_management_internal_certificate_name" {
   description = "Apim custom domain managemnet internal certificate name on Key Vault"
 }
 
+variable "app_gw_load_client_certificate" {
+  type        = bool
+  default     = true
+  description = "Load client certificate in app gateway"
+}
+
 # Azure DevOps Agent
 variable "enable_azdoa" {
   type        = bool

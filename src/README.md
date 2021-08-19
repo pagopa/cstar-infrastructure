@@ -144,6 +144,9 @@
 | [azurerm_storage_container.psql_state](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_share.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/storage_share) | resource |
 | [azurerm_user_assigned_identity.appgateway](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/resources/user_assigned_identity) | resource |
+| [local_file.issuer_chain](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+| [null_resource.client_cert](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.ssl_profile](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.upload_corefile](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.upload_tc_html](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.upload_tc_pdf](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
@@ -159,6 +162,7 @@
 | [azurerm_key_vault_secret.cruscotto-basic-auth-pwd](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.db_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.issuer_chain](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/key_vault_secret) | data source |
@@ -204,6 +208,7 @@
 | <a name="input_aks_vm_size"></a> [aks\_vm\_size](#input\_aks\_vm\_size) | The size of the AKS Virtual Machine in the Node Pool. | `string` | `"Standard_DS3_v2"` | no |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `1` | no |
+| <a name="input_app_gw_load_client_certificate"></a> [app\_gw\_load\_client\_certificate](#input\_app\_gw\_load\_client\_certificate) | Load client certificate in app gateway | `bool` | `true` | no |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
 | <a name="input_cidr_subnet_apim"></a> [cidr\_subnet\_apim](#input\_cidr\_subnet\_apim) | Address prefixes subnet api management. | `list(string)` | `null` | no |
 | <a name="input_cidr_subnet_redis"></a> [cidr\_subnet\_redis](#input\_cidr\_subnet\_redis) | Redis network address space. | `list(string)` | `[]` | no |
