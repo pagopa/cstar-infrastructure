@@ -195,18 +195,23 @@ aks_metric_alerts = {
   }
 }
 
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.8.0&mask=21&division=37.d662f38c40
-cidr_vnet                = ["10.230.8.0/21"]
-cidr_integration_vnet    = ["10.230.5.0/24"]
-cidr_subnet_k8s          = ["10.230.8.0/22"]
-cidr_subnet_appgateway   = ["10.230.12.0/24"]
-cidr_subnet_apim         = ["10.230.13.0/26"]
-cidr_subnet_db           = ["10.230.13.64/26"]
-cidr_subnet_eventhub     = ["10.230.13.128/27"]
-cidr_subnet_azdoa        = ["10.230.13.160/27"]
-cidr_subnet_jumpbox      = ["10.230.13.192/27"]
-cidr_subnet_vpn          = ["10.230.13.224/27"]
-cidr_subnet_dnsforwarder = ["10.230.14.0/29"]
+cidr_vnet = ["10.1.0.0/16"]
+
+cidr_subnet_k8s          = ["10.1.0.0/17"]
+cidr_subnet_appgateway   = ["10.1.128.0/24"]
+cidr_subnet_db           = ["10.1.129.0/24"]
+cidr_subnet_azdoa        = ["10.1.130.0/24"]
+cidr_subnet_jumpbox      = ["10.1.131.0/24"]
+cidr_subnet_redis        = ["10.1.132.0/24"]
+cidr_subnet_vpn          = ["10.1.133.0/24"]
+cidr_subnet_dnsforwarder = ["10.1.134.0/29"]
+
+# integration vnet
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
+cidr_integration_vnet = ["10.230.5.0/24"]
+cidr_subnet_apim      = ["10.230.5.0/26"]
+cidr_subnet_eventhub  = ["10.230.5.64/26"]
+
 
 devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
 
