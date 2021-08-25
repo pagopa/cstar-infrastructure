@@ -284,16 +284,6 @@ variable "app_gateway_api_io_certificate_name" {
   description = "Application gateway api io certificate name on Key Vault"
 }
 
-variable "apim_portal_internal_certificate_name" {
-  type        = string
-  description = "Apim custom domain developer portal internal certificate name on Key Vault"
-}
-
-variable "apim_management_internal_certificate_name" {
-  type        = string
-  description = "Apim custom domain managemnet internal certificate name on Key Vault"
-}
-
 variable "app_gw_load_client_certificate" {
   type        = bool
   default     = true
@@ -475,6 +465,12 @@ variable "redis_sku_name" {
 variable "redis_family" {
   type    = string
   default = "C"
+}
+
+variable "lock_enable" {
+  type        = bool
+  default     = false
+  description = "Apply locks to block accedentaly deletions."
 }
 
 variable "tags" {

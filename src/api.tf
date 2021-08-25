@@ -20,7 +20,7 @@ locals {
 ###########################
 
 module "apim" {
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.45"
+  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.47"
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)
@@ -32,6 +32,9 @@ module "apim" {
   redis_connection_string = module.redis.primary_connection_string
   # This enables the Username and Password Identity Provider
   sign_up_enabled = true
+
+  lock_enable = var.lock_enable
+
   sign_up_terms_of_service = {
     consent_required = false
     enabled          = false
