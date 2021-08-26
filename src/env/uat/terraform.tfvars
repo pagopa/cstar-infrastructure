@@ -496,13 +496,10 @@ pm_ip_filter_range = {
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"
 
-app_gateway_api_certificate_name          = "api-uat-cstar-pagopa-it"
-app_gateway_api_io_certificate_name       = "api-io-uat-cstar-pagopa-it"
-app_gateway_portal_certificate_name       = "portal-uat-cstar-pagopa-it"
-app_gateway_management_certificate_name   = "management-uat-cstar-pagopa-it"
-apim_portal_internal_certificate_name     = "portal-internal-uat-cstar-pagopa-it"
-apim_management_internal_certificate_name = "management-internal-uat-cstar-pagopa-it"
-
+app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
+app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
+app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
+app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
