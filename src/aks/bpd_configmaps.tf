@@ -284,12 +284,12 @@ resource "kubernetes_config_map" "bpd-eventhub-common" {
     KAFKA_SASL_MECHANISM    = "PLAIN"
     KAFKA_SECURITY_PROTOCOL = "SASL_SSL"
     KAFKA_SERVERS           = local.event_hub_connection
-    KAFKA_BATCH_SIZE : "32768"
-    KAFKA_LINGER_MS : "10"
-    KAFKA_POLL_RECORDS : "500"
-    KAFKA_REQUEST_TIMEOUT : "300000"
-    KAFKA_SASL_MECHANISM : PLAIN
-    LISTENER_MAX_THREADS : "40"
+    KAFKA_BATCH_SIZE        = "32768"
+    KAFKA_LINGER_MS         = "10"
+    KAFKA_POLL_RECORDS      = "500"
+    KAFKA_REQUEST_TIMEOUT   = "300000"
+    KAFKA_SASL_MECHANISM    = "PLAIN"
+    LISTENER_MAX_THREADS    = "40"
   }
 }
 
