@@ -152,13 +152,13 @@ configmaps_bpdmsrankingprocessor = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   CASHBACK_UPDATE_PARALLEL_ENABLE                        = "true"
   CASHBACK_UPDATE_PARTIAL_TRANSFER_DATA_EXTRACTION_LIMIT = "1000"
-  CASHBACK_UPDATE_PARTIAL_TRANSFER_ENABLE                = "false"
+  CASHBACK_UPDATE_PARTIAL_TRANSFER_ENABLE                = "true"
   CASHBACK_UPDATE_PAYMENT_DATA_EXTRACTION_LIMIT          = "500"
   CASHBACK_UPDATE_PAYMENT_ENABLE                         = "true"
   CASHBACK_UPDATE_RETRY_LIMIT                            = "10"
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT   = "500"
   CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                  = "true"
-  CASHBACK_UPDATE_TRANSFER_MAX_DEPTH                     = "P6M"
+  CASHBACK_UPDATE_TRANSFER_MAX_DEPTH                     = "P1M"
   ENABLE_KAFKA_APPENDER                                  = "FALSE"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                        = "INFO"
   MILESTONE_UPDATE_ENABLE                                = "true"
@@ -168,7 +168,7 @@ configmaps_bpdmsrankingprocessor = {
   POSTGRES_POOLSIZE                                      = "2"
   RANKING_PROCESSOR_CRON                                 = "00 30 01 * * ?"
   RANKING_PROCESSOR_STOP_TIME                            = "20:00"
-  RANKING_UPDATE_DATA_EXTRACTION_LIMIT                   = "250000"
+  RANKING_UPDATE_DATA_EXTRACTION_LIMIT                   = "100000"
   RANKING_UPDATE_ENABLE                                  = "true"
   RANKING_UPDATE_PARALLEL_ENABLE                         = "true"
   REDIS_UPDATE_ENABLE                                    = "false"
@@ -180,6 +180,13 @@ configmaps_bpdmsrankingprocessoroffline = {
   JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsrankingprocessoroffline"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  RANKING_PROCESSOR_CRON                            = "00 30 11 * * ?"
+  RANKING_PROCESSOR_STOP_TIME                       = "15:00:00"
+  RANKING_UPDATE_DATA_EXTRACTION_LIMIT              = "250000"
+  RANKING_UPDATE_ENABLE                             = "false"
+  RANKING_UPDATE_PARALLEL_ENABLE                    = "true"
+  TRANSACTION_EXTR_QUERY_LOCK_ENABLE                = "true"
+  TRANSACTION_EXTR_QUERY_TRANSFER_MAX_DEPTH         = "5 months"
 }
 
 # bpdmsrankingprocessorpoc
@@ -190,7 +197,7 @@ configmaps_bpdmsrankingprocessorpoc = {
   CASHBACK_UPDATE_PAYMENT_ENABLE                       = "true"
   CASHBACK_UPDATE_RETRY_LIMIT                          = "10"
   CASHBACK_UPDATE_TOTAL_TRANSFER_DATA_EXTRACTION_LIMIT = "500"
-  CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                = "true"
+  CASHBACK_UPDATE_TOTAL_TRANSFER_ENABLE                = "false"
   LOG_LEVEL_BPD_RANKING_PROCESSOR                      = "INFO"
   MILESTONE_UPDATE_ENABLE                              = "true"
   MILESTONE_UPDATE_RETRY_LIMIT                         = "10"
@@ -242,4 +249,3 @@ configmaps_rtdpaymentinstrumentmanager = {
   POSTGRES_SHOW_SQL                                 = "false"
   LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER          = "INFO"
 }
-

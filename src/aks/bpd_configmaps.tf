@@ -188,6 +188,8 @@ resource "kubernetes_config_map" "bpdmsrankingprocessor" {
     CITIZEN_DB_SCHEMA                     = "bpd_citizen"
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME = "elab_ranking_b"
+    RANKING_UPDATE_TIE_BREAK_ENABLE       = "false"
+    RANKING_UPDATE_TIE_BREAK_LIMIT        = "150000"
     }, var.configmaps_bpdmsrankingprocessor
   )
 }
@@ -282,6 +284,12 @@ resource "kubernetes_config_map" "bpd-eventhub-common" {
     KAFKA_SASL_MECHANISM    = "PLAIN"
     KAFKA_SECURITY_PROTOCOL = "SASL_SSL"
     KAFKA_SERVERS           = local.event_hub_connection
+    KAFKA_BATCH_SIZE : "32768"
+    KAFKA_LINGER_MS : "10"
+    KAFKA_POLL_RECORDS : "500"
+    KAFKA_REQUEST_TIMEOUT : "300000"
+    KAFKA_SASL_MECHANISM : PLAIN
+    LISTENER_MAX_THREADS : "40"
   }
 }
 
@@ -292,10 +300,11 @@ resource "kubernetes_config_map" "bpd-eventhub-logging" {
   }
 
   data = {
+    # We do not send logs to eventhub.
     ENABLE_KAFKA_APPENDER             = "FALSE"
     KAFKA_APPENDER_BOOTSTRAP_SERVERS  = local.event_hub_connection
     KAFKA_APPENDER_REQUEST_TIMEOUT_MS = "180000"
-    KAFKA_APPENDER_SASL_JAAS_CONFIG   = "" #TODO maybe it's a secret
+    KAFKA_APPENDER_SASL_JAAS_CONFIG   = "" #TODO maybe it's a secret.
     KAFKA_APPENDER_TOPIC              = "bpd-log"
   }
 }
@@ -322,6 +331,7 @@ resource "kubernetes_config_map" "bpd-rest-client" {
     BPD_MS_AWARD_PERIOD_HOST        = "bpdmsawardperiod"
     BPD_MS_WINNING_TRANSACTION_HOST = "bpdmswinningtransaction"
     BPD_PAYMENT_INSTRUMENT_HOST     = "bpdmspaymentinstrument"
+    REST_CLIENT_LOGGER_LEVEL        = "NONE"
     REST_CLIENT_SCHEMA              = "http"
   }
 }
