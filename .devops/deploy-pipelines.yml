@@ -1,53 +1,64 @@
-stages :
-  - stage: validate
-    jobs:
-    - job: validate
-      continueOnError: false
-      steps:
-        - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller
-          displayName: 'install'
-          inputs:
-            terraformVersion: '1.0.2'
-        - checkout: self
-        - task: TerraformTaskV1@0
-          displayName: 'init'
-          inputs:
-            workingDirectory: src
-            command: 'init -backend-config="./env/dev/backend.tfvars"'
-            backendServiceArm: 'DEV-CSTAR-SERVICE-CONN'
-        - task: TerraformTaskV1@0
-          displayName: 'validate'
-          inputs:
-            command: 'validate'
-  - stage: deploy
-    jobs:
-    - deployment: deploy_terraform
-      continueOnError: false
-      environment: 'dev'
-      strategy:
-       runOnce:
-         deploy:
-            steps:
-              - checkout: self
-              - task: TerraformInstaller@0
-                displayName: 'install'
-                inputs:
-                  terraformVersion: '1.0.2'
-              - task: TerraformTaskV1@0
-                displayName: 'init'
-                inputs:
-                  provider: 'azurerm'
-                  command: 'init'
-                  backendServiceArm: 'tamopstf'
-              - task: TerraformTaskV1@0
-                displayName: 'plan'
-                inputs:
-                  provider: 'azurerm'
-                  command: 'plan'
-                  environmentServiceNameAzureRM: 'tamopstf'
-              - task: TerraformTaskV1@0
-                displayName: 'apply'
-                inputs:
-                  provider: 'azurerm'
-                  command: 'apply'
-                  environmentServiceNameAzureRM: 'tamopstf'
+# Automatically triggered on PR
+# Only triggers on branches
+pr:
+  autoCancel: true
+  branches:
+    exclude:
+     - '*'
+
+trigger:
+  branches:
+    exclude:
+      - master
+  paths:
+    include:
+      - 'prod/*'
+
+parameters:
+  - name: 'SUBSCRIPTION'
+    displayName: 'Azure subscription hosting the infrastructure built with terraform'
+    type: string
+    default: DEV-CSTAR-SERVICE-CONN
+    values:
+      - PROD-CSTAR-SERVICE-CONN
+      - UAT-CSTAR-SERVICE-CONN
+      - DEV-CSTAR-SERVICE-CONN
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+resources:
+  repositories:
+    - repository: terraform
+      type: github
+      name: pagopa/azure-pipeline-templates
+      ref: refs/tags/v14
+      endpoint: 'pagopa'
+
+jobs:
+  - job: terraform_plan
+    steps:
+      # 1. Install terraform and terragrunt
+      - template: templates/terraform-setup/template.yaml@terraform
+      # 4. Run terragrunt plan
+      - task: AzureCLI@2
+        displayName: Terraform init 
+        inputs:
+          azureSubscription: '${{ parameters.SUBSCRIPTION }}'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          failOnStandardError: true
+          workingDirectory: src
+          inlineScript: |
+            RED='\033[0;31m'
+            NC='\033[0m' # No Color
+
+            #export ARM_CLIENT_ID=$(CLIENT_ID)
+            #export ARM_CLIENT_SECRET=$(CLIENT_SECRET)
+            #export ARM_SUBSCRIPTION_ID=$(SUBSCRIPTION_ID)
+            #export ARM_TENANT_ID=$(TENANT_ID)
+
+            ./terraform.sh init DEV-CSTAR
+            ./terraform validate
+
+            
