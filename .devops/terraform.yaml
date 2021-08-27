@@ -1,0 +1,53 @@
+stages :
+  - stage: validate
+    jobs:
+    - job: validate
+      continueOnError: false
+      steps:
+        - task: TerraformInstaller@0
+          displayName: 'install'
+          inputs:
+            terraformVersion: '1.0.2'
+        - checkout: self
+        - task: TerraformTaskV1@0
+          displayName: 'init'
+          inputs:
+            workingDirectory: src
+            command: 'init -backend-config="./env/dev/backend.tfvars"'
+            backendServiceArm: 'DEV-CSTAR-SERVICE-CONN'
+        - task: TerraformTaskV1@0
+          displayName: 'validate'
+          inputs:
+            command: 'validate'
+  - stage: deploy
+    jobs:
+    - deployment: deploy_terraform
+      continueOnError: false
+      environment: 'dev'
+      strategy:
+       runOnce:
+         deploy:
+            steps:
+              - checkout: self
+              - task: TerraformInstaller@0
+                displayName: 'install'
+                inputs:
+                  terraformVersion: '1.0.2'
+              - task: TerraformTaskV1@0
+                displayName: 'init'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'init'
+                  backendServiceArm: 'tamopstf'
+              - task: TerraformTaskV1@0
+                displayName: 'plan'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'plan'
+                  environmentServiceNameAzureRM: 'tamopstf'
+              - task: TerraformTaskV1@0
+                displayName: 'apply'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'apply'
+                  environmentServiceNameAzureRM: 'tamopstf'
