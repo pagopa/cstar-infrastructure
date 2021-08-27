@@ -4,7 +4,7 @@ stages :
     - job: validate
       continueOnError: false
       steps:
-        - task: TerraformInstaller@0
+        - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller
           displayName: 'install'
           inputs:
             terraformVersion: '1.0.2'
