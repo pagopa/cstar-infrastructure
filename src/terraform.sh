@@ -17,7 +17,7 @@ if [ -z "$env" ]; then
   exit 0
 fi
 
-az account set -s "${subscription}-cstar"
+az account set -s "${env}-cstar"
 
 if echo "init plan apply refresh import output state taint destroy" | grep -w $action > /dev/null; then
   if [ $action = "init" ]; then
