@@ -33,7 +33,7 @@ resources:
       type: github
       name: pagopa/azure-pipeline-templates
       ref: refs/tags/v14
-      endpoint: 'pagopa'
+      endpoint: 'cstar-projects'
 
 jobs:
   - job: terraform_plan
