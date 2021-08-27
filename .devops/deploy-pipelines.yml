@@ -32,7 +32,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/split-terraform-and-terragrunt-template
+      ref: split-terraform-and-terragrunt-template
       endpoint: 'cstar-projects'
 
 jobs:
