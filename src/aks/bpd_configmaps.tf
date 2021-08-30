@@ -40,7 +40,9 @@ resource "kubernetes_config_map" "bpdmsawardwinner" {
   data = merge({
     KAFKA_CSVCONSAP_GROUP_ID      = "award-winner"
     KAFKA_CSVCONSAP_TOPIC         = "bpd-winner-outcome"
+    KAFKA_INTEGR_WINNER_GROUP_ID  = "award-integration-winner"
     KAFKA_INTEGR_WINNER_CLIENT_ID = "award-integration-winner"
+    KAFKA_INTEGR_WINNER_TOPIC     = "bpd-winner-outcome"
     KAFKA_WINNER_CLIENT_ID        = "award-winner"
     KAFKA_WINNER_GROUP_ID         = "award-winner"
     KAFKA_WINNER_TOPIC            = "bpd-winner-outcome"
@@ -111,6 +113,19 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_KO_TECHNICAL = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_KO_TECHNICAL.txt")}"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_OK           = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_OK.txt")}"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_OK_TECHNICAL = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MARKDOWN_OK_TECHNICAL.txt")}"
+    NOTIFICATION_SERVICE_END_PERIOD_GP_MARKDOWN_KO                    = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_END_PERIOD_GP_MARKDOWN_KO.txt")}"
+    NOTIFICATION_SERVICE_END_PERIOD_GP_MARKDOWN_OK                    = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_END_PERIOD_GP_MARKDOWN_OK.txt")}"
+    NOTIFICATION_SERVICE_END_PERIOD_GP_MARKDOWN_OK_SUPERCASHBACK      = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_END_PERIOD_GP_MARKDOWN_OK_SUPERCASHBACK.txt")}"
+    NOTIFICATION_SERVICE_END_PERIOD_GP_SUBJECT_KO                     = "Spiacenti, non hai diritto al Cashback accumulato!"
+    NOTIFICATION_SERVICE_END_PERIOD_GP_SUBJECT_OK                     = "Congratulazioni, hai diritto al Cashback accumulato!"
+    NOTIFICATION_SERVICE_END_PERIOD_MARKDOWN                          = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_END_PERIOD_MARKDOWN.txt")}"
+    NOTIFICATION_SERVICE_END_PERIOD_SUBJECT                           = "Il {{award_period}} semestre del Cashback è finito!"
+    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_KO            = "Si è verificato un problema con il tuo rimborso"
+    NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "0 00 12 * * ?"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-07-05"
+    NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                          = "-"
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
     TEST                                                              = "${file("${path.module}/configmaps/bpdmsnotificationmanager/TEST.txt")}"
     },
@@ -173,6 +188,8 @@ resource "kubernetes_config_map" "bpdmsrankingprocessor" {
     CITIZEN_DB_SCHEMA                     = "bpd_citizen"
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME = "elab_ranking_b"
+    RANKING_UPDATE_TIE_BREAK_ENABLE       = "false"
+    RANKING_UPDATE_TIE_BREAK_LIMIT        = "150000"
     }, var.configmaps_bpdmsrankingprocessor
   )
 }
@@ -267,6 +284,12 @@ resource "kubernetes_config_map" "bpd-eventhub-common" {
     KAFKA_SASL_MECHANISM    = "PLAIN"
     KAFKA_SECURITY_PROTOCOL = "SASL_SSL"
     KAFKA_SERVERS           = local.event_hub_connection
+    KAFKA_BATCH_SIZE        = "32768"
+    KAFKA_LINGER_MS         = "10"
+    KAFKA_POLL_RECORDS      = "500"
+    KAFKA_REQUEST_TIMEOUT   = "300000"
+    KAFKA_SASL_MECHANISM    = "PLAIN"
+    LISTENER_MAX_THREADS    = "40"
   }
 }
 
@@ -277,10 +300,11 @@ resource "kubernetes_config_map" "bpd-eventhub-logging" {
   }
 
   data = {
+    # We do not send logs to eventhub.
     ENABLE_KAFKA_APPENDER             = "FALSE"
     KAFKA_APPENDER_BOOTSTRAP_SERVERS  = local.event_hub_connection
     KAFKA_APPENDER_REQUEST_TIMEOUT_MS = "180000"
-    KAFKA_APPENDER_SASL_JAAS_CONFIG   = "" #TODO maybe it's a secret
+    KAFKA_APPENDER_SASL_JAAS_CONFIG   = "" #TODO maybe it's a secret.
     KAFKA_APPENDER_TOPIC              = "bpd-log"
   }
 }
@@ -307,6 +331,7 @@ resource "kubernetes_config_map" "bpd-rest-client" {
     BPD_MS_AWARD_PERIOD_HOST        = "bpdmsawardperiod"
     BPD_MS_WINNING_TRANSACTION_HOST = "bpdmswinningtransaction"
     BPD_PAYMENT_INSTRUMENT_HOST     = "bpdmspaymentinstrument"
+    REST_CLIENT_LOGGER_LEVEL        = "NONE"
     REST_CLIENT_SCHEMA              = "http"
   }
 }
