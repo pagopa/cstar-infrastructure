@@ -218,7 +218,7 @@ devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 
 db_sku_name                     = "GP_Gen5_16"
 db_geo_redundant_backup_enabled = false
-db_enable_replica               = true
+db_enable_replica               = false
 db_storage_mb                   = 5242880 # 5TB
 db_configuration = {
   autovacuum_work_mem         = "2000000"
