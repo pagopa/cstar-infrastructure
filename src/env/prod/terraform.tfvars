@@ -507,13 +507,12 @@ redis_family   = "P"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"
 
-app_gateway_api_certificate_name          = "api-cstar-pagopa-it"
-app_gateway_api_io_certificate_name       = "api-io-cstar-pagopa-it"
-app_gateway_portal_certificate_name       = "portal-cstar-pagopa-it"
-app_gateway_management_certificate_name   = "management-cstar-pagopa-it"
-apim_portal_internal_certificate_name     = "portal-internal-cstar-pagopa-it"
-apim_management_internal_certificate_name = "management-internal-cstar-pagopa-it"
+app_gateway_api_certificate_name        = "api-cstar-pagopa-it"
+app_gateway_api_io_certificate_name     = "api-io-cstar-pagopa-it"
+app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
+app_gateway_management_certificate_name = "management-cstar-pagopa-it"
 
+lock_enable = true
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"

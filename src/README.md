@@ -27,7 +27,7 @@
 | <a name="module_api_bpd_io_backend_test"></a> [api\_bpd\_io\_backend\_test](#module\_api\_bpd\_io\_backend\_test) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_api_bpd_pm_payment_instrument"></a> [api\_bpd\_pm\_payment\_instrument](#module\_api\_bpd\_pm\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_api_bpd_tc"></a> [api\_bpd\_tc](#module\_api\_bpd\_tc) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
-| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.45 |  |
+| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.49 |  |
 | <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
 | <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | ./modules/app_gw |  |
 | <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16 |  |
@@ -59,11 +59,11 @@
 | <a name="module_jumpbox"></a> [jumpbox](#module\_jumpbox) | git::https://github.com/pagopa/azurerm.git//jumpbox?ref=v1.0.7 |  |
 | <a name="module_jumpbox_snet"></a> [jumpbox\_snet](#module\_jumpbox\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
 | <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
-| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.7 |  |
+| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.48 |  |
 | <a name="module_operations_logs"></a> [operations\_logs](#module\_operations\_logs) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7 |  |
 | <a name="module_pm_admin_panel"></a> [pm\_admin\_panel](#module\_pm\_admin\_panel) | git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16 |  |
 | <a name="module_pm_api_product"></a> [pm\_api\_product](#module\_pm\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42 |  |
-| <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.46 |  |
+| <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.48 |  |
 | <a name="module_psql_storage_account_terraform_state"></a> [psql\_storage\_account\_terraform\_state](#module\_psql\_storage\_account\_terraform\_state) | git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5 |  |
 | <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.37 |  |
 | <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7 |  |
@@ -175,9 +175,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_apim_management_internal_certificate_name"></a> [apim\_management\_internal\_certificate\_name](#input\_apim\_management\_internal\_certificate\_name) | Apim custom domain managemnet internal certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_apim_notification_sender_email"></a> [apim\_notification\_sender\_email](#input\_apim\_notification\_sender\_email) | n/a | `string` | n/a | yes |
-| <a name="input_apim_portal_internal_certificate_name"></a> [apim\_portal\_internal\_certificate\_name](#input\_apim\_portal\_internal\_certificate\_name) | Apim custom domain developer portal internal certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_apim_publisher_name"></a> [apim\_publisher\_name](#input\_apim\_publisher\_name) | n/a | `string` | n/a | yes |
 | <a name="input_apim_sku"></a> [apim\_sku](#input\_apim\_sku) | n/a | `string` | n/a | yes |
 | <a name="input_app_gateway_api_certificate_name"></a> [app\_gateway\_api\_certificate\_name](#input\_app\_gateway\_api\_certificate\_name) | Application gateway api certificate name on Key Vault | `string` | n/a | yes |
@@ -237,6 +235,7 @@
 | <a name="input_law_retention_in_days"></a> [law\_retention\_in\_days](#input\_law\_retention\_in\_days) | The workspace data retention in days | `number` | `30` | no |
 | <a name="input_law_sku"></a> [law\_sku](#input\_law\_sku) | Sku of the Log Analytics Workspace | `string` | `"PerGB2018"` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westeurope"` | no |
+| <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
 | <a name="input_pm_timeout_sec"></a> [pm\_timeout\_sec](#input\_pm\_timeout\_sec) | Payment manager timeout (sec) | `number` | `5` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"cstar"` | no |
 | <a name="input_redis_capacity"></a> [redis\_capacity](#input\_redis\_capacity) | # Redis cache | `number` | `1` | no |
@@ -263,6 +262,7 @@
 | <a name="output_apim_gateway_url"></a> [apim\_gateway\_url](#output\_apim\_gateway\_url) | n/a |
 | <a name="output_apim_name"></a> [apim\_name](#output\_apim\_name) | # Api management ## |
 | <a name="output_apim_private_ip_addresses"></a> [apim\_private\_ip\_addresses](#output\_apim\_private\_ip\_addresses) | n/a |
+| <a name="output_apim_public_ip_addresses"></a> [apim\_public\_ip\_addresses](#output\_apim\_public\_ip\_addresses) | n/a |
 | <a name="output_app_gateway_fqdn"></a> [app\_gateway\_fqdn](#output\_app\_gateway\_fqdn) | n/a |
 | <a name="output_app_gateway_public_ip"></a> [app\_gateway\_public\_ip](#output\_app\_gateway\_public\_ip) | # Application gateway. |
 | <a name="output_container_registry_admin_password"></a> [container\_registry\_admin\_password](#output\_container\_registry\_admin\_password) | n/a |

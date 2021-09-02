@@ -88,6 +88,10 @@ output "apim_private_ip_addresses" {
   value = module.apim.private_ip_addresses
 }
 
+output "apim_public_ip_addresses" {
+  value = module.apim.public_ip_addresses
+}
+
 output "apim_gateway_url" {
   value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name)
 }

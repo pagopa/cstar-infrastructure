@@ -7,11 +7,12 @@ resource "azurerm_resource_group" "sec_rg" {
 
 
 module "key_vault" {
-  source              = "git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.7"
+  source              = "git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.48"
   name                = format("%s-kv", local.project)
   location            = azurerm_resource_group.sec_rg.location
   resource_group_name = azurerm_resource_group.sec_rg.name
   tenant_id           = data.azurerm_client_config.current.tenant_id
+  lock_enable         = var.lock_enable
 
   // terraform_cloud_object_id = data.azurerm_client_config.current.client_id
 

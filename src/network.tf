@@ -255,7 +255,7 @@ module "app_gw" {
 
       #TODO: add self signed cert support as above.
       certificate = {
-        name = var.apim_management_internal_certificate_name
+        name = var.app_gateway_management_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.management_cstar.secret_id,
           data.azurerm_key_vault_certificate.management_cstar.version
@@ -302,7 +302,7 @@ module "app_gw" {
 
 data "azurerm_key_vault_secret" "issuer_chain" {
   count        = var.app_gw_load_client_certificate ? 1 : 0
-  name         = "cstar-u-issuer-chain"
+  name         = format("cstar-%s-issuer-chain", var.env_short)
   key_vault_id = module.key_vault.id
 }
 
@@ -423,6 +423,11 @@ data "azuread_application" "vpn_app" {
 
 module "vpn" {
   source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.36"
+
+  depends_on = [
+    azurerm_log_analytics_workspace.log_analytics_workspace,
+    module.operations_logs,
+  ]
 
   name                = format("%s-vpn", local.project)
   location            = var.location
