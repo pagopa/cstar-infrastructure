@@ -31,6 +31,7 @@ module "postgresql" {
   geo_redundant_backup_enabled     = var.db_geo_redundant_backup_enabled
   enable_replica                   = var.db_enable_replica
   ssl_minimal_tls_version_enforced = "TLS1_2"
+  public_network_access_enabled    = false
   lock_enable                      = var.lock_enable
 
   network_rules = {
