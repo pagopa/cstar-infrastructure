@@ -413,11 +413,12 @@ eventhubs = [
     partitions        = 32
     message_retention = 7
     consumers         = ["bpd-winning-transaction"]
-    keys = [{
-      name   = "bpd-point-processor"
-      listen = false
-      send   = true
-      manage = false
+    keys = [
+      {
+        name   = "bpd-point-processor"
+        listen = false
+        send   = true
+        manage = false
       },
       {
         name   = "bpd-winning-transaction"
@@ -425,7 +426,8 @@ eventhubs = [
         send   = false
         manage = false
       },
-  ] },
+    ]
+  },
   {
     name              = "bpd-trx-error"
     partitions        = 3
@@ -450,8 +452,10 @@ eventhubs = [
         send   = true
         manage = false
       }
-  ] },
-  { name              = "bpd-winner-outcome"
+    ]
+  },
+  {
+    name              = "bpd-winner-outcome"
     partitions        = 32
     message_retention = 7
     consumers         = []
@@ -473,7 +477,9 @@ eventhubs = [
         listen = true
         send   = true
         manage = false
-  }] },
+      }
+    ]
+  },
   {
     name              = "rtd-trx"
     partitions        = 32
@@ -492,7 +498,29 @@ eventhubs = [
         send   = false
         manage = false
       }
-] }]
+    ]
+  },
+  {
+    name              = "rtd-log"
+    partitions        = 3
+    message_retention = 7
+    consumers         = ["elk"]
+    keys = [
+      {
+        name   = "app"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "elk"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+]
 external_domain = "pagopa.it"
 
 pm_backend_url = "https://10.48.20.119:444"
