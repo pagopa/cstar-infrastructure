@@ -353,6 +353,7 @@ ehns_metric_alerts = {
 
 enable_azdoa = true
 env_short    = "u"
+
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
@@ -405,11 +406,12 @@ eventhubs = [
     partitions        = 1
     message_retention = 1
     consumers         = ["bpd-winning-transaction"]
-    keys = [{
-      name   = "bpd-point-processor"
-      listen = false
-      send   = true
-      manage = false
+    keys = [
+      {
+        name   = "bpd-point-processor"
+        listen = false
+        send   = true
+        manage = false
       },
       {
         name   = "bpd-winning-transaction"
@@ -417,7 +419,8 @@ eventhubs = [
         send   = false
         manage = false
       },
-  ] },
+    ]
+  },
   {
     name              = "bpd-trx-error"
     partitions        = 1
@@ -442,8 +445,10 @@ eventhubs = [
         send   = true
         manage = false
       }
-  ] },
-  { name              = "bpd-winner-outcome"
+    ]
+  },
+  {
+    name              = "bpd-winner-outcome"
     partitions        = 1
     message_retention = 1
     consumers         = []
@@ -465,7 +470,9 @@ eventhubs = [
         listen = true
         send   = true
         manage = false
-  }] },
+      }
+    ]
+  },
   {
     name              = "rtd-trx"
     partitions        = 1
@@ -484,7 +491,8 @@ eventhubs = [
         send   = false
         manage = false
       }
-  ] },
+    ]
+  },
   {
     name              = "rtd-log"
     partitions        = 1
