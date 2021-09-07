@@ -54,7 +54,7 @@ jobs:
             NC='\033[0m' # No Color
             
             az account list --output table 
-
+            
             export ARM_CLIENT_ID=$env:servicePrincipalId
             export ARM_CLIENT_SECRET=$env:servicePrincipalKey
             export ARM_TENANT_ID=$env:tenantId
