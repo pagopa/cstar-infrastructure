@@ -12,7 +12,7 @@ trigger:
       - master
   paths:
     include:
-      - 'prod/*'
+      - 'src/*'
 
 parameters:
   - name: 'SUBSCRIPTION'
@@ -55,10 +55,9 @@ jobs:
 
             export ARM_CLIENT_ID=$env:servicePrincipalId
             export ARM_CLIENT_SECRET=$env:servicePrincipalKey
-            #export ARM_SUBSCRIPTION_ID=$(SUBSCRIPTION_ID)
             export ARM_TENANT_ID=$env:tenantId
             
             ./terraform.sh init dev
-            ./terraform validate
+            terraform validate
 
             
