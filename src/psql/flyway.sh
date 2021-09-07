@@ -64,6 +64,7 @@ bpd_winning_transaction_remote_user_password=$(az keyvault secret show --name db
 dashboard_pagopa_user_password=$(az keyvault secret show --name db-dashboard-pagopa-user-password --vault-name "${keyvault_name}" -o tsv --query value)
 monitoring_user_password=$(az keyvault secret show --name db-monitoring-user-password --vault-name "${keyvault_name}" -o tsv --query value)
 monitoring_pdnd_user_password=$(az keyvault secret show --name db-monitoring-pdnd-user-password --vault-name "${keyvault_name}" -o tsv --query value)
+monitoring_sia_user_password=$(az keyvault secret show --name db-monitoring-sia-user-password --vault-name "${keyvault_name}" -o tsv --query value)
 tkm_acquirer_manager_user_password=$(az keyvault secret show --name db-tkm-acquirer-manager-password --vault-name "${keyvault_name}" -o tsv --query value)
 
 export BPD_USER_PASSWORD="${bpd_user_password}"
@@ -76,6 +77,7 @@ export BPD_WINNING_TRANSACTION_REMOTE_USER_PASSWORD="${bpd_winning_transaction_r
 export DASHBOARD_PAGOPA_USER_PASSWORD="${dashboard_pagopa_user_password}"
 export MONITORING_USER_PASSWORD="${monitoring_user_password}"
 export MONITORING_PDND_USER_PASSWORD="${monitoring_pdnd_user_password}"
+export MONITORING_SIA_USER_PASSWORD="${monitoring_sia_user_password}"
 export TKM_ACQUIRER_MANAGER_USER_PASSWORD="${tkm_acquirer_manager_user_password}"
 
 docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}":/flyway/sql \
@@ -92,5 +94,6 @@ docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${D
   -placeholders.dashboardPagopaUserPassword="${DASHBOARD_PAGOPA_USER_PASSWORD}" \
   -placeholders.monitoringUserPassword="${MONITORING_USER_PASSWORD}" \
   -placeholders.monitoringPdndUserPassword="${MONITORING_PDND_USER_PASSWORD}" \
+  -placeholders.monitoringSiaUserPassword="${MONITORING_SIA_USER_PASSWORD}" \
   -placeholders.tkmAcquirerManagerUserPassword="${TKM_ACQUIRER_MANAGER_USER_PASSWORD}" \
   -placeholders.serverName="${SERVER_NAME}" "${COMMAND}" ${other}
