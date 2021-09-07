@@ -59,7 +59,7 @@ jobs:
             export ARM_CLIENT_ID=$env:servicePrincipalId
             export ARM_CLIENT_SECRET=$env:servicePrincipalKey
             export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
-            export ARM_TENANT_ID=$env:tenantId
+            export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
 
             echo "Tenant id: ${ARM_TENANT_ID}"
             
