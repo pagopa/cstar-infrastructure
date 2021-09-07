@@ -229,6 +229,13 @@ db_configuration = {
   maintenance_work_mem        = "1048576"
   max_wal_size                = "4096"
 }
+db_network_rules = {
+  ip_rules = [
+    "18.192.147.151/32" #PDND
+  ]
+  # dblink
+  allow_access_to_azure_services = true
+}
 db_alerts_enabled = false
 db_metric_alerts = {
   cpu = {
