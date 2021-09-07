@@ -175,10 +175,14 @@ module "api_bpd-io_payment_instrument" {
   api_operation_policies = [
     {
       operation_id = "enrollmentPaymentInstrumentIOUsingPUT",
+      /*
       xml_content = templatefile("./api/bpd_io_payment_instrument/put_enrollment_payment_instrument_io_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
+
     {
       operation_id = "paymentinstrumentsnumber",
       xml_content  = file("./api/bpd_io_payment_instrument/get_paymentinstrumentsnumber_policy.xml")
@@ -236,9 +240,12 @@ module "api_bpd_io_backend_test" {
   api_operation_policies = [
     {
       operation_id = "getToken",
+      /*
       xml_content = templatefile("./api/bpd_io_backend_test/post_get_token_policy.xml.tpl", {
         reverse_proxy_ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
@@ -437,9 +444,12 @@ module "bpd_hb_citizen_original" {
     },
     {
       operation_id = "enrollmentCitizenHB",
+      /*
       xml_content = templatefile("./api/bpd_hb_citizen/original/put_enrollment_citizen_hb.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "find",
@@ -451,7 +461,8 @@ module "bpd_hb_citizen_original" {
     },
     {
       operation_id = "updatePaymentMethod",
-      xml_content  = file("./api/bpd_hb_citizen/original/patch_update_payment_method.xml")
+      #xml_content  = file("./api/bpd_hb_citizen/original/patch_update_payment_method.xml")
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
@@ -491,9 +502,12 @@ module "bpd_hb_citizen_v2" {
     },
     {
       operation_id = "enrollmentCitizenHB",
+      /*
       xml_content = templatefile("./api/bpd_hb_citizen/v2/put_enrollment_citizen_hb.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "find",
@@ -505,7 +519,8 @@ module "bpd_hb_citizen_v2" {
     },
     {
       operation_id = "updatePaymentMethod",
-      xml_content  = file("./api/bpd_hb_citizen/v2/patch_update_payment_method.xml")
+      #xml_content  = file("./api/bpd_hb_citizen/v2/patch_update_payment_method.xml")
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
@@ -548,12 +563,15 @@ module "bpd_hb_payment_instruments_original" {
     {
       # DEL BPay deletePaymentInstrumentHB
       operation_id = "delbpaydeletepaymentinstrumenthb",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/delbpaydeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # GET BPay statusPaymentInstrumentHB
@@ -568,16 +586,20 @@ module "bpd_hb_payment_instruments_original" {
     {
       # DEL deletePaymentInstrumentHB
       operation_id = "deldeletepaymentinstrumenthb",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deldeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # PUT enrollPaymentInstrumentHB
       operation_id = "putenrollpaymentinstrumenthb",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -585,10 +607,13 @@ module "bpd_hb_payment_instruments_original" {
         env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # PUT enrollPaymentInstrumentHB BPay
       operation_id = "putenrollpaymentinstrumenthbbpay",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbbpay_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -596,10 +621,13 @@ module "bpd_hb_payment_instruments_original" {
         env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # PUT enrollPaymentInstrumentHB BPay ID
       operation_id = "putenrollpaymentinstrumenthbbpayid",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbbpayid_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -607,10 +635,13 @@ module "bpd_hb_payment_instruments_original" {
         env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # PUT enrollPaymentInstrumentHB Other
       operation_id = "putenrollpaymentinstrumenthbother",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbother_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -618,10 +649,13 @@ module "bpd_hb_payment_instruments_original" {
         env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # PUT enrollPaymentInstrumentHB Satispay
       operation_id = "putenrollpaymentinstrumenthbsatispay",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbsatispay_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -629,16 +663,21 @@ module "bpd_hb_payment_instruments_original" {
         env_short                            = var.env_short
         reverse-proxy-ip                     = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # GET statusPaymentInstrumentHB
       operation_id = "getstatuspaymentinstrumenthb",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/getstatuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
@@ -673,12 +712,15 @@ module "bpd_hb_payment_instruments_v2" {
     {
       # DEL BPay deletePaymentInstrumentHB
       operation_id = "delbpaydeletepaymentinstrumenthb",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/delbpaydeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # GET BPay statusPaymentInstrumentHB
@@ -693,22 +735,28 @@ module "bpd_hb_payment_instruments_v2" {
     {
       # DEL deletePaymentInstrumentHB
       operation_id = "deldeletepaymentinstrumenthb",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/deldeletepaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # PATCH patchPaymentInstrument
       operation_id = "patchpatchpaymentinstrument",
+      /*
       xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/patchpatchpaymentinstrument_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       # GET statusPaymentInstrumentHB
@@ -919,9 +967,12 @@ module "bpd_io_citizen_original" {
   api_operation_policies = [
     {
       operation_id = "deleteUsingDELETE"
+      /*
       xml_content = templatefile("./api/bpd_io_citizen/original/deleteUsingDELETE_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "enrollment"
@@ -939,7 +990,8 @@ module "bpd_io_citizen_original" {
     },
     {
       operation_id = "updatePaymentMethodUsingPATCH"
-      xml_content  = file("./api/bpd_io_citizen/original/updatePaymentMethodUsingPATCH_policy.xml")
+      #xml_content  = file("./api/bpd_io_citizen/original/updatePaymentMethodUsingPATCH_policy.xml")
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
@@ -973,9 +1025,12 @@ module "bpd_io_citizen_v2" {
   api_operation_policies = [
     {
       operation_id = "deleteUsingDELETE"
+      /*
       xml_content = templatefile("./api/bpd_io_citizen/v2/deleteUsingDELETE_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "enrollment"
@@ -997,7 +1052,8 @@ module "bpd_io_citizen_v2" {
     },
     {
       operation_id = "updatePaymentMethodUsingPATCH"
-      xml_content  = file("./api/bpd_io_citizen/v2/updatePaymentMethodUsingPATCH_policy.xml")
+      #xml_content  = file("./api/bpd_io_citizen/v2/updatePaymentMethodUsingPATCH_policy.xml")
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
