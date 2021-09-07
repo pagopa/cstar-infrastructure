@@ -62,6 +62,7 @@ jobs:
             export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
 
             echo "Tenant id: ${ARM_TENANT_ID}"
+            echo "Arm client id ${ARM_CLIENT_ID}"
             
             ./terraform.sh init dev
             terraform validate
