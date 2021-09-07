@@ -52,11 +52,10 @@ jobs:
           inlineScript: |
             RED='\033[0;31m'
             NC='\033[0m' # No Color
-            
-            az account list --output table 
-            
+
             export ARM_CLIENT_ID=$env:servicePrincipalId
             export ARM_CLIENT_SECRET=$env:servicePrincipalKey
+            export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
             export ARM_TENANT_ID=$env:tenantId
             
             ./terraform.sh init dev
