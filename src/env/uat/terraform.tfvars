@@ -4,6 +4,7 @@ apim_sku                       = "Developer_1"
 
 
 aks_alerts_enabled = false
+aks_node_count     = 2
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
