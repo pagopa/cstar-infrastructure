@@ -32,7 +32,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: split-terraform-and-terragrunt-template
+      ref: refs/tags/v16
       endpoint: 'cstar-projects'
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
       - template: templates/terraform-setup/template.yaml@terraform
       # 4. Run terragrunt plan
       - task: AzureCLI@2
-        displayName: Terraform init 
+        displayName: Terraform plan
         inputs:
           azureSubscription: '${{ parameters.SUBSCRIPTION }}'
           addSpnToEnvironment: true
@@ -61,10 +61,8 @@ jobs:
             export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
             export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
 
-            echo "Tenant id: ${ARM_TENANT_ID}"
-            echo "Arm client id ${ARM_CLIENT_ID}"
-            
             ./terraform.sh init dev
             terraform validate
+            ./terraform.sh plan dev
 
             
