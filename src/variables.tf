@@ -255,10 +255,12 @@ variable "devops_service_connection_object_id" {
   description = "Azure deveops service connection id."
   default     = null
 }
+
 variable "app_gateway_min_capacity" {
   type    = number
   default = 1
 }
+
 variable "app_gateway_max_capacity" {
   type    = number
   default = 2

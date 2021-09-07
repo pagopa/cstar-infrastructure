@@ -4,6 +4,7 @@ apim_sku                       = "Developer_1"
 
 
 aks_alerts_enabled = false
+aks_node_count     = 2
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -536,6 +537,9 @@ app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
+app_gateway_min_capacity                = 5
+app_gateway_max_capacity                = 10
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
