@@ -7,8 +7,6 @@ ingress_load_balancer_ip = "10.1.0.250"
 
 rbac_namespaces = ["bpd", "rtd", "fa"]
 
-enable_postgres_replica = true
-
 # cstariobackendtest
 configmaps_cstariobackendtest = {}
 
