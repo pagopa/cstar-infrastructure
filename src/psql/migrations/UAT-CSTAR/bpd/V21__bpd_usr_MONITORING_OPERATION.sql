@@ -39,7 +39,6 @@ GRANT SELECT ON TABLE bpd_dashboard_pagopa.v_check_missing_iban_detail TO "MONIT
 GRANT SELECT ON TABLE bpd_error_record.bpd_transaction_record TO "MONITORING_OPERATION_USER";
 GRANT SELECT ON TABLE bpd_mcc_category.bpd_mcc_category TO "MONITORING_OPERATION_USER";
 GRANT SELECT ON TABLE bpd_mcc_category.bpd_mcc_category_rel TO "MONITORING_OPERATION_USER";
-GRANT SELECT ON TABLE bpd_payment_instrument.bonifica_pm TO "MONITORING_OPERATION_USER";
 GRANT SELECT ON TABLE bpd_payment_instrument_tmp.bpd_payment_instrument TO "MONITORING_OPERATION_USER";
 GRANT SELECT ON TABLE bpd_winning_transaction.bpd_citizen_status_data TO "MONITORING_OPERATION_USER";
 GRANT SELECT ON TABLE bpd_winning_transaction.bpd_winning_transaction_transfer TO "MONITORING_OPERATION_USER";
