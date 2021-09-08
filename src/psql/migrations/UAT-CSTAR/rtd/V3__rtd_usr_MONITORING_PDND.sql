@@ -3,16 +3,12 @@ ALTER USER MAPPING
 	FOR "MONITORING_PDND_USER"
 	SERVER bpd_payment_instrument_remote
 	OPTIONS (user 'MONITORING_PDND_USER@${serverName}', password '${monitoringPdndUserPassword}');
-ALTER SERVER bpd_payment_instrument_remote
-	OPTIONS (ADD sslmode 'require');
 
 CREATE USER MAPPING FOR "MONITORING_PDND_USER" SERVER fa_payment_instrument_remote;
 ALTER USER MAPPING
 	FOR "MONITORING_PDND_USER"
 	SERVER fa_payment_instrument_remote
 	OPTIONS (user 'MONITORING_PDND_USER@${serverName}', password '${monitoringPdndUserPassword}');
-ALTER SERVER fa_payment_instrument_remote
-	OPTIONS (ADD sslmode 'require');
 
 GRANT USAGE ON SCHEMA public TO "MONITORING_PDND_USER";
 GRANT USAGE ON SCHEMA rtd_database TO "MONITORING_PDND_USER";
