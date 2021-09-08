@@ -59,6 +59,12 @@ variable "default_service_port" {
   default = 8080
 }
 
+variable "enable_postgres_replica" {
+  type        = bool
+  default     = false
+  description = "Enable connection to postgres replica"
+}
+
 # cstariobackendtest
 
 variable "configmaps_cstariobackendtest" {
