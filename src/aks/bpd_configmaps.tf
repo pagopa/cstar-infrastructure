@@ -122,7 +122,7 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_END_PERIOD_SUBJECT                           = "Il {{award_period}} semestre del Cashback è finito!"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_KO            = "Si è verificato un problema con il tuo rimborso"
     NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "1"
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "*/2 * * * *"
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-07-05"
     NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                          = "-"
