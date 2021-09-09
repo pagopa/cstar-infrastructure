@@ -394,9 +394,30 @@ module "route_table_peering_sia" {
       next_hop_in_ip_address = "10.70.249.10"
     },
     {
+      # uat
+      name                   = "to-haproxy1-sia-uat-subnet"
+      address_prefix         = "10.70.66.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # uat
+      name                   = "to-haproxy2-sia-uat-subnet"
+      address_prefix         = "10.70.68.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
       # prod
       name                   = "to-apim-sia-prod-subnet"
       address_prefix         = "10.70.133.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # prod
+      name                   = "to-haproxy-sia-prod-subnet"
+      address_prefix         = "10.70.131.0/24"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
     },
