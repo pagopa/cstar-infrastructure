@@ -119,6 +119,38 @@ module "api_azureblob" {
   api_operation_policies = []
 }
 
+## monitor ##
+module "monitor" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-monitor", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "Monitor"
+  display_name = "Monitor"
+  path         = "cstar-bpd"
+  protocols    = ["https", "http"]
+
+  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.bpd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "get"
+      xml_content  = file("./api/monitor/mock_policy.xml")
+    }
+  ]
+}
+
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
