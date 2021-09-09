@@ -131,7 +131,7 @@ module "monitor" {
   path         = ""
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
+  service_url = null
 
   content_format = "openapi"
   content_value = templatefile("./api/monitor/openapi.json.tpl", {
@@ -140,7 +140,7 @@ module "monitor" {
 
   xml_content = file("./api/base_policy.xml")
 
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
