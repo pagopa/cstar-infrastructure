@@ -128,19 +128,18 @@ module "monitor" {
 
   description  = "Monitor"
   display_name = "Monitor"
-  path         = "cstar-bpd"
+  path         = ""
   protocols    = ["https", "http"]
 
   service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
+  content_value = templatefile("./api/monitor/openapi.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.bpd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
