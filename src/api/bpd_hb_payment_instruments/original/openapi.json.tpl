@@ -40,7 +40,7 @@
             "get": {
                 "summary": "statusPaymentInstrumentHB",
                 "description": "statusPaymentInstrumentHB",
-                "operationId": "getbpaystatuspaymentinstrumenthb",
+                "operationId": "getstatuspaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "path",
@@ -297,7 +297,7 @@
             "get": {
                 "summary": "BPay statusPaymentInstrumentHB",
                 "description": "BPay statusPaymentInstrumentHB",
-                "operationId": "getstatuspaymentinstrumenthb",
+                "operationId": "getbpaystatuspaymentinstrumenthb",
                 "parameters": [{
                     "name": "id",
                     "in": "query",
