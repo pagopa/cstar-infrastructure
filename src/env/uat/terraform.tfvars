@@ -4,6 +4,7 @@ apim_sku                       = "Developer_1"
 
 
 aks_alerts_enabled = false
+aks_node_count     = 2
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -229,6 +230,13 @@ db_configuration = {
   maintenance_work_mem        = "1048576"
   max_wal_size                = "4096"
 }
+db_network_rules = {
+  ip_rules = [
+    "18.192.147.151/32" #PDND
+  ]
+  # dblink
+  allow_access_to_azure_services = true
+}
 db_alerts_enabled = false
 db_metric_alerts = {
   cpu = {
@@ -353,6 +361,7 @@ ehns_metric_alerts = {
 
 enable_azdoa = true
 env_short    = "u"
+
 eventhubs = [
   {
     name              = "bpd-citizen-trx"
@@ -405,11 +414,12 @@ eventhubs = [
     partitions        = 1
     message_retention = 1
     consumers         = ["bpd-winning-transaction"]
-    keys = [{
-      name   = "bpd-point-processor"
-      listen = false
-      send   = true
-      manage = false
+    keys = [
+      {
+        name   = "bpd-point-processor"
+        listen = false
+        send   = true
+        manage = false
       },
       {
         name   = "bpd-winning-transaction"
@@ -417,7 +427,8 @@ eventhubs = [
         send   = false
         manage = false
       },
-  ] },
+    ]
+  },
   {
     name              = "bpd-trx-error"
     partitions        = 1
@@ -442,8 +453,10 @@ eventhubs = [
         send   = true
         manage = false
       }
-  ] },
-  { name              = "bpd-winner-outcome"
+    ]
+  },
+  {
+    name              = "bpd-winner-outcome"
     partitions        = 1
     message_retention = 1
     consumers         = []
@@ -465,7 +478,9 @@ eventhubs = [
         listen = true
         send   = true
         manage = false
-  }] },
+      }
+    ]
+  },
   {
     name              = "rtd-trx"
     partitions        = 1
@@ -484,7 +499,29 @@ eventhubs = [
         send   = false
         manage = false
       }
-] }]
+    ]
+  },
+  {
+    name              = "rtd-log"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["elk"]
+    keys = [
+      {
+        name   = "app"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "elk"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+]
 external_domain = "pagopa.it"
 
 pm_backend_url = "https://10.49.20.119:444"
@@ -500,6 +537,9 @@ app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
+app_gateway_min_capacity                = 5
+app_gateway_max_capacity                = 10
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"

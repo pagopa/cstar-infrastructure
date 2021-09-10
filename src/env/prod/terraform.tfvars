@@ -227,10 +227,15 @@ db_configuration = {
   log_connections             = "off"
   log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
   log_temp_files              = "4096"
-  # after import db set maintenance_work_mem to value 1048576
-  # maintenance_work_mem        = "1048576"
-  maintenance_work_mem = "2097151"
-  max_wal_size         = "4096"
+  maintenance_work_mem        = "1048576"
+  max_wal_size                = "4096"
+}
+db_replica_network_rules = {
+  ip_rules = [
+    "18.192.147.151/32" #PDND
+  ]
+  # dblink
+  allow_access_to_azure_services = true
 }
 db_metric_alerts = {
   cpu = {
@@ -413,11 +418,12 @@ eventhubs = [
     partitions        = 32
     message_retention = 7
     consumers         = ["bpd-winning-transaction"]
-    keys = [{
-      name   = "bpd-point-processor"
-      listen = false
-      send   = true
-      manage = false
+    keys = [
+      {
+        name   = "bpd-point-processor"
+        listen = false
+        send   = true
+        manage = false
       },
       {
         name   = "bpd-winning-transaction"
@@ -425,7 +431,8 @@ eventhubs = [
         send   = false
         manage = false
       },
-  ] },
+    ]
+  },
   {
     name              = "bpd-trx-error"
     partitions        = 3
@@ -450,8 +457,10 @@ eventhubs = [
         send   = true
         manage = false
       }
-  ] },
-  { name              = "bpd-winner-outcome"
+    ]
+  },
+  {
+    name              = "bpd-winner-outcome"
     partitions        = 32
     message_retention = 7
     consumers         = []
@@ -473,7 +482,9 @@ eventhubs = [
         listen = true
         send   = true
         manage = false
-  }] },
+      }
+    ]
+  },
   {
     name              = "rtd-trx"
     partitions        = 32
@@ -492,7 +503,29 @@ eventhubs = [
         send   = false
         manage = false
       }
-] }]
+    ]
+  },
+  {
+    name              = "rtd-log"
+    partitions        = 3
+    message_retention = 7
+    consumers         = ["elk"]
+    keys = [
+      {
+        name   = "app"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "elk"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+]
 external_domain = "pagopa.it"
 
 pm_backend_url = "https://10.48.20.119:444"
@@ -511,6 +544,8 @@ app_gateway_api_certificate_name        = "api-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-cstar-pagopa-it"
+app_gateway_min_capacity                = 5
+app_gateway_max_capacity                = 10
 
 lock_enable = true
 tags = {

@@ -20,7 +20,7 @@ locals {
 ###########################
 
 module "apim" {
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.49"
+  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.50"
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)
@@ -30,6 +30,8 @@ module "apim" {
   sku_name                = var.apim_sku
   virtual_network_type    = "Internal"
   redis_connection_string = module.redis.primary_connection_string
+  redis_cache_id          = module.redis.id
+
   # This enables the Username and Password Identity Provider
   sign_up_enabled = true
 
@@ -115,6 +117,37 @@ module "api_azureblob" {
   subscription_required = true
 
   api_operation_policies = []
+}
+
+## monitor ##
+module "monitor" {
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-monitor", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "Monitor"
+  display_name = "Monitor"
+  path         = ""
+  protocols    = ["https", "http"]
+
+  service_url = null
+
+  content_format = "openapi"
+  content_value = templatefile("./api/monitor/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "get"
+      xml_content  = file("./api/monitor/mock_policy.xml")
+    }
+  ]
 }
 
 ## BPD Info Privacy ##

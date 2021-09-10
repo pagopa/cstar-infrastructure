@@ -13,47 +13,40 @@
 <policies>
     <inbound>
         <base />
-        <cache-lookup-value key="@(context.Request.MatchedParameters["id"])" variable-name="hashpan" caching-type="internal" />
+        <set-variable name="idHeader" value="@(context.Request.Headers.GetValueOrDefault("id",""))" />
+        <!--cache-lookup-value key="@((string)context.Variables["idHeader"])" variable-name="hpanPM" caching-type="external" /-->
+        <set-variable name="headerPan" value="@(context.Request.Headers["id"][0].Replace("\\n", "\n"))" />
         <choose>
-            <when condition="@(!context.Variables.ContainsKey("hashpan"))">
-                <cache-lookup-value key="saltPM" variable-name="salt" caching-type="internal" />
+            <when condition="@(!context.Variables.ContainsKey("hpanPM"))">
+                <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
+                    <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing/actions/evaluate/enc")</set-url>
+                    <set-method>POST</set-method>
+                    <set-header name="Content-Type" exists-action="override">
+                        <value>application/json</value>
+                    </set-header>
+                    <set-body template="none">@{
+                           return new JObject(new JProperty("pan", context.Variables["headerPan"])).ToString();
+                       }</set-body>
+                    %{ if env_short != "d" ~}
+                    <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
+                    %{ endif ~}
+                </send-request>
+                <set-variable name="hpanStatusCode" value="@(((IResponse)context.Variables["hpan"]).StatusCode)" />
                 <choose>
-                    <when condition="@(!context.Variables.ContainsKey("salt"))">
-                        <send-request mode="new" response-variable-name="saltPMResponse" timeout="${pm-timeout-sec}" ignore-error="true">
-                            <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
-                            <set-method>GET</set-method>
-                            %{ if env_short != "d" ~}
-                            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-                            %{ endif ~}
-                        </send-request>
-                        <choose>
-                            <when condition="@(((IResponse)context.Variables["saltPMResponse"]).StatusCode != 200)">
-                                <return-response>
-                                    <set-status code="500" reason="Errore PM get salt" />
-                                </return-response>
-                            </when>
-                            <otherwise>
-                                <set-variable name="salt" value="@((string)((IResponse)context.Variables["saltPMResponse"]).Body.As<JObject>()["salt"])" />
-                                <cache-store-value key="saltPM" value="@((string)context.Variables["salt"])" duration="3600" caching-type="internal" />
-                            </otherwise>
-                        </choose>
+                    <!-- Check active property in response -->
+                    <when condition="@((int)context.Variables["hpanStatusCode"] == 200)">
+                        <set-variable name="hpanPM" value="@(((JObject)((IResponse)context.Variables["hpan"]).Body.As<JObject>())["hashPan"])" />
+                        <!--cache-store-value key="@((string)context.Variables["idHeader"])" value="@((string)context.Variables["hpanPM"])" caching-type="external" duration="86400" /-->
+                    </when>
+                    <when condition="@((int)context.Variables["hpanStatusCode"] != 200)">
+                        <return-response>
+                            <set-status code="@((int)context.Variables["hpanStatusCode"])" reason="Wallet Service Error" />
+                        </return-response>
                     </when>
                 </choose>
-                <set-variable name="hashpan" value="@{
-                    System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                    byte[] hashByte = hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes((string)context.Request.MatchedParameters["id"]+(string)context.Variables["salt"]));
-
-                    StringBuilder builder = new StringBuilder();  
-                    for (int i = 0; i < hashByte.Length; i++)  
-                    {  
-                        builder.Append(hashByte[i].ToString("x2"));  
-                    }
-                    return builder.ToString();
-                }" />
-                <cache-store-value key="@(context.Request.MatchedParameters["id"])" value="@((string)context.Variables["hashpan"])" duration="3600" caching-type="internal" />
             </when>
         </choose>
-        <rewrite-uri template="@("/" + (string)context.Variables["hashpan"])" />
+        <rewrite-uri template="@("/"+context.Variables["hpanPM"])" copy-unmatched-params="true" />
     </inbound>
     <backend>
         <base />

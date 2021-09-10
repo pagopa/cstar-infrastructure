@@ -120,14 +120,16 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_END_PERIOD_GP_SUBJECT_OK                     = "Congratulazioni, hai diritto al Cashback accumulato!"
     NOTIFICATION_SERVICE_END_PERIOD_MARKDOWN                          = "${file("${path.module}/configmaps/bpdmsnotificationmanager/NOTIFICATION_SERVICE_END_PERIOD_MARKDOWN.txt")}"
     NOTIFICATION_SERVICE_END_PERIOD_SUBJECT                           = "Il {{award_period}} semestre del Cashback è finito!"
+    NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                          = "-"
+    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_OK            = "Il tuo rimborso è in arrivo!"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_KO            = "Si è verificato un problema con il tuo rimborso"
+    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER             = "-"
+    NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER            = "-"
     NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "0 00 12 * * ?"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-"
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-07-05"
-    NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                          = "-"
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
-    TEST                                                              = "${file("${path.module}/configmaps/bpdmsnotificationmanager/TEST.txt")}"
     },
     var.configmaps_bpdmsnotificationmanager
   )
