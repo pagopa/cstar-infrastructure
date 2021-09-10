@@ -115,7 +115,6 @@ configmaps_bpdmsnotificationmanager = {
   NOTIFICATION_SERVICE_UPDATE_RANKING_MILESTONE_MAX                = "100000"
   NOTIFICATION_SERVICE_UPDATE_RANKING_SCHEDULER                    = "-"
   NOTIFICATION_SERVICE_UPDATE_RANKING_THREAD_POOL                  = "2"
-  NOTIFICATION_SERVICE_UPDATE_WINNERS_SCHEDULER                    = "-" #???
   POSTGRES_POOLSIZE                                                = "5"
   POSTGRES_SHOW_SQL                                                = "false"
   SFTP_HOST                                                        = "185.91.56.144"
