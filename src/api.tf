@@ -20,7 +20,12 @@ locals {
 ###########################
 
 module "apim" {
+<<<<<<< Updated upstream
   source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.50"
+=======
+  # source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.36"
+  source = "/Users/uolter/src/pagopa/azurerm/api_management"
+>>>>>>> Stashed changes
   subnet_id               = module.apim_snet.id
   location                = azurerm_resource_group.rg_api.location
   name                    = format("%s-apim", local.project)

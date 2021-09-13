@@ -46,14 +46,32 @@ variable "backends" {
 
 variable "listeners" {
   type = map(object({
-    protocol = string
-    host     = string
-    port     = number
+    protocol         = string
+    host             = string
+    port             = number
+    ssl_profile_name = string
     certificate = object({
       name = string
       id   = string
     })
   }))
+}
+
+variable "ssl_profiles" {
+  type = list(object({
+    name                             = string
+    trusted_client_certificate_names = list(string)
+    verify_client_cert_issuer_dn     = bool
+
+    ssl_policy = object({
+      disabled_protocols   = list(string)
+      policy_type          = string
+      policy_name          = string
+      cipher_suites        = list(string)
+      min_protocol_version = string
+    })
+  }))
+  default = []
 }
 
 variable "routes" {

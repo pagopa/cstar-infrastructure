@@ -8,6 +8,23 @@ resource "azurerm_application_gateway" "this" {
     tier = var.sku_tier
   }
 
+  dynamic "ssl_profile" {
+    for_each = var.ssl_profiles
+    iterator = p
+    content {
+      name                             = p.value.name
+      trusted_client_certificate_names = p.value.trusted_client_certificate_names
+      verify_client_cert_issuer_dn     = p.value.verify_client_cert_issuer_dn
+      ssl_policy {
+        disabled_protocols   = p.value.ssl_policy.disabled_protocols
+        policy_type          = p.value.ssl_policy.policy_type
+        policy_name          = p.value.ssl_policy.policy_name
+        cipher_suites        = p.value.ssl_policy.cipher_suites
+        min_protocol_version = p.value.ssl_policy.min_protocol_version
+      }
+    }
+  }
+
   gateway_ip_configuration {
     name      = format("%s-snet-conf", var.name)
     subnet_id = var.subnet_id
@@ -97,6 +114,7 @@ resource "azurerm_application_gateway" "this" {
       ssl_certificate_name           = listener.value.certificate.name
       require_sni                    = true
       host_name                      = listener.value.host
+      ssl_profile_name               = listener.value.ssl_profile_name
     }
   }
 

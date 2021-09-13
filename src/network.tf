@@ -206,12 +206,43 @@ module "app_gw" {
     }
   }
 
+  ssl_profiles = [{
+    name                             = format("%s-issuer-mauth-profile", local.project)
+    trusted_client_certificate_names = [format("%s-issuer-chain", local.project)]
+    verify_client_cert_issuer_dn     = true
+    ssl_policy = {
+      disabled_protocols = []
+      policy_type        = "Predefined"
+      policy_name        = "AppGwSslPolicy20170401"
+      cipher_suites = [
+        "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+        "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+        "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+        "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+        "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+        "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384",
+        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+        "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+        "TLS_RSA_WITH_AES_256_GCM_SHA384",
+        "TLS_RSA_WITH_AES_128_GCM_SHA256",
+        "TLS_RSA_WITH_AES_256_CBC_SHA256",
+        "TLS_RSA_WITH_AES_128_CBC_SHA256",
+        "TLS_RSA_WITH_AES_256_CBC_SHA",
+        "TLS_RSA_WITH_AES_128_CBC_SHA",
+      ]
+      min_protocol_version = "TLSv1_1"
+    }
+  }]
+
   # Configure listeners
   listeners = {
     app_io = {
       protocol = "Https"
       host     = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
+      ssl_profile_name = null
       certificate = {
         name = var.app_gateway_api_io_certificate_name
         id = trimsuffix(
@@ -220,11 +251,11 @@ module "app_gw" {
         )
       }
     }
-
     issuer_acquirer = {
       protocol = "Https"
       host     = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
+      ssl_profile_name = null
       certificate = {
         name = var.app_gateway_api_certificate_name
         id = trimsuffix(
@@ -238,7 +269,7 @@ module "app_gw" {
       protocol = "Https"
       host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
-
+      ssl_profile_name = null
       certificate = {
         name = var.app_gateway_portal_certificate_name
         id = trimsuffix(
@@ -252,8 +283,8 @@ module "app_gw" {
       protocol = "Https"
       host     = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
       port     = 443
-
-      #TODO: add self signed cert support as above.
+      ssl_profile_name = null
+      
       certificate = {
         name = var.app_gateway_management_certificate_name
         id = trimsuffix(
