@@ -74,6 +74,13 @@ variable "ssl_profiles" {
   default = []
 }
 
+variable "trusted_client_certificates" {
+  type = list(object({
+    name         = string
+    key_vault_id = string
+  }))
+}
+
 variable "routes" {
   type = map(object({
     listener = string

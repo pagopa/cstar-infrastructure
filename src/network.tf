@@ -236,12 +236,19 @@ module "app_gw" {
     }
   }]
 
+  trusted_client_certificates = [
+    {
+      name         = format("cstar-%s-issuer-chain", var.env_short)
+      key_vault_id = module.key_vault.id
+    }
+  ]
+
   # Configure listeners
   listeners = {
     app_io = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
       ssl_profile_name = null
       certificate = {
         name = var.app_gateway_api_io_certificate_name
@@ -252,9 +259,9 @@ module "app_gw" {
       }
     }
     issuer_acquirer = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
       ssl_profile_name = null
       certificate = {
         name = var.app_gateway_api_certificate_name
@@ -266,9 +273,9 @@ module "app_gw" {
     }
 
     portal = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
       ssl_profile_name = null
       certificate = {
         name = var.app_gateway_portal_certificate_name
@@ -280,11 +287,11 @@ module "app_gw" {
     }
 
     management = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
       ssl_profile_name = null
-      
+
       certificate = {
         name = var.app_gateway_management_certificate_name
         id = trimsuffix(
@@ -328,18 +335,6 @@ module "app_gw" {
   app_gateway_max_capacity = var.app_gateway_max_capacity
 
   tags = var.tags
-}
-
-data "azurerm_key_vault_secret" "issuer_chain" {
-  count        = var.app_gw_load_client_certificate ? 1 : 0
-  name         = format("cstar-%s-issuer-chain", var.env_short)
-  key_vault_id = module.key_vault.id
-}
-
-resource "local_file" "issuer_chain" {
-  count    = var.app_gw_load_client_certificate ? 1 : 0
-  content  = data.azurerm_key_vault_secret.issuer_chain[0].value
-  filename = "/tmp/cstar-${var.env_short}-issuer-chain.pem"
 }
 
 resource "null_resource" "client_cert" {
