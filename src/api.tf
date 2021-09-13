@@ -203,7 +203,7 @@ module "api_bpd-io_payment_instrument" {
   xml_content = file("./api/bpd_io_payment_instrument/policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
@@ -267,6 +267,8 @@ module "api_bpd_io_backend_test" {
   })
 
   xml_content = file("./api/base_policy.xml")
+
+  subscription_required =  false
 
   product_ids = [module.bpd_api_product.product_id]
 
@@ -466,14 +468,17 @@ module "bpd_hb_citizen_original" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
       operation_id = "delete",
+      /*
       xml_content = templatefile("./api/bpd_hb_citizen/original/del_delete_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "enrollmentCitizenHB",
@@ -524,14 +529,17 @@ module "bpd_hb_citizen_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
       operation_id = "delete",
+      /*
       xml_content = templatefile("./api/bpd_hb_citizen/v2/del_delete_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "enrollmentCitizenHB",
@@ -590,7 +598,7 @@ module "bpd_hb_payment_instruments_original" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
@@ -702,15 +710,13 @@ module "bpd_hb_payment_instruments_original" {
     {
       # GET statusPaymentInstrumentHB
       operation_id = "getstatuspaymentinstrumenthb",
-      /*
+    
       xml_content = templatefile("./api/bpd_hb_payment_instruments/original/getstatuspaymentinstrumenthb_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
       })
-      */
-      xml_content = file("./api/mock-response/mock-policy.xml")
     },
   ]
 }
@@ -739,7 +745,7 @@ module "bpd_hb_payment_instruments_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
@@ -995,7 +1001,7 @@ module "bpd_io_citizen_original" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
@@ -1009,9 +1015,12 @@ module "bpd_io_citizen_original" {
     },
     {
       operation_id = "enrollment"
+      /*
       xml_content = templatefile("./api/bpd_io_citizen/original/enrollment_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+      */
+      xml_content = file("./api/mock-response/mock-policy.xml")
     },
     {
       operation_id = "findUsingGET"
@@ -1053,7 +1062,7 @@ module "bpd_io_citizen_v2" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.app_io_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
