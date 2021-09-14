@@ -95,7 +95,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
 ## azureblob ## 
 module "api_azureblob" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = "azureblob"
+  name                = format("%s-azureblob", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
