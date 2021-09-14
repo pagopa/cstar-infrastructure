@@ -1,6 +1,6 @@
 data "azurerm_key_vault_secret" "client_cert" {
-  for_each     = {for var.trusted_client_certificates: 
-  name         = each.value.name
+  for_each     = { for t in var.trusted_client_certificates : t.secret_name => t }
+  name         = each.value.secret_name
   key_vault_id = each.value.key_vault_id
 }
 
@@ -97,9 +97,8 @@ resource "azurerm_application_gateway" "this" {
     for_each = var.trusted_client_certificates
     iterator = t
     content {
-      name = t.value.name
-
-      data = data.azurerm_key_vault_secret.client_cert[t.value.certificate_name].value
+      name = t.value.secret_name
+      data = data.azurerm_key_vault_secret.client_cert[t.value.secret_name].value
     }
   }
 

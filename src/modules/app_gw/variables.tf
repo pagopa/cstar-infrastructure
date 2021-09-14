@@ -74,9 +74,11 @@ variable "ssl_profiles" {
   default = []
 }
 
+# Note: the attribute secret_name refers to the secret contaning the client certificate.
+# Secrects'name in the key vault can't have low hyphens but just hyphens in it.
 variable "trusted_client_certificates" {
   type = list(object({
-    name         = string
+    secret_name  = string
     key_vault_id = string
   }))
 }
