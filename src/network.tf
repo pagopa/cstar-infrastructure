@@ -206,12 +206,50 @@ module "app_gw" {
     }
   }
 
+  ssl_profiles = [{
+    name                             = format("%s-issuer-mauth-profile", local.project)
+    trusted_client_certificate_names = [format("%s-issuer-chain", local.project)]
+    verify_client_cert_issuer_dn     = true
+    ssl_policy = {
+      disabled_protocols = []
+      policy_type        = "Predefined"
+      policy_name        = "AppGwSslPolicy20170401"
+      cipher_suites = [
+        "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+        "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+        "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+        "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+        "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+        "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384",
+        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+        "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+        "TLS_RSA_WITH_AES_256_GCM_SHA384",
+        "TLS_RSA_WITH_AES_128_GCM_SHA256",
+        "TLS_RSA_WITH_AES_256_CBC_SHA256",
+        "TLS_RSA_WITH_AES_128_CBC_SHA256",
+        "TLS_RSA_WITH_AES_256_CBC_SHA",
+        "TLS_RSA_WITH_AES_128_CBC_SHA",
+      ]
+      min_protocol_version = "TLSv1_1"
+    }
+  }]
+
+  trusted_client_certificates = [
+    {
+      secret_name  = format("cstar-%s-issuer-chain", var.env_short)
+      key_vault_id = module.key_vault.id
+    }
+  ]
+
   # Configure listeners
   listeners = {
     app_io = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
+      ssl_profile_name = null
       certificate = {
         name = var.app_gateway_api_io_certificate_name
         id = trimsuffix(
@@ -220,11 +258,11 @@ module "app_gw" {
         )
       }
     }
-
     issuer_acquirer = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
+      ssl_profile_name = format("%s-issuer-mauth-profile", local.project)
       certificate = {
         name = var.app_gateway_api_certificate_name
         id = trimsuffix(
@@ -235,10 +273,10 @@ module "app_gw" {
     }
 
     portal = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
-
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
+      ssl_profile_name = null
       certificate = {
         name = var.app_gateway_portal_certificate_name
         id = trimsuffix(
@@ -249,11 +287,11 @@ module "app_gw" {
     }
 
     management = {
-      protocol = "Https"
-      host     = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-      port     = 443
+      protocol         = "Https"
+      host             = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      port             = 443
+      ssl_profile_name = null
 
-      #TODO: add self signed cert support as above.
       certificate = {
         name = var.app_gateway_management_certificate_name
         id = trimsuffix(
@@ -299,57 +337,6 @@ module "app_gw" {
   tags = var.tags
 }
 
-data "azurerm_key_vault_secret" "issuer_chain" {
-  count        = var.app_gw_load_client_certificate ? 1 : 0
-  name         = format("cstar-%s-issuer-chain", var.env_short)
-  key_vault_id = module.key_vault.id
-}
-
-resource "local_file" "issuer_chain" {
-  count    = var.app_gw_load_client_certificate ? 1 : 0
-  content  = data.azurerm_key_vault_secret.issuer_chain[0].value
-  filename = "/tmp/cstar-${var.env_short}-issuer-chain.pem"
-}
-
-resource "null_resource" "client_cert" {
-  count = var.app_gw_load_client_certificate ? 1 : 0
-  depends_on = [
-    module.app_gw, local_file.issuer_chain
-  ]
-
-  provisioner "local-exec" {
-    command = <<EOT
-              az network application-gateway client-cert add \
-              --gateway-name ${module.app_gw.name} \
-              --resource-group ${azurerm_resource_group.rg_vnet.name} \
-              --name cstar-${var.env_short}-issuer-chain \
-              --data /tmp/cstar-${var.env_short}-issuer-chain.pem
-          EOT
-  }
-}
-
-resource "null_resource" "ssl_profile" {
-  count = var.app_gw_load_client_certificate ? 1 : 0
-  depends_on = [
-    null_resource.client_cert
-  ]
-
-  provisioner "local-exec" {
-    command = <<EOT
-              az network application-gateway ssl-profile add \
-              --gateway-name ${module.app_gw.name} \
-              --resource-group ${azurerm_resource_group.rg_vnet.name} \
-              --name cstar-${var.env_short}-issuer-mauth-profile \
-              --client-auth-config True \
-              --policy-type Predefined \
-              --policy-name AppGwSslPolicy20170401 \
-              --trusted-client-cert  "${data.azurerm_subscription.current.id}/resourceGroups/${azurerm_resource_group.rg_vnet.name}/providers/Microsoft.Network/applicationGateways/${module.app_gw.name}/trustedClientCertificates/cstar-${var.env_short}-issuer-chain"  \
-              --debug
-          EOT
-  }
-
-
-}
 resource "azurerm_public_ip" "aks_outbound" {
   count = var.aks_num_outbound_ips
 
