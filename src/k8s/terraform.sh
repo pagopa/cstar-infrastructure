@@ -41,26 +41,9 @@ printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
 printf "Storage Account Name: %s\n" "${storage_account_name}"
 
-## remove .terraform dir to avoid error changing subscription
-# using -reconfigure instead rm
-# rm -rf "${WORKDIR}/.terraform"
-
-# removed using vpn
-#export DESTINATION_IP="${vm_public_ip}"
-#export USERNAME="${vm_user_name}"
-#export TARGET="${aks_private_fqdn}:443"
-#export RANDOM_PORT=$(echo $((10000 + $RANDOM % 60000)))
-#
-#bash scripts/ssh-port-forward.sh
-#
-#export TF_VAR_k8s_apiserver_port="${RANDOM_PORT}"
-#export TF_VAR_k8s_apiserver_host="localhost"
-#export TF_VAR_k8s_apiserver_insecure="true"
 export TF_VAR_k8s_apiserver_port="443"
 export TF_VAR_k8s_apiserver_host="${aks_private_fqdn}"
 export TF_VAR_k8s_kube_config_path="${kube_config_path}"
-
-# export TF_DATA_DIR="${WORKDIR}/subscriptions/${SUBSCRIPTION}/.terraform"
 
 # init terraform backend
 terraform init -reconfigure \
