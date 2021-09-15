@@ -378,10 +378,8 @@ module "rtd_payment_instrument_manager" {
     {
       operation_id = "get-hashed-pans",
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans_policy.xml.tpl", {
-        # as-is due an application error
-        host = "prod.cstar.pagopa.it"
-        # to-be
-        # host = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+        # as-is due an application error in prod -->  to-be
+        host = var.env_short == "p" ? "prod.cstar.pagopa.it" : trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
       })
     },
   ]
