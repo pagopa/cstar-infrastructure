@@ -62,3 +62,30 @@ resource "azurerm_monitor_action_group" "slack" {
 
   tags = var.tags
 }
+
+
+resource "azurerm_monitor_diagnostic_setting" "app_gw" {
+  provider           = azurerm.Prod-Sec
+  name               = format("%s-app-gw-logs", local.project)
+  target_resource_id = module.app_gw.id
+  // storage_account_id = data.azurerm_storage_account.example.id
+  log_analytics_workspace_id = "/subscriptions/0da48c97-355f-4050-a520-f11a18b8be90/resourcegroups/sec-p-sentinel/providers/microsoft.operationalinsights/workspaces/sec-p-law"
+
+  log {
+    category = "ApplicationGatewayAccessLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayFirewallLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+}
