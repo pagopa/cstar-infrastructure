@@ -256,6 +256,12 @@ variable "devops_service_connection_object_id" {
   default     = null
 }
 
+variable "azdo_sp_tls_cert_enabled" {
+  type        = string
+  description = "Enable Azure DevOps connection for TLS cert management"
+  default     = false
+}
+
 variable "app_gateway_min_capacity" {
   type    = number
   default = 1
