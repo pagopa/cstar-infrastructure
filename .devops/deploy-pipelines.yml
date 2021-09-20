@@ -36,7 +36,7 @@ resources:
       type: github
       name: pagopa/azure-pipeline-templates
       ref: refs/tags/v16
-      endpoint: 'cstar-projects'
+      endpoint: 'io-azure-devops-github-ro'
 
 jobs:
   - job: terraform_plan
