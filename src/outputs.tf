@@ -177,4 +177,11 @@ output "primary_web_host" {
   value = module.cstarblobstorage.primary_web_host
 }
 
+output "prod-sec-sub-id" {
+  value = data.azurerm_key_vault_secret.prod_sec_sub.value
+}
+
+output "prod-sec-log-workspace" {
+  value = data.azurerm_key_vault_secret.prod_sec_log_workspace
+}
 

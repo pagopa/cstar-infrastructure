@@ -249,3 +249,15 @@ data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
   name         = "CRUSCOTTO-Basic-Auth-Pwd"
   key_vault_id = module.key_vault.id
 }
+
+data "azurerm_key_vault_secret" "prod_sec_sub" {
+  name         = "prod-sec-subscription-id"
+  key_vault_id = data.azurerm_key_vault.existing.id
+}
+
+data "azurerm_key_vault_secret" "prod_sec_log_workspace" {
+  name         = "prod-sec-log-workspace"
+  key_vault_id = data.azurerm_key_vault.existing.id
+}
+
+

@@ -176,3 +176,32 @@ resource "azurerm_application_gateway" "this" {
 
   tags = var.tags
 }
+
+resource "azurerm_monitor_diagnostic_setting" "app_gw" {
+  count = var.env_short == "p" ? 1 : 0
+  # count = var.sec_log_analytics_workspace_id ? 1 : 0
+  provider           = azurerm.Prod-Sec
+  name               = format("%s-app-gw-logs", local.project)
+  target_resource_id = module.app_gw.id
+  log_analytics_workspace_id = data.azurerm_key_vault_secret.prod_sec_log_workspace.value  
+
+  log {
+    category = "ApplicationGatewayAccessLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayFirewallLog"
+    enabled  = true
+
+    retention_policy {
+
+      enabled = false
+    }
+  }
+} 
+
