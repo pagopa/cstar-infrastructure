@@ -156,6 +156,7 @@ resource "azurerm_key_vault_access_policy" "adgroup_security_policy" {
 
 ## azure devops ##
 data "azuread_service_principal" "azdo_sp_tls_cert" {
+  count        = var.azdo_sp_tls_cert_enabled ? 1 : 0
   display_name = format("azdo-sp-%s-tls-cert", local.project)
 }
 
@@ -163,7 +164,7 @@ resource "azurerm_key_vault_access_policy" "azdo_sp_tls_cert" {
   count        = var.azdo_sp_tls_cert_enabled ? 1 : 0
   key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azuread_service_principal.azdo_sp_tls_cert.object_id
+  object_id    = data.azuread_service_principal.azdo_sp_tls_cert[0].object_id
 
   certificate_permissions = [
     "Get",
