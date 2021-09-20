@@ -2,6 +2,7 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
+aks_alerts_enabled = false
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -214,6 +215,7 @@ cidr_subnet_eventhub  = ["10.230.5.64/26"]
 
 
 devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
+azdo_sp_tls_cert_enabled            = true
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
@@ -227,6 +229,8 @@ db_configuration = {
   maintenance_work_mem        = "1048576"
   max_wal_size                = "4096"
 }
+
+db_alerts_enabled = false
 db_metric_alerts = {
   cpu = {
     aggregation = "Average"
@@ -299,6 +303,8 @@ db_metric_alerts = {
 dns_zone_prefix = "dev.cstar"
 
 ehns_sku_name = "Standard"
+
+ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
     aggregation = "Total"
@@ -344,7 +350,6 @@ ehns_metric_alerts = {
     ],
   },
 }
-
 
 enable_azdoa = true
 env_short    = "d"
@@ -401,11 +406,12 @@ eventhubs = [
     partitions        = 1
     message_retention = 1
     consumers         = ["bpd-winning-transaction"]
-    keys = [{
-      name   = "bpd-point-processor"
-      listen = false
-      send   = true
-      manage = false
+    keys = [
+      {
+        name   = "bpd-point-processor"
+        listen = false
+        send   = true
+        manage = false
       },
       {
         name   = "bpd-winning-transaction"
@@ -413,7 +419,8 @@ eventhubs = [
         send   = false
         manage = false
       },
-  ] },
+    ]
+  },
   {
     name              = "bpd-trx-error"
     partitions        = 1
@@ -438,8 +445,10 @@ eventhubs = [
         send   = true
         manage = false
       }
-  ] },
-  { name              = "bpd-winner-outcome"
+    ]
+  },
+  {
+    name              = "bpd-winner-outcome"
     partitions        = 1
     message_retention = 1
     consumers         = []
@@ -461,7 +470,9 @@ eventhubs = [
         listen = true
         send   = true
         manage = false
-  }] },
+      }
+    ]
+  },
   {
     name              = "rtd-trx"
     partitions        = 1
@@ -480,7 +491,29 @@ eventhubs = [
         send   = false
         manage = false
       }
-] }]
+    ]
+  },
+  {
+    name              = "rtd-log"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["elk"]
+    keys = [
+      {
+        name   = "app"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "elk"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+]
 external_domain = "pagopa.it"
 
 pm_backend_url = "http://10.230.8.250/cstariobackendtest/pagopa-mock"

@@ -1,0 +1,1 @@
+Ti informiamo che il bonifico di **€ {{amount}}** relativo al Cashback accumulato nel periodo dal {{startDate}} al {{endDate}}, è stato eseguito correttamente il giorno **{{executionDate}}**,\nall'IBAN {{IBAN}}.\n\nIl CRO dell'operazione è: {{cro}}.\n\nSe l'accredito non è ancora visibile sul tuo conto, lo sarà entro qualche giorno.\n\nGrazie per aver partecipato!

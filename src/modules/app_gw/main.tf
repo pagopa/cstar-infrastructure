@@ -1,3 +1,10 @@
+data "azurerm_key_vault_secret" "client_cert" {
+  for_each     = { for t in var.trusted_client_certificates : t.secret_name => t }
+  name         = each.value.secret_name
+  key_vault_id = each.value.key_vault_id
+}
+
+
 resource "azurerm_application_gateway" "this" {
   name                = var.name
   resource_group_name = var.resource_group_name
@@ -7,6 +14,7 @@ resource "azurerm_application_gateway" "this" {
     name = var.sku_name
     tier = var.sku_tier
   }
+
 
   gateway_ip_configuration {
     name      = format("%s-snet-conf", var.name)
@@ -85,6 +93,32 @@ resource "azurerm_application_gateway" "this" {
     }
   }
 
+  dynamic "trusted_client_certificate" {
+    for_each = var.trusted_client_certificates
+    iterator = t
+    content {
+      name = t.value.secret_name
+      data = data.azurerm_key_vault_secret.client_cert[t.value.secret_name].value
+    }
+  }
+
+  dynamic "ssl_profile" {
+    for_each = var.ssl_profiles
+    iterator = p
+    content {
+      name                             = p.value.name
+      trusted_client_certificate_names = p.value.trusted_client_certificate_names
+      verify_client_cert_issuer_dn     = p.value.verify_client_cert_issuer_dn
+      ssl_policy {
+        disabled_protocols   = p.value.ssl_policy.disabled_protocols
+        policy_type          = p.value.ssl_policy.policy_type
+        policy_name          = p.value.ssl_policy.policy_name
+        cipher_suites        = p.value.ssl_policy.cipher_suites
+        min_protocol_version = p.value.ssl_policy.min_protocol_version
+      }
+    }
+  }
+
   dynamic "http_listener" {
     for_each = var.listeners
     iterator = listener
@@ -97,6 +131,7 @@ resource "azurerm_application_gateway" "this" {
       ssl_certificate_name           = listener.value.certificate.name
       require_sni                    = true
       host_name                      = listener.value.host
+      ssl_profile_name               = listener.value.ssl_profile_name
     }
   }
 

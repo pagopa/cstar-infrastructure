@@ -255,10 +255,18 @@ variable "devops_service_connection_object_id" {
   description = "Azure deveops service connection id."
   default     = null
 }
+
+variable "azdo_sp_tls_cert_enabled" {
+  type        = string
+  description = "Enable Azure DevOps connection for TLS cert management"
+  default     = false
+}
+
 variable "app_gateway_min_capacity" {
   type    = number
   default = 1
 }
+
 variable "app_gateway_max_capacity" {
   type    = number
   default = 2
@@ -334,7 +342,33 @@ variable "db_configuration" {
 variable "db_alerts_enabled" {
   type        = bool
   default     = false
-  description = "Database alrts enabled?"
+  description = "Database alerts enabled?"
+}
+
+variable "db_network_rules" {
+  type = object({
+    ip_rules                       = list(string)
+    allow_access_to_azure_services = bool
+  })
+  default = {
+    ip_rules = []
+    # dblink
+    allow_access_to_azure_services = true
+  }
+  description = "Database network rules"
+}
+
+variable "db_replica_network_rules" {
+  type = object({
+    ip_rules                       = list(string)
+    allow_access_to_azure_services = bool
+  })
+  default = {
+    ip_rules = []
+    # dblink
+    allow_access_to_azure_services = true
+  }
+  description = "Database network rules"
 }
 
 variable "db_metric_alerts" {

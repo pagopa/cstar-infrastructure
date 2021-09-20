@@ -88,8 +88,90 @@ resource "azurerm_key_vault_access_policy" "ad_group_policy" {
   ]
 }
 
+data "azuread_group" "adgroup_developers" {
+  display_name = format("%s-adgroup-developers", local.project)
+}
+
+## ad group policy ##
+resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
+  count = var.env_short == "d" ? 1 : 0
+
+  key_vault_id = module.key_vault.id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = data.azuread_group.adgroup_developers.object_id
+
+  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions  = ["Get", "List", "Set", "Delete", ]
+  storage_permissions = []
+  certificate_permissions = [
+    "Get", "List", "Update", "Create", "Import",
+    "Delete", "Restore", "Purge", "Recover"
+  ]
+}
+
+data "azuread_group" "adgroup_externals" {
+  display_name = format("%s-adgroup-externals", local.project)
+}
+
+## ad group policy ##
+resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
+  count = var.env_short == "d" ? 1 : 0
+
+  key_vault_id = module.key_vault.id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = data.azuread_group.adgroup_externals.object_id
+
+  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions  = ["Get", "List", "Set", "Delete", ]
+  storage_permissions = []
+  certificate_permissions = [
+    "Get", "List", "Update", "Create", "Import",
+    "Delete", "Restore", "Purge", "Recover"
+  ]
+}
+
+data "azuread_group" "adgroup_security" {
+  display_name = format("%s-adgroup-security", local.project)
+}
+
+## ad group policy ##
+resource "azurerm_key_vault_access_policy" "adgroup_security_policy" {
+  count = var.env_short == "d" ? 1 : 0
+
+  key_vault_id = module.key_vault.id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = data.azuread_group.adgroup_security.object_id
+
+  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions  = ["Get", "List", "Set", "Delete", ]
+  storage_permissions = []
+  certificate_permissions = [
+    "Get", "List", "Update", "Create", "Import",
+    "Delete", "Restore", "Purge", "Recover"
+  ]
+}
 
 ## azure devops ##
+data "azuread_service_principal" "azdo_sp_tls_cert" {
+  display_name = format("azdo-sp-%s-tls-cert", local.project)
+}
+
+resource "azurerm_key_vault_access_policy" "azdo_sp_tls_cert" {
+  count        = var.azdo_sp_tls_cert_enabled ? 1 : 0
+  key_vault_id = module.key_vault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.azdo_sp_tls_cert.object_id
+
+  certificate_permissions = [
+    "Get",
+    "List",
+    "Import",
+  ]
+}
+
 resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
   count        = var.devops_service_connection_object_id == null ? 0 : 1
   key_vault_id = module.key_vault.id
