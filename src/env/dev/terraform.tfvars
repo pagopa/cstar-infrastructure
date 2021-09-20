@@ -2,6 +2,7 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
+aks_alerts_enabled = false
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -228,6 +229,8 @@ db_configuration = {
   maintenance_work_mem        = "1048576"
   max_wal_size                = "4096"
 }
+
+db_alerts_enabled = false
 db_metric_alerts = {
   cpu = {
     aggregation = "Average"
@@ -300,6 +303,8 @@ db_metric_alerts = {
 dns_zone_prefix = "dev.cstar"
 
 ehns_sku_name = "Standard"
+
+ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
     aggregation = "Total"
