@@ -14,6 +14,8 @@ terraform {
 }
 provider "azurerm" {
   features {}
+  alias           = "Prod-Sec"
+￼ subscription_id = # insert the key vault value for the prod-sec subscription id
 }
 
 data "azurerm_subscription" "current" {}
