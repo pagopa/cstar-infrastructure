@@ -31,30 +31,26 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
   storage_permissions     = []
 }
 
-# terraform cloud policy
-/*
-resource "azurerm_key_vault_access_policy" "terraform_cloud_policy" {
+# azure devops policy
+data "azuread_service_principal" "iac_principal" {
+  count        = var.enable_iac_pipeline ? 1 : 0
+  display_name = format("pagopaspa-cstar-iac-%s", data.azurerm_subscription.subscription_id)
+}
+
+resource "azurerm_key_vault_access_policy" "azdevops_iac_policy" {
+  count        = var.enable_iac_pipeline ? 1 : 0
   key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_client_config.current.object_id
+  object_id    = data.azuread_service_principal.iac_principal[0].object_id
 
-  key_permissions = ["Get", "List", "Update", "Create", "Import", "Delete",
-    "Recover", "Backup", "Restore"
-  ]
+  secret_permissions = ["Get", "List", "Set", ]
 
-  secret_permissions = ["Get", "List", "Set", "Delete", "Recover", "Backup",
-    "Restore"
-  ]
-
-  certificate_permissions = ["Get", "List", "Update", "Create", "Import",
-    "Delete", "Recover", "Backup", "Restore", "ManageContacts", "ManageIssuers",
-    "GetIssuers", "ListIssuers", "SetIssuers", "DeleteIssuers", "Purge"
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge"
   ]
 
   storage_permissions = []
 
 }
-*/
 
 ## user assined identity: (application gateway) ##
 resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
