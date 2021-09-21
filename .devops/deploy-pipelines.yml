@@ -35,7 +35,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v16
+      ref: refs/terrarorm-plan-template
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -50,29 +50,10 @@ stages:
       - job: terraform_plan
         steps:
           # 2. Run terragrunt plan
-          - task: AzureCLI@2
-            displayName: Terraform plan
-            inputs:
-              azureSubscription: '${{ parameters.SUBSCRIPTION }}'
-              addSpnToEnvironment: true
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              failOnStandardError: true
-              workingDirectory: src
-              inlineScript: |
-                RED='\033[0;31m'
-                NC='\033[0m' # No Color
-
-                echo "Start pipeline"
-
-                export ARM_CLIENT_ID=$servicePrincipalId
-                export ARM_CLIENT_SECRET=$servicePrincipalKey
-                export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
-                export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
-
-                ./terraform.sh init dev
-                terraform validate
-                ./terraform.sh plan dev
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              - SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
+              - ENVIRONMENT: 'dev'
   - stage: apply_dev    
     jobs:
       - deployment: terraform_apply
@@ -109,26 +90,7 @@ stages:
       - job: terraform_plan
         steps:
           # 2. Run terragrunt plan
-          - task: AzureCLI@2
-            displayName: Terraform plan
-            inputs:
-              azureSubscription: '${{ parameters.SUBSCRIPTION }}'
-              addSpnToEnvironment: true
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              failOnStandardError: true
-              workingDirectory: src
-              inlineScript: |
-                RED='\033[0;31m'
-                NC='\033[0m' # No Color
-
-                echo "Start pipeline"
-
-                export ARM_CLIENT_ID=$servicePrincipalId
-                export ARM_CLIENT_SECRET=$servicePrincipalKey
-                export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
-                export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
-
-                ./terraform.sh init uat
-                terraform validate
-                ./terraform.sh plan uat
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              - SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
+              - ENVIRONMENT: 'DEV'
