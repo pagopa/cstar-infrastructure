@@ -106,6 +106,12 @@ variable "app_gateway_min_capacity" {
   type = string
 }
 
+variable "sec_log_analytics_workspace_id" {
+  type        = string
+  default     = null
+  description = "Log analytics workspace security (it should be in a different subscription)."
+}
+
 variable "tags" {
   type = map(any)
 }

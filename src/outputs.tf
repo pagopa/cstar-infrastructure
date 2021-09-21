@@ -176,5 +176,3 @@ output "primary_blob_host" {
 output "primary_web_host" {
   value = module.cstarblobstorage.primary_web_host
 }
-
-
