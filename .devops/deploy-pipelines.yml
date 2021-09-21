@@ -39,7 +39,7 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: plan dev     
+  - stage: plan     
     jobs:
       - job: terraform_plan
         steps:
