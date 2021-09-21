@@ -43,7 +43,7 @@ jobs:
     steps:
       # 1. Install terraform and terragrunt
       - template: templates/terraform-setup/template.yaml@terraform
-      # 4. Run terragrunt plan
+      # 2. Run terragrunt plan
       - task: AzureCLI@2
         displayName: Terraform plan
         inputs:
@@ -67,5 +67,28 @@ jobs:
             ./terraform.sh init dev
             terraform validate
             ./terraform.sh plan dev
+      # 3. manual validation
+      - task: ManualValidation@0
+        timeoutInMinutes: 1440 # task times out in 1 day
+        inputs:
+          notifyUsers: |
+            io-operations@pagopa.it
+          instructions: 'Please validate the plan to apply.'
+          onTimeout: 'resume'
+      - task: AzureCLI@2
+        displayName: Terraform apply
+        inputs:
+          azureSubscription: '${{ parameters.SUBSCRIPTION }}'
+          addSpnToEnvironment: true
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          failOnStandardError: true
+          workingDirectory: src
+          inlineScript: |
+            RED='\033[0;31m'
+            NC='\033[0m' # No Color
 
+            echo "Start pipeline"
+
+            ./terraform.sh apply dev -auto-approve
             
