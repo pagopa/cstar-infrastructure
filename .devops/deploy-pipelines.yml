@@ -73,11 +73,13 @@ stages:
     jobs:
       - deployment: terraform_apply
         displayName: "terraform apply"
+        continueOnError: false
         environment: "Verify"
         strategy:
           runOnce:
             deploy:
               steps:
+                - checkout: self
                 - task: AzureCLI@2
                   displayName: Terraform apply
                   inputs:
