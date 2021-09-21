@@ -74,7 +74,6 @@ stages:
       - deployment: terraform_apply
         displayName: "terraform apply"
         environment: "Verify"
-        dependsOn: "terraform_plan"
         strategy:
           runOnce:
             deploy:
