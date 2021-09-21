@@ -65,26 +65,11 @@ stages:
             deploy:
               steps:
                 - checkout: self
-                - task: AzureCLI@2
-                  displayName: Terraform apply
-                  inputs:
-                    azureSubscription: '${{ parameters.SUBSCRIPTION }}'
-                    addSpnToEnvironment: true
-                    scriptType: 'bash'
-                    scriptLocation: 'inlineScript'
-                    failOnStandardError: true
-                    workingDirectory: src
-                    inlineScript: |
-                      RED='\033[0;31m'
-                      NC='\033[0m' # No Color
-
-                      export ARM_CLIENT_ID=$servicePrincipalId
-                      export ARM_CLIENT_SECRET=$servicePrincipalKey
-                      export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
-                      export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
-
-                      echo "Start pipeline"
-                      ./terraform.sh apply dev -auto-approve
+                # 3. Run terraform apply
+                - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
+              ENVIRONMENT: 'dev'
   - stage: plan_uat 
     jobs:
       - job: terraform_plan
