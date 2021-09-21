@@ -38,57 +38,54 @@ resources:
       ref: refs/tags/v16
       endpoint: 'io-azure-devops-github-ro'
 
-jobs:
-  - job: terraform_plan
-    steps:
-      # 1. Install terraform and terragrunt
-      - template: templates/terraform-setup/template.yaml@terraform
-      # 2. Run terragrunt plan
-      - task: AzureCLI@2
-        displayName: Terraform plan
-        inputs:
-          azureSubscription: '${{ parameters.SUBSCRIPTION }}'
-          addSpnToEnvironment: true
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          failOnStandardError: true
-          workingDirectory: src
-          inlineScript: |
-            RED='\033[0;31m'
-            NC='\033[0m' # No Color
+stages:
+  - stage: plan      
+    jobs:
+      - job: terraform_plan
+        steps:
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # 2. Run terragrunt plan
+          - task: AzureCLI@2
+            displayName: Terraform plan
+            inputs:
+              azureSubscription: '${{ parameters.SUBSCRIPTION }}'
+              addSpnToEnvironment: true
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              failOnStandardError: true
+              workingDirectory: src
+              inlineScript: |
+                RED='\033[0;31m'
+                NC='\033[0m' # No Color
 
-            echo "Start pipeline"
+                echo "Start pipeline"
 
-            export ARM_CLIENT_ID=$servicePrincipalId
-            export ARM_CLIENT_SECRET=$servicePrincipalKey
-            export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
-            export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
+                export ARM_CLIENT_ID=$servicePrincipalId
+                export ARM_CLIENT_SECRET=$servicePrincipalKey
+                export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
+                export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
 
-            ./terraform.sh init dev
-            terraform validate
-            ./terraform.sh plan dev
-      # 3. manual validation
-      - task: ManualValidation@0
-        timeoutInMinutes: 1440 # task times out in 1 day
-        inputs:
-          notifyUsers: |
-            io-operations@pagopa.it
-          instructions: 'Please validate the plan to apply.'
-          onTimeout: 'resume'
-      - task: AzureCLI@2
-        displayName: Terraform apply
-        inputs:
-          azureSubscription: '${{ parameters.SUBSCRIPTION }}'
-          addSpnToEnvironment: true
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          failOnStandardError: true
-          workingDirectory: src
-          inlineScript: |
-            RED='\033[0;31m'
-            NC='\033[0m' # No Color
+                ./terraform.sh init dev
+                terraform validate
+                ./terraform.sh plan dev
+  - stage: apply    
+    jobs:
+      - job: terraform_apply
+        steps:
+          - task: AzureCLI@2
+            displayName: Terraform apply
+            inputs:
+              azureSubscription: '${{ parameters.SUBSCRIPTION }}'
+              addSpnToEnvironment: true
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              failOnStandardError: true
+              workingDirectory: src
+              inlineScript: |
+                RED='\033[0;31m'
+                NC='\033[0m' # No Color
 
-            echo "Start pipeline"
-
-            ./terraform.sh apply dev -auto-approve
-            
+                echo "Start pipeline"
+                ./terraform.sh apply dev -auto-approve
+                
