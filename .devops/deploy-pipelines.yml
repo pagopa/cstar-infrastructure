@@ -67,9 +67,9 @@ stages:
                 - checkout: self
                 # 3. Run terraform apply
                 - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
-              ENVIRONMENT: 'dev'
+                  parameters:
+                    SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
+                    ENVIRONMENT: 'dev'
   - stage: plan_uat 
     jobs:
       - job: terraform_plan
