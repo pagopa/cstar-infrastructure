@@ -39,12 +39,16 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: plan     
+  - stage: install
     jobs:
-      - job: terraform_plan
+      - job: terraform_install
         steps:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
+  - stage: plan-dev    
+    jobs:
+      - job: terraform_plan
+        steps:
           # 2. Run terragrunt plan
           - task: AzureCLI@2
             displayName: Terraform plan
@@ -69,7 +73,7 @@ stages:
                 ./terraform.sh init dev
                 terraform validate
                 ./terraform.sh plan dev
-  - stage: apply    
+  - stage: apply_dev    
     jobs:
       - deployment: terraform_apply
         displayName: "terraform apply"
@@ -100,4 +104,31 @@ stages:
 
                       echo "Start pipeline"
                       ./terraform.sh apply dev -auto-approve
-                      
+  - stage: plan-uat 
+    jobs:
+      - job: terraform_plan
+        steps:
+          # 2. Run terragrunt plan
+          - task: AzureCLI@2
+            displayName: Terraform plan
+            inputs:
+              azureSubscription: '${{ parameters.SUBSCRIPTION }}'
+              addSpnToEnvironment: true
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              failOnStandardError: true
+              workingDirectory: src
+              inlineScript: |
+                RED='\033[0;31m'
+                NC='\033[0m' # No Color
+
+                echo "Start pipeline"
+
+                export ARM_CLIENT_ID=$servicePrincipalId
+                export ARM_CLIENT_SECRET=$servicePrincipalKey
+                export ARM_SUBSCRIPTION_ID=`az account show --query id --output tsv`
+                export ARM_TENANT_ID=`az account show --query tenantId --output tsv`
+
+                ./terraform.sh init uat
+                terraform validate
+                ./terraform.sh plan uat
