@@ -52,8 +52,8 @@ stages:
           # 2. Run terragrunt plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              - SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
-              - ENVIRONMENT: 'dev'
+              SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
+              ENVIRONMENT: 'dev'
   - stage: apply_dev    
     jobs:
       - deployment: terraform_apply
@@ -92,5 +92,5 @@ stages:
           # 2. Run terragrunt plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              - SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
-              - ENVIRONMENT: 'DEV'
+              SUBSCRIPTION: 'UAT-CSTAR-SERVICE-CONN'
+              ENVIRONMENT: 'uat'
