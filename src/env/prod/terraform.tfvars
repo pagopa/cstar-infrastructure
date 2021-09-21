@@ -549,6 +549,8 @@ app_gateway_min_capacity                = 5
 app_gateway_max_capacity                = 10
 
 lock_enable = true
+
+enable_iac_pipeline = true
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"
