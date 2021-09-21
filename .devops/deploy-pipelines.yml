@@ -45,7 +45,7 @@ stages:
         steps:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-  - stage: plan-dev    
+  - stage: plan_dev    
     jobs:
       - job: terraform_plan
         steps:
@@ -104,7 +104,7 @@ stages:
 
                       echo "Start pipeline"
                       ./terraform.sh apply dev -auto-approve
-  - stage: plan-uat 
+  - stage: plan_uat 
     jobs:
       - job: terraform_plan
         steps:
