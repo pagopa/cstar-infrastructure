@@ -74,8 +74,49 @@ stages:
     jobs:
       - job: terraform_plan
         steps:
-          # 2. Run terragrunt plan
+          # 4. Run terragrunt plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               SUBSCRIPTION: 'UAT-CSTAR-SERVICE-CONN'
               ENVIRONMENT: 'uat'
+  - stage: apply_uat    
+    jobs:
+      - deployment: terraform_apply
+        displayName: "terraform apply"
+        continueOnError: false
+        environment: "Verify"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                # 5. Run terraform apply
+                - template: templates/terraform-apply/template.yaml@terraform
+                  parameters:
+                    SUBSCRIPTION: 'UAT-CSTAR-SERVICE-CONN'
+                    ENVIRONMENT: 'uat'
+  - stage: plan_prod 
+    jobs:
+      - job: terraform_plan
+        steps:
+          # 6. Run terragrunt plan
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              SUBSCRIPTION: 'PROD-CSTAR-SERVICE-CONN'
+              ENVIRONMENT: 'prod'
+  - stage: apply_prod
+    jobs:
+      - deployment: terraform_apply
+        displayName: "terraform apply"
+        continueOnError: false
+        environment: "Verify"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                # 7. Run terraform apply
+                - template: templates/terraform-apply/template.yaml@terraform
+                  parameters:
+                    SUBSCRIPTION: 'PROD-CSTAR-SERVICE-CONN'
+                    ENVIRONMENT: 'prod'
