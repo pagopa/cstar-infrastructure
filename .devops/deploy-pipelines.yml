@@ -69,8 +69,6 @@ stages:
                 ./terraform.sh init dev
                 terraform validate
                 ./terraform.sh plan dev
-  - stage: apply    
-    jobs:
       - deployment: terraform_apply
         displayName: "terraform apply"
         environment: "Verify"
@@ -98,4 +96,5 @@ stages:
 
                       echo "Start pipeline"
                       ./terraform.sh apply dev -auto-approve
+      
                       
