@@ -62,3 +62,4 @@ resource "azurerm_monitor_action_group" "slack" {
 
   tags = var.tags
 }
+

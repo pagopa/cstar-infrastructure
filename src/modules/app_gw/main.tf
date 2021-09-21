@@ -176,3 +176,30 @@ resource "azurerm_application_gateway" "this" {
 
   tags = var.tags
 }
+
+resource "azurerm_monitor_diagnostic_setting" "app_gw" {
+  count                      = var.sec_log_analytics_workspace_id != null ? 1 : 0
+  name                       = "LogSecurity"
+  target_resource_id         = azurerm_application_gateway.this.id
+  log_analytics_workspace_id = var.sec_log_analytics_workspace_id
+
+  log {
+    category = "ApplicationGatewayAccessLog"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayFirewallLog"
+    enabled  = true
+
+    retention_policy {
+
+      enabled = false
+    }
+  }
+}
+

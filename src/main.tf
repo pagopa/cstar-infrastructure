@@ -12,7 +12,14 @@ terraform {
 
   backend "azurerm" {}
 }
+
 provider "azurerm" {
+  features {}
+}
+
+provider "azurerm" {
+  alias           = "Prod-Sec"
+  subscription_id = data.azurerm_key_vault_secret.sec_sub_id.value
   features {}
 }
 
