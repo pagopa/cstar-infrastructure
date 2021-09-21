@@ -17,25 +17,15 @@ trigger:
     exclude:
       - 'src/k8s/*'
 
-parameters:
-  - name: 'SUBSCRIPTION'
-    displayName: 'Azure subscription hosting the infrastructure built with terraform'
-    type: string
-    default: DEV-CSTAR-SERVICE-CONN
-    values:
-      - PROD-CSTAR-SERVICE-CONN
-      - UAT-CSTAR-SERVICE-CONN
-      - DEV-CSTAR-SERVICE-CONN
 pool:
   vmImage: 'ubuntu-20.04'
-
 
 resources:
   repositories:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: terrarorm-plan-template
+      ref: refs/tags/v17
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
