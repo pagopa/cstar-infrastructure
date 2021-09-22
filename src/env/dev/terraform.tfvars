@@ -220,13 +220,13 @@ azdo_sp_tls_cert_enabled            = true
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
 db_configuration = {
-  autovacuum_work_mem         = "2000000"
-  effective_cache_size        = "10485760"
+  autovacuum_work_mem         = "-1"
+  effective_cache_size        = "655360"
   log_autovacuum_min_duration = "5000"
   log_connections             = "off"
   log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
   log_temp_files              = "4096"
-  maintenance_work_mem        = "1048576"
+  maintenance_work_mem        = "524288"
   max_wal_size                = "4096"
 }
 
