@@ -50,8 +50,8 @@ stages:
           # 2. Run terragrunt plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
-              ENVIRONMENT: 'dev'
+              SUBSCRIPTION: '${{ upper(variables.environment)}}-CSTAR-SERVICE-CONN'
+              ENVIRONMENT: ${{ variables.environment }}
   - stage: apply
     condition: and(succeeded(), eq(variables.isToDeploy, true))
     jobs:
