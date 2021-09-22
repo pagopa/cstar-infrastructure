@@ -189,7 +189,8 @@ resource "azurerm_monitor_diagnostic_setting" "app_gw" {
     enabled  = true
 
     retention_policy {
-      enabled = false
+      enabled = true
+      days = 365
     }
   }
 
@@ -198,8 +199,8 @@ resource "azurerm_monitor_diagnostic_setting" "app_gw" {
     enabled  = true
 
     retention_policy {
-
-      enabled = false
+      enabled = true
+      days = 365
     }
   }
 }
