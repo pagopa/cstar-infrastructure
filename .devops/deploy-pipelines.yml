@@ -1,0 +1,73 @@
+# Automatically triggered on PR
+# Only triggers on branches
+pr:
+  autoCancel: true
+  branches:
+    exclude:
+     - '*'
+
+trigger:
+  paths:
+    include:
+      - 'src/*'
+      - '.devops/*'
+    exclude:
+      - 'src/k8s/*'
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+resources:
+  repositories:
+    - repository: terraform
+      type: github
+      name: pagopa/azure-pipeline-templates
+      ref: refs/tags/v17
+      endpoint: 'io-azure-devops-github-ro'
+
+variables:
+  isToDeploy: $[and(ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix')))]
+
+  environment: 'dev'
+  
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/release-dev') }}:
+    environment: 'dev'
+    
+  ${{ if or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release-uat'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix')) }}:
+    environment: 'uat'
+  ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+    environment: 'prod'
+    
+stages:
+  - stage: install
+    jobs:
+      - job: terraform_install
+        steps:
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+  - stage: plan  
+    jobs:
+      - job: terraform_plan
+        steps:
+          # 2. Run terragrunt plan
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
+              ENVIRONMENT: 'dev'
+  - stage: apply
+    condition: and(succeeded(), eq(variables.isToDeploy, true))
+    jobs:
+      - deployment: terraform_apply
+        displayName: "terraform apply"
+        continueOnError: false
+        environment: "Verify"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                # 3. Run terraform apply
+                - template: templates/terraform-apply/template.yaml@terraform
+                  parameters:
+                    SUBSCRIPTION: '${{ upper(variables.environment)}}-CSTAR-SERVICE-CONN'
+                    ENVIRONMENT: ${{ variables.environment }}
