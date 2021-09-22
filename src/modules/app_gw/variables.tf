@@ -112,6 +112,12 @@ variable "sec_log_analytics_workspace_id" {
   description = "Log analytics workspace security (it should be in a different subscription)."
 }
 
+variable "sec_storage_id" {
+  type        = string
+  default     = null
+  description = "Storage Account security (it should be in a different subscription)."
+}
+
 variable "tags" {
   type = map(any)
 }
