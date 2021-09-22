@@ -28,6 +28,8 @@ resources:
 variables:
   isToDeploy: $[and(ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix')))]
 
+  environment: 'dev'
+  
   ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/release-dev') }}:
     environment: 'dev'
     
