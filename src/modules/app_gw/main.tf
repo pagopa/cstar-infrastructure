@@ -182,6 +182,7 @@ resource "azurerm_monitor_diagnostic_setting" "app_gw" {
   name                       = "LogSecurity"
   target_resource_id         = azurerm_application_gateway.this.id
   log_analytics_workspace_id = var.sec_log_analytics_workspace_id
+  storage_account_id         = var.sec_storage_id
 
   log {
     category = "ApplicationGatewayAccessLog"
