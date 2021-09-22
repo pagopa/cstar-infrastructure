@@ -1,11 +1,5 @@
 # Automatically triggered on PR
 # Only triggers on branches
-pr:
-  autoCancel: true
-  branches:
-    exclude:
-     - '*'
-
 trigger:
   paths:
     include:
@@ -13,6 +7,11 @@ trigger:
       - '.devops/*'
     exclude:
       - 'src/k8s/*'
+pr:
+  branches:
+    include:
+      - main
+      - release*
 
 pool:
   vmImage: 'ubuntu-20.04'
