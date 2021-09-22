@@ -7,9 +7,6 @@ pr:
      - '*'
 
 trigger:
-  branches:
-    exclude:
-      - master
   paths:
     include:
       - 'src/*'
@@ -28,6 +25,17 @@ resources:
       ref: refs/tags/v17
       endpoint: 'io-azure-devops-github-ro'
 
+variables:
+  isToDeploy: $[and(ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix')))]
+
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/release-dev') }}:
+    environment: 'dev'
+    
+  ${{ if or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release-uat'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix')) }}:
+    environment: 'uat'
+  ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+    environment: 'prod'
+    
 stages:
   - stage: install
     jobs:
@@ -35,7 +43,7 @@ stages:
         steps:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-  - stage: plan_dev    
+  - stage: plan  
     jobs:
       - job: terraform_plan
         steps:
@@ -44,7 +52,8 @@ stages:
             parameters:
               SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
               ENVIRONMENT: 'dev'
-  - stage: apply_dev    
+  - stage: apply
+    condition: and(succeeded(), eq(variables.isToDeploy, true))
     jobs:
       - deployment: terraform_apply
         displayName: "terraform apply"
@@ -58,55 +67,5 @@ stages:
                 # 3. Run terraform apply
                 - template: templates/terraform-apply/template.yaml@terraform
                   parameters:
-                    SUBSCRIPTION: 'DEV-CSTAR-SERVICE-CONN'
-                    ENVIRONMENT: 'dev'
-  - stage: plan_uat 
-    jobs:
-      - job: terraform_plan
-        steps:
-          # 4. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: 'UAT-CSTAR-SERVICE-CONN'
-              ENVIRONMENT: 'uat'
-  - stage: apply_uat    
-    jobs:
-      - deployment: terraform_apply
-        displayName: "terraform apply"
-        continueOnError: false
-        environment: "Verify"
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
-                # 5. Run terraform apply
-                - template: templates/terraform-apply/template.yaml@terraform
-                  parameters:
-                    SUBSCRIPTION: 'UAT-CSTAR-SERVICE-CONN'
-                    ENVIRONMENT: 'uat'
-  - stage: plan_prod 
-    jobs:
-      - job: terraform_plan
-        steps:
-          # 6. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: 'PROD-CSTAR-SERVICE-CONN'
-              ENVIRONMENT: 'prod'
-  - stage: apply_prod
-    jobs:
-      - deployment: terraform_apply
-        displayName: "terraform apply"
-        continueOnError: false
-        environment: "Verify"
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
-                # 7. Run terraform apply
-                - template: templates/terraform-apply/template.yaml@terraform
-                  parameters:
-                    SUBSCRIPTION: 'PROD-CSTAR-SERVICE-CONN'
-                    ENVIRONMENT: 'prod'
+                    SUBSCRIPTION: '${{ upper(variables.environment)}}-CSTAR-SERVICE-CONN'
+                    ENVIRONMENT: ${{ variables.environment }}
