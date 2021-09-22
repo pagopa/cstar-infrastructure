@@ -507,6 +507,12 @@ variable "lock_enable" {
   description = "Apply locks to block accedentaly deletions."
 }
 
+variable "enable_iac_pipeline" {
+  type        = bool
+  description = "If true create the key vault policy to allow used by azure devops iac pipelines."
+  default     = false
+}
+
 variable "tags" {
   type = map(any)
   default = {
