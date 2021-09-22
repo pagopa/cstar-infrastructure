@@ -541,6 +541,8 @@ app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 app_gateway_min_capacity                = 5
 app_gateway_max_capacity                = 10
 
+enable_iac_pipeline = true
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
