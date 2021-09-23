@@ -190,7 +190,7 @@ resource "azurerm_monitor_diagnostic_setting" "app_gw" {
 
     retention_policy {
       enabled = true
-      days = 365
+      days    = 365
     }
   }
 
@@ -200,7 +200,7 @@ resource "azurerm_monitor_diagnostic_setting" "app_gw" {
 
     retention_policy {
       enabled = true
-      days = 365
+      days    = 365
     }
   }
 }
