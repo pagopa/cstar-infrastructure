@@ -211,28 +211,11 @@ module "app_gw" {
     trusted_client_certificate_names = [format("%s-issuer-chain", local.project)]
     verify_client_cert_issuer_dn     = true
     ssl_policy = {
-      disabled_protocols = []
-      policy_type        = "Predefined"
-      policy_name        = "AppGwSslPolicy20170401"
-      cipher_suites = [
-        "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
-        "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
-        "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
-        "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
-        "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
-        "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384",
-        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
-        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
-        "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
-        "TLS_RSA_WITH_AES_256_GCM_SHA384",
-        "TLS_RSA_WITH_AES_128_GCM_SHA256",
-        "TLS_RSA_WITH_AES_256_CBC_SHA256",
-        "TLS_RSA_WITH_AES_128_CBC_SHA256",
-        "TLS_RSA_WITH_AES_256_CBC_SHA",
-        "TLS_RSA_WITH_AES_128_CBC_SHA",
-      ]
-      min_protocol_version = "TLSv1_1"
+      disabled_protocols   = []
+      policy_type          = "Predefined"
+      policy_name          = "AppGwSslPolicy20170401"
+      cipher_suites        = []
+      min_protocol_version = null
     }
   }]
 
