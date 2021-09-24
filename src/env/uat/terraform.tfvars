@@ -538,8 +538,8 @@ app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
-app_gateway_min_capacity                = 5
-app_gateway_max_capacity                = 10
+app_gateway_min_capacity                = 1
+app_gateway_max_capacity                = 3
 
 enable_iac_pipeline = true
 
