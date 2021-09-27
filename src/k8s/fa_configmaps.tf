@@ -23,7 +23,7 @@ resource "kubernetes_config_map" "fa-jvm" {
 }
 
 
-resource "kubernetes_config_map" "fa-ms-customer" {
+resource "kubernetes_config_map" "famscustomer" {
   metadata {
     name      = "famscustomer"
     namespace = kubernetes_namespace.fa.metadata[0].name
