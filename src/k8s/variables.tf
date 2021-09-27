@@ -155,3 +155,8 @@ variable "configmaps_bpdmswinningtransaction" {
 variable "configmaps_rtdpaymentinstrumentmanager" {
   type = map(string)
 }
+
+
+variable "configmaps_facustomer_override" {
+  type = map(string)
+}
