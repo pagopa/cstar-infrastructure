@@ -157,6 +157,6 @@ variable "configmaps_rtdpaymentinstrumentmanager" {
 }
 
 
-variable "configmaps_facustomer_override" {
+variable "configmaps_facustomer" {
   type = map(string)
 }
