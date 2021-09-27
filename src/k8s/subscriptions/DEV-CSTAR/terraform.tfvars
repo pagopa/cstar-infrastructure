@@ -212,7 +212,7 @@ configmaps_rtdpaymentinstrumentmanager = {
 }
 
 
-configmaps_facustomer_override = {
+configmaps_facustomer = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "facustomer"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
