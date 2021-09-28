@@ -214,8 +214,8 @@ cidr_subnet_apim      = ["10.230.5.0/26"]
 cidr_subnet_eventhub  = ["10.230.5.64/26"]
 
 
-devops_service_connection_object_id = "0632158d-c335-4a2b-ae73-0a15579aa26c"
-azdo_sp_tls_cert_enabled            = true
+devops_service_connection_object_id = "2ba3cc79-7714-4297-867a-ed354a085bf0"
+azdo_sp_tls_cert_enabled            = false # will be enabled when TLS cert will be generated with new acme tiny
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
