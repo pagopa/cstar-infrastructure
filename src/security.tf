@@ -14,12 +14,10 @@ module "key_vault" {
   tenant_id           = data.azurerm_client_config.current.tenant_id
   lock_enable         = var.lock_enable
 
-  // terraform_cloud_object_id = data.azurerm_client_config.current.client_id
-
   tags = var.tags
 }
 
-## api management policy ## 
+## api management policy ##
 resource "azurerm_key_vault_access_policy" "api_management_policy" {
   key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
@@ -75,13 +73,10 @@ resource "azurerm_key_vault_access_policy" "ad_group_policy" {
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = data.azuread_group.adgroup_admin.object_id
 
-  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
-  secret_permissions  = ["Get", "List", "Set", "Delete", ]
-  storage_permissions = []
-  certificate_permissions = [
-    "Get", "List", "Update", "Create", "Import",
-    "Delete", "Restore", "Purge", "Recover"
-  ]
+  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions      = ["Get", "List", "Set", "Delete", ]
+  storage_permissions     = []
+  certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ]
 }
 
 data "azuread_group" "adgroup_developers" {
@@ -90,20 +85,15 @@ data "azuread_group" "adgroup_developers" {
 
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
-  count = var.env_short == "d" ? 1 : 0
-
   key_vault_id = module.key_vault.id
 
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = data.azuread_group.adgroup_developers.object_id
 
-  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
-  secret_permissions  = ["Get", "List", "Set", "Delete", ]
-  storage_permissions = []
-  certificate_permissions = [
-    "Get", "List", "Update", "Create", "Import",
-    "Delete", "Restore", "Purge", "Recover"
-  ]
+  key_permissions         = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", ] : ["Get", "List", "Update", "Create", "Import", ]
+  secret_permissions      = var.env_short == "d" ? ["Get", "List", "Set", "Delete", ] : ["Get", "List", "Set", ]
+  storage_permissions     = []
+  certificate_permissions = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ] : ["Get", "List", "Update", "Create", "Import", "Restore", "Recover", ]
 }
 
 data "azuread_group" "adgroup_externals" {
@@ -119,13 +109,10 @@ resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = data.azuread_group.adgroup_externals.object_id
 
-  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
-  secret_permissions  = ["Get", "List", "Set", "Delete", ]
-  storage_permissions = []
-  certificate_permissions = [
-    "Get", "List", "Update", "Create", "Import",
-    "Delete", "Restore", "Purge", "Recover"
-  ]
+  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions      = ["Get", "List", "Set", "Delete", ]
+  storage_permissions     = []
+  certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ]
 }
 
 data "azuread_group" "adgroup_security" {
@@ -141,13 +128,10 @@ resource "azurerm_key_vault_access_policy" "adgroup_security_policy" {
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = data.azuread_group.adgroup_security.object_id
 
-  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
-  secret_permissions  = ["Get", "List", "Set", "Delete", ]
-  storage_permissions = []
-  certificate_permissions = [
-    "Get", "List", "Update", "Create", "Import",
-    "Delete", "Restore", "Purge", "Recover"
-  ]
+  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions      = ["Get", "List", "Set", "Delete", ]
+  storage_permissions     = []
+  certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ]
 }
 
 ## azure devops ##
@@ -162,11 +146,7 @@ resource "azurerm_key_vault_access_policy" "azdo_sp_tls_cert" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = data.azuread_service_principal.azdo_sp_tls_cert[0].object_id
 
-  certificate_permissions = [
-    "Get",
-    "List",
-    "Import",
-  ]
+  certificate_permissions = ["Get", "List", "Import", ]
 }
 
 resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
@@ -175,17 +155,8 @@ resource "azurerm_key_vault_access_policy" "cert_renew_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = var.devops_service_connection_object_id
 
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-  ]
-
-  certificate_permissions = [
-    "Get",
-    "List",
-    "Import",
-  ]
+  secret_permissions      = ["Get", "List", "Set", ]
+  certificate_permissions = ["Get", "List", "Import", ]
 }
 
 resource "azurerm_user_assigned_identity" "appgateway" {
@@ -263,7 +234,3 @@ data "azurerm_key_vault_secret" "sec_storage_id" {
   name         = "sec-storage-id"
   key_vault_id = module.key_vault.id
 }
-
-
-
-

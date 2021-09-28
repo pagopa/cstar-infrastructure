@@ -21,3 +21,17 @@ resource "kubernetes_config_map" "fa-jvm" {
     TZ = "Europe/Rome"
   }
 }
+
+
+resource "kubernetes_config_map" "famscustomer" {
+  metadata {
+    name      = "famscustomer"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    POSTGRES_SCHEMA = "fa_customer"
+    TZ = "Europe/Rome"
+  }, var.configmaps_facustomer)
+
+}
