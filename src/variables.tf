@@ -264,7 +264,7 @@ variable "azdo_sp_tls_cert_enabled" {
 
 variable "app_gateway_min_capacity" {
   type    = number
-  default = 1
+  default = 0
 }
 
 variable "app_gateway_max_capacity" {
