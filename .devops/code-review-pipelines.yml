@@ -1,4 +1,5 @@
 pr:
+  autoCancel: true
   branches:
     include:
       - main
