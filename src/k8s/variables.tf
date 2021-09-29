@@ -160,3 +160,7 @@ variable "configmaps_rtdpaymentinstrumentmanager" {
 variable "configmaps_facustomer" {
   type = map(string)
 }
+
+variable "configmaps_fatransaction" {
+  type = map(string)
+}

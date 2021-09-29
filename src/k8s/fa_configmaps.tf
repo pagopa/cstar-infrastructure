@@ -45,6 +45,6 @@ resource "kubernetes_config_map" "famstransaction" {
   data = merge({
     POSTGRES_SCHEMA = "fa_transaction"
     TZ = "Europe/Rome"
-  }, var.configmaps_facustomer)
+  }, var.configmaps_fatransaction)
 
 }
