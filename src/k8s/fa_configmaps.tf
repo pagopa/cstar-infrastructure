@@ -35,3 +35,16 @@ resource "kubernetes_config_map" "famscustomer" {
   }, var.configmaps_facustomer)
 
 }
+
+resource "kubernetes_config_map" "famstransaction" {
+  metadata {
+    name      = "famstransaction"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    POSTGRES_SCHEMA = "fa_transaction"
+    TZ = "Europe/Rome"
+  }, var.configmaps_fatransaction)
+
+}
