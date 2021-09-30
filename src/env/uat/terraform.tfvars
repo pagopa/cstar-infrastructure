@@ -218,7 +218,7 @@ cidr_subnet_eventhub  = ["10.230.7.64/26"]
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
-db_sku_name       = "GP_Gen5_8"
+db_sku_name       = "GP_Gen5_4"
 db_enable_replica = false
 db_storage_mb     = 204800 # 200 GB
 db_configuration = {
