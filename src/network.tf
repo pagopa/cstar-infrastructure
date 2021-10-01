@@ -230,7 +230,7 @@ module "app_gw" {
   listeners = {
     app_io = {
       protocol         = "Https"
-      host             = var.env_short == "p" ? "api-io.cstar.pagopa.it" : format("api-io.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      host             = format("api-io.%s.%s", var.dns_zone_prefix, var.external_domain)
       port             = 443
       ssl_profile_name = null
       certificate = {
@@ -243,7 +243,7 @@ module "app_gw" {
     }
     issuer_acquirer = {
       protocol         = "Https"
-      host             = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      host             = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
       port             = 443
       ssl_profile_name = format("%s-issuer-mauth-profile", local.project)
       certificate = {
@@ -257,7 +257,7 @@ module "app_gw" {
 
     portal = {
       protocol         = "Https"
-      host             = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      host             = format("portal.%s.%s", var.dns_zone_prefix, var.external_domain)
       port             = 443
       ssl_profile_name = null
       certificate = {
@@ -271,7 +271,7 @@ module "app_gw" {
 
     management = {
       protocol         = "Https"
-      host             = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+      host             = format("management.%s.%s", var.dns_zone_prefix, var.external_domain)
       port             = 443
       ssl_profile_name = null
 

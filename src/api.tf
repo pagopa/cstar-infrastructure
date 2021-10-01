@@ -9,9 +9,9 @@ locals {
   apim_cert_name_proxy_endpoint   = format("%s-proxy-endpoint-cert", local.project)
   portal_cert_name_proxy_endpoint = format("%s-proxy-endpoint-cert", "portal")
 
-  api_domain        = var.env_short == "p" ? "api.cstar.pagopa.it" : format("api.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-  portal_domain     = var.env_short == "p" ? "portal.cstar.pagopa.it" : format("portal.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
-  management_domain = var.env_short == "p" ? "management.cstar.pagopa.it" : format("management.%s.cstar.pagopa.it", lower(var.tags["Environment"]))
+  api_domain        = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
+  portal_domain     = format("portal.%s.%s", var.dns_zone_prefix, var.external_domain)
+  management_domain = format("management.%s.%s", var.dns_zone_prefix, var.external_domain)
 }
 
 
@@ -63,28 +63,29 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   api_management_id = module.apim.id
 
   proxy {
-    # host_name    = trim(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
     host_name = local.api_domain
-    key_vault_id = trimsuffix(
+    key_vault_id = replace(
       data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
-      data.azurerm_key_vault_certificate.app_gw_cstar.version
+      "/${data.azurerm_key_vault_certificate.app_gw_cstar.version}",
+      ""
     )
   }
 
   developer_portal {
-    # host_name = trim(azurerm_private_dns_a_record.private_dns_a_record_portal.fqdn, ".")
     host_name = local.portal_domain
-    key_vault_id = trimsuffix(
+    key_vault_id = replace(
       data.azurerm_key_vault_certificate.portal_cstar.secret_id,
-      data.azurerm_key_vault_certificate.portal_cstar.version
+      "/${data.azurerm_key_vault_certificate.portal_cstar.version}",
+      ""
     )
   }
 
   management {
     host_name = local.management_domain
-    key_vault_id = trimsuffix(
+    key_vault_id = replace(
       data.azurerm_key_vault_certificate.management_cstar.secret_id,
-      data.azurerm_key_vault_certificate.management_cstar.version
+      "/${data.azurerm_key_vault_certificate.management_cstar.version}",
+      ""
     )
   }
 }
