@@ -1,4 +1,6 @@
 resource "kubernetes_horizontal_pod_autoscaler" "bpd_citizen_has" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+
   metadata {
     name      = "bpdcitizenhas" # has suffix stands for Horizontal AutoScaler
     namespace = kubernetes_namespace.bpd.metadata[0].name
