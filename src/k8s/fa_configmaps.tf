@@ -48,3 +48,15 @@ resource "kubernetes_config_map" "famstransaction" {
   }, var.configmaps_fatransaction)
 
 }
+
+resource "kubernetes_config_map" "famsenrollment" {
+  metadata {
+    name      = "famsenrollment"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    TZ = "Europe/Rome"
+  }, var.configmaps_faenrollment)
+
+}
