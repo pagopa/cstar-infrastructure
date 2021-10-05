@@ -416,7 +416,7 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
-  source = "git::https://github.com/pagopa/azurerm.git/vpn_gateway?ref=vpngw-diagnosticsettings"
+  source = "git::https://github.com/pagopa/azurerm.git/vpn_gateway?ref=vpvgw-diagnosticsettings"
 
   depends_on = [
     azurerm_log_analytics_workspace.log_analytics_workspace,
