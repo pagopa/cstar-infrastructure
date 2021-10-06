@@ -57,15 +57,7 @@ resource "azurerm_dns_a_record" "dns-a-developer-production-cstar" {
   records             = ["20.56.3.91"]
   tags                = var.tags
 }
-resource "azurerm_dns_a_record" "dns-a-management-production-cstar" {
-  count               = var.env_short == "p" ? 1 : 0
-  name                = "management"
-  zone_name           = azurerm_dns_zone.public[0].name
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  ttl                 = var.dns_default_ttl_sec
-  records             = ["20.56.3.91"]
-  tags                = var.tags
-}
+
 resource "azurerm_dns_a_record" "dns-a-test-cstar" {
   count               = var.env_short == "p" ? 1 : 0
   name                = "test"
@@ -124,7 +116,6 @@ resource "azurerm_dns_a_record" "dns_a_apim_dev_portal" {
 
 
 resource "azurerm_dns_a_record" "dns-a-managementcstar" {
-  count               = var.env_short == "p" ? 0 : 1
   name                = "management"
   zone_name           = azurerm_dns_zone.public[0].name
   resource_group_name = azurerm_resource_group.rg_vnet.name

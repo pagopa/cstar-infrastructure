@@ -160,7 +160,7 @@ locals {
 
 # Application gateway: Multilistener configuraiton
 module "app_gw" {
-  source = "./modules/app_gw"
+  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v1.0.62"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -195,10 +195,8 @@ module "app_gw" {
     }
 
     management = {
-      protocol = "Https"
-      #TODO : once the migration is completed there wouldn't be need of the condition below.
-      #       Only the first dns recors is required.
-      host         = var.env_short != "p" ? trim(azurerm_dns_a_record.dns-a-managementcstar[0].fqdn, ".") : trim(azurerm_dns_a_record.dns-a-management-production-cstar[0].fqdn, ".")
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
       port         = 443
       ip_addresses = module.apim.private_ip_addresses
       probe        = "/ServiceStatus"
@@ -309,9 +307,16 @@ module "app_gw" {
     }
   }
 
-
   # TLS
   identity_ids = [azurerm_user_assigned_identity.appgateway.id]
+
+  # WAF
+  waf_disabled_rule_group = [
+    {
+      rule_group_name = "REQUEST-920-PROTOCOL-ENFORCEMENT"
+      rules           = ["920300", ]
+    }
+  ]
 
   # Scaling
   app_gateway_min_capacity = var.app_gateway_min_capacity
