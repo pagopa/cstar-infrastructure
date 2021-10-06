@@ -1,0 +1,1 @@
+GRANT SELECT ON TABLE bpd_citizen.bpd_award_winner_bck_ap1_202101261644 TO "MONITORING_OPERATION_USER";
