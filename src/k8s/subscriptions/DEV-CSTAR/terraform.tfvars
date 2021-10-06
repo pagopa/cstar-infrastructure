@@ -227,5 +227,14 @@ configmaps_fatransaction = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
-  LOG_LEVEL_FA_CUSTOMER                             = "DEBUG"
+  LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
+}
+
+configmaps_faenrollment = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "faenrollment"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_ENROLLMENT                           = "DEBUG"
 }
