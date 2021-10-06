@@ -195,10 +195,8 @@ module "app_gw" {
     }
 
     management = {
-      protocol = "Https"
-      #TODO : once the migration is completed there wouldn't be need of the condition below.
-      #       Only the first dns recors is required.
-      host         = var.env_short != "p" ? trim(azurerm_dns_a_record.dns-a-managementcstar[0].fqdn, ".") : trim(azurerm_dns_a_record.dns-a-management-production-cstar[0].fqdn, ".")
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
       port         = 443
       ip_addresses = module.apim.private_ip_addresses
       probe        = "/ServiceStatus"
