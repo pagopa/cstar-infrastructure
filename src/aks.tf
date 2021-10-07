@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.58"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.60"
 
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
@@ -18,6 +18,7 @@ module "aks" {
   vm_size    = var.aks_vm_size
   node_count = var.aks_node_count
   sku_tier   = var.aks_sku_tier
+  max_pods   = var.env_short == "d"? 100 : 30
 
   private_cluster_enabled = true
 
