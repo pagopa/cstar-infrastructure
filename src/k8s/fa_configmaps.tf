@@ -60,3 +60,17 @@ resource "kubernetes_config_map" "famsenrollment" {
   }, var.configmaps_faenrollment)
 
 }
+
+resource "kubernetes_config_map" "famspaymentinstrument" {
+  metadata {
+    name      = "famspaymentinstrument"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    POSTGRES_SCHEMA = "fa_payment_instrument"
+    TZ = "Europe/Rome"
+  }, var.configmaps_fapaymentinstrument)
+
+}
+
