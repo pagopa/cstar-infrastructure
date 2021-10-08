@@ -3,7 +3,7 @@
         <!-- Extract Token from Authorization header parameter -->
         <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param").Split(' ').Last())" />
         <!--set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param"))" /-->
-        <cache-lookup-value key="@((string)context.Variables["token"])" variable-name="fiscalCode" caching-type="internal" />
+        <cache-lookup-value key="@((string)context.Variables["token"])" variable-name="fiscalCode" caching-type="external" />
         <set-variable name="bypassCacheStorage" value="false" />
         <choose>
             <!-- If API Management doesn’t find it in the cache, make a request for it and store it -->
@@ -90,7 +90,7 @@
                 <choose>
                     <when condition="@("true".Equals((string)context.Variables["bypassCacheStorage"]))">
                         <!-- Store result in cache -->
-                        <cache-store-value key="@((string)context.Variables["token"])" value="@((string)context.Variables["fiscalCode"])" duration="3600" caching-type="internal" />
+                        <cache-store-value key="@((string)context.Variables["token"])" value="@((string)context.Variables["fiscalCode"])" duration="3600" caching-type="external" />
                     </when>
                 </choose>
             </otherwise>
