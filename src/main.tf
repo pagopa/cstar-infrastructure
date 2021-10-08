@@ -29,7 +29,7 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
 
-  count                          = var.sec_log_analytics_workspace_id != null ? 1 : 0
+  count                          = data.azurerm_key_vault_secret.sec_workspace_id[0].value != null ? 1 : 0
   name                           = "SecurityLogs"
   target_resource_id             = data.azurerm_key_vault_secret.sec_sub_id.value
   log_analytics_workspace_id     = data.azurerm_key_vault_secret.sec_workspace_id[0].value
