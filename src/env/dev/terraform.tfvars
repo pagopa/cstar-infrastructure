@@ -474,6 +474,26 @@ eventhubs = [
     ]
   },
   {
+    name              = "fa-trx-error"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-transaction-error-manager"]
+    keys = [
+      {
+        name   = "fa-transaction"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-transaction-error-manager"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
