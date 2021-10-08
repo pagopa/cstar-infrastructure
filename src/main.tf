@@ -31,7 +31,7 @@ resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
 
   count                          = data.azurerm_key_vault_secret.sec_workspace_id[0].value != null ? 1 : 0
   name                           = "SecurityLogs"
-  target_resource_id             = data.azurerm_key_vault_secret.sec_sub_id.value
+  target_resource_id             = format("/subscriptions/%s", data.azurerm_key_vault_secret.sec_sub_id.value)
   log_analytics_workspace_id     = data.azurerm_key_vault_secret.sec_workspace_id[0].value
   storage_account_id             = data.azurerm_key_vault_secret.sec_storage_id[0].value
 
