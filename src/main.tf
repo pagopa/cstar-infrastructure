@@ -27,6 +27,45 @@ data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
 
+resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
+
+  count                          = var.sec_log_analytics_workspace_id != null ? 1 : 0
+  name                           = "SecurityLogs"
+  target_resource_id             = data.azurerm_key_vault_secret.sec_sub_id.value
+  log_analytics_workspace_id     = data.azurerm_key_vault_secret.sec_workspace_id[0].value
+  storage_account_id             = data.azurerm_key_vault_secret.sec_storage_id[0].value
+
+  log {
+    
+    category = "Administrative"
+
+    retention_policy {
+      enabled = true
+      days = 365
+    }
+  }
+
+  log {
+
+    category "Security"
+    
+    retention_policy {
+      enabled = true
+      days = 365
+    }
+  }
+  
+  log {
+    
+    category "Alert"
+    
+    retention_policy {
+      enabled = true
+      days = 365
+    }
+  }
+}
+
 locals {
   project = format("%s-%s", var.prefix, var.env_short)
 }
