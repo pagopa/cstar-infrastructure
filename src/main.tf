@@ -38,7 +38,7 @@ resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
   log {
     
     category = "Administrative"
-
+    enabled = true
     retention_policy {
       enabled = true
       days = 365
@@ -47,8 +47,8 @@ resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
 
   log {
 
-    category "Security"
-    
+    category  = "Security"
+    enabled = true
     retention_policy {
       enabled = true
       days = 365
@@ -57,8 +57,8 @@ resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
   
   log {
     
-    category "Alert"
-    
+    category = "Alert"
+    enabled = true 
     retention_policy {
       enabled = true
       days = 365
