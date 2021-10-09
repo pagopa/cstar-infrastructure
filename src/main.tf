@@ -27,7 +27,7 @@ data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_monitor_diagnostic_setting" "ActivityLog" {
+resource "azurerm_monitor_diagnostic_setting" "activity_log" {
   count                          = var.env_short == "p" ? 1 : 0
   name                           = "SecurityLogs"
   target_resource_id             = format("/subscriptions/%s", data.azurerm_key_vault_secret.sec_sub_id.value)
