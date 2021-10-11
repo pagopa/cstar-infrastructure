@@ -534,6 +534,26 @@ eventhubs = [
     ]
   },
   {
+    name              = "fa-trx-customer"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-customer"]
+    keys = [
+      {
+        name   = "fa-payment-instrument"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-customer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
