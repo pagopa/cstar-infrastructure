@@ -86,3 +86,15 @@ resource "kubernetes_config_map" "famsmerchant" {
   }, var.configmaps_famerchant)
 
 }
+
+resource "kubernetes_config_map" "famsonboardingmerchant" {
+  metadata {
+    name      = "famsonboardingmerchant"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    TZ = "Europe/Rome"
+  }, var.configmaps_faonboardingmerchant)
+
+}
