@@ -74,3 +74,15 @@ resource "kubernetes_config_map" "famspaymentinstrument" {
 
 }
 
+resource "kubernetes_config_map" "famsmerchant" {
+  metadata {
+    name      = "famsmerchant"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    POSTGRES_SCHEMA = "fa_merchant"
+    TZ = "Europe/Rome"
+  }, var.configmaps_famerchant)
+
+}

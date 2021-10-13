@@ -289,3 +289,12 @@ configmaps_fapaymentinstrument = {
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_PAYMENT_INSTRUMENT                   = "INFO"
 }
+
+configmaps_famerchant = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsmerchant"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_MERCHANT                             = "INFO"
+}
