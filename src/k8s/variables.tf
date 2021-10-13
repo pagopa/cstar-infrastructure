@@ -176,3 +176,7 @@ variable "configmaps_fapaymentinstrument" {
 variable "configmaps_famerchant" {
   type = map(string)
 }
+
+variable "configmaps_faonboardingmerchant" {
+  type = map(string)
+}

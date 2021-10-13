@@ -295,3 +295,12 @@ configmaps_famerchant = {
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_MERCHANT                             = "INFO"
 }
+
+configmaps_faonboardingmerchant = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsonboardingmerchant"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_MERCHANT                             = "INFO"
+}
