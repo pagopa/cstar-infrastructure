@@ -265,3 +265,12 @@ configmaps_faonboardingmerchant = {
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
 }
+
+configmaps_fainvoicemanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsinvoicemanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
+}

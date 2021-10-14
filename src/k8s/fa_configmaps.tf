@@ -98,3 +98,15 @@ resource "kubernetes_config_map" "famsonboardingmerchant" {
   }, var.configmaps_faonboardingmerchant)
 
 }
+
+resource "kubernetes_config_map" "famsinvoicemanager" {
+  metadata {
+    name      = "famsinvoicemanager"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    TZ = "Europe/Rome"
+  }, var.configmaps_fainvoicemanager)
+
+}
