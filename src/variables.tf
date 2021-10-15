@@ -434,7 +434,24 @@ variable "ehns_zone_redundant" {
 }
 
 variable "eventhubs" {
-  description = "A list of event hubs to add to namespace."
+  description = "A list of event hubs to add to namespace for BPD application."
+  type = list(object({
+    name              = string
+    partitions        = number
+    message_retention = number
+    consumers         = list(string)
+    keys = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  }))
+  default = []
+}
+
+variable "eventhubs_fa" {
+  description = "A list of event hubs to add to namespace for FA application."
   type = list(object({
     name              = string
     partitions        = number

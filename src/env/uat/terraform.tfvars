@@ -484,6 +484,49 @@ eventhubs = [
     ]
   },
   {
+    name              = "rtd-trx"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["bpd-payment-instrument"]
+    keys = [
+      {
+        name   = "rtd-csv-connector"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "bpd-payment-instrument"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "rtd-log"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["elk"]
+    keys = [
+      {
+        name   = "app"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "elk"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+]
+
+eventhubs_fa = [
+  {
     name              = "fa-trx-error"
     partitions        = 1
     message_retention = 1
@@ -563,47 +606,8 @@ eventhubs = [
       }
     ]
   },
-  {
-    name              = "rtd-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["bpd-payment-instrument"]
-    keys = [
-      {
-        name   = "rtd-csv-connector"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-payment-instrument"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "rtd-log"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["elk"]
-    keys = [
-      {
-        name   = "app"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "elk"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
 ]
+
 external_domain = "pagopa.it"
 
 pm_backend_url = "https://10.49.20.119:444"
