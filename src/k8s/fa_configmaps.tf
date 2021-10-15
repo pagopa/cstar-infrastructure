@@ -110,3 +110,32 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
   }, var.configmaps_fainvoicemanager)
 
 }
+
+resource "kubernetes_config_map" "famsinvoiceprovider" {
+  metadata {
+    name      = "famsinvoiceprovider"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    TZ = "Europe/Rome"
+  }, var.configmaps_fainvoiceprovider)
+
+}
+
+resource "kubernetes_config_map" "fa-rest-client" {
+  metadata {
+    name      = "rest-client"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = {
+    FA_CUSTOMER_HOST                = "famscustomer"
+    FA_INVOICE_MANAGER_HOST         = "famsinvoicemanager"
+    FA_PAYMENT_INSTRUMENT_HOST      = "famspaymentinstrument"
+    FA_MERCHANT_HOST                = "famsmerchant"
+    FA_INVOICE_PROVIDER_HOST        = "famsinvoiceprovider"
+    REST_CLIENT_LOGGER_LEVEL        = "NONE"
+    REST_CLIENT_SCHEMA              = "http"
+  }
+}
