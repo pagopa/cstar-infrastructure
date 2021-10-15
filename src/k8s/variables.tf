@@ -184,3 +184,7 @@ variable "configmaps_faonboardingmerchant" {
 variable "configmaps_fainvoicemanager" {
   type = map(string)
 }
+
+variable "configmaps_fainvoiceprovider" {
+  type = map(string)
+}

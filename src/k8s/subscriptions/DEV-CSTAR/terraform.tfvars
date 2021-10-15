@@ -263,7 +263,7 @@ configmaps_faonboardingmerchant = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
-  LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
+  LOG_LEVEL_FA_ONBOARDING_MERCHANT                  = "DEBUG"
 }
 
 configmaps_fainvoicemanager = {
@@ -272,5 +272,14 @@ configmaps_fainvoicemanager = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
-  LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
+  LOG_LEVEL_FA_INVOICE_MANAGER                      = "DEBUG"
+}
+
+configmaps_fainvoiceprovider = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsinvoiceprovider"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_INVOICE_PROVIDER                     = "DEBUG"
 }
