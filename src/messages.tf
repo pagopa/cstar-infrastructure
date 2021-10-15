@@ -70,7 +70,7 @@ module "event_hub_fa_01" {
   private_dns_zones              = module.event_hub.private_dns_zone
   private_dns_zone_record_A_name = "eventhubfa01"
 
-  eventhubs = []
+  eventhubs = var.eventhubs_fa
 
   alerts_enabled = var.ehns_alerts_enabled
   metric_alerts  = var.ehns_metric_alerts
