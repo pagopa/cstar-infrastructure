@@ -155,7 +155,7 @@
         "/bpay": {
             "get": {
                 "description": "find BPay",
-                "operationId": "findUsingGET_BPAY",
+                "operationId": "findUsingGETBpay",
                 "summary": "find BPay",
                 "parameters": [
                     {
@@ -198,7 +198,7 @@
             },
             "delete": {
                 "description": "delete BPay",
-                "operationId": "deleteUsingDELETE_BPAY",
+                "operationId": "deleteUsingDELETEBpay",
                 "summary": "delete BPay",
                 "parameters": [
                     {
@@ -226,7 +226,7 @@
             },
             "put": {
                 "description": "enrollment BPay",
-                "operationId": "enrollmentUsingPUT_BPAY",
+                "operationId": "enrollmentUsingPUTBpay",
                 "summary": "enrollment BPay",
                 "parameters": [
                     {
@@ -276,7 +276,7 @@
         "/card": {
             "put": {
                 "description": "enrollment Card",
-                "operationId": "enrollmentUsingPUT_Card",
+                "operationId": "enrollmentUsingPUTCard",
                 "summary": "enrollment Card",
                 "parameters": [
                     {
@@ -326,7 +326,7 @@
         "/other": {
             "put": {
                 "description": "enrollment Other",
-                "operationId": "enrollmentUsingPUT_Other",
+                "operationId": "enrollmentUsingPUTOther",
                 "summary": "enrollment Other",
                 "parameters": [
                     {
@@ -376,7 +376,7 @@
         "/satispay/{id}": {
             "put": {
                 "description": "enrollment Satispay",
-                "operationId": "enrollmentUsingPUT_Satispay",
+                "operationId": "enrollmentUsingPUTSatispay",
                 "summary": "enrollment Satispay",
                 "parameters": [
                     {

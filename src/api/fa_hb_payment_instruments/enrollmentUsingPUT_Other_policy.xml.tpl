@@ -54,8 +54,8 @@
                     <!-- Check active property in response -->
                     <when condition="@(((IResponse)context.Variables["hpan"]).StatusCode == 201)">
                         <set-variable name="hpan" value="@(((IResponse)context.Variables["hpan"]).Body.As<JObject>())" />
-                        <set-backend-service base-url="http://${reverse-proxy-ip}/bpdmsenrollment" />
-                        <rewrite-uri template="@("/bpd/enrollment/hb/payment-instruments/"+ ((JObject)context.Variables["hpan"])["hashCode"])" />
+                        <set-backend-service base-url="http://${reverse-proxy-ip}/famsenrollment" />
+                        <rewrite-uri template="@("/fa/enrollment/payment-instruments/"+ ((JObject)context.Variables["hpan"])["hashCode"])" />
                         <set-header name="Content-Type" exists-action="override">
                             <value>application/json</value>
                         </set-header>

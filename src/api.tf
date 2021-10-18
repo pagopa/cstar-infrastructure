@@ -1423,7 +1423,7 @@ module "fa_hb_payment_instruments_original" {
   api_operation_policies = [
     {
       # DEL BPay deletePaymentInstrumentHB
-      operation_id = "deleteUsingDELETE_BPAY",
+      operation_id = "deleteUsingDELETEBpay",
       xml_content = templatefile("./api/fa_hb_payment_instruments/deleteUsingDELETE_BPAY_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -1433,7 +1433,7 @@ module "fa_hb_payment_instruments_original" {
     },
     {
       # GET BPay statusPaymentInstrumentHB
-      operation_id = "findUsingGET_BPAY",
+      operation_id = "findUsingGETBpay",
       xml_content = templatefile("./api/fa_hb_payment_instruments/findUsingGET_BPAY_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -1443,7 +1443,7 @@ module "fa_hb_payment_instruments_original" {
     },
     {
       # PUT enrollPaymentInstrumentHB
-      operation_id = "enrollmentUsingPUT_Card",
+      operation_id = "enrollmentUsingPUTCard",
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Card_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -1454,7 +1454,7 @@ module "fa_hb_payment_instruments_original" {
     },
     {
       # PUT enrollPaymentInstrumentHB BPay
-      operation_id = "enrollmentUsingPUT_BPAY",
+      operation_id = "enrollmentUsingPUTBpay",
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_BPAY_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -1465,7 +1465,7 @@ module "fa_hb_payment_instruments_original" {
     },
     {
       # PUT enrollPaymentInstrumentHB Other
-      operation_id = "enrollmentUsingPUT_Other",
+      operation_id = "enrollmentUsingPUTOther",
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Other_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec
@@ -1476,7 +1476,7 @@ module "fa_hb_payment_instruments_original" {
     },
     {
       # PUT enrollPaymentInstrumentHB Satispay
-      operation_id = "enrollmentUsingPUT_Satispay",
+      operation_id = "enrollmentUsingPUTSatispay",
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Satispay_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         pm-timeout-sec                       = var.pm_timeout_sec

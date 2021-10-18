@@ -13,7 +13,7 @@
 <policies>
     <inbound>
         <base />
-        <rewrite-uri template="@("/number/"+(string)context.Variables["fiscalCode"])" copy-unmatched-params="true" />
+        <rewrite-uri template="@("/"+(string)context.Variables["fiscalCode"])" copy-unmatched-params="true" />
     </inbound>
     <backend>
         <base />

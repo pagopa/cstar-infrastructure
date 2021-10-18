@@ -22,8 +22,8 @@
                 new JProperty("channel","app-io-channel")
             ).ToString();
         }</set-body>
-        <set-backend-service base-url="http://${reverse-proxy-ip}/bpdmsenrollment" />
-        <rewrite-uri template="@("/bpd/enrollment/io/payment-instruments/{id}")" />
+        <set-backend-service base-url="http://${reverse-proxy-ip}/famsenrollment" />
+        <rewrite-uri template="@("/fa/enrollment/io/payment-instruments/{id}")" />
     </inbound>
     <backend>
         <base />
