@@ -52,8 +52,8 @@ resource "azurerm_key_vault_secret" "event_hub_keys" {
 
 
 module "event_hub_fa_01" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.70"
-  
+  source = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.70"
+
 
   name                     = format("%s-evh-ns-fa-01", local.project)
   location                 = var.location

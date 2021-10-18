@@ -14,7 +14,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "bpd_citizen_has" {
     scale_target_ref {
       kind = "Deployment"
       # Deployment name and definition is reported in microservice repository
-      name = "bpdmscitizen" 
+      name = "bpdmscitizen"
     }
   }
 }
