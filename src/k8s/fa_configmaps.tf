@@ -31,7 +31,7 @@ resource "kubernetes_config_map" "famscustomer" {
 
   data = merge({
     POSTGRES_SCHEMA = "fa_customer"
-    TZ = "Europe/Rome"
+    TZ              = "Europe/Rome"
   }, var.configmaps_facustomer)
 
 }
@@ -44,7 +44,7 @@ resource "kubernetes_config_map" "famstransaction" {
 
   data = merge({
     POSTGRES_SCHEMA = "fa_transaction"
-    TZ = "Europe/Rome"
+    TZ              = "Europe/Rome"
   }, var.configmaps_fatransaction)
 
 }
@@ -69,7 +69,7 @@ resource "kubernetes_config_map" "famspaymentinstrument" {
 
   data = merge({
     POSTGRES_SCHEMA = "fa_payment_instrument"
-    TZ = "Europe/Rome"
+    TZ              = "Europe/Rome"
   }, var.configmaps_fapaymentinstrument)
 
 }
@@ -82,7 +82,7 @@ resource "kubernetes_config_map" "famsmerchant" {
 
   data = merge({
     POSTGRES_SCHEMA = "fa_merchant"
-    TZ = "Europe/Rome"
+    TZ              = "Europe/Rome"
   }, var.configmaps_famerchant)
 
 }
@@ -130,12 +130,12 @@ resource "kubernetes_config_map" "fa-rest-client" {
   }
 
   data = {
-    FA_CUSTOMER_HOST                = "famscustomer"
-    FA_INVOICE_MANAGER_HOST         = "famsinvoicemanager"
-    FA_PAYMENT_INSTRUMENT_HOST      = "famspaymentinstrument"
-    FA_MERCHANT_HOST                = "famsmerchant"
-    FA_INVOICE_PROVIDER_HOST        = "famsinvoiceprovider"
-    REST_CLIENT_LOGGER_LEVEL        = "NONE"
-    REST_CLIENT_SCHEMA              = "http"
+    FA_CUSTOMER_HOST           = "famscustomer"
+    FA_INVOICE_MANAGER_HOST    = "famsinvoicemanager"
+    FA_PAYMENT_INSTRUMENT_HOST = "famspaymentinstrument"
+    FA_MERCHANT_HOST           = "famsmerchant"
+    FA_INVOICE_PROVIDER_HOST   = "famsinvoiceprovider"
+    REST_CLIENT_LOGGER_LEVEL   = "NONE"
+    REST_CLIENT_SCHEMA         = "http"
   }
 }
