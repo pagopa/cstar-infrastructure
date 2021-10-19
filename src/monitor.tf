@@ -64,11 +64,11 @@ resource "azurerm_monitor_action_group" "slack" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "activity_log" {
-  count                          = var.env_short == "p" ? 1 : 0
-  name                           = "SecurityLogs"
-  target_resource_id             = data.azurerm_subscription.current.subscription_id 
-  log_analytics_workspace_id     = data.azurerm_key_vault_secret.sec_workspace_id[0].value
-  storage_account_id             = data.azurerm_key_vault_secret.sec_storage_id[0].value
+  count                      = var.env_short == "p" ? 1 : 0
+  name                       = "SecurityLogs"
+  target_resource_id         = data.azurerm_subscription.current.subscription_id
+  log_analytics_workspace_id = data.azurerm_key_vault_secret.sec_workspace_id[0].value
+  storage_account_id         = data.azurerm_key_vault_secret.sec_storage_id[0].value
 
   log {
 
