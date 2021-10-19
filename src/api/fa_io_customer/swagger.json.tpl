@@ -83,7 +83,7 @@
                 }
             },
             "put": {
-                "description": "enrollment"
+                "description": "enrollment",
                 "operationId": "enrollmentUsingPUT",
                 "summary": "enrollment",
                 "tags": [
