@@ -99,4 +99,14 @@ resource "azurerm_monitor_diagnostic_setting" "activity_log" {
       days = 365
     }
   }
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
 }
