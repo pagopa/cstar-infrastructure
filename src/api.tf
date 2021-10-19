@@ -1205,6 +1205,327 @@ module "bpd_io_winning_transactions_v2" {
   ]
 }
 
+## 08 FA IO Customer API ##
+resource "azurerm_api_management_api_version_set" "fa_io_customers" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-io-customer", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA IO Customer API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_io_customers_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-io-customer-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_io_customers[0].id
+  api_version         = "Original"
+
+  description  = "Api and Models"
+  display_name = "FA IO Customer API"
+  path         = "fa/io/customer"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famscustomer/fa/customer", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_io_customer/swagger.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.app_io_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "deleteUsingDELETE"
+      xml_content = templatefile("./api/fa_io_customer/deleteUsingDELETE_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "enrollmentUsingPUT"
+      xml_content = templatefile("./api/fa_io_customer/enrollmentUsingPUT_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "findUsingGET"
+      xml_content  = file("./api/fa_io_customer/findUsingGET_policy.xml.tpl")
+    },
+  ]
+}
+
+## 09 FA HB Customer API
+resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-hb-customer", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA HB Customer API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_hb_customers_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-hb-customer-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_hb_customers[0].id
+  api_version         = "Original"
+
+  description  = "Api and Models"
+  display_name = "FA HB Customer API"
+  path         = "fa/hb/customer"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famscustomer/fa/customer", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_hb_customer/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.issuer_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "deleteUsingDELETE"
+      xml_content = templatefile("./api/fa_hb_customer/deleteUsingDELETE_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "enrollmentUsingPUT"
+      xml_content = templatefile("./api/fa_hb_customer/enrollmentUsingPUT_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "findUsingGET"
+      xml_content  = file("./api/fa_hb_customer/findUsingGET_policy.xml.tpl")
+    },
+  ]
+}
+
+## 10 FA IO Payment Instruments API ##
+resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-io-payment-instruments", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA IO Payment Instruments API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_io_payment_instruments_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-io-payment-instruments-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_io_payment_instruments[0].id
+  api_version         = "Original"
+
+  description  = ""
+  display_name = "FA IO Payment Instruments API"
+  path         = "fa/io/payment-instruments"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famspaymentinstrument/fa/payment-instruments", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_io_payment_instruments/swagger.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.app_io_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      # PUT enrollPaymentInstrumentIO
+      operation_id = "enrollmentUsingPUT",
+      xml_content = templatefile("./api/fa_io_payment_instruments/enrollmentUsingPUT_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # DEL deletePaymentInstrumentIO
+      operation_id = "deleteUsingDELETE",
+      xml_content = templatefile("./api/fa_io_payment_instruments/deleteUsingDELETE_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      # GET statusPaymentInstrumentIO
+      operation_id = "findUsingGET",
+      xml_content = templatefile("./api/fa_io_payment_instruments/findUsingGET_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+  ]
+}
+
+## 11 FA HB Payment Instruments API ##
+resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-hb-payment-instruments", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA HB Payment Instruments API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_hb_payment_instruments_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-hb-payment-instruments-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_hb_payment_instruments[0].id
+  api_version         = "Original"
+
+  description  = ""
+  display_name = "FA HB Payment Instruments API"
+  path         = "fa/hb/payment-instruments"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famspaymentinstrument/fa/payment-instruments", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_hb_payment_instruments/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.issuer_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      # DEL BPay deletePaymentInstrumentHB
+      operation_id = "deleteUsingDELETEBpay",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/deleteUsingDELETE_BPAY_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      # GET BPay statusPaymentInstrumentHB
+      operation_id = "findUsingGETBpay",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/findUsingGET_BPAY_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      # PUT enrollPaymentInstrumentHB
+      operation_id = "enrollmentUsingPUTCard",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Card_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # PUT enrollPaymentInstrumentHB BPay
+      operation_id = "enrollmentUsingPUTBpay",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_BPAY_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # PUT enrollPaymentInstrumentHB Other
+      operation_id = "enrollmentUsingPUTOther",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Other_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # PUT enrollPaymentInstrumentHB Satispay
+      operation_id = "enrollmentUsingPUTSatispay",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Satispay_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+        reverse-proxy-ip                     = var.reverse_proxy_ip
+      })
+    },
+    {
+      # DEL deletePaymentInstrumentHB
+      operation_id = "deleteUsingDELETE",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/deleteUsingDELETE_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      # PATCH patchPaymentInstrument
+      operation_id = "patchUsingPATCH",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/patchUsingPATCH_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+    {
+      # GET statusPaymentInstrumentHB
+      operation_id = "findUsingGET",
+      xml_content = templatefile("./api/fa_hb_payment_instruments/findUsingGET_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        pm-timeout-sec                       = var.pm_timeout_sec
+        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        env_short                            = var.env_short
+      })
+    },
+  ]
+}
+
 ##############
 ## Products ##
 ##############
@@ -1338,4 +1659,24 @@ module "wisp_api_product" {
 
   policy_xml = file("./api_product/wisp_api/policy.xml")
 
+}
+
+module "fa_api_product" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+
+  product_id   = "fa-api-product"
+  display_name = "FA_API_PRODUCT"
+  description  = "FA_API_PRODUCT"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = false
+  approval_required     = false
+
+  policy_xml = templatefile("./api_product/fa_api/policy.xml", {
+    env_short         = var.env_short
+  })
 }
