@@ -1207,6 +1207,7 @@ module "bpd_io_winning_transactions_v2" {
 
 ## 08 FA IO Customer API ##
 resource "azurerm_api_management_api_version_set" "fa_io_customers" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   name                = format("%s-fa-io-customer", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1216,11 +1217,12 @@ resource "azurerm_api_management_api_version_set" "fa_io_customers" {
 
 #Original#
 module "fa_io_customers_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-customer-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.fa_io_customers.id
+  version_set_id      = azurerm_api_management_api_version_set.fa_io_customers[0].id
   api_version         = "Original"
 
   description  = "Api and Models"
@@ -1262,6 +1264,7 @@ module "fa_io_customers_original" {
 
 ## 09 FA HB Customer API
 resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   name                = format("%s-fa-hb-customer", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1271,11 +1274,12 @@ resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
 
 #Original#
 module "fa_hb_customers_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-hb-customer-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.fa_hb_customers.id
+  version_set_id      = azurerm_api_management_api_version_set.fa_hb_customers[0].id
   api_version         = "Original"
 
   description  = "Api and Models"
@@ -1317,6 +1321,7 @@ module "fa_hb_customers_original" {
 
 ## 10 FA IO Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   name                = format("%s-fa-io-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1326,11 +1331,12 @@ resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
 
 #Original#
 module "fa_io_payment_instruments_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.fa_io_payment_instruments.id
+  version_set_id      = azurerm_api_management_api_version_set.fa_io_payment_instruments[0].id
   api_version         = "Original"
 
   description  = ""
@@ -1387,6 +1393,7 @@ module "fa_io_payment_instruments_original" {
 
 ## 11 FA HB Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   name                = format("%s-fa-hb-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1396,11 +1403,12 @@ resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
 
 #Original#
 module "fa_hb_payment_instruments_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.fa_hb_payment_instruments.id
+  version_set_id      = azurerm_api_management_api_version_set.fa_hb_payment_instruments[0].id
   api_version         = "Original"
 
   description  = ""
@@ -1654,6 +1662,7 @@ module "wisp_api_product" {
 }
 
 module "fa_api_product" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "fa-api-product"
