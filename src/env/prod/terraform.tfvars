@@ -622,6 +622,26 @@ eventhubs_fa = [
       }
     ]
   },
+  {
+    name              = "fa-trx-payment-instrument"
+    partitions        = 1
+    message_retention = 7
+    consumers         = ["fa-trx-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-payment-instrument-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-payment-instrument-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 external_domain = "pagopa.it"
