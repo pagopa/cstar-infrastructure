@@ -188,3 +188,7 @@ variable "configmaps_fainvoicemanager" {
 variable "configmaps_fainvoiceprovider" {
   type = map(string)
 }
+
+variable "configmaps_fatransactionerrormanager" {
+  type = map(string)
+}

@@ -214,25 +214,27 @@ configmaps_rtdpaymentinstrumentmanager = {
 
 configmaps_facustomer = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "facustomer"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famscustomer"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_CUSTOMER                             = "DEBUG"
+  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_fatransaction = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "fatransaction"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famstransaction"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
+  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_faenrollment = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "faenrollment"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsenrollment"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
@@ -246,6 +248,7 @@ configmaps_fapaymentinstrument = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_PAYMENT_INSTRUMENT                   = "DEBUG"
+  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_famerchant = {
@@ -255,6 +258,7 @@ configmaps_famerchant = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
+  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_faonboardingmerchant = {
@@ -282,4 +286,14 @@ configmaps_fainvoiceprovider = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_INVOICE_PROVIDER                     = "DEBUG"
+}
+
+configmaps_fatransactionerrormanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famstransactionerrormanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
+  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
