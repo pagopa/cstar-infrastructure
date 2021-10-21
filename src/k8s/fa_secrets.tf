@@ -70,7 +70,7 @@ resource "kubernetes_secret" "famspaymentinstrument" {
 
   data = {
     #Kafka Connection String Consumer
-    KAFKA_RTDTX_SASL_JAAS_CONFIG          = format(local.jaas_config_template, "rtd-trx", "rtd-trx-consumer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-consumer-key-fa-01"].value)
+    KAFKA_RTDTX_SASL_JAAS_CONFIG          = format(local.jaas_config_template, "rtd-trx", "rtd-trx-consumer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-consumer-key"].value)
 
     #Kafka Connection String Producer
     KAFKA_CUSTOMERTRX_SASL_JAAS_CONFIG    = format(local.jaas_config_template, "fa-trx-customer", "fa-trx-customer-producer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01"].value)
@@ -133,7 +133,7 @@ resource "kubernetes_secret" "famstransactionerrormanager" {
     KAFKA_FACUSTRX_SASL_JAAS_CONFIG       = format(local.jaas_config_template, "fa-trx-customer", "fa-trx-customer-producer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_RTDTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key-fa-01"].value)
+    KAFKA_RTDTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value)
     APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
