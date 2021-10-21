@@ -1,7 +1,6 @@
 # Secrets meant to be used in many microservices
-locals {
-  jaas_config_template = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"Endpoint=sb://${format("%s-evh-ns", local.project)}.servicebus.windows.net/;EntityPath=%s;SharedAccessKeyName=%s;SharedAccessKey=%s\";"
-}
+
+# jaas_config_tamplate is defined in file bpd_secrets.tf
 
 resource "kubernetes_secret" "fa-postgres-credentials" {
   metadata {
