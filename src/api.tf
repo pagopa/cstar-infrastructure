@@ -1238,7 +1238,7 @@ module "fa_io_customers_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.app_io_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  product_ids           = var.env_short == "d" ? concat([module.app_io_product.product_id], [module.fa_api_product.product_id]) : [module.app_io_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -1294,7 +1294,7 @@ module "fa_hb_customers_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.issuer_api_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  product_ids           = var.env_short == "d" ? concat([module.issuer_api_product.product_id], [module.fa_api_product.product_id]) : [module.issuer_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -1350,7 +1350,7 @@ module "fa_io_payment_instruments_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.app_io_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  product_ids           = var.env_short == "d" ? concat([module.app_io_product.product_id], [module.fa_api_product.product_id]) : [module.app_io_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -1421,7 +1421,7 @@ module "fa_hb_payment_instruments_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.issuer_api_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  product_ids           = var.env_short == "d" ? concat([module.issuer_api_product.product_id], [module.fa_api_product.product_id]) : [module.issuer_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -1555,7 +1555,7 @@ module "fa_register_transactions_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.issuer_api_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  product_ids           = var.env_short == "d" ? concat([module.issuer_api_product.product_id], [module.fa_api_product.product_id]) : [module.issuer_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -1601,7 +1601,7 @@ module "fa_io_transactions_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.app_io_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  product_ids           = var.env_short == "d" ? concat([module.app_io_product.product_id], [module.fa_api_product.product_id]) : [module.app_io_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -1750,7 +1750,6 @@ module "wisp_api_product" {
 }
 
 module "fa_api_product" {
-  count = var.env_short == "d" ? 1 : 0 # only in dev
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
 
   product_id   = "fa-api-product"
