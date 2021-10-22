@@ -12,6 +12,7 @@ configmaps_cstariobackendtest = {
   JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "cstariobackendtest"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 # bpdmsawardperiod

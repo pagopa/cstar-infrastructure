@@ -11,6 +11,10 @@ resource "kubernetes_config_map" "cstariobackendtest" {
     BACKEND_IO_SERVER_PROCESSOR_CACHE   = "300"
     BACKEND_IO_SERVER_THREAD_MAX        = "500"
     JAVA_TOOL_OPTIONS                   = "-Xmx1g"
+    KAFKA_SECURITY_PROTOCOL             = "SASL_SSL"
+    KAFKA_SASL_MECHANISM                = "PLAIN"
+    KAFKA_MOCKPOCTRX_TOPIC              = "rtd-trx"
+    KAFKA_MOCKPOCTRX_GROUP_ID           = "fa-mock-poc"
 
     },
     var.configmaps_cstariobackendtest
