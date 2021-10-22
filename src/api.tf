@@ -1223,7 +1223,6 @@ module "fa_io_customers_original" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.fa_io_customers[0].id
-  api_version         = "Original"
 
   description  = "Api and Models"
   display_name = "FA IO Customer API"
@@ -1239,7 +1238,7 @@ module "fa_io_customers_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.app_io_product.product_id]
+  product_ids           = [module.app_io_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
   subscription_required = true
 
   api_operation_policies = [
@@ -1280,7 +1279,6 @@ module "fa_hb_customers_original" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.fa_hb_customers[0].id
-  api_version         = "Original"
 
   description  = "Api and Models"
   display_name = "FA HB Customer API"
@@ -1296,7 +1294,7 @@ module "fa_hb_customers_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.issuer_api_product.product_id]
+  product_ids           = [module.issuer_api_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
   subscription_required = true
 
   api_operation_policies = [
@@ -1337,7 +1335,6 @@ module "fa_io_payment_instruments_original" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.fa_io_payment_instruments[0].id
-  api_version         = "Original"
 
   description  = ""
   display_name = "FA IO Payment Instruments API"
@@ -1353,7 +1350,7 @@ module "fa_io_payment_instruments_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.app_io_product.product_id]
+  product_ids           = [module.app_io_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
   subscription_required = true
 
   api_operation_policies = [
@@ -1409,7 +1406,6 @@ module "fa_hb_payment_instruments_original" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.fa_hb_payment_instruments[0].id
-  api_version         = "Original"
 
   description  = ""
   display_name = "FA HB Payment Instruments API"
@@ -1425,7 +1421,7 @@ module "fa_hb_payment_instruments_original" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.issuer_api_product.product_id]
+  product_ids           = [module.issuer_api_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
   subscription_required = true
 
   api_operation_policies = [
@@ -1521,6 +1517,98 @@ module "fa_hb_payment_instruments_original" {
         pm-timeout-sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
         env_short                            = var.env_short
+      })
+    },
+  ]
+}
+
+## 12 FA REGISTER Transaction API
+resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-register-transaction", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA REGISTER Transaction API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_register_transactions_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-register-transaction-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_register_transactions[0].id
+
+  description  = "Api and Models"
+  display_name = "FA REGISTER Transaction API"
+  path         = "fa/register/transaction"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famstransaction/fa/transaction", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_register_transaction/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.issuer_api_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "createPosTransactionUsingPOST"
+      xml_content = templatefile("./api/fa_register_transaction/createPosTransactionUsingPOST_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+  ]
+}
+
+## 12 FA IO Transaction API
+resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-io-transaction", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA IO Transaction API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_io_transactions_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-io-transaction-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_io_transactions[0].id
+
+  description  = "Api and Models"
+  display_name = "FA IO Transaction API"
+  path         = "fa/io/transaction"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famstransaction/fa/transaction", var.reverse_proxy_ip)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_io_transaction/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.app_io_product.product_id, var.env_short == "d" ? module.fa_api_product.product_id : ""]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getTransactionListUsingGET"
+      xml_content = templatefile("./api/fa_io_transaction/getTransactionListUsingGET_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
   ]
