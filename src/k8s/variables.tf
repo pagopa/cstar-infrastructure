@@ -192,3 +192,23 @@ variable "configmaps_fainvoiceprovider" {
 variable "configmaps_fatransactionerrormanager" {
   type = map(string)
 }
+
+variable "autoscaling_specs" {
+  type = map(object({
+    namespace = string
+    min_replicas = number
+    max_replicas = number
+    metrics = list(object({
+      type = string
+      resource = object({
+        name = string
+        target = object({
+          type = string
+          average_utilization = number
+        })
+      })
+    }))
+
+    }
+  ))
+}
