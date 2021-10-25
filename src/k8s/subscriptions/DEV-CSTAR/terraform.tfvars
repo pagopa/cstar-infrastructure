@@ -12,7 +12,6 @@ configmaps_cstariobackendtest = {
   JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "cstariobackendtest"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
-  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 # bpdmsawardperiod
@@ -220,7 +219,6 @@ configmaps_facustomer = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_CUSTOMER                             = "DEBUG"
-  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_fatransaction = {
@@ -230,7 +228,6 @@ configmaps_fatransaction = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
-  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_faenrollment = {
@@ -249,7 +246,6 @@ configmaps_fapaymentinstrument = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_PAYMENT_INSTRUMENT                   = "DEBUG"
-  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_famerchant = {
@@ -259,7 +255,6 @@ configmaps_famerchant = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
-  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_faonboardingmerchant = {
@@ -296,5 +291,4 @@ configmaps_fatransactionerrormanager = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
-  KAFKA_SERVERS                                     = local.event_hub_connection
 }
