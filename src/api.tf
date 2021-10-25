@@ -1761,7 +1761,7 @@ module "fa_api_product" {
   resource_group_name = azurerm_resource_group.rg_api.name
 
   published             = true
-  subscription_required = false
+  subscription_required = true
   approval_required     = false
 
   policy_xml = templatefile("./api_product/fa_api/policy.xml", {
