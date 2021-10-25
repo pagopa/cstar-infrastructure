@@ -219,7 +219,6 @@ configmaps_facustomer = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_CUSTOMER                             = "DEBUG"
-  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_fatransaction = {
@@ -229,7 +228,6 @@ configmaps_fatransaction = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
-  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_faenrollment = {
@@ -248,7 +246,6 @@ configmaps_fapaymentinstrument = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_PAYMENT_INSTRUMENT                   = "DEBUG"
-  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_famerchant = {
@@ -258,7 +255,6 @@ configmaps_famerchant = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_MERCHANT                             = "DEBUG"
-  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }
 
 configmaps_faonboardingmerchant = {
@@ -295,5 +291,4 @@ configmaps_fatransactionerrormanager = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
-  KAFKA_SERVERS                                     = "cstar-d-evh-ns.servicebus.windows.net:9093"
 }

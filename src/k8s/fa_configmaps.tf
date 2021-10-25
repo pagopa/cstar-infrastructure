@@ -7,7 +7,7 @@ resource "kubernetes_config_map" "fa-eventhub-common" {
   data = {
     KAFKA_SASL_MECHANISM    = "PLAIN"
     KAFKA_SECURITY_PROTOCOL = "SASL_SSL"
-    KAFKA_SERVERS           = local.event_hub_connection
+    KAFKA_SERVERS           = local.event_hub_connection_fa_01
   }
 }
 
@@ -32,8 +32,6 @@ resource "kubernetes_config_map" "famscustomer" {
   data = merge({
     POSTGRES_SCHEMA           = "fa_customer"
     TZ                        = "Europe/Rome"
-    KAFKA_SECURITY_PROTOCOL   = "SASL_SSL"
-    KAFKA_SASL_MECHANISM      = "PLAIN"
     KAFKA_RTDTX_TOPIC         = "fa-trx-customer"
     KAFKA_RTDTX_GROUP_ID      = "fa-customer"
     KAFKA_MERCHANTRX_TOPIC    = "fa-trx-merchant"
@@ -51,8 +49,6 @@ resource "kubernetes_config_map" "famstransaction" {
   data = merge({
     POSTGRES_SCHEMA            = "fa_transaction"
     TZ                         = "Europe/Rome"
-    KAFKA_SECURITY_PROTOCOL    = "SASL_SSL"
-    KAFKA_SASL_MECHANISM       = "PLAIN"
     KAFKA_RTDTX_TOPIC          = "fa-trx"
     KAFKA_RTDTX_GROUP_ID       = "fa-transaction"
     KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
@@ -82,12 +78,11 @@ resource "kubernetes_config_map" "famspaymentinstrument" {
   data = merge({
     POSTGRES_SCHEMA            = "fa_payment_instrument"
     TZ                         = "Europe/Rome"
-    KAFKA_SECURITY_PROTOCOL    = "SASL_SSL"
-    KAFKA_SASL_MECHANISM       = "PLAIN"
     KAFKA_RTDTX_TOPIC          = "rtd-trx"
     KAFKA_RTDTX_GROUP_ID       = "fa-payment-instrument"
     KAFKA_CUSTOMERTRX_TOPIC    = "fa-trx-customer"
     KAFKA_CUSTOMERTRX_GROUP_ID = "fa-payment-instrument"
+    KAFKA_SERVERS_RTD          = local.event_hub_connection
   }, var.configmaps_fapaymentinstrument)
 
 }
@@ -101,8 +96,6 @@ resource "kubernetes_config_map" "famsmerchant" {
   data = merge({
     POSTGRES_SCHEMA         = "fa_merchant"
     TZ                      = "Europe/Rome"
-    KAFKA_SECURITY_PROTOCOL = "SASL_SSL"
-    KAFKA_SASL_MECHANISM    = "PLAIN"
     KAFKA_MCNTRX_TOPIC      = "fa-trx-merchant"
     KAFKA_MCNTRX_GROUP_ID   = "fa-merchant"
     KAFKA_FATRX_TOPIC       = "fa-trx"
@@ -174,8 +167,6 @@ resource "kubernetes_config_map" "famstransactionerrormanager" {
   data = merge({
     POSTGRES_SCHEMA         = "fa_customer"
     TZ                      = "Europe/Rome"
-    KAFKA_SECURITY_PROTOCOL = "SASL_SSL"
-    KAFKA_SASL_MECHANISM    = "PLAIN"
     KAFKA_FATXERR_TOPIC     = "fa-trx-error"
     KAFKA_FATXERR_GROUP_ID  = "fa-transaction-error-manager"
     KAFKA_FATRX_TOPIC       = "fa-trx"
@@ -184,6 +175,7 @@ resource "kubernetes_config_map" "famstransactionerrormanager" {
     KAFKA_FACUSTRX_GROUP_ID = "fa-transaction-error-manager"
     KAFKA_RTDTRX_TOPIC      = "rtd-trx"
     KAFKA_RTDTRX_GROUP_ID   = "fa-transaction-error-manager"
+    KAFKA_SERVERS_RTD       = local.event_hub_connection
   }, var.configmaps_fatransactionerrormanager)
 
 }
