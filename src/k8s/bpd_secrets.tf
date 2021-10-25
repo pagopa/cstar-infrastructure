@@ -194,6 +194,7 @@ resource "kubernetes_secret" "bpd-application-insights" {
 }
 
 resource "kubernetes_secret" "cstariobackendtest" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
   metadata {
     name      = "cstariobackendtest"
     namespace = kubernetes_namespace.bpd.metadata[0].name

@@ -258,7 +258,7 @@ configmaps_facustomer = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_CUSTOMER                             = "INFO"
-  KAFKA_SERVERS                                     = "cstar-u-evh-ns.servicebus.windows.net:9093"
+  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_fatransaction = {
@@ -268,7 +268,7 @@ configmaps_fatransaction = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "INFO"
-  KAFKA_SERVERS                                     = "cstar-u-evh-ns.servicebus.windows.net:9093"
+  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_faenrollment = {
@@ -287,7 +287,7 @@ configmaps_fapaymentinstrument = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_PAYMENT_INSTRUMENT                   = "INFO"
-  KAFKA_SERVERS                                     = "cstar-u-evh-ns.servicebus.windows.net:9093"
+  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_famerchant = {
@@ -297,7 +297,7 @@ configmaps_famerchant = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_MERCHANT                             = "INFO"
-  KAFKA_SERVERS                                     = "cstar-u-evh-ns.servicebus.windows.net:9093"
+  KAFKA_SERVERS                                     = local.event_hub_connection
 }
 
 configmaps_faonboardingmerchant = {
@@ -334,5 +334,5 @@ configmaps_fatransactionerrormanager = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_TRANSACTION                          = "INFO"
-  KAFKA_SERVERS                                     = "cstar-u-evh-ns.servicebus.windows.net:9093"
+  KAFKA_SERVERS                                     = local.event_hub_connection
 }
