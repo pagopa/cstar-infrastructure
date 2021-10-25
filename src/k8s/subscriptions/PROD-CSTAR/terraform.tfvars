@@ -355,7 +355,7 @@ autoscaling_specs = {
 
           target = {
             type  = "Utilization"
-            average_utilization = 33
+            average_utilization = 85
           }
         }
       }
