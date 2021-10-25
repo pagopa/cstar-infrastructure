@@ -83,6 +83,7 @@ resource "kubernetes_config_map" "famspaymentinstrument" {
     KAFKA_CUSTOMERTRX_TOPIC    = "fa-trx-customer"
     KAFKA_CUSTOMERTRX_GROUP_ID = "fa-payment-instrument"
     KAFKA_SERVERS_RTD          = local.event_hub_connection
+    KAFKA_SERVERS              = local.event_hub_connection_fa_01
   }, var.configmaps_fapaymentinstrument)
 
 }
@@ -176,6 +177,7 @@ resource "kubernetes_config_map" "famstransactionerrormanager" {
     KAFKA_RTDTRX_TOPIC      = "rtd-trx"
     KAFKA_RTDTRX_GROUP_ID   = "fa-transaction-error-manager"
     KAFKA_SERVERS_RTD       = local.event_hub_connection
+    KAFKA_SERVERS           = local.event_hub_connection_fa_01
   }, var.configmaps_fatransactionerrormanager)
 
 }
