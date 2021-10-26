@@ -237,6 +237,7 @@ configmaps_faenrollment = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_ENROLLMENT                           = "DEBUG"
+  MS_AGENZIA_ENTRATE_HOST                           = "cstariobackendtest"
 }
 
 configmaps_fapaymentinstrument = {
