@@ -23,7 +23,7 @@
             ).ToString();
         }</set-body>
         <set-backend-service base-url="http://${reverse-proxy-ip}/famsenrollment" />
-        <rewrite-uri template="@("/fa/enrollment/io/payment-instruments/{id}")" />
+        <rewrite-uri template="@("/fa/enrollment/payment-instruments/{id}")" />
     </inbound>
     <backend>
         <base />
