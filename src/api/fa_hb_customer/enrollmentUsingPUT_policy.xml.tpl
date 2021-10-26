@@ -22,7 +22,7 @@
             </when>
         </choose>
         <set-backend-service base-url="http://${reverse-proxy-ip}/famsenrollment" />
-        <rewrite-uri template="@("/fa/enrollment/customers/"+(string)context.Variables["v_fiscalcode"])" />
+        <rewrite-uri template="@("/fa/enrollment/customer/"+(string)context.Variables["v_fiscalcode"])" />
     </inbound>
     <backend>
         <base />
