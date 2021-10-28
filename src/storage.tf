@@ -83,6 +83,13 @@ resource "azurerm_storage_container" "bpd_terms_and_conditions" {
   container_access_type = "blob"
 }
 
+# Container terms and conditions
+resource "azurerm_storage_container" "fa_terms_and_conditions" {
+  name                  = "fa-terms-and-conditions"
+  storage_account_name  = module.cstarblobstorage.name
+  container_access_type = "blob"
+}
+
 # Container export
 resource "azurerm_storage_container" "cstar_exports" {
   name                  = "cstar-exports"
