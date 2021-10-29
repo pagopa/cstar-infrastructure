@@ -274,7 +274,6 @@ configmaps_fainvoicemanager = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_INVOICE_MANAGER                      = "DEBUG"
-  MS_AGENZIA_ENTRATE_HOST                           = format("%s/cstariobackendtest", ingress_load_balancer_ip)
 }
 
 configmaps_fainvoiceprovider = {

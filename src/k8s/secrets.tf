@@ -46,6 +46,8 @@ module "key_vault_secrets_query" {
     "evh-fa-trx-error-fa-trx-error-consumer-key-fa-01",
     "evh-fa-trx-fa-trx-producer-key-fa-01",
     "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
-    "evh-rtd-trx-rtd-trx-producer-key"
+    "evh-rtd-trx-rtd-trx-producer-key",
+    "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
+    "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"
   ]
 }
