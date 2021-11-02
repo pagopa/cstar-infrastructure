@@ -16,6 +16,7 @@ resource "kubernetes_config_map" "cstariobackendtest" {
     KAFKA_MOCKPOCTRX_TOPIC              = "rtd-trx"
     KAFKA_MOCKPOCTRX_GROUP_ID           = "fa-mock-poc"
     KAFKA_SERVERS                       = local.event_hub_connection // points to bpd EH namespace
+    FA_TRANSACTION_HOST                 = format("%s/famstransaction", var.ingress_load_balancer_ip)
     },
     var.configmaps_cstariobackendtest
   )
