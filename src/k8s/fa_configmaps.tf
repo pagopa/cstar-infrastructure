@@ -49,10 +49,15 @@ resource "kubernetes_config_map" "famstransaction" {
   data = merge({
     POSTGRES_SCHEMA            = "fa_transaction"
     TZ                         = "Europe/Rome"
-    KAFKA_RTDTX_TOPIC          = "fa-trx"
-    KAFKA_RTDTX_GROUP_ID       = "fa-transaction"
+    KAFKA_VLDTRX_TOPIC         = "rtd-trx"
+    KAFKA_VLDTRX_GROUP_ID      = "fa-transaction"
+    KAFKA_TRX_TOPIC            = "fa-trx"
+    KAFKA_TRX_GROUP_ID         = "fa-transaction"
+    KAFKA_PMNSTRTRX_TOPIC      = "fa-trx-payment-instrument"
+    KAFKA_PMNSTRTRX_GROUP_ID   = "fa-transaction"
     KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
     KAFKA_FATRX_ERROR_GROUP_ID = "fa-transaction"
+    KAFKA_SERVERS_RTD          = local.event_hub_connection
   }, var.configmaps_fatransaction)
 
 }
@@ -78,12 +83,10 @@ resource "kubernetes_config_map" "famspaymentinstrument" {
   data = merge({
     POSTGRES_SCHEMA            = "fa_payment_instrument"
     TZ                         = "Europe/Rome"
-    KAFKA_RTDTX_TOPIC          = "rtd-trx"
-    KAFKA_RTDTX_GROUP_ID       = "fa-payment-instrument"
+    KAFKA_PAYINSTRTRX_TOPIC    = "fa-trx-payment-instrument"
+    KAFKA_PAYINSTRTRX_GROUP_ID = "fa-payment-instrument"
     KAFKA_CUSTOMERTRX_TOPIC    = "fa-trx-customer"
     KAFKA_CUSTOMERTRX_GROUP_ID = "fa-payment-instrument"
-    KAFKA_SERVERS_RTD          = local.event_hub_connection
-    KAFKA_SERVERS              = local.event_hub_connection_fa_01
   }, var.configmaps_fapaymentinstrument)
 
 }
@@ -124,7 +127,8 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
   }
 
   data = merge({
-    TZ = "Europe/Rome"
+    TZ                      = "Europe/Rome"
+    MS_AGENZIA_ENTRATE_HOST = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
   }, var.configmaps_fainvoicemanager)
 
 }
@@ -166,7 +170,7 @@ resource "kubernetes_config_map" "famstransactionerrormanager" {
   }
 
   data = merge({
-    POSTGRES_SCHEMA         = "fa_customer"
+    POSTGRES_SCHEMA         = "fa_error_record"
     TZ                      = "Europe/Rome"
     KAFKA_FATXERR_TOPIC     = "fa-trx-error"
     KAFKA_FATXERR_GROUP_ID  = "fa-transaction-error-manager"
@@ -177,7 +181,6 @@ resource "kubernetes_config_map" "famstransactionerrormanager" {
     KAFKA_RTDTRX_TOPIC      = "rtd-trx"
     KAFKA_RTDTRX_GROUP_ID   = "fa-transaction-error-manager"
     KAFKA_SERVERS_RTD       = local.event_hub_connection
-    KAFKA_SERVERS           = local.event_hub_connection_fa_01
   }, var.configmaps_fatransactionerrormanager)
 
 }
