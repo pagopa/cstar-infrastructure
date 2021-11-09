@@ -335,6 +335,17 @@ configmaps_fatransactionerrormanager = {
   LOG_LEVEL_FA_TRANSACTION                          = "INFO"
 }
 
+configmaps_fanotificationmanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsnotificationmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_NOTIFICATION_MANAGER                 = "INFO"
+  NOTIFICATION_SERVICE_TTL                          = "3600"
+  URL_BACKEND_IO                                    = "https://api.io.italia.it"
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment

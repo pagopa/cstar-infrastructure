@@ -1,0 +1,1 @@
+Ti informiamo che è stata emessa una fattura per **%fiscalCode%** da parte di **%merchantCompanyName%**, per un importo di **%amount% €**. La fattura è conservata nell'area personale del [Portale Fatture e Corrispettivi](https://ivaservizi.agenziaentrate.gov.it/portale/), da cui puoi anche scaricare una versione in PDF.\n\nGrazie per aver usato Fatturazione Automatica!
