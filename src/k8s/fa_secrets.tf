@@ -149,3 +149,17 @@ resource "kubernetes_secret" "famstransactionerrormanager" {
 
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "famsnotificationmanager" {
+  metadata {
+    name      = "famsnotificationmanager"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = {
+    URL_BACKEND_IO_TOKEN_VALUE            = module.key_vault_secrets_query.values["url-backend-io-token-value"].value
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}

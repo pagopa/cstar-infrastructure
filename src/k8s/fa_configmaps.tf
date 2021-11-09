@@ -184,3 +184,31 @@ resource "kubernetes_config_map" "famstransactionerrormanager" {
   }, var.configmaps_fatransactionerrormanager)
 
 }
+
+resource "kubernetes_config_map" "famsnotificationmanager" {
+  metadata {
+    name      = "famsnotificationmanager"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = merge({
+    TZ              = "Europe/Rome"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OPEN_TAG = "%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_CLOSE_TAG = "%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_LINE_SEPARATOR = "- - -"
+    NOTIFICATION_SERVICE_INVOICE_SUBJECT_OK = "Nuova Fattura da %merchantCompanyName%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OK = "${file("${path.module}/configmaps/famsnotificationmanager/NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OK.txt")}"
+    NOTIFICATION_SERVICE_INVOICE_SUBJECT_KO = "C'è un problema con l'emissione della fattura"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_KO = "${file("${path.module}/configmaps/famsnotificationmanager/NOTIFICATION_SERVICE_INVOICE_MARKDOWN_KO.txt")}"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_OP_LABEL = "**Dettagli dell'operazione**"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_LABEL = "**Informazioni sulla transazione**"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_MERCHANT_COMPANY_NAME = "**Esercente**\n%merchantCompanyName%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_MERCHANT_VAT_NUMBER = "**Partita IVA**\n%merchantVatNumber%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_INVOICE_NUMBER = "**Numero Fattura**\n%invoiceNumber%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_AMOUNT = "**Importo**\n%amount%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_DATE = "**Data**\n%trxDate%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_ACQUIRER_ID = "**ID transazione Acquirer**\n%idTrxAcquirer%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_ISSUER_ID = "**ID transazione Issuer**\n%idTrxIssuer%"
+  }, var.configmaps_fanotificationmanager)
+
+}

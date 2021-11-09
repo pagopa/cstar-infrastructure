@@ -193,6 +193,10 @@ variable "configmaps_fatransactionerrormanager" {
   type = map(string)
 }
 
+variable "configmaps_fanotificationmanager" {
+  type = map(string)
+}
+
 variable "autoscaling_specs" {
   type = map(object({
     namespace = string
