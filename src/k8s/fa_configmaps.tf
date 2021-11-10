@@ -58,6 +58,8 @@ resource "kubernetes_config_map" "famstransaction" {
     KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
     KAFKA_FATRX_ERROR_GROUP_ID = "fa-transaction"
     KAFKA_SERVERS_RTD          = local.event_hub_connection
+    MOCK_HOST                  = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MOCK_PORT                  = ""
   }, var.configmaps_fatransaction)
 
 }
@@ -129,6 +131,7 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
   data = merge({
     TZ                      = "Europe/Rome"
     MS_AGENZIA_ENTRATE_HOST = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MS_AGENZIA_ENTRATE_PORT = ""
   }, var.configmaps_fainvoicemanager)
 
 }
