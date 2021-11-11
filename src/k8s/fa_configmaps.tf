@@ -58,6 +58,8 @@ resource "kubernetes_config_map" "famstransaction" {
     KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
     KAFKA_FATRX_ERROR_GROUP_ID = "fa-transaction"
     KAFKA_SERVERS_RTD          = local.event_hub_connection
+    MOCK_HOST                  = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MOCK_PORT                  = ""
   }, var.configmaps_fatransaction)
 
 }
@@ -129,6 +131,7 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
   data = merge({
     TZ                      = "Europe/Rome"
     MS_AGENZIA_ENTRATE_HOST = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MS_AGENZIA_ENTRATE_PORT = ""
   }, var.configmaps_fainvoicemanager)
 
 }
@@ -153,13 +156,14 @@ resource "kubernetes_config_map" "fa-rest-client" {
   }
 
   data = {
-    FA_CUSTOMER_HOST           = "famscustomer"
-    FA_INVOICE_MANAGER_HOST    = "famsinvoicemanager"
-    FA_PAYMENT_INSTRUMENT_HOST = "famspaymentinstrument"
-    FA_MERCHANT_HOST           = "famsmerchant"
-    FA_INVOICE_PROVIDER_HOST   = "famsinvoiceprovider"
-    REST_CLIENT_LOGGER_LEVEL   = "NONE"
-    REST_CLIENT_SCHEMA         = "http"
+    FA_CUSTOMER_HOST              = "famscustomer"
+    FA_INVOICE_MANAGER_HOST       = "famsinvoicemanager"
+    FA_PAYMENT_INSTRUMENT_HOST    = "famspaymentinstrument"
+    FA_MERCHANT_HOST              = "famsmerchant"
+    FA_INVOICE_PROVIDER_HOST      = "famsinvoiceprovider"
+    FA_NOTIFICATION_MANAGER_HOST  = "famsnotificationmanager"
+    REST_CLIENT_LOGGER_LEVEL      = "NONE"
+    REST_CLIENT_SCHEMA            = "http"
   }
 }
 
@@ -192,23 +196,29 @@ resource "kubernetes_config_map" "famsnotificationmanager" {
   }
 
   data = merge({
-    TZ              = "Europe/Rome"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OPEN_TAG = "%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_CLOSE_TAG = "%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_LINE_SEPARATOR = "- - -"
-    NOTIFICATION_SERVICE_INVOICE_SUBJECT_OK = "Nuova Fattura da %merchantCompanyName%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OK = "${file("${path.module}/configmaps/famsnotificationmanager/NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OK.txt")}"
-    NOTIFICATION_SERVICE_INVOICE_SUBJECT_KO = "C'è un problema con l'emissione della fattura"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_KO = "${file("${path.module}/configmaps/famsnotificationmanager/NOTIFICATION_SERVICE_INVOICE_MARKDOWN_KO.txt")}"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_OP_LABEL = "**Dettagli dell'operazione**"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_LABEL = "**Informazioni sulla transazione**"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_MERCHANT_COMPANY_NAME = "**Esercente**\n%merchantCompanyName%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_MERCHANT_VAT_NUMBER = "**Partita IVA**\n%merchantVatNumber%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_INVOICE_NUMBER = "**Numero Fattura**\n%invoiceNumber%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_AMOUNT = "**Importo**\n%amount%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_DATE = "**Data**\n%trxDate%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_ACQUIRER_ID = "**ID transazione Acquirer**\n%idTrxAcquirer%"
-    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_ISSUER_ID = "**ID transazione Issuer**\n%idTrxIssuer%"
+    TZ                                                                  = "Europe/Rome"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_FORMAT_DATE_ONLY              = "dd MMMM yyyy"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_FORMAT_DATE_UP_TO_TIME        = "dd MMM yyyy, HH:mm:ss"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OPEN_TAG                      = "%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_CLOSE_TAG                     = "%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_LINE_SEPARATOR                = "- - -"
+    NOTIFICATION_SERVICE_INVOICE_SUBJECT_OK                             = "Nuova Fattura da %merchantCompanyName%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OK                            = "${file("${path.module}/configmaps/famsnotificationmanager/NOTIFICATION_SERVICE_INVOICE_MARKDOWN_OK.txt")}"
+    NOTIFICATION_SERVICE_INVOICE_SUBJECT_KO                             = "C'è un problema con l'emissione della fattura"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_KO                            = "${file("${path.module}/configmaps/famsnotificationmanager/NOTIFICATION_SERVICE_INVOICE_MARKDOWN_KO.txt")}"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_OP_LABEL              = "**Dettagli dell'operazione**"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_LABEL             = "**Informazioni sulla transazione**"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_MERCHANT_COMPANY_NAME = "**Esercente**\n\n%merchantCompanyName%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_MERCHANT_VAT_NUMBER   = "**Partita IVA**\n\n%merchantVatNumber%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_INVOICE_NUMBER        = "**Numero Fattura**\n\n%invoiceNumber%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_AMOUNT                = "**Importo**\n\n%amount%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_DATE              = "**Data**\n\n%trxDate%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_ACQUIRER_ID       = "**ID transazione Acquirer**\n\n%idTrxAcquirer%"
+    NOTIFICATION_SERVICE_INVOICE_MARKDOWN_DETAILS_TRX_ISSUER_ID         = "**ID transazione Issuer**\n\n%idTrxIssuer%"
+    NOTIFICATION_SERVICE_INVOICE_REJ_REASON_GENERIC                     = "I requisiti minimi per l'emissione della fattura non sono stati rispettati"
+    NOTIFICATION_SERVICE_INVOICE_REJ_REASON_NOT_FOUND                   = "Il codice identificativo della fattura non è stato riconosciuto dal sistema di emissione"
+    NOTIFICATION_SERVICE_INVOICE_REJ_REASON_NOT_DATA_RECEIVED           = "I dati per generare la fattura non sono stati ricevuti dal sistema di emissione entro i tempi richiesti"
+    NOTIFICATION_SERVICE_INVOICE_REJ_REASON_NOT_DATA_MATCHED            = "I dati identificativi non coincidono con quelli presenti nei sistemi di emissione"
   }, var.configmaps_fanotificationmanager)
 
 }
