@@ -394,4 +394,27 @@ autoscaling_specs = {
       }
     ]
   }
+
+  bpdmsenrollment = {
+
+    namespace = "bpd"
+
+    max_replicas = 10
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
 }
