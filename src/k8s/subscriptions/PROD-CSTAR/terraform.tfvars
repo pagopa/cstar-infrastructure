@@ -417,4 +417,27 @@ autoscaling_specs = {
       }
     ]
   }
+
+  bpdmswinningtransaction = {
+
+    namespace = "bpd"
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
 }
