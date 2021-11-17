@@ -31,7 +31,7 @@
         }
     ],
     "paths": {
-        "/list/{hpan}": {
+        "/list": {
             "get": {
                 "description": "getTransactionList",
                 "operationId": "getTransactionListUsingGET",
@@ -42,9 +42,9 @@
                 "parameters": [
                     {
                         "name": "hpan",
-                        "in": "path",
+                        "in": "query",
                         "description": "id dello strumento di pagamento, che corrisponde all'hash del PAN (Primary Account Number) del metodo di pagamento",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     }
                 ],

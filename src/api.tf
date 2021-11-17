@@ -1578,7 +1578,7 @@ module "fa_register_transactions_original" {
 
   description  = "Api and Models"
   display_name = "FA REGISTER Transaction API"
-  path         = "fa/register/transaction"
+  path         = "fa/transaction"
   protocols    = ["https", "http"]
 
   service_url = format("http://%s/famstransaction/fa/transaction", var.reverse_proxy_ip)
@@ -1646,6 +1646,153 @@ module "fa_io_transactions_original" {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
+  ]
+}
+
+## 13 FA Mock API
+resource "azurerm_api_management_api_version_set" "fa_mock" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-mock", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA Mock API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_mock_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-mock-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_mock[0].id
+
+  description  = "Api and Models"
+  display_name = "FA Mock API"
+  path         = "fa/mock"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/cstariobackendtest/fa/mock/poc", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/fa_mock/swagger.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.fa_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "sendRegisterTransactionUsingPOST"
+      xml_content = templatefile("./api/fa_mock/sendRegisterTransactionUsingPOST_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "sendAcquirerTransactionUsingPost"
+      xml_content = templatefile("./api/fa_mock/sendAcquirerTransactionUsingPost_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    }
+  ]
+}
+
+## 14 FA IO Merchant API
+resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-io-merchant", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA IO Merchant API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_io_merchant_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-io-merchant-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_io_merchant[0].id
+
+  description  = "Api and Models"
+  display_name = "FA IO Merchant API"
+  path         = "fa/io/merchant"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famsmerchant/fa/merchant", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/fa_io_merchant/swagger.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = var.env_short == "d" ? [module.app_io_product.product_id, module.fa_api_product.product_id] : [module.app_io_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "onboardingMerchantByIOUsingPut"
+      xml_content = templatefile("./api/fa_io_merchant/onboardingMerchantByIOUsingPut_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    }
+  ]
+}
+
+## 14 FA EXT Merchant API
+resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-ext-merchant", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA EXT Merchant API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_ext_merchant_original" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-ext-merchant-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_ext_merchant[0].id
+
+  description  = "Api and Models"
+  display_name = "FA EXT Merchant API"
+  path         = "fa/ext/merchant"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famsmerchant/fa/merchant", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/fa_ext_merchant/swagger.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = var.env_short == "d" ? [module.issuer_api_product.product_id, module.fa_api_product.product_id] : [module.issuer_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "onboardingMerchantByProviderUsingPut"
+      xml_content = templatefile("./api/fa_ext_merchant/onboardingMerchantByProviderUsingPut_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "onboardingMerchantByOtherUsingPut"
+      xml_content = templatefile("./api/fa_ext_merchant/onboardingMerchantByOtherUsingPut_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    }
   ]
 }
 
