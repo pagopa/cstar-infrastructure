@@ -217,20 +217,11 @@ cidr_subnet_eventhub  = ["10.230.6.64/26"]
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 
-db_sku_name                     = "GP_Gen5_8"
+db_sku_name                     = "GP_Gen5_4"
 db_geo_redundant_backup_enabled = false
 db_enable_replica               = true
 db_storage_mb                   = 5242880 # 5TB
-# db_configuration = {
-#   autovacuum_work_mem         = "-1"
-#   effective_cache_size        = "5242880"
-#   log_autovacuum_min_duration = "5000"
-#   log_connections             = "off"
-#   log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
-#   log_temp_files              = "4096"
-#   maintenance_work_mem        = "524288"
-#   max_wal_size                = "4096"
-# }
+
 db_replica_network_rules = {
   ip_rules = [
     "18.192.147.151/32" #PDND
@@ -268,12 +259,14 @@ db_metric_alerts = {
   }
   # https://docs.microsoft.com/it-it/azure/postgresql/concepts-limits
   # GP_Gen5_2 -| 145 / 100 * 80 = 116
+  # GP_Gen5_4 -| 245 / 100 * 80 = 196
+  # GP_Gen5_8 -| 475 / 100 * 80 = 380
   # GP_Gen5_32 -| 1495 / 100 * 80 = 1196
   max_active_connections = {
     aggregation = "Average"
     metric_name = "active_connections"
     operator    = "GreaterThan"
-    threshold   = 1196
+    threshold   = 196
     frequency   = "PT5M"
     window_size = "PT5M"
     dimension   = []
