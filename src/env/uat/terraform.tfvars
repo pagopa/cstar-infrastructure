@@ -221,16 +221,7 @@ azdo_sp_tls_cert_enabled            = false
 db_sku_name       = "GP_Gen5_4"
 db_enable_replica = false
 db_storage_mb     = 204800 # 200 GB
-db_configuration = {
-  autovacuum_work_mem         = "-1"
-  effective_cache_size        = "2621440"
-  log_autovacuum_min_duration = "5000"
-  log_connections             = "off"
-  log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
-  log_temp_files              = "4096"
-  maintenance_work_mem        = "524288"
-  max_wal_size                = "4096"
-}
+
 db_network_rules = {
   ip_rules = [
     "18.192.147.151/32" #PDND
