@@ -30,12 +30,14 @@ resource "kubernetes_config_map" "famscustomer" {
   }
 
   data = merge({
-    POSTGRES_SCHEMA           = "fa_customer"
-    TZ                        = "Europe/Rome"
-    KAFKA_RTDTX_TOPIC         = "fa-trx-customer"
-    KAFKA_RTDTX_GROUP_ID      = "fa-customer"
-    KAFKA_MERCHANTRX_TOPIC    = "fa-trx-merchant"
-    KAFKA_MERCHANTRX_GROUP_ID = "fa-customer"
+    POSTGRES_SCHEMA            = "fa_customer"
+    TZ                         = "Europe/Rome"
+    KAFKA_RTDTX_TOPIC          = "fa-trx-customer"
+    KAFKA_RTDTX_GROUP_ID       = "fa-customer"
+    KAFKA_MERCHANTRX_TOPIC     = "fa-trx-merchant"
+    KAFKA_MERCHANTRX_GROUP_ID  = "fa-customer"
+    KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
+    KAFKA_FATRX_ERROR_GROUP_ID = "fa-customer"
   }, var.configmaps_facustomer)
 
 }
@@ -89,6 +91,8 @@ resource "kubernetes_config_map" "famspaymentinstrument" {
     KAFKA_PAYINSTRTRX_GROUP_ID = "fa-payment-instrument"
     KAFKA_CUSTOMERTRX_TOPIC    = "fa-trx-customer"
     KAFKA_CUSTOMERTRX_GROUP_ID = "fa-payment-instrument"
+    KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
+    KAFKA_FATRX_ERROR_GROUP_ID = "fa-payment-instrument"
   }, var.configmaps_fapaymentinstrument)
 
 }
@@ -100,12 +104,14 @@ resource "kubernetes_config_map" "famsmerchant" {
   }
 
   data = merge({
-    POSTGRES_SCHEMA         = "fa_merchant"
-    TZ                      = "Europe/Rome"
-    KAFKA_MCNTRX_TOPIC      = "fa-trx-merchant"
-    KAFKA_MCNTRX_GROUP_ID   = "fa-merchant"
-    KAFKA_FATRX_TOPIC       = "fa-trx"
-    KAFKA_FATRX_GROUP_ID    = "fa-merchant"
+    POSTGRES_SCHEMA            = "fa_merchant"
+    TZ                         = "Europe/Rome"
+    KAFKA_MCNTRX_TOPIC         = "fa-trx-merchant"
+    KAFKA_MCNTRX_GROUP_ID      = "fa-merchant"
+    KAFKA_FATRX_TOPIC          = "fa-trx"
+    KAFKA_FATRX_GROUP_ID       = "fa-merchant"
+    KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
+    KAFKA_FATRX_ERROR_GROUP_ID = "fa-merchant"
   }, var.configmaps_famerchant)
 
 }
