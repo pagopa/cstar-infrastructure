@@ -477,7 +477,7 @@ eventhubs = [
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
-    consumers         = ["bpd-payment-instrument"]
+    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group"]
     keys = [
       {
         name   = "rtd-csv-connector"
@@ -489,6 +489,18 @@ eventhubs = [
         name   = "bpd-payment-instrument"
         listen = true
         send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
         manage = false
       }
     ]
@@ -520,16 +532,16 @@ eventhubs_fa = [
     name              = "fa-trx-error"
     partitions        = 1
     message_retention = 1
-    consumers         = ["fa-transaction-error-manager"]
+    consumers         = ["fa-trx-error-consumer-group"]
     keys = [
       {
-        name   = "fa-transaction"
+        name   = "fa-trx-error-producer"
         listen = false
         send   = true
         manage = false
       },
       {
-        name   = "fa-transaction-error-manager"
+        name   = "fa-trx-error-consumer"
         listen = true
         send   = false
         manage = false
@@ -540,16 +552,16 @@ eventhubs_fa = [
     name              = "fa-trx"
     partitions        = 1
     message_retention = 1
-    consumers         = ["fa-transaction"]
+    consumers         = ["fa-trx-consumer-group"]
     keys = [
       {
-        name   = "fa-merchant"
+        name   = "fa-trx-producer"
         listen = false
         send   = true
         manage = false
       },
       {
-        name   = "fa-transaction"
+        name   = "fa-trx-consumer"
         listen = true
         send   = false
         manage = false
@@ -560,16 +572,16 @@ eventhubs_fa = [
     name              = "fa-trx-merchant"
     partitions        = 1
     message_retention = 1
-    consumers         = ["fa-merchant"]
+    consumers         = ["fa-trx-merchant-consumer-group"]
     keys = [
       {
-        name   = "fa-customer"
+        name   = "fa-trx-merchant-producer"
         listen = false
         send   = true
         manage = false
       },
       {
-        name   = "fa-merchant"
+        name   = "fa-trx-merchant-consumer"
         listen = true
         send   = false
         manage = false
@@ -580,16 +592,36 @@ eventhubs_fa = [
     name              = "fa-trx-customer"
     partitions        = 1
     message_retention = 1
-    consumers         = ["fa-customer"]
+    consumers         = ["fa-trx-customer-consumer-group"]
     keys = [
       {
-        name   = "fa-payment-instrument"
+        name   = "fa-trx-customer-producer"
         listen = false
         send   = true
         manage = false
       },
       {
-        name   = "fa-customer"
+        name   = "fa-trx-customer-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "fa-trx-payment-instrument"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-trx-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-payment-instrument-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-payment-instrument-consumer"
         listen = true
         send   = false
         manage = false

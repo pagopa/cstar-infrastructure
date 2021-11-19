@@ -79,6 +79,14 @@ resource "kubernetes_ingress" "fa_ingress" {
           }
           path = "/famsinvoiceprovider/(.*)"
         }
+
+        path {
+          backend {
+            service_name = "famsnotificationmanager"
+            service_port = var.default_service_port
+          }
+          path = "/famsnotificationmanager/(.*)"
+        }
       }
     }
   }

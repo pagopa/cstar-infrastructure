@@ -33,6 +33,21 @@ module "key_vault_secrets_query" {
     "notification-sftp-password",
     "pagopa-checkiban-apikey",
     "storageaccount-cstarblob-key",
-    "url-backend-io-token-value"
+    "url-backend-io-token-value",
+    # FA
+    "evh-fa-trx-customer-fa-trx-customer-consumer-key-fa-01",
+    "evh-fa-trx-merchant-fa-trx-merchant-producer-key-fa-01",
+    "evh-rtd-trx-rtd-trx-consumer-key",
+    "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
+    "evh-fa-trx-fa-trx-consumer-key-fa-01",
+    "evh-fa-trx-error-fa-trx-error-producer-key-fa-01",
+    "evh-fa-trx-merchant-fa-trx-merchant-consumer-key-fa-01",
+    "evh-fa-trx-fa-trx-producer-key-fa-01",
+    "evh-fa-trx-error-fa-trx-error-consumer-key-fa-01",
+    "evh-fa-trx-fa-trx-producer-key-fa-01",
+    "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
+    "evh-rtd-trx-rtd-trx-producer-key",
+    "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
+    "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"
   ]
 }

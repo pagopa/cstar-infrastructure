@@ -1,0 +1,1 @@
+Ti informiamo che non è stato possibile emettere la fattura del **%trxDate%** da parte di **%merchantCompanyName%** per il seguente motivo: **%invoiceRejectedReason%**.\n\nPuoi rivolgerti al commerciante e chiedere nuovamente l'emissione della fattura.

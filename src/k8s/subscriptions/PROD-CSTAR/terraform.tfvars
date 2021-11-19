@@ -169,7 +169,7 @@ configmaps_bpdmsrankingprocessor = {
   MILESTONE_UPDATE_SINGLE_PROCESS_ENABLE                 = "false"
   MILESTONE_UPDATE_THREAD_POOL_SIZE                      = "1"
   POSTGRES_POOLSIZE                                      = "2"
-  RANKING_PROCESSOR_CRON                                 = "00 30 01 * * ?"
+  RANKING_PROCESSOR_CRON                                 = "-"
   RANKING_PROCESSOR_STOP_TIME                            = "20:00"
   RANKING_UPDATE_DATA_EXTRACTION_LIMIT                   = "100000"
   RANKING_UPDATE_ENABLE                                  = "true"
@@ -183,7 +183,7 @@ configmaps_bpdmsrankingprocessoroffline = {
   JAVA_TOOL_OPTIONS                                 = "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                     = "bpdmsrankingprocessoroffline"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
-  RANKING_PROCESSOR_CRON                            = "00 30 11 * * ?"
+  RANKING_PROCESSOR_CRON                            = "-"
   RANKING_PROCESSOR_STOP_TIME                       = "15:00:00"
   RANKING_UPDATE_DATA_EXTRACTION_LIMIT              = "250000"
   RANKING_UPDATE_ENABLE                             = "false"
@@ -207,7 +207,7 @@ configmaps_bpdmsrankingprocessorpoc = {
   MILESTONE_UPDATE_SINGLE_PROCESS_ENABLE               = "false"
   MILESTONE_UPDATE_THREAD_POOL_SIZE                    = "1"
   POSTGRES_POOLSIZE                                    = "2"
-  RANKING_PROCESSOR_CRON                               = "00 00 06 * * ?"
+  RANKING_PROCESSOR_CRON                               = "-"
   RANKING_PROCESSOR_STOP_TIME                          = "21:00:00"
   RANKING_UPDATE_DATA_EXTRACTION_LIMIT                 = "250000"
   RANKING_UPDATE_ENABLE                                = "false"
@@ -255,7 +255,7 @@ configmaps_rtdpaymentinstrumentmanager = {
 
 configmaps_facustomer = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "facustomer"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famscustomer"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
@@ -264,7 +264,7 @@ configmaps_facustomer = {
 
 configmaps_fatransaction = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "fatransaction"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famstransaction"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
@@ -274,7 +274,7 @@ configmaps_fatransaction = {
 
 configmaps_faenrollment = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "faenrollment"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsenrollment"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
@@ -324,4 +324,166 @@ configmaps_fainvoiceprovider = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_INVOICE_PROVIDER                     = "INFO"
+}
+
+configmaps_fatransactionerrormanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famstransactionerrormanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_TRANSACTION                          = "INFO"
+}
+
+configmaps_fanotificationmanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsnotificationmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_NOTIFICATION_MANAGER                 = "INFO"
+  NOTIFICATION_SERVICE_TTL                          = "3600"
+  URL_BACKEND_IO                                    = "https://api.io.italia.it"
+}
+
+autoscaling_specs = {
+
+  # map key must be the name of a deployment
+  bpdmscitizen = {
+
+    namespace = "bpd" # namespace of the deployment in the map key
+
+    max_replicas = 5
+    min_replicas = 1
+
+    # Support for multiple metrics per autoscaler
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+  bpdmscitizenbatch = {
+
+    namespace = "bpd"
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+
+  bpdmsenrollment = {
+
+    namespace = "bpd"
+
+    max_replicas = 10
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+
+  bpdmswinningtransaction = {
+
+    namespace = "bpd"
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+
+  bpdmspaymentinstrument = {
+
+    namespace = "bpd"
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+
+  bpdmsawardperiod = {
+
+    namespace = "bpd"
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
 }

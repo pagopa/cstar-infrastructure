@@ -214,7 +214,7 @@ configmaps_rtdpaymentinstrumentmanager = {
 
 configmaps_facustomer = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "facustomer"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famscustomer"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
@@ -223,7 +223,7 @@ configmaps_facustomer = {
 
 configmaps_fatransaction = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "fatransaction"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famstransaction"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
@@ -232,11 +232,12 @@ configmaps_fatransaction = {
 
 configmaps_faenrollment = {
   JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                     = "faenrollment"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsenrollment"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_ENROLLMENT                           = "DEBUG"
+  MS_AGENZIA_ENTRATE_HOST                           = "cstariobackendtest"
 }
 
 configmaps_fapaymentinstrument = {
@@ -282,4 +283,74 @@ configmaps_fainvoiceprovider = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_FA_INVOICE_PROVIDER                     = "DEBUG"
+}
+
+configmaps_fatransactionerrormanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famstransactionerrormanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_TRANSACTION                          = "DEBUG"
+}
+
+configmaps_fanotificationmanager = {
+  JAVA_TOOL_OPTIONS                                 = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                     = "famsnotificationmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "OFF"
+  POSTGRES_POOLSIZE                                 = "2"
+  POSTGRES_SHOW_SQL                                 = "true"
+  LOG_LEVEL_FA_NOTIFICATION_MANAGER                 = "DEBUG"
+  NOTIFICATION_SERVICE_TTL                          = "3600"
+  URL_BACKEND_IO                                    = "https://api.io.italia.it"
+}
+
+autoscaling_specs = {
+
+  # map key must be the name of a deployment
+  bpdmscitizen = {
+
+    namespace = "bpd" # namespace of the deployment in the map key
+
+    max_replicas = 5
+    min_replicas = 1
+
+    # Support for multiple metrics per autoscaler
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+  bpdmscitizenbatch = {
+
+    namespace = "bpd"
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type  = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
 }
