@@ -13,7 +13,9 @@
 <policies>
     <inbound>
         <base />
-        <rewrite-uri template="@("/"+ (string)context.Variables["fiscalCode"])" copy-unmatched-params="true" />
+        <set-variable name="vatNumber" value="@(context.Request.Body.As<JObject>(preserveContent: true)["vatNumber"])" />
+        <set-backend-service base-url="http://${reverse-proxy-ip}/famsonboardingmerchant/fa/onboarding" />
+        <rewrite-uri template="@("/merchant/provider/" + (string)context.Variables["vatNumber"])" copy-unmatched-params="true" />
     </inbound>
     <backend>
         <base />
