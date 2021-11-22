@@ -1692,8 +1692,14 @@ module "fa_mock_original" {
       })
     },
     {
-      operation_id = "sendAcquirerTransactionUsingPost"
+      operation_id = "sendAcquirerTransactionUsingPOST"
       xml_content = templatefile("./api/fa_mock/sendAcquirerTransactionUsingPOST_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "searchAcquirerTransactionErrorUsingGET"
+      xml_content = templatefile("./api/fa_mock/searchAcquirerTransactionErrorUsingGET_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     }
