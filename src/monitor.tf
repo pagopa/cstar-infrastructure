@@ -71,42 +71,42 @@ resource "azurerm_monitor_diagnostic_setting" "activity_log" {
   storage_account_id         = data.azurerm_key_vault_secret.sec_storage_id[0].value
 
   log {
-
     category = "Administrative"
-    enabled = true
-    retention_policy {
-      enabled = true
-      days = 365
-    }
+    enabled  = true
   }
 
   log {
-
-    category  = "Security"
-    enabled = true
-    retention_policy {
-      enabled = true
-      days = 365
-    }
+    category = "Security"
+    enabled  = true
   }
 
   log {
-
     category = "Alert"
-    enabled = true
-    retention_policy {
-      enabled = true
-      days = 365
-    }
+    enabled  = true
   }
 
-  metric {
-    category = "AllMetrics"
+  log {
+    category = "Autoscale"
     enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 
+  log {
+    category = "Policy"
+    enabled  = false
+  }
+
+  log {
+    category = "Recommendation"
+    enabled  = false
+  }
+
+  log {
+    category = "ResourceHealth"
+    enabled  = false
+  }
+
+  log {
+    category = "ServiceHealth"
+    enabled  = false
+  }
 }
