@@ -113,9 +113,9 @@
       }
     },
     "/transaction/status": {
-      "get": {
+      "post": {
         "description": "searchAcquirerTransactionError",
-        "operationId": "searchAcquirerTransactionErrorUsingGET",
+        "operationId": "searchAcquirerTransactionErrorUsingPOST",
         "summary": "searchAcquirerTransactionError",
         "tags": [
           "Fatturazione Automatica Mock Controller"
