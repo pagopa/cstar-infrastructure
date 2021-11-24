@@ -34,7 +34,7 @@
     "/transaction/rtd/send": {
       "post": {
         "description": "sendAcquirerTransaction",
-        "operationId": "sendAcquirerTransactionUsingPost",
+        "operationId": "sendAcquirerTransactionUsingPOST",
         "summary": "sendAcquirerTransaction",
         "tags": [
           "Fatturazione Automatica Mock Controller"
@@ -90,6 +90,43 @@
             "description": "RegisterTransaction",
             "schema": {
               "$ref": "#/definitions/RegisterTransaction"
+            }
+          }
+        ],
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/transaction/status": {
+      "post": {
+        "description": "searchAcquirerTransactionError",
+        "operationId": "searchAcquirerTransactionErrorUsingPOST",
+        "summary": "searchAcquirerTransactionError",
+        "tags": [
+          "Fatturazione Automatica Mock Controller"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "searchAcquirerTransactionError",
+            "description": "searchAcquirerTransactionError",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
             }
           }
         ],

@@ -87,6 +87,14 @@ resource "kubernetes_ingress" "fa_ingress" {
           }
           path = "/famsnotificationmanager/(.*)"
         }
+
+        path {
+          backend {
+            service_name = "famstransactionerrormanager"
+            service_port = var.default_service_port
+          }
+          path = "/famstransactionerrormanager/(.*)"
+        }
       }
     }
   }
