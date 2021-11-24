@@ -115,6 +115,24 @@ variable "aks_node_count" {
   default     = 1
 }
 
+variable "aks_enable_auto_scaling" {
+  type        = bool
+  description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool?"
+  default     = false
+}
+
+variable "aks_min_node_count" {
+  type        = number
+  description = "The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
+  default     = null
+}
+
+variable "aks_max_node_count" {
+  type        = number
+  description = "The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
+  default     = null
+}
+
 variable "kubernetes_version" {
   type    = string
   default = null

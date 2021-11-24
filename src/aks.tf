@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.60"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.91"
 
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
@@ -15,10 +15,13 @@ module "aks" {
   kubernetes_version         = var.kubernetes_version
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  vm_size    = var.aks_vm_size
-  node_count = var.aks_node_count
-  sku_tier   = var.aks_sku_tier
-  max_pods   = var.env_short == "d" ? 100 : 30
+  vm_size             = var.aks_vm_size
+  node_count          = var.aks_node_count
+  enable_auto_scaling = var.aks_enable_auto_scaling
+  min_count           = var.aks_min_node_count
+  max_count           = var.aks_max_node_count
+  sku_tier            = var.aks_sku_tier
+  max_pods            = var.env_short == "d" ? 100 : 30
 
   private_cluster_enabled = true
 
