@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.60"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=CEN-1033-ignore-changes-on-aks-node-count"
 
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
