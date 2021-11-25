@@ -229,6 +229,15 @@ db_replica_network_rules = {
   # dblink
   allow_access_to_azure_services = true
 }
+
+db_network_rules = {
+  ip_rules = [
+    "18.192.147.151/32" #PDND
+  ]
+  # dblink
+  allow_access_to_azure_services = true
+}
+
 db_metric_alerts = {
   cpu = {
     aggregation = "Average"
