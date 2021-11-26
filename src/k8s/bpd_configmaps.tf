@@ -136,11 +136,11 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                          = "-"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_OK            = "Il tuo rimborso è in arrivo!"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_KO            = "Si è verificato un problema con il tuo rimborso"
-    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER             = "-"
+    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER             = "-" #Send to Citizens a not of received tranfer files 0 */5 * * * ?
     NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER            = "-"
     NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-" # Send transfer orders to Consap (cron giornaliero)
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-09-20"
     NOT_MANAGER_DB_MIN_IDLE                                           = 1
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
