@@ -15,6 +15,7 @@ resource "kubernetes_secret" "azure-storage" {
 }
 
 resource "kubernetes_secret" "rtdtransactionfilter" {
+  count  = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
   metadata {
     name      = "rtdtransactionfilter"
     namespace = kubernetes_namespace.rtd.metadata[0].name
