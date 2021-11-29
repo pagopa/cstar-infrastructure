@@ -239,6 +239,12 @@ users = [
         privileges  = ["USAGE"]
       },
       {
+        object_type = "schema"
+        database    = "fa"
+        schema      = "fa_error_record"
+        privileges  = ["USAGE"]
+      },
+      {
         object_type = "table"
         database    = "fa"
         schema      = "fa_customer"
@@ -260,6 +266,12 @@ users = [
         object_type = "table"
         database    = "fa"
         schema      = "fa_transaction"
+        privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      {
+        object_type = "table"
+        database    = "fa"
+        schema      = "fa_error_record"
         privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
       },
     ]
