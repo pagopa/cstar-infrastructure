@@ -220,3 +220,7 @@ variable "autoscaling_specs" {
     }
   ))
 }
+
+variable "secrets_to_be_read_from_kv" {
+  type = list(string)
+}

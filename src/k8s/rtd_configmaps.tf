@@ -20,6 +20,8 @@ resource "kubernetes_config_map" "rtdpaymentinstrumentmanager" {
 }
 
 resource "kubernetes_config_map" "rtdtransactionfilter" {
+  count  = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+
   metadata {
     name      = "rtdtransactionfilter"
     namespace = kubernetes_namespace.rtd.metadata[0].name
