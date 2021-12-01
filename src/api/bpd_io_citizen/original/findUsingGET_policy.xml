@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
-        <cache-lookup-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" variable-name="getCitizenResponse" caching-type="external" />
+        <cache-lookup-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" variable-name="getCitizenResponse"  />
         <choose>
             <!-- If API Management find it in the cache, make a request for it and store it -->
             <when condition="@(context.Variables.ContainsKey("getCitizenResponse"))">
@@ -33,7 +33,7 @@
         <choose>
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
                 <!-- Store result in cache -->
-                <cache-store-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" value="@(context.Response)" duration="86400" caching-type="external" />
+                <cache-store-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" value="@(context.Response)" duration="86400"  />
             </when>
         </choose>
         <base />

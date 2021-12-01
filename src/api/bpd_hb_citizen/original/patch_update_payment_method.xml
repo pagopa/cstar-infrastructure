@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-variable name="v_fiscalcode" value="@(context.Request.MatchedParameters["id"])" />
-        <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcitizen")" caching-type="external" />
+        <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcitizen")"  />
     </inbound>
     <backend>
         <base />
