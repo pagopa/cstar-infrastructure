@@ -219,16 +219,16 @@ azdo_sp_tls_cert_enabled            = false
 
 db_sku_name                     = "GP_Gen5_4"
 db_geo_redundant_backup_enabled = false
-db_enable_replica               = true
+db_enable_replica               = false
 db_storage_mb                   = 5242880 # 5TB
 
-db_replica_network_rules = {
-  ip_rules = [
-    "18.192.147.151/32" #PDND
-  ]
-  # dblink
-  allow_access_to_azure_services = true
-}
+# db_replica_network_rules = {
+#   ip_rules = [
+#     "18.192.147.151/32" #PDND
+#   ]
+#   # dblink
+#   allow_access_to_azure_services = true
+# }
 
 db_network_rules = {
   ip_rules = [
@@ -298,15 +298,15 @@ db_metric_alerts = {
     window_size = "PT15M"
     dimension   = []
   }
-  replica_lag = {
-    aggregation = "Average"
-    metric_name = "pg_replica_log_delay_in_seconds"
-    operator    = "GreaterThan"
-    threshold   = 60
-    frequency   = "PT1M"
-    window_size = "PT5M"
-    dimension   = []
-  }
+  # replica_lag = {
+  #   aggregation = "Average"
+  #   metric_name = "pg_replica_log_delay_in_seconds"
+  #   operator    = "GreaterThan"
+  #   threshold   = 60
+  #   frequency   = "PT1M"
+  #   window_size = "PT5M"
+  #   dimension   = []
+  # }
 }
 dns_zone_prefix = "cstar"
 enable_azdoa    = true
