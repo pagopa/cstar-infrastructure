@@ -217,18 +217,11 @@ cidr_subnet_eventhub  = ["10.230.6.64/26"]
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 
-db_sku_name                     = "GP_Gen5_4"
+db_sku_name                     = "GP_Gen5_2"
 db_geo_redundant_backup_enabled = false
 db_enable_replica               = false
 db_storage_mb                   = 5242880 # 5TB
 
-# db_replica_network_rules = {
-#   ip_rules = [
-#     "18.192.147.151/32" #PDND
-#   ]
-#   # dblink
-#   allow_access_to_azure_services = true
-# }
 
 db_network_rules = {
   ip_rules = [
@@ -275,7 +268,7 @@ db_metric_alerts = {
     aggregation = "Average"
     metric_name = "active_connections"
     operator    = "GreaterThan"
-    threshold   = 196
+    threshold   = 116
     frequency   = "PT5M"
     window_size = "PT5M"
     dimension   = []
@@ -298,15 +291,6 @@ db_metric_alerts = {
     window_size = "PT15M"
     dimension   = []
   }
-  # replica_lag = {
-  #   aggregation = "Average"
-  #   metric_name = "pg_replica_log_delay_in_seconds"
-  #   operator    = "GreaterThan"
-  #   threshold   = 60
-  #   frequency   = "PT1M"
-  #   window_size = "PT5M"
-  #   dimension   = []
-  # }
 }
 dns_zone_prefix = "cstar"
 enable_azdoa    = true
