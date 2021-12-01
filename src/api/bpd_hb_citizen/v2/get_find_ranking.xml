@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-variable name="v_awardPeriodId" value="@(context.Request.Url.Query.GetValueOrDefault("awardPeriodId","all"))" />
-        <cache-lookup-value key="@((string)context.Request.Headers.GetValueOrDefault("id","") + "-ranking-" + context.Variables["v_awardPeriodId"])" variable-name="rankingResponse" caching-type="external" />
+        <cache-lookup-value key="@((string)context.Request.Headers.GetValueOrDefault("id","") + "-ranking-" + context.Variables["v_awardPeriodId"])" variable-name="rankingResponse"  />
         <choose>
             <!-- If API Management find it in the cache, make a request for it and store it -->
             <when condition="@(context.Variables.ContainsKey("rankingResponse"))">
@@ -39,7 +39,7 @@
             </when>
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
                 <!-- Store result in cache -->
-                <cache-store-value key="@((string)context.Request.Headers.GetValueOrDefault("id","") + "-ranking-" + context.Variables["v_awardPeriodId"])" value="@(context.Response)" duration="3600" caching-type="external" />
+                <cache-store-value key="@((string)context.Request.Headers.GetValueOrDefault("id","") + "-ranking-" + context.Variables["v_awardPeriodId"])" value="@(context.Response)" duration="3600"  />
             </when>
         </choose>
         <base />

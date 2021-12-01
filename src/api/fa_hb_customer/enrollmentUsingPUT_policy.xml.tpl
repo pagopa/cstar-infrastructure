@@ -15,7 +15,7 @@
         <base />
         <set-variable name="v_fiscalcode" value="@((string)context.Request.Body.As<JObject>(preserveContent: true)["id"])" />
         <set-variable name="v_vatNumbers" value="@(context.Request.Body.As<JObject>(preserveContent: true)["vatNumbers"])" />
-        <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcustomer")" caching-type="external" />
+        <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcustomer")"  />
         <choose>
             <when condition="@(context.Variables.ContainsKey("v_vatNumbers"))">
                 <set-body>@{return new JObject(new JProperty("vatNumbers",context.Variables["v_vatNumbers"])).ToString();}</set-body>
