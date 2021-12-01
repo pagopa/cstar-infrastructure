@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-variable name="v_GetCustomerKey" value="@((string)context.Variables["fiscalCode"])" />
-        <cache-remove-value key="@((string)context.Variables["v_GetCustomerKey"] + "-getcustomer")" caching-type="external" />
+        <cache-remove-value key="@((string)context.Variables["v_GetCustomerKey"] + "-getcustomer")"  />
         <set-backend-service base-url="http://${reverse-proxy-ip}/famsenrollment" />
         <rewrite-uri template="@("/fa/customer/"+ (string)context.Variables["fiscalCode"]+"/app-io-channel")" />
     </inbound>

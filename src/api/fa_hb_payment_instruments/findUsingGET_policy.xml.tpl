@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-variable name="idHeader" value="@(context.Request.Headers.GetValueOrDefault("id",""))" />
-        <!--<cache-lookup-value key="@((string)context.Variables["idHeader"])" variable-name="hpanPM" caching-type="external" />-->
+        <!--<cache-lookup-value key="@((string)context.Variables["idHeader"])" variable-name="hpanPM"  />-->
         <set-variable name="pan" value="@(context.Request.Headers["id"][0].Replace("\\n", "\n"))" />
         <choose>
             <when condition="@(!context.Variables.ContainsKey("hpanPM"))">
@@ -36,7 +36,7 @@
                     <!-- Check active property in response -->
                     <when condition="@((int)context.Variables["hpanStatusCode"] == 200)">
                         <set-variable name="hpanPM" value="@(((JObject)((IResponse)context.Variables["hpan"]).Body.As<JObject>())["hashPan"])" />
-                        <!--<cache-store-value key="@((string)context.Variables["idHeader"])" value="@((string)context.Variables["hpanPM"])" caching-type="external" duration="86400" />-->
+                        <!--<cache-store-value key="@((string)context.Variables["idHeader"])" value="@((string)context.Variables["hpanPM"])"  duration="86400" />-->
                     </when>
                     <when condition="@((int)context.Variables["hpanStatusCode"] != 200)">
                         <return-response>

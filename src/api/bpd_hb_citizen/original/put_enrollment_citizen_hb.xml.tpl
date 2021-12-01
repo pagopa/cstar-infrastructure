@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-variable name="v_fiscalcode" value="@(context.Request.MatchedParameters["id"])" />
-        <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcitizen")" caching-type="external" />
+        <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcitizen")"  />
         <set-backend-service base-url="http://${reverse-proxy-ip}/bpdmsenrollment" />
         <rewrite-uri template="@("bpd/enrollment/hb/citizens/{id}/")" />
     </inbound>
