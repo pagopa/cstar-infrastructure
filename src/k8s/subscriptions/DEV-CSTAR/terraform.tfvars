@@ -224,6 +224,7 @@ configmaps_rtdpaymentinstrumentmanager = {
   POSTGRES_POOLSIZE                                 = "2"
   POSTGRES_SHOW_SQL                                 = "true"
   LOG_LEVEL_RTD_PAYMENT_INSTRUMENT_MANAGER          = "INFO"
+  BATCH_PAYM_INSTR_EXTR                             = "0 */15 * * * *"
 }
 
 configmaps_rtdtransactionfilter = {
