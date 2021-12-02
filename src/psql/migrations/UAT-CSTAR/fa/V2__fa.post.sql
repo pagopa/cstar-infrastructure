@@ -51,14 +51,6 @@ ALTER TABLE ONLY fa_merchant.fa_merchant_shop
 
 
 --
--- Name: fa_provider pk_fa_provider; Type: CONSTRAINT; Schema: fa_provider; Owner: ddsadmin
---
-
-ALTER TABLE ONLY fa_provider.fa_provider
-    ADD CONSTRAINT pk_fa_provider PRIMARY KEY (provider_id);
-
-
---
 -- Name: fa_payment_instrument pk_fa_payment_instrument; Type: CONSTRAINT; Schema: fa_payment_instrument; Owner: ddsadmin
 --
 
@@ -67,19 +59,11 @@ ALTER TABLE ONLY fa_payment_instrument.fa_payment_instrument
 
 
 --
--- Name: fa_payment_instrument pk_fa_payment_instrument_history; Type: CONSTRAINT; Schema: fa_payment_instrument_history; Owner: ddsadmin
---
-
-ALTER TABLE ONLY fa_payment_instrument.fa_payment_instrument_history
-    ADD CONSTRAINT fa_payment_instrument_history_pk PRIMARY KEY (id_n);
-
-
---
 -- Name: fa_transaction_request fa_transaction_request_pk; Type: CONSTRAINT; Schema: fa_transaction; Owner: ddsadmin
 --
 
 ALTER TABLE ONLY fa_transaction.fa_transaction_request
-    ADD CONSTRAINT fa_transaction_request_pk PRIMARY KEY (amount_i, auth_code_s, terminal_id_s, bin_card_s, transaction_date_t);
+    ADD CONSTRAINT fa_transaction_request_pk PRIMARY KEY (transaction_id_s, vat_number_s, transaction_date_t);
 
 
 --
@@ -87,15 +71,7 @@ ALTER TABLE ONLY fa_transaction.fa_transaction_request
 --
 
 ALTER TABLE ONLY fa_transaction.fa_transaction
-    ADD CONSTRAINT fa_transaction_pk PRIMARY KEY (trx_timestamp_t, terminal_id_s, bin_card_s, id_trx_issuer_s, amount_i);
-
-
---
--- Name: fa_transaction_record pk_fa_transaction_record; Type: CONSTRAINT; Schema: fa_error_record; Owner: ddsadmin
---
-
-ALTER TABLE ONLY fa_error_record.fa_transaction_record
-    ADD CONSTRAINT pk_fa_transaction_record PRIMARY KEY (record_id_s);
+    ADD CONSTRAINT pk_fa_transaction PRIMARY KEY (id_trx_acquirer_n, acquirer_c, trx_timestamp_t);
 
 
 --
@@ -104,30 +80,6 @@ ALTER TABLE ONLY fa_error_record.fa_transaction_record
 
 ALTER TABLE ONLY fa_merchant.fa_merchant_shop
     ADD CONSTRAINT fk_fa_merchant FOREIGN KEY (vat_number_s) REFERENCES fa_merchant.fa_merchant(vat_number_s) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: fa_customer_vat fk_fa_customer_vat; Type: FK CONSTRAINT; Schema: fa_customer; Owner: ddsadmin
---
-
-ALTER TABLE ONLY fa_customer.fa_customer_vat
-    ADD CONSTRAINT fa_customer_vat_fk FOREIGN KEY (fiscal_code_s) REFERENCES fa_customer.fa_customer(fiscal_code_s);
-
-
---
--- Name: fa_payment_instrument_history fa_payment_instrument_history_un; Type: FK CONSTRAINT; Schema: fa_payment_instrument; Owner: ddsadmin
---
-
-ALTER TABLE ONLY fa_payment_instrument.fa_payment_instrument_history
-    ADD CONSTRAINT fa_payment_instrument_history_un UNIQUE (hpan_s, activation_t, deactivation_t);
-
-
---
--- Name: fa_payment_instrument_history fa_payment_instrument_history_fk; Type: FK CONSTRAINT; Schema: fa_payment_instrument; Owner: ddsadmin
---
-
-ALTER TABLE ONLY fa_payment_instrument.fa_payment_instrument_history
-    ADD CONSTRAINT fa_payment_instrument_history_fk FOREIGN KEY (hpan_s) REFERENCES fa_payment_instrument.fa_payment_instrument(hpan_s);
 
 
 --
