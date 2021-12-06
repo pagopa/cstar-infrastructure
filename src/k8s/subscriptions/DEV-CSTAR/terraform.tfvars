@@ -228,6 +228,7 @@ configmaps_rtdpaymentinstrumentmanager = {
 }
 
 configmaps_rtdtransactionfilter = {
+  JAVA_TOOL_OPTIONS    = "-Xms4g -Xmx4g"
   HPAN_SERVICE_URL     = "https://api.uat.cstar.pagopa.it"
   ACQ_BATCH_INPUT_CRON = "0 * * * * *"
 }
