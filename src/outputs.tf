@@ -149,23 +149,24 @@ output "postgresql_replica_fqdn" {
   value = module.postgresql.replica_fqdn
 }
 
+# To enable outputs related to redis cache, please uncomment the following lines
 ## Redis cache
-output "redis_primary_access_key" {
-  value     = module.redis.primary_access_key
-  sensitive = true
-}
+# output "redis_primary_access_key" {
+#   value     = module.redis.primary_access_key
+#   sensitive = true
+# }
 
-output "redis_hostname" {
-  value = module.redis.hostname
-}
+# output "redis_hostname" {
+#   value = module.redis.hostname
+# }
 
-output "redis_port" {
-  value = module.redis.port
-}
+# output "redis_port" {
+#   value = module.redis.port
+# }
 
-output "redis_ssl_port" {
-  value = module.redis.ssl_port
-}
+# output "redis_ssl_port" {
+#   value = module.redis.ssl_port
+# }
 
 
 # Blob storage
