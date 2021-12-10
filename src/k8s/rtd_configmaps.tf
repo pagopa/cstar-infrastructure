@@ -35,8 +35,8 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
     ACQ_BATCH_TRX_INPUT_PATH         = "/app_workdir/input"
     ACQ_BATCH_TRX_LOGS_PATH          = "/app_workdir/logs"
     ACQ_BATCH_OUTPUT_PATH            = "/app_workdir/output"
-    ACQ_BATCH_TRX_LIST_APPLY_ENCRYPT = "false"
-    ACQ_BATCH_INPUT_PUBLIC_KEYPATH   = ""
+    ACQ_BATCH_TRX_LIST_APPLY_ENCRYPT = "true"
+    ACQ_BATCH_INPUT_PUBLIC_KEYPATH   = "/app_certs_in/publickey.asc"
     # HPAN_SERVICE_URL                 = "" Should be set per environment
     ACH_BATCH_HPAN_ON_SUCCESS        = "ARCHIVE"
     HPAN_SERVICE_KEY_STORE_FILE      = "/app/certs.jks"
