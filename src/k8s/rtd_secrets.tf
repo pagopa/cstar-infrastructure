@@ -26,6 +26,7 @@ resource "kubernetes_secret" "rtdtransactionfilter" {
     HPAN_SERVICE_KEY_STORE_PASSWORD       = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-key-store-password"].value
     HPAN_SERVICE_TRUST_STORE_PASSWORD     = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-trust-store-password"].value
     HPAN_SERVICE_JKS_CONTENT_BASE64       = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-jks-content-base64"].value
+    HPAN_SERVICE_ENC_PUBLIC_KEY_ARMORED   = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-enc-public-key-armored"].value
   }
 
   type = "Opaque"

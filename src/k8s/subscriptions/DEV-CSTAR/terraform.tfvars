@@ -434,5 +434,6 @@ secrets_to_be_read_from_kv = [
     "rtdtransactionfilter-hpan-service-api-key",
     "rtdtransactionfilter-hpan-service-key-store-password",
     "rtdtransactionfilter-hpan-service-trust-store-password",
-    "rtdtransactionfilter-hpan-service-jks-content-base64"
+    "rtdtransactionfilter-hpan-service-jks-content-base64",
+    "rtdtransactionfilter-hpan-service-enc-public-key-armored"
   ]
