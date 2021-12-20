@@ -1803,6 +1803,18 @@ module "fa_ext_merchant_original" {
       xml_content = templatefile("./api/fa_ext_merchant/onboardingMerchantByOtherUsingPut_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
+    },
+    {
+      operation_id = "activeContractByShopIdUsingGet"
+      xml_content = templatefile("./api/fa_ext_merchant/activeContractByShopIdUsingGet_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "contractListByShopIdUsingGet"
+      xml_content = templatefile("./api/fa_ext_merchant/contractListByShopIdUsingGet_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
     }
   ]
 }
