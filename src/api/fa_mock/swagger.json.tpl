@@ -269,6 +269,9 @@
         },
         "pos_type": {
           "type": "string"
+        },
+        "contractId": {
+          "type": "integer"
         }
       }
     }
