@@ -98,7 +98,8 @@
                 "merchantId",
                 "terminalId",
                 "trxDate",
-                "vatNumber"
+                "vatNumber",
+                "contractId"
             ],
             "type": "object",
             "properties": {
@@ -142,6 +143,10 @@
                 "vatNumber": {
                     "description": "partita iva associata al merchant",
                     "type": "string"
+                },
+                "contractId": {
+                     "description": "identificativo del legame tra registrante e shop",
+                     "type": "integer"
                 }
             },
             "example": {
@@ -152,7 +157,8 @@
                 "merchantId": 0,
                 "terminalId": 0,
                 "trxDate": "string",
-                "vatNumber": "string"
+                "vatNumber": "string",
+                "contractId": 0
             }
         }
     },
