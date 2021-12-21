@@ -34,6 +34,8 @@ CREATE TABLE fa_merchant.fa_register (
 );
 
 ALTER TABLE fa_merchant.fa_register OWNER TO ddsadmin;
+GRANT ALL ON TABLE fa_merchant.fa_register TO ddsadmin;
+GRANT INSERT, UPDATE, DELETE, SELECT ON TABLE fa_merchant.fa_register TO "FA_USER";
 
 --
 -- ALTER Table: fa_register - Schema: fa_merchant - owner: ddsadmin
@@ -60,6 +62,8 @@ CREATE TABLE fa_merchant.fa_merchant_contract (
 );
 
 ALTER TABLE fa_merchant.fa_merchant_contract OWNER TO ddsadmin;
+GRANT ALL ON TABLE fa_merchant.fa_merchant_contract TO ddsadmin;
+GRANT INSERT, UPDATE, DELETE, SELECT ON TABLE fa_merchant.fa_merchant_contract TO "FA_USER";
 
 --
 -- ALTER Table: fa_merchant_contract - Schema: fa_merchant - owner: ddsadmin
@@ -81,7 +85,9 @@ CREATE SEQUENCE fa_merchant.fa_merchant_contract_id_seq
     CACHE 1
     NO CYCLE;
 
-ALTER TABLE fa_merchant.fa_merchant_contract_id_seq OWNER TO ddsadmin;
+ALTER SEQUENCE fa_merchant.fa_merchant_contract_id_seq OWNER TO ddsadmin;
+GRANT ALL ON SEQUENCE fa_merchant.fa_merchant_contract_id_seq TO ddsadmin;
+GRANT ALL ON SEQUENCE fa_merchant.fa_merchant_contract_id_seq TO "FA_USER";
 
 ALTER SEQUENCE fa_merchant.fa_merchant_contract_id_seq OWNED BY fa_merchant.fa_merchant_contract.contract_id;
 
@@ -98,6 +104,10 @@ CREATE SEQUENCE fa_merchant.fa_register_id_seq
     START 1
     CACHE 1
     NO CYCLE;
+
+ALTER SEQUENCE fa_merchant.fa_register_id_seq OWNER TO ddsadmin;
+GRANT ALL ON SEQUENCE fa_merchant.fa_register_id_seq TO ddsadmin;
+GRANT ALL ON SEQUENCE fa_merchant.fa_register_id_seq TO "FA_USER";
 
 ALTER SEQUENCE fa_merchant.fa_register_id_seq OWNED BY fa_merchant.fa_register.register_id;
 
