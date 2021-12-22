@@ -1864,6 +1864,51 @@ module "fa_ext_provider_original" {
   ]
 }
 
+## 14 FA EXT Provider API
+resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
+  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  name                = format("%s-fa-ext-provider", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+  display_name        = "FA EXT Provider API"
+  versioning_scheme   = "Segment"
+}
+
+#Original#
+module "fa_ext_provider_original" {
+  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  name                = format("%s-fa-ext-provider-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  version_set_id      = azurerm_api_management_api_version_set.fa_ext_provider[0].id
+
+  description  = "Api and Models"
+  display_name = "FA EXT Provider API"
+  path         = "fa/ext/provider"
+  protocols    = ["https", "http"]
+
+  service_url = format("http://%s/famsinvoiceprovider/fa/provider", var.reverse_proxy_ip)
+
+  content_value = templatefile("./api/fa_ext_provider/swagger.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = var.env_short == "d" ? [module.issuer_api_product.product_id, module.fa_api_product.product_id] : [module.issuer_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "providerListUsingGET"
+      xml_content = templatefile("./api/fa_ext_provider/providerListUsingGET_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    }
+  ]
+}
+
 ##############
 ## Products ##
 ##############
