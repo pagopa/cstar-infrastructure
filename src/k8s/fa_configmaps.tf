@@ -60,7 +60,7 @@ resource "kubernetes_config_map" "famstransaction" {
     KAFKA_FATRX_ERROR_TOPIC    = "fa-trx-error"
     KAFKA_FATRX_ERROR_GROUP_ID = "fa-transaction"
     KAFKA_SERVERS_RTD          = local.event_hub_connection
-    MOCK_HOST                  = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MOCK_HOST                  = (var.env_short == "d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
     MOCK_PORT                  = ""
   }, var.configmaps_fatransaction)
 
@@ -136,7 +136,7 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
 
   data = merge({
     TZ                      = "Europe/Rome"
-    MS_AGENZIA_ENTRATE_HOST = (var.env_short =="d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MS_AGENZIA_ENTRATE_HOST = (var.env_short == "d" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
     MS_AGENZIA_ENTRATE_PORT = ""
   }, var.configmaps_fainvoicemanager)
 
@@ -162,14 +162,14 @@ resource "kubernetes_config_map" "fa-rest-client" {
   }
 
   data = {
-    FA_CUSTOMER_HOST              = "famscustomer"
-    FA_INVOICE_MANAGER_HOST       = "famsinvoicemanager"
-    FA_PAYMENT_INSTRUMENT_HOST    = "famspaymentinstrument"
-    FA_MERCHANT_HOST              = "famsmerchant"
-    FA_INVOICE_PROVIDER_HOST      = "famsinvoiceprovider"
-    FA_NOTIFICATION_MANAGER_HOST  = "famsnotificationmanager"
-    REST_CLIENT_LOGGER_LEVEL      = "NONE"
-    REST_CLIENT_SCHEMA            = "http"
+    FA_CUSTOMER_HOST             = "famscustomer"
+    FA_INVOICE_MANAGER_HOST      = "famsinvoicemanager"
+    FA_PAYMENT_INSTRUMENT_HOST   = "famspaymentinstrument"
+    FA_MERCHANT_HOST             = "famsmerchant"
+    FA_INVOICE_PROVIDER_HOST     = "famsinvoiceprovider"
+    FA_NOTIFICATION_MANAGER_HOST = "famsnotificationmanager"
+    REST_CLIENT_LOGGER_LEVEL     = "NONE"
+    REST_CLIENT_SCHEMA           = "http"
   }
 }
 
