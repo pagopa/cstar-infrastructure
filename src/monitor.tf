@@ -133,7 +133,7 @@ locals {
     {
       host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, "."),
       path                 = "",
-      expected_http_status = 404
+      expected_http_status = 200
     },
     ## CDN custom domains ##
     # no cdn              ##
