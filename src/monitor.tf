@@ -128,7 +128,7 @@ locals {
     {
       host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, "."),
       path                 = "",
-      expected_http_status = 404
+      expected_http_status = 400
     },
     {
       host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, "."),
