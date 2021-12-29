@@ -203,7 +203,7 @@ variable "configmaps_fanotificationmanager" {
 
 variable "autoscaling_specs" {
   type = map(object({
-    namespace = string
+    namespace    = string
     min_replicas = number
     max_replicas = number
     metrics = list(object({
@@ -211,7 +211,7 @@ variable "autoscaling_specs" {
       resource = object({
         name = string
         target = object({
-          type = string
+          type                = string
           average_utilization = number
         })
       })

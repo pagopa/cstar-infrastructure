@@ -12,8 +12,8 @@ resource "kubernetes_horizontal_pod_autoscaler" "hpa" {
     min_replicas = each.value.min_replicas
 
     scale_target_ref {
-      kind = "Deployment"
-      name = each.key
+      kind        = "Deployment"
+      name        = each.key
       api_version = "apps/v1"
     }
 
@@ -22,16 +22,16 @@ resource "kubernetes_horizontal_pod_autoscaler" "hpa" {
       for_each = each.value.metrics
       content {
         type = metric.value.type
-   
+
         resource {
           name = metric.value.resource.name
           target {
-            type  = metric.value.resource.target.type
+            type                = metric.value.resource.target.type
             average_utilization = metric.value.resource.target.average_utilization
-         }
+          }
         }
       }
-      
+
     }
   }
 }

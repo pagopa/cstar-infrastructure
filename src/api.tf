@@ -21,20 +21,20 @@ locals {
 
 module "apim" {
 
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.63"
-  subnet_id               = module.apim_snet.id
-  location                = azurerm_resource_group.rg_api.location
-  name                    = format("%s-apim", local.project)
-  resource_group_name     = azurerm_resource_group.rg_api.name
-  publisher_name          = var.apim_publisher_name
-  publisher_email         = data.azurerm_key_vault_secret.apim_publisher_email.value
-  sku_name                = var.apim_sku
-  virtual_network_type    = "Internal"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.63"
+  subnet_id            = module.apim_snet.id
+  location             = azurerm_resource_group.rg_api.location
+  name                 = format("%s-apim", local.project)
+  resource_group_name  = azurerm_resource_group.rg_api.name
+  publisher_name       = var.apim_publisher_name
+  publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
+  sku_name             = var.apim_sku
+  virtual_network_type = "Internal"
 
   # To enable external cache uncomment the following lines
   # redis_connection_string = module.redis.primary_connection_string
   # redis_cache_id          = module.redis.id
-  
+
   redis_connection_string = null
   redis_cache_id          = null
 

@@ -20,7 +20,7 @@ resource "kubernetes_config_map" "rtdpaymentinstrumentmanager" {
 }
 
 resource "kubernetes_config_map" "rtdtransactionfilter" {
-  count  = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+  count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
 
   metadata {
     name      = "rtdtransactionfilter"
@@ -28,7 +28,7 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
   }
 
   data = merge({
-    ACQ_BATCH_SCHEDULED              = "true"
+    ACQ_BATCH_SCHEDULED = "true"
     # ACQ_BATCH_INPUT_CRON             = "" Should be set per environment
     LOG_LEVEL_RTD_TRANSACTION_FILTER = "INFO"
     ACQ_BATCH_TOKEN_INPUT_PATH       = "/app_workdir/input"
@@ -38,13 +38,13 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
     ACQ_BATCH_TRX_LIST_APPLY_ENCRYPT = "true"
     ACQ_BATCH_INPUT_PUBLIC_KEYPATH   = "/app_certs_in/publickey.asc"
     # HPAN_SERVICE_URL                 = "" Should be set per environment
-    ACH_BATCH_HPAN_ON_SUCCESS        = "ARCHIVE"
-    HPAN_SERVICE_KEY_STORE_FILE      = "/app/certs.jks"
-    HPAN_SERVICE_TRUST_STORE_FILE    = "/app/certs.jks"
-    ACQ_BATCH_TOKEN_PAN_VALIDATION   = "false"
-    ACQ_BATCH_HPAN_INPUT_PATH        = "/app_workdir/hpans"
-    ACQ_BATCH_PAR_RECOVERY_ENABLED   = "false"
-    ACQ_BATCH_TRX_PAR_ENABLED        = "false"
+    ACH_BATCH_HPAN_ON_SUCCESS      = "ARCHIVE"
+    HPAN_SERVICE_KEY_STORE_FILE    = "/app/certs.jks"
+    HPAN_SERVICE_TRUST_STORE_FILE  = "/app/certs.jks"
+    ACQ_BATCH_TOKEN_PAN_VALIDATION = "false"
+    ACQ_BATCH_HPAN_INPUT_PATH      = "/app_workdir/hpans"
+    ACQ_BATCH_PAR_RECOVERY_ENABLED = "false"
+    ACQ_BATCH_TRX_PAR_ENABLED      = "false"
     },
     var.configmaps_rtdtransactionfilter
   )
