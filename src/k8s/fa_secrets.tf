@@ -55,10 +55,10 @@ resource "kubernetes_secret" "famscustomer" {
 
   data = {
     #Kafka Connection String Consumer
-    KAFKA_RTDTX_SASL_JAAS_CONFIG          = format(local.jaas_config_template_fa, "fa-trx-customer", "fa-trx-customer-consumer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-consumer-key-fa-01"].value)
+    KAFKA_RTDTX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-customer", "fa-trx-customer-consumer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-consumer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_MERCHANTRX_SASL_JAAS_CONFIG     = format(local.jaas_config_template_fa, "fa-trx-merchant", "fa-trx-merchant-producer", module.key_vault_secrets_query.values["evh-fa-trx-merchant-fa-trx-merchant-producer-key-fa-01"].value)
+    KAFKA_MERCHANTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-merchant", "fa-trx-merchant-producer", module.key_vault_secrets_query.values["evh-fa-trx-merchant-fa-trx-merchant-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
     KAFKA_FATRX_ERROR_SASL_JAAS_CONFIG    = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-producer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-producer-key-fa-01"].value)
@@ -76,10 +76,10 @@ resource "kubernetes_secret" "famspaymentinstrument" {
 
   data = {
     #Kafka Connection String Consumer
-    KAFKA_PAYINSTRTRX_SASL_JAAS_CONFIG    = format(local.jaas_config_template_fa, "fa-trx-payment-instrument", "fa-trx-payment-instrument-consumer", module.key_vault_secrets_query.values["evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01"].value)
+    KAFKA_PAYINSTRTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-payment-instrument", "fa-trx-payment-instrument-consumer", module.key_vault_secrets_query.values["evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_CUSTOMERTRX_SASL_JAAS_CONFIG    = format(local.jaas_config_template_fa, "fa-trx-customer", "fa-trx-customer-producer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01"].value)
+    KAFKA_CUSTOMERTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-customer", "fa-trx-customer-producer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
     KAFKA_FATRX_ERROR_SASL_JAAS_CONFIG    = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-producer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-producer-key-fa-01"].value)
@@ -97,16 +97,16 @@ resource "kubernetes_secret" "famstransaction" {
 
   data = {
     #Kafka Connection String Consumer
-    KAFKA_TRX_SASL_JAAS_CONFIG            = format(local.jaas_config_template_fa, "fa-trx", "fa-trx-consumer", module.key_vault_secrets_query.values["evh-fa-trx-fa-trx-consumer-key-fa-01"].value)
+    KAFKA_TRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx", "fa-trx-consumer", module.key_vault_secrets_query.values["evh-fa-trx-fa-trx-consumer-key-fa-01"].value)
 
     #Kafka Connection String Consumer
-    KAFKA_VLDTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "rtd-trx", "rtd-trx-consumer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-consumer-key"].value)
+    KAFKA_VLDTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "rtd-trx-consumer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-consumer-key"].value)
 
     #Kafka Connection String Producer
-    KAFKA_FATRX_ERROR_SASL_JAAS_CONFIG    = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-producer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-producer-key-fa-01"].value)
+    KAFKA_FATRX_ERROR_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-producer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_PMNSTRTRX_SASL_JAAS_CONFIG      = format(local.jaas_config_template_fa, "fa-trx-payment-instrument", "fa-trx-payment-instrument-producer", module.key_vault_secrets_query.values["evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"].value)
+    KAFKA_PMNSTRTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-payment-instrument", "fa-trx-payment-instrument-producer", module.key_vault_secrets_query.values["evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"].value)
 
     APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
@@ -122,10 +122,10 @@ resource "kubernetes_secret" "famsmerchant" {
 
   data = {
     #Kafka Connection String Consumer
-    KAFKA_MCNTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template_fa, "fa-trx-merchant", "fa-trx-merchant-consumer", module.key_vault_secrets_query.values["evh-fa-trx-merchant-fa-trx-merchant-consumer-key-fa-01"].value)
+    KAFKA_MCNTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-merchant", "fa-trx-merchant-consumer", module.key_vault_secrets_query.values["evh-fa-trx-merchant-fa-trx-merchant-consumer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_FATRX_SASL_JAAS_CONFIG          = format(local.jaas_config_template_fa, "fa-trx", "fa-trx-producer", module.key_vault_secrets_query.values["evh-fa-trx-fa-trx-producer-key-fa-01"].value)
+    KAFKA_FATRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx", "fa-trx-producer", module.key_vault_secrets_query.values["evh-fa-trx-fa-trx-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
     KAFKA_FATRX_ERROR_SASL_JAAS_CONFIG    = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-producer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-producer-key-fa-01"].value)
@@ -143,13 +143,13 @@ resource "kubernetes_secret" "famstransactionerrormanager" {
 
   data = {
     #Kafka Connection String Consumer
-    KAFKA_FATXERR_SASL_JAAS_CONFIG        = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-consumer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-consumer-key-fa-01"].value)
+    KAFKA_FATXERR_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-error", "fa-trx-error-consumer", module.key_vault_secrets_query.values["evh-fa-trx-error-fa-trx-error-consumer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_FATRX_SASL_JAAS_CONFIG          = format(local.jaas_config_template_fa, "fa-trx", "fa-trx-producer", module.key_vault_secrets_query.values["evh-fa-trx-fa-trx-producer-key-fa-01"].value)
+    KAFKA_FATRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx", "fa-trx-producer", module.key_vault_secrets_query.values["evh-fa-trx-fa-trx-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
-    KAFKA_FACUSTRX_SASL_JAAS_CONFIG       = format(local.jaas_config_template_fa, "fa-trx-customer", "fa-trx-customer-producer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01"].value)
+    KAFKA_FACUSTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template_fa, "fa-trx-customer", "fa-trx-customer-producer", module.key_vault_secrets_query.values["evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01"].value)
 
     #Kafka Connection String Producer
     KAFKA_RTDTRX_SASL_JAAS_CONFIG         = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value)
