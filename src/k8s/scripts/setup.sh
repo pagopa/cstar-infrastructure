@@ -29,10 +29,10 @@ fi
 
 az account set -s "${SUBSCRIPTION}"
 
-vm_name=$(az vm list -d -o tsv --query "[?contains(name,'jumpbox')].{Name:name}")
-vm_resource_group_name=$(az vm list -d -o tsv --query "[?contains(name,'jumpbox')].{Name:resourceGroup}")
-vm_user_name=$(az vm list -d -o tsv --query "[?contains(name,'jumpbox')].{Name:osProfile.adminUsername}")
-vm_public_ip=$(az vm show -d -g "${vm_resource_group_name}" -n "${vm_name}" --query publicIps -o tsv)
+# vm_name=$(az vm list -d -o tsv --query "[?contains(name,'jumpbox')].{Name:name}")
+# vm_resource_group_name=$(az vm list -d -o tsv --query "[?contains(name,'jumpbox')].{Name:resourceGroup}")
+# vm_user_name=$(az vm list -d -o tsv --query "[?contains(name,'jumpbox')].{Name:osProfile.adminUsername}")
+# vm_public_ip=$(az vm show -d -g "${vm_resource_group_name}" -n "${vm_name}" --query publicIps -o tsv)
 
 echo "vm_name=${vm_name}" > "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
 echo "vm_resource_group_name=${vm_resource_group_name}" >> "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
