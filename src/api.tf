@@ -897,7 +897,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=CEN-1235-manage-api-revision"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
   name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -933,7 +933,7 @@ module "bpd_io_award_period_original" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=CEN-1235-manage-api-revision"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
   name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
