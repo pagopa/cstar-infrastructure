@@ -11,7 +11,12 @@ resource "kubernetes_config_map" "cstariobackendtest" {
     BACKEND_IO_SERVER_PROCESSOR_CACHE   = "300"
     BACKEND_IO_SERVER_THREAD_MAX        = "500"
     JAVA_TOOL_OPTIONS                   = "-Xmx1g"
-
+    KAFKA_SECURITY_PROTOCOL             = "SASL_SSL"
+    KAFKA_SASL_MECHANISM                = "PLAIN"
+    KAFKA_MOCKPOCTRX_TOPIC              = "rtd-trx"
+    KAFKA_MOCKPOCTRX_GROUP_ID           = "fa-mock-poc"
+    KAFKA_SERVERS                       = local.event_hub_connection // points to bpd EH namespace
+    FA_TRANSACTION_HOST                 = format("%s/famstransaction", var.ingress_load_balancer_ip)
     },
     var.configmaps_cstariobackendtest
   )
@@ -25,6 +30,7 @@ resource "kubernetes_config_map" "bpdmsawardperiod" {
 
   data = merge({
     AWARD_PERIOD_REST_CLIENT_ACTIVES_CACHE_CRON = "0 0 0 * * ?"
+    AWARD_PERIOD_DB_MIN_IDLE                    = 1
     POSTGRES_SCHEMA                             = "bpd_award_period"
     },
     var.configmaps_bpdmsawardperiod
@@ -48,6 +54,9 @@ resource "kubernetes_config_map" "bpdmsawardwinner" {
     KAFKA_WINNER_TOPIC            = "bpd-winner-outcome"
     POSTGRES_REPLICA_SCHEMA       = "bpd_citizen"
     POSTGRES_SCHEMA               = "bpd_citizen"
+    AWARDWINN_DB_MIN_IDLE         = 1
+    AWARDWINN_REPLICA_DB_MIN_IDLE = 1
+
     },
     var.configmaps_bpdmsawardwinner
   )
@@ -66,6 +75,8 @@ resource "kubernetes_config_map" "bpdmscitizen" {
     POSTGRES_REPLICA_SCHEMA     = "bpd_citizen"
     POSTGRES_SCHEMA             = "bpd_citizen"
     REST_CLIENT_LOGGER_LEVEL    = "BASIC"
+    CITIZEN_DB_MIN_IDLE         = 1
+    CITIZEN_DB_REPLICA_MIN_IDLE = 1
     }, var.configmaps_bpdmscitizen
   )
 }
@@ -78,15 +89,17 @@ resource "kubernetes_config_map" "bpdmscitizenbatch" {
 
 
   data = merge({
-    KAFKA_CITIZENTRX_GROUP_ID = "bpd-citizen-trx"
-    KAFKA_CITIZENTRX_TOPIC    = "bpd-citizen-trx"
-    KAFKA_CZNTRX_GROUP_ID     = "bpd-trx-cashback"
-    KAFKA_CZNTRX_TOPIC        = "bpd-trx-cashback"
-    KAFKA_POINTTRX_GROUP_ID   = "bpd-trx"
-    KAFKA_POINTTRX_TOPIC      = "bpd-trx"
-    POSTGRES_REPLICA_SCHEMA   = "bpd_citizen"
-    POSTGRES_SCHEMA           = "bpd_citizen"
-    REST_CLIENT_LOGGER_LEVEL  = "BASIC"
+    KAFKA_CITIZENTRX_GROUP_ID   = "bpd-citizen-trx"
+    KAFKA_CITIZENTRX_TOPIC      = "bpd-citizen-trx"
+    KAFKA_CZNTRX_GROUP_ID       = "bpd-trx-cashback"
+    KAFKA_CZNTRX_TOPIC          = "bpd-trx-cashback"
+    KAFKA_POINTTRX_GROUP_ID     = "bpd-trx"
+    KAFKA_POINTTRX_TOPIC        = "bpd-trx"
+    CITIZEN_DB_MIN_IDLE         = 1
+    CITIZEN_DB_REPLICA_MIN_IDLE = 1
+    POSTGRES_REPLICA_SCHEMA     = "bpd_citizen"
+    POSTGRES_SCHEMA             = "bpd_citizen"
+    REST_CLIENT_LOGGER_LEVEL    = "BASIC"
     }, var.configmaps_bpdmscitizenbatch
   )
 }
@@ -123,12 +136,13 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                          = "-"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_OK            = "Il tuo rimborso è in arrivo!"
     NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SUBJECT_KO            = "Si è verificato un problema con il tuo rimborso"
-    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER             = "-"
+    NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER             = "-" # Notify citizens they received a wire transfer by Consap (0 */5 * * * ?)
     NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER            = "-"
     NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-"
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-09-20"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-" # Send transfer orders to Consap (cron giornaliero)
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-12-30"
+    NOT_MANAGER_DB_MIN_IDLE                                           = 1
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
     },
     var.configmaps_bpdmsnotificationmanager
@@ -153,6 +167,8 @@ resource "kubernetes_config_map" "bpdmspaymentinstrument" {
     KAFKA_POINTTRX_TOPIC             = "bpd-trx"
     LOG_LEVEL_BPD_PAYMENT_INSTRUMENT = "DEBUG"
     PAYINSTR_SECONDARY_DB_ENABLE     = "true"
+    PAYINSTR_DB_MIN_IDLE             = 1
+    PAYINSTR_DB_REPLICA_MIN_IDLE     = 1
     POSTGRES_REPLICA_SCHEMA          = "bpd_payment_instrument"
     POSTGRES_SCHEMA                  = "bpd_payment_instrument"
     }, var.configmaps_bpdmspaymentinstrument
@@ -185,13 +201,16 @@ resource "kubernetes_config_map" "bpdmsrankingprocessor" {
   }
 
   data = merge({
-    CITIZEN_DAO_TABLE_NAME_RANKING        = "bpd_citizen_ranking"
-    CITIZEN_DAO_TABLE_NAME_RANKING_EXT    = "bpd_ranking_ext"
-    CITIZEN_DB_SCHEMA                     = "bpd_citizen"
+    CITIZEN_DAO_TABLE_NAME_RANKING     = "bpd_citizen_ranking"
+    CITIZEN_DAO_TABLE_NAME_RANKING_EXT = "bpd_ranking_ext"
+    CITIZEN_DB_SCHEMA                  = "bpd_citizen"
+    CITIZEN_DB_MIN_IDLE                = 1
+    # minimumIdle parameter of Hiraki Pool isn't configurable via environment for Transaction Data Source
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME = "elab_ranking_b"
     RANKING_UPDATE_TIE_BREAK_ENABLE       = "false"
     RANKING_UPDATE_TIE_BREAK_LIMIT        = "150000"
+
     }, var.configmaps_bpdmsrankingprocessor
   )
 }
@@ -208,6 +227,7 @@ resource "kubernetes_config_map" "bpdmsrankingprocessoroffline" {
     CITIZEN_DAO_TABLE_NAME_RANKING        = "bpd_citizen_ranking_new"
     CITIZEN_DAO_TABLE_NAME_RANKING_EXT    = "bpd_ranking_ext_new"
     CITIZEN_DB_SCHEMA                     = "bpd_citizen"
+    CITIZEN_DB_MIN_IDLE                   = 1
     RANKING_UPDATE_DATA_EXTRACTION_LIMIT  = "10"
     RANKING_UPDATE_PARALLEL_ENABLE        = "false"
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
@@ -233,6 +253,7 @@ resource "kubernetes_config_map" "bpdmsrankingprocessorpoc" {
     CITIZEN_DAO_TABLE_NAME_RANKING_EXT                     = "bpd_ranking_ext_new"
     CITIZEN_DAO_TABLE_NAME_RANKING_LOCK                    = "bpd_ranking_processor_lock_new"
     CITIZEN_DB_SCHEMA                                      = "bpd_citizen"
+    CITIZEN_DB_MIN_IDLE                                    = 1
     TRANSACTION_DB_SCHEMA                                  = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME                  = "elab_ranking_new_b"
     }, var.configmaps_bpdmsrankingprocessorpoc
@@ -254,6 +275,7 @@ resource "kubernetes_config_map" "bpdmstransactionerrormanager" {
     KAFKA_RTDTRX_GROUPID     = "bpd-payment-instrument"
     KAFKA_RTDTRX_TOPIC       = "rtd-trx"
     TRXERROR_DB_NAME         = "bpd"
+    TRXERROR_DB_MIN_IDLE     = 1
     POSTGRES_SCHEMA          = "bpd_error_record"
     }, var.configmaps_bpdmstransactionerrormanager
   )
@@ -266,12 +288,14 @@ resource "kubernetes_config_map" "bpdmswinningtransaction" {
   }
 
   data = merge({
-    KAFKA_BPDTRX_ERROR_GROUP_ID = "bpd-trx-error"
-    KAFKA_BPDTRX_ERROR_TOPIC    = "bpd-trx-error"
-    KAFKA_SAVETRX_GROUP_ID      = "bpd-winning-transaction"
-    KAFKA_SAVETRX_TOPIC         = "bpd-trx-cashback"
-    POSTGRES_REPLICA_SCHEMA     = "bpd_winning_transaction"
-    POSTGRES_SCHEMA             = "bpd_winning_transaction"
+    KAFKA_BPDTRX_ERROR_GROUP_ID  = "bpd-trx-error"
+    KAFKA_BPDTRX_ERROR_TOPIC     = "bpd-trx-error"
+    KAFKA_SAVETRX_GROUP_ID       = "bpd-winning-transaction"
+    KAFKA_SAVETRX_TOPIC          = "bpd-trx-cashback"
+    POSTGRES_REPLICA_SCHEMA      = "bpd_winning_transaction"
+    POSTGRES_SCHEMA              = "bpd_winning_transaction"
+    WINN_TRX_DB_MIN_IDLE         = 1
+    WINN_TRX_DB_REPLICA_MIN_IDLE = 1
     }, var.configmaps_bpdmswinningtransaction
   )
 }

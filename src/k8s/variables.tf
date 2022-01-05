@@ -156,6 +156,10 @@ variable "configmaps_rtdpaymentinstrumentmanager" {
   type = map(string)
 }
 
+variable "configmaps_rtdtransactionfilter" {
+  type    = map(string)
+  default = {}
+}
 
 variable "configmaps_facustomer" {
   type = map(string)
@@ -179,4 +183,44 @@ variable "configmaps_famerchant" {
 
 variable "configmaps_faonboardingmerchant" {
   type = map(string)
+}
+
+variable "configmaps_fainvoicemanager" {
+  type = map(string)
+}
+
+variable "configmaps_fainvoiceprovider" {
+  type = map(string)
+}
+
+variable "configmaps_fatransactionerrormanager" {
+  type = map(string)
+}
+
+variable "configmaps_fanotificationmanager" {
+  type = map(string)
+}
+
+variable "autoscaling_specs" {
+  type = map(object({
+    namespace    = string
+    min_replicas = number
+    max_replicas = number
+    metrics = list(object({
+      type = string
+      resource = object({
+        name = string
+        target = object({
+          type                = string
+          average_utilization = number
+        })
+      })
+    }))
+
+    }
+  ))
+}
+
+variable "secrets_to_be_read_from_kv" {
+  type = list(string)
 }

@@ -63,6 +63,38 @@ resource "kubernetes_ingress" "fa_ingress" {
           }
           path = "/famsonboardingmerchant/(.*)"
         }
+
+        path {
+          backend {
+            service_name = "famsinvoicemanager"
+            service_port = var.default_service_port
+          }
+          path = "/famsinvoicemanager/(.*)"
+        }
+
+        path {
+          backend {
+            service_name = "famsinvoiceprovider"
+            service_port = var.default_service_port
+          }
+          path = "/famsinvoiceprovider/(.*)"
+        }
+
+        path {
+          backend {
+            service_name = "famsnotificationmanager"
+            service_port = var.default_service_port
+          }
+          path = "/famsnotificationmanager/(.*)"
+        }
+
+        path {
+          backend {
+            service_name = "famstransactionerrormanager"
+            service_port = var.default_service_port
+          }
+          path = "/famstransactionerrormanager/(.*)"
+        }
       }
     }
   }

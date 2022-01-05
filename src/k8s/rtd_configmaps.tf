@@ -19,6 +19,37 @@ resource "kubernetes_config_map" "rtdpaymentinstrumentmanager" {
   )
 }
 
+resource "kubernetes_config_map" "rtdtransactionfilter" {
+  count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+
+  metadata {
+    name      = "rtdtransactionfilter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    ACQ_BATCH_SCHEDULED = "true"
+    # ACQ_BATCH_INPUT_CRON             = "" Should be set per environment
+    LOG_LEVEL_RTD_TRANSACTION_FILTER = "INFO"
+    ACQ_BATCH_TOKEN_INPUT_PATH       = "/app_workdir/input"
+    ACQ_BATCH_TRX_INPUT_PATH         = "/app_workdir/input"
+    ACQ_BATCH_TRX_LOGS_PATH          = "/app_workdir/logs"
+    ACQ_BATCH_OUTPUT_PATH            = "/app_workdir/output"
+    ACQ_BATCH_TRX_LIST_APPLY_ENCRYPT = "true"
+    ACQ_BATCH_INPUT_PUBLIC_KEYPATH   = "/app_workdir/publickey.asc"
+    # HPAN_SERVICE_URL                 = "" Should be set per environment
+    ACH_BATCH_HPAN_ON_SUCCESS      = "ARCHIVE"
+    HPAN_SERVICE_KEY_STORE_FILE    = "/app_workdir/certs.jks"
+    HPAN_SERVICE_TRUST_STORE_FILE  = "/app_workdir/certs.jks"
+    ACQ_BATCH_TOKEN_PAN_VALIDATION = "false"
+    ACQ_BATCH_HPAN_INPUT_PATH      = "/app_workdir/hpans"
+    ACQ_BATCH_PAR_RECOVERY_ENABLED = "false"
+    ACQ_BATCH_TRX_PAR_ENABLED      = "false"
+    },
+    var.configmaps_rtdtransactionfilter
+  )
+}
+
 resource "kubernetes_config_map" "rtd-eventhub-common" {
   metadata {
     name      = "eventhub-common"

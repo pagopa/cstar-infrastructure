@@ -51,20 +51,6 @@ output "key_vault_name" {
   value = module.key_vault.name
 }
 
-## Jumpbox ##
-output "jumphost_ip" {
-  value = module.jumpbox.ip
-}
-
-output "jumphost_private_key" {
-  value     = module.jumpbox.tls_private_key
-  sensitive = true
-}
-
-output "jumphost_username" {
-  value = module.jumpbox.username
-}
-
 ## Container registry ##
 output "container_registry_login_server" {
   value = module.acr.login_server
@@ -149,23 +135,24 @@ output "postgresql_replica_fqdn" {
   value = module.postgresql.replica_fqdn
 }
 
+# To enable outputs related to redis cache, please uncomment the following lines
 ## Redis cache
-output "redis_primary_access_key" {
-  value     = module.redis.primary_access_key
-  sensitive = true
-}
+# output "redis_primary_access_key" {
+#   value     = module.redis.primary_access_key
+#   sensitive = true
+# }
 
-output "redis_hostname" {
-  value = module.redis.hostname
-}
+# output "redis_hostname" {
+#   value = module.redis.hostname
+# }
 
-output "redis_port" {
-  value = module.redis.port
-}
+# output "redis_port" {
+#   value = module.redis.port
+# }
 
-output "redis_ssl_port" {
-  value = module.redis.ssl_port
-}
+# output "redis_ssl_port" {
+#   value = module.redis.ssl_port
+# }
 
 
 # Blob storage

@@ -22,10 +22,14 @@
                 </return-response>
             </when>
             <otherwise>
-                <set-backend-service base-url="${pm-backend-url}/pp-restapi-rtd/v1" />
-                <rewrite-uri template="/static-contents/wallets/hashing" />
-                %{ if env_short != "d" ~}
-                <authentication-certificate thumbprint="${rtd-pm-client-certificate-thumbprint}" />
+                %{ if env_short == "d" ~}
+                    <return-response>
+                        <set-body>SALT876</set-body>
+                    </return-response>
+                %{ else ~}
+                    <set-backend-service base-url="${pm-backend-url}/pp-restapi-rtd/v1" />
+                    <rewrite-uri template="/static-contents/wallets/hashing" />
+                    <authentication-certificate thumbprint="${rtd-pm-client-certificate-thumbprint}" />
                 %{ endif ~}
             </otherwise>
         </choose>

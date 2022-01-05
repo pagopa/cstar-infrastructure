@@ -218,19 +218,10 @@ cidr_subnet_eventhub  = ["10.230.7.64/26"]
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
-db_sku_name       = "GP_Gen5_4"
+db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
 db_storage_mb     = 204800 # 200 GB
-db_configuration = {
-  autovacuum_work_mem         = "-1"
-  effective_cache_size        = "2621440"
-  log_autovacuum_min_duration = "5000"
-  log_connections             = "off"
-  log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
-  log_temp_files              = "4096"
-  maintenance_work_mem        = "524288"
-  max_wal_size                = "4096"
-}
+
 db_network_rules = {
   ip_rules = [
     "18.192.147.151/32" #PDND
@@ -276,7 +267,7 @@ db_metric_alerts = {
     aggregation = "Average"
     metric_name = "active_connections"
     operator    = "GreaterThan"
-    threshold   = 196
+    threshold   = 116
     frequency   = "PT5M"
     window_size = "PT5M"
     dimension   = []
@@ -484,70 +475,10 @@ eventhubs = [
     ]
   },
   {
-    name              = "fa-trx-error"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-transaction-error-manager"]
-    keys = [
-      {
-        name   = "fa-transaction"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-transaction-error-manager"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-transaction"]
-    keys = [
-      {
-        name   = "fa-merchant"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-transaction"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-merchant"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-merchant"]
-    keys = [
-      {
-        name   = "fa-customer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-merchant"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
-    consumers         = ["bpd-payment-instrument"]
+    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group"]
     keys = [
       {
         name   = "rtd-csv-connector"
@@ -559,6 +490,18 @@ eventhubs = [
         name   = "bpd-payment-instrument"
         listen = true
         send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
         manage = false
       }
     ]
@@ -584,6 +527,110 @@ eventhubs = [
     ]
   },
 ]
+
+eventhubs_fa = [
+  {
+    name              = "fa-trx-error"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-trx-error-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-error-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-error-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "fa-trx"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-trx-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "fa-trx-merchant"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-trx-merchant-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-merchant-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-merchant-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "fa-trx-customer"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-trx-customer-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-customer-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-customer-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "fa-trx-payment-instrument"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-trx-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "fa-trx-payment-instrument-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "fa-trx-payment-instrument-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+]
+
 external_domain = "pagopa.it"
 
 pm_backend_url = "https://10.49.20.119:444"

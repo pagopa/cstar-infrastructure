@@ -63,3 +63,104 @@ resource "azurerm_monitor_action_group" "slack" {
   tags = var.tags
 }
 
+resource "azurerm_monitor_diagnostic_setting" "activity_log" {
+  count                      = var.env_short == "p" ? 1 : 0
+  name                       = "SecurityLogs"
+  target_resource_id         = format("/subscriptions/%s", data.azurerm_subscription.current.subscription_id)
+  log_analytics_workspace_id = data.azurerm_key_vault_secret.sec_workspace_id[0].value
+  storage_account_id         = data.azurerm_key_vault_secret.sec_storage_id[0].value
+
+  log {
+    category = "Administrative"
+    enabled  = true
+  }
+
+  log {
+    category = "Security"
+    enabled  = true
+  }
+
+  log {
+    category = "Alert"
+    enabled  = true
+  }
+
+  log {
+    category = "Autoscale"
+    enabled  = false
+  }
+
+  log {
+    category = "Policy"
+    enabled  = false
+  }
+
+  log {
+    category = "Recommendation"
+    enabled  = false
+  }
+
+  log {
+    category = "ResourceHealth"
+    enabled  = false
+  }
+
+  log {
+    category = "ServiceHealth"
+    enabled  = false
+  }
+}
+
+## web availabolity test
+locals {
+
+  test_urls = [
+    {
+      host                 = trimsuffix(azurerm_dns_a_record.dns-a-managementcstar.fqdn, "."),
+      path                 = "/ServiceStatus",
+      expected_http_status = 200
+    },
+    {
+      host                 = trimsuffix(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, "."),
+      path                 = "",
+      expected_http_status = 200
+    },
+    {
+      host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, "."),
+      path                 = "",
+      expected_http_status = 400
+    },
+    {
+      host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, "."),
+      path                 = "",
+      expected_http_status = 200
+    },
+    ## CDN custom domains ##
+    # no cdn              ##
+  ]
+
+}
+
+module "web_test_api" {
+  for_each = { for v in local.test_urls : v.host => v if v != null }
+  source   = "git::https://github.com/pagopa/azurerm.git//application_insights_web_test_preview?ref=v2.0.18"
+
+  subscription_id                   = data.azurerm_subscription.current.subscription_id
+  name                              = format("%s-test", each.value.host)
+  location                          = azurerm_resource_group.monitor_rg.location
+  resource_group                    = azurerm_resource_group.monitor_rg.name
+  application_insight_name          = azurerm_application_insights.application_insights.name
+  request_url                       = format("https://%s%s", each.value.host, each.value.path)
+  ssl_cert_remaining_lifetime_check = 7
+  expected_http_status              = each.value.expected_http_status
+
+  actions = [
+    {
+      action_group_id = azurerm_monitor_action_group.email.id,
+    },
+    {
+      action_group_id = azurerm_monitor_action_group.slack.id,
+    },
+  ]
+
+}
