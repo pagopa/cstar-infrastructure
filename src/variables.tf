@@ -262,6 +262,28 @@ variable "pm_ip_filter_range" {
 }
 
 ## Application gateway
+variable "app_gateway_sku_name" {
+  type        = string
+  description = "The Name of the SKU to use for this Application Gateway. Possible values are Standard_Small, Standard_Medium, Standard_Large, Standard_v2, WAF_Medium, WAF_Large, and WAF_v2"
+}
+
+variable "app_gateway_sku_tier" {
+  type        = string
+  description = "The Tier of the SKU to use for this Application Gateway. Possible values are Standard, Standard_v2, WAF and WAF_v2"
+}
+
+variable "app_gateway_waf_enabled" {
+  type        = bool
+  description = "Enable waf"
+  default     = true
+}
+
+variable "app_gateway_alerts_enabled" {
+  type        = bool
+  description = "Enable alerts"
+  default     = true
+}
+
 variable "enable_custom_dns" {
   type        = bool
   default     = false

@@ -897,12 +897,12 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
-  name                = format("%s-bpd-io-award-period-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
-  revision            = 2
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
+  name                 = format("%s-bpd-io-award-period-api", var.env_short)
+  api_management_name  = module.apim.name
+  resource_group_name  = azurerm_resource_group.rg_api.name
+  version_set_id       = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision             = 2
   revision_description = "closing cashback"
 
   description  = "findAll"
@@ -933,14 +933,14 @@ module "bpd_io_award_period_original" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
-  name                = format("%s-bpd-io-award-period-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
-  revision            = 2
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
+  name                 = format("%s-bpd-io-award-period-api", var.env_short)
+  api_management_name  = module.apim.name
+  resource_group_name  = azurerm_resource_group.rg_api.name
+  version_set_id       = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision             = 2
   revision_description = "closing cashback"
-  api_version         = "v2"
+  api_version          = "v2"
 
   description  = "findAll"
   display_name = "BPD IO Award Period API"
