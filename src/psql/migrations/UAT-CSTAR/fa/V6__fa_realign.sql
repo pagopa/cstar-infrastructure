@@ -130,14 +130,15 @@ ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN amount_i numeric NO
 ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN terminal_id_s character varying(255) NOT NULL;
 ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN bin_card_s character varying NOT NULL;
 ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN auth_code_s character varying NOT NULL;
+ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN merchant_id character varying;
 
-ALTER TABLE fa_transaction.fa_transaction_request ALTER COLUMN merchant_id TYPE character varying;
 ALTER TABLE fa_transaction.fa_transaction_request ALTER COLUMN invoice_status_s TYPE character varying NULL
 
 ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS transaction_id_s;
 ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS customer_param_s;
 ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS customer_param_desc_s;
 ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS acquirer_id_n;
+ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS merchant_id_n;
 
 --
 -- Name: fa_provider; Type: TABLE; Schema: fa_provider; Owner: ddsadmin
