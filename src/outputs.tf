@@ -51,20 +51,6 @@ output "key_vault_name" {
   value = module.key_vault.name
 }
 
-## Jumpbox ##
-output "jumphost_ip" {
-  value = module.jumpbox.ip
-}
-
-output "jumphost_private_key" {
-  value     = module.jumpbox.tls_private_key
-  sensitive = true
-}
-
-output "jumphost_username" {
-  value = module.jumpbox.username
-}
-
 ## Container registry ##
 output "container_registry_login_server" {
   value = module.acr.login_server

@@ -89,17 +89,17 @@ resource "kubernetes_config_map" "bpdmscitizenbatch" {
 
 
   data = merge({
-    KAFKA_CITIZENTRX_GROUP_ID = "bpd-citizen-trx"
-    KAFKA_CITIZENTRX_TOPIC    = "bpd-citizen-trx"
-    KAFKA_CZNTRX_GROUP_ID     = "bpd-trx-cashback"
-    KAFKA_CZNTRX_TOPIC        = "bpd-trx-cashback"
-    KAFKA_POINTTRX_GROUP_ID   = "bpd-trx"
-    KAFKA_POINTTRX_TOPIC      = "bpd-trx"
+    KAFKA_CITIZENTRX_GROUP_ID   = "bpd-citizen-trx"
+    KAFKA_CITIZENTRX_TOPIC      = "bpd-citizen-trx"
+    KAFKA_CZNTRX_GROUP_ID       = "bpd-trx-cashback"
+    KAFKA_CZNTRX_TOPIC          = "bpd-trx-cashback"
+    KAFKA_POINTTRX_GROUP_ID     = "bpd-trx"
+    KAFKA_POINTTRX_TOPIC        = "bpd-trx"
     CITIZEN_DB_MIN_IDLE         = 1
     CITIZEN_DB_REPLICA_MIN_IDLE = 1
-    POSTGRES_REPLICA_SCHEMA   = "bpd_citizen"
-    POSTGRES_SCHEMA           = "bpd_citizen"
-    REST_CLIENT_LOGGER_LEVEL  = "BASIC"
+    POSTGRES_REPLICA_SCHEMA     = "bpd_citizen"
+    POSTGRES_SCHEMA             = "bpd_citizen"
+    REST_CLIENT_LOGGER_LEVEL    = "BASIC"
     }, var.configmaps_bpdmscitizenbatch
   )
 }
@@ -141,7 +141,7 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-" # Send transfer orders to Consap (cron giornaliero)
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-12-15"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-12-30"
     NOT_MANAGER_DB_MIN_IDLE                                           = 1
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
     },
@@ -201,10 +201,10 @@ resource "kubernetes_config_map" "bpdmsrankingprocessor" {
   }
 
   data = merge({
-    CITIZEN_DAO_TABLE_NAME_RANKING        = "bpd_citizen_ranking"
-    CITIZEN_DAO_TABLE_NAME_RANKING_EXT    = "bpd_ranking_ext"
-    CITIZEN_DB_SCHEMA                     = "bpd_citizen"
-    CITIZEN_DB_MIN_IDLE                   = 1
+    CITIZEN_DAO_TABLE_NAME_RANKING     = "bpd_citizen_ranking"
+    CITIZEN_DAO_TABLE_NAME_RANKING_EXT = "bpd_ranking_ext"
+    CITIZEN_DB_SCHEMA                  = "bpd_citizen"
+    CITIZEN_DB_MIN_IDLE                = 1
     # minimumIdle parameter of Hiraki Pool isn't configurable via environment for Transaction Data Source
     TRANSACTION_DB_SCHEMA                 = "bpd_winning_transaction"
     TRANSACTION_EXTR_QUERY_ELAB_RANK_NAME = "elab_ranking_b"
@@ -288,12 +288,12 @@ resource "kubernetes_config_map" "bpdmswinningtransaction" {
   }
 
   data = merge({
-    KAFKA_BPDTRX_ERROR_GROUP_ID = "bpd-trx-error"
-    KAFKA_BPDTRX_ERROR_TOPIC    = "bpd-trx-error"
-    KAFKA_SAVETRX_GROUP_ID      = "bpd-winning-transaction"
-    KAFKA_SAVETRX_TOPIC         = "bpd-trx-cashback"
-    POSTGRES_REPLICA_SCHEMA     = "bpd_winning_transaction"
-    POSTGRES_SCHEMA             = "bpd_winning_transaction"
+    KAFKA_BPDTRX_ERROR_GROUP_ID  = "bpd-trx-error"
+    KAFKA_BPDTRX_ERROR_TOPIC     = "bpd-trx-error"
+    KAFKA_SAVETRX_GROUP_ID       = "bpd-winning-transaction"
+    KAFKA_SAVETRX_TOPIC          = "bpd-trx-cashback"
+    POSTGRES_REPLICA_SCHEMA      = "bpd_winning_transaction"
+    POSTGRES_SCHEMA              = "bpd_winning_transaction"
     WINN_TRX_DB_MIN_IDLE         = 1
     WINN_TRX_DB_REPLICA_MIN_IDLE = 1
     }, var.configmaps_bpdmswinningtransaction

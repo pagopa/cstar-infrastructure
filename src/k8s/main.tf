@@ -2,8 +2,8 @@ terraform {
   required_version = ">=0.15.3"
 
   backend "azurerm" {
-    container_name = "cstar-aks-state"
-    key            = "terraform-cstar-aks.tfstate"
+    container_name = "k8sstate"
+    key            = "terraform.tfstate"
   }
 
   required_providers {

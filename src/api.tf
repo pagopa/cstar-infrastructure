@@ -21,20 +21,20 @@ locals {
 
 module "apim" {
 
-  source                  = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.63"
-  subnet_id               = module.apim_snet.id
-  location                = azurerm_resource_group.rg_api.location
-  name                    = format("%s-apim", local.project)
-  resource_group_name     = azurerm_resource_group.rg_api.name
-  publisher_name          = var.apim_publisher_name
-  publisher_email         = data.azurerm_key_vault_secret.apim_publisher_email.value
-  sku_name                = var.apim_sku
-  virtual_network_type    = "Internal"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.63"
+  subnet_id            = module.apim_snet.id
+  location             = azurerm_resource_group.rg_api.location
+  name                 = format("%s-apim", local.project)
+  resource_group_name  = azurerm_resource_group.rg_api.name
+  publisher_name       = var.apim_publisher_name
+  publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
+  sku_name             = var.apim_sku
+  virtual_network_type = "Internal"
 
   # To enable external cache uncomment the following lines
   # redis_connection_string = module.redis.primary_connection_string
   # redis_cache_id          = module.redis.id
-  
+
   redis_connection_string = null
   redis_cache_id          = null
 
@@ -897,11 +897,13 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
   name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision            = 2
+  revision_description = "closing cashback"
 
   description  = "findAll"
   display_name = "BPD IO Award Period API"
@@ -922,7 +924,7 @@ module "bpd_io_award_period_original" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content = templatefile("./api/bpd_io_award_period/original/findAllUsingGET_policy.xml.tmpl", {
+      xml_content = templatefile("./api/bpd_io_award_period/original/findAllUsingGET_close_cashback_policy.xml.tmpl", {
         env_short = var.env_short
       })
     }
@@ -931,11 +933,13 @@ module "bpd_io_award_period_original" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
   name                = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision            = 2
+  revision_description = "closing cashback"
   api_version         = "v2"
 
   description  = "findAll"
@@ -958,7 +962,7 @@ module "bpd_io_award_period_v2" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content = templatefile("./api/bpd_io_award_period/v2/findAllUsingGET_policy.xml.tmpl", {
+      xml_content = templatefile("./api/bpd_io_award_period/v2/findAllUsingGET_close_cashback_policy.xml.tmpl", {
         env_short = var.env_short
       })
     }

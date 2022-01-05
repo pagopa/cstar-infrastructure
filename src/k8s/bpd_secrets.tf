@@ -202,7 +202,7 @@ resource "kubernetes_secret" "cstariobackendtest" {
 
   data = {
     #Kafka Connection String Producer
-    KAFKA_MOCKPOCTRX_SASL_JAAS_CONFIG     = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value)
+    KAFKA_MOCKPOCTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value)
 
     APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
