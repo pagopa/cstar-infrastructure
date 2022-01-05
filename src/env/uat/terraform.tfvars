@@ -642,6 +642,10 @@ pm_ip_filter_range = {
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"
 
+app_gateway_sku_name                    = "Standard_v2"
+app_gateway_sku_tier                    = "Standard_v2"
+app_gateway_waf_enabled                 = false
+app_gateway_alerts_enabled              = false
 app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
