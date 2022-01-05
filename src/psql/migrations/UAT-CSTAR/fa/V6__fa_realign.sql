@@ -43,7 +43,7 @@ CREATE TABLE fa_payment_instrument.fa_payment_instrument_history (
 	hpan_s character varying(64) NOT NULL,
 	activation_t timestamp with time zone NOT NULL,
 	deactivation_t timestamp with time zone NULL,
-	id_n bigserial NOT NULL,
+	id_n bigint NOT NULL,
 	update_date_t timestamp with time zone NULL,
 	insert_date_t timestamp with time zone NULL,
 	insert_user_s character varying(40) NULL,
