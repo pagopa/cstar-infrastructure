@@ -32,7 +32,7 @@
   ],
   "paths": {
     "/list": {
-      "put": {
+      "get": {
         "description": "providerListUsingGET",
         "operationId": "providerListUsingGET",
         "summary": "providerListUsingGET",
