@@ -647,6 +647,10 @@ redis_family   = "P"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"
 
+app_gateway_sku_name                    = "WAF_v2"
+app_gateway_sku_tier                    = "WAF_v2"
+app_gateway_waf_enabled                 = true
+app_gateway_alerts_enabled              = true
 app_gateway_api_certificate_name        = "api-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
