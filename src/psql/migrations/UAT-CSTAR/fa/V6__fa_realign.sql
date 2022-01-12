@@ -132,7 +132,7 @@ ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN bin_card_s characte
 ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN auth_code_s character varying NOT NULL;
 ALTER TABLE fa_transaction.fa_transaction_request ADD COLUMN merchant_id character varying;
 
-ALTER TABLE fa_transaction.fa_transaction_request ALTER COLUMN invoice_status_s TYPE character varying NULL;
+ALTER TABLE fa_transaction.fa_transaction_request ALTER COLUMN invoice_status_s TYPE character varying;
 
 ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS transaction_id_s;
 ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS customer_param_s;
