@@ -145,7 +145,7 @@ ALTER TABLE fa_transaction.fa_transaction_request DROP COLUMN IF EXISTS merchant
 --
 
 CREATE TABLE fa_provider.fa_provider (
-	provider_id bigserial NOT NULL,
+	provider_id bigint NOT NULL,
 	provider_desc_s character varying(255) NOT NULL,
 	endpoint_address_s character varying(255) NOT NULL,
 	endpoint_chk_merchant_s character varying(255) NOT NULL,
