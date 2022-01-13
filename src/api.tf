@@ -448,7 +448,7 @@ module "rtd_csv_transaction" {
 
   service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
 
-
+  content_format = "openapi"
   content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
