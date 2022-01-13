@@ -98,7 +98,7 @@
         <set-variable name="sas" value="@{              
             return string.Format(
                 "sig={0}&st={1}&se={2}&spr={3}&sp={4}&sr={5}&sv={6}",
-                (string)context.Variables["sharedkey"],
+                (string)context.Variables["sharedKey"],
                 (string)context.Variables["signedStart"], 
                 (string)context.Variables["signedExpiry"],
                 (string)context.Variables["signedProtocol"], 
