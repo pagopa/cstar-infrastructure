@@ -40,8 +40,8 @@
 
 
         <set-variable name="signedPermissions" value="rw" /> <!-- sp, required -->
-        <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("R"))" /> <!-- st, optional -->
-        <set-variable name="signedExpiry" value="@(DateTime.UtcNow.AddHours(1).ToString("R"))" /> <!-- se, required -->
+        <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mmZ"))" /> <!-- st, optional -->
+        <set-variable name="signedExpiry" value="@(DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mmZ"))" /> <!-- se, required -->
         <set-variable name="canonicalizedResource" value="@{ 
             // /{storageAccount}/{resourcePath}
             return string.Format("/{0}/{1}",
