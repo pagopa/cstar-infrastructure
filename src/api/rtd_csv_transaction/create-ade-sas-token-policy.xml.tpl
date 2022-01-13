@@ -108,9 +108,7 @@
             );
             }"
         />
-        <return-response response-variable-name="sas">
-            <set-body>@((string)context.Variables["sas"])</set-body>
-        </return-response>
+        <return-response response-variable-name="sas" />
 
     </inbound>
     <backend>
