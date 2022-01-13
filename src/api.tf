@@ -432,6 +432,36 @@ module "rtd_payment_instrument_manager" {
   ]
 }
 
+## RTD Payment Instrument Manager API ##
+module "rtd_csv_transaction" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.28"
+
+  name                = format("%s-rtd-csv-transaction-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = "API providing upload methods for csv transaction files"
+  display_name = "RTD CSV Transaction API"
+  path         = "rtd/csv-transaction"
+  protocols    = ["https", "http"]
+
+  service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
+
+
+  content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+  ]
+}
+
 
 ## pm-admin-panel ##
 module "pm_admin_panel" {
