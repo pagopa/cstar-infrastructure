@@ -459,6 +459,14 @@ module "rtd_csv_transaction" {
   subscription_required = true
 
   api_operation_policies = [
+    {
+      operation_id = "createAdeSasToken",
+      xml_content = templatefile("./api/rtd_csv_transaction/create-ade-sas-token-policy.xml.tpl", {
+        blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
+        blob-storage-account-name   = module.cstarblobstorage.name,
+        env_short                   = var.env_short
+      })
+    },
   ]
 }
 
