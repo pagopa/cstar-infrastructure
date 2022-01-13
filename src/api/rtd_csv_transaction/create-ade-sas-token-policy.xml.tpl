@@ -108,7 +108,14 @@
             );
             }"
         />
-        <return-response response-variable-name="sas" />
+        <return-response>
+            <set-body>@{
+                return new JObject(
+                    new JProperty("sas", context.Variables["sas"])
+                ).ToString();
+             }
+            </set-body>
+        </return-response>
 
     </inbound>
     <backend>
