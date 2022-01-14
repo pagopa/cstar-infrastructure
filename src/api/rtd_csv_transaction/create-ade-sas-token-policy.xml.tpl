@@ -35,23 +35,24 @@
         -->
 
         <set-variable name="accessKey" value="${blob-storage-access-key}" />
-        <set-variable name="storageAccount" value="${blob-storage-account-name}" />
+        <!-- can we obtain this value dynamically from Terraform itself? -->
+        <set-variable name="storageAccount" value="cstardblobstorage" />
         <set-variable name="containerName" value="ade-transactions" />
 
-
-        <set-variable name="signedPermissions" value="rw" /> <!-- sp, required -->
+        <set-variable name="signedPermissions" value="rcw" /> <!-- sp, required -->
         <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mmZ"))" /> <!-- st, optional -->
         <set-variable name="signedExpiry" value="@(DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mmZ"))" /> <!-- se, required -->
         <set-variable name="canonicalizedResource" value="@{ 
-            // /{storageAccount}/{resourcePath}
-            return string.Format("/{0}/{1}",
+            // {resourceName}/{storageAccount}/{resourcePath}
+            // must include resourceName from signedVersion 2015-02-21 onwards
+            return string.Format("/blob/{0}/{1}",
                 (string)context.Variables["storageAccount"],
                 (string)context.Variables["containerName"]);
             }"
         /> <!-- not returned, required -->
         <set-variable name="signedIdentifier" value="" /> <!-- si, optional -->
         <set-variable name="signedIP" value="" /> <!-- sip, optional -->
-        <set-variable name="signedProtocol" value="http" /> <!-- spr, optional -->
+        <set-variable name="signedProtocol" value="https" /> <!-- spr, optional -->
         <set-variable name="signedVersion" value="2020-12-06" /> <!-- sv, required -->
         <set-variable name="signedResource" value="c" /> <!-- sr, required -->
         <set-variable name="signedSnapshotTime" value="" /> <!-- sst, optional -->
@@ -98,7 +99,7 @@
         <set-variable name="sas" value="@{              
             return string.Format(
                 "sig={0}&st={1}&se={2}&spr={3}&sp={4}&sr={5}&sv={6}",
-                (string)context.Variables["sharedKey"],
+                System.Net.WebUtility.UrlEncode((string)context.Variables["sharedKey"]),
                 (string)context.Variables["signedStart"], 
                 (string)context.Variables["signedExpiry"],
                 (string)context.Variables["signedProtocol"], 
