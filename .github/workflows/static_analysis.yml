@@ -28,5 +28,7 @@ jobs:
 
       - name: run_test
         run: |
+          ls -la src/.terraform/providers/registry.terraform.io/hashicorp
+          ls -la src/k8s/.terraform/providers/registry.terraform.io/hashicorp
           TAG=latest
           docker run -v $(pwd):/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:$TAG run -a
