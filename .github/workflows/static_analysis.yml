@@ -26,9 +26,14 @@ jobs:
           sed -i -e 's/backend "azurerm" {}//g' main.tf # use local backend
           docker run -v $(pwd):/tmp -w /tmp hashicorp/terraform:$TAG init
 
+      - name: init_src_psql
+        run: |
+          TAG=$(cat .terraform-version)
+          cd src/psql
+          sed -i -e 's/backend "azurerm" {}//g' main.tf # use local backend
+          docker run -v $(pwd):/tmp -w /tmp hashicorp/terraform:$TAG init
+
       - name: run_test
         run: |
-          ls -la src/.terraform/providers/registry.terraform.io/hashicorp
-          ls -la src/k8s/.terraform/providers/registry.terraform.io/hashicorp
           TAG=latest
           docker run -v $(pwd):/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:$TAG run -a
