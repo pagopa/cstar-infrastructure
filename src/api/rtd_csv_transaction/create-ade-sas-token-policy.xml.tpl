@@ -10,39 +10,54 @@
     - Policies are applied in the order of their appearance, from the top down.
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
-<!-- Ref: The policy defined in this file shows how to generate Shared Access Signature (https://docs.microsoft.com/en-us/azure/storage/storage-dotnet-shared-access-signature-part-1) using expressions. -->
-
-
 <policies>
     <inbound>
         <base />
-         <!-- String To Sign for a Service SAS (version  2020-12-06)
-            StringToSign = signedPermissions + "\n" +  
-               signedStart + "\n" +  
-               signedExpiry + "\n" +  
-               canonicalizedResource + "\n" +  
-               signedIdentifier + "\n" +  
-               signedIP + "\n" +  
-               signedProtocol + "\n" +  
-               signedVersion + "\n" +  
-               signedResource + "\n" +
-               signedSnapshotTime + "\n" +
-               signedEncryptionScope + "\n" +
-               rscc + "\n" +  
-               rscd + "\n" +  
-               rsce + "\n" +  
-               rscl + "\n" +
+        <!--
+            This policy grants temporary upload grants to clients by issuing SAS tokens.
+
+            'Create service SAS' reference here:
+            https://docs.microsoft.com/it-it/rest/api/storageservices/create-service-sas
         -->
 
+        <!-- Storage related variable definitions -->
         <set-variable name="accessKey" value="${blob-storage-access-key}" />
-        <!-- can we obtain this value dynamically from Terraform itself? -->
-        <set-variable name="storageAccount" value="cstardblobstorage" />
-        <set-variable name="containerName" value="ade-transactions" />
+        <set-variable name="storageAccount" value="${blob-storage-account-name}" />
+        <set-variable name="containerPrefix" value="ade-transactions" />
+        
+        <!--
+            The following block computes the SHA256 checksum of the API Subscription Key using C# cryptographic library.
+
+            To compute the same hash in Python (tested with Python 3.9.9):
+
+            import hashlib
+            import sys
+            print(hashlib.sha256(sys.argv[1].encode()).hexdigest())
+
+            To compute the same hash with Coreutils sha256sum from command line:
+
+            echo -n <APIM_SUBSCRIPTION_KEY> | sha256sum
+
+            See: https://stackoverflow.com/questions/38474362/get-a-file-sha256-hash-code-and-checksum
+        -->
+        <set-variable name="apimSubscriptionKeyHash" value="@{
+                System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
+                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key", "")))).Replace("-", "").ToLowerInvariant();
+            }"
+        />
+        
+        <!-- The container name is computed by combining a static prefix and the first 44 characters of the key checksum -->
+        <set-variable name="containerName" value="@{
+            return string.Format("{0}-{1}",
+                (string)context.Variables["containerPrefix"],
+                ((string)context.Variables["apimSubscriptionKeyHash"]).Substring(0, 44));
+            }"
+        />
 
         <set-variable name="signedPermissions" value="rcw" /> <!-- sp, required -->
         <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mmZ"))" /> <!-- st, optional -->
         <set-variable name="signedExpiry" value="@(DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mmZ"))" /> <!-- se, required -->
-        <set-variable name="canonicalizedResource" value="@{ 
+        <set-variable name="canonicalizedResource" value="@{
             // {resourceName}/{storageAccount}/{resourcePath}
             // must include resourceName from signedVersion 2015-02-21 onwards
             return string.Format("/blob/{0}/{1}",
@@ -66,26 +81,26 @@
         <!-- Response Content Language -->
         <set-variable name="rscl" value="" /> <!-- rscl, optional -->
 
-        <set-variable name="StringToSign" value="@{              
+        <set-variable name="StringToSign" value="@{
             return string.Format(
                 "{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n{11}\n{12}\n{13}\n{14}\n",
-                (string)context.Variables["signedPermissions"],  
-                (string)context.Variables["signedStart"], 
-                (string)context.Variables["signedExpiry"], 
-                (string)context.Variables["canonicalizedResource"], 
-                (string)context.Variables["signedIdentifier"], 
-                (string)context.Variables["signedIP"], 
-                (string)context.Variables["signedProtocol"], 
-                (string)context.Variables["signedVersion"], 
+                (string)context.Variables["signedPermissions"],
+                (string)context.Variables["signedStart"],
+                (string)context.Variables["signedExpiry"],
+                (string)context.Variables["canonicalizedResource"],
+                (string)context.Variables["signedIdentifier"],
+                (string)context.Variables["signedIP"],
+                (string)context.Variables["signedProtocol"],
+                (string)context.Variables["signedVersion"],
                 (string)context.Variables["signedResource"],
                 (string)context.Variables["signedSnapshotTime"],
                 (string)context.Variables["signedEncryptionScope"],
-                (string)context.Variables["rscc"], 
-                (string)context.Variables["rscd"], 
-                (string)context.Variables["rsce"], 
+                (string)context.Variables["rscc"],
+                (string)context.Variables["rscd"],
+                (string)context.Variables["rsce"],
                 (string)context.Variables["rscl"]
             );
-            }" 
+            }"
         />
 
         <set-variable name="sharedKey" value="@{
@@ -96,14 +111,14 @@
             }"
         />
 
-        <set-variable name="sas" value="@{              
+        <set-variable name="sas" value="@{
             return string.Format(
                 "sig={0}&st={1}&se={2}&spr={3}&sp={4}&sr={5}&sv={6}",
                 System.Net.WebUtility.UrlEncode((string)context.Variables["sharedKey"]),
-                (string)context.Variables["signedStart"], 
+                (string)context.Variables["signedStart"],
                 (string)context.Variables["signedExpiry"],
-                (string)context.Variables["signedProtocol"], 
-                (string)context.Variables["signedPermissions"],  
+                (string)context.Variables["signedProtocol"],
+                (string)context.Variables["signedPermissions"],
                 (string)context.Variables["signedResource"],
                 (string)context.Variables["signedVersion"]
             );
@@ -117,13 +132,12 @@
              }
             </set-body>
         </return-response>
-
     </inbound>
     <backend>
         <base />
     </backend>
-    <outbound>  
-        <base/>      
+    <outbound>
+        <base/>
     </outbound>
     <on-error>
         <base />
