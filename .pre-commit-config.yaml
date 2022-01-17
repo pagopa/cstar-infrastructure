@@ -5,7 +5,7 @@ repos:
       - id: terraform_fmt
       - id: terraform_docs
         args: ['--args=--sort-by required']
-      - id: terraform_tflint
-        args: ['--args=--config=__GIT_WORKING_DIR__/.tflint.hcl']
+      # - id: terraform_tflint
+      #   args: ['--args=--config=__GIT_WORKING_DIR__/.tflint.hcl']
       - id: terraform_tfsec
       - id: terraform_validate

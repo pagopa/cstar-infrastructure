@@ -2,7 +2,7 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
-aks_vm_size = "Standard_B4ms"
+aks_vm_size        = "Standard_B4ms"
 aks_alerts_enabled = false
 aks_metric_alerts = {
   node_cpu = {

@@ -66,7 +66,9 @@ export TF_VAR_psql_hostname="${psql_private_fqdn}"
 # init terraform backend
 terraform init \
     -backend-config="storage_account_name=${storage_account_name}" \
-    -backend-config="resource_group_name=${resource_group_name}"
+    -backend-config="resource_group_name=${resource_group_name}" \
+    -backend-config="container_name=${container_name}" \
+    -backend-config="key=${key}"
 
 if echo "plan apply refresh import output" | grep -w ${COMMAND} > /dev/null; then
   if [ ${COMMAND} = "output" ]; then
