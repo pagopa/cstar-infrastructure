@@ -444,7 +444,7 @@ module "rtd_csv_transaction" {
   description  = "API providing upload methods for csv transaction files"
   display_name = "RTD CSV Transaction API"
   path         = "rtd/csv-transaction"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
 
