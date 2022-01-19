@@ -123,7 +123,7 @@
             }"
         />
 
-        <send-request mode="new" response-variable-name="createContainerResult" timeout="20" ignore-error="false">
+        <send-request mode="new" response-variable-name="createContainerResult" timeout="5" ignore-error="false">
             <set-url>@{ return (string)context.Variables["createContainerUrl"]; }</set-url>
             <set-method>PUT</set-method>
             <set-header name="Authorization" exists-action="override">
