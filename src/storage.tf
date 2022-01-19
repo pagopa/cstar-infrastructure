@@ -33,7 +33,7 @@ resource "azurerm_storage_container" "psql_state" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.13"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
 
   name                     = replace(format("%s-blobstorage", local.project), "-", "")
   account_kind             = "BlobStorage"
