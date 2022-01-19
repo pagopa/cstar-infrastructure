@@ -23,7 +23,7 @@
         <!-- Storage related variables -->
         <set-variable name="accessKey" value="${blob-storage-access-key}" />
         <set-variable name="storageAccount" value="${blob-storage-account-name}" />
-        <set-variable name="containerPrefix" value="ade-transactions" />
+        <set-variable name="containerPrefix" value="${blob-storage-container-prefix}" />
 
         <!-- SAS Token variables -->
         <set-variable name="sasTokenExpiresInMinutes" value="60" />
@@ -240,9 +240,14 @@
         />
 
         <return-response>
+            <set-status code="201" reason="Created"/>
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
             <set-body>@{
                 return new JObject(
-                    new JProperty("sas", context.Variables["sas"])
+                    new JProperty("sas", context.Variables["sas"]),
+                    new JProperty("authorizedContainer", context.Variables["containerName"])
                 ).ToString();
              }
             </set-body>

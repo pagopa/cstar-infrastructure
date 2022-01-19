@@ -432,7 +432,7 @@ module "rtd_payment_instrument_manager" {
   ]
 }
 
-## RTD Payment Instrument Manager API ##
+## RTD CSV Transaction API ##
 module "rtd_csv_transaction" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.28"
 
@@ -461,10 +461,18 @@ module "rtd_csv_transaction" {
   api_operation_policies = [
     {
       operation_id = "createAdeSasToken",
-      xml_content = templatefile("./api/rtd_csv_transaction/create-ade-sas-token-policy.xml.tpl", {
-        blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
-        blob-storage-account-name   = module.cstarblobstorage.name,
-        env_short                   = var.env_short
+      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
+        blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
+        blob-storage-account-name     = module.cstarblobstorage.name,
+        blob-storage-container-prefix = "ade-transactions"
+      })
+    },
+    {
+      operation_id = "createCstarSasToken",
+      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
+        blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
+        blob-storage-account-name     = module.cstarblobstorage.name,
+        blob-storage-container-prefix = "cstar-transactions"
       })
     },
   ]
