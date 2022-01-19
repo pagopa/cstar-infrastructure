@@ -142,6 +142,16 @@ module "eventhub_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+# Subnet for Azure Data Factory
+module "adf_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.11"
+  name                                           = format("%s-adf-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_adf
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  enforce_private_link_endpoint_network_policies = true
+}
+
 ## Peering between the vnet(main) and integration vnet 
 module "vnet_peering" {
   source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30"

@@ -1,3 +1,5 @@
+# Private DNS Zone for API Management
+
 resource "azurerm_private_dns_zone" "private_private_dns_zone" {
   name                = var.internal_private_domain
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -112,4 +114,16 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_vnet" {
   registration_enabled  = false
 
   tags = var.tags
+# Private DNS Zone for Azure Data Factory
+
+resource "azurerm_private_dns_zone" "adf" {
+  name                = "privatelink.datafactory.azure.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
+  name                  = format("%s-adf-private-dns-zone-link", local.project)
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.adf.name
+  virtual_network_id    = module.vnet.id
 }
