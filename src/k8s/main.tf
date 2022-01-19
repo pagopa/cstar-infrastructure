@@ -1,10 +1,7 @@
 terraform {
   required_version = ">=0.15.3"
 
-  backend "azurerm" {
-    container_name = "k8sstate"
-    key            = "terraform.tfstate"
-  }
+  backend "azurerm" {}
 
   required_providers {
     azurerm = {

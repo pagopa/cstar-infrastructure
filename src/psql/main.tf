@@ -1,10 +1,7 @@
 terraform {
   required_version = ">=0.15.3"
 
-  backend "azurerm" {
-    container_name = "cstar-psql-state"
-    key            = "terraform-cstar-psql.tfstate"
-  }
+  backend "azurerm" {}
 
   required_providers {
     azurerm = {
@@ -13,6 +10,10 @@ terraform {
     postgresql = {
       source  = "cyrilgdn/postgresql"
       version = "1.13.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.1.0"
     }
   }
 }

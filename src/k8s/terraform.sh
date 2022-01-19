@@ -48,7 +48,9 @@ export TF_VAR_k8s_kube_config_path="${kube_config_path}"
 # init terraform backend
 terraform init -reconfigure \
     -backend-config="storage_account_name=${storage_account_name}" \
-    -backend-config="resource_group_name=${resource_group_name}"
+    -backend-config="resource_group_name=${resource_group_name}" \
+    -backend-config="container_name=${container_name}" \
+    -backend-config="key=${key}"
 
 export HELM_DEBUG=1
 if echo "plan apply refresh import output destroy" | grep -w ${COMMAND} > /dev/null; then
