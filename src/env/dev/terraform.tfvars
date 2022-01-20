@@ -207,6 +207,8 @@ cidr_subnet_jumpbox      = ["10.1.131.0/24"]
 cidr_subnet_redis        = ["10.1.132.0/24"]
 cidr_subnet_vpn          = ["10.1.133.0/24"]
 cidr_subnet_dnsforwarder = ["10.1.134.0/29"]
+cidr_subnet_flex_dbms    = ["10.1.136.0/24"]
+
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -300,6 +302,21 @@ db_metric_alerts = {
     dimension   = []
   }
 }
+
+pgres_flex_params = {
+  
+    sku_name                     = "B_Standard_B1ms"
+    db_version                   = "13"
+    # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576, 
+    # 2097152, 4194304, 8388608, 16777216, and 33554432.
+    storage_mb                   = 32768
+    zone                         = 1
+    backup_retention_days        = 7
+    geo_redundant_backup_enabled = false
+    create_mode                  = "Default"
+  
+}
+
 
 dns_zone_prefix = "dev.cstar"
 

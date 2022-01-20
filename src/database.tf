@@ -15,6 +15,16 @@ data "azurerm_key_vault_secret" "db_administrator_login_password" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_secret" "pgres_flex_admin_login" {
+  name         = "pgres-flex-admin-login"
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_secret" "pgres_flex_admin_pwd" {
+  name         = "pgres-flex-admin-pwd"
+  key_vault_id = module.key_vault.id
+}
+
 #tfsec:ignore:azure-database-no-public-access
 module "postgresql" {
   source                           = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v1.0.51"
@@ -91,3 +101,41 @@ module "postgresql" {
 #   charset             = "UTF8"
 #   collation           = "English_United States.1252"
 # }
+
+
+module "postgres_flexible_server" {
+
+  count = contains(["d"], var.env_short) ? 1 : 0
+
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=CEN-1302-postgres-flexible-server-module"
+
+  name                = format("%s-flexible-postgresql", local.project)
+  location            = azurerm_resource_group.db_rg.location
+  resource_group_name = azurerm_resource_group.db_rg.name
+
+  private_endpoint = {
+    enabled   = true
+    subnet_id = module.postgres_flexible_snet.id
+    private_dns_zone = {
+      id   = azurerm_private_dns_zone.postgres.id
+      name = azurerm_private_dns_zone.postgres.name
+      rg   = azurerm_resource_group.rg_vnet.name
+    }
+  }
+
+  administrator_login    = data.azurerm_key_vault_secret.pgres_flex_admin_login.value
+  administrator_password = data.azurerm_key_vault_secret.pgres_flex_admin_pwd.value
+
+  sku_name                     = var.pgres_flex_params.sku_name
+  db_version                   = var.pgres_flex_params.db_version
+  storage_mb                   = var.pgres_flex_params.storage_mb
+  zone                         = var.pgres_flex_params.zone
+  backup_retention_days        = var.pgres_flex_params.backup_retention_days
+  geo_redundant_backup_enabled = var.pgres_flex_params.geo_redundant_backup_enabled
+  create_mode                  = var.pgres_flex_params.create_mode
+
+  tags = var.tags
+
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.postgres]
+
+}

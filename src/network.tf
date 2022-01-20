@@ -604,3 +604,24 @@ resource "azurerm_network_profile" "dns_forwarder" {
     }
   }
 }
+
+# Postgres Flexible Server subnet 
+module "postgres_flexible_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
+  name                                           = format("%s-pgres-flexible-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_flex_dbms
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = ["Microsoft.Storage"]
+  enforce_private_link_endpoint_network_policies = true
+
+  delegation = {
+    name = "delegation"
+    service_delegation = {
+      name = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}
