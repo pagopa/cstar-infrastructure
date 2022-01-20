@@ -10,10 +10,10 @@ module "tae_data_factory" {
 
 
   # Naming
-  location            = var.location
-  resource_group_name = azurerm_resource_group.tae_df_rg.name
-  name                = format("%s-%s", local.project, "tae") # Transato per Agenzia delle Entrate
-  dns_a_record_name   = "tae"
+  location              = var.location
+  resource_group_name   = azurerm_resource_group.tae_df_rg.name
+  name                  = format("%s-%s", local.project, "tae") # Transato per Agenzia delle Entrate
+  custom_domain_enabled = "tae"
 
   # Data Factory Repository
   github_conf = {
