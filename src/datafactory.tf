@@ -42,4 +42,7 @@ module "tae_data_factory" {
     }
   )
 
+  # Tags
+  tags = var.tags
+
 }
