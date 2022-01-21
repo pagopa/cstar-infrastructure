@@ -50,8 +50,8 @@ resource "azurerm_private_dns_zone" "postgres" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
-  name                  = format("%s-postgres-private-dns-zone-link", local.project)
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet" {
+  name                  = format("%s-postgres-vnet-private-dns-zone-link", local.project)
   resource_group_name   = azurerm_resource_group.rg_vnet.name
   private_dns_zone_name = azurerm_private_dns_zone.postgres.name
   virtual_network_id    = module.vnet.id
