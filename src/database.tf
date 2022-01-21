@@ -174,7 +174,7 @@ resource "azurerm_cosmosdb_mongo_database" "transaction" {
 
   name                = "transaction"
   resource_group_name = azurerm_resource_group.db_rg.name
-  account_name        = module.cosmosdb_account_mongodb.name
+  account_name        = module.cosmosdb_account_mongodb[0].name
 
   throughput = var.cosmos_mongo_db_transaction_params.enable_autoscaling || var.cosmos_mongo_db_transaction_params.enable_serverless ? null : var.cosmos_mongo_db_transaction_params.throughput
 
