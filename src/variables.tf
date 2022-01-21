@@ -450,6 +450,7 @@ EOD
 # Postgres Flexible
 variable "pgres_flex_params" {
   type = object({
+    enabled                      = bool
     sku_name                     = string
     db_version                   = string
     storage_mb                   = string

@@ -105,7 +105,7 @@ module "postgresql" {
 
 module "postgres_flexible_server" {
 
-  count = contains(["d"], var.env_short) ? 1 : 0
+  count = var.pgres_flex_params.enabled ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=CEN-1302-postgres-flexible-server-module"
 
