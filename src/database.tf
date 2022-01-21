@@ -139,6 +139,9 @@ module "postgres_flexible_server" {
 }
 
 module "cosmosdb_account_mongodb" {
+
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb?ref=v2.0.19"
 
   name                 = format("%s-cosmos-mongo-db-account", local.project)
@@ -166,6 +169,9 @@ module "cosmosdb_account_mongodb" {
 }
 
 resource "azurerm_cosmosdb_mongo_database" "transaction" {
+
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
   name                = "transaction"
   resource_group_name = azurerm_resource_group.db_rg.name
   account_name        = module.cosmosdb_account_mongodb.name

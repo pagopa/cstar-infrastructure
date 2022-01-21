@@ -319,6 +319,41 @@ pgres_flex_params = {
   geo_redundant_backup_enabled = false
   create_mode                  = "Default"
 
+cosmos_mongo_db_params = {
+  enabled      = false
+  kind         = "MongoDB"
+  capabilities = ["EnableMongo", "EnableServerless"]
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = "4.0"
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = true
+  main_geo_location_zone_redundant = false
+
+  # additional_geo_locations = [{
+  #   location          = "northeurope"
+  #   failover_priority = 1
+  #   zone_redundant    = false
+  # }]
+
+  additional_geo_locations          = []
+  private_endpoint_enabled          = true
+  public_network_access_enabled     = false
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+
+}
+
+cosmos_mongo_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
 }
 
 dns_zone_prefix         = "uat.cstar"
