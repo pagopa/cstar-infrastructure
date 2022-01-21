@@ -70,3 +70,21 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet" 
   private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
   virtual_network_id    = module.vnet.id
 }
+# Cosmos MongoDB private dns zone
+
+resource "azurerm_private_dns_zone" "cosmos_mongo" {
+  name                = "privatelink.mongo.cosmos.azure.com"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_vnet" {
+  name                  = module.vnet.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo.name
+  virtual_network_id    = module.vnet.id
+  registration_enabled  = false
+
+  tags = var.tags
+}
