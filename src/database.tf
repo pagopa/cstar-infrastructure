@@ -107,8 +107,7 @@ module "postgres_flexible_server" {
 
   count = var.pgres_flex_params.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=CEN-1302-postgres-flexible-server-module"
-
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.1.14"
   name                = format("%s-flexible-postgresql", local.project)
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name
@@ -136,6 +135,6 @@ module "postgres_flexible_server" {
 
   tags = var.tags
 
-  depends_on = [azurerm_private_dns_zone_virtual_network_link.postgres]
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.postgres_vnet]
 
 }
