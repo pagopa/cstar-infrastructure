@@ -107,7 +107,7 @@ module "postgres_flexible_server" {
 
   count = var.pgres_flex_params.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.1.14"
+  source              = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.1.14"
   name                = format("%s-flexible-postgresql", local.project)
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name
