@@ -17,8 +17,9 @@ set -e
 
 COMMAND=$1
 SUBSCRIPTION=$2
-DATABASE=$3
-shift 3
+DBMS=$3
+DATABASE=$4
+shift 4
 other=$@
 
 if [ -z "${SUBSCRIPTION}" ]; then
@@ -41,15 +42,25 @@ source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/backend.ini"
 printf "Subscription: %s\n" "${SUBSCRIPTION}"
 printf "Resource Group Name: %s\n" "${resource_group_name}"
 
-psql_server_name=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:name}" | head -1)
-psql_server_private_fqdn=$(az postgres server list -o tsv --query "[?contains(name,'postgresql')].{Name:fullyQualifiedDomainName}" | head -1)
 keyvault_name=$(az keyvault list -o tsv --query "[?contains(name,'kv')].{Name:name}")
+psql_server_name=${DBMS}
 
-administrator_login=$(az keyvault secret show --name db-administrator-login --vault-name "${keyvault_name}" -o tsv --query value)
-administrator_login_password=$(az keyvault secret show --name db-administrator-login-password --vault-name "${keyvault_name}" -o tsv --query value)
+if [[ "$DBMS" =~ "flex" ]]; then
+    #psql_server_name=$(az postgres flexible-server list -o tsv --query "[?contains(name,${DBMS})].{Name:name}" | head -1)
+    psql_server_private_fqdn=$(az postgres flexible-server list -o tsv --query "[?contains(name,'${DBMS}')].{Name:fullyQualifiedDomainName}" | head -1)
+    administrator_login=$(az keyvault secret show --name pgres-flex-admin-login --vault-name "${keyvault_name}" -o tsv --query value)
+    administrator_login_password=$(az keyvault secret show --name pgres-flex-admin-pwd --vault-name "${keyvault_name}" -o tsv --query value)
+    user="${administrator_login}"
+else
+    #psql_server_name=$(az postgres server list -o tsv --query "[?contains(name,${DBMS})].{Name:name}" | head -1)
+    psql_server_private_fqdn=$(az postgres server list -o tsv --query "[?contains(name,'${DBMS}')].{Name:fullyQualifiedDomainName}" | head -1)
+    administrator_login=$(az keyvault secret show --name db-administrator-login --vault-name "${keyvault_name}" -o tsv --query value)
+    administrator_login_password=$(az keyvault secret show --name db-administrator-login-password --vault-name "${keyvault_name}" -o tsv --query value)
+    user="${administrator_login}@${psql_server_name}"
+fi
 
 export FLYWAY_URL="jdbc:postgresql://${psql_server_private_fqdn}:5432/${DATABASE}?sslmode=require"
-export FLYWAY_USER="${administrator_login}@${psql_server_name}"
+export FLYWAY_USER="${user}"
 export FLYWAY_PASSWORD="${administrator_login_password}"
 export SERVER_NAME="${psql_server_name}"
 export FLYWAY_DOCKER_TAG="7.11.1-alpine"
@@ -82,10 +93,13 @@ export MONITORING_SIA_USER_PASSWORD="${monitoring_sia_user_password}"
 export MONITORING_OPERATION_USER_PASSWORD="${monitoring_operation_user_password}"
 export TKM_ACQUIRER_MANAGER_USER_PASSWORD="${tkm_acquirer_manager_user_password}"
 
+echo "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}"
+
 docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}":/flyway/sql \
   flyway/flyway:"${FLYWAY_DOCKER_TAG}" \
   -url="${FLYWAY_URL}" -user="${FLYWAY_USER}" -password="${FLYWAY_PASSWORD}" \
   -validateMigrationNaming=true \
+  -placeholders.adminPassword="${BPD_USER_PASSWORD}" \
   -placeholders.bpdUserPassword="${BPD_USER_PASSWORD}" \
   -placeholders.rtdUserPassword="${RTD_USER_PASSWORD}" \
   -placeholders.faUserPassword="${FA_USER_PASSWORD}" \
