@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "tae_df_rg" {
 
 module "tae_data_factory" {
   
-  source = "git::https://github.com/pagopa/azurerm.git//data_factory?ref=v2.1.16"
+  source = "git::https://github.com/pagopa/azurerm.git//data_factory?ref=v2.1.19"
 
 
   # Naming
