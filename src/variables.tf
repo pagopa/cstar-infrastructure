@@ -23,6 +23,11 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_flex_dbms" {
+  type        = list(string)
+  description = "Postgres Flexible Server network address space."
+}
+
 variable "cidr_subnet_redis" {
   type        = list(string)
   description = "Redis network address space."
@@ -440,6 +445,21 @@ EOD
       }
     ))
   }))
+}
+
+# Postgres Flexible
+variable "pgres_flex_params" {
+  type = object({
+    enabled                      = bool
+    sku_name                     = string
+    db_version                   = string
+    storage_mb                   = string
+    zone                         = number
+    backup_retention_days        = number
+    geo_redundant_backup_enabled = bool
+    create_mode                  = string
+  })
+
 }
 
 ## Event hub

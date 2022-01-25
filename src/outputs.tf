@@ -135,6 +135,16 @@ output "postgresql_replica_fqdn" {
   value = module.postgresql.replica_fqdn
 }
 
+# Postgres flexible server
+
+output "pgres_flex_fqdn" {
+  value = module.postgres_flexible_server.*.fqdn
+}
+
+output "pgres_flex_public_access_enabled" {
+  value = module.postgres_flexible_server.*.public_access_enabled
+}
+
 # To enable outputs related to redis cache, please uncomment the following lines
 ## Redis cache
 # output "redis_primary_access_key" {
