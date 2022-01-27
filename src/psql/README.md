@@ -116,24 +116,26 @@ pre-commit run -a
 
 ## Flyway
 
-SQL Migrations file are under `migrations/${DB_NAME}` for each database.
+SQL Migrations file are under `migrations/${DB_NAME}` for each database. 
+We assume that migrations with a minor number are specific of a certain environment, 
+while migrations identified by only a major number could (and should) be ported to all environments.
 
 To apply changes use `flyway.sh` script as follow:
 
 ```sh
-bash flyway.sh info|validate|migrate ENV-PROJECT DB_NAME
+bash flyway.sh info|validate|migrate ENV-PROJECT DBMS_NAME DB_NAME
 ```
 
 For example:
 
 ```sh
-./flyway.sh info DEV-CSTAR bpd
+./flyway.sh info DEV-CSTAR cstar-d-flexible-postgresql fa
 ```
 
 ```sh
-./flyway.sh validate DEV-CSTAR bpd -ignorePendingMigrations=true
+./flyway.sh validate DEV-CSTAR cstar-d-flexible-postgresql fa -ignorePendingMigrations=true
 ```
 
 ```sh
-./flyway.sh migrate DEV-CSTAR bpd -target=1
+./flyway.sh migrate DEV-CSTAR cstar-d-flexible-postgresql fa -target=1
 ```
