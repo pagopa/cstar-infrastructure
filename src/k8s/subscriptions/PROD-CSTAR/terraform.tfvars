@@ -632,5 +632,7 @@ secrets_to_be_read_from_kv = [
   "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
   "evh-rtd-trx-rtd-trx-producer-key",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
-  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"
+  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01",
+  "tae-ade-api-client-id",
+  "tae-ade-api-client-secret"
 ]

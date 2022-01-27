@@ -172,3 +172,18 @@ resource "kubernetes_secret" "famsnotificationmanager" {
 
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "famsinvoicemanager" {
+  metadata {
+    name      = "famsinvoicemanager"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = {
+    ADE_API_CLIENT_ID                     = module.key_vault_secrets_query.values["tae-ade-api-client-id"].value
+    ADE_API_CLIENT_SECRET                 = module.key_vault_secrets_query.values["tae-ade-api-client-secret"].value
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}

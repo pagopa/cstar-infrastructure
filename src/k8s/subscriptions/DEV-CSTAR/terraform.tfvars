@@ -438,5 +438,7 @@ secrets_to_be_read_from_kv = [
   "rtdtransactionfilter-hpan-service-key-store-password",
   "rtdtransactionfilter-hpan-service-trust-store-password",
   "rtdtransactionfilter-hpan-service-jks-content-base64",
-  "rtdtransactionfilter-hpan-service-enc-public-key-armored"
+  "rtdtransactionfilter-hpan-service-enc-public-key-armored",
+  "tae-ade-api-client-id",
+  "tae-ade-api-client-secret"
 ]
