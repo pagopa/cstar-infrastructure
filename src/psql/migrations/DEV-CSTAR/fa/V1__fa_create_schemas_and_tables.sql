@@ -21,54 +21,42 @@ SET row_security = off;
 --
 
 CREATE SCHEMA fa_customer;
-
-
-ALTER SCHEMA fa_customer OWNER TO ddsadmin;
+ALTER SCHEMA fa_customer OWNER TO '${adminUser}';
 
 --
 -- Name: fa_file_storage; Type: SCHEMA; Schema: -; Owner: ddsadmin
 --
 
 CREATE SCHEMA fa_file_storage;
-
-
-ALTER SCHEMA fa_file_storage OWNER TO ddsadmin;
+ALTER SCHEMA fa_file_storage OWNER TO '${adminUser}';
 
 --
 -- Name: fa_merchant; Type: SCHEMA; Schema: -; Owner: ddsadmin
 --
 
 CREATE SCHEMA fa_merchant;
-
-
-ALTER SCHEMA fa_merchant OWNER TO ddsadmin;
+ALTER SCHEMA fa_merchant OWNER TO '${adminUser}';
 
 --
 -- Name: fa_payment_instrument; Type: SCHEMA; Schema: -; Owner: ddsadmin
 --
 
 CREATE SCHEMA fa_payment_instrument;
-
-
-ALTER SCHEMA fa_payment_instrument OWNER TO ddsadmin;
+ALTER SCHEMA fa_payment_instrument OWNER TO '${adminUser}';
 
 --
 -- Name: fa_provider; Type: SCHEMA; Schema: -; Owner: ddsadmin
 --
 
 CREATE SCHEMA fa_provider;
-
-
-ALTER SCHEMA fa_provider OWNER TO ddsadmin;
+ALTER SCHEMA fa_provider OWNER TO '${adminUser}';
 
 --
 -- Name: fa_transaction; Type: SCHEMA; Schema: -; Owner: ddsadmin
 --
 
 CREATE SCHEMA fa_transaction;
-
-
-ALTER SCHEMA fa_transaction OWNER TO ddsadmin;
+ALTER SCHEMA fa_transaction OWNER TO '${adminUser}';
 
 SET default_tablespace = '';
 
@@ -88,8 +76,7 @@ CREATE TABLE fa_customer.fa_customer (
     cancellation_t timestamp with time zone
 );
 
-
-ALTER TABLE fa_customer.fa_customer OWNER TO ddsadmin;
+ALTER TABLE fa_customer.fa_customer OWNER TO '${adminUser}';
 
 --
 -- Name: fa_customer_vat; Type: TABLE; Schema: fa_customer; Owner: ddsadmin
@@ -105,8 +92,7 @@ CREATE TABLE fa_customer.fa_customer_vat (
     enabled_b boolean
 );
 
-
-ALTER TABLE fa_customer.fa_customer_vat OWNER TO ddsadmin;
+ALTER TABLE fa_customer.fa_customer_vat OWNER TO '${adminUser}';
 
 --
 -- Name: fa_merchant; Type: TABLE; Schema: fa_merchant; Owner: ddsadmin
@@ -125,8 +111,7 @@ CREATE TABLE fa_merchant.fa_merchant (
     fiscal_code_s character varying(16)
 );
 
-
-ALTER TABLE fa_merchant.fa_merchant OWNER TO ddsadmin;
+ALTER TABLE fa_merchant.fa_merchant OWNER TO '${adminUser}';
 
 --
 -- Name: fa_merchant_shop; Type: TABLE; Schema: fa_merchant; Owner: ddsadmin
@@ -142,8 +127,7 @@ CREATE TABLE fa_merchant.fa_merchant_shop (
     enabled_b boolean
 );
 
-
-ALTER TABLE fa_merchant.fa_merchant_shop OWNER TO ddsadmin;
+ALTER TABLE fa_merchant.fa_merchant_shop OWNER TO '${adminUser}';
 
 --
 -- Name: fa_payment_instrument; Type: TABLE; Schema: fa_payment_instrument; Owner: ddsadmin
@@ -166,8 +150,7 @@ CREATE TABLE fa_payment_instrument.fa_payment_instrument (
     fiscal_code_s character varying(16) NOT NULL
 );
 
-
-ALTER TABLE fa_payment_instrument.fa_payment_instrument OWNER TO ddsadmin;
+ALTER TABLE fa_payment_instrument.fa_payment_instrument OWNER TO '${adminUser}';
 
 --
 -- Name: fa_transaction; Type: TABLE; Schema: fa_transaction; Owner: ddsadmin
@@ -196,8 +179,7 @@ CREATE TABLE fa_transaction.fa_transaction (
     status_s character varying(2) NOT NULL
 );
 
-
-ALTER TABLE fa_transaction.fa_transaction OWNER TO ddsadmin;
+ALTER TABLE fa_transaction.fa_transaction OWNER TO '${adminUser}';
 
 --
 -- Name: fa_transaction_request; Type: TABLE; Schema: fa_transaction; Owner: ddsadmin
@@ -220,8 +202,7 @@ CREATE TABLE fa_transaction.fa_transaction_request (
     pos_type_s character varying NOT NULL
 );
 
-
-ALTER TABLE fa_transaction.fa_transaction_request OWNER TO ddsadmin;
+ALTER TABLE fa_transaction.fa_transaction_request OWNER TO '${adminUser}';
 
 --
 -- Name: SCHEMA fa_customer; Type: ACL; Schema: -; Owner: ddsadmin
@@ -328,9 +309,3 @@ GRANT ALL ON TABLE fa_transaction.fa_transaction TO "FA_USER";
 --
 
 GRANT ALL ON TABLE fa_transaction.fa_transaction_request TO "FA_USER";
-
-
---
--- PostgreSQL database dump complete
---
-

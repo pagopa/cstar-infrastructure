@@ -99,7 +99,8 @@ docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${D
   flyway/flyway:"${FLYWAY_DOCKER_TAG}" \
   -url="${FLYWAY_URL}" -user="${FLYWAY_USER}" -password="${FLYWAY_PASSWORD}" \
   -validateMigrationNaming=true \
-  -placeholders.adminPassword="${BPD_USER_PASSWORD}" \
+  -placeholders.adminUser="${FLYWAY_USER}" \
+  -placeholders.adminPassword="${FLYWAY_PASSWORD}" \
   -placeholders.bpdUserPassword="${BPD_USER_PASSWORD}" \
   -placeholders.rtdUserPassword="${RTD_USER_PASSWORD}" \
   -placeholders.faUserPassword="${FA_USER_PASSWORD}" \
