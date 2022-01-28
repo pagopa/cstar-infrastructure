@@ -136,8 +136,8 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
 
   data = merge({
     TZ                      = "Europe/Rome"
-    MS_AGENZIA_ENTRATE_HOST = "https://api.agenziaentrate.gov.it/entrate/api/partita-iva/v0"
-    MS_AGENZIA_ENTRATE_URL  = "https://api.agenziaentrate.gov.it/entrate/api"
+    MS_AGENZIA_ENTRATE_HOST = "api.agenziaentrate.gov.it/entrate/api/partita-iva/v0"
+    MS_AGENZIA_ENTRATE_URL  = "https://api.agenziaentrate.gov.it/entrate/api/partita-iva/v0"
     MS_AGENZIA_ENTRATE_PORT = ""
   }, var.configmaps_fainvoicemanager)
 
