@@ -16,11 +16,11 @@ resource "kubernetes_secret" "fa-postgres-credentials" {
     #principal database name
     POSTGRES_DB_NAME = "fa"
     #principal database hostname or ip
-    POSTGRES_HOST = local.postgres_hostname
+    POSTGRES_HOST = local.postgres_flex_hostname
     #principal database password
     POSTGRES_PASSWORD = module.key_vault_secrets_query.values["db-fa-user-password"].value
     #principal database username
-    POSTGRES_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-fa-login"].value, local.postgres_flex_hostname)
+    POSTGRES_USERNAME = module.key_vault_secrets_query.values["db-fa-login"].value
   }
 
   type = "Opaque"
