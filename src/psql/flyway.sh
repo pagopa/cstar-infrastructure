@@ -93,14 +93,12 @@ export MONITORING_SIA_USER_PASSWORD="${monitoring_sia_user_password}"
 export MONITORING_OPERATION_USER_PASSWORD="${monitoring_operation_user_password}"
 export TKM_ACQUIRER_MANAGER_USER_PASSWORD="${tkm_acquirer_manager_user_password}"
 
-echo "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}"
-
 docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}":/flyway/sql \
   flyway/flyway:"${FLYWAY_DOCKER_TAG}" \
   -url="${FLYWAY_URL}" -user="${FLYWAY_USER}" -password="${FLYWAY_PASSWORD}" \
   -validateMigrationNaming=true \
-  -placeholders.adminUser="${FLYWAY_USER}" \
-  -placeholders.adminPassword="${FLYWAY_PASSWORD}" \
+  -placeholders.adminUser="${administrator_login}" \
+  -placeholders.adminPassword="${administrator_login_password}" \
   -placeholders.bpdUserPassword="${BPD_USER_PASSWORD}" \
   -placeholders.rtdUserPassword="${RTD_USER_PASSWORD}" \
   -placeholders.faUserPassword="${FA_USER_PASSWORD}" \
