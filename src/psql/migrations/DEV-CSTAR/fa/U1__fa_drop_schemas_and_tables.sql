@@ -1,8 +1,9 @@
 
-DROP SCHEMA fa_customer CASCADE;
-DROP SCHEMA fa_merchant CASCADE;
-DROP SCHEMA fa_payment_instrument CASCADE;
-DROP SCHEMA fa_provider CASCADE;
-DROP SCHEMA fa_transaction CASCADE;
-DROP SCHEMA fa_file_storage CASCADE;
-DROP SCHEMA fa_error_record CASCADE;
+DROP SCHEMA IF EXISTS fa_customer CASCADE;
+DROP SCHEMA IF EXISTS fa_merchant CASCADE;
+DROP SCHEMA IF EXISTS fa_payment_instrument CASCADE;
+DROP SCHEMA IF EXISTS fa_provider CASCADE;
+DROP SCHEMA IF EXISTS fa_transaction CASCADE;
+DROP SCHEMA IF EXISTS fa_file_storage CASCADE;
+DROP SCHEMA IF EXISTS fa_error_record CASCADE;
+DROP SCHEMA IF EXISTS fa_mock CASCADE;

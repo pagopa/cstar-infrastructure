@@ -6,6 +6,23 @@ locals {
   jaas_config_template_fa = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"Endpoint=sb://${format("%s-evh-ns-fa-01", local.project)}.servicebus.windows.net/;EntityPath=%s;SharedAccessKeyName=%s;SharedAccessKey=%s\";"
 }
 
+resource "kubernetes_secret" "cstariobackendtest" {
+  count = var.env_short == "d" ? 1 : 0 # only in dev
+  metadata {
+    name      = "cstariobackendtest"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = {
+    #Kafka Connection String Producer
+    KAFKA_MOCKPOCTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value)
+
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}
+
 resource "kubernetes_secret" "fa-postgres-credentials" {
   metadata {
     name      = "postgres-credentials"

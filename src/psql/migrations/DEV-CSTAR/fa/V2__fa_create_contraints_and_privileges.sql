@@ -82,6 +82,11 @@ ALTER TABLE ONLY fa_provider.fa_provider
 ALTER TABLE ONLY fa_error_record.fa_transaction_record
     ADD CONSTRAINT pk_fa_transaction_record PRIMARY KEY (record_id_s);
 
+-- FA_MOCK
+ALTER TABLE ONLY fa_mock.mock_provider
+	ADD CONSTRAINT mock_provider_pk PRIMARY KEY (transaction_date_t, amount_i, bin_card_s, auth_code_s, terminal_id_s);
+
+
 ALTER DEFAULT PRIVILEGES FOR ROLE "${adminUser}" IN SCHEMA fa_customer REVOKE ALL ON TABLES FROM "${adminUser}";
 ALTER DEFAULT PRIVILEGES FOR ROLE "${adminUser}" IN SCHEMA fa_file_storage REVOKE ALL ON TABLES FROM "${adminUser}";
 ALTER DEFAULT PRIVILEGES FOR ROLE "${adminUser}" IN SCHEMA fa_merchant REVOKE ALL ON TABLES FROM "${adminUser}";
