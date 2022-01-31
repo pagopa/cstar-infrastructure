@@ -14,6 +14,15 @@
     <inbound>
         <base />
         <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
+
+        <return-response>
+            <set-status code="200" reason="OK" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>{ "enabled": true, "fiscalCode": (string)context.Variables["fiscalCode"], "timestampTC": "2020-12-09T10:00:00Z", "optInStatus": 0 }</set-body>
+        </return-response>
+
         <cache-lookup-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" variable-name="getCitizenResponse"  />
         <choose>
             <!-- If API Management find it in the cache, make a request for it and store it -->

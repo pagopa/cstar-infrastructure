@@ -173,6 +173,14 @@
                     "schema": {
                         "type": "string"
                     }
+                },
+                {
+                    "name": "CitizenDTO",
+                    "in": "body",
+                    "description": "Citizen's onboarding body",
+                    "schema": {
+                        "$ref": "#/components/schemas/CitizenDTO"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -187,7 +195,8 @@
                                     "fiscalCode": "string",
                                     "payoffInstr": "string",
                                     "payoffInstrType": "string",
-                                    "timestampTC": "string"
+                                    "timestampTC": "string",
+                                    "optInStatus": 0
                                 }
                             }
                         }
@@ -340,13 +349,12 @@
         "schemas": {
             "CitizenDTO": {
                 "title": "CitizenDTO",
-                "required": ["timestampTC"],
                 "type": "object",
                 "properties": {
-                    "timestampTC": {
-                        "type": "string",
-                        "description": "timestamp dell'accettazione di T&C. FORMATO  ISO8601 yyyy-MM-ddTHH:mm:ss.SSSXXXXX",
-                        "format": "date-time"
+                    "optInStatus": {
+                       "enum": [0,1,2],
+                       "type": "integer",
+                       "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO (0, default, non richiesto)"
                     }
                 }
             },
@@ -493,6 +501,11 @@
                     "issuerCardId": {
                         "type": "string",
                         "description": "Identificativo univoco dello strumento di pagamento rilasciato dall'issuer"
+                    },
+                    "optInStatus": {
+                        "enum": [0,1,2],
+                        "type": "integer",
+                        "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO (0, default, non richiesto)"
                     }
                 },
                 "example": {
@@ -500,7 +513,8 @@
                     "fiscalCode": "string",
                     "payoffInstr": "string",
                     "payoffInstrType": "string",
-                    "timestampTC": "string"
+                    "timestampTC": "string",
+                    "optInStatus": 0
                 }
             },
             "CitizenRankingMilestoneResourceArray": {
