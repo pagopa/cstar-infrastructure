@@ -9,6 +9,32 @@
         "url": "https://${host}/rtd/csv-transaction"
     }],
     "paths": {
+        "/publickey": {
+            "get": {
+                "summary": "Gets the public PGP key to be used for upload",
+                "description": "A public PGP key to use to encrypt transaction files",
+                "operationId": "getPublicKey",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/ade/sas": {
             "post": {
                 "summary": "Creates a new SAS token",

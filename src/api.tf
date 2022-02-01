@@ -440,7 +440,6 @@ module "rtd_csv_transaction" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
-
   description  = "API providing upload methods for csv transaction files"
   display_name = "RTD CSV Transaction API"
   path         = "rtd/csv-transaction"
@@ -473,6 +472,12 @@ module "rtd_csv_transaction" {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
         blob-storage-container-prefix = "cstar-transactions"
+      })
+    },
+    {
+      operation_id = "getPublicKey",
+      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml.tpl", {
+        public-key-asc = data.azurerm_key_vault_secret.cstarblobstorage_public_key.value
       })
     },
   ]
