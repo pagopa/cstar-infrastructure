@@ -298,3 +298,27 @@ CREATE TABLE fa_error_record.fa_transaction_record (
 );
 
 ALTER TABLE fa_error_record.fa_transaction_record OWNER TO "FA_USER";
+
+-- FA_MOCK
+
+CREATE SCHEMA fa_mock;
+ALTER SCHEMA fa_mock OWNER TO "FA_USER";
+
+CREATE TABLE fa_mock.mock_provider (
+	transaction_date_t timestamptz(0) NOT NULL,
+	amount_i numeric NOT NULL,
+	bin_card_s varchar NOT NULL,
+	auth_code_s varchar NOT NULL,
+	terminal_id_s varchar(255) NOT NULL,
+	transaction_id_s varchar NOT NULL,
+	customer_data_s varchar NULL,
+	merchant_data_s varchar NULL,
+	customer_address_s varchar NULL,
+	merchant_address_s varchar NULL,
+	payment_lable_s varchar NULL,
+	dest_code_s varchar NULL,
+	acquirer_id_s varchar NULL,
+	contract_id_s varchar NULL
+);
+
+ALTER TABLE fa_mock.mock_provider OWNER TO "FA_USER";

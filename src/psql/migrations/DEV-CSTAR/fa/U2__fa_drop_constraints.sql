@@ -67,6 +67,9 @@ ALTER TABLE ONLY fa_provider.fa_provider
 ALTER TABLE ONLY fa_error_record.fa_transaction_record
     DROP CONSTRAINT IF EXISTS pk_fa_transaction_record;
 
+-- FA_MOCK
+ALTER TABLE ONLY fa_mock.mock_provider
+	DROP CONSTRAINT IF EXISTS mock_provider_pk;
 
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "${adminUser}" IN SCHEMA fa_customer GRANT ALL ON TABLES TO "${adminUser}";
