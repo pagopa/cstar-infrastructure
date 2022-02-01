@@ -1,10 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 10.16
--- Dumped by pg_dump version 13.1
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -16,53 +9,10 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: fa_customer; Type: SCHEMA; Schema: -; Owner: ddsadmin
---
+-- CUSTOMER
 
 CREATE SCHEMA fa_customer;
-ALTER SCHEMA fa_customer OWNER TO '${adminUser}';
-
---
--- Name: fa_file_storage; Type: SCHEMA; Schema: -; Owner: ddsadmin
---
-
-CREATE SCHEMA fa_file_storage;
-ALTER SCHEMA fa_file_storage OWNER TO '${adminUser}';
-
---
--- Name: fa_merchant; Type: SCHEMA; Schema: -; Owner: ddsadmin
---
-
-CREATE SCHEMA fa_merchant;
-ALTER SCHEMA fa_merchant OWNER TO '${adminUser}';
-
---
--- Name: fa_payment_instrument; Type: SCHEMA; Schema: -; Owner: ddsadmin
---
-
-CREATE SCHEMA fa_payment_instrument;
-ALTER SCHEMA fa_payment_instrument OWNER TO '${adminUser}';
-
---
--- Name: fa_provider; Type: SCHEMA; Schema: -; Owner: ddsadmin
---
-
-CREATE SCHEMA fa_provider;
-ALTER SCHEMA fa_provider OWNER TO '${adminUser}';
-
---
--- Name: fa_transaction; Type: SCHEMA; Schema: -; Owner: ddsadmin
---
-
-CREATE SCHEMA fa_transaction;
-ALTER SCHEMA fa_transaction OWNER TO '${adminUser}';
-
-SET default_tablespace = '';
-
---
--- Name: fa_customer; Type: TABLE; Schema: fa_customer; Owner: ddsadmin
---
+ALTER SCHEMA fa_customer OWNER TO "FA_USER";
 
 CREATE TABLE fa_customer.fa_customer (
     fiscal_code_s character varying(16) NOT NULL,
@@ -73,14 +23,12 @@ CREATE TABLE fa_customer.fa_customer (
     update_user_s character varying(40),
     enabled_b boolean,
     status_c character varying(10) DEFAULT 'ACTIVE'::character varying NOT NULL,
-    cancellation_t timestamp with time zone
+    cancellation_t timestamp with time zone,
+    destination_code_s character varying(255) NULL,
+    pec_s character varying(255) NULL
 );
 
-ALTER TABLE fa_customer.fa_customer OWNER TO '${adminUser}';
-
---
--- Name: fa_customer_vat; Type: TABLE; Schema: fa_customer; Owner: ddsadmin
---
+ALTER TABLE fa_customer.fa_customer OWNER TO "FA_USER";
 
 CREATE TABLE fa_customer.fa_customer_vat (
     fiscal_code_s character varying(16) NOT NULL,
@@ -89,33 +37,35 @@ CREATE TABLE fa_customer.fa_customer_vat (
     insert_user_s character varying(40),
     update_date_t timestamp with time zone,
     update_user_s character varying(40),
-    enabled_b boolean
+    enabled_b boolean,
+    destination_code_s character varying(255) NULL,
+    pec_s character varying(255) NULL
 );
 
-ALTER TABLE fa_customer.fa_customer_vat OWNER TO '${adminUser}';
+ALTER TABLE fa_customer.fa_customer_vat OWNER TO "FA_USER";
 
---
--- Name: fa_merchant; Type: TABLE; Schema: fa_merchant; Owner: ddsadmin
---
+-- MERCHANT
+
+CREATE SCHEMA fa_merchant;
+ALTER SCHEMA fa_merchant OWNER TO "FA_USER";
 
 CREATE TABLE fa_merchant.fa_merchant (
     vat_number_s character varying(11) NOT NULL,
     timestamp_tc_t timestamp with time zone NOT NULL,
     mcc_invoice_desc_s character varying(40),
-    provider_id bigint NOT NULL,
     insert_date_t timestamp with time zone,
     insert_user_s character varying(40),
     update_date_t timestamp with time zone,
     update_user_s character varying(40),
     enabled_b boolean,
-    fiscal_code_s character varying(16)
+    fiscal_code_s character varying(16),
+    company_name_s character varying NULL,
+    company_address_s character varying NULL,
+    status_s VARCHAR NOT NULL,
+    cancellation_t timestamp with time zone
 );
 
-ALTER TABLE fa_merchant.fa_merchant OWNER TO '${adminUser}';
-
---
--- Name: fa_merchant_shop; Type: TABLE; Schema: fa_merchant; Owner: ddsadmin
---
+ALTER TABLE fa_merchant.fa_merchant OWNER TO "FA_USER";
 
 CREATE TABLE fa_merchant.fa_merchant_shop (
     merchant_id character varying NOT NULL,
@@ -124,14 +74,50 @@ CREATE TABLE fa_merchant.fa_merchant_shop (
     insert_user_s character varying(40),
     update_date_t timestamp with time zone,
     update_user_s character varying(40),
+    enabled_b boolean,
+    company_name_s VARCHAR NOT NULL,
+    company_address_s VARCHAR NOT NULL,
+    contact_person_name_s VARCHAR NOT NULL,
+    contact_person_surname_s VARCHAR NOT NULL,
+    contact_person_email_s VARCHAR,
+    contact_person_tel_1_s VARCHAR
+);
+
+ALTER TABLE fa_merchant.fa_merchant_shop OWNER TO "FA_USER";
+
+CREATE TABLE fa_merchant.fa_register (
+	register_id serial NOT NULL,
+	register_code_s varchar NOT NULL,
+	register_auth_token_s varchar NOT NULL,
+    insert_date_t timestamp with time zone,
+    insert_user_s varchar(40),
+    update_date_t timestamp with time zone,
+    update_user_s varchar(40),
     enabled_b boolean
 );
 
-ALTER TABLE fa_merchant.fa_merchant_shop OWNER TO '${adminUser}';
+ALTER TABLE fa_merchant.fa_register OWNER TO "FA_USER";
 
---
--- Name: fa_payment_instrument; Type: TABLE; Schema: fa_payment_instrument; Owner: ddsadmin
---
+CREATE TABLE fa_merchant.fa_merchant_contract (
+	contract_id serial NOT NULL,
+	activation_t timestamp with time zone NOT NULL,
+	deactivation_t timestamp with time zone,
+	provider_id int8 NOT NULL,
+	shop_id varchar NOT NULL,
+	insert_date_t timestamp with time zone,
+	insert_user_s varchar(40),
+	update_date_t timestamp with time zone,
+	update_user_s varchar(40),
+	enabled_b boolean,
+	register_id bigserial NOT NULL
+);
+
+ALTER TABLE fa_merchant.fa_merchant_contract OWNER TO "FA_USER";
+
+-- PAYMENT INSTRUMENT
+
+CREATE SCHEMA fa_payment_instrument;
+ALTER SCHEMA fa_payment_instrument OWNER TO "FA_USER";
 
 CREATE TABLE fa_payment_instrument.fa_payment_instrument (
     hpan_s character varying(64) NOT NULL,
@@ -147,165 +133,192 @@ CREATE TABLE fa_payment_instrument.fa_payment_instrument (
     sdi_s character varying,
     cup_s character varying,
     vat_number_s character varying(11) NOT NULL,
-    fiscal_code_s character varying(16) NOT NULL
+    fiscal_code_s character varying(16) NOT NULL,
+    channel_s character varying(20) NULL,
+    hpan_master_s character varying(64) NULL,
+    par_s character varying(32) NULL,
+    par_enrollment_t timestamptz(0) NULL,
+    par_cancellation_t timestamptz(0) NULL,
+    last_tkm_update_t timestamp with time zone NULL
 );
 
-ALTER TABLE fa_payment_instrument.fa_payment_instrument OWNER TO '${adminUser}';
+ALTER TABLE fa_payment_instrument.fa_payment_instrument OWNER TO "FA_USER";
 
---
--- Name: fa_transaction; Type: TABLE; Schema: fa_transaction; Owner: ddsadmin
---
+CREATE TABLE fa_payment_instrument.fa_payment_instrument_history (
+	hpan_s character varying(64) NOT NULL,
+	activation_t timestamp with time zone NOT NULL,
+	deactivation_t timestamp with time zone NULL,
+	id_n bigserial NOT NULL, 
+	update_date_t timestamp with time zone NULL,
+	insert_date_t timestamp with time zone NULL,
+	insert_user_s character varying(40) NULL,
+	update_user_s character varying(40) NULL,
+	fiscal_code_s character varying(16) NULL,
+	channel_s character varying(20) NULL,
+	par_s character varying(32) NULL,
+	par_activation_t timestamptz(0) NULL,
+	par_deactivation_t timestamptz(0) NULL,
+	vat_number_s character varying(11) NULL
+);
+
+ALTER TABLE fa_payment_instrument.fa_payment_instrument_history OWNER TO "FA_USER";
+
+-- PROVIDER
+
+CREATE SCHEMA fa_provider;
+ALTER SCHEMA fa_provider OWNER TO "FA_USER";
+
+CREATE TABLE fa_provider.fa_provider (
+	provider_id bigserial NOT NULL,
+	provider_desc_s character varying(255) NOT NULL,
+	endpoint_address_s character varying(255) NOT NULL,
+	endpoint_chk_merchant_s character varying(255) NOT NULL,
+	endpoint_request_fa_s character varying(255) NOT NULL,
+	keystore_clob bytea NULL,
+	insert_date_t timestamp with time zone NULL,
+	insert_user_s character varying(40) NULL,
+	update_date_t timestamp with time zone NULL,
+	update_user_s character varying(40) NULL,
+	enabled_b boolean NULL,
+	endpoint_status_fa_s character varying(255) NULL
+);
+
+ALTER TABLE fa_provider.fa_provider OWNER TO "FA_USER";
+
+-- TRANSACTIONS (INVOICES)
+
+CREATE SCHEMA fa_transaction;
+ALTER SCHEMA fa_transaction OWNER TO "FA_USER";
 
 CREATE TABLE fa_transaction.fa_transaction (
-    id_trx_acquirer_n integer NOT NULL,
+    id_trx_acquirer_s character varying NOT NULL,
     acquirer_c character varying(20) NOT NULL,
     trx_timestamp_t timestamp with time zone NOT NULL,
     hpan_s character varying(64),
     operation_type_c character varying(5),
     circuit_type_c character varying(5),
-    id_trx_issuer_n integer,
-    correlation_id_n integer,
+    id_trx_issuer_s character varying,
+    correlation_id_s character varying,
     amount_i numeric,
     amount_currency_c character varying(3),
     mcc_c character varying(5),
     mcc_descr_s character varying(40),
-    acquirer_id_n integer,
-    merchant_id bigint,
+    acquirer_id_s character varying,
+    merchant_id character varying,
     insert_date_t timestamp with time zone,
     insert_user_s character varying(40),
     update_date_t timestamp with time zone,
     update_user_s character varying(40),
     enabled_b boolean,
-    status_s character varying(2) NOT NULL
+    status_s character varying(2) NOT NULL,
+    fiscal_code_s character varying(16) NULL,
+    par_s character varying(32) NULL,
+    hpan_master_s character varying(64) NULL,
+    bin_card_s character varying NOT NULL,
+    terminal_id_s character varying(255) NOT NULL,
+    invoice_status_s character varying NULL,
+    invoice_code_s character varying NULL,
+    invoice_status_date_t timestamptz(0) NULL,
+    invoice_rejected_reason_s character varying NULL,
+    invoice_status_insert_request_date_t timestamptz(0) NULL,
+    invoice_status_update_request_date_t timestamptz(0) NULL,
+    notification_id_s character varying NULL,
+    notify_date_t timestamptz(0) NULL,
+    notify_status_s character varying NULL,
+    invoice_elab_b boolean NULL,
+    to_notify_b boolean NULL
+
 );
 
-ALTER TABLE fa_transaction.fa_transaction OWNER TO '${adminUser}';
-
---
--- Name: fa_transaction_request; Type: TABLE; Schema: fa_transaction; Owner: ddsadmin
---
+ALTER TABLE fa_transaction.fa_transaction OWNER TO "FA_USER";
 
 CREATE TABLE fa_transaction.fa_transaction_request (
-    transaction_id_s character varying NOT NULL,
     vat_number_s character varying NOT NULL,
-    customer_param_s character varying NOT NULL,
-    customer_param_desc_s character varying,
     transaction_date_t timestamp with time zone NOT NULL,
     insert_date_t timestamp with time zone,
     insert_user_s character varying(40),
     update_date_t timestamp with time zone,
     update_user_s character varying(40),
     enabled_b boolean,
-    invoice_status_s character varying NOT NULL,
-    acquirer_id_n integer,
-    merchant_id_n bigint,
-    pos_type_s character varying NOT NULL
+    invoice_status_s character varying,
+    pos_type_s character varying NOT NULL,
+    amount_i numeric NOT NULL,
+    terminal_id_s character varying(255) NOT NULL,
+    bin_card_s character varying NOT NULL,
+    auth_code_s character varying NOT NULL,
+    merchant_id character varying,
+    contract_id int8 NOT NULL
 );
 
-ALTER TABLE fa_transaction.fa_transaction_request OWNER TO '${adminUser}';
+ALTER TABLE fa_transaction.fa_transaction_request OWNER TO "FA_USER";
 
---
--- Name: SCHEMA fa_customer; Type: ACL; Schema: -; Owner: ddsadmin
---
+-- FILE STORAGE
 
-GRANT ALL ON SCHEMA fa_customer TO "FA_USER";
-GRANT USAGE ON SCHEMA fa_customer TO "MONITORING_USER";
+CREATE SCHEMA fa_file_storage;
+ALTER SCHEMA fa_file_storage OWNER TO "FA_USER";
 
+-- ERROR RECORD
 
---
--- Name: SCHEMA fa_file_storage; Type: ACL; Schema: -; Owner: ddsadmin
---
+CREATE SCHEMA fa_error_record;
+ALTER SCHEMA fa_error_record OWNER TO "FA_USER";
 
-GRANT ALL ON SCHEMA fa_file_storage TO "FA_USER";
-GRANT USAGE ON SCHEMA fa_file_storage TO "MONITORING_USER";
+CREATE TABLE fa_error_record.fa_transaction_record (
+	record_id_s character varying(64) NOT NULL,
+	acquirer_c character varying(20) NULL,
+	trx_timestamp_t timestamp with time zone NULL,
+	hpan_s character varying NULL,
+	operation_type_c character varying(5) NULL,
+	circuit_type_c character varying(5) NULL,
+	amount_i numeric NULL,
+	amount_currency_c character varying(3) NULL,
+	mcc_c character varying(5) NULL,
+	mcc_descr_s character varying(40) NULL,
+	score_n numeric NULL,
+	award_period_id_n bigint NULL,
+	insert_date_t timestamp with time zone NULL,
+	insert_user_s character varying(40) NULL,
+	update_date_t timestamp with time zone NULL,
+	update_user_s character varying(40) NULL,
+	merchant_id_s character varying NULL,
+	correlation_id_s character varying NULL,
+	acquirer_id_s character varying NULL,
+	id_trx_issuer_s character varying NULL,
+	id_trx_acquirer_s character varying NULL,
+	bin_s character varying NULL,
+	terminal_id_s character varying NULL,
+	fiscal_code_s character varying(16) NULL,
+	origin_topic_s character varying(30) NULL,
+	origin_listener_s character varying(4000) NULL,
+	exception_message_s character varying(4000) NULL,
+	origin_request_id_s character varying(4000) NULL,
+	last_resubmit_date_t timestamp with time zone NULL,
+	to_resubmit_b boolean NULL,
+	enabled_b boolean NULL,
+	par_s character varying(32) NULL
+);
 
+ALTER TABLE fa_error_record.fa_transaction_record OWNER TO "FA_USER";
 
---
--- Name: SCHEMA fa_merchant; Type: ACL; Schema: -; Owner: ddsadmin
---
+-- FA_MOCK
 
-GRANT ALL ON SCHEMA fa_merchant TO "FA_USER";
-GRANT USAGE ON SCHEMA fa_merchant TO "MONITORING_USER";
+CREATE SCHEMA fa_mock;
+ALTER SCHEMA fa_mock OWNER TO "FA_USER";
 
+CREATE TABLE fa_mock.mock_provider (
+	transaction_date_t timestamptz(0) NOT NULL,
+	amount_i numeric NOT NULL,
+	bin_card_s varchar NOT NULL,
+	auth_code_s varchar NOT NULL,
+	terminal_id_s varchar(255) NOT NULL,
+	transaction_id_s varchar NOT NULL,
+	customer_data_s varchar NULL,
+	merchant_data_s varchar NULL,
+	customer_address_s varchar NULL,
+	merchant_address_s varchar NULL,
+	payment_lable_s varchar NULL,
+	dest_code_s varchar NULL,
+	acquirer_id_s varchar NULL,
+	contract_id_s varchar NULL
+);
 
---
--- Name: SCHEMA fa_payment_instrument; Type: ACL; Schema: -; Owner: ddsadmin
---
-
-GRANT USAGE ON SCHEMA fa_payment_instrument TO "FA_PAYMENT_INSTRUMENT_REMOTE_USER";
-GRANT ALL ON SCHEMA fa_payment_instrument TO "FA_USER";
-GRANT USAGE ON SCHEMA fa_payment_instrument TO "MONITORING_USER";
-
-
---
--- Name: SCHEMA fa_provider; Type: ACL; Schema: -; Owner: ddsadmin
---
-
-GRANT ALL ON SCHEMA fa_provider TO "FA_USER";
-GRANT USAGE ON SCHEMA fa_provider TO "MONITORING_USER";
-
-
---
--- Name: SCHEMA fa_transaction; Type: ACL; Schema: -; Owner: ddsadmin
---
-
-GRANT ALL ON SCHEMA fa_transaction TO "FA_USER";
-GRANT USAGE ON SCHEMA fa_transaction TO "MONITORING_USER";
-
-
---
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: azure_superuser
---
-
-GRANT USAGE ON SCHEMA public TO "MONITORING_USER";
-
-
---
--- Name: TABLE fa_customer; Type: ACL; Schema: fa_customer; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_customer.fa_customer TO "FA_USER";
-
-
---
--- Name: TABLE fa_customer_vat; Type: ACL; Schema: fa_customer; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_customer.fa_customer_vat TO "FA_USER";
-
-
---
--- Name: TABLE fa_merchant; Type: ACL; Schema: fa_merchant; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_merchant.fa_merchant TO "FA_USER";
-
-
---
--- Name: TABLE fa_merchant_shop; Type: ACL; Schema: fa_merchant; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_merchant.fa_merchant_shop TO "FA_USER";
-
-
---
--- Name: TABLE fa_payment_instrument; Type: ACL; Schema: fa_payment_instrument; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_payment_instrument.fa_payment_instrument TO "FA_USER";
-GRANT SELECT ON TABLE fa_payment_instrument.fa_payment_instrument TO "FA_PAYMENT_INSTRUMENT_REMOTE_USER";
-GRANT SELECT ON TABLE fa_payment_instrument.fa_payment_instrument TO "MONITORING_USER";
-
-
---
--- Name: TABLE fa_transaction; Type: ACL; Schema: fa_transaction; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_transaction.fa_transaction TO "FA_USER";
-
-
---
--- Name: TABLE fa_transaction_request; Type: ACL; Schema: fa_transaction; Owner: ddsadmin
---
-
-GRANT ALL ON TABLE fa_transaction.fa_transaction_request TO "FA_USER";
+ALTER TABLE fa_mock.mock_provider OWNER TO "FA_USER";
