@@ -6,8 +6,8 @@ locals {
   jaas_config_template_fa = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"Endpoint=sb://${format("%s-evh-ns-fa-01", local.project)}.servicebus.windows.net/;EntityPath=%s;SharedAccessKeyName=%s;SharedAccessKey=%s\";"
 }
 
-resource "kubernetes_secret" "cstariobackendtest" {
-  count = var.env_short == "d" ? 1 : 0 # only in dev
+resource "kubernetes_secret" "facstariobackendtest" {
+
   metadata {
     name      = "cstariobackendtest"
     namespace = kubernetes_namespace.fa.metadata[0].name
