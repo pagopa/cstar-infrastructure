@@ -44,7 +44,8 @@
                                     "fiscalCode": "string",
                                     "payoffInstr": "string",
                                     "payoffInstrType": "string",
-                                    "timestampTC": "string"
+                                    "timestampTC": "string",
+                                    "optInStatus": "DENIED"
                                 }
                             }
                         }
@@ -196,7 +197,7 @@
                                     "payoffInstr": "string",
                                     "payoffInstrType": "string",
                                     "timestampTC": "string",
-                                    "optInStatus": 0
+                                    "optInStatus": "DENIED"
                                 }
                             }
                         }
@@ -352,9 +353,9 @@
                 "type": "object",
                 "properties": {
                     "optInStatus": {
-                       "enum": [0,1,2],
-                       "type": "integer",
-                       "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO (0, default, non richiesto)"
+                       "enum": ["NOREQ","ACCEPTED","DENIED"],
+                       "type": "string",
+                       "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO"
                     }
                 }
             },
@@ -503,9 +504,9 @@
                         "description": "Identificativo univoco dello strumento di pagamento rilasciato dall'issuer"
                     },
                     "optInStatus": {
-                        "enum": [0,1,2],
-                        "type": "integer",
-                        "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO (0, default, non richiesto)"
+                        "enum": ["NOREQ","ACCEPTED","DENIED"],
+                        "type": "string",
+                        "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO"
                     }
                 },
                 "example": {
@@ -514,7 +515,7 @@
                     "payoffInstr": "string",
                     "payoffInstrType": "string",
                     "timestampTC": "string",
-                    "optInStatus": 0
+                    "optInStatus": "DENIED"
                 }
             },
             "CitizenRankingMilestoneResourceArray": {
