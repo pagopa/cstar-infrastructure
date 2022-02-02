@@ -174,15 +174,21 @@
                     "schema": {
                         "type": "string"
                     }
-                },
-                {
-                    "name": "CitizenDTO",
-                    "in": "body",
-                    "description": "Citizen's onboarding body",
-                    "schema": {
-                        "$ref": "#/components/schemas/CitizenDTO"
-                    }
                 }],
+                "requestBody": {
+                    "description": "Citizen",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CitizenPutDTO"
+                            },
+                            "example": {
+                                "optInStatus": "DENIED"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -348,8 +354,8 @@
     },
     "components": {
         "schemas": {
-            "CitizenDTO": {
-                "title": "CitizenDTO",
+            "CitizenPutDTO": {
+                "title": "CitizenPutDTO",
                 "type": "object",
                 "properties": {
                     "optInStatus": {
