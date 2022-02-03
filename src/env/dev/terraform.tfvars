@@ -679,3 +679,5 @@ tags = {
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
+
+enable_api_fa = true

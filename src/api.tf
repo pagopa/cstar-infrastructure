@@ -1302,7 +1302,7 @@ module "bpd_io_winning_transactions_v2" {
 
 ## 08 FA IO Customer API ##
 resource "azurerm_api_management_api_version_set" "fa_io_customers" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-customer", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1312,7 +1312,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_customers" {
 
 #Original#
 module "fa_io_customers_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-customer-api", var.env_short)
   api_management_name = module.apim.name
@@ -1358,7 +1358,7 @@ module "fa_io_customers_original" {
 
 ## 09 FA HB Customer API
 resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-hb-customer", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1368,7 +1368,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
 
 #Original#
 module "fa_hb_customers_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-hb-customer-api", var.env_short)
   api_management_name = module.apim.name
@@ -1414,7 +1414,7 @@ module "fa_hb_customers_original" {
 
 ## 10 FA IO Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1424,7 +1424,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
 
 #Original#
 module "fa_io_payment_instruments_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
@@ -1485,7 +1485,7 @@ module "fa_io_payment_instruments_original" {
 
 ## 11 FA HB Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-hb-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1495,7 +1495,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
 
 #Original#
 module "fa_hb_payment_instruments_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
@@ -1619,7 +1619,7 @@ module "fa_hb_payment_instruments_original" {
 
 ## 12 FA REGISTER Transaction API
 resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-register-transaction", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1629,7 +1629,7 @@ resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
 
 #Original#
 module "fa_register_transactions_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-register-transaction-api", var.env_short)
   api_management_name = module.apim.name
@@ -1665,7 +1665,7 @@ module "fa_register_transactions_original" {
 
 ## 12 FA IO Transaction API
 resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-transaction", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1675,7 +1675,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
 
 #Original#
 module "fa_io_transactions_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-transaction-api", var.env_short)
   api_management_name = module.apim.name
@@ -1711,7 +1711,7 @@ module "fa_io_transactions_original" {
 
 ## 13 FA Mock API
 resource "azurerm_api_management_api_version_set" "fa_mock" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-mock", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1721,7 +1721,7 @@ resource "azurerm_api_management_api_version_set" "fa_mock" {
 
 #Original#
 module "fa_mock_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-mock-api", var.env_short)
   api_management_name = module.apim.name
@@ -1768,7 +1768,7 @@ module "fa_mock_original" {
 
 ## 14 FA IO Merchant API
 resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-merchant", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1778,7 +1778,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
 
 #Original#
 module "fa_io_merchant_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-merchant-api", var.env_short)
   api_management_name = module.apim.name
@@ -1813,7 +1813,7 @@ module "fa_io_merchant_original" {
 
 ## 14 FA EXT Merchant API
 resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-ext-merchant", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1823,7 +1823,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
 
 #Original#
 module "fa_ext_merchant_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-ext-merchant-api", var.env_short)
   api_management_name = module.apim.name
@@ -1876,7 +1876,7 @@ module "fa_ext_merchant_original" {
 
 ## 14 FA EXT Provider API
 resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-ext-provider", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1886,7 +1886,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
 
 #Original#
 module "fa_ext_provider_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-ext-provider-api", var.env_short)
   api_management_name = module.apim.name
