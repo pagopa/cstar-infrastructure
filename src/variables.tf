@@ -596,3 +596,9 @@ variable "tags" {
     CreatedBy = "Terraform"
   }
 }
+
+variable "enable_api_fa"{
+  type = bool
+  description = "If true, allows to generate the APIs for FA."
+  default = false
+}

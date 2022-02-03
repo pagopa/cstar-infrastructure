@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "FA Transaction Api",
+        "title": "FA IO Transaction Api",
         "version": "1.0",
         "description": "Api and Models"
     },
