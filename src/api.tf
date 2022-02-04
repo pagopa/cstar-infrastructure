@@ -436,7 +436,7 @@ module "rtd_payment_instrument_manager" {
 module "rtd_csv_transaction" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
 
-  count               = var.end_short == "p" ? 0 : 1
+  count               = var.env_short == "p" ? 0 : 1
   name                = format("%s-rtd-csv-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
