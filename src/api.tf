@@ -478,7 +478,7 @@ module "rtd_csv_transaction" {
     {
       operation_id = "getPublicKey",
       xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml.tpl", {
-        public-key-asc = data.azurerm_key_vault_secret.cstarblobstorage_public_key.value
+        public-key-asc = data.azurerm_key_vault_secret.cstarblobstorage_public_key[0].value
       })
     },
   ]

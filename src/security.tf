@@ -240,6 +240,7 @@ data "azurerm_key_vault_secret" "sec_storage_id" {
 }
 
 data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
+  count        = var.env_short == "p" ? 0 : 1
   name         = "cstarblobstorage-public-key"
   key_vault_id = module.key_vault.id
 }
