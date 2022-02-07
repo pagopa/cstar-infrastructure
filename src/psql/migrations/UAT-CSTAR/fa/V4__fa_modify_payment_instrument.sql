@@ -1,1 +1,0 @@
-ALTER TABLE fa_payment_instrument ALTER COLUMN vat_number_s DROP NOT NULL;
