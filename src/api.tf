@@ -41,8 +41,6 @@ module "apim" {
   # This enables the Username and Password Identity Provider
   sign_up_enabled = true
 
-  lock_enable = var.lock_enable
-
   sign_up_terms_of_service = {
     consent_required = false
     enabled          = false
@@ -436,10 +434,10 @@ module "rtd_payment_instrument_manager" {
 module "rtd_csv_transaction" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
 
+  count               = var.env_short == "p" ? 0 : 1
   name                = format("%s-rtd-csv-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-
 
   description  = "API providing upload methods for csv transaction files"
   display_name = "RTD CSV Transaction API"
@@ -473,6 +471,12 @@ module "rtd_csv_transaction" {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
         blob-storage-container-prefix = "cstar-transactions"
+      })
+    },
+    {
+      operation_id = "getPublicKey",
+      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml.tpl", {
+        public-key-asc = data.azurerm_key_vault_secret.cstarblobstorage_public_key[0].value
       })
     },
   ]
