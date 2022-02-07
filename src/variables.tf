@@ -597,8 +597,8 @@ variable "tags" {
   }
 }
 
-variable "enable_api_fa"{
-  type = bool
+variable "enable_api_fa" {
+  type        = bool
   description = "If true, allows to generate the APIs for FA."
-  default = false
+  default     = false
 }
