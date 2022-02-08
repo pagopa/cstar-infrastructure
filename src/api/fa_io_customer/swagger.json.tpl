@@ -107,7 +107,7 @@
                         "name": "enrollmentCustomerDTOArray",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/EnrollmentCustomerDTOArray"
+                            "$ref": "#/definitions/EnrollmentCustomerDTO"
                         }
                     }
                 ],
