@@ -114,8 +114,8 @@ module "api_azureblob" {
   path         = "pagopastorage"
   protocols    = ["https"]
 
-  # service_url = format("http://%s/pagopastorage", var.reverse_proxy_ip)
-  service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
+  #service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
+  service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/openapi.json.tpl", {
