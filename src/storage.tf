@@ -33,7 +33,7 @@ resource "azurerm_storage_container" "psql_state" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
 
   name                     = replace(format("%s-blobstorage", local.project), "-", "")
   account_kind             = "BlobStorage"
@@ -43,7 +43,16 @@ module "cstarblobstorage" {
   enable_versioning        = false
   resource_group_name      = azurerm_resource_group.rg_storage.name
   location                 = var.location
-  allow_blob_public_access = true
+  allow_blob_public_access = false
+  
+  network_rules = {
+
+    default_action             = "Deny"
+    bypass                     = []
+    ip_rules                   = []
+    virtual_network_subnet_ids = [module.storage_account_snet.id]
+  }
+
 
   tags = var.tags
 }
