@@ -99,7 +99,7 @@ module "apim_snet" {
   virtual_network_name = module.vnet_integration.name
   address_prefixes     = var.cidr_subnet_apim
 
-  service_endpoints = ["Microsoft.Web"]
+  service_endpoints = ["Microsoft.Web", "Microsoft.Storage"]
 
   enforce_private_link_endpoint_network_policies = true
 }

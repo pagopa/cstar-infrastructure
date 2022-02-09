@@ -45,23 +45,57 @@ module "cstarblobstorage" {
   location                 = var.location
   allow_blob_public_access = false
 
-  network_rules = {
+  # network_rules = {
 
-    default_action             = "Deny"
-    bypass                     = ["Metrics", "AzureServices"]
-    ip_rules                   = []
-    virtual_network_subnet_ids = [module.storage_account_snet.id]
-  }
+  #   default_action             = "Deny"
+  #   bypass                     = ["Metrics", "AzureServices"]
+  #   ip_rules                   = []
+  #   virtual_network_subnet_ids = [module.apim_snet.id]
+  # }
 
 
   tags = var.tags
 }
+
+resource "azurerm_role_assignment" "data_contributor_role" {
+  scope                = module.cstarblobstorage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = module.apim.principal_id
+
+  depends_on = [
+    module.cstarblobstorage
+  ]
+}
+
+
+
 
 # Container terms and conditions
 resource "azurerm_storage_container" "bpd_terms_and_conditions" {
   name                  = "bpd-terms-and-conditions"
   storage_account_name  = module.cstarblobstorage.name
   container_access_type = "blob"
+}
+
+resource "null_resource" "auth_bpd_tc_container" {
+
+  triggers = {
+    apim_principal_id = module.apim.principal_id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage container set-permission \
+                --name ${azurerm_storage_container.bpd_terms_and_conditions.name} \
+                --account-name ${module.cstarblobstorage.name} \
+                --account-key ${module.cstarblobstorage.primary_access_key} \
+                --auth-mode login
+          EOT
+  }
+
+  depends_on = [
+    azurerm_storage_container.bpd_terms_and_conditions
+  ]
 }
 
 # Container terms and conditions
