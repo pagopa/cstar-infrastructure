@@ -57,15 +57,15 @@ module "cstarblobstorage" {
   tags = var.tags
 }
 
-resource "azurerm_role_assignment" "data_contributor_role" {
-  scope                = module.cstarblobstorage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = module.apim.principal_id
+# resource "azurerm_role_assignment" "data_contributor_role" {
+#   scope                = module.cstarblobstorage.id
+#   role_definition_name = "Storage Blob Data Contributor"
+#   principal_id         = module.apim.principal_id
 
-  depends_on = [
-    module.cstarblobstorage
-  ]
-}
+#   depends_on = [
+#     module.cstarblobstorage
+#   ]
+# }
 
 
 
