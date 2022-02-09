@@ -18,6 +18,11 @@ variable "cidr_vnet" {
   description = "Virtual network address space."
 }
 
+variable "cidr_subnet_storage_account" {
+  type        = list(string)
+  description = "Storage account network address space."
+}
+
 variable "cidr_subnet_db" {
   type        = list(string)
   description = "Database network address space."
