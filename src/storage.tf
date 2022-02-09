@@ -44,7 +44,7 @@ module "cstarblobstorage" {
   resource_group_name      = azurerm_resource_group.rg_storage.name
   location                 = var.location
   allow_blob_public_access = false
-  
+
   network_rules = {
 
     default_action             = "Deny"
