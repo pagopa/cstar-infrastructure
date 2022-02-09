@@ -48,7 +48,7 @@ module "cstarblobstorage" {
   network_rules = {
 
     default_action             = "Deny"
-    bypass                     = []
+    bypass                     = ["Metrics", "AzureServices"]
     ip_rules                   = []
     virtual_network_subnet_ids = [module.storage_account_snet.id]
   }
