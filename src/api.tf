@@ -114,7 +114,6 @@ module "api_azureblob" {
   path         = "pagopastorage"
   protocols    = ["https"]
 
-  #service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
@@ -173,14 +172,17 @@ module "api_bdp_info_privacy" {
   path         = "cstar-bpd"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
+  service_url = format("https://%s/%s",
+    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+    azurerm_storage_container.info_privacy.name
+  )
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = file("./azureblob/azureblob_policy.xml")
 
   product_ids           = [module.bpd_api_product.product_id]
   subscription_required = true
@@ -299,14 +301,20 @@ module "api_bpd_tc" {
   path         = "bpd/tc"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
-  azurerm_storage_container.bpd_terms_and_conditions.name)
+  #service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
+  #azurerm_storage_container.bpd_terms_and_conditions.name)
+
+  service_url = format("https://%s/%s",
+    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+    azurerm_storage_container.bpd_terms_and_conditions.name
+  )
+
 
   content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
 
   product_ids = [module.bpd_api_product.product_id]
 
@@ -334,14 +342,20 @@ module "api_fa_tc" {
   path         = "fa/tc"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
-  azurerm_storage_container.fa_terms_and_conditions.name)
+  #service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
+  #azurerm_storage_container.fa_terms_and_conditions.name)
+
+  service_url = format("https://%s/%s",
+    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+    azurerm_storage_container.fa_terms_and_conditions.name
+  )
+
 
   content_value = templatefile("./api/fa_tc/swagger.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
 
   product_ids = [module.fa_api_product.product_id]
 
