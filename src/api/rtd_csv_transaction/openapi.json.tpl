@@ -61,11 +61,11 @@
                 }
             }
         },
-        "/cstar/sas": {
+        "/rtd/sas": {
             "post": {
                 "summary": "Creates a new SAS token",
-                "description": "A new SAS token granting r/w permission on CSTAR client's container",
-                "operationId": "createCstarSasToken",
+                "description": "A new SAS token granting r/w permission on RTD client's container",
+                "operationId": "createRtdSasToken",
                 "parameters": [],
                 "responses": {
                     "201": {
