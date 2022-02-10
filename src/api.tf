@@ -182,7 +182,7 @@ module "api_bdp_info_privacy" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./azureblob/azureblob_policy.xml")
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
 
   product_ids           = [module.bpd_api_product.product_id]
   subscription_required = true
@@ -301,9 +301,6 @@ module "api_bpd_tc" {
   path         = "bpd/tc"
   protocols    = ["https", "http"]
 
-  #service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
-  #azurerm_storage_container.bpd_terms_and_conditions.name)
-
   service_url = format("https://%s/%s",
     azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
     azurerm_storage_container.bpd_terms_and_conditions.name
@@ -341,9 +338,6 @@ module "api_fa_tc" {
   display_name = "FA TC API"
   path         = "fa/tc"
   protocols    = ["https", "http"]
-
-  #service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
-  #azurerm_storage_container.fa_terms_and_conditions.name)
 
   service_url = format("https://%s/%s",
     azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,

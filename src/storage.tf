@@ -73,7 +73,7 @@ resource "azurerm_role_assignment" "data_contributor_role" {
 resource "azurerm_storage_container" "bpd_terms_and_conditions" {
   name                  = "bpd-terms-and-conditions"
   storage_account_name  = module.cstarblobstorage.name
-  container_access_type = "blob"
+  container_access_type = "private"
 }
 
 
@@ -102,7 +102,7 @@ resource "null_resource" "auth_bpd_tc_container" {
 resource "azurerm_storage_container" "fa_terms_and_conditions" {
   name                  = "fa-terms-and-conditions"
   storage_account_name  = module.cstarblobstorage.name
-  container_access_type = "blob"
+  container_access_type = "private"
 }
 
 resource "null_resource" "auth_fa_tc_container" {
@@ -130,7 +130,7 @@ resource "null_resource" "auth_fa_tc_container" {
 resource "azurerm_storage_container" "info_privacy" {
   name                  = "info-privacy"
   storage_account_name  = module.cstarblobstorage.name
-  container_access_type = "blob"
+  container_access_type = "private"
 }
 
 resource "null_resource" "auth_info_privacy" {
