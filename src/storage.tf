@@ -45,6 +45,8 @@ module "cstarblobstorage" {
   location                 = var.location
   allow_blob_public_access = false
 
+  # Must be added is a subsequent PR, since it inhibits terraform access to containers state
+
   # network_rules = {
 
   #   default_action             = "Deny"
@@ -57,18 +59,15 @@ module "cstarblobstorage" {
   tags = var.tags
 }
 
-# resource "azurerm_role_assignment" "data_contributor_role" {
-#   scope                = module.cstarblobstorage.id
-#   role_definition_name = "Storage Blob Data Contributor"
-#   principal_id         = module.apim.principal_id
+resource "azurerm_role_assignment" "data_contributor_role" {
+  scope                = module.cstarblobstorage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = module.apim.principal_id
 
-#   depends_on = [
-#     module.cstarblobstorage
-#   ]
-# }
-
-
-
+  depends_on = [
+    module.cstarblobstorage
+  ]
+}
 
 # Container terms and conditions
 resource "azurerm_storage_container" "bpd_terms_and_conditions" {
@@ -77,6 +76,8 @@ resource "azurerm_storage_container" "bpd_terms_and_conditions" {
   container_access_type = "blob"
 }
 
+
+# After tests, permission must be extended to other containers
 resource "null_resource" "auth_bpd_tc_container" {
 
   triggers = {
