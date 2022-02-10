@@ -99,7 +99,7 @@ module "apim_snet" {
   virtual_network_name = module.vnet_integration.name
   address_prefixes     = var.cidr_subnet_apim
 
-  service_endpoints = ["Microsoft.Web"]
+  service_endpoints = ["Microsoft.Web", "Microsoft.Storage"]
 
   enforce_private_link_endpoint_network_policies = true
 }
@@ -624,4 +624,34 @@ module "postgres_flexible_snet" {
       ]
     }
   }
+}
+
+# Azure Blob Storage subnet 
+module "storage_account_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
+  name                                           = format("%s-storage-account-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_storage_account
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = ["Microsoft.Storage"]
+  enforce_private_link_endpoint_network_policies = true
+}
+
+resource "azurerm_private_endpoint" "blob_storage_pe" {
+  name                = format("%s-blob-storage-pe", local.project)
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  subnet_id           = module.storage_account_snet.id
+
+  private_dns_zone_group {
+    name                 = azurerm_private_dns_zone.storage_account.name
+    private_dns_zone_ids = [azurerm_private_dns_zone.storage_account.id]
+  }
+  private_service_connection {
+    name                           = format("%s-blob-storage-private-service-connection", local.project)
+    is_manual_connection           = false
+    private_connection_resource_id = module.cstarblobstorage.id
+    subresource_names              = ["blob"]
+  }
+
 }

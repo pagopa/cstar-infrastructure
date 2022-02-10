@@ -56,3 +56,17 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet" {
   private_dns_zone_name = azurerm_private_dns_zone.postgres.name
   virtual_network_id    = module.vnet.id
 }
+
+# Private DNS Zone for Storage Accounts
+
+resource "azurerm_private_dns_zone" "storage_account" {
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet" {
+  name                  = format("%s-storage-account-vnet-private-dns-zone-link", local.project)
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = module.vnet.id
+}

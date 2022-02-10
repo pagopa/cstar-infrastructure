@@ -33,7 +33,7 @@ resource "azurerm_storage_container" "psql_state" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
 
   name                     = replace(format("%s-blobstorage", local.project), "-", "")
   account_kind             = "BlobStorage"
@@ -43,23 +43,115 @@ module "cstarblobstorage" {
   enable_versioning        = false
   resource_group_name      = azurerm_resource_group.rg_storage.name
   location                 = var.location
-  allow_blob_public_access = true
+  allow_blob_public_access = false
+
+  # Must be added is a subsequent PR, since it inhibits terraform access to containers state
+
+  # network_rules = {
+
+  #   default_action             = "Deny"
+  #   bypass                     = ["Metrics", "AzureServices"]
+  #   ip_rules                   = []
+  #   virtual_network_subnet_ids = [module.apim_snet.id]
+  # }
+
 
   tags = var.tags
+}
+
+resource "azurerm_role_assignment" "data_contributor_role" {
+  scope                = module.cstarblobstorage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = module.apim.principal_id
+
+  depends_on = [
+    module.cstarblobstorage
+  ]
 }
 
 # Container terms and conditions
 resource "azurerm_storage_container" "bpd_terms_and_conditions" {
   name                  = "bpd-terms-and-conditions"
   storage_account_name  = module.cstarblobstorage.name
-  container_access_type = "blob"
+  container_access_type = "private"
+}
+
+
+resource "null_resource" "auth_bpd_tc_container" {
+
+  triggers = {
+    apim_principal_id = module.apim.principal_id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage container set-permission \
+                --name ${azurerm_storage_container.bpd_terms_and_conditions.name} \
+                --account-name ${module.cstarblobstorage.name} \
+                --account-key ${module.cstarblobstorage.primary_access_key} \
+                --auth-mode login
+          EOT
+  }
+
+  depends_on = [
+    azurerm_storage_container.bpd_terms_and_conditions
+  ]
 }
 
 # Container terms and conditions
 resource "azurerm_storage_container" "fa_terms_and_conditions" {
   name                  = "fa-terms-and-conditions"
   storage_account_name  = module.cstarblobstorage.name
-  container_access_type = "blob"
+  container_access_type = "private"
+}
+
+resource "null_resource" "auth_fa_tc_container" {
+
+  triggers = {
+    apim_principal_id = module.apim.principal_id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage container set-permission \
+                --name ${azurerm_storage_container.fa_terms_and_conditions.name} \
+                --account-name ${module.cstarblobstorage.name} \
+                --account-key ${module.cstarblobstorage.primary_access_key} \
+                --auth-mode login
+          EOT
+  }
+
+  depends_on = [
+    azurerm_storage_container.fa_terms_and_conditions
+  ]
+}
+
+# container info privacy
+resource "azurerm_storage_container" "info_privacy" {
+  name                  = "info-privacy"
+  storage_account_name  = module.cstarblobstorage.name
+  container_access_type = "private"
+}
+
+resource "null_resource" "auth_info_privacy" {
+
+  triggers = {
+    apim_principal_id = module.apim.principal_id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+              az storage container set-permission \
+                --name ${azurerm_storage_container.info_privacy.name} \
+                --account-name ${module.cstarblobstorage.name} \
+                --account-key ${module.cstarblobstorage.primary_access_key} \
+                --auth-mode login
+          EOT
+  }
+
+  depends_on = [
+    azurerm_storage_container.info_privacy
+  ]
 }
 
 # Container export
@@ -69,12 +161,6 @@ resource "azurerm_storage_container" "cstar_exports" {
   container_access_type = "private"
 }
 
-# container info privacy
-resource "azurerm_storage_container" "info_privacy" {
-  name                  = "info-privacy"
-  storage_account_name  = module.cstarblobstorage.name
-  container_access_type = "blob"
-}
 
 #tfsec:ignore:AZU023
 resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
