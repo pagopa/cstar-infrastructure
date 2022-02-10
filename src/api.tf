@@ -466,11 +466,11 @@ module "rtd_csv_transaction" {
       })
     },
     {
-      operation_id = "createCstarSasToken",
+      operation_id = "createRtdSasToken",
       xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
-        blob-storage-container-prefix = "cstar-transactions"
+        blob-storage-container-prefix = "rtd-transactions"
       })
     },
     {
