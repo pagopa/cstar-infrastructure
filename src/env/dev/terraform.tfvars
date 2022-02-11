@@ -547,6 +547,28 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-platform-events"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-platform-events-consumer-group"]
+    keys = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 eventhubs_fa = [
