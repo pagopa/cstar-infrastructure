@@ -26,4 +26,8 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "storage_subscripti
   resource_group_name = azurerm_resource_group.events_rg.name
 
   eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub.id
+
+  depends_on = [
+    azurerm_eventgrid_system_topic.storage_topic
+  ]
 }
