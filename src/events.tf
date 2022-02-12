@@ -1,11 +1,5 @@
-resource "azurerm_resource_group" "events_rg" {
-  name     = format("%s-events-rg", local.project)
-  location = var.location
-
-  tags = var.tags
-}
-
 resource "azurerm_eventgrid_system_topic" "storage_topic" {
+  count = contains(["d"], var.env_short) ? 1 : 0 
   name                   = format("%s-events-storage-topic", local.project)
   location               = var.location
   resource_group_name    = azurerm_resource_group.rg_storage.name
@@ -14,6 +8,7 @@ resource "azurerm_eventgrid_system_topic" "storage_topic" {
 }
 
 data "azurerm_eventhub" "rtd_platform_eventhub" {
+  count = contains(["d"], var.env_short) ? 1 : 0 
   name                = "rtd-platform-events"
   resource_group_name = azurerm_resource_group.msg_rg.name
   namespace_name      = format("%s-evh-ns", local.project) # should be returned by the module
@@ -21,6 +16,7 @@ data "azurerm_eventhub" "rtd_platform_eventhub" {
 
 
 resource "azurerm_eventgrid_system_topic_event_subscription" "storage_subscription" {
+  count = contains(["d"], var.env_short) ? 1 : 0 
   name                = format("%s-events-storage-subscription", local.project)
   system_topic        = azurerm_eventgrid_system_topic.storage_topic.name
   resource_group_name = azurerm_resource_group.rg_storage.name
