@@ -35,12 +35,12 @@ fi
 az account set -s "${SUBSCRIPTION}"
 
 # shellcheck disable=SC1090
-source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/backend.ini"
+# source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/backend.ini"
 
 
 # shellcheck disable=SC2154
-printf "Subscription: %s\n" "${SUBSCRIPTION}"
-printf "Resource Group Name: %s\n" "${resource_group_name}"
+# printf "Subscription: %s\n" "${SUBSCRIPTION}"
+# printf "Resource Group Name: %s\n" "${resource_group_name}"
 
 keyvault_name=$(az keyvault list -o tsv --query "[?contains(name,'kv')].{Name:name}")
 psql_server_name=${DBMS}
@@ -63,7 +63,8 @@ export FLYWAY_URL="jdbc:postgresql://${psql_server_private_fqdn}:5432/${DATABASE
 export FLYWAY_USER="${user}"
 export FLYWAY_PASSWORD="${administrator_login_password}"
 export SERVER_NAME="${psql_server_name}"
-export FLYWAY_DOCKER_TAG="7.11.1-alpine"
+FLYWAY_VERSION="8.4.4"
+export FLYWAY_DOCKER_TAG="${FLYWAY_VERSION}-alpine"
 
 bpd_user_password=$(az keyvault secret show --name db-bpd-user-password --vault-name "${keyvault_name}" -o tsv --query value)
 rtd_user_password=$(az keyvault secret show --name db-rtd-user-password --vault-name "${keyvault_name}" -o tsv --query value)
@@ -93,23 +94,34 @@ export MONITORING_SIA_USER_PASSWORD="${monitoring_sia_user_password}"
 export MONITORING_OPERATION_USER_PASSWORD="${monitoring_operation_user_password}"
 export TKM_ACQUIRER_MANAGER_USER_PASSWORD="${tkm_acquirer_manager_user_password}"
 
-docker run --rm -it --network=host -v "${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}":/flyway/sql \
-  flyway/flyway:"${FLYWAY_DOCKER_TAG}" \
-  -url="${FLYWAY_URL}" -user="${FLYWAY_USER}" -password="${FLYWAY_PASSWORD}" \
+location="${WORKDIR}/migrations/${SUBSCRIPTION}/${DATABASE}"
+options="-url=${FLYWAY_URL} -user=${FLYWAY_USER} -password=${FLYWAY_PASSWORD} \
   -validateMigrationNaming=true \
-  -placeholders.adminUser="${administrator_login}" \
-  -placeholders.adminPassword="${administrator_login_password}" \
-  -placeholders.bpdUserPassword="${BPD_USER_PASSWORD}" \
-  -placeholders.rtdUserPassword="${RTD_USER_PASSWORD}" \
-  -placeholders.faUserPassword="${FA_USER_PASSWORD}" \
-  -placeholders.faPaymentInstrumentRemoteUserPassword="${FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD}" \
-  -placeholders.bpdPaymentInstrumentRemoteUserPassword="${BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD}" \
-  -placeholders.bpdAwardPeriodRemoteUserPassword="${BPD_AWARD_PERIOD_REMOTE_USER_PASSWORD}" \
-  -placeholders.bpdWinningTransactionRemoteUserPassword="${BPD_WINNING_TRANSACTION_REMOTE_USER_PASSWORD}" \
-  -placeholders.dashboardPagopaUserPassword="${DASHBOARD_PAGOPA_USER_PASSWORD}" \
-  -placeholders.monitoringUserPassword="${MONITORING_USER_PASSWORD}" \
-  -placeholders.monitoringPdndUserPassword="${MONITORING_PDND_USER_PASSWORD}" \
-  -placeholders.monitoringSiaUserPassword="${MONITORING_SIA_USER_PASSWORD}" \
-  -placeholders.monitoringOperationUserPassword="${MONITORING_OPERATION_USER_PASSWORD}" \
-  -placeholders.tkmAcquirerManagerUserPassword="${TKM_ACQUIRER_MANAGER_USER_PASSWORD}" \
-  -placeholders.serverName="${SERVER_NAME}" "${COMMAND}" ${other}
+  -placeholders.adminUser=${administrator_login} \
+  -placeholders.adminPassword=${administrator_login_password} \
+  -placeholders.bpdUserPassword=${BPD_USER_PASSWORD} \
+  -placeholders.rtdUserPassword=${RTD_USER_PASSWORD} \
+  -placeholders.faUserPassword=${FA_USER_PASSWORD} \
+  -placeholders.faPaymentInstrumentRemoteUserPassword=${FA_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD} \
+  -placeholders.bpdPaymentInstrumentRemoteUserPassword=${BPD_PAYMENT_INSTRUMENT_REMOTE_USER_PASSWORD} \
+  -placeholders.bpdAwardPeriodRemoteUserPassword=${BPD_AWARD_PERIOD_REMOTE_USER_PASSWORD} \
+  -placeholders.bpdWinningTransactionRemoteUserPassword=${BPD_WINNING_TRANSACTION_REMOTE_USER_PASSWORD} \
+  -placeholders.dashboardPagopaUserPassword=${DASHBOARD_PAGOPA_USER_PASSWORD} \
+  -placeholders.monitoringUserPassword=${MONITORING_USER_PASSWORD} \
+  -placeholders.monitoringPdndUserPassword=${MONITORING_PDND_USER_PASSWORD} \
+  -placeholders.monitoringSiaUserPassword=${MONITORING_SIA_USER_PASSWORD} \
+  -placeholders.monitoringOperationUserPassword=${MONITORING_OPERATION_USER_PASSWORD} \
+  -placeholders.tkmAcquirerManagerUserPassword=${TKM_ACQUIRER_MANAGER_USER_PASSWORD} \
+  -placeholders.serverName=${SERVER_NAME}"
+
+
+if [[ $(flyway -v) =~ ${FLYWAY_VERSION} ]]
+then
+  flyway -locations="filesystem:${location}" ${options} ${other} ${COMMAND}
+else
+docker run --rm -it --network=host -v ${location}:/flyway/sql \
+  flyway/flyway:${FLYWAY_DOCKER_TAG} \
+  ${options} ${COMMAND} ${other}
+fi
+
+
