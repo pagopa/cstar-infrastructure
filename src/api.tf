@@ -1667,6 +1667,12 @@ module "fa_register_transactions_original" {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
+    {
+      operation_id = "getPosTransactionUsingPOST"
+      xml_content = templatefile("./api/fa_register_transaction/getPosTransactionUsingPOST_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
   ]
 }
 
