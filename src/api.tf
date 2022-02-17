@@ -490,6 +490,51 @@ module "rtd_csv_transaction" {
   ]
 }
 
+## RTD CSV Transaction Decrypted API ##
+module "rtd_csv_transaction_decrypted" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
+
+  count               = var.env_short == "p" ? 0 : 1
+  name                = format("%s-rtd-csv-transaction-decrypted-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "API providing upload methods for decrypted csv transaction files"
+  display_name = "RTD CSV Transaction Decrypted API"
+  path         = "rtd/csv-transaction-decrypted"
+  protocols    = ["https"]
+
+  service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_csv_transaction_decrypted/openapi.json.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.rtd_api_product_internal.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "createAdeSasToken",
+      xml_content = templatefile("./api/rtd_csv_transaction_decrypted/create-sas-token-policy.xml.tpl", {
+        blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
+        blob-storage-account-name     = module.cstarblobstorage.name,
+        blob-storage-container-name   = "ade-transactions-decrypted"
+      })
+    },
+    {
+      operation_id = "createRtdSasToken",
+      xml_content = templatefile("./api/rtd_csv_transaction_decrypted/create-sas-token-policy.xml.tpl", {
+        blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
+        blob-storage-account-name     = module.cstarblobstorage.name,
+        blob-storage-container-prefix = "rtd-transactions"
+      })
+    }
+  ]
+}
 
 ## pm-admin-panel ##
 module "pm_admin_panel" {
@@ -2054,6 +2099,24 @@ module "rtd_api_product" {
   policy_xml = file("./api_product/rtd_api/policy.xml")
 }
 
+module "rtd_api_product_internal" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.2.0"
+
+  product_id   = "rtd-api-product-internal"
+  display_name = "RTD_API_Product Internal"
+  description  = "RTD_API_Product Internal"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = true
+  approval_required     = true
+
+  subscriptions_limit = 5
+
+  policy_xml = file("./api_product/rtd_api_internal/policy.xml")
+}
 
 module "wisp_api_product" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
