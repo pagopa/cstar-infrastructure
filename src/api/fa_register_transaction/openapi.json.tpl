@@ -79,7 +79,7 @@
     "/pos/invoice/request/{id}": {
       "get": {
         "description": "getPosTransaction",
-        "operationId": "getPosTransactionUsingPOST",
+        "operationId": "getPosTransactionUsingGET",
         "summary": "getPosTransaction",
         "tags": [
           "Fatturazione Automatica Transaction Controller"
@@ -103,6 +103,47 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/PosTransactionRequestDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/pos/invoice/request/{id}/customer": {
+      "get": {
+        "description": "getPosTransactionCustomer",
+        "operationId": "getPosTransactionCustomerUsingGET",
+        "summary": "getPosTransactionCustomer",
+        "tags": [
+          "Fatturazione Automatica Transaction Controller"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PosTransactionRequestCustomerDTO"
             }
           },
           "401": {
@@ -201,8 +242,7 @@
     "PosTransactionResource": {
       "title": "PosTransactionResource",
       "required": [
-        "invoiceRequestId",
-        "providerEndpoint"
+        "invoiceRequestId"
       ],
       "type": "object",
       "properties": {
@@ -216,8 +256,39 @@
         }
       },
       "example": {
-        "invoiceRequestId": "PAGOPA000000000000001",
-        "providerEndpoint": "https:\\\\provider.fatturazione.com\\invio\\dati\\fattura"
+        "invoiceRequestId": "PAGOPA000000000000001"
+      }
+    },
+    "PosTransactionRequestCustomerDTO": {
+      "title": "PosTransactionRequestCustomerDTO",
+      "required": [
+        "customerId",
+        "customerName"
+      ],
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "description": "id customer (PIVA o CF)",
+          "type": "string"
+        },
+        "customerName": {
+          "description": "dettagli relativi al customer legato alla fattura",
+          "type": "string"
+        },
+        "SDICode": {
+          "description": "codice SDI fornito dal customer per l'invio fattura",
+          "type": "string"
+        },
+        "providerEndpoint": {
+          "description": "puntamento al provider di fatturazione per l'invio dei dati necessari a finalizzare la fattura",
+          "type": "string"
+        }
+      },
+      "example": {
+        "customerId": "AAABBB01C02D123E",
+        "customerName": "Mario Rossi",
+        "SDICode": "0000000",
+        "providerEndpoint": "https:\\\\www.provider.fatturazione.com\\invio\\fattura"
       }
     }
   },

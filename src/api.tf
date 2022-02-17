@@ -1668,8 +1668,14 @@ module "fa_register_transactions_original" {
       })
     },
     {
-      operation_id = "getPosTransactionUsingPOST"
-      xml_content = templatefile("./api/fa_register_transaction/getPosTransactionUsingPOST_policy.xml.tpl", {
+      operation_id = "getPosTransactionUsingGET"
+      xml_content = templatefile("./api/fa_register_transaction/getPosTransactionUsingGET_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "getPosTransactionCustomerUsingGET"
+      xml_content = templatefile("./api/fa_register_transaction/getPosTransactionCustomerUsingGET_policy.xml.tpl", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
