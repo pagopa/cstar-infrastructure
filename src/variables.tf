@@ -615,7 +615,7 @@ variable "enable_api_fa" {
   default     = false
 }
 
-variable "enable_blob_storgae_event_grid_integration" {
+variable "enable_blob_storage_event_grid_integration" {
   type        = bool
   description = "If true, allows to send Blob Storage events to a queue."
   default     = false
