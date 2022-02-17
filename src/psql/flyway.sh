@@ -119,9 +119,9 @@ if [[ $(flyway -v) =~ ${FLYWAY_VERSION} ]]
 then
   flyway -locations="filesystem:${location}" ${options} ${other} ${COMMAND}
 else
-docker run --rm -it --network=host -v ${location}:/flyway/sql \
-  flyway/flyway:${FLYWAY_DOCKER_TAG} \
-  ${options} ${COMMAND} ${other}
+  docker run --rm -it --network=host -v ${location}:/flyway/sql \
+    flyway/flyway:${FLYWAY_DOCKER_TAG} \
+    ${options} ${COMMAND} ${other}
 fi
 
 
