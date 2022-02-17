@@ -522,7 +522,7 @@ module "rtd_csv_transaction_decrypted" {
       xml_content = templatefile("./api/rtd_csv_transaction_decrypted/create-sas-token-policy.xml.tpl", {
         blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name   = module.cstarblobstorage.name,
-        blob-storage-container-name = "ade-transactions-decrypted"
+        blob-storage-container-name = azurerm_storage_container.ade_transactions_decrypted.name
       })
     },
     {
@@ -530,7 +530,7 @@ module "rtd_csv_transaction_decrypted" {
       xml_content = templatefile("./api/rtd_csv_transaction_decrypted/create-sas-token-policy.xml.tpl", {
         blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name   = module.cstarblobstorage.name,
-        blob-storage-container-name = "rtd-transactions-decrypted"
+        blob-storage-container-name = azurerm_storage_container.rtd_transactions_decrypted.name
       })
     }
   ]
