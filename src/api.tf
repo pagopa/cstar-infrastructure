@@ -523,6 +523,8 @@ module "rtd_csv_transaction_decrypted" {
         blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name   = module.cstarblobstorage.name,
         blob-storage-container-name = azurerm_storage_container.ade_transactions_decrypted.name
+        k8s-cluster-ip-range-from   = var.k8s_ip_filter_range.from
+        k8s-cluster-ip-range-to     = var.k8s_ip_filter_range.to
       })
     },
     {
@@ -531,6 +533,8 @@ module "rtd_csv_transaction_decrypted" {
         blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name   = module.cstarblobstorage.name,
         blob-storage-container-name = azurerm_storage_container.rtd_transactions_decrypted.name
+        k8s-cluster-ip-range-from   = var.k8s_ip_filter_range.from
+        k8s-cluster-ip-range-to     = var.k8s_ip_filter_range.to
       })
     }
   ]

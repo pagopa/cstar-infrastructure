@@ -271,6 +271,13 @@ variable "pm_ip_filter_range" {
   })
 }
 
+variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
 ## Application gateway
 variable "app_gateway_sku_name" {
   type        = string
