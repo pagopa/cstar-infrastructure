@@ -614,3 +614,9 @@ variable "enable_api_fa" {
   description = "If true, allows to generate the APIs for FA."
   default     = false
 }
+
+variable "enable_blob_storage_event_grid_integration" {
+  type        = bool
+  description = "If true, allows to send Blob Storage events to a queue."
+  default     = false
+}
