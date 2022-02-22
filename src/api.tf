@@ -79,6 +79,11 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
     )
   }
 
+  proxy {
+    host_name = trimsuffix(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+    key_vault_id = azurerm_key_vault_certificate.apim_internal_custom_domain_cert.versionless_secret_id
+  }
+
   developer_portal {
     host_name = local.portal_domain
     key_vault_id = replace(
@@ -96,6 +101,10 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
       ""
     )
   }
+
+  depends_on = [
+    azurerm_key_vault_certificate.apim_internal_custom_domain_cert
+  ]
 }
 
 #########
