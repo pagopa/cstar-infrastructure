@@ -321,7 +321,8 @@ pgres_flex_params = {
 }
 
 
-dns_zone_prefix = "dev.cstar"
+dns_zone_prefix         = "dev.cstar"
+internal_private_domain = "internal.dev.cstar.pagopa.it"
 
 ehns_sku_name = "Standard"
 
