@@ -385,7 +385,9 @@
           "enum": [
             "EMESSA",
             "NON_EMESSA",
-            "DA_EMETTERE"
+            "DA_EMETTERE",
+            "INVIATA",
+            "NON_INVIATA"
           ],
           "type": "string"
         }
