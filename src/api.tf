@@ -2124,7 +2124,7 @@ module "rtd_api_product_internal" {
 
   subscriptions_limit = 5
 
-  policy_xml = templatefile("./api_product/rtd_api_internal/policy.xml", {
+  policy_xml = templatefile("./api_product/rtd_api_internal/policy.xml.tpl", {
     k8s-cluster-ip-range-from = var.k8s_ip_filter_range.from
     k8s-cluster-ip-range-to   = var.k8s_ip_filter_range.to
   })
