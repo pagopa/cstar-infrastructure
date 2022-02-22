@@ -14,14 +14,6 @@
     <inbound>
         <base />
 
-		<!--
-			The policy is not meant to be publicy accessible. The following filter will prevent any Access
-			from external sources, even in case of product/subscription configuration errors.
-		-->
-		<ip-filter action="allow">
-			<address-range from="${k8s-cluster-ip-range-from}" to="${k8s-cluster-ip-range-to}" />
-		</ip-filter>
-
         <!--
             This policy grants temporary upload grants to clients by issuing SAS tokens.
 
