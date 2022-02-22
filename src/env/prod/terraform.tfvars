@@ -661,6 +661,12 @@ pm_ip_filter_range = {
   to   = "10.230.1.255"
 }
 
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
 redis_sku_name = "Premium"
 redis_family   = "P"
 
