@@ -320,7 +320,6 @@ pgres_flex_params = {
 }
 
 dns_zone_prefix         = "uat.cstar"
-internal_private_domain = "internal.uat.cstar.pagopa.it"
 ehns_sku_name           = "Standard"
 
 ehns_alerts_enabled = false

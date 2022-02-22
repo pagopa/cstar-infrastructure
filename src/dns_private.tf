@@ -18,7 +18,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_integration_dn
 }
 
 resource "azurerm_private_dns_a_record" "private_dns_a_record_api" {
-  name                = module.apim.name
+  name                = "apim"
   zone_name           = azurerm_private_dns_zone.private_private_dns_zone.name
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = 300
