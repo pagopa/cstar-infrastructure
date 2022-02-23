@@ -1,6 +1,6 @@
 locals {
   project = format("%s-%s", var.prefix, var.env_short)
-  environment_name = to_map({
+  environment_name = tomap({
     "d" = "dev"
     "u" = "uat"
     "p" = ""
