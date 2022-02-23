@@ -60,7 +60,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
 
   data = {
     CSV_TRANSACTION_DECRYPT_PROTOCOL  = "https"
-    CSV_TRANSACTION_DECRYPT_HOST      = format("apim.internal.%s.cstar.pagopa.it", locals.environment_name)
+    CSV_TRANSACTION_DECRYPT_HOST      = format("apim.internal.%s.cstar.pagopa.it", local.environment_name)
     CSV_TRANSACTION_DECRYPT_BASE_PATH = "rtd/csv-transaction-decrypted"
     ADE_SAS_TOKEN_PATH                = "ade/sas"
     RTD_SAS_TOKEN_PATH                = "rtd/sas"
