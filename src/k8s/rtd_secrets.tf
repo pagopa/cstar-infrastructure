@@ -36,6 +36,22 @@ resource "kubernetes_secret" "rtdtransactionfilter" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "rtddecrypter" {
+  count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+  metadata {
+    name      = "rtddecrypter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    INTERNAL_SERVICES_API_KEY        = module.key_vault_secrets_query.values["rtd-internal-api-product-subscription-key"].value
+    CSV_TRANSACTION_PRIVATE_KEY      = module.key_vault_secrets_query.values["cstarblobstorage-private-key"].value
+    CSV_TRANSACTION_PRIVATE_KEY_PASS = module.key_vault_secrets_query.values["cstarblobstorage-private-key-passphrase"].value
+  }
+
+  type = "Opaque"
+}
+
 /* TODO
 resource "kubernetes_secret" "rtdtransactionmanager" {
   metadata {
