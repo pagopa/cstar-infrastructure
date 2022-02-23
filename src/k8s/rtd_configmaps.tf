@@ -50,6 +50,23 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
   )
 }
 
+resource "kubernetes_config_map" "rtddecrypter" {
+  count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+
+  metadata {
+    name      = "rtddecrypter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    CSV_TRANSACTION_DECRYPT_PROTOCOL  = "https"
+    CSV_TRANSACTION_DECRYPT_HOST      = format("apim.internal.%s.cstar.pagopa.it", locals.environment_name)
+    CSV_TRANSACTION_DECRYPT_BASE_PATH = "rtd/csv-transaction-decrypted"
+    ADE_SAS_TOKEN_PATH                = "ade/sas"
+    RTD_SAS_TOKEN_PATH                = "rtd/sas"
+  }
+}
+
 resource "kubernetes_config_map" "rtd-eventhub-common" {
   metadata {
     name      = "eventhub-common"
