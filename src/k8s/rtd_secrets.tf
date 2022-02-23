@@ -1,3 +1,7 @@
+locals {
+  jaas_config_template_rtd = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"Endpoint=sb://${format("%s-evh-ns", local.project)}.servicebus.windows.net/;EntityPath=%s;SharedAccessKeyName=%s;SharedAccessKey=%s\";"
+}
+
 resource "kubernetes_secret" "azure-storage" {
   metadata {
     name      = "azure-storage"
@@ -103,5 +107,24 @@ resource "kubernetes_secret" "rtd-application-insights" {
     APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "rtd-blob-storage-events-consumer" {
+  metadata {
+    name      = "rtd-blob-storage-events"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
+    KAFKA_BROKER                    = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_SASL_JAAS_CONFIG_CONSUMER_BLOB_STORAGE_EVENTS = format(
+      local.jaas_config_template_rtd,
+      "rtd-platform-events",
+      "rtd-platform-events-sub",
+      module.key_vault_secrets_query.values["evh-rtd-platform-events-rtd-platform-events-sub-key"].value
+    )
+  }
   type = "Opaque"
 }

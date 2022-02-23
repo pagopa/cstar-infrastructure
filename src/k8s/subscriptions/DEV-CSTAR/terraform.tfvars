@@ -434,6 +434,7 @@ secrets_to_be_read_from_kv = [
   "evh-rtd-trx-rtd-trx-producer-key",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01",
+  "evh-rtd-platform-events-rtd-platform-events-sub-key",
   "rtdtransactionfilter-hpan-service-api-key",
   "rtdtransactionfilter-hpan-service-key-store-password",
   "rtdtransactionfilter-hpan-service-trust-store-password",
