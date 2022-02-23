@@ -23,6 +23,7 @@
         <!-- Storage related variables -->
         <set-variable name="accessKey" value="${blob-storage-access-key}" />
         <set-variable name="storageAccount" value="${blob-storage-account-name}" />
+        <set-variable name="storagePrivateFqdn" value="${blob-storage-private-fqdn}" />
         <set-variable name="containerPrefix" value="${blob-storage-container-prefix}" />
 
         <!-- SAS Token variables -->
@@ -119,7 +120,7 @@
             START - Perform a PUT operation on the storage REST endpoint
         -->
         <set-variable name="createContainerUrl" value="@{
-                return "https://" + context.Variables["storageAccount"] + ".blob.core.windows.net/" + context.Variables["containerName"] + "?restype=container";
+                return "https://" + context.Variables["storagePrivateFqdn"] + "/" + context.Variables["containerName"] + "?restype=container";
             }"
         />
 
