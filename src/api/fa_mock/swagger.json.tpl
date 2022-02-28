@@ -261,47 +261,47 @@
         "amount": {
           "format": "int64",
           "type": "integer",
-                                     "example": 10
+          "example": 10
         },
         "bin": {
           "format": "int64",
           "type": "integer",
-                                     "example": 123456
+          "example": 123456
         },
         "acquirerId": {
           "format": "int64",
           "type": "integer",
-                                     "example": 1
+          "example": 1
         },
         "idTrxIssuer": {
           "format": "int64",
           "type": "integer",
-                                     "example": 13435135134141
+          "example": 13435135134141
         },
         "merchantId": {
           "type": "string",
-                                     "example": "2020_12345678910_0000001"
+          "example": "2020_12345678910_0000001"
         },
         "terminalId": {
           "type": "string",
-                                    "example": "123456"
+          "example": "123456"
         },
         "trxDate": {
           "format": "date-time",
           "type": "string",
-                                    "example": "2019-12-31T12:00:00+02:00"
+          "example": "2019-12-31T12:00:00+02:00"
         },
         "merchantVatNumber": {
           "type": "string",
-                                    "example": "12345678910"
+          "example": "12345678910"
         },
         "pos_type": {
           "type": "string",
-                                    "example": "ASSERVED_POS"
+          "example": "ASSERVED_POS"
         },
         "contractId": {
           "type": "integer",
-                                     "example": 1
+          "example": 1
         }
       }
     }
