@@ -21,7 +21,7 @@ locals {
 
 module "apim" {
 
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.63"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v2.2.1"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = format("%s-apim", local.project)
@@ -451,7 +451,7 @@ module "rtd_payment_instrument_manager" {
 module "rtd_csv_transaction" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
 
-  count               = var.env_short == "p" ? 0 : 1
+  count               = var.enable_rtd_csv_transaction_apis ? 1 : 0
   name                = format("%s-rtd-csv-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -501,11 +501,35 @@ module "rtd_csv_transaction" {
   ]
 }
 
+resource "azurerm_api_management_api_diagnostic" "rtd_csv_transaction_diagnostic" {
+  count = var.enable_rtd_csv_transaction_apis ? 1 : 0
+
+  identifier               = "applicationinsights"
+  resource_group_name      = azurerm_resource_group.rg_api.name
+  api_management_name      = module.apim.name
+  api_name                 = module.rtd_csv_transaction[0].name
+  api_management_logger_id = module.apim.logger_id
+
+  sampling_percentage       = 100.0
+  always_log_errors         = true
+  log_client_ip             = true
+  verbosity                 = "information"
+  http_correlation_protocol = "W3C"
+
+  frontend_request {
+    body_bytes = 8192
+    headers_to_log = [
+      "User-Agent"
+    ]
+  }
+}
+
 ## RTD CSV Transaction Decrypted API ##
 module "rtd_csv_transaction_decrypted" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
 
-  count               = var.env_short == "p" ? 0 : 1
+  count = var.enable_rtd_csv_transaction_apis ? 1 : 0
+
   name                = format("%s-rtd-csv-transaction-decrypted-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name

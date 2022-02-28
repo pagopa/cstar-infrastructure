@@ -620,3 +620,9 @@ variable "enable_blob_storage_event_grid_integration" {
   description = "If true, allows to send Blob Storage events to a queue."
   default     = false
 }
+
+variable "enable_rtd_csv_transaction_apis" {
+  type        = bool
+  description = "If true, allows to generate the APIs RTD CSV Transaction [Decrypted]."
+  default     = false
+}
