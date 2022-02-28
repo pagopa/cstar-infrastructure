@@ -156,80 +156,101 @@
       "type": "object",
       "properties": {
         "acquirerCode": {
-          "type": "string"
+          "type": "string",
+          "example": "12345"
         },
         "acquirerId": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "example": 1
         },
         "amount": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "example": 10
         },
         "amountCurrency": {
-          "type": "string"
+          "type": "string",
+          "example": "EUR"
         },
         "bin": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "example": 123456
         },
         "circuitType": {
-          "type": "string"
+          "type": "string",
+          "example": "01"
         },
         "correlationId": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "example": 0
         },
         "enabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": true
         },
         "hpan": {
-          "type": "string"
+          "type": "string",
+          "example": "r083u1r083i1jf83n1rc1nt9v3yn0t2ur39vt2mt028t08ty208t10t208ty240"
         },
         "idTrxAcquirer": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "example": 123154534314
         },
         "idTrxIssuer": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "example": 13435135134141
         },
         "insertDate": {
           "format": "date-time",
-          "type": "string"
+          "type": "string",
+          "example": "2020-01-01T12:00:00+02:00"
         },
         "insertUser": {
-          "type": "string"
+          "type": "string",
+          "example": "insertUser"
         },
         "mcc": {
-          "type": "string"
+          "type": "string",
+          "example": "string"
         },
         "mccDescr": {
-          "type": "string"
+          "type": "string",
+          "example": "string"
         },
         "merchantId": {
-          "format": "int64",
-          "type": "integer"
+          "type": "string",
+          "example": "2020_12345678910_0000001"
         },
         "operationType": {
-          "type": "string"
+          "type": "string",
+          "example": "00"
         },
         "status": {
-          "type": "string"
+          "type": "string",
+          "example": "enabled"
         },
         "terminalId": {
-          "type": "string"
+          "type": "string",
+          "example": "123456"
         },
         "trxDate": {
           "format": "date-time",
-          "type": "string"
+          "type": "string",
+          "example": "2019-12-31T12:00:00+02:00"
         },
         "updateDate": {
           "format": "date-time",
-          "type": "string"
+          "type": "string",
+          "example": "2020-01-01T12:00:00+02:00"
         },
         "updateUser": {
-          "type": "string"
+          "type": "string",
+          "example": "updateUser"
         }
       }
     },
@@ -239,39 +260,48 @@
       "properties": {
         "amount": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+                                     "example": 10
         },
         "bin": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+                                     "example": 123456
         },
         "acquirerId": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+                                     "example": 1
         },
         "idTrxIssuer": {
           "format": "int64",
-          "type": "integer"
+          "type": "integer",
+                                     "example": 13435135134141
         },
         "merchantId": {
-          "format": "int64",
-          "type": "integer"
+          "type": "string",
+                                     "example": "2020_12345678910_0000001"
         },
         "terminalId": {
-          "type": "string"
+          "type": "string",
+                                    "example": "123456"
         },
         "trxDate": {
           "format": "date-time",
-          "type": "string"
+          "type": "string",
+                                    "example": "2019-12-31T12:00:00+02:00"
         },
         "merchantVatNumber": {
-          "type": "string"
+          "type": "string",
+                                    "example": "12345678910"
         },
         "pos_type": {
-          "type": "string"
+          "type": "string",
+                                    "example": "ASSERVED_POS"
         },
         "contractId": {
-          "type": "integer"
+          "type": "integer",
+                                     "example": 1
         }
       }
     }

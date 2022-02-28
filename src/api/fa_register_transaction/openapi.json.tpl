@@ -227,16 +227,16 @@
         }
       },
       "example": {
-        "acquirerId": 0,
-        "amount": 0,
-        "binCard": "string",
+        "acquirerId": 1,
+        "amount": 10,
+        "binCard": "123456",
         "customerParamDesc": "FISCAL_CODE",
-        "merchantId": 0,
-        "terminalId": 0,
-        "trxDate": "string",
-        "vatNumber": "string",
-        "contractId": 0,
-        "authCode": "string"
+        "merchantId": 2020_12345678910_0000001,
+        "terminalId": 1,
+        "trxDate": "2020-01-01T12:00:00+02:00",
+        "vatNumber": "12345678910",
+        "contractId": 1,
+        "authCode": "12341234564"
       }
     },
     "PosTransactionResource": {

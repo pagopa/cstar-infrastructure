@@ -61,28 +61,28 @@
                             "application/json;charset=UTF-8": {
                                 "transactionList": [
                                     {
-                                        "acquirerCode": "string",
-                                        "acquirerId": 0,
-                                        "amount": 0,
-                                        "amountCurrency": "string",
-                                        "bin": 0,
-                                        "circuitType": "string",
+                                        "acquirerCode": "12345",
+                                        "acquirerId": 1,
+                                        "amount": 10,
+                                        "amountCurrency": "EUR",
+                                        "bin": 123456,
+                                        "circuitType": "01",
                                         "correlationId": 0,
                                         "enabled": true,
-                                        "hpan": "string",
-                                        "idTrxAcquirer": 0,
-                                        "idTrxIssuer": 0,
-                                        "insertDate": "string",
-                                        "insertUser": "string",
+                                        "hpan": "r083u1r083i1jf83n1rc1nt9v3yn0t2ur39vt2mt028t08ty208t10t208ty240",
+                                        "idTrxAcquirer": 123154534314,
+                                        "idTrxIssuer": 13435135134141,
+                                        "insertDate": "2020-01-01T12:00:00+02:00",
+                                        "insertUser": "insertUser",
                                         "mcc": "string",
                                         "mccDescr": "string",
-                                        "merchantId": 0,
-                                        "operationType": "string",
-                                        "status": "string",
-                                        "terminalId": "string",
-                                        "trxDate": "string",
-                                        "updateDate": "string",
-                                        "updateUser": "string"
+                                        "merchantId": "2020_12345678910_0000001",
+                                        "operationType": "00",
+                                        "status": "enabled",
+                                        "terminalId": "123456",
+                                        "trxDate": "2019-12-31T12:00:00+02:00",
+                                        "updateDate": "2020-01-01T12:00:00+02:00",
+                                        "updateUser": "updateUser"
                                     }
                                 ]
                             }
@@ -159,8 +159,7 @@
                     "type": "string"
                 },
                 "merchantId": {
-                    "format": "int64",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "operationType": {
                     "type": "string"
