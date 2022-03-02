@@ -54,8 +54,8 @@ module "api_azureblob" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
-  description  = ""
-  display_name = "azureblob"
+  description  = "API to upload and download bundle of transactions"
+  display_name = "Blob Storage"
   path         = "pagopastorage"
   protocols    = ["https"]
 
@@ -134,7 +134,7 @@ module "rtd_csv_transaction" {
   path         = "rtd/csv-transaction"
   protocols    = ["https"]
 
-  service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
+  service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
@@ -186,7 +186,7 @@ module "rtd_csv_transaction_decrypted" {
   path         = "rtd/csv-transaction-decrypted"
   protocols    = ["https"]
 
-  service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
+  service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_csv_transaction_decrypted/openapi.json.tpl", {
