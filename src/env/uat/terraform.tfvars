@@ -691,6 +691,7 @@ enable = {
   rtd = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
+    csv_transaction_apis                = false
   }
   fa = {
     api = true

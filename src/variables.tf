@@ -626,6 +626,7 @@ variable "enable" {
     rtd = object({
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
+      csv_transaction_apis                = bool
     })
     fa = object({
       api = bool
@@ -636,6 +637,7 @@ variable "enable" {
     rtd = {
       blob_storage_event_grid_integration = false
       internal_api                        = false
+      csv_transaction_apis                = false
     }
     fa = {
       api = false
