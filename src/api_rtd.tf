@@ -242,12 +242,37 @@ resource "random_password" "rtd_internal_sub_key" {
   }
 }
 
+resource "random_password" "apim_internal_user_id" {
+  count       = var.enable.rtd.internal_api ? 1 : 0
+  length      = 32
+  special     = false
+  upper       = false
+  min_numeric = 5
+  keepers = {
+    version = 1
+    date    = "2022-03-02"
+  }
+}
+
+resource "azurerm_api_management_user" "user_internal" {
+  count               = var.enable.rtd.internal_api ? 1 : 0
+  user_id             = random_password.apim_internal_user_id[count.index].result
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  first_name          = "User"
+  last_name           = "Internal"
+  email               = data.azurerm_key_vault_secret.apim_internal_user_email.value
+  state               = "active"
+}
+
 resource "azurerm_api_management_subscription" "rtd_internal" {
   count               = var.enable.rtd.internal_api ? 1 : 0
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   product_id          = module.rtd_api_product_internal.id
   display_name        = "Internal Microservices"
+  state               = "active"
+  user_id             = azurerm_api_management_user.user_internal[count.index].id
   allow_tracing       = var.env_short == "d" ? true : false
   primary_key         = random_password.rtd_internal_sub_key[count.index].result
 }
