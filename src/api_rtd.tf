@@ -68,7 +68,7 @@ module "api_azureblob" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = var.enable.rtd.internal_api ? [module.rtd_api_product_internal.product_id] : [module.rtd_api_product.product_id]
+  product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -124,7 +124,7 @@ module "rtd_payment_instrument_manager" {
 module "rtd_csv_transaction" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
 
-  count               = var.env_short == "p" ? 0 : 1
+  count               = var.enable.rtd.csv_transaction_apis ? 1 : 0
   name                = format("%s-rtd-csv-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -152,6 +152,7 @@ module "rtd_csv_transaction" {
       xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
+        blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
         blob-storage-container-prefix = "ade-transactions"
       })
     },
@@ -160,6 +161,7 @@ module "rtd_csv_transaction" {
       xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
+        blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
         blob-storage-container-prefix = "rtd-transactions"
       })
     },
@@ -172,50 +174,57 @@ module "rtd_csv_transaction" {
   ]
 }
 
+
+resource "azurerm_api_management_api_diagnostic" "rtd_csv_transaction_diagnostic" {
+  count = var.enable.rtd.csv_transaction_apis ? 1 : 0
+
+  identifier               = "applicationinsights"
+  resource_group_name      = azurerm_resource_group.rg_api.name
+  api_management_name      = module.apim.name
+  api_name                 = module.rtd_csv_transaction[0].name
+  api_management_logger_id = module.apim.logger_id
+
+  sampling_percentage       = 100.0
+  always_log_errors         = true
+  log_client_ip             = true
+  verbosity                 = "information"
+  http_correlation_protocol = "W3C"
+
+  frontend_request {
+    body_bytes = 8192
+    headers_to_log = [
+      "User-Agent"
+    ]
+  }
+}
+
 ## RTD CSV Transaction Decrypted API ##
-module "rtd_csv_transaction_decrypted" {
+module "rtd_blob_internal" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
 
-  count               = var.env_short == "p" ? 0 : 1
-  name                = format("%s-rtd-csv-transaction-decrypted-api", var.env_short)
+  name                = format("%s-blob-internal", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
-  description  = "API providing upload methods for decrypted csv transaction files"
-  display_name = "RTD CSV Transaction Decrypted API"
-  path         = "rtd/csv-transaction-decrypted"
+  description  = "API for Internal Access to Blob Storage"
+  display_name = "Blob Storage Internal"
+  path         = "storage"
   protocols    = ["https"]
 
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_csv_transaction_decrypted/openapi.json.tpl", {
+  content_value = templatefile("./api/azureblob/internal.openapi.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.rtd_api_product_internal.product_id]
   subscription_required = true
 
-  api_operation_policies = [
-    {
-      operation_id = "createAdeSasToken",
-      xml_content = templatefile("./api/rtd_csv_transaction_decrypted/create-sas-token-policy.xml.tpl", {
-        blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
-        blob-storage-account-name   = module.cstarblobstorage.name,
-        blob-storage-container-name = azurerm_storage_container.ade_transactions_decrypted.name
-      })
-    },
-    {
-      operation_id = "createRtdSasToken",
-      xml_content = templatefile("./api/rtd_csv_transaction_decrypted/create-sas-token-policy.xml.tpl", {
-        blob-storage-access-key     = module.cstarblobstorage.primary_access_key,
-        blob-storage-account-name   = module.cstarblobstorage.name,
-        blob-storage-container-name = azurerm_storage_container.rtd_transactions_decrypted.name
-      })
-    }
-  ]
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
+
+  product_ids = [module.rtd_api_product_internal.product_id]
+
+  api_operation_policies = []
 }
 
 # 
