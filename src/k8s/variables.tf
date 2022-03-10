@@ -156,6 +156,10 @@ variable "configmaps_rtdpaymentinstrumentmanager" {
   type = map(string)
 }
 
+variable "configmaps_rtddecrypter" {
+  type = map(string)
+}
+
 variable "configmaps_rtdtransactionfilter" {
   type    = map(string)
   default = {}
