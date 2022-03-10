@@ -19,6 +19,19 @@ resource "kubernetes_config_map" "rtdpaymentinstrumentmanager" {
   )
 }
 
+resource "kubernetes_config_map" "rtddecrypter" {
+  metadata {
+    name      = "rtddecrypter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
+    },
+    var.configmaps_rtddecrypter
+  )
+}
+
 resource "kubernetes_config_map" "rtdtransactionfilter" {
   count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
 
