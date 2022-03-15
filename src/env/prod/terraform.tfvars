@@ -694,3 +694,14 @@ tags = {
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = false
+    internal_api                        = false
+    csv_transaction_apis                = false
+  }
+  fa = {
+    api = true
+  }
+}

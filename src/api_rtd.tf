@@ -200,6 +200,7 @@ resource "azurerm_api_management_api_diagnostic" "rtd_csv_transaction_diagnostic
 
 ## RTD CSV Transaction Decrypted API ##
 module "rtd_blob_internal" {
+  count  = var.enable.rtd.internal_api ? 1 : 0
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
 
   name                = format("%s-blob-internal", var.env_short)
