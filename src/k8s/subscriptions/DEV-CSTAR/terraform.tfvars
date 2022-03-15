@@ -446,3 +446,14 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key"
 ]
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+  }
+  fa = {
+    api = true
+  }
+}
