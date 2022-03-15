@@ -37,7 +37,7 @@ resource "kubernetes_secret" "rtdtransactionfilter" {
 }
 
 resource "kubernetes_secret" "rtddecrypter" {
-  count = enable.rtd.internal_api ? 1 : 0
+  count = var.enable.rtd.internal_api ? 1 : 0
   metadata {
     name      = "rtddecrypter"
     namespace = kubernetes_namespace.rtd.metadata[0].name
@@ -53,7 +53,7 @@ resource "kubernetes_secret" "rtddecrypter" {
 }
 
 resource "kubernetes_secret" "rtd-internal-api" {
-  count = enable.rtd.internal_api ? 1 : 0
+  count = var.enable.rtd.internal_api ? 1 : 0
   metadata {
     name      = "rtd-internal-api"
     namespace = kubernetes_namespace.rtd.metadata[0].name
