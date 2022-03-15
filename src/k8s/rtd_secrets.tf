@@ -141,6 +141,7 @@ resource "kubernetes_secret" "rtd-application-insights" {
 }
 
 resource "kubernetes_secret" "rtd-blob-storage-events-consumer" {
+  count = var.enable.rtd.blob_storage_event_grid_integration? 1 : 0
   metadata {
     name      = "rtd-blob-storage-events"
     namespace = kubernetes_namespace.rtd.metadata[0].name
