@@ -266,6 +266,11 @@ data "azurerm_key_vault_secret" "apim_publisher_email" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_secret" "apim_internal_user_email" {
+  name         = "apim-internal-user-email"
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
   name         = "CRUSCOTTO-Basic-Auth-Pwd"
   key_vault_id = module.key_vault.id

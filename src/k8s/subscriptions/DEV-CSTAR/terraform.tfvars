@@ -441,5 +441,8 @@ secrets_to_be_read_from_kv = [
   "rtdtransactionfilter-hpan-service-jks-content-base64",
   "rtdtransactionfilter-hpan-service-enc-public-key-armored",
   "tae-ade-api-client-id",
-  "tae-ade-api-client-secret"
+  "tae-ade-api-client-secret",
+  "cstarblobstorage-private-key",
+  "cstarblobstorage-private-key-passphrase",
+  "rtd-internal-api-product-subscription-key"
 ]

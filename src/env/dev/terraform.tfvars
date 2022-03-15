@@ -713,4 +713,14 @@ tags = {
 
 enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
-enable_rtd_csv_transaction_apis            = true
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+  }
+  fa = {
+    api = true
+  }
+}

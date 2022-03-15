@@ -50,6 +50,21 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
   )
 }
 
+resource "kubernetes_config_map" "rtddecrypter" {
+  count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+
+  metadata {
+    name      = "rtddecrypter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
+    CSV_TRANSACTION_DECRYPT_HOST     = format("apim.internal.%s.cstar.pagopa.it", local.environment_name)
+  }
+}
+
 resource "kubernetes_config_map" "rtd-eventhub-common" {
   metadata {
     name      = "eventhub-common"

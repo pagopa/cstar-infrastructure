@@ -621,8 +621,26 @@ variable "enable_blob_storage_event_grid_integration" {
   default     = false
 }
 
-variable "enable_rtd_csv_transaction_apis" {
-  type        = bool
-  description = "If true, allows to generate the APIs RTD CSV Transaction [Decrypted]."
-  default     = false
+variable "enable" {
+  type = object({
+    rtd = object({
+      blob_storage_event_grid_integration = bool
+      internal_api                        = bool
+      csv_transaction_apis                = bool
+    })
+    fa = object({
+      api = bool
+    })
+  })
+  description = "Feature flags"
+  default = {
+    rtd = {
+      blob_storage_event_grid_integration = false
+      internal_api                        = false
+      csv_transaction_apis                = false
+    }
+    fa = {
+      api = false
+    }
+  }
 }
