@@ -551,7 +551,7 @@ eventhubs = [
     name              = "rtd-platform-events"
     partitions        = 1
     message_retention = 1
-    consumers         = ["rtd-platform-events-consumer-group"]
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
     keys = [
       {
         # publisher
