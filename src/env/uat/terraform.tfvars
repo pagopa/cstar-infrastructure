@@ -686,12 +686,13 @@ tags = {
 }
 
 enable_api_fa = true
+enable_blob_storage_event_grid_integration = true
 
 enable = {
   rtd = {
     blob_storage_event_grid_integration = true
-    internal_api                        = false
-    csv_transaction_apis                = false
+    internal_api                        = true
+    csv_transaction_apis                = true
   }
   fa = {
     api = true
