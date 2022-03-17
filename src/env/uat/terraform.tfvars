@@ -685,7 +685,7 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-enable_api_fa = true
+enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
 
 enable = {
