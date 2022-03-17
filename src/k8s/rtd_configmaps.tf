@@ -51,7 +51,7 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
 }
 
 resource "kubernetes_config_map" "rtddecrypter" {
-  count = var.env_short == "d" ? 1 : 0 # this resource should exists only in dev
+  count = var.enable.rtd.blob_storage_event_grid_integration ? 1 : 0
 
   metadata {
     name      = "rtddecrypter"
