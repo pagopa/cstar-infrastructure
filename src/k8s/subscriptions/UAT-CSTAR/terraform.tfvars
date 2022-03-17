@@ -469,3 +469,14 @@ secrets_to_be_read_from_kv = [
   "tae-ade-api-client-id",
   "tae-ade-api-client-secret"
 ]
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+  }
+  fa = {
+    api = true
+  }
+}
