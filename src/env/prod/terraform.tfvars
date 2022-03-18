@@ -727,6 +727,6 @@ enable = {
     csv_transaction_apis                = true
   }
   fa = {
-    api = true
+    api = false
   }
 }
