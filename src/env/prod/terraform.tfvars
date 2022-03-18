@@ -547,6 +547,28 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-platform-events"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    keys = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 
@@ -695,11 +717,14 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
+enable_api_fa                              = true
+enable_blob_storage_event_grid_integration = true
+
 enable = {
   rtd = {
-    blob_storage_event_grid_integration = false
-    internal_api                        = false
-    csv_transaction_apis                = false
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
   }
   fa = {
     api = true

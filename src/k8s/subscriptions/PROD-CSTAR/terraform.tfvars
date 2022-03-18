@@ -633,6 +633,22 @@ secrets_to_be_read_from_kv = [
   "evh-rtd-trx-rtd-trx-producer-key",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01",
+  "evh-rtd-platform-events-rtd-platform-events-sub-key",
   "tae-ade-api-client-id",
-  "tae-ade-api-client-secret"
+  "tae-ade-api-client-secret",
+  "tae-ade-api-client-secret",
+  "cstarblobstorage-private-key",
+  "cstarblobstorage-private-key-passphrase",
+  "rtd-internal-api-product-subscription-key"
 ]
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+  }
+  fa = {
+    api = true
+  }
+}
