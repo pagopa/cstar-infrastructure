@@ -61,8 +61,8 @@ resource "kubernetes_config_map" "rtddecrypter" {
   data = {
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
-    CSV_TRANSACTION_DECRYPT_HOST     = format("apim.internal.%s.cstar.pagopa.it", local.environment_name)
-  }
+    CSV_TRANSACTION_DECRYPT_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
+  , ".") }
 }
 
 resource "kubernetes_config_map" "rtd-eventhub-common" {
