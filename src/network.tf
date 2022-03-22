@@ -429,9 +429,9 @@ module "app_gw" {
           aggregation              = "Total"
           metric_name              = "FailedRequests"
           operator                 = "GreaterThan"
-          alert_sensitivity        = "High"
-          evaluation_total_count   = 5
-          evaluation_failure_count = 4
+          alert_sensitivity        = "Medium"
+          evaluation_total_count   = 2
+          evaluation_failure_count = 2
           dimension                = []
         }
       ]
