@@ -50,6 +50,21 @@ resource "kubernetes_config_map" "rtdtransactionfilter" {
   )
 }
 
+resource "kubernetes_config_map" "rtddecrypter" {
+  count = var.enable.rtd.blob_storage_event_grid_integration ? 1 : 0
+
+  metadata {
+    name      = "rtddecrypter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
+    CSV_TRANSACTION_DECRYPT_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
+  , ".") }
+}
+
 resource "kubernetes_config_map" "rtd-eventhub-common" {
   metadata {
     name      = "eventhub-common"

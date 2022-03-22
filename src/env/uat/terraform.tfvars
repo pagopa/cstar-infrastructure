@@ -544,6 +544,28 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-platform-events"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    keys = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 eventhubs_fa = [
@@ -657,6 +679,12 @@ pm_ip_filter_range = {
   to   = "10.230.1.255"
 }
 
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
 # This is the k8s ingress controller ip. It must be in the aks subnet range.  
 reverse_proxy_ip = "10.1.0.250"
 
@@ -679,4 +707,16 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-enable_api_fa = true
+enable_api_fa                              = true
+enable_blob_storage_event_grid_integration = true
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+  }
+  fa = {
+    api = true
+  }
+}

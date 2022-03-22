@@ -547,6 +547,28 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-platform-events"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    keys = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 
@@ -661,6 +683,12 @@ pm_ip_filter_range = {
   to   = "10.230.1.255"
 }
 
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
 redis_sku_name = "Premium"
 redis_family   = "P"
 
@@ -687,4 +715,18 @@ tags = {
   Owner       = "cstar"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
+enable_api_fa                              = false
+enable_blob_storage_event_grid_integration = true
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+  }
+  fa = {
+    api = false
+  }
 }

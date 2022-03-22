@@ -271,6 +271,13 @@ variable "pm_ip_filter_range" {
   })
 }
 
+variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
 ## Application gateway
 variable "app_gateway_sku_name" {
   type        = string
@@ -606,4 +613,34 @@ variable "enable_api_fa" {
   type        = bool
   description = "If true, allows to generate the APIs for FA."
   default     = false
+}
+
+variable "enable_blob_storage_event_grid_integration" {
+  type        = bool
+  description = "If true, allows to send Blob Storage events to a queue."
+  default     = false
+}
+
+variable "enable" {
+  type = object({
+    rtd = object({
+      blob_storage_event_grid_integration = bool
+      internal_api                        = bool
+      csv_transaction_apis                = bool
+    })
+    fa = object({
+      api = bool
+    })
+  })
+  description = "Feature flags"
+  default = {
+    rtd = {
+      blob_storage_event_grid_integration = false
+      internal_api                        = false
+      csv_transaction_apis                = false
+    }
+    fa = {
+      api = false
+    }
+  }
 }

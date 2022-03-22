@@ -13,6 +13,7 @@
 <policies>
     <inbound>
         <base />
+
         <!--
             This policy grants temporary upload grants to clients by issuing SAS tokens.
 
@@ -23,146 +24,11 @@
         <!-- Storage related variables -->
         <set-variable name="accessKey" value="${blob-storage-access-key}" />
         <set-variable name="storageAccount" value="${blob-storage-account-name}" />
-        <set-variable name="storagePrivateFqdn" value="${blob-storage-private-fqdn}" />
-        <set-variable name="containerPrefix" value="${blob-storage-container-prefix}" />
+        <set-variable name="containerName" value="${blob-storage-container-name}" />
 
         <!-- SAS Token variables -->
         <set-variable name="sasTokenExpiresInMinutes" value="60" />
         
-        <!--
-            START - Derive the client's own container from the APIM Subscription Key
-
-            The container name is computed by combining a static prefix (containerPrefix) and the first 44 characters
-            of the SHA256 checksum of the APIM Subscription Key.
-        -->
-        
-        <!--
-            The following block computes the SHA256 checksum of the API Subscription Key using C# cryptographic library.
-
-            To compute the same hash in Python (tested with Python 3.9.9):
-
-            import hashlib
-            import sys
-            print(hashlib.sha256(sys.argv[1].encode()).hexdigest())
-
-            To compute the same hash with Coreutils sha256sum from command line:
-
-            echo -n <APIM_SUBSCRIPTION_KEY> | sha256sum
-
-            See: https://stackoverflow.com/questions/38474362/get-a-file-sha256-hash-code-and-checksum
-        -->
-        <set-variable name="apimSubscriptionKeyHash" value="@{
-                System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key", "")))).Replace("-", "").ToLowerInvariant();
-            }"
-        />
-        
-        <set-variable name="containerName" value="@{
-            return string.Format("{0}-{1}",
-                (string)context.Variables["containerPrefix"],
-                ((string)context.Variables["apimSubscriptionKeyHash"]).Substring(0, 44));
-            }"
-        />
-        <!--
-            END - Derive the client's own container from the APIM Subscription Key
-        -->
-
-        <!--
-            START - Create a Shared Key to authorize APIM to create a container into a storage account
-
-            see: https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key
-        -->
-        <set-variable name="createContainerDate" value="@(DateTime.UtcNow.ToString("R"))" />
-        <set-variable name="createContainerXmsVersion" value="2020-12-06" />
-
-        <set-variable name="createContainercanonicalizedHeaders" value="@{
-            return string.Format("x-ms-version:{0}",
-                (string)context.Variables["createContainerXmsVersion"]);
-            }"
-        />
-
-        <set-variable name="createContainercanonicalizedResource" value="@{
-            return string.Format("/{0}/{1}\nrestype:container",
-                (string)context.Variables["storageAccount"],
-                (string)context.Variables["containerName"]);
-            }"
-        />
-
-        <set-variable name="StringToSign" value="@{
-            return string.Format(
-                "PUT\n\n\n\n\n\n{0}\n\n\n\n\n\n{1}\n{2}",
-                (string)context.Variables["createContainerDate"],
-                (string)context.Variables["createContainercanonicalizedHeaders"],
-                (string)context.Variables["createContainercanonicalizedResource"]);
-            }"
-        />
-
-        <set-variable name="sharedKey" value="@{
-                // https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/authentication-for-the-azure-storage-services
-                // Hash-based Message Authentication Code (HMAC) using SHA256 hash
-                System.Security.Cryptography.HMACSHA256 hasher = new System.Security.Cryptography.HMACSHA256(Convert.FromBase64String((string)context.Variables["accessKey"]));
-                return Convert.ToBase64String(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes((string)context.Variables["StringToSign"])));
-            }"
-        />
-
-        <set-variable name="createContainerAuthorizationHeader" value="@{
-            return string.Format(
-                "SharedKey {0}:{1}",
-                (string)context.Variables["storageAccount"],
-                (string)context.Variables["sharedKey"]);
-            }"
-        />
-        <!--
-            END - Create a Shared Key to authorize APIM to create a container into a storage account
-        -->
-
-        <!--
-            START - Perform a PUT operation on the storage REST endpoint
-        -->
-        <set-variable name="createContainerUrl" value="@{
-                return "https://" + context.Variables["storagePrivateFqdn"] + "/" + context.Variables["containerName"] + "?restype=container";
-            }"
-        />
-
-        <send-request mode="new" response-variable-name="createContainerResult" timeout="5" ignore-error="false">
-            <set-url>@{ return (string)context.Variables["createContainerUrl"]; }</set-url>
-            <set-method>PUT</set-method>
-            <set-header name="Authorization" exists-action="override">
-                <value>@((string)context.Variables["createContainerAuthorizationHeader"])</value>
-            </set-header>
-            <set-header name="Date" exists-action="override">
-                <value>@((string)context.Variables["createContainerDate"])</value>
-            </set-header>
-            <set-header name="x-ms-version" exists-action="override">
-                <value>@((string)context.Variables["createContainerXmsVersion"])</value>
-            </set-header>
-        </send-request>
-
-        <!-- Check if response is either 201 'Created' or 409 'Conflict' -->
-        <choose>
-            <when condition="@(((IResponse)context.Variables["createContainerResult"]).StatusCode == 201)">
-                <set-variable name="blobContainerIsCreated" value="true" />
-            </when>
-            <when condition="@(((IResponse)context.Variables["createContainerResult"]).StatusCode == 409)">
-                <set-variable name="blobContainerIsCreated" value="true" />
-            </when>
-            <otherwise>
-                <set-variable name="blobContainerIsCreated" value="false" />
-            </otherwise>
-        </choose>
-
-        <!-- If container's PUT failed return immediately an error -->
-        <choose>
-            <when condition="@((bool)((string)context.Variables["blobContainerIsCreated"]).Equals("false"))">
-                <return-response response-variable-name="createContainerResult">
-                    <set-status code="500" reason="Internal Server Error" />
-                </return-response>
-            </when>
-        </choose>
-        <!--
-            END - Perform a PUT operation on the storage REST endpoint
-        -->
-
         <!--
             START - Create a service-level shared access signature (SAS) and return it to the client
             

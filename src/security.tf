@@ -171,6 +171,55 @@ resource "azurerm_user_assigned_identity" "appgateway" {
   tags = var.tags
 }
 
+resource "azurerm_key_vault_certificate" "apim_internal_custom_domain_cert" {
+  name         = format("%s-apim-private-custom-domain-cert", local.project)
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      # Server Authentication = 1.3.6.1.5.5.7.3.1
+      # Client Authentication = 1.3.6.1.5.5.7.3.2
+      extended_key_usage = ["1.3.6.1.5.5.7.3.1"]
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = format("CN=%s", trimsuffix(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, "."))
+      validity_in_months = 12
+    }
+  }
+}
+
 data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
   count        = var.app_gateway_api_io_certificate_name != null ? 1 : 0
   name         = var.app_gateway_api_io_certificate_name
@@ -217,6 +266,11 @@ data "azurerm_key_vault_secret" "apim_publisher_email" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_secret" "apim_internal_user_email" {
+  name         = "apim-internal-user-email"
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
   name         = "CRUSCOTTO-Basic-Auth-Pwd"
   key_vault_id = module.key_vault.id
@@ -240,7 +294,7 @@ data "azurerm_key_vault_secret" "sec_storage_id" {
 }
 
 data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
-  count        = var.env_short == "p" ? 0 : 1
+  count        = var.enable.rtd.csv_transaction_apis ? 1 : 0
   name         = "cstarblobstorage-public-key"
   key_vault_id = module.key_vault.id
 }

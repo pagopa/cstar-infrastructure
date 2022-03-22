@@ -1,3 +1,7 @@
+locals {
+  jaas_config_template_rtd = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"Endpoint=sb://${format("%s-evh-ns", local.project)}.servicebus.windows.net/;EntityPath=%s;SharedAccessKeyName=%s;SharedAccessKey=%s\";"
+}
+
 resource "kubernetes_secret" "azure-storage" {
   metadata {
     name      = "azure-storage"
@@ -27,6 +31,36 @@ resource "kubernetes_secret" "rtdtransactionfilter" {
     HPAN_SERVICE_TRUST_STORE_PASSWORD   = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-trust-store-password"].value
     HPAN_SERVICE_JKS_CONTENT_BASE64     = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-jks-content-base64"].value
     HPAN_SERVICE_ENC_PUBLIC_KEY_ARMORED = module.key_vault_secrets_query.values["rtdtransactionfilter-hpan-service-enc-public-key-armored"].value
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "rtddecrypter" {
+  count = var.enable.rtd.internal_api ? 1 : 0
+  metadata {
+    name      = "rtddecrypter"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    INTERNAL_SERVICES_API_KEY        = module.key_vault_secrets_query.values["rtd-internal-api-product-subscription-key"].value
+    CSV_TRANSACTION_PRIVATE_KEY      = module.key_vault_secrets_query.values["cstarblobstorage-private-key"].value
+    CSV_TRANSACTION_PRIVATE_KEY_PASS = module.key_vault_secrets_query.values["cstarblobstorage-private-key-passphrase"].value
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "rtd-internal-api" {
+  count = var.enable.rtd.internal_api ? 1 : 0
+  metadata {
+    name      = "rtd-internal-api"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    INTERNAL_SERVICES_API_KEY = module.key_vault_secrets_query.values["rtd-internal-api-product-subscription-key"].value
   }
 
   type = "Opaque"
@@ -103,5 +137,25 @@ resource "kubernetes_secret" "rtd-application-insights" {
     APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "rtd-blob-storage-events-consumer" {
+  count = var.enable.rtd.blob_storage_event_grid_integration ? 1 : 0
+  metadata {
+    name      = "rtd-blob-storage-events"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
+    KAFKA_BROKER                    = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_SASL_JAAS_CONFIG_CONSUMER_BLOB_STORAGE_EVENTS = format(
+      local.jaas_config_template_rtd,
+      "rtd-platform-events",
+      "rtd-platform-events-sub",
+      module.key_vault_secrets_query.values["evh-rtd-platform-events-rtd-platform-events-sub-key"].value
+    )
+  }
   type = "Opaque"
 }
