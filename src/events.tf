@@ -46,6 +46,14 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "keyvault_subscript
   resource_group_name = azurerm_resource_group.sec_rg.name
 
   eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub[count.index].id
+  included_event_types = [
+    "Microsoft.KeyVault.CertificateNearExpiry",
+    "Microsoft.KeyVault.CertificateExpired",
+    "Microsoft.KeyVault.KeyNearExpiry",
+    "Microsoft.KeyVault.KeyExpired",
+    "Microsoft.KeyVault.SecretNearExpiry",
+	"Microsoft.KeyVault.SecretExpired"
+  ]
 
   depends_on = [
     azurerm_eventgrid_system_topic.keyvault_topic
