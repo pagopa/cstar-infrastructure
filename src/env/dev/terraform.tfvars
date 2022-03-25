@@ -716,6 +716,7 @@ enable_blob_storage_event_grid_integration = true
 
 enable = {
   rtd = {
+    key_vault_event_grid_integration    = true
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
