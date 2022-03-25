@@ -242,6 +242,7 @@ variable "enable" {
       blob_storage_event_grid_integration = false
       internal_api                        = false
       csv_transaction_apis                = false
+      ingestor                            = false
     }
     fa = {
       api = false
