@@ -625,6 +625,7 @@ variable "enable" {
   type = object({
     rtd = object({
       blob_storage_event_grid_integration = bool
+      key_vault_event_grid_integration    = bool
       internal_api                        = bool
       csv_transaction_apis                = bool
     })
@@ -636,6 +637,7 @@ variable "enable" {
   default = {
     rtd = {
       blob_storage_event_grid_integration = false
+      key_vault_event_grid_integration    = false
       internal_api                        = false
       csv_transaction_apis                = false
     }
