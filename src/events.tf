@@ -52,7 +52,8 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "keyvault_subscript
     "Microsoft.KeyVault.KeyNearExpiry",
     "Microsoft.KeyVault.KeyExpired",
     "Microsoft.KeyVault.SecretNearExpiry",
-	"Microsoft.KeyVault.SecretExpired"
+    "Microsoft.KeyVault.SecretExpired",
+    "Microsoft.KeyVault.SecretNewVersionCreated",
   ]
 
   depends_on = [

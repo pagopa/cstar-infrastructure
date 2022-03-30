@@ -164,3 +164,33 @@ module "web_test_api" {
   ]
 
 }
+
+resource "azurerm_monitor_metric_alert" "keyvault_metric_alert" {
+  count               = var.enable.rtd.key_vault_event_grid_integration ? 1 : 0
+  name                = "keyvault-metricalert"
+  resource_group_name = azurerm_resource_group.sec_rg.name
+  scopes              = [azurerm_eventgrid_system_topic.keyvault_topic[count.index].id]
+  description         = "Action will be triggered when one or more messages are published on the system topic."
+  severity            = 1
+  frequency           = "PT1M"
+  window_size         = "PT5M"
+  auto_mitigate       = false
+
+  criteria {
+    metric_namespace = "microsoft.eventgrid/systemtopics"
+    metric_name      = "DeliverySuccessCount"
+    aggregation      = "Count"
+    operator         = "GreaterThan"
+    threshold        = 0
+
+    dimension {
+      name     = "EventSubscriptionName"
+      operator = "Include"
+      values   = ["*"]
+    }
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.slack.id
+  }
+}
