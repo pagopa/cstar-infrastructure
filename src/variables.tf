@@ -631,6 +631,9 @@ variable "enable" {
     fa = object({
       api = bool
     })
+    cdc = object({
+      api = bool
+    })
   })
   description = "Feature flags"
   default = {
@@ -640,6 +643,9 @@ variable "enable" {
       csv_transaction_apis                = false
     }
     fa = {
+      api = false
+    }
+    cdc = {
       api = false
     }
   }
