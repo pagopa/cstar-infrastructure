@@ -2,7 +2,7 @@
 # CDC PRODUCTS
 #
 
-module "rtd_api_product" {
+module "cdc_api_product" {
   count = var.enable.cdc.api ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
