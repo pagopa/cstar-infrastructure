@@ -729,4 +729,7 @@ enable = {
   fa = {
     api = false
   }
+  cdc = {
+    api = false
+  }
 }
