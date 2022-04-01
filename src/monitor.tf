@@ -143,7 +143,7 @@ locals {
 
 module "web_test_api" {
   for_each = { for v in local.test_urls : v.host => v if v != null }
-  source   = "git::https://github.com/pagopa/azurerm.git//application_insights_web_test_preview?ref=v2.5.0"
+  source   = "git::https://github.com/pagopa/azurerm.git//application_insights_web_test_preview?ref=v2.8.2"
 
   subscription_id                   = data.azurerm_subscription.current.subscription_id
   name                              = format("%s-test", each.value.host)
@@ -153,7 +153,6 @@ module "web_test_api" {
   request_url                       = format("https://%s%s", each.value.host, each.value.path)
   ssl_cert_remaining_lifetime_check = 7
   expected_http_status              = each.value.expected_http_status
-  content_validation                = "null"
 
   actions = [
     {
