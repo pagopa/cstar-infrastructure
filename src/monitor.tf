@@ -153,6 +153,7 @@ module "web_test_api" {
   request_url                       = format("https://%s%s", each.value.host, each.value.path)
   ssl_cert_remaining_lifetime_check = 7
   expected_http_status              = each.value.expected_http_status
+  content_validation                = "null"
 
   actions = [
     {
