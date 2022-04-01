@@ -154,6 +154,7 @@ module "web_test_api" {
   ssl_cert_remaining_lifetime_check = 7
   expected_http_status              = each.value.expected_http_status
   content_validation                = "null"
+  auto_mitigate                     = true
 
   actions = [
     {
