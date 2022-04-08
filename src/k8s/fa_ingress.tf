@@ -95,6 +95,14 @@ resource "kubernetes_ingress" "fa_ingress" {
           }
           path = "/famstransactionerrormanager/(.*)"
         }
+        
+        path {
+          backend {
+            service_name = "cstariobackendtest"
+            service_port = var.default_service_port
+          }
+          path = "/cstariobackendtest/(.*)"
+        }
       }
     }
   }
