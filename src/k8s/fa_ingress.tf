@@ -95,7 +95,7 @@ resource "kubernetes_ingress" "fa_ingress" {
           }
           path = "/famstransactionerrormanager/(.*)"
         }
-        
+
         path {
           backend {
             service_name = "cstariobackendtest"
