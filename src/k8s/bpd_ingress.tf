@@ -66,14 +66,6 @@ resource "kubernetes_ingress" "bpd_ingress" {
 
         path {
           backend {
-            service_name = "cstariobackendtest"
-            service_port = var.default_service_port
-          }
-          path = "/cstariobackendtest/(.*)"
-        }
-
-        path {
-          backend {
             service_name = "bpdmstransactionerrormanager"
             service_port = var.default_service_port
           }

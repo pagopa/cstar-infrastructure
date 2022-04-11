@@ -339,9 +339,7 @@ configmaps_fainvoicemanager = {
   POSTGRES_SHOW_SQL                                      = "true"
   LOG_LEVEL_FA_INVOICE_MANAGER                           = "INFO"
   MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
-  MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest/partita-iva/v0/verifica/"
-  MS_AGENZIA_ENTRATE_PORT                                = ""
-  MS_AGENZIA_ENTRATE_SCHEMA                              = "https"
+  MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
 }
 
 configmaps_fainvoiceprovider = {
