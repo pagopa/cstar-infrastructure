@@ -62,7 +62,8 @@ resource "kubernetes_config_map" "rtddecrypter" {
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
     CSV_TRANSACTION_DECRYPT_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
-  , ".") }
+  , ".") 
+    SPLITTER_LINE_THRESHOLD = 10000 }
 }
 
 resource "kubernetes_config_map" "rtdingestor" {
