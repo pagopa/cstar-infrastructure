@@ -65,6 +65,20 @@ resource "kubernetes_config_map" "rtddecrypter" {
   , ".") }
 }
 
+resource "kubernetes_config_map" "rtdingestor" {
+  count = var.enable.rtd.ingestor ? 1 : 0
+
+  metadata {
+    name      = "rtdingestor"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_INGESTOR_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
+  , ".") }
+}
+
 resource "kubernetes_config_map" "rtd-eventhub-common" {
   metadata {
     name      = "eventhub-common"

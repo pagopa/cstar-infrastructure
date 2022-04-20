@@ -159,3 +159,22 @@ resource "kubernetes_secret" "rtd-blob-storage-events-consumer" {
   }
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "rtd-trx-producer" {
+  count = var.enable.rtd.ingestor ? 1 : 0
+  metadata {
+    name      = "rtd-trx-producer"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_TOPIC_RTD_TRX = "rtd-trx"
+    KAFKA_SASL_JAAS_CONFIG_PRODUCER_RTD_TRX = format(
+      local.jaas_config_template_rtd,
+      "rtd-trx",
+      "rtd-trx-producer",
+      module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value
+    )
+  }
+  type = "Opaque"
+}

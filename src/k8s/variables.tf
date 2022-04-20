@@ -231,6 +231,7 @@ variable "enable" {
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
       csv_transaction_apis                = bool
+      ingestor                            = bool
     })
     fa = object({
       api = bool
@@ -242,6 +243,7 @@ variable "enable" {
       blob_storage_event_grid_integration = false
       internal_api                        = false
       csv_transaction_apis                = false
+      ingestor                            = false
     }
     fa = {
       api = false
