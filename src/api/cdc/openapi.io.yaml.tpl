@@ -1,4 +1,4 @@
-openapi: 3.0.
+openapi: 3.0.0
 info:
   title: Carta della Cultutra REST APIs
   description: API to request Carta della Cultura
@@ -28,9 +28,7 @@ paths:
           description: Errore interno.
       # JWT Token (RSA+256)
       security:
-        - BearerAuth:
-          type: http
-          scheme: bearer
+        - BearerAuth: []
 
   /beneficiario/registrazione:
     post:
@@ -48,8 +46,8 @@ paths:
           description: Richiesta OK per almeno un anno
           content:
             application/json:
-          schema:
-            $ref: '#/components/schemas/ListaEsitoRichiestaPerAnno'
+              schema:
+                $ref: '#/components/schemas/ListaEsitoRichiestaPerAnno'
         "400":
           description: Validazioni non superate
           content:
@@ -66,11 +64,14 @@ paths:
           description: Errore interno.
       # JWT Token (RSA+256)
       security:
-        - BearerAuth:
-          type: http
-          scheme: bearer
+        - BearerAuth: []
+  
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     StatoBeneficiario:
       type: string
@@ -93,14 +94,13 @@ components:
       example: "2000"
     AnnoIsee:
       type: object
+      required:
+        - anno
       properties: 
         anno:
-          required: true
-          schema:
-            $ref: '#/components/schemas/Anno'
+          $ref: '#/components/schemas/Anno'
         dataIsee:
-          required: false
-          type: date
+          type: string
     RichiestaCartaErrataMotivo: #Il payload della POST non può essere processato
       type: string
       enum: 
@@ -110,19 +110,18 @@ components:
         - FORMATO_ANNI_ERRATO
     RichiestaCartaErrata:
       type: object
+      required:
+        - annoRiferimento
+        - status
       properties:
         type:
           type: string
         annoRiferimento:
-          required: true
-          schema:
-            $ref: '#/components/schemas/Anno'
+          $ref: '#/components/schemas/Anno'
         title:
           type: string
         status:
-          required: true
-          schema:
-            $ref: '#/components/schemas/RichiestaCartaErrataMotivo'
+          $ref: '#/components/schemas/RichiestaCartaErrataMotivo'
         detail:
           type: string
         instance:
@@ -131,26 +130,24 @@ components:
           type: string
     StatoBeneficiarioPerAnno:
       type: object
+      required:
+        - statoBeneficiario
+        - annoRiferimento
       properties:
         statoBeneficiario:
-          required: true
-          schema:
-            $ref: '#/components/schemas/StatoBeneficiario'
+          $ref: '#/components/schemas/StatoBeneficiario'
         annoRiferimento:
-          required: true
-          schema:
-            $ref: '#/components/schemas/Anno'
+          $ref: '#/components/schemas/Anno'
     EsitoRichiestaPerAnno:
       type: object
+      required:
+        - statoBeneficiario
+        - annoRiferimento
       properties:
         statoBeneficiario:
-          required: true
-          schema:
-            $ref: '#/components/schemas/EsitoRichiesta'
+          $ref: '#/components/schemas/EsitoRichiesta'
         annoRiferimento:
-          required: true
-          schema:
-            $ref: '#/components/schemas/Anno'
+          $ref: '#/components/schemas/Anno'
     ListaStatoPerAnno:
       type: object
       properties:
@@ -171,5 +168,4 @@ components:
         anniRif:
           type: array
           items:
-            schema:
-              $ref: '#/components/schemas/AnnoIsee'
+            $ref: '#/components/schemas/AnnoIsee'
