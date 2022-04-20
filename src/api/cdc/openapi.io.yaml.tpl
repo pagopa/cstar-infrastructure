@@ -151,6 +151,8 @@ components:
           $ref: '#/components/schemas/Anno'
     ListaStatoPerAnno:
       type: object
+      required:
+        - listaStatoPerAnno
       properties:
         listaStatoPerAnno:
           type: array
@@ -158,6 +160,8 @@ components:
             $ref: '#/components/schemas/StatoBeneficiarioPerAnno'
     ListaEsitoRichiestaPerAnno:
       type: object
+      required:
+        - listaEsitoRichiestaPerAnno
       properties:
         listaEsitoRichiestaPerAnno:
           type: array
