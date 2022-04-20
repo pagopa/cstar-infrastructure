@@ -34,9 +34,10 @@ paths:
     post:
       tags:
       - /secured/utente
-      summary: 'Richiesta Carta della Cultura da prte del beneficiario'
+      summary: 'Richiesta Carta della Cultura da parte del beneficiario'
       operationId: registraBeneficiario
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -164,6 +165,8 @@ components:
             $ref: '#/components/schemas/EsitoRichiestaPerAnno'
     AnniRiferimento:
       type: object
+      required:
+        - anniRif
       properties:
         anniRif:
           type: array
