@@ -30,17 +30,18 @@
       <when condition="@(((IResponse)context.Variables["iotokenstate"]).StatusCode == 200)">
         <set-variable name="fiscalCode" value="@((string)((IResponse)context.Variables["iotokenstate"]).Body.As
           <JObject>()["fiscal_code"])" />
-          <set-header name="Authorization" exists-action="override">
-            <value>
+        <set-header name="Authorization" exists-action="override">
+          <value>
               @{ 
-                string fiscalCode = context.Variables["fiscalCode"]).As<string>(preserveContent: true);
+                string fiscalCode = context.Variables["fiscalCode"]).As
+              <string>(preserveContent: true);
                 string jwt = "pippo";
                 return "Bearer " + jwt;
               }
-              </value>
-            </set-header>
-          </when>
-        </choose>
+          </value>
+        </set-header>
+      </when>
+    </choose>
       </inbound>
       <backend>
         <base />
