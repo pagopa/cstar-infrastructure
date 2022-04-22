@@ -5,7 +5,7 @@
 module "cdc_api_product" {
   count = var.enable.cdc.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.12.15"
 
   product_id   = "cdc-api-product"
   display_name = "CDC_API_Product"
@@ -25,7 +25,7 @@ module "cdc_api_product" {
 
 module "api_cdc_sogei" {
   count = var.enable.cdc.api ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.12.15"
   name                = format("%s-cdc-sogei", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
