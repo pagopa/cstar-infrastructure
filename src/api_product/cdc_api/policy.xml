@@ -1,0 +1,17 @@
+<policies>
+  <inbound>
+    <base />
+   <set-header name="x-ibm-client-secret" exists-action="override">
+      <value>{{x-ibm-client-secret}}</value>
+    </set-header>
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>
