@@ -2,11 +2,26 @@
 # CDC PRODUCTS
 #
 
-resource "azurerm_resource_group" "rg_api_cdc" {
-  name     = format("%s-api-cdc-rg", local.project)
-  location = var.location
+data "azurerm_key_vault_secret" "cdc_sogei_api_key" {
+  name         = "x-ibm-client-secret-sogei-cdc"
+  key_vault_id = module.key_vault.id
+}
 
-  tags = merge(var.tags, { Application = "CDC" })
+resource "azurerm_api_management_named_value" "cdc_sogei_api_key" {
+  count = var.enable.cdc.api ? 1 : 0
+
+  name                = format("%s-x-ibm-client-secret", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "x-ibm-client-secret"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.cdc_sogei_api_key.id
+  }
+
+  # tags = merge(var.tags, { Application = "CDC" })
+
 }
 
 module "cdc_api_product" {
@@ -28,25 +43,14 @@ module "cdc_api_product" {
   subscriptions_limit = 50
 
   policy_xml = file("./api_product/cdc_api/policy.xml")
-}
 
-data azurerm_key_vault_secret cdc_sogei_api_key {
-  name         = "x-ibm-client-secret-sogei-cdc"
-  key_vault_id = module.key_vault.id
-}
+  # tags = merge(var.tags, { Application = "CDC" })
 
-resource azurerm_api_management_named_value cdc_sogei_api_key {
-  name                = format("%s-x-ibm-client-secret", var.env_short)
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-
-  display_name = "x-ibm-client-secret"
-  value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.cdc_sogei_api_key.id
-  }
+  depends_on = [
+    azurerm_api_management_named_value.cdc_sogei_api_key,
+  ]
 
 }
-
 
 module "api_cdc_sogei" {
   count               = var.enable.cdc.api ? 1 : 0
@@ -73,4 +77,7 @@ module "api_cdc_sogei" {
   subscription_required = true
 
   api_operation_policies = []
+
+  # tags = merge(var.tags, { Application = "CDC" })
+
 }
