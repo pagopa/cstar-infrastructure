@@ -88,9 +88,10 @@ components:
         - INIZIATIVA_TERMINATA
         - ANNO_NON_AMMISSIBILE
         - CIT_REGISTRATO
+        - OK
     Anno: 
       type: string 
-      pattern: '^\d{4}$'
+      pattern: '^\\d{4}$'
       description: Anno a quattro cifre
       example: "2000"
     AnnoIsee:
