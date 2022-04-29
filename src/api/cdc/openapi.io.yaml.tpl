@@ -143,10 +143,10 @@ components:
     EsitoRichiestaPerAnno:
       type: object
       required:
-        - statoBeneficiario
+        - esitoRichiesta
         - annoRiferimento
       properties:
-        statoBeneficiario:
+        esitoRichiesta:
           $ref: '#/components/schemas/EsitoRichiesta'
         annoRiferimento:
           $ref: '#/components/schemas/Anno'
