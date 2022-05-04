@@ -3,6 +3,8 @@
 #
 
 data "azurerm_key_vault_secret" "cdc_sogei_api_key" {
+  count = var.enable.cdc.api ? 1 : 0
+
   name         = "x-ibm-client-secret-sogei-cdc"
   key_vault_id = module.key_vault.id
 }
@@ -17,12 +19,74 @@ resource "azurerm_api_management_named_value" "cdc_sogei_api_key" {
   display_name = "x-ibm-client-secret"
   secret       = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.cdc_sogei_api_key.id
+    secret_id = data.azurerm_key_vault_secret.cdc_sogei_api_key[count.index].id
   }
 
   # tags = merge(var.tags, { Application = "CDC" })
 
 }
+
+data "azurerm_key_vault_secret" "cdc_sogei_client_id" {
+  count        = var.enable.cdc.api ? 1 : 0
+  name         = "x-ibm-client-id-sogei-cdc"
+  key_vault_id = module.key_vault.id
+}
+
+resource "azurerm_api_management_named_value" "cdc_sogei_client_id" {
+  count = var.enable.cdc.api ? 1 : 0
+
+  name                = format("%s-x-ibm-client-id", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "x-ibm-client-id"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.cdc_sogei_client_id[count.index].id
+  }
+
+  # tags = merge(var.tags, { Application = "CDC" })
+
+}
+
+data "azurerm_key_vault_secret" "cdc_sogei_jwt_aud" {
+  count        = var.enable.cdc.api ? 1 : 0
+  name         = "jwt-aud-sogei-cdc"
+  key_vault_id = module.key_vault.id
+}
+
+resource "azurerm_api_management_named_value" "cdc_sogei_jwt_aud" {
+  count = var.enable.cdc.api ? 1 : 0
+
+  name                = format("%s-jwt-aud-sogei-cdc", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "jwt-aud-sogei-cdc"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.cdc_sogei_jwt_aud[count.index].id
+  }
+
+  # tags = merge(var.tags, { Application = "CDC" })
+
+}
+
+data "azurerm_key_vault_certificate" "jwt_signing_cert" {
+  count        = var.enable.cdc.api ? 1 : 0
+  name         = "cdc-jwt"
+  key_vault_id = module.key_vault.id
+}
+
+resource "azurerm_api_management_certificate" "cdc_cert_jwt" {
+  count               = var.enable.cdc.api ? 1 : 0
+  name                = "cdc-jwt"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  key_vault_secret_id = data.azurerm_key_vault_certificate.jwt_signing_cert[count.index].versionless_secret_id
+}
+
 
 module "cdc_api_product" {
   count = var.enable.cdc.api ? 1 : 0
@@ -42,12 +106,13 @@ module "cdc_api_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/cdc_api/policy.xml")
+  policy_xml = templatefile("./api_product/cdc_api/policy.xml.tpl", {})
 
   # tags = merge(var.tags, { Application = "CDC" })
 
   depends_on = [
     azurerm_api_management_named_value.cdc_sogei_api_key,
+    azurerm_api_management_named_value.cdc_sogei_client_id
   ]
 
 }
@@ -64,20 +129,29 @@ module "api_cdc_sogei" {
   path         = "sogei"
   protocols    = ["https"]
 
-  service_url = "  https://apitest.sogei.it/interop/carta-cultura/"
+  service_url = "  https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
 
   content_format = "openapi"
   content_value = templatefile("./api/cdc/openapi.sogei.yml.tpl", {
-    host = "https://apitest.sogei.it/interop/carta-cultura/"
+    host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
+  })
 
-  product_ids           = [module.cdc_api_product[count.index].product_id]
+  product_ids           = [module.app_io_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
 
   # tags = merge(var.tags, { Application = "CDC" })
+
+  depends_on = [
+    azurerm_api_management_named_value.cdc_sogei_api_key,
+    azurerm_api_management_named_value.cdc_sogei_client_id,
+    azurerm_api_management_named_value.cdc_sogei_jwt_aud,
+    azurerm_api_management_certificate.cdc_cert_jwt
+  ]
 
 }
