@@ -8,12 +8,8 @@
       <value>{{x-ibm-client-id}}</value>
     </set-header>
     <set-header name="Ocp-Apim-Subscription-Key" exists-action="delete" />
-
-    <!-- <set-variable name="jwt_cert_signing_thumbprint" value="@(${jwt_cert_signing_thumbprint})" /> -->
-
-
-  <set-header name="Authorization" exists-action="override">
-    <value>@{
+    <set-header name="Authorization" exists-action="override">
+      <value>@{
       var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
         new { 
           typ = "JWT", 
@@ -37,11 +33,9 @@
         return "Bearer " + message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
       }
     }</value>
-  </set-header>
-  <set-header name="x-fiscal-code" exists-action="delete" />
-  <set-header name="x-user-id" exists-action="delete" />
-
-
+    </set-header>
+    <set-header name="x-fiscal-code" exists-action="delete" />
+    <set-header name="x-user-id" exists-action="delete" />
   </inbound>
   <backend>
     <base />
