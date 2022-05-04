@@ -746,6 +746,6 @@ enable = {
     api = true
   }
   cdc = {
-    api = true
+    api = false
   }
 }
