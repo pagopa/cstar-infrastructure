@@ -110,6 +110,7 @@ components:
         - ANNI_RIFERIMENTO_NON_FORNITI
         - LISTA_ANNI_VUOTA
         - FORMATO_ANNI_ERRATO
+        - INPUT_SUPERIORE_AL_CONSENTITO
     RichiestaCartaErrata:
       type: object
       required:
