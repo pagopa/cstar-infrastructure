@@ -168,7 +168,7 @@ module "api_cdc_io" {
   path         = "cdc"
   protocols    = ["https"]
 
-  service_url = "  https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+  service_url = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/CDCUtenteWS/rest/secured/"
 
   content_format = "openapi"
   content_value = templatefile("./api/cdc/openapi.io.yml.tpl", {
