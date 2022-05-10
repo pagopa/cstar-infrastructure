@@ -77,7 +77,7 @@ components:
     StatoBeneficiario:
       type: string
       enum: 
-        - ATTVABILE
+        - ATTIVABILE
         - INATTIVABILE 
         - ATTIVO # carta richiesta e risposta ok da INPS
         - VALUTAZIONE # carta richiesta ma non si conosce la risposta da INPS
