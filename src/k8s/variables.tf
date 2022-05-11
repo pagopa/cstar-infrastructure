@@ -161,6 +161,11 @@ variable "configmaps_rtdtransactionfilter" {
   default = {}
 }
 
+variable "configmaps_rtddecrypter" {
+  type    = map(string)
+  default = {}
+}
+
 variable "configmaps_facustomer" {
   type = map(string)
 }
