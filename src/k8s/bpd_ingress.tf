@@ -1,4 +1,4 @@
-resource "kubernetes_ingress" "bpd_ingress" {
+resource "kubernetes_ingress_v1" "bpd_ingress" {
   depends_on = [helm_release.ingress]
 
   metadata {
@@ -18,80 +18,120 @@ resource "kubernetes_ingress" "bpd_ingress" {
 
         path {
           backend {
-            service_name = "bpdmscitizen"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmscitizen"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmscitizen/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmscitizen-1"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmscitizen-1"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmscitizen-1/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmspaymentinstrument"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmspaymentinstrument"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmspaymentinstrument/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmsenrollment"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmsenrollment"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmsenrollment/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmswinningtransaction"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmswinningtransaction"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmswinningtransaction/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmsawardperiod"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmsawardperiod"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmsawardperiod/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmstransactionerrormanager"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmstransactionerrormanager"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmstransactionerrormanager/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmsnotificationmanager"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmsnotificationmanager"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmsnotificationmanager/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmsawardwinner"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmsawardwinner"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmsawardwinner/(.*)"
         }
 
         path {
           backend {
-            service_name = "bpdmsrankingprocessor"
-            service_port = var.default_service_port
+            service {
+              name = "bpdmsrankingprocessor"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/bpdmsrankingprocessor/(.*)"
         }
