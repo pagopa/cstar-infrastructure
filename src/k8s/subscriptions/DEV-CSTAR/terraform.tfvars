@@ -2,7 +2,7 @@ env       = "dev"
 env_short = "d"
 
 # ingress
-ingress_replica_count    = "2"
+ingress_replica_count    = "1"
 ingress_load_balancer_ip = "10.1.0.250"
 
 rbac_namespaces = ["bpd", "rtd", "fa"]
@@ -342,6 +342,10 @@ configmaps_fanotificationmanager = {
   LOG_LEVEL_FA_NOTIFICATION_MANAGER                      = "DEBUG"
   NOTIFICATION_SERVICE_TTL                               = "3600"
   URL_BACKEND_IO                                         = "https://api.io.italia.it"
+}
+
+configmaps_rtddecrypter = {
+  SPLITTER_LINE_THRESHOLD = 10
 }
 
 autoscaling_specs = {

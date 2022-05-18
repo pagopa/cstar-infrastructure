@@ -374,6 +374,10 @@ configmaps_fanotificationmanager = {
   URL_BACKEND_IO                                         = "https://api.io.italia.it"
 }
 
+configmaps_rtddecrypter = {
+  SPLITTER_LINE_THRESHOLD = 10000
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment

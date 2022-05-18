@@ -1,4 +1,4 @@
-resource "kubernetes_ingress" "rtd_ingress" {
+resource "kubernetes_ingress_v1" "rtd_ingress" {
   depends_on = [helm_release.ingress]
 
   metadata {
@@ -18,11 +18,16 @@ resource "kubernetes_ingress" "rtd_ingress" {
 
         path {
           backend {
-            service_name = "rtdmspaymentinstrumentmanager"
-            service_port = var.default_service_port
+            service {
+              name = "rtdmspaymentinstrumentmanager"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/rtdmspaymentinstrumentmanager/(.*)"
         }
+
 
       }
     }
