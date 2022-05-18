@@ -114,13 +114,10 @@ components:
     RichiestaCartaErrata:
       type: object
       required:
-        - annoRiferimento
         - status
       properties:
         type:
           type: string
-        annoRiferimento:
-          $ref: '#/components/schemas/Anno'
         title:
           type: string
         status:
