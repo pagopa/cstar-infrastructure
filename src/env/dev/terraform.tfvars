@@ -773,11 +773,15 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
+    file_register                       = true
   }
   fa = {
     api = true
   }
   cdc = {
     api = false
+  }
+  tae = {
+    db_collections = true
   }
 }

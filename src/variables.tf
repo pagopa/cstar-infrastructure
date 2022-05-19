@@ -669,12 +669,16 @@ variable "enable" {
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
       csv_transaction_apis                = bool
+      file_register                       = bool
     })
     fa = object({
       api = bool
     })
     cdc = object({
       api = bool
+    })
+    tae = object({
+      db_collections = bool
     })
   })
   description = "Feature flags"
@@ -683,12 +687,16 @@ variable "enable" {
       blob_storage_event_grid_integration = false
       internal_api                        = false
       csv_transaction_apis                = false
+      file_register                       = false
     }
     fa = {
       api = false
     }
     cdc = {
       api = false
+    }
+    tae = {
+      db_collections = false
     }
   }
 }
