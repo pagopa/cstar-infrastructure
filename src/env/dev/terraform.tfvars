@@ -2,6 +2,30 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
+
+cidr_vnet = ["10.1.0.0/16"]
+
+cidr_subnet_k8s             = ["10.1.0.0/17"]
+cidr_subnet_appgateway      = ["10.1.128.0/24"]
+cidr_subnet_db              = ["10.1.129.0/24"]
+cidr_subnet_azdoa           = ["10.1.130.0/24"]
+cidr_subnet_jumpbox         = ["10.1.131.0/24"]
+cidr_subnet_redis           = ["10.1.132.0/24"]
+cidr_subnet_vpn             = ["10.1.133.0/24"]
+cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
+cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
+cidr_subnet_storage_account = ["10.1.137.0/24"]
+
+#
+# ⛴ AKS Vnet
+#
+aks_networks = [
+  {
+    domain_name = "cstar-dev01"
+    vnet_cidr   = ["10.11.0.0/16"]
+  }
+]
+
 aks_enable_auto_scaling = true
 aks_min_node_count      = 1
 aks_max_node_count      = 2
@@ -199,20 +223,6 @@ aks_metric_alerts = {
     ]
   }
 }
-
-cidr_vnet = ["10.1.0.0/16"]
-
-cidr_subnet_k8s             = ["10.1.0.0/17"]
-cidr_subnet_appgateway      = ["10.1.128.0/24"]
-cidr_subnet_db              = ["10.1.129.0/24"]
-cidr_subnet_azdoa           = ["10.1.130.0/24"]
-cidr_subnet_jumpbox         = ["10.1.131.0/24"]
-cidr_subnet_redis           = ["10.1.132.0/24"]
-cidr_subnet_vpn             = ["10.1.133.0/24"]
-cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
-cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
-cidr_subnet_storage_account = ["10.1.137.0/24"]
-
 
 
 # integration vnet

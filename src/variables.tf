@@ -203,6 +203,16 @@ variable "aks_alerts_enabled" {
   description = "Aks alert enabled?"
 }
 
+variable "aks_networks" {
+  type = list(
+    object({
+      domain_name = string
+      vnet_cidr   = list(string)
+    })
+  )
+  description = "VNETs configuration for AKS"
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string
@@ -649,4 +659,8 @@ variable "enable" {
       api = false
     }
   }
+}
+
+locals {
+  project = "${var.prefix}-${var.env_short}"
 }
