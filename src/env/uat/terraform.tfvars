@@ -333,7 +333,6 @@ cosmos_mongo_db_params = {
   server_version                   = "4.0"
   main_geo_location_zone_redundant = false
   enable_free_tier                 = true
-  main_geo_location_zone_redundant = false
 
   # additional_geo_locations = [{
   #   location          = "northeurope"
@@ -347,7 +346,6 @@ cosmos_mongo_db_params = {
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
-
 }
 
 cosmos_mongo_db_transaction_params = {
