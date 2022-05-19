@@ -168,11 +168,11 @@ module "cosmosdb_account_mongodb" {
   tags = var.tags
 }
 
-resource "azurerm_cosmosdb_mongo_database" "transaction" {
+resource "azurerm_cosmosdb_mongo_database" "transaction_aggregate" {
 
   count = var.cosmos_mongo_db_params.enabled ? 1 : 0
 
-  name                = "transaction"
+  name                = "taggregate"
   resource_group_name = azurerm_resource_group.db_rg.name
   account_name        = module.cosmosdb_account_mongodb[count.index].name
 
