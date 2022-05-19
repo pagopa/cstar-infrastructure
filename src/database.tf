@@ -154,8 +154,8 @@ module "cosmosdb_account_mongodb" {
 
   public_network_access_enabled     = var.cosmos_mongo_db_params.public_network_access_enabled
   private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
-  subnet_id                         = module.cosmos_mongodb_snet.id
-  private_dns_zone_ids              = [azurerm_private_dns_zone.cosmos_mongo.id]
+  subnet_id                         = module.cosmos_mongodb_snet[count.index].id
+  private_dns_zone_ids              = [azurerm_private_dns_zone.cosmos_mongo[count.index].id]
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy

@@ -28,6 +28,8 @@ module "db_snet" {
 }
 
 module "cosmos_mongodb_snet" {
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.14"
   name                 = format("%s-cosmos-mongodb-snet", local.project)
   resource_group_name  = azurerm_resource_group.rg_vnet.name
