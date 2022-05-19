@@ -142,7 +142,7 @@ module "cosmosdb_account_mongodb" {
 
   count = var.cosmos_mongo_db_params.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb?ref=v2.0.19"
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
   name                 = format("%s-cosmos-mongo-db-account", local.project)
   location             = azurerm_resource_group.db_rg.location
