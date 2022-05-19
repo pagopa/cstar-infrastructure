@@ -1,5 +1,5 @@
 locals {
-  aks_network_prefix = "${local.project}"
+  aks_network_prefix = local.project
   iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
 }
 

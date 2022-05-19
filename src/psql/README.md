@@ -139,3 +139,54 @@ For example:
 ```sh
 ./flyway.sh migrate DEV-CSTAR cstar-d-flexible-postgresql fa -target=1
 ```
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=0.15.3 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 2.60.0 |
+| <a name="requirement_postgresql"></a> [postgresql](#requirement\_postgresql) | 1.13.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.1.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [postgresql_grant.user_privileges](https://registry.terraform.io/providers/cyrilgdn/postgresql/1.13.0/docs/resources/grant) | resource |
+| [postgresql_role.user](https://registry.terraform.io/providers/cyrilgdn/postgresql/1.13.0/docs/resources/role) | resource |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [azurerm_key_vault_secret.psql_admin_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.psql_admin_username](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.user_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
+| <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westeurope"` | no |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"cstar"` | no |
+| <a name="input_psql_hostname"></a> [psql\_hostname](#input\_psql\_hostname) | n/a | `string` | n/a | yes |
+| <a name="input_psql_password"></a> [psql\_password](#input\_psql\_password) | n/a | `string` | `null` | no |
+| <a name="input_psql_port"></a> [psql\_port](#input\_psql\_port) | n/a | `string` | n/a | yes |
+| <a name="input_psql_servername"></a> [psql\_servername](#input\_psql\_servername) | n/a | `string` | n/a | yes |
+| <a name="input_psql_username"></a> [psql\_username](#input\_psql\_username) | n/a | `string` | `null` | no |
+| <a name="input_users"></a> [users](#input\_users) | List of users with grants. | <pre>list(object({<br>    name = string<br>    grants = list(object({<br>      object_type = string<br>      database    = string<br>      schema      = string<br>      privileges  = list(string)<br>    }))<br>  }))</pre> | `[]` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_bpd_payment_instrument_remote_user_password"></a> [bpd\_payment\_instrument\_remote\_user\_password](#output\_bpd\_payment\_instrument\_remote\_user\_password) | n/a |
+| <a name="output_fa_payment_instrument_remote_user_password"></a> [fa\_payment\_instrument\_remote\_user\_password](#output\_fa\_payment\_instrument\_remote\_user\_password) | n/a |
+| <a name="output_psql_password"></a> [psql\_password](#output\_psql\_password) | n/a |
+| <a name="output_psql_servername"></a> [psql\_servername](#output\_psql\_servername) | n/a |
+| <a name="output_psql_username"></a> [psql\_username](#output\_psql\_username) | n/a |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
