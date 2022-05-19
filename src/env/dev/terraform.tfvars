@@ -28,7 +28,7 @@ cidr_subnet_eventhub  = ["10.230.5.64/26"]
 #
 aks_networks = [
   {
-    domain_name = "cstar-dev01"
+    domain_name = "dev01"
     vnet_cidr   = ["10.11.0.0/16"]
   }
 ]
