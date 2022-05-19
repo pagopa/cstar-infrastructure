@@ -15,7 +15,7 @@ data "azurerm_virtual_network" "vnet_core" {
 # Vnet AKS
 #
 data "azurerm_resource_group" "vnet_aks_rg" {
-  name = var.rg_vnet_aks
+  name = var.rg_vnet_aks_name
 }
 
 data "azurerm_virtual_network" "vnet_aks" {

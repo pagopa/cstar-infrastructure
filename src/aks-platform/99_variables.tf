@@ -1,6 +1,6 @@
 variable "prefix" {
   type    = string
-  default = "dvopla"
+  default = "cstar"
   validation {
     condition = (
       length(var.prefix) <= 6
@@ -36,7 +36,7 @@ variable "location" {
 
 variable "location_short" {
   type        = string
-  description = "Location short like eg: neu, weu.."
+  description = "Location short like eg: weu, weu.."
 }
 
 variable "domain" {
@@ -65,7 +65,7 @@ variable "tags" {
 #
 # Network
 #
-variable "rg_vnet_aks" {
+variable "rg_vnet_aks_name" {
   type        = string
   description = "Resource group dedicated to VNet AKS"
 }
@@ -80,7 +80,7 @@ variable "public_ip_aksoutbound_name" {
   description = "Public IP AKS outbound"
 }
 
-variable "cidr_ephemeral_subnet_aks" {
+variable "cidr_subnet_aks" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
 }
@@ -524,18 +524,18 @@ locals {
   aks_rg_name      = "${local.project}-aks-rg"
   aks_cluster_name = "${local.project}-aks"
 
-  aks_public_ip_name       = "${local.project}-aks-outbound-pip"
-  aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
+  # aks_public_ip_name       = "${local.project}-aks-outbound-pip"
+  # aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 
   # VNET
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
   vnet_core_name                = "${local.product}-vnet"
 
-  vnet_aks_resource_group_name = "${local.project}-vnet-rg"
-  vnet_aks_name                = "${local.project}-vnet"
+  # vnet_aks_resource_group_name = "${local.project}-vnet-rg"
+  # vnet_aks_name                = "${local.project}-vnet"
 
   # ACR DOCKER
-  docker_rg_name       = "${local.product}-dockerreg-rg"
+  docker_rg_name       = "${local.product}-aks-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # monitor
