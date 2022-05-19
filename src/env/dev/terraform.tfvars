@@ -15,6 +15,13 @@ cidr_subnet_vpn             = ["10.1.133.0/24"]
 cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
 cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
 cidr_subnet_storage_account = ["10.1.137.0/24"]
+cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+
+# integration vnet
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
+cidr_integration_vnet = ["10.230.5.0/24"]
+cidr_subnet_apim      = ["10.230.5.0/26"]
+cidr_subnet_eventhub  = ["10.230.5.64/26"]
 
 #
 # ⛴ AKS Vnet
@@ -224,14 +231,6 @@ aks_metric_alerts = {
   }
 }
 
-
-# integration vnet
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
-cidr_integration_vnet = ["10.230.5.0/24"]
-cidr_subnet_apim      = ["10.230.5.0/26"]
-cidr_subnet_eventhub  = ["10.230.5.64/26"]
-
-
 devops_service_connection_object_id = "2ba3cc79-7714-4297-867a-ed354a085bf0"
 azdo_sp_tls_cert_enabled            = false # will be enabled when TLS cert will be generated with new acme tiny
 
@@ -336,6 +335,36 @@ pgres_flex_params = {
 
 dns_zone_prefix         = "dev.cstar"
 internal_private_domain = "internal.dev.cstar.pagopa.it"
+cosmos_mongo_db_params = {
+  enabled      = true
+  kind         = "MongoDB"
+  capabilities = ["EnableMongo", "EnableServerless"]
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = "4.0"
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = true
+
+  additional_geo_locations          = []
+  private_endpoint_enabled          = false
+  public_network_access_enabled     = true
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+
+}
+
+cosmos_mongo_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
+}
+
 
 ehns_sku_name = "Standard"
 
@@ -754,11 +783,15 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
+    file_register                       = true
   }
   fa = {
     api = true
   }
   cdc = {
     api = false
+  }
+  tae = {
+    db_collections = true
   }
 }

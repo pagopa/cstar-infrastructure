@@ -69,6 +69,12 @@ variable "cidr_subnet_dnsforwarder" {
   description = "DNS Forwarder network address space."
 }
 
+variable "cidr_subnet_cosmos_mongodb" {
+  type        = list(string)
+  description = "Cosmos Mongo DB network address space."
+}
+
+
 ## VPN ##
 variable "vpn_sku" {
   type        = string
@@ -612,6 +618,42 @@ variable "enable_iac_pipeline" {
   default     = false
 }
 
+variable "cosmos_mongo_db_params" {
+  type = object({
+    enabled        = bool
+    capabilities   = list(string)
+    offer_type     = string
+    server_version = string
+    kind           = string
+    consistency_policy = object({
+      consistency_level       = string
+      max_interval_in_seconds = number
+      max_staleness_prefix    = number
+    })
+    main_geo_location_zone_redundant = bool
+    enable_free_tier                 = bool
+    main_geo_location_zone_redundant = bool
+    additional_geo_locations = list(object({
+      location          = string
+      failover_priority = number
+      zone_redundant    = bool
+    }))
+    private_endpoint_enabled          = bool
+    public_network_access_enabled     = bool
+    is_virtual_network_filter_enabled = bool
+    backup_continuous_enabled         = bool
+  })
+}
+
+variable "cosmos_mongo_db_transaction_params" {
+  type = object({
+    enable_serverless  = bool
+    enable_autoscaling = bool
+    throughput         = number
+    max_throughput     = number
+  })
+}
+
 variable "tags" {
   type = map(any)
   default = {
@@ -637,12 +679,16 @@ variable "enable" {
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
       csv_transaction_apis                = bool
+      file_register                       = bool
     })
     fa = object({
       api = bool
     })
     cdc = object({
       api = bool
+    })
+    tae = object({
+      db_collections = bool
     })
   })
   description = "Feature flags"
@@ -651,12 +697,16 @@ variable "enable" {
       blob_storage_event_grid_integration = false
       internal_api                        = false
       csv_transaction_apis                = false
+      file_register                       = false
     }
     fa = {
       api = false
     }
     cdc = {
       api = false
+    }
+    tae = {
+      db_collections = false
     }
   }
 }

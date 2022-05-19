@@ -27,6 +27,19 @@ module "db_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+module "cosmos_mongodb_snet" {
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.14"
+  name                 = format("%s-cosmos-mongodb-snet", local.project)
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_subnet_cosmos_mongodb
+
+  enforce_private_link_endpoint_network_policies = true
+  service_endpoints                              = ["Microsoft.Web"]
+}
+
 module "redis_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
