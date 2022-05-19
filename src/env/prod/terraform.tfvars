@@ -314,7 +314,7 @@ pgres_flex_params = {
 cosmos_mongo_db_params = {
   enabled      = false
   kind         = "MongoDB"
-  capabilities = ["EnableMongo", "EnableServerless"]
+  capabilities = ["EnableMongo"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "BoundedStaleness"
@@ -337,7 +337,7 @@ cosmos_mongo_db_params = {
   public_network_access_enabled     = false
   is_virtual_network_filter_enabled = true
 
-  backup_continuous_enabled = false
+  backup_continuous_enabled = true
 
 }
 
