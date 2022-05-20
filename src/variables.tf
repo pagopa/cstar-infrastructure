@@ -712,7 +712,7 @@ variable "enable" {
 }
 
 locals {
-  project = "${var.prefix}-${var.env_short}"
+  project            = "${var.prefix}-${var.env_short}"
   aks_network_prefix = local.project
   iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
 }
