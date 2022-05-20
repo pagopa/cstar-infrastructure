@@ -114,6 +114,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_vnet" {
   registration_enabled  = false
 
   tags = var.tags
+}
+
 # Private DNS Zone for Azure Data Factory
 
 resource "azurerm_private_dns_zone" "adf" {
