@@ -453,7 +453,8 @@ secrets_to_be_read_from_kv = [
   "tae-ade-api-client-secret",
   "cstarblobstorage-private-key",
   "cstarblobstorage-private-key-passphrase",
-  "rtd-internal-api-product-subscription-key"
+  "rtd-internal-api-product-subscription-key",
+  "mongo-db-connection-uri"
 ]
 
 enable = {
@@ -462,6 +463,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     ingestor                            = true
+    file_register                       = true
   }
   fa = {
     api = true

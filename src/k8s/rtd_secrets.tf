@@ -126,6 +126,19 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "mongo_db_credentials" {
+  metadata {
+    name      = "postgres-credentials"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    MONGODB_CONNECTION_URI = module.key_vault_secrets_query.values["mongo-db-connection-uri"].value
+  }
+
+  type = "Opaque"
+}
+
 # not yet used by any deployment, but maybe useful for the future
 resource "kubernetes_secret" "rtd-application-insights" {
   metadata {
