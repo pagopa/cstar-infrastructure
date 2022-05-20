@@ -40,8 +40,8 @@ log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "cstar-d-weu-dev01-aks-vnet-rg"
-vnet_aks_name              = "cstar-d-weu-dev01-aks-vnet"
+rg_vnet_aks_name           = "cstar-d-dev01-aks-vnet-rg"
+vnet_aks_name              = "cstar-d-dev01-aks-vnet"
 public_ip_aksoutbound_name = "cstar-d-dev01-aksoutbound-pip-1"
 
 aks_enabled                 = true
@@ -49,7 +49,7 @@ aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
 aks_kubernetes_version      = "1.23.3"
 aks_system_node_pool = {
-  name            = "cstarddev01sys",
+  name            = "cstdev01sys",
   vm_size         = "Standard_B2ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
@@ -60,7 +60,7 @@ aks_system_node_pool = {
 }
 aks_user_node_pool = {
   enabled         = true,
-  name            = "cstarddev01usr",
+  name            = "cstdev01usr",
   vm_size         = "Standard_B2ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,

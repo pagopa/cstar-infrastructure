@@ -536,7 +536,7 @@ locals {
 
   # ACR DOCKER
   docker_rg_name       = "${local.product}-aks-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-acr", "-", "")
 
   # monitor
   monitor_rg_name                      = "${local.product}-monitor-rg"

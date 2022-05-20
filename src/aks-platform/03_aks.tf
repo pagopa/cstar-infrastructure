@@ -12,7 +12,7 @@ module "aks" {
 
   name                       = local.aks_cluster_name
   location                   = azurerm_resource_group.rg_aks.location
-  dns_prefix                 = "${local.project}-aks-ephemeral"
+  dns_prefix                 = "${local.project}-aks"
   resource_group_name        = azurerm_resource_group.rg_aks.name
   kubernetes_version         = var.aks_kubernetes_version
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
