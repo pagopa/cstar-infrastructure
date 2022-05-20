@@ -1,8 +1,3 @@
-locals {
-  aks_network_prefix = local.project
-  iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
-}
-
 resource "azurerm_resource_group" "rg_vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
@@ -36,6 +31,7 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
 
 
   name                = "${local.aks_network_prefix}-${each.key}-aksoutbound-pip-${each.value + 1}"
+  domain_name_label   = "${local.aks_network_prefix}-${each.key}-aks"
   location            = azurerm_resource_group.rg_vnet_aks[each.key].location
   resource_group_name = azurerm_resource_group.rg_vnet_aks[each.key].name
   sku                 = "Standard"
