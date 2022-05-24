@@ -28,6 +28,17 @@ resource "kubernetes_ingress_v1" "rtd_ingress" {
           path = "/rtdmspaymentinstrumentmanager/(.*)"
         }
 
+        path {
+          backend {
+            service {
+              name = "rtdmsfileregister"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/rtdmsfileregister/(.*)"
+        }
 
       }
     }
