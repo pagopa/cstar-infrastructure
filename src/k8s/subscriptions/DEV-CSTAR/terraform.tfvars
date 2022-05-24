@@ -454,7 +454,7 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key",
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
-  "mongo-db-connection-uri"
+  "mongo-db-key"
 ]
 
 enable = {

@@ -652,6 +652,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     ingestor                            = false
+    file_register                       = false
   }
   fa = {
     api = false
