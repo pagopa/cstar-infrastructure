@@ -237,6 +237,7 @@ variable "enable" {
       internal_api                        = bool
       csv_transaction_apis                = bool
       ingestor                            = bool
+      file_register                       = bool
     })
     fa = object({
       api = bool
@@ -249,6 +250,7 @@ variable "enable" {
       internal_api                        = false
       csv_transaction_apis                = false
       ingestor                            = false
+      file_register                       = false
     }
     fa = {
       api = false
