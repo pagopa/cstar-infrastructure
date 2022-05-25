@@ -209,6 +209,16 @@ variable "aks_alerts_enabled" {
   description = "Aks alert enabled?"
 }
 
+variable "aks_networks" {
+  type = list(
+    object({
+      domain_name = string
+      vnet_cidr   = list(string)
+    })
+  )
+  description = "VNETs configuration for AKS"
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string
@@ -699,4 +709,10 @@ variable "enable" {
       db_collections = false
     }
   }
+}
+
+locals {
+  project            = "${var.prefix}-${var.env_short}"
+  aks_network_prefix = local.project
+  iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
 }

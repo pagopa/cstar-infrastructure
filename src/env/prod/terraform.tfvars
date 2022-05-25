@@ -2,6 +2,39 @@ apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
 
+
+
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=35.df9ccf000
+cidr_vnet = ["10.1.0.0/16"]
+
+cidr_subnet_k8s             = ["10.1.0.0/17"]
+cidr_subnet_appgateway      = ["10.1.128.0/24"]
+cidr_subnet_db              = ["10.1.129.0/24"]
+cidr_subnet_azdoa           = ["10.1.130.0/24"]
+cidr_subnet_jumpbox         = ["10.1.131.0/24"]
+cidr_subnet_redis           = ["10.1.132.0/24"]
+cidr_subnet_vpn             = ["10.1.133.0/24"]
+cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
+cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
+cidr_subnet_storage_account = ["10.1.137.0/24"]
+cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+
+# integration vnet
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
+cidr_integration_vnet = ["10.230.6.0/24"]
+cidr_subnet_apim      = ["10.230.6.0/26"]
+cidr_subnet_eventhub  = ["10.230.6.64/26"]
+
+#
+# ⛴ AKS Vnet
+#
+aks_networks = [
+  {
+    domain_name = "prod01"
+    vnet_cidr   = ["10.11.0.0/16"]
+  }
+]
+
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -194,28 +227,6 @@ aks_metric_alerts = {
     ]
   }
 }
-
-
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=35.df9ccf000
-cidr_vnet = ["10.1.0.0/16"]
-
-cidr_subnet_k8s             = ["10.1.0.0/17"]
-cidr_subnet_appgateway      = ["10.1.128.0/24"]
-cidr_subnet_db              = ["10.1.129.0/24"]
-cidr_subnet_azdoa           = ["10.1.130.0/24"]
-cidr_subnet_jumpbox         = ["10.1.131.0/24"]
-cidr_subnet_redis           = ["10.1.132.0/24"]
-cidr_subnet_vpn             = ["10.1.133.0/24"]
-cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
-cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
-cidr_subnet_storage_account = ["10.1.137.0/24"]
-cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
-
-# integration vnet
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
-cidr_integration_vnet = ["10.230.6.0/24"]
-cidr_subnet_apim      = ["10.230.6.0/26"]
-cidr_subnet_eventhub  = ["10.230.6.64/26"]
 
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
