@@ -15,21 +15,25 @@ ACTION="$1"
 MODE="$2"
 
 pushd "$(pwd)/src"
+rm -rf .terraform
 echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev &
+sh terraform.sh "$ACTION" dev
 popd
 
 pushd "$(pwd)/src/k8s"
+rm -rf .terraform
 echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev-cstar &
-popd
-
-pushd "$(pwd)/src/psql"
-echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev-cstar &
+sh terraform.sh "$ACTION" dev-cstar
 popd
 
 pushd "$(pwd)/src/aks-platform"
+rm -rf .terraform
 echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev01 &
+sh terraform.sh "$ACTION" dev01
+popd
+
+pushd "$(pwd)/src/psql"
+rm -rf .terraform
+echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
+sh terraform.sh "$ACTION" dev-cstar
 popd
