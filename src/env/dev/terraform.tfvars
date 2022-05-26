@@ -19,9 +19,9 @@ cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
-cidr_integration_vnet = ["10.230.5.0/24"]
-cidr_subnet_apim      = ["10.230.5.0/26"]
-cidr_subnet_eventhub  = ["10.230.5.64/26"]
+cidr_integration_vnet = ["10.230.11.0/24"]
+cidr_subnet_apim      = ["10.230.11.0/26"]
+cidr_subnet_eventhub  = ["10.230.11.64/26"]
 
 #
 # ⛴ AKS Vnet
