@@ -1,3 +1,7 @@
+prefix        = "cstar"
+location      = "westeurope"
+location_pair = "northeurope"
+
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
