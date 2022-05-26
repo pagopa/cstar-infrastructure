@@ -644,6 +644,15 @@ variable "cosmos_mongo_db_transaction_params" {
   })
 }
 
+variable "cdc_api_params" {
+  type = object({
+    host = string
+  })
+  default = {
+    host = "https://httpbin.org"
+  }
+}
+
 variable "tags" {
   type = map(any)
   default = {
