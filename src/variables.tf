@@ -699,6 +699,7 @@ variable "enable" {
       internal_api                        = bool
       csv_transaction_apis                = bool
       file_register                       = bool
+      abi_to_fiscalcode_api               = bool
     })
     fa = object({
       api = bool
@@ -717,6 +718,8 @@ variable "enable" {
       internal_api                        = false
       csv_transaction_apis                = false
       file_register                       = false
+      abi_to_fiscalcode_api               = false
+
     }
     fa = {
       api = false
