@@ -139,6 +139,8 @@ For example:
 ```sh
 ./flyway.sh migrate DEV-CSTAR cstar-d-flexible-postgresql fa -target=1
 ```
+
+<!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
