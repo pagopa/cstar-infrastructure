@@ -169,11 +169,11 @@ module "api_cdc_io" {
   path         = "cdc"
   protocols    = ["https"]
 
-  service_url = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/CDCUtenteWS/rest/secured/"
+  service_url =  var.cdc_api_params.host
 
   content_format = "openapi"
   content_value = templatefile("./api/cdc/openapi.io.yml.tpl", {
-    host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+    host =  var.cdc_api_params.host
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
