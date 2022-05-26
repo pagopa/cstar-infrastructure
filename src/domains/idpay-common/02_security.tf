@@ -15,7 +15,7 @@ module "key_vault_idpay" {
   soft_delete_retention_days = 90
   sku_name                   = "premium"
 
-  lock_enable                = true
+  lock_enable = true
 
   # Logs
   sec_log_analytics_workspace_id = var.env_short == "p" ? data.terraform_remote_state.core.outputs.sec_workspace_id : null
