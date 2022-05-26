@@ -1,5 +1,5 @@
-resource "azurerm_resource_group" "container_registry_platform" {
-  name     = local.resource_group_container_registry_platform_name
+resource "azurerm_resource_group" "rg_container_registry_platform" {
+  name     = local.rg_container_registry_common_name
   location = var.location
 
   tags = var.tags
@@ -9,9 +9,9 @@ resource "azurerm_resource_group" "container_registry_platform" {
 module "container_registry_platform" {
   source = "git::https://github.com/pagopa/azurerm.git//container_registry?ref=v2.16.0"
 
-  name                          = replace(local.container_registry_platform_name, "-", "")
+  name                          = replace(local.container_registry_common_name, "-", "")
   location                      = var.location
-  resource_group_name           = azurerm_resource_group.container_registry_platform.name
+  resource_group_name           = azurerm_resource_group.rg_container_registry_platform.name
   sku                           = var.env_short == "p" ? "Premium" : "Basic"
   admin_enabled                 = false
   anonymous_pull_enabled        = false

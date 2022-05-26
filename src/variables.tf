@@ -728,12 +728,7 @@ locals {
   #
   # Platform
   #
-  container_registry_platform_name                = "${local.project}-platform-acr"
-  resource_group_container_registry_platform_name = "${local.project}-container-registry-rg"
+  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "${local.project}-common-acr"
 
-
-  #
-  # Domain IdPay
-  #
-  key_vault_id_pay_name = "${local.project}-idpay-kv"
 }
