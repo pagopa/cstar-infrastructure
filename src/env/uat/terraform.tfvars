@@ -735,6 +735,10 @@ app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 
 enable_iac_pipeline = true
 
+cdc_api_params = {
+  host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+}
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
