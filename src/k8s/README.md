@@ -100,7 +100,7 @@ bash terraform.sh apply DEV-CSTAR
 ## Terraform lock.hcl
 
 We have both developers who work with your Terraform configuration on their Linux, macOS or Windows workstations and automated systems that apply the configuration while running on Linux.
-https://www.terraform.io/docs/cli/commands/providers/lock.html#specifying-target-platforms
+<https://www.terraform.io/docs/cli/commands/providers/lock.html#specifying-target-platforms>
 
 So we need to specify this in terraform lock providers:
 
