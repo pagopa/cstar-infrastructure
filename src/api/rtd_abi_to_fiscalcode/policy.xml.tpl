@@ -1,14 +1,16 @@
 <policies>
   <inbound>
+    <base />
     <return-response>
-      <set-status code="200" />
+      <set-status code="200" reason="Abi to fiscal code map"/>
       <set-body>@{
         return new JObject(
           new JProperty("EVODE", "IE9813461A"),
           new JProperty("STPAY", "LU30726739"),
           new JProperty("BPAY1", "04949971008")
         ).ToString();
-      }</set-body>                           
+        }
+      </set-body>
     </return-response>
   </inbound>
   <backend>

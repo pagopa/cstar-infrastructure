@@ -4,12 +4,12 @@ info:
   description: API to convert acquirer's ABI to Fiscal Code
   version: 0.0.1
 servers:
-- url: ""
+- url: "https://httpbin.org"
 paths:
-  /conversion-map
+  /conversion-map :
     get:
       responses:
         default:
           description: Default response
           content:
-            text/plain: {}
+            application/json: {}

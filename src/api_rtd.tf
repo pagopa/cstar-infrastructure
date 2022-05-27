@@ -243,13 +243,14 @@ module "rtd_fake_abi_to_fiscal_code" {
   description  = "RTD API to convert fake ABIs to acquirer fiscal code"
   display_name = "RTD Acquirer ABI to Fiscal Code"
   path         = "rtd/abi-to-fiscalcode"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = ""
 
+  content_format = "openapi"
   content_value = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml.tpl", {})
 
-  xml_content = file("./api/rtd_abi_to_fiscalcode/policy.xml.tpl")
+  xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml.tpl", {})
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
