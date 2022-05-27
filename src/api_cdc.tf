@@ -169,11 +169,11 @@ module "api_cdc_io" {
   path         = "cdc"
   protocols    = ["https"]
 
-  service_url =  var.cdc_api_params.host
+  service_url = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
 
   content_format = "openapi"
   content_value = templatefile("./api/cdc/openapi.io.yml.tpl", {
-    host =  var.cdc_api_params.host
+    host = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
