@@ -4,7 +4,7 @@ env            = "dev"
 domain         = "idpay"
 location       = "westeurope"
 location_short = "weu"
-instance       = "dev"
+instance       = "dev01"
 
 tags = {
   CreatedBy   = "Terraform"
