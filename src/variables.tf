@@ -8,6 +8,16 @@ variable "location_pair" {
   description = "Pair (Secondary) location region (e.g. northeurope)"
 }
 
+variable "location_short" {
+  type = string
+  description = "Primary location in short form (e.g. westeurope=weu)"
+}
+
+variable "location_pair_short" {
+  type = string
+  description = "Pair (Secondary) location in short form (e.g. northeurope=neu)"
+}
+
 variable "prefix" {
   type = string
 }
