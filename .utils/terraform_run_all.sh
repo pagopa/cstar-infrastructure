@@ -14,26 +14,30 @@ set -eu
 ACTION="$1"
 MODE="$2"
 
-pushd "$(pwd)/src"
-rm -rf .terraform
-echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev
-popd
+array=(
+    'src::dev'
+    'src/k8s::dev-cstar'
+    'src/aks-platform::dev01'
+    'src/psql::dev-cstar'
+    'src/domains/idpay::dev'
+    'src/domains/idpay-common::dev'
+)
 
-pushd "$(pwd)/src/k8s"
-rm -rf .terraform
-echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev-cstar
-popd
+function rm_terraform {
+    find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -iname ".terraform-version" \) -print0 | xargs -0 echo
+}
 
-pushd "$(pwd)/src/aks-platform"
-rm -rf .terraform
-echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev01
-popd
+echo "[INFO] 🪚 Delete all .terraform folders"
+rm_terraform
 
-pushd "$(pwd)/src/psql"
-rm -rf .terraform
-echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
-sh terraform.sh "$ACTION" dev-cstar
-popd
+echo "[INFO] 🏁 Init all terraform repos"
+for index in "${array[@]}" ; do
+    FOLDER="${index%%::*}"
+    COMMAND="${index##*::}"
+    pushd "$(pwd)/${FOLDER}"
+        echo "$FOLDER - $COMMAND"
+        echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
+        sh terraform.sh "$ACTION" "$COMMAND" &
+    popd
+done
+
