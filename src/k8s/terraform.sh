@@ -53,9 +53,11 @@ terraform init -reconfigure \
     -backend-config="key=${key}"
 
 export HELM_DEBUG=1
-if echo "plan apply refresh import output destroy" | grep -w ${COMMAND} > /dev/null; then
+if echo "init plan apply refresh import output destroy" | grep -w ${COMMAND} > /dev/null; then
   if [ ${COMMAND} = "output" ]; then
     terraform ${COMMAND} $other
+  elif [ ${COMMAND} = "init" ]; then
+    echo "[INFO] Init already done"
   else
     terraform ${COMMAND} --var-file="${WORKDIR}/subscriptions/${SUBSCRIPTION}/terraform.tfvars" $other
   fi

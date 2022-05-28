@@ -1,7 +1,12 @@
+prefix              = "cstar"
+location            = "westeurope"
+location_pair       = "northeurope"
+location_short      = "weu"
+location_pair_short = "neu"
+
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
-
 
 
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=35.df9ccf000

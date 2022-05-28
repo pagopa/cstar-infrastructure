@@ -1,18 +1,34 @@
 variable "location" {
-  type    = string
-  default = "westeurope"
+  type        = string
+  description = "Primary location region (e.g. westeurope)"
+}
+
+variable "location_pair" {
+  type        = string
+  description = "Pair (Secondary) location region (e.g. northeurope)"
+}
+
+variable "location_short" {
+  type        = string
+  description = "Primary location in short form (e.g. westeurope=weu)"
+}
+
+variable "location_pair_short" {
+  type        = string
+  description = "Pair (Secondary) location in short form (e.g. northeurope=neu)"
 }
 
 variable "prefix" {
-  type    = string
-  default = "cstar"
+  type = string
 }
 
 variable "env_short" {
   type = string
 }
 
+#
 # Network
+#
 variable "cidr_vnet" {
   type        = list(string)
   description = "Virtual network address space."
@@ -74,8 +90,9 @@ variable "cidr_subnet_cosmos_mongodb" {
   description = "Cosmos Mongo DB network address space."
 }
 
-
-## VPN ##
+#
+# VPN
+#
 variable "vpn_sku" {
   type        = string
   default     = "VpnGw1"
@@ -107,7 +124,9 @@ variable "dns_default_ttl_sec" {
   default     = 3600
 }
 
-## AKS ## 
+#
+# AKS
+#
 variable "cidr_subnet_k8s" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
@@ -715,4 +734,11 @@ locals {
   project            = "${var.prefix}-${var.env_short}"
   aks_network_prefix = local.project
   iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
+
+  #
+  # Platform
+  #
+  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "${local.project}-common-acr"
+
 }

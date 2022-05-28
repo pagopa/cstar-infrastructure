@@ -89,7 +89,7 @@ bash terraform.sh apply DEV-CSTAR
 ## Terraform lock.hcl
 
 We have both developers who work with your Terraform configuration on their Linux, macOS or Windows workstations and automated systems that apply the configuration while running on Linux.
-https://www.terraform.io/docs/cli/commands/providers/lock.html#specifying-target-platforms
+<https://www.terraform.io/docs/cli/commands/providers/lock.html#specifying-target-platforms>
 
 So we need to specify this in terraform lock providers:
 
@@ -108,7 +108,7 @@ terraform providers lock \
 
 Check your code before commit.
 
-https://github.com/antonbabenko/pre-commit-terraform#how-to-install
+<https://github.com/antonbabenko/pre-commit-terraform#how-to-install>
 
 ```sh
 pre-commit run -a
@@ -116,8 +116,8 @@ pre-commit run -a
 
 ## Flyway
 
-SQL Migrations file are under `migrations/${DB_NAME}` for each database. 
-We assume that migrations with a minor number are specific of a certain environment, 
+SQL Migrations file are under `migrations/${DB_NAME}` for each database.
+We assume that migrations with a minor number are specific of a certain environment,
 while migrations identified by only a major number could (and should) be ported to all environments.
 
 To apply changes use `flyway.sh` script as follow:
@@ -139,6 +139,8 @@ For example:
 ```sh
 ./flyway.sh migrate DEV-CSTAR cstar-d-flexible-postgresql fa -target=1
 ```
+
+<!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 

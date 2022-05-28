@@ -1,7 +1,7 @@
 resource "azurerm_resource_group" "rg_vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
-  name     = "${local.aks_network_prefix}-${each.key}-aks-vnet-rg"
+  name     = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet-rg"
   location = var.location
 
   tags = var.tags
@@ -12,9 +12,9 @@ module "vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.15.1"
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.16.0"
 
-  name                = "${local.aks_network_prefix}-${each.key}-aks-vnet"
+  name                = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet_aks[each.key].name
   address_space       = each.value["vnet_cidr"]
@@ -29,9 +29,8 @@ module "vnet_aks" {
 resource "azurerm_public_ip" "outbound_ip_aks" {
   for_each = { for n in var.aks_networks : n.domain_name => index(var.aks_networks.*.domain_name, n.domain_name) }
 
-
-  name                = "${local.aks_network_prefix}-${each.key}-aksoutbound-pip-${each.value + 1}"
-  domain_name_label   = "${local.aks_network_prefix}-${each.key}-aks"
+  name                = "${local.aks_network_prefix}-${var.location_short}-${each.key}-aksoutbound-pip-${each.value + 1}"
+  domain_name_label   = "${local.aks_network_prefix}-${var.location_short}-${each.key}-aks"
   location            = azurerm_resource_group.rg_vnet_aks[each.key].location
   resource_group_name = azurerm_resource_group.rg_vnet_aks[each.key].name
   sku                 = "Standard"
@@ -45,10 +44,9 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
 # #
 
 module "vnet_peering_core_2_aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v2.12.2"
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v2.16.0"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
-
 
   location = var.location
 
