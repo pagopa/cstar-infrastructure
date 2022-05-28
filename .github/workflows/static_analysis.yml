@@ -19,6 +19,7 @@ jobs:
           TAG=$(cat .terraform-version)
           for f in $FOLDERS; do
             echo "${f}"
+            cd "$(pwd)/${f}"
           done
 
       # - name: init_src
