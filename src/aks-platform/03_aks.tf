@@ -89,6 +89,12 @@ module "aks" {
     }
   ]
   tags = var.tags
+
+  depends_on = [
+    module.snet_aks,
+    data.azurerm_public_ip.pip_aks_outboud,
+    data.azurerm_virtual_network.vnet_aks
+  ]
 }
 
 
