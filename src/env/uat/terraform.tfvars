@@ -1,7 +1,7 @@
-prefix        = "cstar"
-location      = "westeurope"
-location_pair = "northeurope"
-location_short = "weu"
+prefix              = "cstar"
+location            = "westeurope"
+location_pair       = "northeurope"
+location_short      = "weu"
 location_pair_short = "neu"
 
 apim_notification_sender_email = "info@pagopa.it"
