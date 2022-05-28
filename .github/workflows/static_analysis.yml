@@ -18,7 +18,7 @@ jobs:
         run: |
           TAG=$(cat .terraform-version)
           for f in $FOLDERS; do
-            cd "${f}"
+            echo "${f}"
             $(pwd)
           done
 
