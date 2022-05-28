@@ -97,14 +97,14 @@ variable "log_analytics_workspace_resource_group_name" {
 ### Aks
 
 variable "aks_name" {
-  type = string
+  type        = string
   description = "AKS cluster name"
 }
 
 variable "aks_resource_group_name" {
-  type = string
+  type        = string
   description = "AKS cluster resource name"
-  
+
 }
 
 variable "k8s_kube_config_path_prefix" {
