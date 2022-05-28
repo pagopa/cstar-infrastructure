@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "namespace_system" {
+resource "kubernetes_namespace" "system_domain_namespace" {
   metadata {
     name = "${var.domain}-system"
   }
@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "namespace_system" {
 resource "kubernetes_service_account" "azure_devops" {
   metadata {
     name      = "azure-devops"
-    namespace = kubernetes_namespace.namespace_system.metadata[0].name
+    namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   }
   automount_service_account_token = false
 }
@@ -15,7 +15,7 @@ resource "kubernetes_service_account" "azure_devops" {
 data "kubernetes_secret" "azure_devops_secret" {
   metadata {
     name      = kubernetes_service_account.azure_devops.default_secret_name
-    namespace = kubernetes_namespace.namespace_system.metadata[0].name
+    namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   }
   binary_data = {
     "ca.crt" = ""
@@ -48,7 +48,7 @@ resource "azurerm_key_vault_secret" "azure_devops_sa_cacrt" {
 resource "kubernetes_role_binding" "deployer_binding" {
   metadata {
     name      = "deployer-binding"
-    namespace = kubernetes_namespace.namespace.metadata[0].name
+    namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
@@ -58,6 +58,6 @@ resource "kubernetes_role_binding" "deployer_binding" {
   subject {
     kind      = "ServiceAccount"
     name      = "azure-devops"
-    namespace = kubernetes_namespace.namespace_system.metadata[0].name
+    namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   }
 }
