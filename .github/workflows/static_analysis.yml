@@ -18,9 +18,8 @@ jobs:
         run: |
           TAG=$(cat .terraform-version)
           for f in $FOLDERS; do
-            pushd "$(pwd)/${f}"
-              $(pwd)
-            popd
+            cd "$(pwd)/${f}"
+            $(pwd)
           done
 
       # - name: init_src
