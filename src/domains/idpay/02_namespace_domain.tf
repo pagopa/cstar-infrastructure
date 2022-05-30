@@ -4,7 +4,7 @@ resource "kubernetes_namespace" "domain_namespace" {
   }
 }
 
-module "keyvault_pod_identity" {
+module "domain_pod_identity" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.13.1"
 
   resource_group_name = local.aks_resource_group_name
@@ -12,7 +12,7 @@ module "keyvault_pod_identity" {
   tenant_id           = data.azurerm_subscription.current.tenant_id
   cluster_name        = local.aks_name
 
-  identity_name = "${local.project}-kv-pod-identity"
+  identity_name = "${var.domain}-pod-identity"
   namespace     = kubernetes_namespace.domain_namespace.metadata[0].name
   key_vault     = data.azurerm_key_vault.kv
 
