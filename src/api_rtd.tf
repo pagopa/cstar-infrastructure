@@ -247,6 +247,7 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   service_url = ""
 
+  # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value  = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml.tpl", {})
 
