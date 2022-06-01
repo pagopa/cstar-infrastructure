@@ -3,6 +3,9 @@
     <base />
     <return-response>
       <set-status code="200" reason="Abi to fiscal code map"/>
+      <set-header name="Content-Type" exists-action="override">
+        <value>application/json</value>
+      </set-header>
       <set-body>@{
         return new JObject(
           new JProperty("EVODE", "IE9813461A"),
