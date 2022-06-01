@@ -36,11 +36,11 @@ module "cosmosdb_account_mongodb" {
   tags = var.tags
 }
 
-resource "azurerm_cosmosdb_mongo_database" "onboarding_citizen" {
+resource "azurerm_cosmosdb_mongo_database" "idpay" {
 
   count = 1
 
-  name                = "onboarding_citizen"
+  name                = "idpay"
   resource_group_name = azurerm_resource_group.db_rg.name
   account_name        = module.cosmosdb_account_mongodb[count.index].name
 
@@ -52,4 +52,28 @@ resource "azurerm_cosmosdb_mongo_database" "onboarding_citizen" {
       max_throughput = var.cosmos_mongo_db_transaction_params.enable_serverless.max_throughput
     }
   }
+}
+
+# Collections
+module "mongdb_collection_onboarding_citizen" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  count = 1
+  name                = "onboarding_citizen"
+  resource_group_name = azurerm_resource_group.mongodb_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb[count.index].name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay[count.index].name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    },
+    {
+      keys   = ["parent"]
+      unique = false
+    }
+  ]
+
+  lock_enable = true
 }
