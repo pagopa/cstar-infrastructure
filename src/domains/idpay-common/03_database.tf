@@ -38,7 +38,7 @@ module "cosmosdb_account_mongodb" {
 
 resource "azurerm_cosmosdb_mongo_database" "onboarding_citizen" {
 
-  count = var.enable.rtd.file_register ? 1 : 0
+  count = 1
 
   name                = "onboarding_citizen"
   resource_group_name = azurerm_resource_group.db_rg.name
