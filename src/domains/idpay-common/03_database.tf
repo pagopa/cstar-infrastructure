@@ -65,15 +65,5 @@ module "mongdb_collection_onboarding_citizen" {
   cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb[count.index].name
   cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay[count.index].name
 
-  indexes = [{
-    keys   = ["_id"]
-    unique = true
-    },
-    {
-      keys   = ["parent"]
-      unique = false
-    }
-  ]
-
   lock_enable = true
 }
