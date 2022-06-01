@@ -30,10 +30,10 @@ resource "azurerm_private_dns_zone" "cosmos_mongo" {
 resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_vnet" {
   count = var.cosmos_mongo_db_params.enabled ? 1 : 0
 
-  name                  = module.vnet.name
+  name                  = local.vnet_core_name
   resource_group_name   = local.vnet_core_resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo[count.index].name
-  virtual_network_id    = module.vnet.id
+  virtual_network_id    = azurerm_virtual_network.vnet_core.id
   registration_enabled  = false
 
   tags = var.tags
