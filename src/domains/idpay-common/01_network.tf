@@ -9,7 +9,7 @@ module "cosmos_mongodb_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.14"
   name                 = format("%s-cosmos-mongodb-snet", local.project)
   resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
+  virtual_network_name = local.vnet_core_name
   address_prefixes     = var.cidr_subnet_cosmos_mongodb
 
   enforce_private_link_endpoint_network_policies = true
@@ -22,7 +22,7 @@ resource "azurerm_private_dns_zone" "cosmos_mongo" {
   count = var.cosmos_mongo_db_params.enabled ? 1 : 0
 
   name                = "privatelink.mongo.cosmos.azure.com"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
+  resource_group_name = local.vnet_core_resource_group_name
 
   tags = var.tags
 }
