@@ -23,6 +23,8 @@ terraform_remote_state_core = {
   key                  = "dev.terraform.tfstate"
 }
 
+cidr_subnet_cosmos_mongodb  = ["10.1.139.0/24"]
+
 cosmos_mongo_db_params = {
   enabled      = true
   capabilities = ["EnableMongo", "EnableServerless"]
