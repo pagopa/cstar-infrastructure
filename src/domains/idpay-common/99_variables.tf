@@ -103,6 +103,15 @@ variable "cosmos_mongo_db_params" {
   })
 }
 
+variable "cosmos_mongo_db_transaction_params" {
+  type = object({
+    enable_serverless  = bool
+    enable_autoscaling = bool
+    throughput         = number
+    max_throughput     = number
+  })
+}
+
 variable "cidr_subnet_cosmos_mongodb" {
   type        = list(string)
   description = "Cosmos Mongo DB network address space."
