@@ -124,6 +124,15 @@ variable "dns_default_ttl_sec" {
   default     = 3600
 }
 
+variable "dns_storage_account_tkm" {
+  type = object({
+    name = string
+    ips  = list(string)
+  })
+  description = "DNS A record for tkm storage account"
+  default     = null
+}
+
 #
 # AKS
 #

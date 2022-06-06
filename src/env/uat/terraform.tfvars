@@ -372,10 +372,15 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+## DNS
 dns_zone_prefix         = "uat.cstar"
 internal_private_domain = "internal.uat.cstar.pagopa.it"
-ehns_sku_name           = "Standard"
+dns_storage_account_tkm = {
+  name = "tkmstorageblobuatpci"
+  ips  = ["10.70.73.38"]
+}
 
+ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {

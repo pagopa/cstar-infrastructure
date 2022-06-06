@@ -338,9 +338,14 @@ pgres_flex_params = {
 
 }
 
-
+## DNS
 dns_zone_prefix         = "dev.cstar"
 internal_private_domain = "internal.dev.cstar.pagopa.it"
+dns_storage_account_tkm = {
+  name = "u89blobtestaccount"
+  ips  = ["10.70.66.99"]
+}
+
 cosmos_mongo_db_params = {
   enabled      = true
   kind         = "MongoDB"
