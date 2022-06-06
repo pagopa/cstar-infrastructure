@@ -97,6 +97,19 @@ module "aks" {
   ]
 }
 
+#
+# ACR connection
+#
+# add the role to the identity the kubernetes cluster was assigned
+resource "azurerm_role_assignment" "aks_to_acr" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = module.aks[0].kubelet_identity_id
+}
+
+#
+# Vnet Link
+#
 
 # vnet needs a vnet link with aks private dns zone
 # aks terrform module doesn't export private dns zone
