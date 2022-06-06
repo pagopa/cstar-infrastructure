@@ -112,11 +112,6 @@ variable "cosmos_mongo_db_transaction_params" {
   })
 }
 
-variable "cidr_subnet_cosmos_mongodb" {
-  type        = list(string)
-  description = "Cosmos Mongo DB network address space."
-}
-
 ### External resources
 
 variable "monitor_resource_group_name" {
