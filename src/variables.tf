@@ -90,6 +90,11 @@ variable "cidr_subnet_cosmos_mongodb" {
   description = "Cosmos Mongo DB network address space."
 }
 
+variable "cidr_subnet_private_endpoint" {
+  type        = list(string)
+  description = "Private Endpoint address space."
+}
+
 #
 # VPN
 #
