@@ -6,30 +6,24 @@ resource "azurerm_resource_group" "sftp" {
   location = var.location
 }
 
-resource "azurerm_advanced_threat_protection" "sftp" {
-  target_resource_id = azurerm_storage_account.sftp.id
-  enabled            = false
-}
+module "sftp" {
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=hns-storage-account"
 
-resource "azurerm_storage_account" "sftp" {
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
   location            = var.location
 
-  account_kind              = "StorageV2"
-  account_tier              = "Standard"
-  account_replication_type  = "GRS"
-  access_tier               = "Hot"
-  enable_https_traffic_only = true
-  min_tls_version           = "TLS1_2"
-  allow_blob_public_access  = false
-  is_hns_enabled            = true
+  account_kind             = "StorageV2"
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  access_tier              = "Hot"
+  is_hns_enabled           = true
 
   tags = var.tags
 }
 
 resource "azurerm_storage_container" "ade" {
   name                  = "ade"
-  storage_account_name  = azurerm_storage_account.sftp.name
+  storage_account_name  = module.sftp.name
   container_access_type = "private"
 }
