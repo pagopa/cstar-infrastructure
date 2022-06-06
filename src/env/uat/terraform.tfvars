@@ -773,6 +773,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = false
+    abi_to_fiscalcode_api               = true
   }
   fa = {
     api = true
