@@ -229,6 +229,37 @@ module "rtd_blob_internal" {
   api_operation_policies = []
 }
 
+## RTD Payment Instrument Manager API ##
+module "rtd_fake_abi_to_fiscal_code" {
+  count = var.enable.rtd.abi_to_fiscalcode_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+
+  name                = format("%s-rtd-fake-abi-to-fiscal-code", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = "RTD API to convert fake ABIs to acquirer fiscal code"
+  display_name = "RTD Acquirer ABI to Fiscal Code"
+  path         = "rtd/abi-to-fiscalcode"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml.tpl", {})
+
+  xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml.tpl", {})
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
+
+
 # 
 # SUBSCRIPTIONS FOR INTERNAL USERS
 #
