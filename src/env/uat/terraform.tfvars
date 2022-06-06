@@ -380,7 +380,7 @@ dns_storage_account_tkm = {
   ips  = ["10.70.73.38"]
 }
 
-ehns_sku_name           = "Standard"
+ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
