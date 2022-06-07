@@ -11,7 +11,7 @@ module "sftp" {
 
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
-  location            = var.location
+  location            = azurerm_resource_group.sftp.location
 
   account_kind             = "StorageV2"
   account_tier             = "Standard"
@@ -22,8 +22,41 @@ module "sftp" {
   tags = var.tags
 }
 
+resource "azurerm_eventgrid_system_topic" "sftp" {
+  name                   = "${local.project}-sftp-topic"
+  resource_group_name    = azurerm_resource_group.sftp.name
+  location               = azurerm_resource_group.sftp.location
+  source_arm_resource_id = module.sftp.id
+  topic_type             = "Microsoft.Storage.StorageAccounts"
+}
+
+resource "azurerm_eventhub_namespace" "sftp" {
+  name                = "${local.project}-sftp"
+  location            = azurerm_resource_group.sftp.location
+  resource_group_name = azurerm_resource_group.sftp.name
+  sku                 = "Standard"
+  capacity            = 1
+}
+
+resource "azurerm_eventhub" "sftp" {
+  name                = "${local.project}-sftp"
+  namespace_name      = azurerm_eventhub_namespace.sftp.name
+  resource_group_name = azurerm_resource_group.sftp.name
+  partition_count     = 2
+  message_retention   = 1
+}
+
+resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
+  name                = "${local.project}-sftp-subscription"
+  system_topic        = azurerm_eventgrid_system_topic.sftp.name
+  resource_group_name = azurerm_resource_group.sftp.name
+
+  eventhub_endpoint_id = azurerm_eventhub.sftp.id
+}
+
 resource "azurerm_storage_container" "ade" {
   name                  = "ade"
   storage_account_name  = module.sftp.name
   container_access_type = "private"
 }
+
