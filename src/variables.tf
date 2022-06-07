@@ -271,7 +271,7 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-## apim 
+## apim
 variable "cidr_subnet_apim" {
   type        = list(string)
   description = "Address prefixes subnet api management."
@@ -415,7 +415,7 @@ variable "cidr_subnet_azdoa" {
   description = "Azure DevOps agent network address space."
 }
 
-## Database server postgresl 
+## Database server postgresl
 variable "db_sku_name" {
   type        = string
   description = "Specifies the SKU Name for this PostgreSQL Server."
@@ -694,6 +694,11 @@ variable "cdc_api_params" {
   default = {
     host = "https://httpbin.org"
   }
+}
+
+variable "sftp_account_replication_type" {
+  type        = string
+  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
 }
 
 variable "tags" {

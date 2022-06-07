@@ -236,6 +236,8 @@ aks_metric_alerts = {
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 
+sftp_account_replication_type = "GRS"
+
 db_sku_name                     = "GP_Gen5_2"
 db_geo_redundant_backup_enabled = false
 db_enable_replica               = false
@@ -317,7 +319,7 @@ pgres_flex_params = {
   enabled    = false
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576, 
+  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
   # 2097152, 4194304, 8388608, 16777216, and 33554432.
   storage_mb                   = 32768
   zone                         = 1
@@ -741,7 +743,7 @@ k8s_ip_filter_range = {
 redis_sku_name = "Premium"
 redis_family   = "P"
 
-# This is the k8s ingress controller ip. It must be in the aks subnet range.  
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
 reverse_proxy_ip = "10.1.0.250"
 
 app_gateway_sku_name                    = "WAF_v2"
