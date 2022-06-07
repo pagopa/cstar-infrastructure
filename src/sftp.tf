@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "sftp" {
 }
 
 module "sftp" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=hns-storage-account"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
 
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
