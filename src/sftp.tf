@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sftp" {
   location = var.location
 }
 
-module "sftp" { # add private endpoint (dns zone storage account) per uat-prod and ip-list (module network-rules)
+module "sftp" { # add private endpoint (dns zone storage account) per uat-prod
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
 
   name                = replace("${local.project}-sftp", "-", "")
@@ -18,6 +18,13 @@ module "sftp" { # add private endpoint (dns zone storage account) per uat-prod a
   account_replication_type = var.sftp_account_replication_type
   access_tier              = "Hot"
   is_hns_enabled           = true
+
+  network_rules = {
+    default_action             = "Deny"
+    bypass                     = ["AzureServices"]
+    ip_rules                   = var.sftp_ip_rules
+    virtual_network_subnet_ids = []
+  }
 
   tags = var.tags
 }

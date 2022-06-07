@@ -701,6 +701,11 @@ variable "sftp_account_replication_type" {
   description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
 }
 
+variable "sftp_ip_rules" {
+  type        = list(string)
+  description = "List of public IP or IP ranges in CIDR Format allowed to access the storage account. Only IPV4 addresses are allowed"
+}
+
 variable "tags" {
   type = map(any)
   default = {

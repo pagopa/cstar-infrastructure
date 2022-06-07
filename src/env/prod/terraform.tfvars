@@ -237,6 +237,7 @@ devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 
 sftp_account_replication_type = "GRS"
+sftp_ip_rules                 = []
 
 db_sku_name                     = "GP_Gen5_2"
 db_geo_redundant_backup_enabled = false
