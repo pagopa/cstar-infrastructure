@@ -706,6 +706,16 @@ variable "sftp_ip_rules" {
   description = "List of public IP or IP ranges in CIDR Format allowed to access the storage account. Only IPV4 addresses are allowed"
 }
 
+variable "sftp_enable_private_endpoint" {
+  type        = bool
+  description = "If true, create a private endpoint for the SFTP storage account"
+}
+
+variable "sftp_subnet_id" {
+  type        = string
+  description = "The ID of the Subnet from which Private IP Addresses will be allocated for the Private Endpoint."
+}
+
 variable "tags" {
   type = map(any)
   default = {

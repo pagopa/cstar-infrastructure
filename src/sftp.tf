@@ -29,6 +29,29 @@ module "sftp" { # add private endpoint (dns zone storage account) per uat-prod
   tags = var.tags
 }
 
+resource "azurerm_private_endpoint" "sftp" {
+  count = var.sftp_enable_private_endpoint ? 1 : 0
+
+  name                = "${module.sftp.name}-endpoint"
+  resource_group_name = azurerm_resource_group.sftp.name
+  location            = azurerm_resource_group.sftp.location
+  subnet_id           = var.sftp_subnet_id
+
+  private_service_connection {
+    name                           = "${module.sftp.name}-endpoint"
+    private_connection_resource_id = module.sftp.id
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
+  }
+
+  private_dns_zone_group {
+    name                 = "private-dns-zone-group"
+    private_dns_zone_ids = [azurerm_private_dns_zone.storage_account.id]
+  }
+
+  tags = var.tags
+}
+
 resource "azurerm_eventgrid_system_topic" "sftp" {
   name                   = "${local.project}-sftp-topic"
   resource_group_name    = azurerm_resource_group.sftp.name
