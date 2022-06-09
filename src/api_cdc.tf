@@ -187,7 +187,7 @@ module "api_cdc_io" {
   api_operation_policies = [
     {
       operation_id = "getStatoBeneficiario",
-      xml_content = file("./api/cdc/get-stato-beneficiario_policy.xml")
+      xml_content  = file("./api/cdc/get-stato-beneficiario_policy.xml")
     },
   ]
 
