@@ -1,9 +1,11 @@
 <policies>
   <inbound>
     <base />
+    %{ if env_short == "u" ~}
     <set-header name="x-ibm-client-secret" exists-action="override">
       <value>{{x-ibm-client-secret}}</value>
     </set-header>
+    %{ endif ~}
     <set-header name="x-ibm-client-id" exists-action="override">
       <value>{{x-ibm-client-id}}</value>
     </set-header>
