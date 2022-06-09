@@ -112,6 +112,35 @@ variable "cosmos_mongo_db_transaction_params" {
   })
 }
 
+# DNS
+variable "external_domain" {
+  type        = string
+  default     = "pagopa.it"
+  description = "Domain for delegation"
+}
+
+variable "dns_zone_prefix" {
+  type        = string
+  default     = "cstar"
+  description = "The dns subdomain."
+}
+
+#CDN
+variable "robots_indexed_paths" {
+  type        = list(string)
+  description = "List of cdn paths to allow robots index"
+  default = []
+}
+
+# Single Page Applications
+variable "spa" {
+  type        = list(string)
+  description = "spa root dirs"
+  default = [
+    "portal"
+  ]
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
