@@ -244,7 +244,6 @@ azdo_sp_tls_cert_enabled            = false # will be enabled when TLS cert will
 sftp_account_replication_type = "LRS"
 sftp_ip_rules                 = ["87.13.183.131"]
 sftp_enable_private_endpoint  = true
-sftp_subnet_id                = "/subscriptions/4d177dd6-5c7d-40ab-8019-0c1be380a25d/resourceGroups/cstar-d-weu-dev01-vnet-rg/providers/Microsoft.Network/virtualNetworks/cstar-d-weu-dev01-vnet/subnets/cstar-d-weu-dev01-aks-snet"
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false

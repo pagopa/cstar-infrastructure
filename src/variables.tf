@@ -711,11 +711,6 @@ variable "sftp_enable_private_endpoint" {
   description = "If true, create a private endpoint for the SFTP storage account"
 }
 
-variable "sftp_subnet_id" {
-  type        = string
-  description = "The ID of the Subnet from which Private IP Addresses will be allocated for the Private Endpoint."
-}
-
 variable "tags" {
   type = map(any)
   default = {

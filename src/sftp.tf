@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sftp" {
   location = var.location
 }
 
-module "sftp" { # add private endpoint (dns zone storage account) per uat-prod
+module "sftp" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
 
   name                = replace("${local.project}-sftp", "-", "")
@@ -35,7 +35,7 @@ resource "azurerm_private_endpoint" "sftp" {
   name                = "${module.sftp.name}-endpoint"
   resource_group_name = azurerm_resource_group.sftp.name
   location            = azurerm_resource_group.sftp.location
-  subnet_id           = var.sftp_subnet_id
+  subnet_id           = module.storage_account_snet.id
 
   private_service_connection {
     name                           = "${module.sftp.name}-endpoint"

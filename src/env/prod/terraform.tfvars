@@ -239,7 +239,6 @@ azdo_sp_tls_cert_enabled            = false
 sftp_account_replication_type = "GRS"
 sftp_ip_rules                 = []
 sftp_enable_private_endpoint  = true
-sftp_subnet_id                = "dummy"
 
 db_sku_name                     = "GP_Gen5_2"
 db_geo_redundant_backup_enabled = false
