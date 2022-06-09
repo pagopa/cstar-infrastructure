@@ -129,6 +129,15 @@ variable "dns_default_ttl_sec" {
   default     = 3600
 }
 
+variable "dns_storage_account_tkm" {
+  type = object({
+    name = string
+    ips  = list(string)
+  })
+  description = "DNS A record for tkm storage account"
+  default     = null
+}
+
 #
 # AKS
 #
@@ -678,6 +687,15 @@ variable "cosmos_mongo_db_transaction_params" {
   })
 }
 
+variable "cdc_api_params" {
+  type = object({
+    host = string
+  })
+  default = {
+    host = "https://httpbin.org"
+  }
+}
+
 variable "tags" {
   type = map(any)
   default = {
@@ -704,6 +722,7 @@ variable "enable" {
       internal_api                        = bool
       csv_transaction_apis                = bool
       file_register                       = bool
+      abi_to_fiscalcode_api               = bool
     })
     fa = object({
       api = bool
@@ -722,6 +741,7 @@ variable "enable" {
       internal_api                        = false
       csv_transaction_apis                = false
       file_register                       = false
+      abi_to_fiscalcode_api               = false
     }
     fa = {
       api = false

@@ -372,10 +372,15 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+## DNS
 dns_zone_prefix         = "uat.cstar"
 internal_private_domain = "internal.uat.cstar.pagopa.it"
-ehns_sku_name           = "Standard"
+dns_storage_account_tkm = {
+  name = "tkmstorageblobuatpci"
+  ips  = ["10.70.73.38"]
+}
 
+ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
@@ -752,6 +757,10 @@ app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 
 enable_iac_pipeline = true
 
+cdc_api_params = {
+  host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+}
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
@@ -769,6 +778,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = false
+    abi_to_fiscalcode_api               = true
   }
   fa = {
     api = true

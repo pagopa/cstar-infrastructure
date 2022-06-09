@@ -129,15 +129,16 @@ module "api_cdc_sogei" {
   path         = "sogei"
   protocols    = ["https"]
 
-  service_url = "  https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+  service_url = var.cdc_api_params.host
 
   content_format = "openapi"
   content_value = templatefile("./api/cdc/openapi.sogei.yml.tpl", {
-    host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+    host = var.cdc_api_params.host
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint,
+    env_short                   = var.env_short
   })
 
   product_ids           = [module.app_io_product.product_id]
@@ -168,21 +169,27 @@ module "api_cdc_io" {
   path         = "cdc"
   protocols    = ["https"]
 
-  service_url = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/CDCUtenteWS/rest/secured/"
+  service_url = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
 
   content_format = "openapi"
   content_value = templatefile("./api/cdc/openapi.io.yml.tpl", {
-    host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+    host = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
     jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
+    env_short                   = var.env_short
   })
 
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "getStatoBeneficiario",
+      xml_content  = file("./api/cdc/get-stato-beneficiario_policy.xml")
+    },
+  ]
 
   # tags = merge(var.tags, { Application = "CDC" })
 
