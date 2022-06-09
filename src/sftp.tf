@@ -29,16 +29,16 @@ module "sftp" {
   tags = var.tags
 }
 
-resource "azurerm_private_endpoint" "sftp" {
+resource "azurerm_private_endpoint" "sftp_blob" {
   count = var.sftp_enable_private_endpoint ? 1 : 0
 
-  name                = "${module.sftp.name}-endpoint"
+  name                = "${module.sftp.name}-blob-endpoint"
   resource_group_name = azurerm_resource_group.sftp.name
   location            = azurerm_resource_group.sftp.location
   subnet_id           = module.storage_account_snet.id
 
   private_service_connection {
-    name                           = "${module.sftp.name}-endpoint"
+    name                           = "${module.sftp.name}-blob-endpoint"
     private_connection_resource_id = module.sftp.id
     is_manual_connection           = false
     subresource_names              = ["blob"]
