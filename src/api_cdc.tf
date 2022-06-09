@@ -184,7 +184,12 @@ module "api_cdc_io" {
   product_ids           = [module.app_io_product.product_id]
   subscription_required = true
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "getStatoBeneficiario",
+      xml_content  = file("./api/cdc/get-stato-beneficiario_policy.xml")
+    },
+  ]
 
   # tags = merge(var.tags, { Application = "CDC" })
 
