@@ -1,7 +1,7 @@
 <policies>
     <inbound>
         <base />
-        <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param").Split(' ').Last())" />
+        <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("x-bpd-token","bpd-token").Split(' ').Last())" />
         <cache-lookup-value key="@((string)context.Variables["token"] + "-cdc-get-stato-beneficiario")" variable-name="statoBeneficiario"  />
         <choose>
             <!-- If the response is cached, return it and stop policy execution -->
@@ -16,9 +16,9 @@
     <outbound>
         <base />
         <set-variable name="isCacheable" value="@{
-            var response = context.Response.Body.As<JObject>();
+            var response = context.Response.Body.As<JObject>(preserveContent: true);
             var listaStatoPerAnno = (JArray)response["listaStatoPerAnno"];
-            bool isCacheable = (listaStatoPerAnno.Count == 3 && listaStatoPerAnno.Contains("ATTIVABILE")) ? true: false;
+            bool isCacheable = (listaStatoPerAnno.Count == 3 && !listaStatoPerAnno.Contains("ATTIVABILE")) ? true: false;
             return isCacheable;
         }"/>
         <choose>
