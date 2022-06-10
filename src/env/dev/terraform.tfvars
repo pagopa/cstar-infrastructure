@@ -3,6 +3,7 @@ location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
+env_short    = "d"
 
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
@@ -365,13 +366,12 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = true
 
-  additional_geo_locations          = []
   private_endpoint_enabled          = false
   public_network_access_enabled     = true
+  additional_geo_locations          = []
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
-
 }
 
 cosmos_mongo_db_transaction_params = {
@@ -380,7 +380,6 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
-
 
 ehns_sku_name = "Standard"
 
@@ -432,7 +431,6 @@ ehns_metric_alerts = {
 }
 
 enable_azdoa = true
-env_short    = "d"
 
 eventhubs = [
   {

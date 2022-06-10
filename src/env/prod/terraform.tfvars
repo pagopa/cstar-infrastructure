@@ -3,6 +3,7 @@ location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
+env_short    = "p"
 
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
@@ -23,6 +24,7 @@ cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
 cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
 cidr_subnet_storage_account = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -39,6 +41,15 @@ aks_networks = [
     vnet_cidr   = ["10.11.0.0/16"]
   }
 ]
+
+aks_enable_auto_scaling = true
+aks_min_node_count      = 1
+aks_max_node_count      = 6
+aks_vm_size             = "Standard_D8S_v3"
+
+aks_availability_zones  = [1, 2, 3]
+aks_node_count          = 6
+aks_sku_tier            = "Paid"
 
 aks_metric_alerts = {
   node_cpu = {
@@ -245,7 +256,6 @@ db_geo_redundant_backup_enabled = false
 db_enable_replica               = false
 db_storage_mb                   = 5242880 # 5TB
 
-
 db_network_rules = {
   ip_rules = [
     "18.192.147.151/32" #PDND
@@ -331,6 +341,7 @@ pgres_flex_params = {
 
 }
 
+dns_zone_prefix = "cstar"
 cosmos_mongo_db_params = {
   enabled      = false
   kind         = "MongoDB"
@@ -345,14 +356,14 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = true
 
+  private_endpoint_enabled          = true
+  public_network_access_enabled     = false
   additional_geo_locations = [{
     location          = "northeurope"
     failover_priority = 1
     zone_redundant    = false
   }]
 
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = false
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = true
@@ -364,18 +375,6 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
-
-dns_zone_prefix = "cstar"
-enable_azdoa    = true
-env_short       = "p"
-
-aks_availability_zones  = [1, 2, 3]
-aks_node_count          = 6
-aks_vm_size             = "Standard_D8S_v3"
-aks_sku_tier            = "Paid"
-aks_enable_auto_scaling = true
-aks_min_node_count      = 1
-aks_max_node_count      = 6
 
 ehns_sku_name                 = "Standard"
 ehns_capacity                 = 5
@@ -428,6 +427,8 @@ ehns_metric_alerts = {
     ],
   },
 }
+
+enable_azdoa    = true
 
 eventhubs = [
   {
