@@ -40,9 +40,9 @@ log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "cstar-d-dev01-aks-vnet-rg"
-vnet_aks_name              = "cstar-d-dev01-aks-vnet"
-public_ip_aksoutbound_name = "cstar-d-dev01-aksoutbound-pip-1"
+rg_vnet_aks_name           = "cstar-d-weu-dev01-vnet-rg"
+vnet_aks_name              = "cstar-d-weu-dev01-vnet"
+public_ip_aksoutbound_name = "cstar-d-weu-dev01-aksoutbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = false
@@ -61,7 +61,7 @@ aks_system_node_pool = {
 aks_user_node_pool = {
   enabled         = true,
   name            = "cstdev01usr",
-  vm_size         = "Standard_B2ms",
+  vm_size         = "Standard_B4ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
