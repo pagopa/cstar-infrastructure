@@ -40,9 +40,7 @@ module "idpay_onboarding_workflow" {
 
   service_url = "http://${var.reverse_proxy_ip}/idpayonboardingworkflow/idpay/onboarding"
 
-  content_value = templatefile("./api/idpay_onboarding_workflow/api.idpay.onboarding.yaml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
+  content_value = templatefile("./api/idpay_onboarding_workflow/api.idpay.onboarding.yaml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
