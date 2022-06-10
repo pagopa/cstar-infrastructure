@@ -33,10 +33,9 @@ module "idpay_onboarding_workflow" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
-
-  description  = ""
+  description  = "IDPAY Onboarding Workflow API"
   display_name = "IDPAY Onboarding Workflow API"
-  path         = "onboarding"
+  path         = "idpay/onboarding"
   protocols    = ["https", "http"]
 
   service_url = "http://${var.reverse_proxy_ip}/idpayonboardingworkflow/idpay/onboarding"
