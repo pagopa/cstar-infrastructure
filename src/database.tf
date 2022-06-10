@@ -158,6 +158,10 @@ module "cosmosdb_account_mongodb" {
   private_dns_zone_ids              = [azurerm_private_dns_zone.cosmos_mongo[count.index].id]
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
+  allowed_virtual_network_subnet_ids = [
+    module.k8s_snet.id
+  ]
+
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
   main_geo_location_location       = azurerm_resource_group.db_rg.location
   main_geo_location_zone_redundant = var.cosmos_mongo_db_params.main_geo_location_zone_redundant
