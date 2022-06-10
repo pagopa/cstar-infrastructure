@@ -3,6 +3,7 @@ location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
+env_short    = "u"
 
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
@@ -22,6 +23,7 @@ cidr_subnet_dnsforwarder    = ["10.1.133.0/29"]
 cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
 cidr_subnet_storage_account = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -341,6 +343,14 @@ pgres_flex_params = {
   create_mode                  = "Default"
 }
 
+## DNS
+dns_zone_prefix         = "uat.cstar"
+internal_private_domain = "internal.uat.cstar.pagopa.it"
+dns_storage_account_tkm = {
+  name = "tkmstorageblobuatpci"
+  ips  = ["10.70.73.38"]
+}
+
 cosmos_mongo_db_params = {
   enabled      = false
   kind         = "MongoDB"
@@ -374,14 +384,6 @@ cosmos_mongo_db_transaction_params = {
   enable_autoscaling = true
   max_throughput     = 5000
   throughput         = 1000
-}
-
-## DNS
-dns_zone_prefix         = "uat.cstar"
-internal_private_domain = "internal.uat.cstar.pagopa.it"
-dns_storage_account_tkm = {
-  name = "tkmstorageblobuatpci"
-  ips  = ["10.70.73.38"]
 }
 
 ehns_sku_name       = "Standard"
@@ -433,7 +435,6 @@ ehns_metric_alerts = {
 }
 
 enable_azdoa = true
-env_short    = "u"
 
 eventhubs = [
   {
