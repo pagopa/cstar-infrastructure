@@ -20,7 +20,7 @@ module "sftp" {
   is_hns_enabled           = true
 
   network_rules = {
-    default_action             = "Deny"
+    default_action             = var.sftp_disable_network_rules ? "Allow" : "Deny"
     bypass                     = ["AzureServices"]
     ip_rules                   = var.sftp_ip_rules
     virtual_network_subnet_ids = []
