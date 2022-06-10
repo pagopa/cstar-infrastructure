@@ -271,7 +271,7 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-## apim 
+## apim
 variable "cidr_subnet_apim" {
   type        = list(string)
   description = "Address prefixes subnet api management."
@@ -415,7 +415,7 @@ variable "cidr_subnet_azdoa" {
   description = "Azure DevOps agent network address space."
 }
 
-## Database server postgresl 
+## Database server postgresl
 variable "db_sku_name" {
   type        = string
   description = "Specifies the SKU Name for this PostgreSQL Server."
@@ -694,6 +694,28 @@ variable "cdc_api_params" {
   default = {
     host = "https://httpbin.org"
   }
+}
+
+variable "sftp_account_replication_type" {
+  type        = string
+  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
+}
+
+variable "sftp_disable_network_rules" {
+  type        = bool
+  description = "If false, allow any connection from outside the vnet"
+  default     = false
+}
+
+variable "sftp_ip_rules" {
+  type        = list(string)
+  description = "List of public IP or IP ranges in CIDR Format allowed to access the storage account. Only IPV4 addresses are allowed"
+  default     = []
+}
+
+variable "sftp_enable_private_endpoint" {
+  type        = bool
+  description = "If true, create a private endpoint for the SFTP storage account"
 }
 
 variable "tags" {
