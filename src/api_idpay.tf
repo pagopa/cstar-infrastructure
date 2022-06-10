@@ -3,7 +3,7 @@
 #
 
 module "idpay_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
 
   product_id   = "idpay_api_product"
   display_name = "IDPAY_API_Product"
@@ -27,21 +27,19 @@ module "idpay_api_product" {
 
 ## IDPAY Onboarding workflow API ##
 module "idpay_onboarding_workflow" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
 
-  name                = format("%s-idpay-onboarding-workflow", var.env_short)
+  name                = "${var.env_short}-idpay-onboarding-workflow"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
 
   description  = ""
   display_name = "IDPAY Onboarding Workflow API"
-  path         = "idpay/onboarding"
+  path         = "onboarding"
   protocols    = ["https", "http"]
 
-  service_url = format("http://%s/idpayonboardingworkflow/idpay/onboarding", var.reverse_proxy_ip)
-
-
+  service_url = "http://${var.reverse_proxy_ip}/idpayonboardingworkflow/idpay/onboarding"
 
   content_value = templatefile("./api/idpay_onboarding_workflow/api.idpay.onboarding.yaml.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
