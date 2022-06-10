@@ -35,7 +35,7 @@ module "idpay_onboarding_workflow" {
 
   description  = "IDPAY Onboarding Workflow"
   display_name = "IDPAY Onboarding Workflow API"
-  path         = "idpay/onboarding"
+  path         = "onboarding"
   protocols    = ["https", "http"]
 
   service_url = "http://${var.reverse_proxy_ip}/idpayonboardingworkflow/idpay/onboarding"
