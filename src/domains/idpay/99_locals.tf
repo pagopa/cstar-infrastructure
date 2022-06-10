@@ -5,7 +5,7 @@ locals {
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
-  ingress_hostname_prefix                      = "${var.instance}.${var.domain}"
+  ingress_hostname_prefix               = "${var.instance}.${var.domain}"
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
