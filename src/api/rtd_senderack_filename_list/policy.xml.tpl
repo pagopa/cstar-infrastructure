@@ -9,8 +9,8 @@
       <set-body>@{
         
         var fileList = new JArray();
-        fileList.Add(new JProperty("name", "CSTAR.STPAY.ADEACK.20220929.211940.001.csv"));
-        fileList.Add(new JProperty("name", "CSTAR.STPAY.ADEACK.20220929.211941.001.csv"));
+        fileList.Add("CSTAR.STPAY.ADEACK.20220929.211940.001.csv");
+        fileList.Add("CSTAR.STPAY.ADEACK.20220929.211941.001.csv");
         
         return new JObject(
           new JProperty("fileNameList", fileList)
