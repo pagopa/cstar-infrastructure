@@ -796,7 +796,6 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = true
-    abi_to_fiscalcode_api               = true
   }
   fa = {
     api = true
@@ -805,6 +804,7 @@ enable = {
     api = false
   }
   tae = {
+    api            = true
     db_collections = true
   }
 }

@@ -23,6 +23,8 @@ cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
 cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
 cidr_subnet_storage_account = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+cidr_subnet_private_endpoint = ["10.1.200.0/23"]
+
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -780,7 +782,6 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = false
-    abi_to_fiscalcode_api               = false
   }
   fa = {
     api = false
@@ -789,6 +790,7 @@ enable = {
     api = true
   }
   tae = {
+    api            = false
     db_collections = false
   }
 }
