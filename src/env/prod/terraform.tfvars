@@ -758,6 +758,11 @@ app_gateway_max_capacity                = 10
 lock_enable = true
 
 enable_iac_pipeline = true
+
+cdc_api_params = {
+  host = "https://api.sogei.it/interop/carta-cultura"
+}
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"
@@ -775,12 +780,13 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = false
+    abi_to_fiscalcode_api               = false
   }
   fa = {
     api = false
   }
   cdc = {
-    api = false
+    api = true
   }
   tae = {
     db_collections = false
