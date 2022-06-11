@@ -40,7 +40,7 @@ module "idpay_onboarding_workflow" {
 
   service_url = "http://${var.reverse_proxy_ip}/idpayonboardingworkflow/idpay/onboarding"
 
- content_value = templatefile("./api/idpay_onboarding_workflow/swagger.onboarding.json.tpl", {})
+  content_value = templatefile("./api/idpay_onboarding_workflow/swagger.onboarding.json.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
