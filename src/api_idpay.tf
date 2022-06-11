@@ -33,14 +33,14 @@ module "idpay_onboarding_workflow" {
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
-  description  = "IDPAY Onboarding Workflow API"
+  description  = "IDPAY Onboarding Workflow"
   display_name = "IDPAY Onboarding Workflow API"
   path         = "idpay/onboarding"
   protocols    = ["https", "http"]
 
   service_url = "http://${var.reverse_proxy_ip}/idpayonboardingworkflow/idpay/onboarding"
 
-  content_value = templatefile("./api/idpay_onboarding_workflow/api.idpay.onboarding.yaml.tpl", {})
+ content_value = templatefile("./api/idpay_onboarding_workflow/swagger.onboarding.json.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
