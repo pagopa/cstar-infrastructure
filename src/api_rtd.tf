@@ -277,7 +277,7 @@ module "rtd_senderadeack_filename_list" {
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
-  content_value  = templatefile("./api/rtd_senderack_filename_list/openapi.yml.tpl", {
+  content_value = templatefile("./api/rtd_senderack_filename_list/openapi.yml.tpl", {
     host = "https://httpbin.org"
   })
 
