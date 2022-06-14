@@ -115,7 +115,7 @@
                         "name": "enrollmentCustomerDTO",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/EnrollmentCustomerDTO"
+                            "$ref": "#/definitions/EnrollmentCustomerVatNumberDTO"
                         }
                     }
                 ],

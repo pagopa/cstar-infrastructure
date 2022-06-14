@@ -3,7 +3,7 @@ resource "helm_release" "ingress" {
   name       = "nginx-ingress"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
-  version    = "3.31.0"
+  version    = "4.1.1"
   namespace  = kubernetes_namespace.ingress.metadata[0].name
 
   values = [
@@ -13,6 +13,11 @@ resource "helm_release" "ingress" {
   set {
     name  = "controller.replicaCount"
     value = var.ingress_replica_count
+  }
+
+  set {
+    name  = "controller.ingressClassResource.default"
+    value = true
   }
 
   set {

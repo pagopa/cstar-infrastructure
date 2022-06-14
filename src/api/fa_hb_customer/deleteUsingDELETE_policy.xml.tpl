@@ -17,7 +17,7 @@
         <cache-remove-value key="@((string)context.Variables["v_fiscalcode"] + "-getcustomer")"  />
         <set-variable name="channel" value="@(context.Request.Body.As<JObject>(preserveContent: true)["channel"])" />
         <set-backend-service base-url="http://${reverse-proxy-ip}/famsenrollment" />
-        <rewrite-uri template="@("/fa/customer/"+(string)context.Variables["v_fiscalcode"]+"/"+context.Variables["channel"])" copy-unmatched-params="true" />
+        <rewrite-uri template="@("/fa/enrollment/customer/"+(string)context.Variables["v_fiscalcode"]+"?channel="+context.Variables["channel"])" copy-unmatched-params="true" />
     </inbound>
     <backend>
         <base />

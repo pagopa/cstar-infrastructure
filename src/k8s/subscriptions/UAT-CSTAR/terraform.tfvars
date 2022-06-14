@@ -338,6 +338,8 @@ configmaps_fainvoicemanager = {
   POSTGRES_POOLSIZE                                      = "2"
   POSTGRES_SHOW_SQL                                      = "true"
   LOG_LEVEL_FA_INVOICE_MANAGER                           = "INFO"
+  MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
+  MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
 }
 
 configmaps_fainvoiceprovider = {
@@ -370,6 +372,10 @@ configmaps_fanotificationmanager = {
   LOG_LEVEL_FA_NOTIFICATION_MANAGER                      = "INFO"
   NOTIFICATION_SERVICE_TTL                               = "3600"
   URL_BACKEND_IO                                         = "https://api.io.italia.it"
+}
+
+configmaps_rtddecrypter = {
+  SPLITTER_LINE_THRESHOLD = 10000
 }
 
 autoscaling_specs = {
@@ -465,5 +471,24 @@ secrets_to_be_read_from_kv = [
   "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
   "evh-rtd-trx-rtd-trx-producer-key",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
-  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"
+  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01",
+  "evh-rtd-platform-events-rtd-platform-events-sub-key",
+  "tae-ade-api-client-id",
+  "tae-ade-api-client-secret",
+  "cstarblobstorage-private-key",
+  "cstarblobstorage-private-key-passphrase",
+  "rtd-internal-api-product-subscription-key"
 ]
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+    ingestor                            = false
+    file_register                       = false
+  }
+  fa = {
+    api = true
+  }
+}

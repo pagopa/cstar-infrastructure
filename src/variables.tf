@@ -1,26 +1,52 @@
 variable "location" {
-  type    = string
-  default = "westeurope"
+  type        = string
+  description = "Primary location region (e.g. westeurope)"
+}
+
+variable "location_pair" {
+  type        = string
+  description = "Pair (Secondary) location region (e.g. northeurope)"
+}
+
+variable "location_short" {
+  type        = string
+  description = "Primary location in short form (e.g. westeurope=weu)"
+}
+
+variable "location_pair_short" {
+  type        = string
+  description = "Pair (Secondary) location in short form (e.g. northeurope=neu)"
 }
 
 variable "prefix" {
-  type    = string
-  default = "cstar"
+  type = string
 }
 
 variable "env_short" {
   type = string
 }
 
+#
 # Network
+#
 variable "cidr_vnet" {
   type        = list(string)
   description = "Virtual network address space."
 }
 
+variable "cidr_subnet_storage_account" {
+  type        = list(string)
+  description = "Storage account network address space."
+}
+
 variable "cidr_subnet_db" {
   type        = list(string)
   description = "Database network address space."
+}
+
+variable "cidr_subnet_flex_dbms" {
+  type        = list(string)
+  description = "Postgres Flexible Server network address space."
 }
 
 variable "cidr_subnet_redis" {
@@ -59,7 +85,19 @@ variable "cidr_subnet_dnsforwarder" {
   description = "DNS Forwarder network address space."
 }
 
-## VPN ##
+variable "cidr_subnet_cosmos_mongodb" {
+  type        = list(string)
+  description = "Cosmos Mongo DB network address space."
+}
+
+variable "cidr_subnet_private_endpoint" {
+  type        = list(string)
+  description = "Private Endpoint address space."
+}
+
+#
+# VPN
+#
 variable "vpn_sku" {
   type        = string
   default     = "VpnGw1"
@@ -91,7 +129,18 @@ variable "dns_default_ttl_sec" {
   default     = 3600
 }
 
-## AKS ## 
+variable "dns_storage_account_tkm" {
+  type = object({
+    name = string
+    ips  = list(string)
+  })
+  description = "DNS A record for tkm storage account"
+  default     = null
+}
+
+#
+# AKS
+#
 variable "cidr_subnet_k8s" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
@@ -193,6 +242,16 @@ variable "aks_alerts_enabled" {
   description = "Aks alert enabled?"
 }
 
+variable "aks_networks" {
+  type = list(
+    object({
+      domain_name = string
+      vnet_cidr   = list(string)
+    })
+  )
+  description = "VNETs configuration for AKS"
+}
+
 ## Monitor
 variable "law_sku" {
   type        = string
@@ -212,7 +271,7 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-## apim 
+## apim
 variable "cidr_subnet_apim" {
   type        = list(string)
   description = "Address prefixes subnet api management."
@@ -261,7 +320,36 @@ variable "pm_ip_filter_range" {
   })
 }
 
+variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
 ## Application gateway
+variable "app_gateway_sku_name" {
+  type        = string
+  description = "The Name of the SKU to use for this Application Gateway. Possible values are Standard_Small, Standard_Medium, Standard_Large, Standard_v2, WAF_Medium, WAF_Large, and WAF_v2"
+}
+
+variable "app_gateway_sku_tier" {
+  type        = string
+  description = "The Tier of the SKU to use for this Application Gateway. Possible values are Standard, Standard_v2, WAF and WAF_v2"
+}
+
+variable "app_gateway_waf_enabled" {
+  type        = bool
+  description = "Enable waf"
+  default     = true
+}
+
+variable "app_gateway_alerts_enabled" {
+  type        = bool
+  description = "Enable alerts"
+  default     = true
+}
+
 variable "enable_custom_dns" {
   type        = bool
   default     = false
@@ -327,7 +415,7 @@ variable "cidr_subnet_azdoa" {
   description = "Azure DevOps agent network address space."
 }
 
-## Database server postgresl 
+## Database server postgresl
 variable "db_sku_name" {
   type        = string
   description = "Specifies the SKU Name for this PostgreSQL Server."
@@ -418,6 +506,21 @@ EOD
       }
     ))
   }))
+}
+
+# Postgres Flexible
+variable "pgres_flex_params" {
+  type = object({
+    enabled                      = bool
+    sku_name                     = string
+    db_version                   = string
+    storage_mb                   = string
+    zone                         = number
+    backup_retention_days        = number
+    geo_redundant_backup_enabled = bool
+    create_mode                  = string
+  })
+
 }
 
 ## Event hub
@@ -548,9 +651,141 @@ variable "enable_iac_pipeline" {
   default     = false
 }
 
+variable "cosmos_mongo_db_params" {
+  type = object({
+    enabled        = bool
+    capabilities   = list(string)
+    offer_type     = string
+    server_version = string
+    kind           = string
+    consistency_policy = object({
+      consistency_level       = string
+      max_interval_in_seconds = number
+      max_staleness_prefix    = number
+    })
+    main_geo_location_zone_redundant = bool
+    enable_free_tier                 = bool
+    main_geo_location_zone_redundant = bool
+    additional_geo_locations = list(object({
+      location          = string
+      failover_priority = number
+      zone_redundant    = bool
+    }))
+    private_endpoint_enabled          = bool
+    public_network_access_enabled     = bool
+    is_virtual_network_filter_enabled = bool
+    backup_continuous_enabled         = bool
+  })
+}
+
+variable "cosmos_mongo_db_transaction_params" {
+  type = object({
+    enable_serverless  = bool
+    enable_autoscaling = bool
+    throughput         = number
+    max_throughput     = number
+  })
+}
+
+variable "cdc_api_params" {
+  type = object({
+    host = string
+  })
+  default = {
+    host = "https://httpbin.org"
+  }
+}
+
+variable "sftp_account_replication_type" {
+  type        = string
+  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
+}
+
+variable "sftp_disable_network_rules" {
+  type        = bool
+  description = "If false, allow any connection from outside the vnet"
+  default     = false
+}
+
+variable "sftp_ip_rules" {
+  type        = list(string)
+  description = "List of public IP or IP ranges in CIDR Format allowed to access the storage account. Only IPV4 addresses are allowed"
+  default     = []
+}
+
+variable "sftp_enable_private_endpoint" {
+  type        = bool
+  description = "If true, create a private endpoint for the SFTP storage account"
+}
+
 variable "tags" {
   type = map(any)
   default = {
     CreatedBy = "Terraform"
   }
+}
+
+variable "enable_api_fa" {
+  type        = bool
+  description = "If true, allows to generate the APIs for FA."
+  default     = false
+}
+
+variable "enable_blob_storage_event_grid_integration" {
+  type        = bool
+  description = "If true, allows to send Blob Storage events to a queue."
+  default     = false
+}
+
+variable "enable" {
+  type = object({
+    rtd = object({
+      blob_storage_event_grid_integration = bool
+      internal_api                        = bool
+      csv_transaction_apis                = bool
+      file_register                       = bool
+      abi_to_fiscalcode_api               = bool
+    })
+    fa = object({
+      api = bool
+    })
+    cdc = object({
+      api = bool
+    })
+    tae = object({
+      db_collections = bool
+    })
+  })
+  description = "Feature flags"
+  default = {
+    rtd = {
+      blob_storage_event_grid_integration = false
+      internal_api                        = false
+      csv_transaction_apis                = false
+      file_register                       = false
+      abi_to_fiscalcode_api               = false
+    }
+    fa = {
+      api = false
+    }
+    cdc = {
+      api = false
+    }
+    tae = {
+      db_collections = false
+    }
+  }
+}
+
+locals {
+  project            = "${var.prefix}-${var.env_short}"
+  aks_network_prefix = local.project
+  iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
+
+  #
+  # Platform
+  #
+  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "${local.project}-common-acr"
+
 }

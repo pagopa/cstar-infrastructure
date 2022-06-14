@@ -27,6 +27,32 @@ module "db_snet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+module "cosmos_mongodb_snet" {
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.14"
+  name                 = format("%s-cosmos-mongodb-snet", local.project)
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_subnet_cosmos_mongodb
+
+  enforce_private_link_endpoint_network_policies = true
+  service_endpoints                              = ["Microsoft.Web"]
+}
+
+module "private_endpoint_snet" {
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.14"
+  name                 = "private-endpoint-snet"
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_subnet_private_endpoint
+
+  enforce_private_link_endpoint_network_policies = true
+  service_endpoints                              = ["Microsoft.Web"]
+}
+
 module "redis_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
@@ -99,7 +125,7 @@ module "apim_snet" {
   virtual_network_name = module.vnet_integration.name
   address_prefixes     = var.cidr_subnet_apim
 
-  service_endpoints = ["Microsoft.Web"]
+  service_endpoints = ["Microsoft.Web", "Microsoft.Storage"]
 
   enforce_private_link_endpoint_network_policies = true
 }
@@ -143,32 +169,26 @@ resource "azurerm_public_ip" "apigateway_public_ip" {
 }
 
 ## Application gateway ## 
-# Since these variables are re-used - a locals block makes this more maintainable
-locals {
-  backend_address_pool_name       = format("%s-appgw-be-address-pool", local.project)
-  frontend_http_port_name         = format("%s-appgw-fe-http-port", local.project)
-  frontend_https_port_name        = format("%s-appgw-fe-https-port", local.project)
-  frontend_ip_configuration_name  = format("%s-appgw-fe-ip-configuration", local.project)
-  http_setting_name               = format("%s-appgw-be-http-settings", local.project)
-  http_listener_name              = format("%s-appgw-fe-http-settings", local.project)
-  https_listener_name             = format("%s-appgw-fe-https-settings", local.project)
-  http_request_routing_rule_name  = format("%s-appgw-http-reqs-routing-rule", local.project)
-  https_request_routing_rule_name = format("%s-appgw-https-reqs-routing-rule", local.project)
-  acme_le_ssl_cert_name           = format("%s-appgw-acme-le-ssl-cert", local.project)
-  http_to_https_redirect_rule     = format("%s-appgw-http-to-https-redirect-rule", local.project)
-}
-
-# Application gateway: Multilistener configuraiton
+# Application gateway: Multilistener configuration
 module "app_gw" {
-  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v1.0.62"
+  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.0.23"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
   name                = format("%s-app-gw", local.project)
 
   # SKU
-  sku_name = "WAF_v2"
-  sku_tier = "WAF_v2"
+  sku_name = var.app_gateway_sku_name
+  sku_tier = var.app_gateway_sku_tier
+
+  # WAF
+  waf_enabled = var.app_gateway_waf_enabled
+  waf_disabled_rule_group = [
+    {
+      rule_group_name = "REQUEST-920-PROTOCOL-ENFORCEMENT"
+      rules           = ["920300", ]
+    }
+  ]
 
   # Networking
   subnet_id    = module.appgateway-snet.id
@@ -177,30 +197,39 @@ module "app_gw" {
   # Configure backends
   backends = {
     apim = {
-      protocol     = "Https"
-      host         = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-      port         = 443
-      ip_addresses = module.apim.private_ip_addresses
-      probe        = "/status-0123456789abcdef"
-      probe_name   = "probe-apim"
+      protocol                    = "Https"
+      host                        = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+      port                        = 443
+      ip_addresses                = module.apim.private_ip_addresses
+      fqdns                       = [azurerm_dns_a_record.dns_a_appgw_api.fqdn]
+      probe                       = "/status-0123456789abcdef"
+      probe_name                  = "probe-apim"
+      request_timeout             = 60
+      pick_host_name_from_backend = false
     }
 
     portal = {
-      protocol     = "Https"
-      host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
-      port         = 443
-      ip_addresses = module.apim.private_ip_addresses
-      probe        = "/signin"
-      probe_name   = "probe-portal"
+      protocol                    = "Https"
+      host                        = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
+      port                        = 443
+      ip_addresses                = module.apim.private_ip_addresses
+      fqdns                       = [azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn]
+      probe                       = "/signin"
+      probe_name                  = "probe-portal"
+      request_timeout             = 60
+      pick_host_name_from_backend = false
     }
 
     management = {
-      protocol     = "Https"
-      host         = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
-      port         = 443
-      ip_addresses = module.apim.private_ip_addresses
-      probe        = "/ServiceStatus"
-      probe_name   = "probe-management"
+      protocol                    = "Https"
+      host                        = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
+      port                        = 443
+      ip_addresses                = module.apim.private_ip_addresses
+      fqdns                       = [azurerm_dns_a_record.dns-a-managementcstar.fqdn]
+      probe                       = "/ServiceStatus"
+      probe_name                  = "probe-management"
+      request_timeout             = 60
+      pick_host_name_from_backend = false
     }
   }
 
@@ -209,11 +238,16 @@ module "app_gw" {
     trusted_client_certificate_names = [format("%s-issuer-chain", local.project)]
     verify_client_cert_issuer_dn     = true
     ssl_policy = {
-      disabled_protocols   = []
-      policy_type          = "Predefined"
-      policy_name          = "AppGwSslPolicy20170401"
-      cipher_suites        = []
-      min_protocol_version = null
+      disabled_protocols = []
+      policy_type        = "Custom"
+      policy_name        = "" # with Custom type set empty policy_name (not required by the provider)
+      cipher_suites = [
+        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+        "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+      ]
+      min_protocol_version = "TLSv1_2"
     }
   }]
 
@@ -227,10 +261,12 @@ module "app_gw" {
   # Configure listeners
   listeners = {
     app_io = {
-      protocol         = "Https"
-      host             = format("api-io.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port             = 443
-      ssl_profile_name = null
+      protocol           = "Https"
+      host               = format("api-io.%s.%s", var.dns_zone_prefix, var.external_domain)
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
       certificate = {
         name = var.app_gateway_api_io_certificate_name
         id = trimsuffix(
@@ -239,11 +275,14 @@ module "app_gw" {
         )
       }
     }
+
     issuer_acquirer = {
-      protocol         = "Https"
-      host             = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port             = 443
-      ssl_profile_name = format("%s-issuer-mauth-profile", local.project)
+      protocol           = "Https"
+      host               = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
+      port               = 443
+      ssl_profile_name   = format("%s-issuer-mauth-profile", local.project)
+      firewall_policy_id = null
+
       certificate = {
         name = var.app_gateway_api_certificate_name
         id = trimsuffix(
@@ -254,10 +293,12 @@ module "app_gw" {
     }
 
     portal = {
-      protocol         = "Https"
-      host             = format("portal.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port             = 443
-      ssl_profile_name = null
+      protocol           = "Https"
+      host               = format("portal.%s.%s", var.dns_zone_prefix, var.external_domain)
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
       certificate = {
         name = var.app_gateway_portal_certificate_name
         id = trimsuffix(
@@ -268,10 +309,11 @@ module "app_gw" {
     }
 
     management = {
-      protocol         = "Https"
-      host             = format("management.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port             = 443
-      ssl_profile_name = null
+      protocol           = "Https"
+      host               = format("management.%s.%s", var.dns_zone_prefix, var.external_domain)
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
 
       certificate = {
         name = var.app_gateway_management_certificate_name
@@ -287,36 +329,32 @@ module "app_gw" {
   routes = {
 
     api = {
-      listener = "app_io"
-      backend  = "apim"
+      listener              = "app_io"
+      backend               = "apim"
+      rewrite_rule_set_name = null
     }
 
     broker = {
-      listener = "issuer_acquirer"
-      backend  = "apim"
+      listener              = "issuer_acquirer"
+      backend               = "apim"
+      rewrite_rule_set_name = null
     }
 
     portal = {
-      listener = "portal"
-      backend  = "portal"
+      listener              = "portal"
+      backend               = "portal"
+      rewrite_rule_set_name = null
     }
 
     mangement = {
-      listener = "management"
-      backend  = "management"
+      listener              = "management"
+      backend               = "management"
+      rewrite_rule_set_name = null
     }
   }
 
   # TLS
   identity_ids = [azurerm_user_assigned_identity.appgateway.id]
-
-  # WAF
-  waf_disabled_rule_group = [
-    {
-      rule_group_name = "REQUEST-920-PROTOCOL-ENFORCEMENT"
-      rules           = ["920300", ]
-    }
-  ]
 
   # Scaling
   app_gateway_min_capacity = var.app_gateway_min_capacity
@@ -325,6 +363,107 @@ module "app_gw" {
   # Logs
   sec_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_workspace_id[0].value : null
   sec_storage_id                 = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_storage_id[0].value : null
+
+  alerts_enabled = var.app_gateway_alerts_enabled
+
+  action = [
+    {
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    },
+    {
+      action_group_id    = azurerm_monitor_action_group.email.id
+      webhook_properties = null
+    }
+  ]
+
+  # metrics docs
+  # https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkapplicationgateways
+  monitor_metric_alert_criteria = {
+
+    compute_units_usage = {
+      description   = "Abnormal compute units usage, probably an high traffic peak"
+      frequency     = "PT5M"
+      window_size   = "PT5M"
+      severity      = 2
+      auto_mitigate = true
+
+      criteria = []
+      dynamic_criteria = [
+        {
+          aggregation              = "Average"
+          metric_name              = "ComputeUnits"
+          operator                 = "GreaterOrLessThan"
+          alert_sensitivity        = "Low" # todo after api app migration change to High
+          evaluation_total_count   = 2
+          evaluation_failure_count = 2
+          dimension                = []
+        }
+      ]
+    }
+
+    backend_pools_status = {
+      description   = "One or more backend pools are down, check Backend Health on Azure portal"
+      frequency     = "PT5M"
+      window_size   = "PT5M"
+      severity      = 0
+      auto_mitigate = true
+
+      criteria = [
+        {
+          aggregation = "Average"
+          metric_name = "UnhealthyHostCount"
+          operator    = "GreaterThan"
+          threshold   = 0
+          dimension   = []
+        }
+      ]
+      dynamic_criteria = []
+    }
+
+    total_requests = {
+      description   = "Traffic is raising"
+      frequency     = "PT5M"
+      window_size   = "PT15M"
+      severity      = 3
+      auto_mitigate = true
+
+      criteria = []
+      dynamic_criteria = [
+        {
+          aggregation              = "Total"
+          metric_name              = "TotalRequests"
+          operator                 = "GreaterThan"
+          alert_sensitivity        = "Medium"
+          evaluation_total_count   = 1
+          evaluation_failure_count = 1
+          dimension                = []
+        }
+      ]
+    }
+
+    failed_requests = {
+      description   = "Abnormal failed requests"
+      frequency     = "PT5M"
+      window_size   = "PT5M"
+      severity      = 1
+      auto_mitigate = true
+
+      criteria = []
+      dynamic_criteria = [
+        {
+          aggregation              = "Total"
+          metric_name              = "FailedRequests"
+          operator                 = "GreaterThan"
+          alert_sensitivity        = "Medium"
+          evaluation_total_count   = 2
+          evaluation_failure_count = 2
+          dimension                = []
+        }
+      ]
+    }
+
+  }
 
   tags = var.tags
 }
@@ -351,12 +490,13 @@ module "route_table_peering_sia" {
 
   subnet_ids = [module.apim_snet.id, module.eventhub_snet.id]
 
-  routes = [{
-    # production
-    name                   = "to-sia-prod-subnet"
-    address_prefix         = "10.70.132.0/24"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.70.249.10"
+  routes = [
+    {
+      # production
+      name                   = "to-sia-prod-subnet"
+      address_prefix         = "10.70.132.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
     },
     {
       # uat
@@ -373,20 +513,6 @@ module "route_table_peering_sia" {
       next_hop_in_ip_address = "10.70.249.10"
     },
     {
-      # uat
-      name                   = "to-haproxy1-sia-uat-subnet"
-      address_prefix         = "10.70.66.0/24"
-      next_hop_type          = "VirtualAppliance"
-      next_hop_in_ip_address = "10.70.249.10"
-    },
-    {
-      # uat
-      name                   = "to-haproxy2-sia-uat-subnet"
-      address_prefix         = "10.70.68.0/24"
-      next_hop_type          = "VirtualAppliance"
-      next_hop_in_ip_address = "10.70.249.10"
-    },
-    {
       # prod
       name                   = "to-apim-sia-prod-subnet"
       address_prefix         = "10.70.133.0/24"
@@ -397,6 +523,41 @@ module "route_table_peering_sia" {
       # prod
       name                   = "to-haproxy-sia-prod-subnet"
       address_prefix         = "10.70.131.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # dev
+      name                   = "to-aks-nexi-dev-subnet"
+      address_prefix         = "10.70.66.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # dev
+      name                   = "to-payment-manager-nexi-dev-subnet"
+      address_prefix         = "10.70.68.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # uat
+      name                   = "to-aks-nexi-uat-subnet"
+      address_prefix         = "10.70.74.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # uat
+      name                   = "to-payment-manager-nexi-uat-subnet"
+      address_prefix         = "10.70.72.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "10.70.249.10"
+    },
+    {
+      # uat
+      name                   = "to-blob-pci-nexi-uat-subnet"
+      address_prefix         = "10.70.73.32/27"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "10.70.249.10"
     },
@@ -490,4 +651,55 @@ resource "azurerm_network_profile" "dns_forwarder" {
       subnet_id = module.dns_forwarder_snet.id
     }
   }
+}
+
+# Postgres Flexible Server subnet 
+module "postgres_flexible_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
+  name                                           = format("%s-pgres-flexible-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_flex_dbms
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = ["Microsoft.Storage"]
+  enforce_private_link_endpoint_network_policies = true
+
+  delegation = {
+    name = "delegation"
+    service_delegation = {
+      name = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}
+
+# Azure Blob Storage subnet 
+module "storage_account_snet" {
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
+  name                                           = format("%s-storage-account-snet", local.project)
+  address_prefixes                               = var.cidr_subnet_storage_account
+  resource_group_name                            = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                           = module.vnet.name
+  service_endpoints                              = ["Microsoft.Storage"]
+  enforce_private_link_endpoint_network_policies = true
+}
+
+resource "azurerm_private_endpoint" "blob_storage_pe" {
+  name                = format("%s-blob-storage-pe", local.project)
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  subnet_id           = module.storage_account_snet.id
+
+  private_dns_zone_group {
+    name                 = azurerm_private_dns_zone.storage_account.name
+    private_dns_zone_ids = [azurerm_private_dns_zone.storage_account.id]
+  }
+  private_service_connection {
+    name                           = format("%s-blob-storage-private-service-connection", local.project)
+    is_manual_connection           = false
+    private_connection_resource_id = module.cstarblobstorage.id
+    subresource_names              = ["blob"]
+  }
+
 }

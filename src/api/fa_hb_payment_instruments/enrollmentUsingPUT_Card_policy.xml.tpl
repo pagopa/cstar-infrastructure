@@ -73,6 +73,7 @@
                     <otherwise>
                         <return-response>
                             <set-status code="@(((IResponse)context.Variables["hpan"]).StatusCode)" reason="ErrorPM" />
+                            <set-body>@(((IResponse)context.Variables["hpan"]).Body.As<JObject>().ToString())</set-body>
                         </return-response>
                     </otherwise>
                 </choose>

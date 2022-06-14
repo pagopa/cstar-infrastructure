@@ -161,6 +161,11 @@ variable "configmaps_rtdtransactionfilter" {
   default = {}
 }
 
+variable "configmaps_rtddecrypter" {
+  type    = map(string)
+  default = {}
+}
+
 variable "configmaps_facustomer" {
   type = map(string)
 }
@@ -223,4 +228,32 @@ variable "autoscaling_specs" {
 
 variable "secrets_to_be_read_from_kv" {
   type = list(string)
+}
+
+variable "enable" {
+  type = object({
+    rtd = object({
+      blob_storage_event_grid_integration = bool
+      internal_api                        = bool
+      csv_transaction_apis                = bool
+      ingestor                            = bool
+      file_register                       = bool
+    })
+    fa = object({
+      api = bool
+    })
+  })
+  description = "Feature flags"
+  default = {
+    rtd = {
+      blob_storage_event_grid_integration = false
+      internal_api                        = false
+      csv_transaction_apis                = false
+      ingestor                            = false
+      file_register                       = false
+    }
+    fa = {
+      api = false
+    }
+  }
 }

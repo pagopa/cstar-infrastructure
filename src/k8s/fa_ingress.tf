@@ -1,4 +1,4 @@
-resource "kubernetes_ingress" "fa_ingress" {
+resource "kubernetes_ingress_v1" "fa_ingress" {
   depends_on = [helm_release.ingress]
 
   metadata {
@@ -18,82 +18,134 @@ resource "kubernetes_ingress" "fa_ingress" {
 
         path {
           backend {
-            service_name = "famscustomer"
-            service_port = var.default_service_port
+            service {
+              name = "famscustomer"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famscustomer/(.*)"
         }
 
         path {
           backend {
-            service_name = "famstransaction"
-            service_port = var.default_service_port
+            service {
+              name = "famstransaction"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famstransaction/(.*)"
         }
 
         path {
           backend {
-            service_name = "famsenrollment"
-            service_port = var.default_service_port
+            service {
+              name = "famsenrollment"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famsenrollment/(.*)"
         }
 
         path {
           backend {
-            service_name = "famspaymentinstrument"
-            service_port = var.default_service_port
+            service {
+              name = "famspaymentinstrument"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famspaymentinstrument/(.*)"
         }
 
         path {
           backend {
-            service_name = "famsmerchant"
-            service_port = var.default_service_port
+            service {
+              name = "famsmerchant"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famsmerchant/(.*)"
         }
 
         path {
           backend {
-            service_name = "famsonboardingmerchant"
-            service_port = var.default_service_port
+            service {
+              name = "famsonboardingmerchant"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famsonboardingmerchant/(.*)"
         }
 
         path {
           backend {
-            service_name = "famsinvoicemanager"
-            service_port = var.default_service_port
+            service {
+              name = "famsinvoicemanager"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famsinvoicemanager/(.*)"
         }
 
         path {
           backend {
-            service_name = "famsinvoiceprovider"
-            service_port = var.default_service_port
+            service {
+              name = "famsinvoiceprovider"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famsinvoiceprovider/(.*)"
         }
 
         path {
           backend {
-            service_name = "famsnotificationmanager"
-            service_port = var.default_service_port
+            service {
+              name = "famsnotificationmanager"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famsnotificationmanager/(.*)"
         }
 
         path {
           backend {
-            service_name = "famstransactionerrormanager"
-            service_port = var.default_service_port
+            service {
+              name = "famstransactionerrormanager"
+              port {
+                number = var.default_service_port
+              }
+            }
           }
           path = "/famstransactionerrormanager/(.*)"
+        }
+
+        path {
+          backend {
+            service {
+              name = "cstariobackendtest"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/cstariobackendtest/(.*)"
         }
       }
     }

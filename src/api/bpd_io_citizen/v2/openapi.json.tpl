@@ -44,7 +44,8 @@
                                     "fiscalCode": "string",
                                     "payoffInstr": "string",
                                     "payoffInstrType": "string",
-                                    "timestampTC": "string"
+                                    "timestampTC": "string",
+                                    "optInStatus": "DENIED"
                                 }
                             }
                         }
@@ -174,6 +175,20 @@
                         "type": "string"
                     }
                 }],
+                "requestBody": {
+                    "description": "Citizen",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CitizenPutDTO"
+                            },
+                            "example": {
+                                "optInStatus": "DENIED"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -187,7 +202,8 @@
                                     "fiscalCode": "string",
                                     "payoffInstr": "string",
                                     "payoffInstrType": "string",
-                                    "timestampTC": "string"
+                                    "timestampTC": "string",
+                                    "optInStatus": "DENIED"
                                 }
                             }
                         }
@@ -338,15 +354,14 @@
     },
     "components": {
         "schemas": {
-            "CitizenDTO": {
-                "title": "CitizenDTO",
-                "required": ["timestampTC"],
+            "CitizenPutDTO": {
+                "title": "CitizenPutDTO",
                 "type": "object",
                 "properties": {
-                    "timestampTC": {
-                        "type": "string",
-                        "description": "timestamp dell'accettazione di T&C. FORMATO  ISO8601 yyyy-MM-ddTHH:mm:ss.SSSXXXXX",
-                        "format": "date-time"
+                    "optInStatus": {
+                       "enum": ["NOREQ","ACCEPTED","DENIED"],
+                       "type": "string",
+                       "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO"
                     }
                 }
             },
@@ -493,6 +508,11 @@
                     "issuerCardId": {
                         "type": "string",
                         "description": "Identificativo univoco dello strumento di pagamento rilasciato dall'issuer"
+                    },
+                    "optInStatus": {
+                        "enum": ["NOREQ","ACCEPTED","DENIED"],
+                        "type": "string",
+                        "description": "stato della richiesta utente di Opt-In per il mantenimento delle carte in AppIO"
                     }
                 },
                 "example": {
@@ -500,7 +520,8 @@
                     "fiscalCode": "string",
                     "payoffInstr": "string",
                     "payoffInstrType": "string",
-                    "timestampTC": "string"
+                    "timestampTC": "string",
+                    "optInStatus": "DENIED"
                 }
             },
             "CitizenRankingMilestoneResourceArray": {

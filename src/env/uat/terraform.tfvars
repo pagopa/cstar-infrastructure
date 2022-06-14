@@ -1,10 +1,51 @@
+prefix              = "cstar"
+location            = "westeurope"
+location_pair       = "northeurope"
+location_short      = "weu"
+location_pair_short = "neu"
+env_short           = "u"
+
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Developer_1"
 
 
-aks_alerts_enabled = false
-aks_node_count     = 1
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=33.df9ce3000
+cidr_vnet = ["10.1.0.0/16"]
+
+cidr_subnet_k8s              = ["10.1.0.0/17"]
+cidr_subnet_appgateway       = ["10.1.128.0/24"]
+cidr_subnet_db               = ["10.1.129.0/24"]
+cidr_subnet_azdoa            = ["10.1.130.0/24"]
+cidr_subnet_jumpbox          = ["10.1.131.0/24"]
+cidr_subnet_vpn              = ["10.1.132.0/24"]
+cidr_subnet_dnsforwarder     = ["10.1.133.0/29"]
+cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
+cidr_subnet_storage_account  = ["10.1.137.0/24"]
+cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
+cidr_subnet_private_endpoint = ["10.1.200.0/23"]
+
+# integration vnet
+# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
+cidr_integration_vnet = ["10.230.7.0/24"]
+cidr_subnet_apim      = ["10.230.7.0/26"]
+cidr_subnet_eventhub  = ["10.230.7.64/26"]
+
+#
+# ⛴ AKS Vnet
+#
+aks_networks = [
+  {
+    domain_name = "uat01"
+    vnet_cidr   = ["10.11.0.0/16"]
+  }
+]
+
+aks_enable_auto_scaling = true
+aks_min_node_count      = 1
+aks_max_node_count      = 3
+aks_alerts_enabled      = false
+aks_node_count          = 1
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -198,25 +239,12 @@ aks_metric_alerts = {
   }
 }
 
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=33.df9ce3000
-cidr_vnet = ["10.1.0.0/16"]
-
-cidr_subnet_k8s          = ["10.1.0.0/17"]
-cidr_subnet_appgateway   = ["10.1.128.0/24"]
-cidr_subnet_db           = ["10.1.129.0/24"]
-cidr_subnet_azdoa        = ["10.1.130.0/24"]
-cidr_subnet_jumpbox      = ["10.1.131.0/24"]
-cidr_subnet_vpn          = ["10.1.132.0/24"]
-cidr_subnet_dnsforwarder = ["10.1.133.0/29"]
-
-# integration vnet
-# https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
-cidr_integration_vnet = ["10.230.7.0/24"]
-cidr_subnet_apim      = ["10.230.7.0/26"]
-cidr_subnet_eventhub  = ["10.230.7.64/26"]
-
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
+
+sftp_account_replication_type = "GRS"
+sftp_ip_rules                 = []
+sftp_enable_private_endpoint  = true
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
@@ -301,10 +329,64 @@ db_metric_alerts = {
   }
 }
 
+pgres_flex_params = {
+
+  enabled    = true
+  sku_name   = "B_Standard_B1ms"
+  db_version = "13"
+  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
+  # 2097152, 4194304, 8388608, 16777216, and 33554432.
+  storage_mb                   = 32768
+  zone                         = 1
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = false
+  create_mode                  = "Default"
+}
+
+## DNS
 dns_zone_prefix         = "uat.cstar"
 internal_private_domain = "internal.uat.cstar.pagopa.it"
-ehns_sku_name           = "Standard"
+dns_storage_account_tkm = {
+  name = "tkmstorageblobuatpci"
+  ips  = ["10.70.73.38"]
+}
 
+cosmos_mongo_db_params = {
+  enabled      = false
+  kind         = "MongoDB"
+  capabilities = ["EnableMongo", "EnableServerless"]
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = "4.0"
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = true
+
+  # additional_geo_locations = [{
+  #   location          = "northeurope"
+  #   failover_priority = 1
+  #   zone_redundant    = false
+  # }]
+
+  additional_geo_locations          = []
+  private_endpoint_enabled          = true
+  public_network_access_enabled     = false
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+}
+
+cosmos_mongo_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
+}
+
+ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
@@ -353,7 +435,6 @@ ehns_metric_alerts = {
 }
 
 enable_azdoa = true
-env_short    = "u"
 
 eventhubs = [
   {
@@ -526,6 +607,28 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-platform-events"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    keys = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 eventhubs_fa = [
@@ -639,9 +742,19 @@ pm_ip_filter_range = {
   to   = "10.230.1.255"
 }
 
-# This is the k8s ingress controller ip. It must be in the aks subnet range.  
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
 reverse_proxy_ip = "10.1.0.250"
 
+app_gateway_sku_name                    = "Standard_v2"
+app_gateway_sku_tier                    = "Standard_v2"
+app_gateway_waf_enabled                 = false
+app_gateway_alerts_enabled              = false
 app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
@@ -649,10 +762,36 @@ app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 
 enable_iac_pipeline = true
 
+cdc_api_params = {
+  host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+}
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
   Owner       = "cstar"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
+enable_api_fa                              = true
+enable_blob_storage_event_grid_integration = true
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+    file_register                       = false
+    abi_to_fiscalcode_api               = true
+  }
+  fa = {
+    api = true
+  }
+  cdc = {
+    api = true
+  }
+  tae = {
+    db_collections = false
+  }
 }

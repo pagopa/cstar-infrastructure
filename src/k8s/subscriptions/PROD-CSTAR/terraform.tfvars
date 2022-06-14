@@ -113,7 +113,7 @@ configmaps_bpdmsnotificationmanager = {
   NOTIFICATION_SERVICE_NOTIFY_WINNERS_UPDATE_STATUS_ENABLE         = "true"
   NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY     = "15"
   NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER          = "0 00 12 * * ?"
-  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE         = "2021-12-30"
+  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE         = "2022-06-06"
   NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER           = "-" # Send tranfer order to Consap (end period)
   NOTIFICATION_SERVICE_UPDATE_BONIFICA_RECESSO_CITIZEN_SEARCH_DAYS = "2"
   NOTIFICATION_SERVICE_UPDATE_BONIFICA_RECESSO_SCHEDULE            = "-"
@@ -377,6 +377,10 @@ configmaps_fanotificationmanager = {
   URL_BACKEND_IO                                         = "https://api.io.italia.it"
 }
 
+configmaps_rtddecrypter = {
+  SPLITTER_LINE_THRESHOLD = 50000
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment
@@ -632,5 +636,25 @@ secrets_to_be_read_from_kv = [
   "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
   "evh-rtd-trx-rtd-trx-producer-key",
   "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
-  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01"
+  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01",
+  "evh-rtd-platform-events-rtd-platform-events-sub-key",
+  "tae-ade-api-client-id",
+  "tae-ade-api-client-secret",
+  "tae-ade-api-client-secret",
+  "cstarblobstorage-private-key",
+  "cstarblobstorage-private-key-passphrase",
+  "rtd-internal-api-product-subscription-key"
 ]
+
+enable = {
+  rtd = {
+    blob_storage_event_grid_integration = true
+    internal_api                        = true
+    csv_transaction_apis                = true
+    ingestor                            = false
+    file_register                       = false
+  }
+  fa = {
+    api = false
+  }
+}

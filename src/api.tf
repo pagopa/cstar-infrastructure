@@ -21,7 +21,7 @@ locals {
 
 module "apim" {
 
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v1.0.63"
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v2.2.1"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = format("%s-apim", local.project)
@@ -40,8 +40,6 @@ module "apim" {
 
   # This enables the Username and Password Identity Provider
   sign_up_enabled = true
-
-  lock_enable = var.lock_enable
 
   sign_up_terms_of_service = {
     consent_required = false
@@ -81,6 +79,11 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
     )
   }
 
+  proxy {
+    host_name    = trimsuffix(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
+    key_vault_id = azurerm_key_vault_certificate.apim_internal_custom_domain_cert.versionless_secret_id
+  }
+
   developer_portal {
     host_name = local.portal_domain
     key_vault_id = replace(
@@ -98,43 +101,19 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
       ""
     )
   }
+
+  depends_on = [
+    azurerm_key_vault_certificate.apim_internal_custom_domain_cert
+  ]
 }
 
 #########
 ## API ##
 #########
 
-## azureblob ## 
-module "api_azureblob" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-azureblob", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  description  = ""
-  display_name = "azureblob"
-  path         = "pagopastorage"
-  protocols    = ["https"]
-
-  # service_url = format("http://%s/pagopastorage", var.reverse_proxy_ip)
-  service_url = format("https://%s", module.cstarblobstorage.primary_blob_host)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/azureblob/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = []
-}
-
 ## monitor ##
 module "monitor" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.9.0"
   name                = format("%s-monitor", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -175,14 +154,17 @@ module "api_bdp_info_privacy" {
   path         = "cstar-bpd"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host, azurerm_storage_container.info_privacy.name)
+  service_url = format("https://%s/%s",
+    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+    azurerm_storage_container.info_privacy.name
+  )
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
 
   product_ids           = [module.bpd_api_product.product_id]
   subscription_required = true
@@ -301,14 +283,17 @@ module "api_bpd_tc" {
   path         = "bpd/tc"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
-  azurerm_storage_container.bpd_terms_and_conditions.name)
+  service_url = format("https://%s/%s",
+    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+    azurerm_storage_container.bpd_terms_and_conditions.name
+  )
+
 
   content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
 
   product_ids = [module.bpd_api_product.product_id]
 
@@ -336,14 +321,17 @@ module "api_fa_tc" {
   path         = "fa/tc"
   protocols    = ["https", "http"]
 
-  service_url = format("https://%s/%s", module.cstarblobstorage.primary_blob_host,
-  azurerm_storage_container.fa_terms_and_conditions.name)
+  service_url = format("https://%s/%s",
+    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+    azurerm_storage_container.fa_terms_and_conditions.name
+  )
+
 
   content_value = templatefile("./api/fa_tc/swagger.json.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = file("./api/azureblob/azureblob_policy.xml")
 
   product_ids = [module.fa_api_product.product_id]
 
@@ -385,53 +373,6 @@ module "rtd_payment_instrument" {
 
   api_operation_policies = []
 }
-
-## RTD Payment Instrument Manager API ##
-module "rtd_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = ""
-  display_name = "RTD Payment Instrument Manager API"
-  path         = "rtd/payment-instrument-manager"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
-
-
-
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "get-hash-salt",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      operation_id = "get-hashed-pans",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans_policy.xml.tpl", {
-        # as-is due an application error in prod -->  to-be
-        host = var.env_short == "p" ? "prod.cstar.pagopa.it" : trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-      })
-    },
-  ]
-}
-
 
 ## pm-admin-panel ##
 module "pm_admin_panel" {
@@ -475,417 +416,6 @@ module "pm_admin_panel" {
   ]
 }
 
-# Version sets (APIs with version) #
-
-## BPD HB Citizen API
-resource "azurerm_api_management_api_version_set" "bpd_hb_citizen" {
-  name                = format("%s-bpd-hb-citizen", var.env_short)
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-  display_name        = "BPD HB Citizen API"
-  versioning_scheme   = "Segment"
-}
-
-### Original (swagger 2.0.x)
-module "bpd_hb_citizen_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-citizen-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
-
-  description  = "Api and Models"
-  display_name = "BPD HB Citizen API"
-  path         = "bpd/hb/citizens"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
-
-  content_value = templatefile("./api/bpd_hb_citizen/original/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "delete",
-      xml_content = templatefile("./api/bpd_hb_citizen/original/del_delete_policy.xml.tpl", {
-        reverse-proxy-ip = var.reverse_proxy_ip
-      })
-    },
-    {
-      operation_id = "enrollmentCitizenHB",
-      xml_content = templatefile("./api/bpd_hb_citizen/original/put_enrollment_citizen_hb.xml.tpl", {
-        reverse-proxy-ip = var.reverse_proxy_ip
-      })
-    },
-    {
-      operation_id = "find",
-      xml_content  = file("./api/bpd_hb_citizen/original/get_find_policy.xml")
-    },
-    {
-      operation_id = "findranking",
-      xml_content  = file("./api/bpd_hb_citizen/original/get_find_ranking.xml")
-    },
-    {
-      operation_id = "updatePaymentMethod",
-      xml_content  = file("./api/bpd_hb_citizen/original/patch_update_payment_method.xml")
-    },
-  ]
-}
-
-# V2 (openapi 3.0.x)
-module "bpd_hb_citizen_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-citizen-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_citizen.id
-  api_version         = "v2"
-
-  description  = "Api and Models"
-  display_name = "BPD HB Citizen API"
-  path         = "bpd/hb/citizens"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile(format("./api/bpd_hb_citizen/v2/openapi.json.tpl"), {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "delete",
-      xml_content = templatefile("./api/bpd_hb_citizen/v2/del_delete_policy.xml.tpl", {
-        reverse-proxy-ip = var.reverse_proxy_ip
-      })
-    },
-    {
-      operation_id = "enrollmentCitizenHB",
-      xml_content = templatefile("./api/bpd_hb_citizen/v2/put_enrollment_citizen_hb.xml.tpl", {
-        reverse-proxy-ip = var.reverse_proxy_ip
-      })
-    },
-    {
-      operation_id = "find",
-      xml_content  = file("./api/bpd_hb_citizen/v2/get_find_policy.xml")
-    },
-    {
-      operation_id = "findranking",
-      xml_content  = file("./api/bpd_hb_citizen/v2/get_find_ranking.xml")
-    },
-    {
-      operation_id = "updatePaymentMethod",
-      xml_content  = file("./api/bpd_hb_citizen/v2/patch_update_payment_method.xml")
-    },
-  ]
-}
-
-## 02 BPD HB Payment Instruments API ##
-resource "azurerm_api_management_api_version_set" "bpd_hb_payment_instruments" {
-  name                = format("%s-bpd-hb-payment-instruments", var.env_short)
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-  display_name        = "BPD HB Payment Instruments API"
-  versioning_scheme   = "Segment"
-}
-
-### Original ###
-module "bpd_hb_payment_instruments_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-payment-instruments-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
-
-  description  = ""
-  display_name = "BPD HB Payment Instruments API"
-  path         = "bpd/hb/payment-instruments"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_payment_instruments/original/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      # DEL BPay deletePaymentInstrumentHB
-      operation_id = "delbpaydeletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/delbpaydeletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # GET BPay statusPaymentInstrumentHB
-      operation_id = "getbpaystatuspaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/getbpaystatuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # DEL deletePaymentInstrumentHB
-      operation_id = "deldeletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/deldeletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # PUT enrollPaymentInstrumentHB
-      operation_id = "putenrollpaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
-      })
-    },
-    {
-      # PUT enrollPaymentInstrumentHB BPay
-      operation_id = "putenrollpaymentinstrumenthbbpay",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbbpay_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
-      })
-    },
-    {
-      # PUT enrollPaymentInstrumentHB BPay ID
-      operation_id = "putenrollpaymentinstrumenthbbpayid",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbbpayid_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
-      })
-    },
-    {
-      # PUT enrollPaymentInstrumentHB Other
-      operation_id = "putenrollpaymentinstrumenthbother",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbother_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
-      })
-    },
-    {
-      # PUT enrollPaymentInstrumentHB Satispay
-      operation_id = "putenrollpaymentinstrumenthbsatispay",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/putenrollpaymentinstrumenthbsatispay_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        reverse-proxy-ip                     = var.reverse_proxy_ip
-      })
-    },
-    {
-      # GET statusPaymentInstrumentHB
-      operation_id = "getstatuspaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/original/getstatuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-  ]
-}
-
-### V2 ###
-module "bpd_hb_payment_instruments_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-payment-instruments-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_payment_instruments.id
-  api_version         = "v2"
-
-  description  = ""
-  display_name = "BPD HB Payment Instruments API"
-  path         = "bpd/hb/payment-instruments"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_payment_instruments/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      # DEL BPay deletePaymentInstrumentHB
-      operation_id = "delbpaydeletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/delbpaydeletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # GET BPay statusPaymentInstrumentHB
-      operation_id = "getbpaystatuspaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/getbpaystatuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # DEL deletePaymentInstrumentHB
-      operation_id = "deldeletepaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/deldeletepaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # PATCH patchPaymentInstrument
-      operation_id = "patchpatchpaymentinstrument",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/patchpatchpaymentinstrument_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-    {
-      # GET statusPaymentInstrumentHB
-      operation_id = "getstatuspaymentinstrumenthb",
-      xml_content = templatefile("./api/bpd_hb_payment_instruments/v2/getstatuspaymentinstrumenthb_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        pm-timeout-sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-      })
-    },
-  ]
-}
-
-## 03 BPD HB Winning Transactions API ##
-resource "azurerm_api_management_api_version_set" "bpd_hb_winning_transactions" {
-  name                = "bpd-hb-winning-transactions"
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-  display_name        = "BPD HB Winning Transactions API"
-  versioning_scheme   = "Segment"
-}
-
-### original ###
-module "bpd_hb_winning_transactions_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-winning-transactions-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
-
-  description  = "Api and Models"
-  display_name = "BPD HB Winning Transactions API"
-  path         = "bpd/hb/winning-transactions"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
-
-  content_value = templatefile("./api/bpd_hb_winning_transactions/original/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      # GET getTotalCashback
-      operation_id = "getgettotalcashback",
-      xml_content = templatefile("./api/bpd_hb_winning_transactions/original/getgettotalcashback_policy.xml.tpl", {
-        reverse-proxy-ip = var.reverse_proxy_ip
-      })
-    },
-  ]
-}
-
-### v2 ###
-module "bpd_hb_winning_transactions_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-winning-transactions-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_winning_transactions.id
-  api_version         = "v2"
-
-  description  = "Api and Models"
-  display_name = "BPD HB Winning Transactions API"
-  path         = "bpd/hb/winning-transactions"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpd/hb/winning-transactions/v2", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_winning_transactions/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      # GET getTotalCashback
-      operation_id = "getgettotalcashback",
-      xml_content = templatefile("./api/bpd_hb_winning_transactions/v2/getgettotalcashback_policy.xml.tpl", {
-        reverse-proxy-ip = var.reverse_proxy_ip
-      })
-    },
-  ]
-}
-
 ## 04 BPD IO Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
   name                = format("%s-bpd-io-award-period", var.env_short)
@@ -897,12 +427,12 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
-  name                = format("%s-bpd-io-award-period-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
-  revision            = 2
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
+  name                 = format("%s-bpd-io-award-period-api", var.env_short)
+  api_management_name  = module.apim.name
+  resource_group_name  = azurerm_resource_group.rg_api.name
+  version_set_id       = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision             = 2
   revision_description = "closing cashback"
 
   description  = "findAll"
@@ -933,14 +463,14 @@ module "bpd_io_award_period_original" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
-  name                = format("%s-bpd-io-award-period-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_io_award_period.id
-  revision            = 2
+  source               = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
+  name                 = format("%s-bpd-io-award-period-api", var.env_short)
+  api_management_name  = module.apim.name
+  resource_group_name  = azurerm_resource_group.rg_api.name
+  version_set_id       = azurerm_api_management_api_version_set.bpd_io_award_period.id
+  revision             = 2
   revision_description = "closing cashback"
-  api_version         = "v2"
+  api_version          = "v2"
 
   description  = "findAll"
   display_name = "BPD IO Award Period API"
@@ -1088,84 +618,6 @@ module "bpd_io_citizen_v2" {
   ]
 }
 
-## 06 BPD HB Award Period API ##
-resource "azurerm_api_management_api_version_set" "bpd_hb_award_period" {
-  name                = format("%s-bpd-hb-award-period", var.env_short)
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-  display_name        = "BPD HB Award Period API"
-  versioning_scheme   = "Segment"
-}
-
-### Original ###
-module "bdp_hb_award_period_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-award-period-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
-
-  description  = "Api and Models"
-  display_name = "BPD HB Award Period API"
-  path         = "bpd/hb/award-periods"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_award_period/original/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      # findall
-      operation_id = "getfindall",
-      xml_content  = file("./api/bpd_hb_award_period/original/getfindall_policy.xml")
-    }
-  ]
-}
-
-### v2 ###
-module "bdp_hb_award_period_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-  name                = format("%s-bpd-hb-award-period-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  version_set_id      = azurerm_api_management_api_version_set.bpd_hb_award_period.id
-  api_version         = "v2"
-
-  description  = "Api and Models"
-  display_name = "BPD HB Award Period API"
-  path         = "bpd/hb/award-periods"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/bpd_hb_award_period/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.issuer_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      # findall
-      operation_id = "getfindall",
-      xml_content  = file("./api/bpd_hb_award_period/v2/getfindall_policy.xml")
-    }
-  ]
-}
-
 ## 07 BPD IO Winning Transactions API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" {
   name                = format("%s-bpd-io-winning-transactions", var.env_short)
@@ -1251,7 +703,7 @@ module "bpd_io_winning_transactions_v2" {
 
 ## 08 FA IO Customer API ##
 resource "azurerm_api_management_api_version_set" "fa_io_customers" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-customer", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1261,7 +713,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_customers" {
 
 #Original#
 module "fa_io_customers_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-customer-api", var.env_short)
   api_management_name = module.apim.name
@@ -1307,7 +759,7 @@ module "fa_io_customers_original" {
 
 ## 09 FA HB Customer API
 resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-hb-customer", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1317,7 +769,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
 
 #Original#
 module "fa_hb_customers_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-hb-customer-api", var.env_short)
   api_management_name = module.apim.name
@@ -1363,7 +815,7 @@ module "fa_hb_customers_original" {
 
 ## 10 FA IO Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1373,7 +825,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
 
 #Original#
 module "fa_io_payment_instruments_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
@@ -1434,7 +886,7 @@ module "fa_io_payment_instruments_original" {
 
 ## 11 FA HB Payment Instruments API ##
 resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-hb-payment-instruments", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1444,7 +896,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
 
 #Original#
 module "fa_hb_payment_instruments_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
@@ -1568,7 +1020,7 @@ module "fa_hb_payment_instruments_original" {
 
 ## 12 FA REGISTER Transaction API
 resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-register-transaction", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1578,7 +1030,7 @@ resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
 
 #Original#
 module "fa_register_transactions_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-register-transaction-api", var.env_short)
   api_management_name = module.apim.name
@@ -1609,12 +1061,30 @@ module "fa_register_transactions_original" {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
+    {
+      operation_id = "getPosTransactionUsingGET"
+      xml_content = templatefile("./api/fa_register_transaction/getPosTransactionUsingGET_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "getPosTransactionCustomerUsingGET"
+      xml_content = templatefile("./api/fa_register_transaction/getPosTransactionCustomerUsingGET_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "outcomePosTransactionUsingPOST"
+      xml_content = templatefile("./api/fa_register_transaction/outcomePosTransactionUsingPOST_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
   ]
 }
 
 ## 12 FA IO Transaction API
 resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-transaction", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1624,7 +1094,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
 
 #Original#
 module "fa_io_transactions_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-transaction-api", var.env_short)
   api_management_name = module.apim.name
@@ -1660,7 +1130,7 @@ module "fa_io_transactions_original" {
 
 ## 13 FA Mock API
 resource "azurerm_api_management_api_version_set" "fa_mock" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-mock", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1670,7 +1140,7 @@ resource "azurerm_api_management_api_version_set" "fa_mock" {
 
 #Original#
 module "fa_mock_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-mock-api", var.env_short)
   api_management_name = module.apim.name
@@ -1717,7 +1187,7 @@ module "fa_mock_original" {
 
 ## 14 FA IO Merchant API
 resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-io-merchant", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1727,7 +1197,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
 
 #Original#
 module "fa_io_merchant_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-io-merchant-api", var.env_short)
   api_management_name = module.apim.name
@@ -1762,7 +1232,7 @@ module "fa_io_merchant_original" {
 
 ## 14 FA EXT Merchant API
 resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-ext-merchant", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1772,7 +1242,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
 
 #Original#
 module "fa_ext_merchant_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-ext-merchant-api", var.env_short)
   api_management_name = module.apim.name
@@ -1825,7 +1295,7 @@ module "fa_ext_merchant_original" {
 
 ## 14 FA EXT Provider API
 resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   name                = format("%s-fa-ext-provider", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
@@ -1835,7 +1305,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
 
 #Original#
 module "fa_ext_provider_original" {
-  count               = var.env_short == "d" ? 1 : 0 # only in dev
+  count               = var.enable_api_fa ? 1 : 0
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-fa-ext-provider-api", var.env_short)
   api_management_name = module.apim.name
@@ -1964,26 +1434,6 @@ module "pm_api_product" {
 
   policy_xml = file("./api_product/pm_api/policy.xml")
 }
-
-module "rtd_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
-
-  product_id   = "rtd-api-product"
-  display_name = "RTD_API_Product"
-  description  = "RTD_API_Product"
-
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  published             = true
-  subscription_required = true
-  approval_required     = true
-
-  subscriptions_limit = 50
-
-  policy_xml = file("./api_product/rtd_api/policy.xml")
-}
-
 
 module "wisp_api_product" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
