@@ -3,7 +3,7 @@ location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
-env_short    = "p"
+env_short           = "p"
 
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
@@ -13,17 +13,17 @@ apim_sku                       = "Premium_1"
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=35.df9ccf000
 cidr_vnet = ["10.1.0.0/16"]
 
-cidr_subnet_k8s             = ["10.1.0.0/17"]
-cidr_subnet_appgateway      = ["10.1.128.0/24"]
-cidr_subnet_db              = ["10.1.129.0/24"]
-cidr_subnet_azdoa           = ["10.1.130.0/24"]
-cidr_subnet_jumpbox         = ["10.1.131.0/24"]
-cidr_subnet_redis           = ["10.1.132.0/24"]
-cidr_subnet_vpn             = ["10.1.133.0/24"]
-cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
-cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
-cidr_subnet_storage_account = ["10.1.137.0/24"]
-cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+cidr_subnet_k8s              = ["10.1.0.0/17"]
+cidr_subnet_appgateway       = ["10.1.128.0/24"]
+cidr_subnet_db               = ["10.1.129.0/24"]
+cidr_subnet_azdoa            = ["10.1.130.0/24"]
+cidr_subnet_jumpbox          = ["10.1.131.0/24"]
+cidr_subnet_redis            = ["10.1.132.0/24"]
+cidr_subnet_vpn              = ["10.1.133.0/24"]
+cidr_subnet_dnsforwarder     = ["10.1.134.0/29"]
+cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
+cidr_subnet_storage_account  = ["10.1.137.0/24"]
+cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
 # integration vnet
@@ -47,9 +47,9 @@ aks_min_node_count      = 1
 aks_max_node_count      = 6
 aks_vm_size             = "Standard_D8S_v3"
 
-aks_availability_zones  = [1, 2, 3]
-aks_node_count          = 6
-aks_sku_tier            = "Paid"
+aks_availability_zones = [1, 2, 3]
+aks_node_count         = 6
+aks_sku_tier           = "Paid"
 
 aks_metric_alerts = {
   node_cpu = {
@@ -356,8 +356,8 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = true
 
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = false
+  private_endpoint_enabled      = true
+  public_network_access_enabled = false
   additional_geo_locations = [{
     location          = "northeurope"
     failover_priority = 1
@@ -428,7 +428,7 @@ ehns_metric_alerts = {
   },
 }
 
-enable_azdoa    = true
+enable_azdoa = true
 
 eventhubs = [
   {
