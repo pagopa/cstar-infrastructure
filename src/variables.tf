@@ -90,6 +90,11 @@ variable "cidr_subnet_cosmos_mongodb" {
   description = "Cosmos Mongo DB network address space."
 }
 
+variable "cidr_subnet_adf" {
+  type        = list(string)
+  description = "ADF Address Space."
+}
+
 variable "cidr_subnet_private_endpoint" {
   type        = list(string)
   description = "Private Endpoint address space."
@@ -755,6 +760,7 @@ variable "enable" {
       api             = bool
       db_collections  = bool
       blob_containers = bool
+      adf             = bool
     })
   })
   description = "Feature flags"
@@ -775,6 +781,7 @@ variable "enable" {
       api             = false
       db_collections  = false
       blob_containers = false
+      adf             = false
     }
   }
 }
