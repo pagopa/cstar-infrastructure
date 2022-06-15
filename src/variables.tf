@@ -752,8 +752,9 @@ variable "enable" {
       api = bool
     })
     tae = object({
-      api            = bool
-      db_collections = bool
+      api             = bool
+      db_collections  = bool
+      blob_containers = bool
     })
   })
   description = "Feature flags"
@@ -771,8 +772,9 @@ variable "enable" {
       api = false
     }
     tae = {
-      api            = false
-      db_collections = false
+      api             = false
+      db_collections  = false
+      blob_containers = false
     }
   }
 }
