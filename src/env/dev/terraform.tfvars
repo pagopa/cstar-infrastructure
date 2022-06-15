@@ -806,7 +806,8 @@ enable = {
     api = false
   }
   tae = {
-    api            = true
-    db_collections = true
+    api             = true
+    db_collections  = true
+    blob_containers = true
   }
 }
