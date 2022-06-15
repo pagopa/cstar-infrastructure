@@ -5,6 +5,13 @@ resource "azurerm_resource_group" "data_rg" {
   tags = var.tags
 }
 
+resource "azurerm_key_vault_secret" "cosmosdb_account_mongodb_connection_strings" {
+  name         = "mongodb-connection-string"
+  value        = module.cosmosdb_account_mongodb.connection_strings[0]
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
 
 module "cosmosdb_account_mongodb" {
 
