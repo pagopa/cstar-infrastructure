@@ -19,6 +19,8 @@ module "idpay_api_product" {
   subscriptions_limit = 50
 
   policy_xml = file("./api_product/idpay_api/policy.xml")
+
+  groups = ["developers"]
 }
 
 #
