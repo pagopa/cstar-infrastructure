@@ -797,6 +797,6 @@ enable = {
     api             = false
     db_collections  = false
     blob_containers = true
-
+    adf             = false
   }
 }

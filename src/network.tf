@@ -144,6 +144,10 @@ module "eventhub_snet" {
 
 # Subnet for Azure Data Factory
 module "adf_snet" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.11"
   name                                           = format("%s-adf-snet", local.project)
   address_prefixes                               = var.cidr_subnet_adf
