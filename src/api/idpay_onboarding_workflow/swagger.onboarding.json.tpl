@@ -16,7 +16,7 @@
     "https"
   ],
   "paths": {
-    "/idpay/onboarding/citizen": {
+    "/citizen": {
       "put": {
         "tags": [
           "onboarding"
@@ -83,7 +83,7 @@
         ]
       }
     },
-    "/idpay/onboarding/initiative": {
+    "/initiative": {
       "put": {
         "tags": [
           "onboarding"
@@ -162,7 +162,7 @@
         ]
       }
     },
-    "/idpay/onboarding/consent": {
+    "/consent": {
       "put": {
         "tags": [
           "onboarding"
@@ -229,7 +229,7 @@
         ]
       }
     },
-    "/idpay/onboarding/{initiativeId}/status": {
+    "/{initiativeId}/status": {
       "get": {
         "tags": [
           "onboarding"
