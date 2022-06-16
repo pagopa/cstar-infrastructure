@@ -55,7 +55,7 @@ module "idpay_cdn" {
   prefix                = local.project
   resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
   location              = var.location
-  hostname              = format("%s.%s", var.dns_zone_prefix, var.external_domain)
+  hostname              = data.azurerm_dns_zone.public.name
   https_rewrite_enabled = true
   lock_enabled          = var.lock_enable
 
