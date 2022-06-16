@@ -70,9 +70,9 @@ module "aks" {
   rbac_enabled        = true
   aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
 
-  addon_azure_policy_enabled = var.aks_addons.azure_policy
-  # addon_azure_keyvault_secrets_provider_enabled = var.aks_addons.azure_key_vault_secrets_provider
-  addon_azure_pod_identity_enabled = var.aks_addons.pod_identity_enabled
+  addon_azure_policy_enabled                     = var.aks_addons.azure_policy
+  addon_azure_key_vault_secrets_provider_enabled = var.aks_addons.azure_key_vault_secrets_provider
+  addon_azure_pod_identity_enabled               = var.aks_addons.pod_identity_enabled
 
   default_metric_alerts = var.aks_metric_alerts_default
   custom_metric_alerts  = var.aks_metric_alerts_custom
@@ -89,8 +89,27 @@ module "aks" {
     }
   ]
   tags = var.tags
+
+  depends_on = [
+    module.snet_aks,
+    data.azurerm_public_ip.pip_aks_outboud,
+    data.azurerm_virtual_network.vnet_aks
+  ]
 }
 
+#
+# ACR connection
+#
+# add the role to the identity the kubernetes cluster was assigned
+resource "azurerm_role_assignment" "aks_to_acr" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = module.aks[0].kubelet_identity_id
+}
+
+#
+# Vnet Link
+#
 
 # vnet needs a vnet link with aks private dns zone
 # aks terrform module doesn't export private dns zone

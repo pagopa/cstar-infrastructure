@@ -1,7 +1,7 @@
 prefix         = "cstar"
 env_short      = "d"
 env            = "dev"
-domain         = "idpay"
+domain         = "tae"
 location       = "westeurope"
 location_short = "weu"
 instance       = "dev01"
@@ -34,7 +34,10 @@ log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 aks_name                = "cstar-d-weu-dev01-aks"
 aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
 
-ingress_load_balancer_ip = "10.10.100.250"
+ingress_load_balancer_ip = "10.11.100.250"
 
+#
+# Dns
+# 
 external_domain          = "pagopa.it"
-dns_zone_internal_prefix = "internal.dev.platform"
+dns_zone_internal_prefix = "internal.dev.cstar"

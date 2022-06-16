@@ -3,6 +3,7 @@ location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
+env_short           = "u"
 
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
@@ -12,16 +13,19 @@ apim_sku                       = "Developer_1"
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=33.df9ce3000
 cidr_vnet = ["10.1.0.0/16"]
 
-cidr_subnet_k8s             = ["10.1.0.0/17"]
-cidr_subnet_appgateway      = ["10.1.128.0/24"]
-cidr_subnet_db              = ["10.1.129.0/24"]
-cidr_subnet_azdoa           = ["10.1.130.0/24"]
-cidr_subnet_jumpbox         = ["10.1.131.0/24"]
-cidr_subnet_vpn             = ["10.1.132.0/24"]
-cidr_subnet_dnsforwarder    = ["10.1.133.0/29"]
-cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
-cidr_subnet_storage_account = ["10.1.137.0/24"]
-cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+cidr_subnet_k8s              = ["10.1.0.0/17"]
+cidr_subnet_appgateway       = ["10.1.128.0/24"]
+cidr_subnet_db               = ["10.1.129.0/24"]
+cidr_subnet_azdoa            = ["10.1.130.0/24"]
+cidr_subnet_jumpbox          = ["10.1.131.0/24"]
+cidr_subnet_vpn              = ["10.1.132.0/24"]
+cidr_subnet_dnsforwarder     = ["10.1.133.0/29"]
+cidr_subnet_adf              = ["10.1.135.0/24"]
+cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
+cidr_subnet_storage_account  = ["10.1.137.0/24"]
+cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
+cidr_subnet_private_endpoint = ["10.1.200.0/23"]
+
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -240,6 +244,10 @@ aks_metric_alerts = {
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
+sftp_account_replication_type = "GRS"
+sftp_ip_rules                 = []
+sftp_enable_private_endpoint  = true
+
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
 db_storage_mb     = 204800 # 200 GB
@@ -328,13 +336,21 @@ pgres_flex_params = {
   enabled    = true
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576, 
+  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
   # 2097152, 4194304, 8388608, 16777216, and 33554432.
   storage_mb                   = 32768
   zone                         = 1
   backup_retention_days        = 7
   geo_redundant_backup_enabled = false
   create_mode                  = "Default"
+}
+
+## DNS
+dns_zone_prefix         = "uat.cstar"
+internal_private_domain = "internal.uat.cstar.pagopa.it"
+dns_storage_account_tkm = {
+  name = "tkmstorageblobuatpci"
+  ips  = ["10.70.73.38"]
 }
 
 cosmos_mongo_db_params = {
@@ -372,10 +388,7 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
-dns_zone_prefix         = "uat.cstar"
-internal_private_domain = "internal.uat.cstar.pagopa.it"
-ehns_sku_name           = "Standard"
-
+ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
 ehns_metric_alerts = {
   no_trx = {
@@ -424,7 +437,6 @@ ehns_metric_alerts = {
 }
 
 enable_azdoa = true
-env_short    = "u"
 
 eventhubs = [
   {
@@ -738,7 +750,7 @@ k8s_ip_filter_range = {
   to   = "10.1.127.254"
 }
 
-# This is the k8s ingress controller ip. It must be in the aks subnet range.  
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
 reverse_proxy_ip = "10.1.0.250"
 
 app_gateway_sku_name                    = "Standard_v2"
@@ -751,6 +763,10 @@ app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 
 enable_iac_pipeline = true
+
+cdc_api_params = {
+  host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
+}
 
 tags = {
   CreatedBy   = "Terraform"
@@ -777,6 +793,9 @@ enable = {
     api = true
   }
   tae = {
-    db_collections = false
+    api             = true
+    db_collections  = false
+    blob_containers = true
+    adf             = false
   }
 }

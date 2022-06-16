@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "sec_rg" {
-  name     = format("%s-sec-rg", local.project)
+  name     = "${local.project}-sec-rg"
   location = var.location
 
   tags = var.tags
@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "sec_rg" {
 
 module "key_vault" {
   source              = "git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.90"
-  name                = format("%s-kv", local.project)
+  name                = "${local.project}-kv"
   location            = azurerm_resource_group.sec_rg.location
   resource_group_name = azurerm_resource_group.sec_rg.name
   tenant_id           = data.azurerm_client_config.current.tenant_id
@@ -36,7 +36,7 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
 # azure devops policy
 data "azuread_service_principal" "iac_principal" {
   count        = var.enable_iac_pipeline ? 1 : 0
-  display_name = format("pagopaspa-cstar-iac-projects-%s", data.azurerm_subscription.current.subscription_id)
+  display_name = "pagopaspa-cstar-iac-projects-${data.azurerm_subscription.current.subscription_id}"
 }
 
 resource "azurerm_key_vault_access_policy" "azdevops_iac_policy" {

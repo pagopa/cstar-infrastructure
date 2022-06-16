@@ -1,0 +1,34 @@
+<policies>
+    <inbound>
+        <base />
+        <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("x-bpd-token","bpd-token").Split(' ').Last())" />
+        <cache-lookup-value key="@((string)context.Variables["token"] + "-cdc-get-stato-beneficiario")" variable-name="statoBeneficiario"  />
+        <choose>
+            <!-- If the response is cached, return it and stop policy execution -->
+            <when condition="@(context.Variables.ContainsKey("statoBeneficiario"))">
+                <return-response response-variable-name="statoBeneficiario" />
+            </when>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <set-variable name="isCacheable" value="@{
+            var response = context.Response.Body.As<JObject>(preserveContent: true);
+            var listaStatoPerAnno = (JArray)response["listaStatoPerAnno"];
+            bool isCacheable = (listaStatoPerAnno.Count == 3 && !listaStatoPerAnno.Contains("ATTIVABILE")) ? true: false;
+            return isCacheable;
+        }"/>
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300 && (bool)context.Variables["isCacheable"])">
+                <!-- Store result in cache -->
+                <cache-store-value key="@((string)context.Variables["token"] + "-cdc-get-stato-beneficiario" )" value="@(context.Response)" duration="3600"  caching-type="prefer-external" />
+            </when>
+        </choose>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

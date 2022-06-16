@@ -1,13 +1,21 @@
 <policies>
   <inbound>
     <base />
+    %{ if env_short == "u" ~}
     <set-header name="x-ibm-client-secret" exists-action="override">
       <value>{{x-ibm-client-secret}}</value>
     </set-header>
+    %{ endif ~}
     <set-header name="x-ibm-client-id" exists-action="override">
       <value>{{x-ibm-client-id}}</value>
     </set-header>
     <set-header name="Ocp-Apim-Subscription-Key" exists-action="delete" />
+    <set-header name="x-bpd-token" exists-action="override">
+      <value>@{
+        return context.Request.Headers.GetValueOrDefault("Authorization","scheme param").Split(' ').Last();
+      }
+      </value>
+    </set-header>
     <set-header name="Authorization" exists-action="override">
       <value>@{
       var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(

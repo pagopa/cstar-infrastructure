@@ -1,3 +1,5 @@
+# Private DNS Zone for API Management
+
 resource "azurerm_private_dns_zone" "private_private_dns_zone" {
   name                = var.internal_private_domain
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -17,11 +19,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_integration_dn
   virtual_network_id    = module.vnet_integration.id
 }
 
+#
+# Records for private dns zone
+#
 resource "azurerm_private_dns_a_record" "private_dns_a_record_api" {
   name                = "apim"
   zone_name           = azurerm_private_dns_zone.private_private_dns_zone.name
   resource_group_name = azurerm_resource_group.rg_vnet.name
-  ttl                 = 300
+  ttl                 = var.dns_default_ttl_sec
   records             = module.apim.*.private_ip_addresses[0]
 }
 
@@ -30,7 +35,7 @@ resource "azurerm_private_dns_a_record" "private_dns_a_record_portal" {
   name                = "portal"
   zone_name           = azurerm_private_dns_zone.private_private_dns_zone.name
   resource_group_name = azurerm_resource_group.rg_vnet.name
-  ttl                 = 300
+  ttl                 = var.dns_default_ttl_sec
   records             = module.apim.*.private_ip_addresses[0]
 }
 
@@ -39,7 +44,7 @@ resource "azurerm_private_dns_a_record" "private_dns_a_record_management" {
   name                = "management"
   zone_name           = azurerm_private_dns_zone.private_private_dns_zone.name
   resource_group_name = azurerm_resource_group.rg_vnet.name
-  ttl                 = 300
+  ttl                 = var.dns_default_ttl_sec
   records             = module.apim.*.private_ip_addresses[0]
 }
 
@@ -70,6 +75,24 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet" 
   private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
   virtual_network_id    = module.vnet.id
 }
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet_integration" {
+  name                  = module.vnet_integration.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = module.vnet_integration.id
+}
+
+resource "azurerm_private_dns_a_record" "storage_account_tkm" {
+  count = var.dns_storage_account_tkm != null ? 1 : 0
+
+  name                = var.dns_storage_account_tkm.name
+  zone_name           = azurerm_private_dns_zone.storage_account.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = var.dns_storage_account_tkm.ips
+}
+
 # Cosmos MongoDB private dns zone
 
 resource "azurerm_private_dns_zone" "cosmos_mongo" {
@@ -91,4 +114,22 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_vnet" {
   registration_enabled  = false
 
   tags = var.tags
+}
+
+# Private DNS Zone for Azure Data Factory
+
+resource "azurerm_private_dns_zone" "adf" {
+  count = var.enable.tae.adf ? 1 : 0
+
+  name                = "privatelink.datafactory.azure.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
+  count = var.enable.tae.adf ? 1 : 0
+
+  name                  = format("%s-adf-private-dns-zone-link", local.project)
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.adf[count.index].name
+  virtual_network_id    = module.vnet.id
 }

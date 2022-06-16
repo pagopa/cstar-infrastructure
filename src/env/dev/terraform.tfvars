@@ -3,6 +3,7 @@ location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
+env_short           = "d"
 
 apim_notification_sender_email = "info@pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
@@ -11,17 +12,19 @@ apim_sku                       = "Developer_1"
 
 cidr_vnet = ["10.1.0.0/16"]
 
-cidr_subnet_k8s             = ["10.1.0.0/17"]
-cidr_subnet_appgateway      = ["10.1.128.0/24"]
-cidr_subnet_db              = ["10.1.129.0/24"]
-cidr_subnet_azdoa           = ["10.1.130.0/24"]
-cidr_subnet_jumpbox         = ["10.1.131.0/24"]
-cidr_subnet_redis           = ["10.1.132.0/24"]
-cidr_subnet_vpn             = ["10.1.133.0/24"]
-cidr_subnet_dnsforwarder    = ["10.1.134.0/29"]
-cidr_subnet_flex_dbms       = ["10.1.136.0/24"]
-cidr_subnet_storage_account = ["10.1.137.0/24"]
-cidr_subnet_cosmos_mongodb  = ["10.1.138.0/24"]
+cidr_subnet_k8s          = ["10.1.0.0/17"]
+cidr_subnet_appgateway   = ["10.1.128.0/24"]
+cidr_subnet_db           = ["10.1.129.0/24"]
+cidr_subnet_azdoa        = ["10.1.130.0/24"]
+cidr_subnet_jumpbox      = ["10.1.131.0/24"]
+cidr_subnet_redis        = ["10.1.132.0/24"]
+cidr_subnet_vpn          = ["10.1.133.0/24"]
+cidr_subnet_dnsforwarder = ["10.1.134.0/29"]
+cidr_subnet_adf          = ["10.1.135.0/24"]
+
+cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
+cidr_subnet_storage_account  = ["10.1.137.0/24"]
+cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
 # integration vnet
@@ -241,6 +244,10 @@ aks_metric_alerts = {
 devops_service_connection_object_id = "2ba3cc79-7714-4297-867a-ed354a085bf0"
 azdo_sp_tls_cert_enabled            = false # will be enabled when TLS cert will be generated with new acme tiny
 
+sftp_account_replication_type = "LRS"
+sftp_enable_private_endpoint  = false
+sftp_disable_network_rules    = true
+
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
 db_configuration = {
@@ -329,7 +336,7 @@ pgres_flex_params = {
   enabled    = true
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576, 
+  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
   # 2097152, 4194304, 8388608, 16777216, and 33554432.
   storage_mb                   = 32768
   zone                         = 1
@@ -339,9 +346,14 @@ pgres_flex_params = {
 
 }
 
-
+## DNS
 dns_zone_prefix         = "dev.cstar"
 internal_private_domain = "internal.dev.cstar.pagopa.it"
+dns_storage_account_tkm = {
+  name = "u89blobtestaccount"
+  ips  = ["10.70.66.99"]
+}
+
 cosmos_mongo_db_params = {
   enabled      = true
   kind         = "MongoDB"
@@ -356,13 +368,12 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = true
 
-  additional_geo_locations          = []
   private_endpoint_enabled          = false
   public_network_access_enabled     = true
+  additional_geo_locations          = []
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
-
 }
 
 cosmos_mongo_db_transaction_params = {
@@ -371,7 +382,6 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
-
 
 ehns_sku_name = "Standard"
 
@@ -423,7 +433,6 @@ ehns_metric_alerts = {
 }
 
 enable_azdoa = true
-env_short    = "d"
 
 eventhubs = [
   {
@@ -600,7 +609,7 @@ eventhubs = [
     name              = "rtd-platform-events"
     partitions        = 1
     message_retention = 1
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
     keys = [
       {
         # publisher
@@ -759,7 +768,7 @@ k8s_ip_filter_range = {
   to   = "10.1.127.254"
 }
 
-# This is the k8s ingress controller ip. It must be in the aks subnet range.  
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
 reverse_proxy_ip = "10.1.0.250"
 
 app_gateway_sku_name                    = "Standard_v2"
@@ -799,6 +808,9 @@ enable = {
     api = false
   }
   tae = {
-    db_collections = true
+    api             = true
+    db_collections  = true
+    blob_containers = true
+    adf             = true
   }
 }

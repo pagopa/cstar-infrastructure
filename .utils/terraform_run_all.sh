@@ -19,8 +19,10 @@ array=(
     'src/k8s::dev-cstar'
     'src/aks-platform::dev01'
     'src/psql::dev-cstar'
-    'src/domains/idpay::dev'
+    'src/domains/idpay-app::dev'
     'src/domains/idpay-common::dev'
+    'src/domains/tae-app::dev'
+    'src/domains/tae-common::dev'
 )
 
 function rm_terraform {
