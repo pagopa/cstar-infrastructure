@@ -89,7 +89,7 @@
 | <a name="module_rtd_senderadeack_filename_list"></a> [rtd\_senderadeack\_filename\_list](#module\_rtd\_senderadeack\_filename\_list) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.16.0 |
 | <a name="module_sftp"></a> [sftp](#module\_sftp) | git::https://github.com/pagopa/azurerm.git//storage_account | v2.18.0 |
 | <a name="module_storage_account_snet"></a> [storage\_account\_snet](#module\_storage\_account\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.1.13 |
-| <a name="module_tae_data_factory"></a> [tae\_data\_factory](#module\_tae\_data\_factory) | git::https://github.com/pagopa/azurerm.git//data_factory | v2.1.19 |
+| <a name="module_tae_data_factory"></a> [tae\_data\_factory](#module\_tae\_data\_factory) | git::https://github.com/pagopa/azurerm.git//data_factory | v2.18.4 |
 | <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network | v1.0.7 |
 | <a name="module_vnet_aks"></a> [vnet\_aks](#module\_vnet\_aks) | git::https://github.com/pagopa/azurerm.git//virtual_network | v2.16.0 |
 | <a name="module_vnet_integration"></a> [vnet\_integration](#module\_vnet\_integration) | git::https://github.com/pagopa/azurerm.git//virtual_network | v1.0.26 |
