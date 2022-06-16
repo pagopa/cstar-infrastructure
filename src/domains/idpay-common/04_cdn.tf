@@ -49,13 +49,13 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v2.12.1"
+  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=IID-10-generate-A-record-for-cdn"
 
   name                  = "idpaycdn"
   prefix                = local.project
   resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
   location              = var.location
-  hostname              = data.azurerm_dns_zone.public.name
+  hostname              = format("welfare.%s", data.azurerm_dns_zone.public.name)
   https_rewrite_enabled = true
   lock_enabled          = var.lock_enable
 
