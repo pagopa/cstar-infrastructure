@@ -7,12 +7,12 @@ resource "azurerm_api_management_api" "devops_idpay_color" {
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
-  revision            = "1"
-  display_name        = "DevOps IDPAY color"
-  path                = "idpay/color"
+  revision              = "1"
+  display_name          = "DevOps IDPAY color"
+  path                  = "idpay/color"
   subscription_required = false
-  service_url = "https://dev01.idpay.internal.dev.cstar.pagopa.it/idpay/color"
-  protocols           = ["https", "http"]
+  service_url           = "https://dev01.idpay.internal.dev.cstar.pagopa.it/idpay/color"
+  protocols             = ["https", "http"]
 }
 
 resource "azurerm_api_management_api_policy" "example" {
