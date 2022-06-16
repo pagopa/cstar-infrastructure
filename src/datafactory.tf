@@ -9,7 +9,7 @@ module "tae_data_factory" {
 
   count = var.enable.tae.adf ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//data_factory?ref=TAE-51-set-system-managed-idenity-for-adf"
+  source = "git::https://github.com/pagopa/azurerm.git//data_factory?ref=v2.18.4"
 
 
   # Naming
