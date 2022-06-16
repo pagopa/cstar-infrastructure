@@ -140,7 +140,7 @@ module "postgres_flexible_server" {
 
 module "cosmosdb_account_mongodb" {
 
-  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+  count = var.enable.tae.adf ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
@@ -159,7 +159,8 @@ module "cosmosdb_account_mongodb" {
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   allowed_virtual_network_subnet_ids = [
-    module.k8s_snet.id
+    module.k8s_snet.id,
+    module.adf_snet[count.index].id
   ]
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
