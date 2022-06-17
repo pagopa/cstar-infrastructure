@@ -77,3 +77,29 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "tae_adf_sa_li
 
   use_managed_identity = true
 }
+
+
+
+
+data "azurerm_cosmosdb_account" "mongo" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  name                = format("%s-cosmos-mongo-db-account", local.project)
+  resource_group_name = format("%s-db-rg", local.project)
+
+}
+
+resource "azurerm_data_factory_linked_service_cosmosdb" "tae_adf_mongo_linked_service" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  resource_group_name = azurerm_resource_group.tae_df_rg[count.index].name
+  name                = format("%s-%s-mongo-linked-service", local.project, "tae")
+  data_factory_id     = data.azurerm_data_factory.tae_adf[count.index].id
+
+  account_endpoint = data.azurerm_cosmosdb_account.mongo[count.index].endpoint
+  account_key      = data.azurerm_cosmosdb_account.mongo[count.index].primary_key
+  database         = resource.azurerm_cosmosdb_mongo_database.transaction_aggregate[count.index].name
+
+}
