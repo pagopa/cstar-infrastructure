@@ -90,7 +90,7 @@ data "azurerm_cosmosdb_account" "mongo" {
 
 }
 
-resource "azurerm_data_factory_linked_service_cosmosdb" "tae_adf_mongo_linked_service" {
+resource "azurerm_data_factory_linked_service_cosmosdb_mongoapi" "tae_adf_mongo_linked_service" {
 
   count = var.enable.tae.adf ? 1 : 0
 
@@ -98,8 +98,8 @@ resource "azurerm_data_factory_linked_service_cosmosdb" "tae_adf_mongo_linked_se
   name                = format("%s-%s-mongo-linked-service", local.project, "tae")
   data_factory_id     = data.azurerm_data_factory.tae_adf[count.index].id
 
-  account_endpoint = data.azurerm_cosmosdb_account.mongo[count.index].endpoint
-  account_key      = data.azurerm_cosmosdb_account.mongo[count.index].primary_key
-  database         = resource.azurerm_cosmosdb_mongo_database.transaction_aggregate[count.index].name
+  connection_string              = module.cosmosdb_account_mongodb[count.index].connection_strings[0]
+  database                       = resource.azurerm_cosmosdb_mongo_database.transaction_aggregate[count.index].name
+  server_version_is_32_or_higher = true
 
 }
