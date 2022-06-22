@@ -173,24 +173,6 @@ module "cosmosdb_account_mongodb" {
   tags = var.tags
 }
 
-resource "azurerm_cosmosdb_mongo_database" "transaction_aggregate" {
-
-  count = var.enable.tae.db_collections ? 1 : 0
-
-  name                = "taggregate"
-  resource_group_name = azurerm_resource_group.db_rg.name
-  account_name        = module.cosmosdb_account_mongodb[count.index].name
-
-  throughput = var.cosmos_mongo_db_transaction_params.enable_autoscaling || var.cosmos_mongo_db_transaction_params.enable_serverless ? null : var.cosmos_mongo_db_transaction_params.throughput
-
-  dynamic "autoscale_settings" {
-    for_each = var.cosmos_mongo_db_transaction_params.enable_autoscaling && !var.cosmos_mongo_db_transaction_params.enable_serverless ? [""] : []
-    content {
-      max_throughput = var.cosmos_mongo_db_transaction_params.enable_serverless.max_throughput
-    }
-  }
-}
-
 resource "azurerm_cosmosdb_mongo_database" "file_register" {
 
   count = var.enable.rtd.file_register ? 1 : 0
