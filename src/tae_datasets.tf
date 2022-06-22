@@ -19,41 +19,145 @@ resource "azurerm_data_factory_custom_dataset" "aggregate" {
   description = "Aggregates to be stored in Cosmos/MongoDB"
   annotations = ["Aggregates"]
 
-  #   schema_json = <<JSON
-  # {
-  #   "type": "object",
-  #   "properties": {
-  #     "name": {
-  #       "type": "object",
-  #       "properties": {
-  #         "firstName": {
-  #           "type": "string"
-  #         },
-  #         "lastName": {
-  #           "type": "string"
-  #         }
-  #       }
-  #     },
-  #     "age": {
-  #       "type": "integer"
-  #     }
-  #   }
-  # }
-  # JSON
+  schema_json = <<JSON
+  [
+    {
+      "name": "id",
+      "type": "String"
+    },
+    {
+      "name": "recordId",
+      "type": "String"
+    },
+    {
+      "name": "senderCode",
+      "type": "String"
+    },
+    {
+      "name": "operationType",
+      "type": "String"
+    },
+    {
+      "name": "transmissionDate",
+      "type": "Date"
+    },
+    {
+      "name": "accountingDate",
+      "type": "Date"
+    },
+    {
+      "name": "numTrx",
+      "type": "Int32"
+    },
+    {
+      "name": "totalAmount",
+      "type": "Int32"
+    },
+    {
+      "name": "acquirerId",
+      "type": "String"
+    },
+    {
+      "name": "merchantId",
+      "type": "String"
+    },
+    {
+      "name": "terminalId",
+      "type": "String"
+    },
+    {
+      "name": "fiscalCode",
+      "type": "String"
+    },
+    {
+      "name":  "vat",
+      "type": "String"
+    },
+    {
+      "name":  "posType",
+      "type": "String"
+    }
+  ]
+  JSON
 }
 
-resource "azurerm_data_factory_dataset_delimited_text" "acquirer_aggregate" {
+
+resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
 
   count = var.enable.tae.adf ? 1 : 0
 
-  name                = "AcquirerAggregate"
-  resource_group_name = azurerm_resource_group.tae_df_rg[count.index].name
-  data_factory_id     = data.azurerm_data_factory.tae_adf[count.index].id
-  linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sa_linked_service[count.index].name
+  name            = "SourceAggregate"
+  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  type            = "DelimitedText"
 
-  azure_blob_storage_location {
-    container = "ade_transaction_decrypter"
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sa_linked_service[count.index].name
   }
 
-  column_delimiter = ";"
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "container": "ade_transaction_decrypter"
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8"
+  }
+  JSON
+
+  description = "Source Aggregates sent by Acquirer"
+  annotations = ["SourceAggregates"]
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "senderCode",
+      "type": "String"
+    },
+    {
+      "name": "operationType",
+      "type": "String"
+    },
+    {
+      "name": "transmissionDate",
+      "type": "Date"
+    },
+    {
+      "name": "accountingDate",
+      "type": "Date"
+    },
+    {
+      "name": "numTrx",
+      "type": "Int32"
+    },
+    {
+      "name": "totalAmount",
+      "type": "Int32"
+    },
+    {
+      "name": "acquirerId",
+      "type": "String"
+    },
+    {
+      "name": "merchantId",
+      "type": "String"
+    },
+    {
+      "name": "terminalId",
+      "type": "String"
+    },
+    {
+      "name": "fiscalCode",
+      "type": "String"
+    },
+    {
+      "name":  "vat",
+      "type": "String"
+    },
+    {
+      "name":  "posType",
+      "type": "String"
+    }
+  ]
+  JSON
 }
