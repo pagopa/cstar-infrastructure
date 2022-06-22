@@ -293,7 +293,7 @@ module "rtd_sender_mauth_check" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.0"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
 
   name                = format("%s-rtd-sender-mauth-check", var.env_short)
   api_management_name = module.apim.name
