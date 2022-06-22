@@ -800,6 +800,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = true
+    batch_service_api                   = true
   }
   fa = {
     api = true
