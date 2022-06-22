@@ -47,3 +47,4 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
     # }
   }
 }
+
