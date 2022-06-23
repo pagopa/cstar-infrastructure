@@ -42,11 +42,11 @@ module "event_hub_idpay_01" {
 
 #tfsec:ignore:AZU023
 resource "azurerm_key_vault_secret" "event_hub_keys_idpay_01" {
-  for_each = module.event_hub_idpay_01.key_ids
+  for_each = module.event_hub_idpay_01[0].key_ids
 
   name         = format("evh-%s-%s-idpay-01", replace(each.key, ".", "-"), "key")
-  value        = module.event_hub_idpay_01.keys[each.key].primary_key
+  value        = module.event_hub_idpay_01[0].keys[each.key].primary_key
   content_type = "text/plain"
 
-  key_vault_id = module.key_vault_idpay.id
+  key_vault_id = module.key_vault_idpay[0].id
 }

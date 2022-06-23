@@ -12,6 +12,7 @@ tags = {
   Owner       = "IO"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+  Application = "IdPay"
 }
 
 lock_enable = true
