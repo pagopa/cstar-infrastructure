@@ -286,6 +286,49 @@ paths:
       security:
         - BearerAuth: []
 
+  /esercenti/:
+    get:
+      tags:
+        - Fase 2
+      summary: Ritorna la lista degli esercenti disponibili
+      parameters:
+        - in: query
+          name: tipo
+          required: false
+          schema:
+            $ref: '#/components/schemas/TipoEsercente'
+        - in: query
+          name: offset
+          required: false
+          description: "Offset per la paginazione"
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: limit
+          required: false
+          description: "Numero massimi di elementi per la pagina"
+          schema:
+            type: integer
+            example: 10
+            maximum: 10
+            minimum: 1
+      responses:
+        "200":
+          description: "Lista degli esercenti"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageEsercenti'
+        "401":
+          description: Utente non autorizzaato
+        "403":
+          description: Utente non loggato
+        "500":
+          description: Errore interno
+      security:
+        - BearerAuth: []
+
 components:
   securitySchemes:
     BearerAuth:
@@ -484,6 +527,8 @@ components:
     Esercente:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/Id'
         nome:
           type: string
           example: "La Feltrinelli"
@@ -511,6 +556,17 @@ components:
         codiceFiscale:
           type: string
           example: "RSSMRA80D42A123U"
+
+    PageEsercenti:
+      type: object
+      properties:
+        esercenti:
+          type: array
+          items:
+            $ref: '#/components/schemas/Esercente'
+        prossimoOffset:
+          type: integer
+
 
     IdCarta:
       oneOf:
