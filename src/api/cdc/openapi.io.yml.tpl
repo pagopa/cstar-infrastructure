@@ -129,7 +129,7 @@ paths:
     delete:
       tags:
         - Fase 2
-      summary: "Cancella iscrizione alla carta della cultura"
+      summary: "Cancella l'iscrizione per la carta della cultura specificata. N.B. Non elimina la registazione dell'intera iniziativa"
       operationId: revokeCard
       parameters:
         *idcard_path_param
