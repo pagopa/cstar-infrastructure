@@ -763,6 +763,11 @@ variable "enable" {
       blob_containers = bool
       adf             = bool
     })
+    idpay = object({
+      eventhub_idpay = bool
+    }
+
+    )
   })
   description = "Feature flags"
   default = {
