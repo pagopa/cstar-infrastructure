@@ -289,6 +289,35 @@ module "rtd_senderadeack_filename_list" {
   api_operation_policies = []
 }
 
+module "rtd_sender_mauth_check" {
+
+  count = var.enable.rtd.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
+
+  name                = format("%s-rtd-sender-mauth-check", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = "RTD API to check muthual authentication (client certificate)"
+  display_name = "RTD API to Check mAuth"
+  path         = "rtd/mauth"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = file("./api/rtd_sender_mauth_check/openapi.yml")
+
+  xml_content = file("./api/rtd_sender_mauth_check/policy.xml")
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = []
+}
 
 # 
 # SUBSCRIPTIONS FOR INTERNAL USERS
