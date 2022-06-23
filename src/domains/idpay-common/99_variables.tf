@@ -221,7 +221,7 @@ variable "enable" {
   description = "Feature flags"
   default = {
     idpay = {
-      eventhub_idpay_01  = false
+      eventhub_idpay_01 = false
     }
   }
 }
