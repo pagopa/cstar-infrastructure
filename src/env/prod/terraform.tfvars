@@ -788,6 +788,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = false
+    batch_service_api                   = false
   }
   fa = {
     api = false
