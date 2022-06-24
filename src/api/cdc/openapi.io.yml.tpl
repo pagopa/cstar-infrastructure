@@ -8,8 +8,6 @@ servers:
 
 tags:
   - name: Fase 2
-    description: N.B. Id
-
 
 paths:
   /beneficiario/stato:
@@ -129,7 +127,7 @@ paths:
     delete:
       tags:
         - Fase 2
-      summary: "Cancella l'iscrizione per la carta della cultura specificata. N.B. Non elimina la registazione dell'intera iniziativa"
+      summary: "Cancella l'iscrizione per la carta della cultura specificata."
       operationId: revokeCard
       parameters:
         *idcard_path_param
@@ -153,8 +151,7 @@ paths:
         - Fase 2
       summary: |
         Ritorna la lista di buoni creati con la carta specificata.
-        Supporta la paginazione basata su chiave (key-based) utilizzando come chiave
-        la data di creazione dei buoni.
+        Supporta la paginazione basata su chiave (key-based) utilizzando come chiave l'id del prossimo buono da ottenere.
       operationId: getVouchersOfCard
       parameters:
         - in: path
@@ -164,12 +161,11 @@ paths:
             $ref: '#/components/schemas/IdCarta'
           description: "Id o Anno della Carta della Cultura"
         - in: query
-          name: since_data_creazione
+          name: since_id
           required: false
           schema:
-            $ref: '#/components/schemas/DateISO8601'
-          description: |
-            Data di creazione dell'ultimo buono della pagina. Funge da chiaave per key-based pagination. La data DEVE essere formattata secondo ISO 8601.
+            $ref: '#/components/schemas/Id'
+          description: Id del buono da cui partire per creare la pagina
         - in: query
           name: limit
           required: false
@@ -197,19 +193,22 @@ paths:
       security:
         - BearerAuth: []
 
+
+  /buoni:
     post:
       tags:
         - Fase 2
       summary: "Genera un nuovo buono a partire dalla carta specificata"
       operationId: generateVoucher
-      parameters:
-        *idcard_path_param
       requestBody:
+        description:  |
+          È necessario specificare il valore del buono e una lista di carte da cui generare il buono. La liste di carte può essere rappresentata dagli anni di riferimento delle carte o dagli id specifici delle carte.
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ValoreBuono'
+              $ref: '#/components/schemas/CrezioneBuono'
+
       responses:
         "200":
           description: Buono generato
@@ -230,7 +229,6 @@ paths:
       security:
         - BearerAuth: []
 
-
   /buoni/{idBuono}:
     get:
       tags:
@@ -245,7 +243,8 @@ paths:
             $ref: '#/components/schemas/Id'
       responses:
         "200":
-          description: "Dettaglio del buono. L'esercente su cui è stato speso il buono, non è valorizzato se lo stato è DISPONIBILE, analogamente la dataSpesa"
+          description: |
+            Dettaglio del buono. L'esercente su cui è stato speso il buono, non è valorizzato se lo stato è DISPONIBILE, analogamente la dataSpesa.
           content:
             application/json:
               schema:
@@ -277,49 +276,6 @@ paths:
           description: "Buono revocato con successo"
         "404":
           description: Buono non trovato
-        "401":
-          description: Utente non autorizzaato
-        "403":
-          description: Utente non loggato
-        "500":
-          description: Errore interno
-      security:
-        - BearerAuth: []
-
-  /esercenti/:
-    get:
-      tags:
-        - Fase 2
-      summary: Ritorna la lista degli esercenti disponibili
-      parameters:
-        - in: query
-          name: tipo
-          required: false
-          schema:
-            $ref: '#/components/schemas/TipoEsercente'
-        - in: query
-          name: offset
-          required: false
-          description: "Offset per la paginazione"
-          schema:
-            type: integer
-            example: 1
-        - in: query
-          name: limit
-          required: false
-          description: "Numero massimi di elementi per la pagina"
-          schema:
-            type: integer
-            example: 10
-            maximum: 10
-            minimum: 1
-      responses:
-        "200":
-          description: "Lista degli esercenti"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageEsercenti'
         "401":
           description: Utente non autorizzaato
         "403":
@@ -474,16 +430,12 @@ components:
           type: number
           example: 1234567890
           description: "Codice univoco del buono"
-        qrCode:
-          type: string
-          example: "qr code payload"
-          description: "QrCode"
-        barCode:
-          type: string
-          example: "bar code payload"
-          description: "BarCode"
         esercente:
           $ref: '#/components/schemas/Esercente'
+        qrCode:
+          $ref: '#/components/schemas/QRCode'
+        barCode:
+          $ref: '#/components/schemas/BarCode'
 
     BuonoPagina:
       type: object
@@ -493,7 +445,7 @@ components:
           items:
             $ref: '#/components/schemas/Buono'
         prossimo:
-          $ref: '#/components/schemas/DateISO8601'
+          $ref: '#/components/schemas/Id'
 
     CartaDellaCultura:
       type: object
@@ -502,6 +454,8 @@ components:
           $ref: '#/components/schemas/Id'
         annoRiferimento:
           $ref: '#/components/schemas/Anno'
+        scadenza:
+          $ref: '#/components/schemas/DateISO8601'
         saldoDisponibile:
           type: number
           description: "Saldo disponibile per la creazioni di buoni"
@@ -516,13 +470,20 @@ components:
           items:
             $ref: '#/components/schemas/Beneficiario'
 
-    ValoreBuono:
+    CrezioneBuono:
       type: object
       properties:
+        carte:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdCarta'
         valore:
           type: number
           example: 33
           description: "Valore dell'importo del buono da generare"
+      required:
+        - carte
+        - valore
 
     Esercente:
       type: object
@@ -557,17 +518,6 @@ components:
           type: string
           example: "RSSMRA80D42A123U"
 
-    PageEsercenti:
-      type: object
-      properties:
-        esercenti:
-          type: array
-          items:
-            $ref: '#/components/schemas/Esercente'
-        prossimoOffset:
-          type: integer
-
-
     IdCarta:
       oneOf:
         - $ref: '#/components/schemas/Id'
@@ -582,3 +532,43 @@ components:
       type: string
       format: date-time
       example: "2022-06-22T11:19:45.000Z"
+
+    QRCode: &qr_code
+      description: Immagine del qrcode codificata in base64
+      type: object
+      properties:
+        mime_type:
+          description: Formato dell'immagine codificata
+          type: string
+          enum:
+            - image/png
+          example:
+            image/png
+        content:
+          description: Rappresentazione base64 dell'immagine
+          type: string
+          example: >-
+            PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMyAyMyI+PHBhdGggZmlsbD0iYmxhY2siIGQ9Ik0xIDFoN3Y3aC03ek05IDFoMXYxaC0xek0xMSAxaDJ2MWgtMXYxaC0ydi0xaDF6TTE1IDFoN3Y3aC03ek0yIDJ2NWg1di01ek0xNiAydjVoNXYtNXpNMyAzaDN2M2gtM3pNOSAzaDF2MWgtMXpNMTIgM2gxdjJoMXY0aC0xdi0yaC0xdjNoLTF2MWgxdi0xaDF2MWgxdjFoLTF2MWgydi0xaDF2MmgtNHYtMmgtMXYxaC0xdi0yaC0xdi0xaDF2LTFoMXYtMmgtMXYxaC0xdi0yaDF2LTJoMnpNMTcgM2gzdjNoLTN6TTEgOWgxdjFoLTF6TTMgOWgxdjFoLTF6TTcgOWgydjFoLTJ6TTE2IDloMXYxaC0xek0xOSA5aDF2MWgtMXpNMjEgOWgxdjJoLTJ2LTFoMXpNNCAxMGgydjFoLTF2MWgtMXpNMTQgMTBoMnYxaC0yek0xIDExaDJ2MWgtMXYxaDF2LTFoMXYxaDF2LTFoMXYtMWgzdjFoLTJ2MWgtMXYxaC01ek0xNyAxMWgxdjFoMXYxaDF2MmgtMXYtMWgtMXYtMWgtMXpNMTkgMTFoMXYxaC0xek0yMCAxMmgydjZoLTF2LTJoLTF2LTFoMXYtMmgtMXpNNyAxM2gxdjFoLTF6TTkgMTNoMXYzaC0xek0xNiAxNGgydjFoLTF2MWgtM3YtMWgyek0xIDE1aDd2N2gtN3pNMTEgMTVoMXYxaC0xek0xOCAxNWgxdjFoLTF6TTIgMTZ2NWg1di01ek0xMyAxNmgxdjFoLTF6TTE5IDE2aDF2MWgtMXpNMyAxN2gzdjNoLTN6TTExIDE3aDF2MWgtMXpNMTQgMTdoNXYxaC0xdjNoLTF2LTFoLTF2LTFoLTF2MWgxdjJoLTR2LTFoLTJ2LTFoMXYtMWgxdi0xaDF2MWgxek0xMCAxOGgxdjFoLTF6TTE5IDE4aDF2MWgtMXpNOSAxOWgxdjFoLTF6TTIwIDE5aDJ2M2gtM3YtMWgydi0xaC0xek0xMyAyMHYxaDF2LTF6TTkgMjFoMXYxaC0xeiIvPjwvc3ZnPg==
+      required:
+        - mime_type
+        - content
+
+    BarCode:
+      description: Immagine del barcode codificata in base64
+      type: object
+      properties:
+        mime_type:
+          description: Formato dell'immagine codificata
+          type: string
+          enum:
+            - image/png
+          example:
+            image/png
+        content:
+          description: Rappresentazione base64 dell'immagine
+          type: string
+          example: >-
+            PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMyAyMyI+PHBhdGggZmlsbD0iYmxhY2siIGQ9Ik0xIDFoN3Y3aC03ek05IDFoMXYxaC0xek0xMSAxaDJ2MWgtMXYxaC0ydi0xaDF6TTE1IDFoN3Y3aC03ek0yIDJ2NWg1di01ek0xNiAydjVoNXYtNXpNMyAzaDN2M2gtM3pNOSAzaDF2MWgtMXpNMTIgM2gxdjJoMXY0aC0xdi0yaC0xdjNoLTF2MWgxdi0xaDF2MWgxdjFoLTF2MWgydi0xaDF2MmgtNHYtMmgtMXYxaC0xdi0yaC0xdi0xaDF2LTFoMXYtMmgtMXYxaC0xdi0yaDF2LTJoMnpNMTcgM2gzdjNoLTN6TTEgOWgxdjFoLTF6TTMgOWgxdjFoLTF6TTcgOWgydjFoLTJ6TTE2IDloMXYxaC0xek0xOSA5aDF2MWgtMXpNMjEgOWgxdjJoLTJ2LTFoMXpNNCAxMGgydjFoLTF2MWgtMXpNMTQgMTBoMnYxaC0yek0xIDExaDJ2MWgtMXYxaDF2LTFoMXYxaDF2LTFoMXYtMWgzdjFoLTJ2MWgtMXYxaC01ek0xNyAxMWgxdjFoMXYxaDF2MmgtMXYtMWgtMXYtMWgtMXpNMTkgMTFoMXYxaC0xek0yMCAxMmgydjZoLTF2LTJoLTF2LTFoMXYtMmgtMXpNNyAxM2gxdjFoLTF6TTkgMTNoMXYzaC0xek0xNiAxNGgydjFoLTF2MWgtM3YtMWgyek0xIDE1aDd2N2gtN3pNMTEgMTVoMXYxaC0xek0xOCAxNWgxdjFoLTF6TTIgMTZ2NWg1di01ek0xMyAxNmgxdjFoLTF6TTE5IDE2aDF2MWgtMXpNMyAxN2gzdjNoLTN6TTExIDE3aDF2MWgtMXpNMTQgMTdoNXYxaC0xdjNoLTF2LTFoLTF2LTFoLTF2MWgxdjJoLTR2LTFoLTJ2LTFoMXYtMWgxdi0xaDF2MWgxek0xMCAxOGgxdjFoLTF6TTE5IDE4aDF2MWgtMXpNOSAxOWgxdjFoLTF6TTIwIDE5aDJ2M2gtM3YtMWgydi0xaC0xek0xMyAyMHYxaDF2LTF6TTkgMjFoMXYxaC0xeiIvPjwvc3ZnPg==
+      required:
+        - mime_type
+        - content
