@@ -60,6 +60,8 @@ log_analytics_workspace_name                = "cstar-d-law"
 log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 
 ##Eventhub
+ehns_sku_name = "Standard"
+
 eventhubs_idpay = [
   {
     name              = "idpay-onboarding-request"
@@ -86,7 +88,7 @@ eventhubs_idpay = [
 ### handle resource enable
 enable = {
   idpay = {
-    eventhub_idpay_01 = true
+    eventhub_idpay_00 = true
   }
 
 }

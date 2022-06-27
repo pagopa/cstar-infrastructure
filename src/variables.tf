@@ -765,7 +765,7 @@ variable "enable" {
     })
     idpay = object({
       eventhub_idpay = bool
-    }
+      }
 
     )
   })

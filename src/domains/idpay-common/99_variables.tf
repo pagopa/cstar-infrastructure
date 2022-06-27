@@ -215,13 +215,13 @@ variable "log_analytics_workspace_resource_group_name" {
 variable "enable" {
   type = object({
     idpay = object({
-      eventhub_idpay_01 = bool
+      eventhub_idpay_00 = bool
     })
   })
   description = "Feature flags"
   default = {
     idpay = {
-      eventhub_idpay_01 = false
+      eventhub_idpay_00 = false
     }
   }
 }
