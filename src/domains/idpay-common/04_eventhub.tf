@@ -9,7 +9,7 @@ module "event_hub_idpay_00" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v2.18.4"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=ISB-124-use-the-right-resource-group-in-ehub"
   name                     = "${local.product}-${var.domain}-evh-ns-00"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -29,6 +29,7 @@ module "event_hub_idpay_00" {
     name = [data.azurerm_private_dns_zone.ehub.name]
   }
   private_dns_zone_record_A_name = "eventhubidpay00"
+  private_dns_zone_resource_group = "${local.product}-msg-rg"
 
   alerts_enabled = var.ehns_alerts_enabled
   metric_alerts  = var.ehns_metric_alerts
