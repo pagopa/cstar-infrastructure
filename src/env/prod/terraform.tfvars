@@ -797,7 +797,7 @@ enable = {
     api = true
   }
   tae = {
-    api             = false
+    api             = true
     db_collections  = false
     blob_containers = true
     adf             = false
