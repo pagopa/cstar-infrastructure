@@ -117,7 +117,7 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
   annotations = ["SourceAggregates"]
 
   parameters = {
-    file   = "myFile"
+    file = "myFile"
   }
 
   schema_json = <<JSON
@@ -209,7 +209,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
   annotations = ["DestinationAggregates"]
 
   parameters = {
-    file   = "myFile"
+    file = "myFile"
   }
 
   schema_json = <<JSON
