@@ -802,4 +802,7 @@ enable = {
     blob_containers = true
     adf             = false
   }
+  idpay = {
+    eventhub_idpay = true
+  }
 }
