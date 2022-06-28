@@ -163,6 +163,8 @@ module "cosmosdb_account_mongodb" {
     module.adf_snet[count.index].id
   ]
 
+  ip_range = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26,0.0.0.0"
+
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
   main_geo_location_location       = azurerm_resource_group.db_rg.location
   main_geo_location_zone_redundant = var.cosmos_mongo_db_params.main_geo_location_zone_redundant

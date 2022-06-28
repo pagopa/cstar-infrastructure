@@ -5,23 +5,10 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
 
   name            = "aggregates_ingestor"
   data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
-  variables = {
-    "bob" = "item1"
+  parameters = {
+    file   = "myFile"
   }
-  activities_json = <<JSON
-[
-    {
-        "name": "Append variable1",
-        "type": "AppendVariable",
-        "dependsOn": [],
-        "userProperties": [],
-        "typeProperties": {
-            "variableName": "bob",
-            "value": "something"
-        }
-    }
-]
-  JSON
+  activities_json = file("pipelines/aggregatesIngestor.json")
 }
 
 resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
@@ -42,9 +29,10 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
 
   pipeline {
     name = azurerm_data_factory_pipeline.aggregates_ingestor[count.index].name
-    # parameters = {
-    #   Env = "Prod"
-    # }
+    parameters = {
+      # folder = "@triggerBody().folderPath"
+      file   = "@triggerBody().fileName"
+    }
   }
 }
 
