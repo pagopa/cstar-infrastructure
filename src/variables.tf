@@ -765,8 +765,7 @@ variable "enable" {
     })
     idpay = object({
       eventhub_idpay = bool
-      }
-    )
+    })
   })
   description = "Feature flags"
   default = {
