@@ -9,7 +9,7 @@ module "event_hub_idpay_00" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=ISB-124-use-the-right-resource-group-in-ehub"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v2.18.6"
   name                     = "${local.product}-${var.domain}-evh-ns-00"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
