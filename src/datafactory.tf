@@ -103,3 +103,24 @@ resource "azurerm_data_factory_linked_service_cosmosdb_mongoapi" "tae_adf_mongo_
   server_version_is_32_or_higher = true
 
 }
+
+data "azurerm_storage_account" "sftp_sa" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  name                = replace(format("%s-sftp", local.project), "-", "")
+  resource_group_name = format("%s-sftp-rg", local.project)
+}
+
+resource "azurerm_data_factory_linked_service_azure_blob_storage" "tae_adf_sftp_linked_service" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  resource_group_name = azurerm_resource_group.tae_df_rg[count.index].name
+  name                = format("%s-%s-sftp-linked-service", local.project, "tae")
+  data_factory_id     = data.azurerm_data_factory.tae_adf[count.index].id
+
+  service_endpoint = data.azurerm_storage_account.sftp_sa[count.index].primary_blob_endpoint
+
+  use_managed_identity = true
+}
