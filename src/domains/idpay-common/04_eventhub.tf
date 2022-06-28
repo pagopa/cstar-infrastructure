@@ -24,11 +24,11 @@ module "event_hub_idpay_00" {
 
   eventhubs = var.eventhubs_idpay
 
-  private_dns_zones              = {
-    id =   [data.azurerm_private_dns_zone.ehub.id]
+  private_dns_zones = {
+    id   = [data.azurerm_private_dns_zone.ehub.id]
     name = [data.azurerm_private_dns_zone.ehub.name]
   }
-  private_dns_zone_record_A_name = "eventhubidpay00"
+  private_dns_zone_record_A_name  = "eventhubidpay00"
   private_dns_zone_resource_group = "${local.product}-msg-rg"
 
   alerts_enabled = var.ehns_alerts_enabled

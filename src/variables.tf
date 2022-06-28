@@ -766,7 +766,6 @@ variable "enable" {
     idpay = object({
       eventhub_idpay = bool
       }
-
     )
   })
   description = "Feature flags"
@@ -789,6 +788,9 @@ variable "enable" {
       db_collections  = false
       blob_containers = false
       adf             = false
+    }
+    idpay = {
+      eventhub_idpay = false
     }
   }
 }
