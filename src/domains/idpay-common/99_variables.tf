@@ -129,7 +129,7 @@ variable "dns_zone_prefix" {
 variable "robots_indexed_paths" {
   type        = list(string)
   description = "List of cdn paths to allow robots index"
-  default = []
+  default     = []
 }
 
 # Single Page Applications
