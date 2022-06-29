@@ -26,7 +26,7 @@ resource "azurerm_cosmosdb_mongo_collection" "aggregates" {
   database_name       = azurerm_cosmosdb_mongo_database.transaction_aggregate[count.index].name
 
   default_ttl_seconds = "777"
-  shard_key           = "uniqueKey"
+  shard_key           = "_id"
   # throughput          = 400
 
   index {
