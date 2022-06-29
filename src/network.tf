@@ -154,6 +154,10 @@ module "adf_snet" {
   resource_group_name                            = azurerm_resource_group.rg_vnet.name
   virtual_network_name                           = module.vnet.name
   enforce_private_link_endpoint_network_policies = true
+
+  service_endpoints = [
+    "Microsoft.AzureCosmosDB",
+  ]
 }
 
 ## Peering between the vnet(main) and integration vnet 

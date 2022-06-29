@@ -140,7 +140,7 @@ module "postgres_flexible_server" {
 
 module "cosmosdb_account_mongodb" {
 
-  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+  count = var.enable.tae.adf ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
@@ -159,8 +159,11 @@ module "cosmosdb_account_mongodb" {
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   allowed_virtual_network_subnet_ids = [
-    module.k8s_snet.id
+    module.k8s_snet.id,
+    module.adf_snet[count.index].id
   ]
+
+  ip_range = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26,0.0.0.0"
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
   main_geo_location_location       = azurerm_resource_group.db_rg.location
@@ -170,24 +173,6 @@ module "cosmosdb_account_mongodb" {
   backup_continuous_enabled = var.cosmos_mongo_db_params.backup_continuous_enabled
 
   tags = var.tags
-}
-
-resource "azurerm_cosmosdb_mongo_database" "transaction_aggregate" {
-
-  count = var.enable.tae.db_collections ? 1 : 0
-
-  name                = "taggregate"
-  resource_group_name = azurerm_resource_group.db_rg.name
-  account_name        = module.cosmosdb_account_mongodb[count.index].name
-
-  throughput = var.cosmos_mongo_db_transaction_params.enable_autoscaling || var.cosmos_mongo_db_transaction_params.enable_serverless ? null : var.cosmos_mongo_db_transaction_params.throughput
-
-  dynamic "autoscale_settings" {
-    for_each = var.cosmos_mongo_db_transaction_params.enable_autoscaling && !var.cosmos_mongo_db_transaction_params.enable_serverless ? [""] : []
-    content {
-      max_throughput = var.cosmos_mongo_db_transaction_params.enable_serverless.max_throughput
-    }
-  }
 }
 
 resource "azurerm_cosmosdb_mongo_database" "file_register" {

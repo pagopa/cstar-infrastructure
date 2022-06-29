@@ -788,6 +788,7 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     file_register                       = false
+    batch_service_api                   = false
   }
   fa = {
     api = false
@@ -796,9 +797,12 @@ enable = {
     api = true
   }
   tae = {
-    api             = false
+    api             = true
     db_collections  = false
     blob_containers = true
     adf             = false
+  }
+  idpay = {
+    eventhub_idpay = true
   }
 }

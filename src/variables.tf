@@ -749,6 +749,7 @@ variable "enable" {
       internal_api                        = bool
       csv_transaction_apis                = bool
       file_register                       = bool
+      batch_service_api                   = bool
     })
     fa = object({
       api = bool
@@ -762,6 +763,9 @@ variable "enable" {
       blob_containers = bool
       adf             = bool
     })
+    idpay = object({
+      eventhub_idpay = bool
+    })
   })
   description = "Feature flags"
   default = {
@@ -770,6 +774,7 @@ variable "enable" {
       internal_api                        = false
       csv_transaction_apis                = false
       file_register                       = false
+      batch_service_api                   = false
     }
     fa = {
       api = false
@@ -782,6 +787,9 @@ variable "enable" {
       db_collections  = false
       blob_containers = false
       adf             = false
+    }
+    idpay = {
+      eventhub_idpay = false
     }
   }
 }
