@@ -26,10 +26,6 @@ resource "azurerm_data_factory_custom_dataset" "aggregate" {
       "type": "String"
     },
     {
-      "name": "recordId",
-      "type": "String"
-    },
-    {
       "name": "senderCode",
       "type": "String"
     },
@@ -76,6 +72,14 @@ resource "azurerm_data_factory_custom_dataset" "aggregate" {
     {
       "name":  "posType",
       "type": "String"
+    },
+    {
+      "name":  "fileName",
+      "type": "String"
+    },
+    {
+      "name":  "recordId",
+      "type": "String"
     }
   ]
   JSON
@@ -98,15 +102,23 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
   {
     "location": {
       "type": "AzureBlobStorageLocation",
-      "container": "ade_transaction_decrypter"
+      "container": "ade-transactions-decrypted",
+      "fileName": {
+        "value": "@dataset().file",
+        "type": "Expression"
+      }
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8"
-  }
+  }     
   JSON
 
   description = "Source Aggregates sent by Acquirer"
   annotations = ["SourceAggregates"]
+
+  parameters = {
+    file = "myFile"
+  }
 
   schema_json = <<JSON
   [
@@ -133,6 +145,106 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
     {
       "name": "totalAmount",
       "type": "Int32"
+    },
+    {
+      "name": "currency",
+      "type": "String"
+    },
+    {
+      "name": "acquirerId",
+      "type": "String"
+    },
+    {
+      "name": "merchantId",
+      "type": "String"
+    },
+    {
+      "name": "terminalId",
+      "type": "String"
+    },
+    {
+      "name": "fiscalCode",
+      "type": "String"
+    },
+    {
+      "name":  "vat",
+      "type": "String"
+    },
+    {
+      "name":  "posType",
+      "type": "String"
+    }
+  ]
+  JSON
+}
+
+resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  name            = "DestinationAggregate"
+  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service[count.index].name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "container": "ade",
+      "fileName": {
+        "value": "@dataset().file",
+        "type": "Expression"
+      }
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8"
+  }     
+  JSON
+
+  description = "Destination Aggregates for ADE"
+  annotations = ["DestinationAggregates"]
+
+  parameters = {
+    file = "myFile"
+  }
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "recordId",
+      "type": "String"
+    },
+    {
+      "name": "senderCode",
+      "type": "String"
+    },
+    {
+      "name": "operationType",
+      "type": "String"
+    },
+    {
+      "name": "transmissionDate",
+      "type": "Date"
+    },
+    {
+      "name": "accountingDate",
+      "type": "Date"
+    },
+    {
+      "name": "numTrx",
+      "type": "Int32"
+    },
+    {
+      "name": "totalAmount",
+      "type": "Int32"
+    },
+    {
+      "name": "currency",
+      "type": "String"
     },
     {
       "name": "acquirerId",

@@ -12,6 +12,7 @@ tags = {
   Owner       = "IO"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+  Application = "IdPay"
 }
 
 lock_enable = true
@@ -57,3 +58,37 @@ cosmos_mongo_db_transaction_params = {
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
 log_analytics_workspace_name                = "cstar-d-law"
 log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
+
+##Eventhub
+ehns_sku_name = "Standard"
+
+eventhubs_idpay = [
+  {
+    name              = "idpay-onboarding-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-request-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  }
+]
+
+### handle resource enable
+enable = {
+  idpay = {
+    eventhub_idpay_00 = true
+  }
+
+}

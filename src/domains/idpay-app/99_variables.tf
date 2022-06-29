@@ -116,6 +116,10 @@ variable "ingress_load_balancer_ip" {
   type = string
 }
 
+variable "ingress_load_balancer_hostname" {
+  type = string
+}
+
 variable "external_domain" {
   type        = string
   default     = null
@@ -127,3 +131,17 @@ variable "dns_zone_internal_prefix" {
   default     = null
   description = "The dns subdomain."
 }
+
+#APP IO
+variable "appio_timeout_sec" {
+  type        = number
+  description = "AppIo timeout (sec)"
+  default     = 5
+}
+
+variable "reverse_proxy_be_io" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+

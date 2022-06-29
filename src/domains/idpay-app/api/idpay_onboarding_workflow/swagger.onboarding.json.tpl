@@ -90,7 +90,7 @@
         ],
         "summary": "Check the initiative prerequisites",
         "description": "",
-        "operationId": "checkPrerequisites2",
+        "operationId": "checkPrerequisites",
         "consumes": [
           "application/json"
         ],
