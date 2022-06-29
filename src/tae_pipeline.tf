@@ -34,5 +34,11 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
       file = "@triggerBody().fileName"
     }
   }
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.destination_aggregate,
+    azurerm_data_factory_custom_dataset.source_aggregate,
+    azurerm_data_factory_custom_dataset.aggregate
+  ]
 }
 
