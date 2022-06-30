@@ -94,18 +94,18 @@ paths:
       security:
         - BearerAuth: []
 
-  /carte/{carta}:
+  /carte/{annoCarta}:
     get:
       tags:
         - Fase 2
       summary: "Dettaglio della carta specificata"
       parameters: &idcard_path_param
         - in: path
-          name: carta
+          name: annoCarta
           required: true
           schema:
-            $ref: '#/components/schemas/IdCarta'
-          description: "Id o Anno della Carta della Cultura"
+            $ref: '#/components/schemas/AnnoCarta'
+          description: "Anno della Carta della Cultura"
       responses:
         "200":
           description: "Dettaglio carta della cultura"
@@ -124,28 +124,28 @@ paths:
       security:
         - BearerAuth: []
 
-    delete:
-      tags:
-        - Fase 2
-      summary: "Cancella l'iscrizione per la carta della cultura specificata."
-      operationId: revokeCard
-      parameters:
-        *idcard_path_param
-      responses:
-        "200":
-          description: Cancellazione effettuata con successo
-        "401":
-          description: Utente non autorizzaato
-        "403":
-          description: Utente non loggato
-        "404":
-          description: Carta non trovata
-        "500":
-          description: Errore interno
-      security:
-        - BearerAuth: []
+  #    delete:
+  #      tags:
+  #        - Fase 2
+  #      summary: "Cancella l'iscrizione per la carta della cultura specificata."
+  #      operationId: revokeCard
+  #      parameters:
+  #        *idcard_path_param
+  #      responses:
+  #        "200":
+  #          description: Cancellazione effettuata con successo
+  #        "401":
+  #          description: Utente non autorizzaato
+  #        "403":
+  #          description: Utente non loggato
+  #        "404":
+  #          description: Carta non trovata
+  #        "500":
+  #          description: Errore interno
+  #      security:
+  #        - BearerAuth: []
 
-  /carte/{carta}/buoni:
+  /carte/{annoCarta}/buoni:
     get:
       tags:
         - Fase 2
@@ -155,16 +155,16 @@ paths:
       operationId: getVouchersOfCard
       parameters:
         - in: path
-          name: carta
+          name: annoCarta
           required: true
           schema:
-            $ref: '#/components/schemas/IdCarta'
-          description: "Id o Anno della Carta della Cultura"
+            $ref: '#/components/schemas/AnnoCarta'
+          description: "Anno della Carta della Cultura"
         - in: query
           name: since_id
           required: false
           schema:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/IdBuono'
           description: Id del buono da cui partire per creare la pagina
         - in: query
           name: limit
@@ -193,13 +193,17 @@ paths:
       security:
         - BearerAuth: []
 
-
-  /buoni:
     post:
       tags:
         - Fase 2
       summary: "Genera un nuovo buono a partire dalla carta specificata"
       operationId: generateVoucher
+      parameters:
+        - in: path
+          name: annoCarta
+          required: true
+          schema:
+            $ref: '#/components/schemas/AnnoCarta'
       requestBody:
         description:  |
           È necessario specificare il valore del buono e una lista di carte da cui generare il buono. La liste di carte può essere rappresentata dagli anni di riferimento delle carte o dagli id specifici delle carte.
@@ -229,18 +233,18 @@ paths:
       security:
         - BearerAuth: []
 
-  /buoni/{idBuono}:
+  /buoni/{codiceBuono}:
     get:
       tags:
         - Fase 2
       summary: "Dettaglio di un buono specifico"
       parameters:
         - in: path
-          name: idBuono
-          description: "Id del buono"
+          name: codiceBuono
+          description: "Codice del buono"
           required: true
           schema:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/IdBuono'
       responses:
         "200":
           description: |
@@ -266,16 +270,77 @@ paths:
       summary: "Revoca un buono"
       parameters:
         - in: path
-          name: idBuono
-          description: "Id del buono"
+          name: codiceBuono
+          description: "Codice del buono"
           required: true
           schema:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/IdBuono'
       responses:
         "200":
           description: "Buono revocato con successo"
         "404":
           description: Buono non trovato
+        "401":
+          description: Utente non autorizzaato
+        "403":
+          description: Utente non loggato
+        "500":
+          description: Errore interno
+      security:
+        - BearerAuth: []
+
+  /esercenti/:
+    get:
+      tags:
+        - Fase 2
+      summary: |
+        Ritorna la lista degli esercenti in base ai filtri.
+          - se la tipologia è FISICO il comune è obbligatorio
+      parameters:
+        - in: query
+          name: tipo
+          required: true
+          schema:
+            $ref: '#/components/schemas/TipoEsercente'
+          description: "La tipologia di esercente da usare come filtro"
+        - in: query
+          name: since_id
+          required: false
+          schema:
+            $ref: '#/components/schemas/Id'
+          description: Id dell'esercente da cui creare la pagina
+        - in: query
+          name: nome
+          required: false
+          description: "Nome dell'esercente da ricercare"
+          schema:
+            type: string
+            example: "La feltrinelli"
+        - in: query
+          name: comune
+          required: false
+          description: "Nome del comune su cui cercare"
+          schema:
+            type: string
+            example: "Roma"
+        - in: query
+          name: limit
+          required: false
+          description: "Dimensione della pagina. Il valore massimo consentito è 20."
+          example: 3
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+      responses:
+        "200":
+          description: 'Ritorna la lista degli esercenti con riferimento alla pagina successiva.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EsercentiPage'
+        "400":
+          description: Richiesta malformata. E.g. tipo di negozio errato o mancante nei query params.
         "401":
           description: Utente non autorizzaato
         "403":
@@ -403,8 +468,8 @@ components:
     Buono:
       type: object
       properties:
-        id: &voucher_id
-          $ref: '#/components/schemas/Id'
+        codice: &voucher_id
+          $ref: '#/components/schemas/IdBuono'
         valore: &voucher_value
           type: number
           example: 33.0
@@ -419,19 +484,17 @@ components:
     BuonoDettaglio:
       type: object
       properties:
-        id: *voucher_id
         valore: *voucher_value
         stato: *voucher_status
         dataCreazione: *voucher_creation_date
         dataSpesa:
           description: "Data spesa del buono in formato ISO 8601"
           $ref: '#/components/schemas/DateISO8601'
-        code:
-          type: number
-          example: 1234567890
-          description: "Codice univoco del buono"
+        codice: *voucher_id
+        annoCarta:
+          $ref: '#/components/schemas/AnnoCarta'
         esercente:
-          $ref: '#/components/schemas/Esercente'
+          $ref: '#/components/schemas/EsercenteBuono'
         qrCode:
           $ref: '#/components/schemas/QRCode'
         barCode:
@@ -445,13 +508,11 @@ components:
           items:
             $ref: '#/components/schemas/Buono'
         prossimo:
-          $ref: '#/components/schemas/Id'
+          $ref: '#/components/schemas/IdBuono'
 
     CartaDellaCultura:
       type: object
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         annoRiferimento:
           $ref: '#/components/schemas/Anno'
         scadenza:
@@ -473,10 +534,6 @@ components:
     CrezioneBuono:
       type: object
       properties:
-        carte:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdCarta'
         valore:
           type: number
           example: 33
@@ -484,6 +541,29 @@ components:
       required:
         - carte
         - valore
+
+    Id:
+      type: string
+      format: uuid
+      example: 403ca3e4-cd96-4f9b-847e-71bf221bfc0b
+
+
+    TipoEsercente:
+      type: string
+      enum:
+        - FISICO
+        - ONLINE
+
+    EsercenteBuono:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nome:
+          type: string
+          example: "La Feltrinelli"
+        tipo:
+          $ref: '#/components/schemas/TipoEsercente'
 
     Esercente:
       type: object
@@ -498,12 +578,9 @@ components:
         indirizzo:
           type: string
           example: "Viale Regina Margherita, 12, 00121, Roma"
-
-    TipoEsercente:
-      type: string
-      enum:
-        - ONLINE
-        - FISICO
+        website:
+          type: string
+          example: "www.amazon.it"
 
     Beneficiario:
       type: object
@@ -518,15 +595,22 @@ components:
           type: string
           example: "RSSMRA80D42A123U"
 
-    IdCarta:
-      oneOf:
-        - $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/Anno'
+    IdBuono:
+      type: integer
+      example: 123456789
 
-    Id:
-      type: string
-      format: uuid
-      example: 961acd44-d578-4fc0-b28b-c0c900c13131
+    AnnoCarta:
+      $ref: '#/components/schemas/Anno'
+
+    EsercentiPage:
+      type: object
+      properties:
+        esercenti:
+          type: array
+          items:
+            $ref: '#/components/schemas/Esercente'
+        prossimo:
+          $ref: '#/components/schemas/Id'
 
     DateISO8601:
       type: string
