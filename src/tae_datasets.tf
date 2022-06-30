@@ -201,7 +201,8 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
       }
     },
     "columnDelimiter": ";",
-    "encodingName": "UTF-8"
+    "encodingName": "UTF-8",
+    "quoteChar": ""
   }     
   JSON
 
