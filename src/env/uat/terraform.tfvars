@@ -561,7 +561,7 @@ eventhubs = [
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
-    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group"]
+    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
     keys = [
       {
         name   = "rtd-csv-connector"
