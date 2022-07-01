@@ -3,7 +3,7 @@
 #
 
 locals {
-  rtd_deposited_file_check_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, azurerm_storage_container.ade[0].name)
+  rtd_deposited_file_check_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, azurerm_storage_container.ade.name)
 }
 
 module "rtd_api_product" {
@@ -373,11 +373,11 @@ module "rtd_deposited_file_check" {
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_deposited_file_check/openapi.json.tpl", {
+  content_value = templatefile("./api/rtd_deposited_file_check/openapi.yml", {
     host = local.rtd_deposited_file_check_uri
   })
 
-  xml_content = file("./api/rtd_deposited_file_check/azure_policy.xml")
+  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
