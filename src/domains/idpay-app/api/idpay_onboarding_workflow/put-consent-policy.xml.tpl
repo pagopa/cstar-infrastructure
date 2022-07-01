@@ -11,16 +11,20 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-  <inbound>
-    <base />
-  </inbound>
-  <backend>
-    <base />
-  </backend>
-  <outbound>
-    <base />
-  </outbound>
-  <on-error>
-    <base />
-  </on-error>
+    <inbound>
+        <base />
+        <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
+        <cache-remove-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
+        <rewrite-uri template="@("idpay/onboarding/consent/"+ (string)context.Variables["fiscalCode"])" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
 </policies>

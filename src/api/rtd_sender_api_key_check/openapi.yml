@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  title: RTD API to Check API Key
+  description: RTD API to check RTD product API Key validity
+  version: 0.0.1
+servers:
+- url: https://httpbin.org
+paths:
+  /check:
+    get:
+      responses:
+        200:
+          description: Check API Key
+          content:
+            application/json: {}
+

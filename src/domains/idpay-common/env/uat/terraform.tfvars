@@ -1,27 +1,26 @@
 prefix         = "cstar"
-env_short      = "d"
-env            = "dev"
+env_short      = "u"
+env            = "uat"
 domain         = "idpay"
 location       = "westeurope"
 location_short = "weu"
-instance       = "dev"
+instance       = "uat"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
+  Environment = "Uat"
   Owner       = "IO"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-  Application = "IdPay"
 }
 
 lock_enable = true
 
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraformdev"
+  storage_account_name = "cstarinfrastterraformuat"
   container_name       = "azureadstate"
-  key                  = "dev.terraform.tfstate"
+  key                  = "uat.terraform.tfstate"
 }
 
 cosmos_mongo_db_params = {
@@ -55,40 +54,6 @@ cosmos_mongo_db_transaction_params = {
 
 ### External resources
 
-monitor_resource_group_name                 = "cstar-d-monitor-rg"
-log_analytics_workspace_name                = "cstar-d-law"
-log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
-
-##Eventhub
-ehns_sku_name = "Standard"
-
-eventhubs_idpay = [
-  {
-    name              = "idpay-onboarding-request"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-onboarding-request-consumer-group"]
-    keys = [
-      {
-        name   = "idpay-onboarding-request-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-onboarding-request-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  }
-]
-
-### handle resource enable
-enable = {
-  idpay = {
-    eventhub_idpay_00 = true
-  }
-
-}
+monitor_resource_group_name                 = "cstar-u-monitor-rg"
+log_analytics_workspace_name                = "cstar-u-law"
+log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
