@@ -377,7 +377,7 @@ module "rtd_deposited_file_check" {
     host = local.rtd_deposited_file_check_uri
   })
 
-  xml_content = file("./api/rtd_deposited_file_check/policy.xml")
+  xml_content = file("./api/rtd_deposited_file_check/azure_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
