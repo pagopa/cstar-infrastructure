@@ -2,6 +2,10 @@
 # RTD PRODUCTS
 #
 
+locals {
+  rtd_deposited_file_check_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, azurerm_storage_container.ade[0].name)
+}
+
 module "rtd_api_product" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
 
@@ -342,6 +346,38 @@ module "rtd_sender_api_key_check" {
   content_value  = file("./api/rtd_sender_api_key_check/openapi.yml")
 
   xml_content = file("./api/rtd_sender_api_key_check/policy.xml")
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
+
+module "rtd_deposited_file_check" {
+
+  count = var.enable.rtd.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
+
+  name                = format("%s-rtd-deposited-file-check", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = "RTD API to retrieve a deposited ADE file in SFTP by name"
+  display_name = "RTD API to get AdE file"
+  path         = "rtd/sftp-retrieve"
+  protocols    = ["https"]
+
+  service_url = local.rtd_deposited_file_check_uri
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_deposited_file_check/openapi.json.tpl", {
+    host = local.rtd_deposited_file_check_uri
+  })
+
+  xml_content = file("./api/rtd_deposited_file_check/policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
