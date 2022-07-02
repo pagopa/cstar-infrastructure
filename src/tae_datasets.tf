@@ -195,6 +195,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
     "location": {
       "type": "AzureBlobStorageLocation",
       "container": "ade",
+      "folderPath": "in",
       "fileName": {
         "value": "@dataset().file",
         "type": "Expression"
