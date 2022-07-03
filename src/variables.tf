@@ -805,4 +805,10 @@ locals {
   rg_container_registry_common_name = "${local.project}-container-registry-rg"
   container_registry_common_name    = "${local.project}-common-acr"
 
+  #
+  # IdPay
+  #
+  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
+  idpay_keyvault_name    = "${local.project}-idpay-kv"
+
 }

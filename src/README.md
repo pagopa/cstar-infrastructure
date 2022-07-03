@@ -407,6 +407,8 @@
 | <a name="output_container_registry_admin_password"></a> [container\_registry\_admin\_password](#output\_container\_registry\_admin\_password) | n/a |
 | <a name="output_container_registry_admin_username"></a> [container\_registry\_admin\_username](#output\_container\_registry\_admin\_username) | n/a |
 | <a name="output_container_registry_login_server"></a> [container\_registry\_login\_server](#output\_container\_registry\_login\_server) | # Container registry ## |
+| <a name="output_event_hub_keys"></a> [event\_hub\_keys](#output\_event\_hub\_keys) | Map of hubs with keys => primary\_key / secondary\_key mapping. |
+| <a name="output_event_hub_keys_ids"></a> [event\_hub\_keys\_ids](#output\_event\_hub\_keys\_ids) | List of event hub key ids. |
 | <a name="output_key_vault_name"></a> [key\_vault\_name](#output\_key\_vault\_name) | n/a |
 | <a name="output_key_vault_uri"></a> [key\_vault\_uri](#output\_key\_vault\_uri) | # key vault ## |
 | <a name="output_pgres_flex_fqdn"></a> [pgres\_flex\_fqdn](#output\_pgres\_flex\_fqdn) | n/a |
