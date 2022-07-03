@@ -76,3 +76,10 @@ resource "azurerm_storage_container" "ade" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_blob" "ade_dirs" {
+  for_each               = toset(["in", "out", "error", "ack"])
+  name                   = format("%s/.test", each.key)
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.ade.name
+  type                   = "Block"
+}
