@@ -176,13 +176,13 @@ output "primary_web_host" {
 
 # Event Hub
 output "event_hub_keys_ids" {
-  value = module.event_hub.key_ids
+  value       = module.event_hub.key_ids
   description = "List of event hub key ids."
-  sensitive = true
+  sensitive   = true
 }
 
 output "event_hub_keys" {
-  value = module.event_hub.keys
+  value       = module.event_hub.keys
   description = "Map of hubs with keys => primary_key / secondary_key mapping."
-  sensitive = true
+  sensitive   = true
 }
