@@ -65,6 +65,9 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
   system_topic         = azurerm_eventgrid_system_topic.sftp.name
   resource_group_name  = azurerm_resource_group.sftp.name
   eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub.id
+  subject_filter {
+    subject_begins_with = "/blobServices/default/containers/ade/blobs/"
+  }
 }
 
 resource "azurerm_storage_container" "ade" {
@@ -73,3 +76,10 @@ resource "azurerm_storage_container" "ade" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_blob" "ade_dirs" {
+  for_each               = toset(["in", "out", "error", "ack"])
+  name                   = format("%s/.test", each.key)
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.ade.name
+  type                   = "Block"
+}

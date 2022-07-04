@@ -18,7 +18,11 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy = false
+    }
+  }
 }
 
 data "azurerm_subscription" "current" {}
@@ -34,4 +38,9 @@ data "terraform_remote_state" "core" {
     container_name       = var.terraform_remote_state_core.container_name
     key                  = var.terraform_remote_state_core.key
   }
+}
+
+data "azurerm_dns_zone" "public" {
+  name                = join(".", [var.env, var.dns_zone_prefix, var.external_domain])
+  resource_group_name = local.vnet_core_resource_group_name
 }

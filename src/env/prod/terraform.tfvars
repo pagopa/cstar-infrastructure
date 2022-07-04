@@ -556,7 +556,7 @@ eventhubs = [
     name              = "rtd-trx"
     partitions        = 32
     message_retention = 7
-    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group"]
+    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
     keys = [
       {
         name   = "rtd-csv-connector"
@@ -797,7 +797,7 @@ enable = {
     api = true
   }
   tae = {
-    api             = false
+    api             = true
     db_collections  = false
     blob_containers = true
     adf             = false

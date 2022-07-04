@@ -195,13 +195,15 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
     "location": {
       "type": "AzureBlobStorageLocation",
       "container": "ade",
+      "folderPath": "in",
       "fileName": {
         "value": "@dataset().file",
         "type": "Expression"
       }
     },
     "columnDelimiter": ";",
-    "encodingName": "UTF-8"
+    "encodingName": "UTF-8",
+    "quoteChar": ""
   }     
   JSON
 
@@ -268,6 +270,59 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
     },
     {
       "name":  "posType",
+      "type": "String"
+    }
+  ]
+  JSON
+}
+
+resource "azurerm_data_factory_custom_dataset" "source_ack" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  name            = "SourceAck"
+  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service[count.index].name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "container": "ade/ack",
+      "fileName": {
+        "value": "@dataset().file",
+        "type": "Expression"
+      }
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8",
+    "quoteChar": ""
+  }     
+  JSON
+
+  description = "ACKs sent by ADE"
+  annotations = ["SourceAcks"]
+
+  parameters = {
+    file = "myFile"
+  }
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "recordId",
+      "type": "String"
+    },
+    {
+      "name": "status",
+      "type": "Int32"
+    },
+    {
+      "name": "errorCode",
       "type": "String"
     }
   ]

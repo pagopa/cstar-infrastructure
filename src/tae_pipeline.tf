@@ -22,7 +22,7 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   blob_path_ends_with   = ".decrypted"
   blob_path_begins_with = "/ade-transactions-decrypted/"
   ignore_empty_blobs    = true
-  activated             = true
+  activated             = false
 
   annotations = ["AcquirerAggregates"]
   description = "The trigger fires when an acquirer send aggregates files"
@@ -34,5 +34,11 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
       file = "@triggerBody().fileName"
     }
   }
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.destination_aggregate,
+    azurerm_data_factory_custom_dataset.source_aggregate,
+    azurerm_data_factory_custom_dataset.aggregate
+  ]
 }
 
