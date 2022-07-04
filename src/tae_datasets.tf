@@ -292,7 +292,8 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
   {
     "location": {
       "type": "AzureBlobStorageLocation",
-      "container": "ade/ack",
+      "container": "ade",
+      "folderPath": "ack",
       "fileName": {
         "value": "@dataset().file",
         "type": "Expression"
