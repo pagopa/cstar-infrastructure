@@ -17,7 +17,8 @@ locals {
 
   apim_rg_name = "cstar-${var.env_short}-api-rg"
   apim_name    = "cstar-${var.env_short}-apim"
-
+  vnet_core_name                = "${local.product}-vnet"
+  vnet_core_resource_group_name = "${local.product}-vnet-rg"
   # DOMAINS
   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
