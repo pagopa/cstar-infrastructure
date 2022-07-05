@@ -371,7 +371,6 @@ configmaps_fanotificationmanager = {
   POSTGRES_SHOW_SQL                                      = "true"
   LOG_LEVEL_FA_NOTIFICATION_MANAGER                      = "INFO"
   NOTIFICATION_SERVICE_TTL                               = "3600"
-  // mocked notification service instead of using io backend
   URL_BACKEND_IO                                         = "http://cstariobackendtest:8080/io/notification"
 }
 
