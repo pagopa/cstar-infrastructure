@@ -370,7 +370,7 @@ module "rtd_deposited_file_check" {
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value = templatefile("./api/rtd_deposited_file_check/openapi.yml", {
-    host = local.rtd_deposited_file_check_uri
+    host = "https://cstardsftp.blob.core.windows.net/ade/in/"
   })
 
   xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
