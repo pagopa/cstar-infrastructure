@@ -2,10 +2,6 @@
 # RTD PRODUCTS
 #
 
-locals {
-  rtd_deposited_file_check_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, azurerm_storage_container.ade.name)
-}
-
 module "rtd_api_product" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
 
@@ -369,7 +365,7 @@ module "rtd_deposited_file_check" {
   path         = "rtd/sftp-retrieve"
   protocols    = ["https"]
 
-  service_url = local.rtd_deposited_file_check_uri
+  service_url = "https://cstardsftp.blob.core.windows.net/ade/in/"
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
