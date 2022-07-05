@@ -18,6 +18,19 @@
     </backend>
     <outbound>
         <base />
+        <set-header name="ETag" exists-action="delete" />
+        <set-header name="x-ms-request-id" exists-action="delete" />
+        <set-header name="x-ms-version" exists-action="delete" />
+        <set-header name="x-ms-resource-type" exists-action="delete" />
+        <set-header name="x-ms-creation-time" exists-action="delete" />
+        <set-header name="x-ms-lease-status" exists-action="delete" />
+        <set-header name="x-ms-lease-state" exists-action="delete" />
+        <set-header name="x-ms-blob-type" exists-action="delete" />
+        <set-header name="x-ms-server-encrypted" exists-action="delete" />
+        <set-header name="x-ms-owner" exists-action="delete" />
+        <set-header name="x-ms-group" exists-action="delete" />
+        <set-header name="x-ms-permissions" exists-action="delete" />
+        <set-header name="Request-Context" exists-action="delete" />
     </outbound>
     <on-error>
         <base />
