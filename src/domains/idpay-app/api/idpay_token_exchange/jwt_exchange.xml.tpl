@@ -29,11 +29,12 @@
                             typ = "JWT", 
                             alg = "RS256" 
                         }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
-
+                    
                     var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
                     var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
                     var aud = "idpay.welfare.pagopa.it";
                     var iss = "https://api-io.dev.cstar.pagopa.it";
+                    var uid = selcToken.Claims.GetValueOrDefault("uid", "");
                     var name = selcToken.Claims.GetValueOrDefault("name", "");
                     var family_name = selcToken.Claims.GetValueOrDefault("family_name", "");
                     var email = selcToken.Claims.GetValueOrDefault("email", "");
@@ -44,6 +45,7 @@
                     exp,
                     aud,
                     iss,
+                    uid,
                     name,
                     family_name,
                     email,
@@ -65,7 +67,7 @@
         <return-response>
             <set-status code="303" reason="Redirecting" />
             <set-header name="Location" exists-action="override">
-                <value>@("https://${idpay-portal-hostname}/portale-enti/auth?token="+(string)context.Variables["idpayPortalToken"])</value>
+                <value>@("https://${idpay-portal-hostname}/portale-enti/auth#token="+(string)context.Variables["idpayPortalToken"])</value>
             </set-header>
         </return-response>
     </inbound>
