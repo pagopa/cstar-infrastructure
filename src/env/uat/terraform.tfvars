@@ -354,7 +354,7 @@ dns_storage_account_tkm = {
 }
 
 cosmos_mongo_db_params = {
-  enabled      = false
+  enabled      = true
   kind         = "MongoDB"
   capabilities = ["EnableMongo", "EnableServerless"]
   offer_type   = "Standard"
@@ -795,9 +795,9 @@ enable = {
   }
   tae = {
     api             = true
-    db_collections  = false
+    db_collections  = true
     blob_containers = true
-    adf             = false
+    adf             = true
   }
   idpay = {
     eventhub_idpay = true

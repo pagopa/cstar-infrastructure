@@ -9,6 +9,12 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
     file = "myFile"
   }
   activities_json = file("pipelines/aggregatesIngestor.json")
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.destination_aggregate,
+    azurerm_data_factory_custom_dataset.source_aggregate,
+    azurerm_data_factory_custom_dataset.aggregate
+  ]
 }
 
 resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
@@ -55,6 +61,11 @@ resource "azurerm_data_factory_pipeline" "ack_ingestor" {
     windowEnd   = "windowEndTime"
   }
   activities_json = file("pipelines/ackIngestor.json")
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.source_ack,
+    azurerm_data_factory_custom_dataset.aggregate
+  ]
 }
 
 resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
