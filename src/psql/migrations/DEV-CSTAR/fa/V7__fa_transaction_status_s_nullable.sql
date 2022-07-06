@@ -1,0 +1,1 @@
+ALTER TABLE fa_transaction.fa_transaction ALTER COLUMN status_s DROP NOT NULL;

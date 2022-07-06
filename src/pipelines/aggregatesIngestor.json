@@ -266,7 +266,8 @@
                     },
                     "sink": {
                         "type": "DateTime",
-                        "ordinal": 4
+                        "ordinal": 4,
+                        "format": "yyyy-MM-dd"
                     }
                 },
                 {
@@ -275,7 +276,8 @@
                     },
                     "sink": {
                         "type": "DateTime",
-                        "ordinal": 5
+                        "ordinal": 5,
+                        "format": "yyyy-MM-dd"
                     } 
                 },
                 {

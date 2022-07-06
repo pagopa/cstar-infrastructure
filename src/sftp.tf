@@ -76,3 +76,20 @@ resource "azurerm_storage_container" "ade" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_blob" "ade_dirs" {
+  for_each               = toset(["in", "out", "error", "ack"])
+  name                   = format("%s/.test", each.key)
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.ade.name
+  type                   = "Block"
+}
+
+resource "azurerm_role_assignment" "data_reader_role" {
+  scope                = module.sftp.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = module.apim.principal_id
+
+  depends_on = [
+    module.sftp
+  ]
+}
