@@ -337,7 +337,7 @@ configmaps_fainvoicemanager = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   POSTGRES_POOLSIZE                                      = "2"
   POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_INVOICE_MANAGER                           = "INFO"
+  LOG_LEVEL_FA_INVOICE_MANAGER                           = "DEBUG"
   MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
   MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
 }
@@ -371,7 +371,7 @@ configmaps_fanotificationmanager = {
   POSTGRES_SHOW_SQL                                      = "true"
   LOG_LEVEL_FA_NOTIFICATION_MANAGER                      = "INFO"
   NOTIFICATION_SERVICE_TTL                               = "3600"
-  URL_BACKEND_IO                                         = "https://api.io.italia.it"
+  URL_BACKEND_IO                                         = "http://cstariobackendtest:8080/io/notification"
 }
 
 configmaps_rtddecrypter = {

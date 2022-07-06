@@ -83,3 +83,13 @@ resource "azurerm_storage_blob" "ade_dirs" {
   storage_container_name = azurerm_storage_container.ade.name
   type                   = "Block"
 }
+
+resource "azurerm_role_assignment" "data_reader_role" {
+  scope                = module.sftp.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = module.apim.principal_id
+
+  depends_on = [
+    module.sftp
+  ]
+}
