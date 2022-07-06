@@ -85,6 +85,111 @@ eventhubs_idpay = [
   }
 ]
 
+
+eventhubs_idpay_01 = [
+  {
+    name              = "idpay-transaction"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-transaction-error"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-error-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-error-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-error-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-reward-error"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-reward-error-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-reward-error-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-reward-error-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-rule-update"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-rule-update-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-rule-update-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-rule-update-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-hpan-update"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-hpan-update-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-hpan-update-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-hpan-update-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  }
+
+]
+
 ### handle resource enable
 enable = {
   idpay = {
