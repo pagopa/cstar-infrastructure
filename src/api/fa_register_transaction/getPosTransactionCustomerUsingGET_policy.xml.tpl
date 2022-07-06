@@ -13,13 +13,6 @@
 <policies>
     <inbound>
         <base />
-        <return-response>
-            <set-status code="200" reason="OK" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>[     {         "customerId": "AAABBB01C02D123E",         "customerName": "Mario Rossi",         "SDICode": "0000000",         "providerEndpoint": "https:\\\\www.provider.fatturazione.com\\invio\\fattura"    } ]</set-body>
-        </return-response>
     </inbound>
     <backend>
         <base />
