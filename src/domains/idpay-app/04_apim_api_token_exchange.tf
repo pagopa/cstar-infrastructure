@@ -43,6 +43,7 @@ data "azurerm_key_vault_secret" "cdn_storage_access_secret" {
   key_vault_id =  data.azurerm_key_vault.kv.id
 }
 
+/*
 module "idpay_jwt_exchange" {
   source = "git::https://github.com/pagopa/azurerm.git//jwt_keys?ref=v2.12.1"
 
@@ -60,25 +61,74 @@ resource "pkcs12_from_pem" "idpay_jwt_pkcs12" {
 }
 
 resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
-  name                = "${var.env_short}-idpay-token-exchange-jwt"
+  name                = "${var.env_short}-${var.domain}-token-exchange-jwt"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   data                = pkcs12_from_pem.idpay_jwt_pkcs12.result
 }
-
+*/
 /*
 data "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
   name         = "bonus-dev-cstar-pagopa-it"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+*/
+#Security certificate for signing JWT
+resource "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
+  name         = "${var.env_short}-${var.domain}-token-exchange-jwt"
+  key_vault_id = data.azurerm_key_vault.kv.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      # Server Authentication = 1.3.6.1.5.5.7.3.1
+      # Client Authentication = 1.3.6.1.5.5.7.3.2
+      extended_key_usage = ["1.3.6.1.5.5.7.3.2"]
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = "CN=idpay.welfare.pagopa.it"
+      validity_in_months = 12
+    }
+  }
+}
 
 resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
-  name                = "idpay-token-exchange-jwt"
+  name                = "${var.env_short}-${var.domain}-token-exchange-jwt"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
-  key_vault_secret_id = data.azurerm_key_vault_certificate.idpay_jwt_signing_cert.versionless_secret_id
+  key_vault_secret_id = azurerm_key_vault_certificate.idpay_jwt_signing_cert.versionless_secret_id
 }
-*/
 
 resource "azurerm_api_management_api" "idpay_token_exchange" {
   name                = "${var.env_short}-idpay-token-exchange"
