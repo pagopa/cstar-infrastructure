@@ -66,6 +66,20 @@ resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
   data                = pkcs12_from_pem.idpay_jwt_pkcs12.result
 }
 
+/*
+data "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
+  name         = "bonus-dev-cstar-pagopa-it"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
+  name                = "idpay-token-exchange-jwt"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  key_vault_secret_id = data.azurerm_key_vault_certificate.idpay_jwt_signing_cert.versionless_secret_id
+}
+*/
+
 resource "azurerm_api_management_api" "idpay_token_exchange" {
   name                = "${var.env_short}-idpay-token-exchange"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -87,7 +101,7 @@ resource "azurerm_api_management_api_operation" "idpay_token_exchange" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Token Exchange"
   method              = "GET"
-  url_template        = "idpay/welfare"
+  url_template        = "/"
   description         = "Endpoint for selfcare token exchange"
 }
 
