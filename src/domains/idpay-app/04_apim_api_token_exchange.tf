@@ -66,6 +66,7 @@ resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   data                = pkcs12_from_pem.idpay_jwt_pkcs12.result
 }
+/
 */
 /*
 data "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
@@ -75,7 +76,7 @@ data "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
 */
 #Security certificate for signing JWT
 resource "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
-  name         = "${var.env_short}-${var.domain}-token-exchange-jwt"
+  name         = "${var.env_short}-${var.domain}-jwt-signing-cert"
   key_vault_id = data.azurerm_key_vault.kv.id
 
   certificate_policy {
@@ -117,7 +118,7 @@ resource "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
         "keyEncipherment",
       ]
 
-      subject            = "CN=idpay.welfare.pagopa.it"
+      subject            = "CN=${var.env_short}-${var.domain}-jwt-signing-cert"
       validity_in_months = 12
     }
   }
