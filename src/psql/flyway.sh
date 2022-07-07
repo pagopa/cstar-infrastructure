@@ -41,9 +41,18 @@ az account set -s "${SUBSCRIPTION}"
 # shellcheck disable=SC2154
 # printf "Subscription: %s\n" "${SUBSCRIPTION}"
 # printf "Resource Group Name: %s\n" "${resource_group_name}"
+# retrieve right key vault name to use to get db credentials
+source "${WORKDIR}/subscriptions/${SUBSCRIPTION}/keyvault-name"
 
-keyvault_name=$(az keyvault list -o tsv --query "[?contains(name,'kv')].{Name:name}")
+available_vaults=$(az keyvault list -o tsv --query "[?contains(name,'kv')].{Name:name}")
 psql_server_name=${DBMS}
+
+if [[ ! $available_vaults =~ $keyvault_name ]]; then
+  echo "${keyvault_name} not exists on azure."
+  echo "Please edit keyvault-name file for ${SUBSCRIPTION}"
+  echo "These key vaults are available: ${available_vaults}" | tr '\n' ' '
+  exit -1
+fi
 
 if [[ "$DBMS" =~ "flex" ]]; then
     #psql_server_name=$(az postgres flexible-server list -o tsv --query "[?contains(name,${DBMS})].{Name:name}" | head -1)
