@@ -554,8 +554,9 @@
           "type": "string",
           "description": "IBAN of the citizen"
         },
-        "channel": {
-          "type": "string"
+        "description": {
+          "type": "string",
+          "description": "further information about the iban"
         }
       }
     },
@@ -580,10 +581,10 @@
         "status": {
           "type": "string",
           "enum": [
-            "REGISTERED_ONLY_IBAN",
-            "REGISTERED_ONLY_CC",
-            "REGISTERED_REFUNDABLE",
-            "REGISTERED_NOT_REFUNDABLE"
+            "NOT_REFUNDABLE_ONLY_IBAN",
+            "NOT_REFUNDABLE_ONLY_INSTRUMENT",
+            "REFUNDABLE",
+            "NOT_REFUNDABLE"
           ],
           "description": "actual status of the citizen wallet for an initiative"
         },
@@ -641,6 +642,12 @@
         "iban": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "holderBank": {
+          "type": "string"
+        },
         "channel": {
           "type": "string"
         }
@@ -656,7 +663,13 @@
           "type": "string"
         },
         "status": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "NOT_REFUNDABLE_ONLY_IBAN",
+            "NOT_REFUNDABLE_ONLY_INSTRUMENT",
+            "REFUNDABLE",
+            "NOT_REFUNDABLE"
+          ]
         },
         "endDate": {
           "type": "string",
@@ -674,7 +687,7 @@
         "iban": {
           "type": "string"
         },
-        "nInstrument": {
+        "nInstr": {
           "type": "string"
         }
       }
