@@ -378,7 +378,7 @@ configmaps_fanotificationmanager = {
 }
 
 configmaps_rtddecrypter = {
-  SPLITTER_LINE_THRESHOLD = 50000
+  SPLITTER_LINE_THRESHOLD = 250000
 }
 
 autoscaling_specs = {
