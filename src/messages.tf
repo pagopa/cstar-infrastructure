@@ -49,8 +49,6 @@ resource "azurerm_key_vault_secret" "event_hub_keys" {
   key_vault_id = module.key_vault.id
 }
 
-
-
 module "event_hub_fa_01" {
   source = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.70"
 

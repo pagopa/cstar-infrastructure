@@ -1,0 +1,91 @@
+[
+  {
+    "name": "ackToDatastore",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+      "timeout": "7.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "source": {
+        "type": "DelimitedTextSource",
+        "storeSettings": {
+          "type": "AzureBlobStorageReadSettings",
+          "recursive": true,
+          "enablePartitionDiscovery": false,
+          "modifiedDatetimeStart": {
+            "value": "@pipeline().parameters.windowStart",
+            "type": "Expression"
+          },
+          "modifiedDatetimeEnd": {
+            "value": "@pipeline().parameters.windowEnd",
+            "type": "Expression"
+          },
+          "wildcardFolderPath": "ack",
+          "wildcardFileName": "ADEACK*"
+        },
+        "formatSettings": {
+          "type": "DelimitedTextReadSettings"
+        }
+      },
+      "sink": {
+        "type": "CosmosDbMongoDbApiSink",
+        "writeBatchTimeout": "00:30:00",
+        "writeBehavior": "upsert"
+      },
+      "enableStaging": false,
+      "translator": {
+        "type": "TabularTranslator",
+        "mappings": [
+          {
+            "source": {
+              "type": "String",
+              "ordinal": 1
+            },
+            "sink": {
+              "path": "$['_id']['$oid']"
+            }
+          },
+          {
+            "source": {
+              "type": "Int32",
+              "ordinal": 2
+            },
+            "sink": {
+              "path": "$['status']"
+            }
+          },
+          {
+            "source": {
+              "type": "String",
+              "ordinal": 3
+            },
+            "sink": {
+              "path": "$['errorCode']"
+            }
+          }
+        ]
+      }
+    },
+    "inputs": [
+      {
+        "referenceName": "SourceAck",
+        "type": "DatasetReference",
+        "parameters": {
+          "file": "myFile"
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "referenceName": "Aggregate",
+        "type": "DatasetReference"
+      }
+    ]
+  }
+]
