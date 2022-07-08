@@ -122,6 +122,26 @@ eventhubs_idpay = [
         manage = false
       }
     ]
+  },
+  {
+    name              = "idpay-timeline"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-timeline-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-timeline-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-timeline-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
   }
 ]
 
