@@ -82,6 +82,46 @@ eventhubs_idpay = [
         manage = false
       }
     ]
+  },
+  {
+    name              = "idpay-checkiban-evaluation"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-checkiban-evaluation-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-checkiban-evaluation-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-checkiban-evaluation-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-checkiban-outcome"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-checkiban-outcome-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-checkiban-outcome-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-checkiban-outcome-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
   }
 ]
 

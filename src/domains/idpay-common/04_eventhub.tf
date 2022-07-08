@@ -55,8 +55,8 @@ module "event_hub_idpay_00" {
 resource "azurerm_key_vault_secret" "event_hub_keys_idpay_00" {
   for_each = module.event_hub_idpay_00[0].key_ids
 
-  name         = format("evh-%s-%s-idpay-00", replace(each.key, ".", "-"), "key")
-  value        = module.event_hub_idpay_00[0].keys[each.key].primary_key
+  name         = format("evh-%s-%s-idpay-00", replace(each.key, ".", "-"), "jaas-config")
+  value        = format(local.jaas_config_template_idpay, module.event_hub_idpay_00[0].keys[each.key].primary_connection_string)
   content_type = "text/plain"
 
   key_vault_id = module.key_vault_idpay.id
