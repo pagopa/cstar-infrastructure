@@ -44,6 +44,8 @@
     </set-header>
     <set-header name="x-fiscal-code" exists-action="delete" />
     <set-header name="x-user-id" exists-action="delete" />
+    <set-header name="x-bpd-token" exists-action="delete" />
+    <set-header name="X-Forwarded-For" exists-action="delete" />
   </inbound>
   <backend>
     <base />
