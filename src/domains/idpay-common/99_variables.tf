@@ -188,6 +188,23 @@ variable "eventhubs_idpay" {
   default = []
 }
 
+variable "eventhubs_idpay_01" {
+  description = "A list of event hubs to add to namespace for IDPAY application."
+  type = list(object({
+    name              = string
+    partitions        = number
+    message_retention = number
+    consumers         = list(string)
+    keys = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  }))
+  default = []
+}
+
 variable "ehns_alerts_enabled" {
   type        = bool
   default     = true
