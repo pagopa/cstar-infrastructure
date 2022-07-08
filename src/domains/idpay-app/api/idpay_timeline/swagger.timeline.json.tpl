@@ -100,7 +100,7 @@
         "tags": [
           "timeline"
         ],
-        "summary": "Returns the list of transactions and operations of an initiative of a citizen sorted by date (newest->oldest)",
+        "summary": "Returns the detail of a transaction",
         "description": "",
         "operationId": "getTimelineDetail",
         "consumes": [
@@ -239,11 +239,7 @@
           "description": "00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
         },
         "channel": {
-          "type": "string",
-          "enum": [
-            "APP_IO",
-            "ISSUER"
-          ]
+          "type": "string"
         },
         "iban": {
           "type": "string"
@@ -302,11 +298,7 @@
           "description": "00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
         },
         "channel": {
-          "type": "string",
-          "enum": [
-            "APP_IO",
-            "ISSUER"
-          ]
+          "type": "string"
         },
         "iban": {
           "type": "string"
