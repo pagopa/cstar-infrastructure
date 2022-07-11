@@ -78,7 +78,14 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "tae_adf_sa_li
   use_managed_identity = true
 }
 
+resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
 
+  count = var.enable.tae.adf ? 1 : 0
+
+  scope                = data.azurerm_storage_account.acquirer_sa[count.index].id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_data_factory.tae_adf[count.index].identity[0].principal_id
+}
 
 
 data "azurerm_cosmosdb_account" "mongo" {
@@ -111,6 +118,16 @@ data "azurerm_storage_account" "sftp_sa" {
   name                = replace(format("%s-sftp", local.project), "-", "")
   resource_group_name = format("%s-sftp-rg", local.project)
 }
+
+resource "azurerm_role_assignment" "adf_data_contributor_role_on_sftp" {
+
+  count = var.enable.tae.adf ? 1 : 0
+
+  scope                = data.azurerm_storage_account.sftp_sa[count.index].id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_data_factory.tae_adf[count.index].identity[0].principal_id
+}
+
 
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "tae_adf_sftp_linked_service" {
 

@@ -20,6 +20,9 @@ terraform {
       source  = "hashicorp/helm"
       version = "= 2.5.1"
     }
+    local = {
+      source = "hashicorp/local"
+    }
   }
 
   backend "azurerm" {}

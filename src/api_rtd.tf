@@ -365,12 +365,12 @@ module "rtd_deposited_file_check" {
   path         = "rtd/sftp-retrieve"
   protocols    = ["https"]
 
-  service_url = "https://cstardsftp.blob.core.windows.net/ade/in/"
+  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value = templatefile("./api/rtd_deposited_file_check/openapi.yml", {
-    host = "https://cstardsftp.blob.core.windows.net/ade/in/"
+    host = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
   })
 
   xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
