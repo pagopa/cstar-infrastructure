@@ -76,7 +76,7 @@ data "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
 */
 #Security certificate for signing JWT
 resource "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
-  name         = "${var.env_short}-${var.domain}-jwt-signing-cert"
+  name         = "${local.project}-${var.domain}-jwt-signing-cert"
   key_vault_id = data.azurerm_key_vault.kv.id
 
   certificate_policy {
@@ -118,14 +118,14 @@ resource "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
         "keyEncipherment",
       ]
 
-      subject            = "CN=${var.env_short}-${var.domain}-jwt-signing-cert"
+      subject            = "CN=${local.project}-${var.domain}-jwt-signing-cert"
       validity_in_months = 12
     }
   }
 }
 
 resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
-  name                = "${var.env_short}-${var.domain}-token-exchange-jwt"
+  name                = "${local.project}-${var.domain}-token-exchange-jwt"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   key_vault_secret_id = azurerm_key_vault_certificate.idpay_jwt_signing_cert.versionless_secret_id
