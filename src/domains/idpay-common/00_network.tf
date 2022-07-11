@@ -22,6 +22,14 @@ data "azurerm_subnet" "eventhub_snet" {
   resource_group_name  = local.vnet_core_resource_group_name
 }
 
+## Redis subnet
+data "azurerm_subnet" "redis_snet" {
+#  count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
+  name                 = "privatelink.redis.azure.com" #format("%s-redis-snet", local.project)
+  virtual_network_name = local.vnet_core_name
+  resource_group_name  = local.vnet_core_resource_group_name
+}
+
 # vnet integration
 data "azurerm_virtual_network" "vnet_integration" {
   name                = format("%s-%s-integration-vnet", var.prefix, var.env_short)
