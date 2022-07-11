@@ -4,9 +4,9 @@
 
 locals {
   idpay_cdn_storage_account_name = replace(format("%s-%s-sa", local.project, "idpaycdn"), "-", "") #"cstardweuidpayidpaycdnsa"
-  idpay-oidc-config_url = "https://${local.idpay_cdn_storage_account_name}.blob.core.windows.net/idpay-fe-oidc-config/openid-configuration.json"
-  idpay-portal-hostname = "welfare.${data.azurerm_dns_zone.public.name}"
-  selfcare-issuer = "https://${var.env != "prod"? "${var.env}." : ""}selfcare.pagopa.it"
+  idpay-oidc-config_url          = "https://${local.idpay_cdn_storage_account_name}.blob.core.windows.net/idpay-fe-oidc-config/openid-configuration.json"
+  idpay-portal-hostname          = "welfare.${data.azurerm_dns_zone.public.name}"
+  selfcare-issuer                = "https://${var.env != "prod" ? "${var.env}." : ""}selfcare.pagopa.it"
 }
 
 # Container for oidc configuration
@@ -40,7 +40,7 @@ resource "null_resource" "upload_oidc_configuration" {
 
 data "azurerm_key_vault_secret" "cdn_storage_access_secret" {
   name         = "web-storage-access-key"
-  key_vault_id =  data.azurerm_key_vault.kv.id
+  key_vault_id = data.azurerm_key_vault.kv.id
 }
 
 /*
@@ -141,7 +141,7 @@ resource "azurerm_api_management_api" "idpay_token_exchange" {
   path                  = "idpay/welfare"
   subscription_required = false
   #service_url           = ""
-  protocols             = ["https"]
+  protocols = ["https"]
 
 }
 
@@ -163,10 +163,10 @@ resource "azurerm_api_management_api_operation_policy" "idpay_token_exchange_pol
   operation_id        = azurerm_api_management_api_operation.idpay_token_exchange.operation_id
 
   xml_content = templatefile("./api/idpay_token_exchange/jwt_exchange.xml.tpl", {
-    openid-config-url             = local.idpay-oidc-config_url,
-    selfcare-issuer               = local.selfcare-issuer,
-    jwt_cert_signing_thumbprint   = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint,
-    idpay-portal-hostname         = local.idpay-portal-hostname
+    openid-config-url           = local.idpay-oidc-config_url,
+    selfcare-issuer             = local.selfcare-issuer,
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint,
+    idpay-portal-hostname       = local.idpay-portal-hostname
   })
 
 }
