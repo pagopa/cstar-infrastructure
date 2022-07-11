@@ -257,6 +257,12 @@ variable "redis_family" {
   default = "C"
 }
 
+variable "cidr_idpay_subnet_redis" {
+  type        = list(string)
+  description = "Redis network address space."
+  default     = []
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {

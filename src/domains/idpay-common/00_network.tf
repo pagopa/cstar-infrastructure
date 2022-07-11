@@ -23,9 +23,11 @@ data "azurerm_subnet" "eventhub_snet" {
 }
 
 ## Redis subnet
-data "azurerm_subnet" "redis_snet" {
-#  count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
-  name                 = "privatelink.redis.azure.com" #format("%s-redis-snet", local.project)
+module "idpay_redis_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
+  count                = var.redis_sku_name == "Premium" && length(var.cidr_idpay_subnet_redis) > 0 ? 1 : 0
+  name                 = format("%s-redis-snet", local.project)
+  address_prefixes     = var.cidr_idpay_subnet_redis
   virtual_network_name = local.vnet_core_name
   resource_group_name  = local.vnet_core_resource_group_name
 }
