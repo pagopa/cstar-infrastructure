@@ -258,4 +258,4 @@ enable = {
 
 }
 
-cidr_idpay_subnet_redis        = ["10.1.139.0/24"]
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]

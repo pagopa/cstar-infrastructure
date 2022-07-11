@@ -39,8 +39,10 @@ echo "vm_resource_group_name=${vm_resource_group_name}" >> "${WORKDIR}/subscript
 echo "vm_user_name=${vm_user_name}" >> "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
 echo "vm_public_ip=${vm_public_ip}" >> "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
 
-aks_name=$(az aks list -o tsv --query "[?contains(name,'aks')].{Name:name}")
-aks_resource_group_name=$(az aks list -o tsv --query "[?contains(name,'aks')].{Name:resourceGroup}")
+#aks_name=$(az aks list -o tsv --query "[?contains(name,'aks')].{Name:name}")
+#aks_resource_group_name=$(az aks list -o tsv --query "[?contains(name,'aks')].{Name:resourceGroup}")
+aks_name="cstar-p-aks"
+aks_resource_group_name="cstar-p-aks-rg"
 aks_private_fqdn=$(az aks list -o tsv --query "[?contains(name,'aks')].{Name:privateFqdn}")
 
 rm -rf "${HOME}/.kube/config-${aks_name}"
