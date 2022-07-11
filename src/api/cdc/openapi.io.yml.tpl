@@ -288,7 +288,7 @@ paths:
           description: Errore interno
       security:
         - BearerAuth: []
-
+  
   /esercenti/:
     get:
       tags:
@@ -463,6 +463,7 @@ components:
       enum:
         - DISPONIBILE
         - SPESO
+        - CANCELLATO
       description: "Lo stato del buono. DISPONIBILE quando il buono è stato generato ma non ancora speso, altrimenti diventa SPESO."
 
     Buono:
@@ -553,7 +554,6 @@ components:
       enum:
         - FISICO
         - ONLINE
-
     EsercenteBuono:
       type: object
       properties:
