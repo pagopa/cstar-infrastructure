@@ -13,26 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="outputToken">
-            <issuer-signing-keys>
-                <key certificate-id="${jwt_cert_signing_kv_id}" />
-            </issuer-signing-keys>
-            <audiences>
-                <audience>idpay.welfare.pagopa.it</audience>
-            </audiences>
-            <issuers>
-                <issuer>https://api-io.dev.cstar.pagopa.it</issuer>
-            </issuers>
-            <required-claims>
-                <claim name="uid" match="all" />
-                <claim name="name" match="all" />
-                <claim name="family_name" match="all" />
-                <claim name="email" match="all" />
-                <claim name="organization" match="all" />
-            </required-claims>
-        </validate-jwt>
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission" />
-        <rewrite-uri template="@("/idpay/welfare/authorization/permissions/ADMIN")" />
+        <rewrite-uri template="@("/idpay/welfare/authorization/permissions/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
     </inbound>
     <backend>
         <base />

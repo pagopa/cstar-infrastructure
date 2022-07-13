@@ -94,6 +94,7 @@ module "idpay_initiative_portal" {
         jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name
       })
     }
-  ]*/
+  ]
+*/
 
 }

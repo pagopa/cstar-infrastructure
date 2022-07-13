@@ -13,7 +13,7 @@
 <policies>
     <inbound>
         <base />
-        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="outputToken">
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="validatedToken">
             <issuer-signing-keys>
                 <key certificate-id="${jwt_cert_signing_kv_id}" />
             </issuer-signing-keys>
@@ -28,7 +28,10 @@
                 <claim name="name" match="all" />
                 <claim name="family_name" match="all" />
                 <claim name="email" match="all" />
-                <claim name="organization" match="all" />
+                <claim name="org_id" match="all" />
+                <claim name="org_vat" match="all" />
+                <claim name="org_party_role" match="all" />
+                <claim name="org_role" match="all" />
             </required-claims>
         </validate-jwt>
     </inbound>
