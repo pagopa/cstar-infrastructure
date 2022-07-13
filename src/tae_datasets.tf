@@ -347,7 +347,6 @@ resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
     "location": {
       "type": "AzureBlobStorageLocation",
       "container": "sender-ade-ack",
-      "folderPath": "",
       "fileName": {
         "value": "@dataset().file",
         "type": "Expression"
