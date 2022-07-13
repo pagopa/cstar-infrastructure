@@ -52,24 +52,6 @@ resource "azurerm_private_endpoint" "sftp_blob" {
   tags = var.tags
 }
 
-resource "azurerm_eventgrid_system_topic" "sftp" {
-  name                   = "${local.project}-sftp-topic"
-  resource_group_name    = azurerm_resource_group.sftp.name
-  location               = azurerm_resource_group.sftp.location
-  source_arm_resource_id = module.sftp.id
-  topic_type             = "Microsoft.Storage.StorageAccounts"
-}
-
-resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
-  name                 = "${local.project}-sftp-subscription"
-  system_topic         = azurerm_eventgrid_system_topic.sftp.name
-  resource_group_name  = azurerm_resource_group.sftp.name
-  eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub.id
-  subject_filter {
-    subject_begins_with = "/blobServices/default/containers/ade/blobs/"
-  }
-}
-
 resource "azurerm_storage_container" "ade" {
   name                  = "ade"
   storage_account_name  = module.sftp.name
