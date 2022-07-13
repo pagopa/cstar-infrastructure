@@ -240,6 +240,29 @@ EOD
   }))
 }
 
+#Redis
+
+variable "redis_capacity" {
+  type    = number
+  default = 1
+}
+
+variable "redis_sku_name" {
+  type    = string
+  default = "Basic"
+}
+
+variable "redis_family" {
+  type    = string
+  default = "C"
+}
+
+variable "cidr_idpay_subnet_redis" {
+  type        = list(string)
+  description = "Redis network address space."
+  default     = []
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
