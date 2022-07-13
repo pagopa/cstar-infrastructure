@@ -136,6 +136,7 @@
 | [azurerm_data_factory_custom_dataset.destination_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.source_ack](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.source_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.wrong_fiscal_codes](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sa_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
 | [azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
 | [azurerm_data_factory_linked_service_cosmosdb_mongoapi.tae_adf_mongo_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/data_factory_linked_service_cosmosdb_mongoapi) | resource |
