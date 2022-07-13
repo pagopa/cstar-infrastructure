@@ -107,6 +107,12 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   ]
 }
 
+resource "azurerm_api_management_notification_recipient_email" "email_assistenza_on_new_subscription" {
+  api_management_id = module.apim.id
+  notification_type = "RequestPublisherNotificationMessage"
+  email             = "cstar@assistenza.pagopa.it"
+}
+
 #########
 ## API ##
 #########
