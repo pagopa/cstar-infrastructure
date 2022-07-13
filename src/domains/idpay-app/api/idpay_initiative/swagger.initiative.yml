@@ -1,0 +1,511 @@
+openapi: 3.0.1
+info:
+  title: IdPay - Backend Portal Initiative
+  version: '1.0'
+paths:
+  '/idpay/initiative/summary':
+    get:
+      tags:
+        - initiative
+      summary: Returns the list of initiatives names for a specific organization
+      operationId: getInitativeSummary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeSummaryDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  '/idpay/initiative/{initiativeId}':
+    get:
+      tags:
+        - initiative
+      summary: Returns the detail of an active initiative
+      operationId: getInitiativeDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  /idpay/initiative/general:
+    post:
+      tags:
+        - initiative
+      summary: Save initiative and first subset of data 'general info'
+      operationId: saveInitiativeGeneralInfo
+      requestBody:
+        description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativePatchDTO'
+      responses:
+        '200':
+          description: Enrollment OK
+          content:
+            application/json: { }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  /idpay/initiative/{initiativeId}/general:
+    patch:
+      tags:
+        - initiative
+      summary: Save initiative and first subset of data 'general info'
+      operationId: updateInitiativeGeneralInfo
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativePatchDTO'
+      responses:
+        '200':
+          description: Enrollment OK
+          content:
+            application/json: { }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  /idpay/initiative/{initiativeId}/beneficiary:
+    patch:
+      tags:
+        - initiative
+      summary: Association of beneficiary rules to an initiative
+      operationId: updateInitiativeBeneficiary
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: 'Unique identifier of the subscribed initiative, instrument HPAN'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+      responses:
+        '200':
+          description: Enrollment OK
+          content:
+            application/json: { }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+components:
+  schemas:
+    InitiativeAdditionalDTO:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        serviceName:
+          type: string
+        argument:
+          type: string
+        description:
+          type: string
+    InitiativeLegalDTO:
+      type: object
+      properties:
+        privacyLink:
+          type: string
+        tcLink:
+          type: string
+        regulationLink:
+          type: string
+        dpiaLink:
+          type: string
+    InitiativeBeneficiaryRuleDTO:
+      type: object
+      properties:
+        selfDeclarationCriteria:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SelfCriteriaMultiDTO'
+              - $ref: '#/components/schemas/SelfCriteriaBoolDTO'
+        automatedCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/AutomatedCriteriaDTO'
+    InitiativeGeneralDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        budget:
+          type: number
+        beneficiaryType:
+          type: string
+          enum:
+            - PF
+            - PG
+        beneficiaryKnown:
+          type: boolean
+        beneficiaryBudget:
+          type: number
+        startDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+        endDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+        rankingStartDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+        rankingEndDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+    AutomatedCriteriaDTO:
+      type: object
+      properties:
+        authority:
+          type: string
+        code:
+          type: string
+        field:
+          type: boolean
+        operator:
+          type: string
+        value:
+          type: string
+    SelfCriteriaBoolDTO:
+      title: SelfCriteriaBoolDTO
+      type: object
+      properties:
+        _type:
+          enum:
+            - boolean
+            - multi
+          type: string
+        description:
+          type: string
+        value:
+          type: boolean
+        code:
+          type: string
+    SelfCriteriaMultiDTO:
+      title: SelfCriteriaMultiDTO
+      type: object
+      properties:
+        _type:
+          enum:
+            - boolean
+            - multi
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+          example:
+            - value1
+            - value2
+            - value3
+        code:
+          type: string
+    InitiativeDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        organizationId:
+          type: string
+        pdndToken:
+          type: string
+        status:
+          type: string
+        pdndCheck:
+          type: boolean
+        autocertificationCheck:
+          type: boolean
+        beneficiaryRanking:
+          type: boolean
+        general:
+          $ref : '#/components/schemas/InitiativeGeneralDTO'
+        additionalInfo:
+          $ref : '#/components/schemas/InitiativeAdditionalDTO'
+        beneficiaryRule:
+          $ref : '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+        legal:
+          $ref : '#/components/schemas/InitiativeLegalDTO'
+    InitiativePatchDTO:
+      type: object
+      properties:
+        general:
+          $ref : '#/components/schemas/InitiativeGeneralDTO'
+        additionalInfo:
+          $ref : '#/components/schemas/InitiativeAdditionalDTO'
+    InitiativeSummaryDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        status:
+          type: string
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Bearer Auth. Token
+      in: header
+security:
+  - Bearer: [ ]
+tags:
+  - name: initiative
+    description: ''
