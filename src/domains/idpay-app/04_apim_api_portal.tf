@@ -42,9 +42,9 @@ module "idpay_permission_portal" {
   protocols    = ["https", "http"]
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
-  
+
   content_format = "openapi"
-  content_value = file("./api/idpay_role_permission/swagger.role.permission.yml")
+  content_value  = file("./api/idpay_role_permission/swagger.role.permission.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -56,7 +56,7 @@ module "idpay_permission_portal" {
       operation_id = "userPermission"
       xml_content = templatefile("./api/idpay_role_permission/get-permission-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name
+        jwt_cert_signing_kv_id         = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name
       })
     }
   ]
@@ -77,24 +77,53 @@ module "idpay_initiative_portal" {
   protocols    = ["https", "http"]
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
-  
+
   content_format = "openapi"
-  content_value = file("./api/idpay_initiative/swagger.initiative.yml")
+  content_value  = file("./api/idpay_initiative/swagger.initiative.yml")
 
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.idpay_api_portal_product.product_id]
   subscription_required = false
 
-/*  api_operation_policies = [
+  api_operation_policies = [
     {
-      operation_id = "userPermission"
-      xml_content = templatefile("./api/idpay_role_permission/get-permission-policy.xml.tpl", {
+      operation_id = "getInitativeSummary"
+
+      xml_content = templatefile("./api/idpay_initiative/get-initiative-summary.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name
+      })
+    },
+    {
+      operation_id = "getInitiativeDetail"
+
+      xml_content = templatefile("./api/idpay_initiative/get-initiative-detail.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "saveInitiativeGeneralInfo"
+
+      xml_content = templatefile("./api/idpay_initiative/post-initiative-general.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeGeneralInfo"
+
+      xml_content = templatefile("./api/idpay_initiative/patch-initiative-general.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeBeneficiary"
+
+      xml_content = templatefile("./api/idpay_initiative/patch-initiative-beneficiary.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
+
   ]
-*/
+
 
 }

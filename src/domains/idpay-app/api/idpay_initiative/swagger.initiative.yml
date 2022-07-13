@@ -2,8 +2,10 @@ openapi: 3.0.1
 info:
   title: IdPay - Backend Portal Initiative
   version: '1.0'
+servers:
+  - url: https://localhost:8080/idpay/initiative
 paths:
-  '/idpay/initiative/summary':
+  '/summary':
     get:
       tags:
         - initiative
@@ -43,7 +45,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/idpay/initiative/{initiativeId}':
+  '/{initiativeId}':
     get:
       tags:
         - initiative
@@ -99,7 +101,7 @@ paths:
               example:
                 code: 0
                 message: string
-  /idpay/initiative/general:
+  '/general':
     post:
       tags:
         - initiative
@@ -170,7 +172,7 @@ paths:
               example:
                 code: 0
                 message: string
-  /idpay/initiative/{initiativeId}/general:
+  '/{initiativeId}/general':
     patch:
       tags:
         - initiative
@@ -248,7 +250,7 @@ paths:
               example:
                 code: 0
                 message: string
-  /idpay/initiative/{initiativeId}/beneficiary:
+  '/{initiativeId}/beneficiary':
     patch:
       tags:
         - initiative
