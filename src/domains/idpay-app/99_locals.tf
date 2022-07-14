@@ -23,4 +23,18 @@ locals {
   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
 
+  #ORIGINS (used for CORS on IDPAY Welfare Portal)
+  origins = {
+    base = concat(
+      [
+        format("https://portal.%s", data.azurerm_dns_zone.public.name),
+        format("https://management.%s", data.azurerm_dns_zone.public.name),
+        format("https://%s.developer.azure-api.net", local.apim_name),
+        format("https://%s", local.idpay-portal-hostname)
+      ],
+      var.env_short != "p" ? ["https://localhost:3000", "http://localhost:3000", "https://localhost:3001", "http://localhost:3001"] : []
+    )
+  }
+
+
 }

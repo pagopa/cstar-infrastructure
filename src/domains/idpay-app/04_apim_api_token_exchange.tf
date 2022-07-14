@@ -43,37 +43,6 @@ data "azurerm_key_vault_secret" "cdn_storage_access_secret" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
-/*
-module "idpay_jwt_exchange" {
-  source = "git::https://github.com/pagopa/azurerm.git//jwt_keys?ref=v2.12.1"
-
-  jwt_name         = "${var.domain}-jwt-exchange"
-  key_vault_id     = data.azurerm_key_vault.kv.id
-  cert_common_name = "idpay.welfare.pagopa.it"
-  cert_password    = ""
-  tags             = var.tags
-}
-
-resource "pkcs12_from_pem" "idpay_jwt_pkcs12" {
-  password        = ""
-  cert_pem        = module.idpay_jwt_exchange.certificate_data_pem
-  private_key_pem = module.idpay_jwt_exchange.jwt_private_key_pem
-}
-
-resource "azurerm_api_management_certificate" "idpay_token_exchange_cert_jwt" {
-  name                = "${var.env_short}-${var.domain}-token-exchange-jwt"
-  api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
-  data                = pkcs12_from_pem.idpay_jwt_pkcs12.result
-}
-/
-*/
-/*
-data "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
-  name         = "bonus-dev-cstar-pagopa-it"
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
-*/
 #Security certificate for signing JWT
 resource "azurerm_key_vault_certificate" "idpay_jwt_signing_cert" {
   name         = "${local.project}-${var.domain}-jwt-signing-cert"
