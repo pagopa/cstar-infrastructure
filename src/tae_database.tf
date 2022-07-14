@@ -1,5 +1,5 @@
 locals {
-  tae_tags = merge( var.tags, {Application = "TAE"})
+  tae_tags = merge(var.tags, { Application = "TAE" })
 }
 
 resource "azurerm_resource_group" "tae_db_rg" {
@@ -15,13 +15,13 @@ module "tae_cosmosdb_account" {
 
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
-  name                 = format("%s-tae-cosmos-db-account", local.project)
-  location             = azurerm_resource_group.tae_db_rg.location
-  resource_group_name  = azurerm_resource_group.tae_db_rg.name
-  offer_type           = var.tae_cosmos_db_params.offer_type
-  kind                 = var.tae_cosmos_db_params.kind
-  capabilities         = var.tae_cosmos_db_params.capabilities
-  enable_free_tier = var.cosmos_mongo_db_params.enable_free_tier
+  name                = format("%s-tae-cosmos-db-account", local.project)
+  location            = azurerm_resource_group.tae_db_rg.location
+  resource_group_name = azurerm_resource_group.tae_db_rg.name
+  offer_type          = var.tae_cosmos_db_params.offer_type
+  kind                = var.tae_cosmos_db_params.kind
+  capabilities        = var.tae_cosmos_db_params.capabilities
+  enable_free_tier    = var.cosmos_mongo_db_params.enable_free_tier
 
 
   public_network_access_enabled     = var.tae_cosmos_db_params.public_network_access_enabled
@@ -75,7 +75,7 @@ resource "azurerm_cosmosdb_sql_container" "aggregates" {
   resource_group_name = azurerm_resource_group.tae_db_rg.name
   account_name        = module.tae_cosmosdb_account[count.index].name
   database_name       = azurerm_cosmosdb_sql_database.transaction_aggregate[count.index].name
-  
+
   partition_key_path    = "/definition/id"
   partition_key_version = 2
 

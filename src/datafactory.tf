@@ -98,7 +98,7 @@ data "azurerm_cosmosdb_account" "cosmos" {
 }
 
 resource "azurerm_data_factory_linked_service_cosmosdb" "tae_adf_cosmos_ls" {
-  
+
   count = var.enable.tae.adf ? 1 : 0
 
   name                = format("%s-%s-cosmos-linked-service", local.project, "tae")

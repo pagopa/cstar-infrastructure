@@ -695,10 +695,10 @@ variable "cosmos_mongo_db_transaction_params" {
 
 variable "tae_cosmos_db_params" {
   type = object({
-    enabled        = bool
-    capabilities   = list(string)
-    offer_type     = string
-    kind           = string
+    enabled      = bool
+    capabilities = list(string)
+    offer_type   = string
+    kind         = string
     consistency_policy = object({
       consistency_level       = string
       max_interval_in_seconds = number
