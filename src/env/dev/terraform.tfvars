@@ -6,6 +6,7 @@ location_pair_short = "neu"
 env_short           = "d"
 
 apim_notification_sender_email = "info@pagopa.it"
+cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
