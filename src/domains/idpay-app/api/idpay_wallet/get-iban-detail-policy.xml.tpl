@@ -16,7 +16,7 @@
         <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
         <cache-remove-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/"+ (string)context.Variables["fiscalCode"]+"{initiativeId}/iban")" />
+        <rewrite-uri template="@("idpay/wallet/iban/{initiativeId}/"+ (string)context.Variables["fiscalCode"])" />
     </inbound>
     <backend>
         <base />
