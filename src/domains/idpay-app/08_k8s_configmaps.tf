@@ -27,6 +27,7 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_checkiban_evaluation_topic = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic = "idpay-checkiban-outcome"
     idpay_timeline_topic = "idpay-timeline"
+    idpay-timeline-consumer-group = "idpay-timeline-consumer-group"
   }
 
 }
