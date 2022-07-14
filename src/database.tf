@@ -151,10 +151,11 @@ module "cosmosdb_account_mongodb" {
   kind                 = var.cosmos_mongo_db_params.kind
   capabilities         = var.cosmos_mongo_db_params.capabilities
   mongo_server_version = var.cosmos_mongo_db_params.server_version
+  enable_free_tier = var.cosmos_mongo_db_params.enable_free_tier
 
   public_network_access_enabled     = var.cosmos_mongo_db_params.public_network_access_enabled
   private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
-  subnet_id                         = module.cosmos_mongodb_snet[count.index].id
+  subnet_id                         = module.private_endpoint_snet[count.index].id
   private_dns_zone_ids              = [azurerm_private_dns_zone.cosmos_mongo[count.index].id]
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
@@ -175,11 +176,11 @@ module "cosmosdb_account_mongodb" {
   tags = var.tags
 }
 
-resource "azurerm_cosmosdb_mongo_database" "file_register" {
+resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
 
   count = var.enable.rtd.file_register ? 1 : 0
 
-  name                = "fileregister"
+  name                = "rtd"
   resource_group_name = azurerm_resource_group.db_rg.name
   account_name        = module.cosmosdb_account_mongodb[count.index].name
 
