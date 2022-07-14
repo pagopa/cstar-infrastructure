@@ -31,7 +31,16 @@
         },
         "formatSettings": {
           "type": "DelimitedTextReadSettings"
-        }
+        },
+        "additionalColumns": [
+          {
+            "name": "ackPipelineId",
+            "value": {
+              "value": "@pipeline().RunId",
+              "type": "Expression"
+            }
+          }
+        ]
       },
       "sink": {
         "type": "CosmosDbMongoDbApiSink",
@@ -67,6 +76,15 @@
             },
             "sink": {
               "path": "$['errorCode']"
+            }
+          },
+          {
+            "source": {
+              "type": "String",
+              "name": "ackPipelineId"
+            },
+            "sink": {
+              "path": "$['ackPipelineId']"
             }
           }
         ]
