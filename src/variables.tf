@@ -332,6 +332,11 @@ variable "k8s_ip_filter_range" {
   })
 }
 
+variable "cstar_support_email" {
+  type        = string
+  description = "Email for CSTAR support, read by the CSTAR team and Operations team"
+}
+
 ## Application gateway
 variable "app_gateway_sku_name" {
   type        = string
