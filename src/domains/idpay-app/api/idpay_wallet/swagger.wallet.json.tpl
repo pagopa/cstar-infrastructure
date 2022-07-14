@@ -15,7 +15,7 @@
     "https"
   ],
   "paths": {
-    "/idpay/wallet": {
+    "/": {
       "get": {
         "tags": [
           "wallet"
@@ -62,7 +62,7 @@
         ]
       }
     },
-    "/idpay/wallet/{initiativeId}": {
+    "/{initiativeId}": {
       "get": {
         "tags": [
           "wallet"
@@ -124,7 +124,7 @@
         ]
       }
     },
-    "/idpay/wallet/iban": {
+    "/iban": {
       "put": {
         "tags": [
           "wallet"
@@ -197,7 +197,7 @@
         ]
       }
     },
-    "/idpay/wallet/iban/{initiativeId}": {
+    "/iban/{initiativeId}": {
       "get": {
         "tags": [
           "wallet"
@@ -259,7 +259,7 @@
         ]
       }
     },
-    "/idpay/wallet/instrument": {
+    "/instrument": {
       "put": {
         "tags": [
           "wallet"
@@ -403,7 +403,7 @@
         ]
       }
     },
-    "/idpay/wallet/instrument/{initiativeId}": {
+    "/instrument/{initiativeId}": {
       "get": {
         "tags": [
           "wallet"
@@ -465,7 +465,7 @@
         ]
       }
     },
-    "/idpay/wallet/{initiativeId}/status": {
+    "/{initiativeId}/status": {
       "get": {
         "tags": [
           "wallet"

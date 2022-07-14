@@ -103,6 +103,56 @@ module "idpay_wallet_io" {
   product_ids           = [module.idpay_api_io_product.product_id]
   subscription_required = true
 
+  api_operation_policies = [
+    {
+      operation_id = "getWallet"
+      xml_content = templatefile("./api/idpay_wallet/get-wallet-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getWalletDetail"
+      xml_content = templatefile("./api/idpay_wallet/get-wallet-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "enrollIban"
+      xml_content = templatefile("./api/idpay_wallet/put-enroll-iban-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getIbanDetail"
+      xml_content = templatefile("./api/idpay_wallet/get-iban-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "enrollInstrument"
+      xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "deleteInstrument"
+      xml_content = templatefile("./api/idpay_wallet/delete-instrument-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getWalletStatus"
+      xml_content = templatefile("./api/idpay_wallet/get-wallet-status-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getInstrumentList"
+      xml_content = templatefile("./api/idpay_wallet/get-instrument-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
 }
 
 ## IDPAY Timeline IO API ##
@@ -126,5 +176,20 @@ module "idpay_timeline_io" {
 
   product_ids           = [module.idpay_api_io_product.product_id]
   subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getTimeline"
+      xml_content = templatefile("./api/idpay_timeline/get-timeline-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getTimelineDetail"
+      xml_content = templatefile("./api/idpay_timeline/get-timeline-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
 
 }
