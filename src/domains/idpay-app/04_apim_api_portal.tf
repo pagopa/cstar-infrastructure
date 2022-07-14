@@ -20,7 +20,7 @@ module "idpay_api_portal_product" {
 
   policy_xml = templatefile("./api_product/portal_api/policy_portal.xml.tpl", {
     jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name,
-    origins = local.origins.base
+    origins                = local.origins.base
   })
 
 }
