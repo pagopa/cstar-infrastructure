@@ -90,6 +90,7 @@ variable "cidr_subnet_cosmos_mongodb" {
   description = "Cosmos Mongo DB network address space."
 }
 
+
 variable "cidr_subnet_adf" {
   type        = list(string)
   description = "ADF Address Space."
@@ -330,6 +331,11 @@ variable "k8s_ip_filter_range" {
     from = string
     to   = string
   })
+}
+
+variable "cstar_support_email" {
+  type        = string
+  description = "Email for CSTAR support, read by the CSTAR team and Operations team"
 }
 
 ## Application gateway
@@ -684,6 +690,41 @@ variable "cosmos_mongo_db_params" {
 }
 
 variable "cosmos_mongo_db_transaction_params" {
+  type = object({
+    enable_serverless  = bool
+    enable_autoscaling = bool
+    throughput         = number
+    max_throughput     = number
+  })
+}
+
+variable "tae_cosmos_db_params" {
+  type = object({
+    enabled      = bool
+    capabilities = list(string)
+    offer_type   = string
+    kind         = string
+    consistency_policy = object({
+      consistency_level       = string
+      max_interval_in_seconds = number
+      max_staleness_prefix    = number
+    })
+    main_geo_location_zone_redundant = bool
+    enable_free_tier                 = bool
+    main_geo_location_zone_redundant = bool
+    additional_geo_locations = list(object({
+      location          = string
+      failover_priority = number
+      zone_redundant    = bool
+    }))
+    private_endpoint_enabled          = bool
+    public_network_access_enabled     = bool
+    is_virtual_network_filter_enabled = bool
+    backup_continuous_enabled         = bool
+  })
+}
+
+variable "tae_cosmos_db_transaction_params" {
   type = object({
     enable_serverless  = bool
     enable_autoscaling = bool

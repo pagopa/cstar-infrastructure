@@ -4,85 +4,23 @@ resource "azurerm_data_factory_custom_dataset" "aggregate" {
 
   name            = "Aggregate"
   data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
-  type            = "CosmosDbMongoDbApiCollection"
+  type            = "CosmosDbSqlApiCollection"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_cosmosdb_mongoapi.tae_adf_mongo_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_cosmosdb.tae_adf_cosmos_ls[count.index].name
   }
 
   type_properties_json = <<JSON
   {
-    "collection": "aggregates"
+    "collectionName": "aggregates"
   }
   JSON
 
-  description = "Aggregates to be stored in Cosmos/MongoDB"
+  description = "Aggregates to be stored in Cosmos"
   annotations = ["Aggregates"]
 
-  schema_json = <<JSON
-  [
-    {
-      "name": "id",
-      "type": "String"
-    },
-    {
-      "name": "senderCode",
-      "type": "String"
-    },
-    {
-      "name": "operationType",
-      "type": "String"
-    },
-    {
-      "name": "transmissionDate",
-      "type": "Date"
-    },
-    {
-      "name": "accountingDate",
-      "type": "Date"
-    },
-    {
-      "name": "numTrx",
-      "type": "Int32"
-    },
-    {
-      "name": "totalAmount",
-      "type": "Int32"
-    },
-    {
-      "name": "acquirerId",
-      "type": "String"
-    },
-    {
-      "name": "merchantId",
-      "type": "String"
-    },
-    {
-      "name": "terminalId",
-      "type": "String"
-    },
-    {
-      "name": "fiscalCode",
-      "type": "String"
-    },
-    {
-      "name":  "vat",
-      "type": "String"
-    },
-    {
-      "name":  "posType",
-      "type": "String"
-    },
-    {
-      "name":  "fileName",
-      "type": "String"
-    },
-    {
-      "name":  "recordId",
-      "type": "String"
-    }
-  ]
-  JSON
+  schema_json = file("pipelines/aggregatesSchema.json")
+
 }
 
 
