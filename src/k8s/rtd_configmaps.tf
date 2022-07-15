@@ -63,7 +63,8 @@ resource "kubernetes_config_map" "rtddecrypter" {
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
     CSV_TRANSACTION_DECRYPT_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
     , ".")
-    SPLITTER_LINE_THRESHOLD = 250000 },
+    SPLITTER_LINE_THRESHOLD = 250000,
+  },
   var.configmaps_rtddecrypter)
 }
 
