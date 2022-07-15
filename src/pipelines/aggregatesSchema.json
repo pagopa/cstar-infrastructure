@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "senderCode": {
+      "type": "integer"
+    },
+    "operationType": {
+      "type": "string"
+    },
+    "trasmissionDate": {
+      "type": "date"
+    },
+    "accountingDate": {
+      "type": "date"
+    },
+    "numTrx": {
+      "type": "integer"
+    },
+    "totalAmount": {
+      "type": "integer"
+    },
+    "currency": {
+      "type": "integer"
+    },
+    "acquirerId": {
+      "type": "string"
+    },
+    "merchantId": {
+      "type": "string"
+    },
+    "terminalId": {
+      "type": "string"
+    },
+    "fiscalCode": {
+      "type": "string"
+    },
+    "vat": {
+      "type": "string"
+    },
+    "posType": {
+      "type": "string"
+    }
+  }
+}
