@@ -8,10 +8,11 @@ instance       = "dev01"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Prod"
+  Environment = "DEV"
   Owner       = "IO"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+  Application = "TAE"
 }
 
 lock_enable = true
