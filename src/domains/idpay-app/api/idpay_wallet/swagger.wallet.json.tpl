@@ -587,15 +587,6 @@
             "NOT_REFUNDABLE"
           ],
           "description": "actual status of the citizen wallet for an initiative"
-        },
-        "statusCheckIban": {
-          "type": "string",
-          "enum": [
-            "OK",
-            "UNKNOWN",
-            "KO"
-          ],
-          "description": "actual status of the citizen wallet for an initiative"
         }
       }
     },
