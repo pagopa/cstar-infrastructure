@@ -12,6 +12,7 @@ tags = {
   Owner       = "IO"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+  Application = "TAE"
 }
 
 lock_enable = true
@@ -23,30 +24,30 @@ terraform_remote_state_core = {
   key                  = "dev.terraform.tfstate"
 }
 
-cosmos_mongo_db_params = {
+cosmos_dbms_params = {
   enabled      = true
-  capabilities = ["EnableMongo", "EnableServerless"]
+  kind         = "GlobalDocumentDB"
+  capabilities = []
   offer_type   = "Standard"
   consistency_policy = {
-    consistency_level       = "Strong"
+    consistency_level       = "BoundedStaleness"
     max_interval_in_seconds = 300
     max_staleness_prefix    = 100000
   }
-  server_version                   = "4.0"
+  server_version                   = null
   main_geo_location_zone_redundant = false
-  enable_free_tier                 = false
+  enable_free_tier                 = true
 
-  additional_geo_locations          = []
-  private_endpoint_enabled          = false
+  private_endpoint_enabled          = true
   public_network_access_enabled     = true
-  is_virtual_network_filter_enabled = false
+  additional_geo_locations          = []
+  is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
-
 }
 
-cosmos_mongo_db_transaction_params = {
-  enable_serverless  = true
+cosmos_db_aggregates_params = {
+  enable_serverless  = false
   enable_autoscaling = true
   max_throughput     = 5000
   throughput         = 1000
