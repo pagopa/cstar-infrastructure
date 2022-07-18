@@ -50,7 +50,7 @@ module "private_endpoint_snet" {
   address_prefixes     = var.cidr_subnet_private_endpoint
 
   enforce_private_link_endpoint_network_policies = true
-  service_endpoints                              = ["Microsoft.Web"]
+  service_endpoints                              = ["Microsoft.Web", "Microsoft.AzureCosmosDB"]
 }
 
 module "redis_snet" {
