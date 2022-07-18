@@ -19,12 +19,8 @@ resource "azurerm_data_factory_linked_service_cosmosdb" "cosmos_ls" {
   name            = format("%s-cosmos-linked-service", local.project)
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
-  connection_string = format(
-    "AccountEndpoint=%s;AccountKey=%s;",
-    data.azurerm_cosmosdb_account.cosmos.endpoint,
-    data.azurerm_cosmosdb_account.cosmos.primary_key
-  )
-
+  account_endpoint = data.azurerm_cosmosdb_account.cosmos.endpoint
+  account_key      = data.azurerm_cosmosdb_account.cosmos.primary_key
   database = "tae"
 
 }
