@@ -1,0 +1,390 @@
+[
+  {
+      "name": "SenderAggregatesToDatastore",
+      "type": "Copy",
+      "dependsOn": [],
+      "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+      },
+      "userProperties": [],
+      "typeProperties": {
+          "source": {
+              "type": "DelimitedTextSource",
+              "storeSettings": {
+                  "type": "AzureBlobStorageReadSettings",
+                  "recursive": true,
+                  "enablePartitionDiscovery": false
+              },
+              "formatSettings": {
+                  "type": "DelimitedTextReadSettings"
+              },
+              "additionalColumns": [
+                {
+                  "name": "fileName",
+                  "value": {
+                    "value": "@pipeline().parameters.file",
+                    "type": "Expression"
+                  }
+                }
+              ]
+          },
+          "sink": {
+              "type": "CosmosDbMongoDbApiSink",
+              "writeBatchTimeout": "00:30:00",
+              "writeBatchSize": 100,
+              "writeBehavior": "insert"
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "1"
+                  },
+                  "sink": {
+                      "path": "$['senderCode']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "2"
+                  },
+                  "sink": {
+                      "path": "$['operationType']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "DateTime",
+                      "ordinal": "3"
+                  },
+                  "sink": {
+                      "path": "$['transmissionDate']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "DateTime",
+                      "ordinal": "4"
+                  },
+                  "sink": {
+                      "path": "$['accountingDate']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "Int32",
+                      "ordinal": "5"
+                  },
+                  "sink": {
+                      "path": "$['numTrx']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "Int32",
+                      "ordinal": "6"
+                  },
+                  "sink": {
+                      "path": "$['totalAmount']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "7"
+                  },
+                  "sink": {
+                      "path": "$['currency']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "8"
+                  },
+                  "sink": {
+                      "path": "$['acquirerId']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "9"
+                  },
+                  "sink": {
+                      "path": "$['merchantId']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "10"
+                  },
+                  "sink": {
+                      "path": "$['terminalId']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "11"
+                  },
+                  "sink": {
+                      "path": "$['fiscalCode']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "12"
+                  },
+                  "sink": {
+                      "path": "$['vat']"
+                  }
+              },
+              {
+                  "source": {
+                      "type": "String",
+                      "ordinal": "13"
+                  },
+                  "sink": {
+                      "path": "$['posType']"
+                  }
+              },
+              {
+                "source": {
+                    "type": "String",
+                    "name": "fileName"
+                },
+                "sink": {
+                    "path": "$['fileName']"
+                }
+            }
+          ]
+          },
+          "enableStaging": false
+      },
+      "inputs": [
+          {
+              "referenceName": "SourceAggregate",
+              "type": "DatasetReference",
+              "parameters": {
+                  "file": {
+                      "value": "@pipeline().parameters.file",
+                      "type": "Expression"
+                  }
+              }
+          }
+      ],
+      "outputs": [
+          {
+              "referenceName": "Aggregate",
+              "type": "DatasetReference"
+          }
+      ]
+  },
+  {
+    "name": "AggregatesToSftp",
+    "type": "Copy",
+    "dependsOn": [
+        {
+            "activity": "SenderAggregatesToDatastore",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "policy": {
+        "timeout": "7.00:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "CosmosDbMongoDbApiSource",
+            "batchSize": 100,
+            "filter": "{fileName: \"@{pipeline().parameters.file}\"}",
+            "cursorMethods": {
+              "project": "{}"
+            }
+        },
+        "sink": {
+          "type": "DelimitedTextSink",
+          "storeSettings": {
+              "type": "AzureBlobStorageWriteSettings"
+          },
+          "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "quoteAllText": true,
+              "fileExtension": ".txt"
+          }
+        },
+        "enableStaging": false,
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "path": "$['id']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 1
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['senderCode']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 2
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['operationType']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 3
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['transmissionDate']"
+                    },
+                    "sink": {
+                        "type": "DateTime",
+                        "ordinal": 4,
+                        "format": "yyyy-MM-dd"
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['accountingDate']"
+                    },
+                    "sink": {
+                        "type": "DateTime",
+                        "ordinal": 5,
+                        "format": "yyyy-MM-dd"
+                    } 
+                },
+                {
+                    "source": {
+                        "path": "$['numTrx']"
+                    },
+                    "sink": {
+                        "type": "Int32",
+                        "ordinal": 6
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['totalAmount']"
+                    },
+                    "sink": {
+                        "type": "Int32",
+                        "ordinal": 7
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['currency']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 8
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['acquirerId']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 9
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['merchantId']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 10
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['terminalId']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 11
+                    }
+                    
+                },
+                {
+                    "source": {
+                        "path": "$['fiscalCode']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 12
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['vat']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 13
+                    }
+                },
+                {
+                    "source": {
+                        "path": "$['posType']"
+                    },
+                    "sink": {
+                        "type": "String",
+                        "ordinal": 14
+                    }
+                }
+                
+            ],
+            "collectionReference": "",
+            "mapComplexValuesToString": false
+        }
+    },
+    "inputs": [
+      {
+          "referenceName": "Aggregate",
+          "type": "DatasetReference"
+      }
+    ],
+    "outputs": [
+      {
+          "referenceName": "DestinationAggregate",
+          "type": "DatasetReference",
+          "parameters": {
+              "file":  {
+                "value": "@pipeline().parameters.file",
+                "type": "Expression"
+            }
+          }
+      }
+    ]
+  }
+]
