@@ -1,13 +1,11 @@
 resource "azurerm_data_factory_custom_dataset" "aggregate" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "Aggregate"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "CosmosDbSqlApiCollection"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_cosmosdb.tae_adf_cosmos_ls[count.index].name
+    name = azurerm_data_factory_linked_service_cosmosdb.cosmos_ls.name
   }
 
   type_properties_json = <<JSON
@@ -26,14 +24,12 @@ resource "azurerm_data_factory_custom_dataset" "aggregate" {
 
 resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "SourceAggregate"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sa_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
   }
 
   type_properties_json = <<JSON
@@ -118,14 +114,12 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
 
 resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "DestinationAggregate"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   }
 
   type_properties_json = <<JSON
@@ -140,6 +134,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
       }
     },
     "columnDelimiter": ";",
+    "compressionCodec": "gzip",
     "encodingName": "UTF-8",
     "quoteChar": ""
   }     
@@ -216,14 +211,12 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
 
 resource "azurerm_data_factory_custom_dataset" "source_ack" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "SourceAck"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   }
 
   type_properties_json = <<JSON
@@ -231,11 +224,7 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
     "location": {
       "type": "AzureBlobStorageLocation",
       "container": "ade",
-      "folderPath": "ack",
-      "fileName": {
-        "value": "@dataset().file",
-        "type": "Expression"
-      }
+      "folderPath": "ack"
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8",
@@ -246,14 +235,12 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
   description = "ACKs sent by ADE"
   annotations = ["SourceAcks"]
 
-  parameters = {
-    file = "myFile"
-  }
+  parameters = {}
 
   schema_json = <<JSON
   [
     {
-      "name": "recordId",
+      "name": "id",
       "type": "String"
     },
     {
@@ -270,14 +257,12 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
 
 resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "WrongFiscalCodes"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sa_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
   }
 
   type_properties_json = <<JSON
