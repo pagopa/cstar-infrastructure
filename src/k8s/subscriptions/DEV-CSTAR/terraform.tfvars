@@ -345,6 +345,7 @@ configmaps_fanotificationmanager = {
 }
 
 configmaps_rtddecrypter = {
+  ENABLE_CHUNK_UPLOAD     = true
   SPLITTER_LINE_THRESHOLD = 15000
 }
 
