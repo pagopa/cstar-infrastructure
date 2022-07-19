@@ -39,6 +39,9 @@
     },
     "posType": {
       "type": "string"
+    },
+    "fileName": {
+      "type": "string"
     }
   }
 }

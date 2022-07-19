@@ -15,7 +15,7 @@
     "https"
   ],
   "paths": {
-    "/idpay/timeline/{initiativeId}": {
+    "/{initiativeId}": {
       "get": {
         "tags": [
           "timeline"
@@ -95,7 +95,7 @@
         ]
       }
     },
-    "/idpay/timeline/{initiativeId}/{operationId}": {
+    "/{initiativeId}/{operationId}": {
       "get": {
         "tags": [
           "timeline"

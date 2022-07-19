@@ -39,6 +39,10 @@
                     var family_name = selcToken.Claims.GetValueOrDefault("family_name", "");
                     var email = selcToken.Claims.GetValueOrDefault("email", "");
                     JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
+                    var org_id = organization["id"];
+                    var org_vat = organization["fiscal_code"];            
+                    var org_party_role = organization.Value<JArray>("roles").First().Value<string>("partyRole");
+                    var org_role = organization.Value<JArray>("roles").First().Value<string>("role");
                     var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
                     new {
                     iat,
@@ -49,7 +53,10 @@
                     name,
                     family_name,
                     email,
-                    organization
+                    org_id,
+                    org_vat,
+                    org_party_role,
+                    org_role
                     }
                     ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
 

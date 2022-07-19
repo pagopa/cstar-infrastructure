@@ -1,0 +1,66 @@
+parameters{
+	windowStart as timestamp,
+	windowEnd as timestamp
+}
+source(output(
+		id as string,
+		status as integer,
+		errorCode as string
+	),
+	allowSchemaDrift: true,
+	validateSchema: false,
+	ignoreNoFilesFound: false,
+	modifiedAfter: ($windowStart),
+	modifiedBefore: ($windowEnd),
+	wildcardPaths:['ack/*csv']) ~> sourceAck
+source(output(
+		accountingDate as string,
+		acquirerId as string,
+		currency as integer,
+		fileName as string,
+		fiscalCode as string,
+		merchantId as string,
+		numTrx as integer,
+		operationType as string,
+		posType as string,
+		senderCode as integer,
+		terminalId as string,
+		totalAmount as integer,
+		trasmissionDate as string,
+		vat as string
+	),
+	allowSchemaDrift: true,
+	validateSchema: false,
+	format: 'document',
+	systemColumns: true) ~> aggregates
+sourceAck, aggregates lookup(sourceAck@id == aggregates@id,
+	multiple: false,
+	pickup: 'any',
+	broadcast: 'auto')~> joinAcksWithAggregatesOnId
+joinAcksWithAggregatesOnId alterRow(updateIf(isMatch())) ~> updAggregatesWithAck
+updAggregatesWithAck sink(allowSchemaDrift: true,
+	validateSchema: false,
+	input(
+		accountingDate as string,
+		acquirerId as string,
+		currency as integer,
+		fileName as string,
+		fiscalCode as string,
+		merchantId as string,
+		numTrx as integer,
+		operationType as string,
+		posType as string,
+		senderCode as integer,
+		terminalId as string,
+		totalAmount as integer,
+		trasmissionDate as string,
+		vat as string
+	),
+	deletable:false,
+	insertable:false,
+	updateable:true,
+	upsertable:false,
+	format: 'document',
+	partitionKey: ['/terminalId'],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
