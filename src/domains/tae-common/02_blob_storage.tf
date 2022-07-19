@@ -1,9 +1,9 @@
 data "azurerm_storage_account" "acquirer_sa" {
-  name                = replace(format("%s-blobstorage", local.product), "-", "")
-  resource_group_name = format("%s-storage-rg", local.product)
+  name                = replace("${local.project}-blobstorage", "-", "")
+  resource_group_name = "${local.project}-storage-rg"
 }
 
 data "azurerm_storage_account" "sftp_sa" {
-  name                = replace(format("%s-sftp", local.product), "-", "")
-  resource_group_name = format("%s-sftp-rg", local.product)
+  name                = replace("${local.project}-sftp", "-", "")
+  resource_group_name = "${local.project}-sftp-rg"
 }

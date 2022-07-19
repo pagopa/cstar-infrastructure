@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "db_rg" {
-  name     = format("%s-db-rg", local.project)
+  name     = "${local.project}-db-rg"
   location = var.location
 
   tags = var.tags
@@ -9,7 +9,7 @@ module "cosmosdb_account" {
 
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
-  name                = format("%s-cosmos-db-account", local.project)
+  name                = "${local.project}-cosmos-db-account"
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name
   offer_type          = var.cosmos_dbms_params.offer_type

@@ -1,4 +1,4 @@
 data "azurerm_data_factory" "datafactory" {
-  name                = format("%s-df", local.project)
-  resource_group_name = format("%s-df-rg", local.project)
+  name                = "${local.project}-df"
+  resource_group_name = "${local.project}-df-rg"
 }
