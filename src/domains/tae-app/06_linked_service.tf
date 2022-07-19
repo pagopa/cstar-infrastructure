@@ -1,6 +1,6 @@
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "storage_account_ls" {
 
-  name            = format("%s-sa-linked-service", local.project)
+  name            = "${local.product}-sa-linked-service"
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
   # sas_uri = data.azurerm_storage_account.acquirer_sa[count.index].primary_blob_endpoint
@@ -16,7 +16,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "storage_accou
 
 
 resource "azurerm_data_factory_linked_service_cosmosdb" "cosmos_ls" {
-  name            = format("%s-cosmos-linked-service", local.project)
+  name            = "${local.product}-cosmos-linked-service"
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
   account_endpoint = data.azurerm_cosmosdb_account.cosmos.endpoint
@@ -27,7 +27,7 @@ resource "azurerm_data_factory_linked_service_cosmosdb" "cosmos_ls" {
 
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "sftp_ls" {
 
-  name            = format("%s-sftp-linked-service", local.project)
+  name            = "${local.product}-sftp-linked-service"
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
   # sas_uri = data.azurerm_storage_account.sftp_sa[count.index].primary_blob_endpoint

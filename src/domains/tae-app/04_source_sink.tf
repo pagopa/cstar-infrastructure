@@ -1,14 +1,14 @@
 data "azurerm_storage_account" "acquirer_sa" {
-  name                = replace(format("%s-blobstorage", local.product), "-", "")
-  resource_group_name = format("%s-storage-rg", local.product)
+  name                = replace("${local.product}-blobstorage", "-", "")
+  resource_group_name = "${local.product}-storage-rg"
 }
 
 data "azurerm_storage_account" "sftp_sa" {
-  name                = replace(format("%s-sftp", local.product), "-", "")
-  resource_group_name = format("%s-sftp-rg", local.product)
+  name                = replace("${local.product}-sftp", "-", "")
+  resource_group_name = "${local.product}-sftp-rg"
 }
 
 data "azurerm_cosmosdb_account" "cosmos" {
-  name                = format("%s-cosmos-db-account", local.project)
-  resource_group_name = format("%s-db-rg", local.project)
+  name                = "${local.product}-cosmos-db-account"
+  resource_group_name = "${local.product}-db-rg"
 }
