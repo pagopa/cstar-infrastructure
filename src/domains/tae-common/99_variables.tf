@@ -77,12 +77,12 @@ variable "terraform_remote_state_core" {
   })
 }
 
-variable "cosmos_mongo_db_params" {
+variable "cosmos_dbms_params" {
   type = object({
-    enabled        = bool
-    capabilities   = list(string)
-    offer_type     = string
-    server_version = string
+    enabled      = bool
+    capabilities = list(string)
+    offer_type   = string
+    kind         = string
     consistency_policy = object({
       consistency_level       = string
       max_interval_in_seconds = number
@@ -103,7 +103,7 @@ variable "cosmos_mongo_db_params" {
   })
 }
 
-variable "cosmos_mongo_db_transaction_params" {
+variable "cosmos_db_aggregates_params" {
   type = object({
     enable_serverless  = bool
     enable_autoscaling = bool
