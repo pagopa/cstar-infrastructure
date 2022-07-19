@@ -213,7 +213,7 @@
         "source": {
             "type": "CosmosDbMongoDbApiSource",
             "batchSize": 100,
-            "filter": "{fileName: \"@{pipeline().parameters.file}\"}",
+            "filter": "{fileName: @{pipeline().parameters.file}}",
             "cursorMethods": {
               "project": "{}"
             }
