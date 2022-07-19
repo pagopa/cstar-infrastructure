@@ -224,9 +224,7 @@
               "type": "AzureBlobStorageWriteSettings"
           },
           "formatSettings": {
-              "type": "DelimitedTextWriteSettings",
-              "quoteAllText": true,
-              "fileExtension": ".txt"
+              "type": "DelimitedTextWriteSettings"
           }
         },
         "enableStaging": false,
@@ -380,7 +378,7 @@
           "type": "DatasetReference",
           "parameters": {
               "file":  {
-                "value": "@pipeline().parameters.file",
+                "value": "@{pipeline().parameters.file}.gz",
                 "type": "Expression"
             }
           }

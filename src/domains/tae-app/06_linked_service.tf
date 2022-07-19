@@ -20,12 +20,10 @@ resource "azurerm_data_factory_linked_service_cosmosdb" "cosmos_ls" {
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
   connection_string = format(
-    "AccountEndpoint=%s;AccountKey=%s;",
+    "AccountEndpoint=%s;AccountKey=%s;Database=tae;",
     data.azurerm_cosmosdb_account.cosmos.endpoint,
     data.azurerm_cosmosdb_account.cosmos.primary_key
   )
-  database = "tae"
-
 }
 
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "sftp_ls" {
