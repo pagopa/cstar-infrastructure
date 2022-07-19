@@ -42,8 +42,6 @@ resources:
 stages:
   # DEV
   - stage: plan_DEV
-    dependsOn: []
-    condition: []
     jobs:
       - job: plan
         timeoutInMinutes: $[variables.TIME_OUT]
