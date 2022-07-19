@@ -47,7 +47,6 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
 
   name            = "ackjoinupdate"
   data_factory_id = data.azurerm_data_factory.datafactory.id
-
   source {
     name = "sourceAck"
 

@@ -16,14 +16,8 @@
         "referenceName": "ackjoinupdate",
         "type": "DataFlowReference",
         "parameters": {
-          "windowStart": {
-            "value": "@pipeline().parameters.windowStart",
-            "type": "Expression"
-          },
-          "windowEnd": {
-            "value": "@pipeline().parameters.windowEnd",
-            "type": "Expression"
-          }
+          "windowStart": "toTimestamp(left('@{pipeline().parameters.windowStart}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
+          "windowEnd": "toTimestamp(left('@{pipeline().parameters.windowEnd}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')"
         }
       },
       "compute": {

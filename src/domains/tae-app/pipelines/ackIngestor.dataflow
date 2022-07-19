@@ -1,6 +1,6 @@
 parameters{
-	windowStart as string,
-	windowEnd as string
+	windowStart as timestamp,
+	windowEnd as timestamp
 }
 source(output(
 		id as string,
@@ -10,9 +10,9 @@ source(output(
 	allowSchemaDrift: true,
 	validateSchema: false,
 	ignoreNoFilesFound: false,
-	modifiedAfter: (toTimestamp($windowStart)),
-	modifiedBefore: (toTimestamp($windowEnd)),
-	wildcardPaths:['ack/*.csv']) ~> sourceAck
+	modifiedAfter: ($windowStart),
+	modifiedBefore: ($windowEnd),
+	wildcardPaths:['ack/*csv']) ~> sourceAck
 source(output(
 		accountingDate as string,
 		acquirerId as string,
@@ -33,7 +33,7 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-aggregates, sourceAck lookup(aggregates@id == sourceAck@id,
+sourceAck, aggregates lookup(sourceAck@id == aggregates@id,
 	multiple: false,
 	pickup: 'any',
 	broadcast: 'auto')~> joinAcksWithAggregatesOnId
