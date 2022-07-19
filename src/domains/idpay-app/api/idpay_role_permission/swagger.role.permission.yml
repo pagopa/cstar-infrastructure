@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: IDPAY-WelfarePortalUserPermissions_v1
+  version: '1.0'
+servers:
+  - url: https://api.dev.cstar.pagopa.it/idpay/welfare/authorization
+  - url: https://apim.internal.dev.cstar.pagopa.it/idpay/welfare/authorization
+paths:
+  /permissions:
+    get:
+      tags:
+        - UserPermission
+      summary: Return User Permissions
+      operationId: userPermission
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPermissionDTO'
+              example:
+                role: string
+                permissions:
+                  - id: string
+                    name: string
+                    mode: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+components:
+  schemas:
+    UserPermissionDTO:
+      title: UserPermissionDTO
+      type: object
+      properties:
+        role:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionDTO'
+          description: List of permissions
+    PermissionDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mode:
+          type: string
+    ErrorDto:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
+tags:
+  - name: UserPermission
+    description: ''
