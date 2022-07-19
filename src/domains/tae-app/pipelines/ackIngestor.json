@@ -1,0 +1,30 @@
+[
+  {
+    "name": "ackIngestAndSplit",
+    "type": "ExecuteDataFlow",
+    "dependsOn": [],
+    "policy": {
+      "timeout": "1.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "dataflow": {
+        "referenceName": "ackjoinupdate",
+        "type": "DataFlowReference",
+        "parameters": {
+          "windowStart": "toTimestamp(left('@{pipeline().parameters.windowStart}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
+          "windowEnd": "toTimestamp(left('@{pipeline().parameters.windowEnd}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')"
+        }
+      },
+      "compute": {
+        "coreCount": 8,
+        "computeType": "General"
+      },
+      "traceLevel": "Fine"
+    }
+  }
+]
