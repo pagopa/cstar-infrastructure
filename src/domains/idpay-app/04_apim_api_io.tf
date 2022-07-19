@@ -17,7 +17,7 @@ module "idpay_api_io_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = templatefile("./api_product/policy.xml.tpl", {
+  policy_xml = templatefile("./api_product/app_io/policy.xml.tpl", {
     env_short           = var.env_short
     reverse_proxy_be_io = var.reverse_proxy_be_io
     appio_timeout_sec   = var.appio_timeout_sec
