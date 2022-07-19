@@ -88,26 +88,26 @@ resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
 }
 
 
-data "azurerm_cosmosdb_account" "mongo" {
+data "azurerm_cosmosdb_account" "cosmos" {
 
   count = var.enable.tae.adf ? 1 : 0
 
-  name                = format("%s-cosmos-mongo-db-account", local.project)
-  resource_group_name = format("%s-db-rg", local.project)
+  name                = format("%s-tae-cosmos-db-account", local.project)
+  resource_group_name = format("%s-tae-db-rg", local.project)
 
 }
 
-resource "azurerm_data_factory_linked_service_cosmosdb_mongoapi" "tae_adf_mongo_linked_service" {
+resource "azurerm_data_factory_linked_service_cosmosdb" "tae_adf_cosmos_ls" {
 
   count = var.enable.tae.adf ? 1 : 0
 
-  resource_group_name = azurerm_resource_group.tae_df_rg[count.index].name
-  name                = format("%s-%s-mongo-linked-service", local.project, "tae")
+  name                = format("%s-%s-cosmos-linked-service", local.project, "tae")
   data_factory_id     = data.azurerm_data_factory.tae_adf[count.index].id
+  resource_group_name = azurerm_resource_group.tae_df_rg[count.index].name
 
-  connection_string              = module.cosmosdb_account_mongodb[count.index].connection_strings[0]
-  database                       = resource.azurerm_cosmosdb_mongo_database.transaction_aggregate[count.index].name
-  server_version_is_32_or_higher = true
+  account_endpoint = data.azurerm_cosmosdb_account.cosmos[count.index].endpoint
+  account_key      = data.azurerm_cosmosdb_account.cosmos[count.index].primary_key
+  database         = "tae"
 
 }
 
