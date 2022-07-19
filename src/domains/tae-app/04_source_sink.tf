@@ -9,6 +9,6 @@ data "azurerm_storage_account" "sftp_sa" {
 }
 
 data "azurerm_cosmosdb_account" "cosmos" {
-  name                = "${local.product}-cosmos-db-account"
-  resource_group_name = "${local.product}-db-rg"
+  name                = "${local.project}-cosmos-db-account"
+  resource_group_name = "${local.project}-db-rg"
 }
