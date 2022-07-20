@@ -71,6 +71,14 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     }
   }
 
+  sink {
+    name = "wrongFiscalCodesByAcquirer"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes.name
+    }
+  }
+
   script = file("pipelines/ackIngestor.dataflow")
 }
 
