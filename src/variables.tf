@@ -791,6 +791,7 @@ variable "enable" {
       csv_transaction_apis                = bool
       file_register                       = bool
       batch_service_api                   = bool
+      enrolled_payment_instrument         = bool
     })
     fa = object({
       api = bool
@@ -816,6 +817,7 @@ variable "enable" {
       csv_transaction_apis                = false
       file_register                       = false
       batch_service_api                   = false
+      enrolled_payment_instrument         = false
     }
     fa = {
       api = false
