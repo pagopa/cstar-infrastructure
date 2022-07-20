@@ -29,15 +29,17 @@ source(output(
 		trasmissionDate as string,
 		vat as string
 	),
-	allowSchemaDrift: false,
+	allowSchemaDrift: true,
 	validateSchema: false,
-	format: 'document') ~> aggregates
-sourceAck, aggregates lookup(id == id,
-	multiple: false,
-	pickup: 'any',
-	broadcast: 'auto')~> joinAcksWithAggregatesOnId
+	format: 'document',
+	systemColumns: true) ~> aggregates
 joinAcksWithAggregatesOnId alterRow(updateIf(isMatch())) ~> updAggregatesWithAck
-updAggregatesWithAck derive(ackFileName = toString(senderCode) + '/' + 'ADEACK' + '_' + toString(senderCode) + '_' + toString(acquirerId) + toString(currentDate('YYYYMMdd')) + '.csv' ) ~> addFileName
+updAggregatesWithAck derive(ackFileName = toString(senderCode) + '/' + 'ADEACK' + '_' + toString(senderCode) + '_' + toString(acquirerId) + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
+sourceAck, aggregates join(sourceAck@id == aggregates@id,
+	joinType:'inner',
+	matchType:'exact',
+	ignoreSpaces: false,
+	broadcast: 'auto')~> joinAcksWithAggregatesOnId
 updAggregatesWithAck sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
