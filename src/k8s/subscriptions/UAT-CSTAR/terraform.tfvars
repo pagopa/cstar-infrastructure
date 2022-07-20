@@ -489,6 +489,7 @@ enable = {
     ingestor                            = false
     file_register                       = false
     enrolled_payment_instrument         = false
+    mongodb_storage                     = true
   }
   fa = {
     api = true
