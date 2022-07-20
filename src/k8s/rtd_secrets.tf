@@ -134,7 +134,7 @@ resource "kubernetes_secret" "mongo_db_credentials" {
   }
 
   data = {
-    MONGODB_KEY = module.key_vault_secrets_query.values["mongo-db-key"].value
+    MONGODB_CONNECTION_URI = module.key_vault_secrets_query.values["mongo-db-connection-uri"].value
   }
 
   type = "Opaque"
