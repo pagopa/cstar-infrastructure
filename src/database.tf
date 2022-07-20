@@ -202,3 +202,19 @@ resource "azurerm_key_vault_secret" "mongo_db_connection_uri" {
   value        = module.cosmosdb_account_mongodb[count.index].connection_strings[0]
   key_vault_id = module.key_vault.id
 }
+
+resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_collection" {
+
+  count = var.enable.rtd.enrolled_payment_instrument ? 1 : 0
+
+  account_name        = module.cosmosdb_account_mongodb[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg.name
+
+  name = "enrolled_payment_instrument"
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+}
