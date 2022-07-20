@@ -697,10 +697,10 @@ eventhubs = [
         manage = false
       },
       {
-        name    = "rtd-enrolled-pi-producer-policy"
-        listen  = false
-        send    = true
-        manager = false
+        name   = "rtd-enrolled-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
       }
     ]
   }
