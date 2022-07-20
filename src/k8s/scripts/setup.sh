@@ -27,6 +27,8 @@ if [ ! -d "${WORKDIR}/subscriptions/${SUBSCRIPTION}" ]; then
     exit 1
 fi
 
+echo "Please make sure to be under VPN"
+
 az account set -s "${SUBSCRIPTION}"
 source ./subscriptions/${SUBSCRIPTION}/conf
 
