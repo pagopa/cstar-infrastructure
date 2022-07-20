@@ -127,7 +127,7 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
 }
 
 resource "kubernetes_secret" "mongo_db_credentials" {
-  count = var.enable.rtd.file_register ? 1 : 0
+  count = var.enable.rtd.mongodb_storage ? 1 : 0
   metadata {
     name      = "mongo-credentials"
     namespace = kubernetes_namespace.rtd.metadata[0].name
