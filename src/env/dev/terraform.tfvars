@@ -837,6 +837,7 @@ enable = {
     file_register                       = true
     batch_service_api                   = true
     enrolled_payment_instrument         = true
+    mongodb_storage                     = true
   }
   fa = {
     api = true
