@@ -193,3 +193,12 @@ resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
     }
   }
 }
+
+resource "azurerm_key_vault_secret" "mongo_db_connection_uri" {
+
+  count = var.enable.rtd.file_register ? 1 : 0
+
+  name         = "mongo-db-connection-uri"
+  value        = module.cosmosdb_account_mongodb[count.index].connection_strings[0]
+  key_vault_id = module.key_vault.id
+}
