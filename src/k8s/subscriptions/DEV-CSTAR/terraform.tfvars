@@ -465,6 +465,7 @@ enable = {
     csv_transaction_apis                = true
     ingestor                            = true
     file_register                       = true
+    enrolled_payment_instrument         = true
   }
   fa = {
     api = true

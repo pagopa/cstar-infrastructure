@@ -193,3 +193,19 @@ resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
     }
   }
 }
+
+resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_collection" {
+
+  count = var.enable.rtd.enrolled_payment_instrument ? 1 : 0
+
+  account_name        = module.cosmosdb_account_mongodb[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg.name
+
+  name = "enrolled_payment_instrument"
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+}
