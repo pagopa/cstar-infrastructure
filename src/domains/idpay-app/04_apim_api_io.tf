@@ -45,7 +45,8 @@ module "idpay_onboarding_workflow_io" {
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
 
-  content_value = templatefile("./api/idpay_onboarding_workflow/swagger.onboarding.json.tpl", {})
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_onboarding_workflow/openapi.onboarding.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
@@ -96,7 +97,8 @@ module "idpay_wallet_io" {
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
 
-  content_value = templatefile("./api/idpay_wallet/swagger.wallet.json.tpl", {})
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_wallet/openapi.wallet.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
@@ -170,7 +172,8 @@ module "idpay_timeline_io" {
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
 
-  content_value = templatefile("./api/idpay_timeline/swagger.timeline.json.tpl", {})
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_timeline/openapi.timeline.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
