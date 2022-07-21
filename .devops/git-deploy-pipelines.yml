@@ -49,7 +49,7 @@ stages:
           - checkout: self
           - script: |
               ls -la
-              git diff --dirstat=files,0 main | sed 's/^[ 0-9.].*% //g'
+              FILES_MODIFIED=git diff --name-only main | sed 's/^[ 0-9.].*% //g' | grep ".tf\|.tfvars" | tr "\n" " "
   # # DEV
   # - stage: plan_DEV
   #   dependsOn: []
