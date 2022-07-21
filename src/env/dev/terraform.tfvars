@@ -684,6 +684,26 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-enrolled-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["fa-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-enrolled-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-enrolled-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
 ]
 
 eventhubs_fa = [
