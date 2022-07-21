@@ -1,14 +1,14 @@
 # general
 prefix         = "cstar"
-env_short      = "d"
-env            = "dev"
-domain         = "dev01"
+env_short      = "u"
+env            = "uat"
+domain         = "uat01"
 location       = "westeurope"
 location_short = "weu"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
+  Environment = "UAT"
   Owner       = "CSTAR"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
@@ -16,14 +16,14 @@ tags = {
 
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraformdev"
+  storage_account_name = "cstarinfrastterraformuat"
   container_name       = "azureadstate"
-  key                  = "dev.terraform.tfstate"
+  key                  = "terraform.tfstate"
 }
 
 # # 🔐 key vault
-# key_vault_name    = "cstar-d-xyz"
-# key_vault_rg_name = "cstar-d-xyz"
+# key_vault_name    = "cstar-u-xyz"
+# key_vault_rg_name = "cstar-u-xyz"
 
 ### Network
 
@@ -31,18 +31,18 @@ cidr_subnet_aks = ["10.11.0.0/17"]
 
 ### External resources
 
-monitor_resource_group_name                 = "cstar-d-monitor-rg"
-log_analytics_workspace_name                = "cstar-d-law"
-log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
+monitor_resource_group_name                 = "cstar-u-monitor-rg"
+log_analytics_workspace_name                = "cstar-u-law"
+log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 
 ### Aks
 
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "cstar-d-weu-dev01-vnet-rg"
-vnet_aks_name              = "cstar-d-weu-dev01-vnet"
-public_ip_aksoutbound_name = "cstar-d-weu-dev01-aksoutbound-pip-1"
+rg_vnet_aks_name           = "cstar-u-weu-dev01-vnet-rg"
+vnet_aks_name              = "cstar-u-weu-dev01-vnet"
+public_ip_aksoutbound_name = "cstar-u-weu-dev01-aksoutbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = false
