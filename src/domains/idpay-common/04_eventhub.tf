@@ -26,7 +26,7 @@ module "event_hub_idpay_00" {
   virtual_network_ids = [data.azurerm_virtual_network.vnet_integration.id, data.azurerm_virtual_network.vnet.id]
   subnet_id           = data.azurerm_subnet.eventhub_snet.id
 
-  eventhubs = var.eventhubs_idpay
+  eventhubs = var.eventhubs_idpay_00
 
   private_dns_zones = {
     id   = [data.azurerm_private_dns_zone.ehub.id]
