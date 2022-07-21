@@ -243,6 +243,7 @@ variable "enable" {
       ingestor                            = bool
       file_register                       = bool
       enrolled_payment_instrument         = bool
+      mongodb_storage                     = bool
     })
     fa = object({
       api = bool
@@ -257,6 +258,7 @@ variable "enable" {
       ingestor                            = false
       file_register                       = false
       enrolled_payment_instrument         = false
+      mongodb_storage                     = false
     }
     fa = {
       api = false
