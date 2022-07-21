@@ -192,3 +192,23 @@ resource "kubernetes_secret" "rtd-trx-producer" {
   }
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
+  count = var.enable.rtd.enrolled_payment_instrument ? 1 : 0
+  metadata {
+    name      = "rtd-enrolled-pi-events"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_TOPIC_EVENTS = "rtd-enrolled-pi-events"
+    KAFKA_BROKER       = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_SASL_JAAS_CONFIG_CONSUMER_ENROLLED_PI = format(
+      local.jaas_config_template_rtd,
+      "rtd-enrolled-pi",
+      "rtd-enrolled-pi-consumer-policy",
+      module.key_vault_secrets_query.values["evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"].value
+    )
+  }
+  type = "Opaque"
+}
