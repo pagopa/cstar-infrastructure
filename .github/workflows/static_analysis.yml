@@ -23,6 +23,8 @@ jobs:
             src/domains/idpay-common
             src/domains/tae-app
             src/domains/tae-common
+            src/domains/rtd-app
+            src/domains/rtd-common
         run: |
           pids=()
 

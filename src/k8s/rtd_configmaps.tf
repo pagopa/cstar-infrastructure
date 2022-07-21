@@ -135,3 +135,17 @@ resource "kubernetes_config_map" "rtd-rest-client" {
     REST_CLIENT_SCHEMA          = "http"
   }
 }
+
+
+resource "kubernetes_config_map" "rtd-enrolledpaymentinstrument" {
+  metadata {
+    name      = "rtd-enrolledpaymentinstrument"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    MONGODB_NAME = "rtd"
+    },
+    var.configmaps_rtdenrolledpaymentinstrument
+  )
+}

@@ -128,7 +128,6 @@ pre-commit run -a
 
 <!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -191,6 +190,7 @@ pre-commit run -a
 | [kubernetes_config_map.famspaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.famstransaction](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.famstransactionerrormanager](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-enrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-eventhub-common](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-eventhub-logging](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-jvm](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
@@ -233,6 +233,7 @@ pre-commit run -a
 | [kubernetes_secret.mongo_db_credentials](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-application-insights](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-blob-storage-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-enrolled-pi-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-internal-api](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-postgres-credentials](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
@@ -278,6 +279,7 @@ pre-commit run -a
 | <a name="input_configmaps_fatransaction"></a> [configmaps\_fatransaction](#input\_configmaps\_fatransaction) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_fatransactionerrormanager"></a> [configmaps\_fatransactionerrormanager](#input\_configmaps\_fatransactionerrormanager) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | n/a | `map(string)` | `{}` | no |
+| <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdpaymentinstrumentmanager"></a> [configmaps\_rtdpaymentinstrumentmanager](#input\_configmaps\_rtdpaymentinstrumentmanager) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdtransactionfilter"></a> [configmaps\_rtdtransactionfilter](#input\_configmaps\_rtdtransactionfilter) | n/a | `map(string)` | `{}` | no |
 | <a name="input_default_service_port"></a> [default\_service\_port](#input\_default\_service\_port) | n/a | `number` | `8080` | no |
