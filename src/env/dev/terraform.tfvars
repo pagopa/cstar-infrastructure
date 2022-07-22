@@ -688,7 +688,7 @@ eventhubs = [
     name              = "rtd-enrolled-pi"
     partitions        = 1
     message_retention = 1
-    consumers         = ["fa-payment-instrument-consumer-group"]
+    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
     keys = [
       {
         name   = "rtd-enrolled-pi-consumer-policy"
