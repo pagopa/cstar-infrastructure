@@ -40,56 +40,56 @@ log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "cstar-u-weu-dev01-vnet-rg"
-vnet_aks_name              = "cstar-u-weu-dev01-vnet"
-public_ip_aksoutbound_name = "cstar-u-weu-dev01-aksoutbound-pip-1"
+rg_vnet_aks_name           = "cstar-u-weu-uat01-vnet-rg"
+vnet_aks_name              = "cstar-u-weu-uat01-vnet"
+public_ip_aksoutbound_name = "cstar-u-weu-uat01-aksoutbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.23.3"
+aks_kubernetes_version      = "1.23.8"
 aks_system_node_pool = {
-  name            = "cstdev01sys",
+  name            = "cstuat01sys",
   vm_size         = "Standard_B2ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
   node_count_max  = 3,
-  node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
+  node_labels     = { node_name : "aks-uat01-sys", node_type : "system" },
   node_tags       = { node_tag_1 : "1" },
 }
 aks_user_node_pool = {
   enabled         = true,
-  name            = "cstdev01usr",
+  name            = "cstuat01usr",
   vm_size         = "Standard_B4ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
   node_count_max  = 3,
-  node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
+  node_labels     = { node_name : "aks-uat01-user", node_type : "user" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
 
 # aks_system_node_pool = {
-#   name            = "cstarddev01sys",
+#   name            = "cstarduat01sys",
 #   vm_size         = "Standard_D2ds_v5",
 #   os_disk_type    = "Ephemeral",
 #   os_disk_size_gb = 75,
 #   node_count_min  = 1,
 #   node_count_max  = 3,
-#   node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
+#   node_labels     = { node_name : "aks-uat01-sys", node_type : "system" },
 #   node_tags       = { node_tag_1 : "1" },
 # }
 # aks_user_node_pool = {
 #   enabled         = true,
-#   name            = "cstarddev01usr",
+#   name            = "cstarduat01usr",
 #   vm_size         = "Standard_D2ds_v5",
 #   os_disk_type    = "Ephemeral",
 #   os_disk_size_gb = 75,
 #   node_count_min  = 1,
 #   node_count_max  = 3,
-#   node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
+#   node_labels     = { node_name : "aks-uat01-user", node_type : "user" },
 #   node_taints     = [],
 #   node_tags       = { node_tag_2 : "2" },
 # }
