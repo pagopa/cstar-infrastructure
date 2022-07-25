@@ -1,15 +1,17 @@
 openapi: 3.0.1
 info:
-  title: IdPay - Backend Portal Initiative
+  title: IDPAY Welfare Portal Initiative API
+  description: IDPAY Welfare Portal Initiative
   version: '1.0'
 servers:
-  - url: https://localhost:8080/idpay/initiative
+  - url: http://api-io.dev.cstar.pagopa.it/idpay/initiative
 paths:
-  '/summary':
+  /summary:
     get:
       tags:
         - initiative
       summary: Returns the list of initiatives names for a specific organization
+      description: Returns the list of initiatives names for a specific organization
       operationId: getInitativeSummary
       responses:
         '200':
@@ -17,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeSummaryDTO'
+                $ref: '#/components/schemas/InitiativeSummaryArrayDTO'
         '401':
           description: Authentication failed
           content:
@@ -45,11 +47,12 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}':
+  /{initiativeId}:
     get:
       tags:
         - initiative
       summary: Returns the detail of an active initiative
+      description: Returns the detail of an active initiative
       operationId: getInitiativeDetail
       parameters:
         - name: initiativeId
@@ -65,6 +68,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeDTO'
+              example:
+                initiativeId: string
+                initiativeName: string
+                organizationId: string
+                pdndToken: string
+                status: string
+                pdndCheck: true
+                autocertificationCheck: true
+                beneficiaryRanking: true
+                general:
+                  name: string
+                  budget: 0
+                  beneficiaryType: PF
+                  beneficiaryKnown: true
+                  beneficiaryBudget: 0
+                  startDate: '2022-01-30'
+                  endDate: '2022-01-30'
+                  rankingStartDate: '2022-01-30'
+                  rankingEndDate: '2022-01-30'
+                additionalInfo:
+                  serviceId: string
+                  serviceName: string
+                  argument: string
+                  description: string
+                beneficiaryRule:
+                  selfDeclarationCriteria:
+                    - _type: boolean
+                      description: string
+                      value:
+                        - value1
+                        - value2
+                        - value3
+                      code: string
+                  automatedCriteria:
+                    - authority: string
+                      code: string
+                      field: true
+                      operator: string
+                      value: string
+                legal:
+                  privacyLink: string
+                  tcLink: string
+                  regulationLink: string
+                  dpiaLink: string
         '401':
           description: Authentication failed
           content:
@@ -101,23 +148,83 @@ paths:
               example:
                 code: 0
                 message: string
-  '/general':
+  /general:
     post:
       tags:
         - initiative
       summary: Save initiative and first subset of data 'general info'
+      description: Save initiative and first subset of data 'general info'
       operationId: saveInitiativeGeneralInfo
       requestBody:
-        description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
+        description: Unique identifier of the subscribed initiative, IBAN of the citizen
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InitiativePatchDTO'
+              $ref: '#/components/schemas/InitiativeInfoDTO'
+            example:
+              general:
+                name: string
+                budget: 0
+                beneficiaryType: PF
+                beneficiaryKnown: true
+                beneficiaryBudget: 0
+                startDate: '2022-01-30'
+                endDate: '2022-01-30'
+                rankingStartDate: '2022-01-30'
+                rankingEndDate: '2022-01-30'
+              additionalInfo:
+                serviceId: string
+                serviceName: string
+                argument: string
+                description: string
       responses:
         '200':
-          description: Enrollment OK
+          description: Created
           content:
-            application/json: { }
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+              example:
+                initiativeId: string
+                initiativeName: string
+                organizationId: string
+                pdndToken: string
+                status: string
+                pdndCheck: true
+                autocertificationCheck: true
+                beneficiaryRanking: true
+                general:
+                  name: string
+                  budget: 0
+                  beneficiaryType: PF
+                  beneficiaryKnown: true
+                  beneficiaryBudget: 0
+                  startDate: '2022-01-30'
+                  endDate: '2022-01-30'
+                  rankingStartDate: '2022-01-30'
+                  rankingEndDate: '2022-01-30'
+                additionalInfo:
+                  serviceId: string
+                  serviceName: string
+                  argument: string
+                  description: string
+                beneficiaryRule:
+                  selfDeclarationCriteria:
+                    - _type: boolean
+                      description: string
+                      value: true
+                      code: string
+                  automatedCriteria:
+                    - authority: string
+                      code: string
+                      field: true
+                      operator: string
+                      value: string
+                legal:
+                  privacyLink: string
+                  tcLink: string
+                  regulationLink: string
+                  dpiaLink: string
         '400':
           description: Bad request
           content:
@@ -172,11 +279,12 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}/general':
-    patch:
+  /{initiativeId}/general:
+    put:
       tags:
         - initiative
       summary: Save initiative and first subset of data 'general info'
+      description: Save initiative and first subset of data 'general info'
       operationId: updateInitiativeGeneralInfo
       parameters:
         - name: initiativeId
@@ -186,16 +294,32 @@ paths:
           schema:
             type: string
       requestBody:
-        description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
+        description: Unique identifier of the subscribed initiative, IBAN of the citizen
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InitiativePatchDTO'
+              $ref: '#/components/schemas/InitiativeInfoDTO'
+            example:
+              general:
+                name: string
+                budget: 0
+                beneficiaryType: PF
+                beneficiaryKnown: true
+                beneficiaryBudget: 0
+                startDate: '2022-01-30'
+                endDate: '2022-01-30'
+                rankingStartDate: '2022-01-30'
+                rankingEndDate: '2022-01-30'
+              additionalInfo:
+                serviceId: string
+                serviceName: string
+                argument: string
+                description: string
       responses:
         '200':
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -250,11 +374,12 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}/beneficiary':
-    patch:
+  /{initiativeId}/beneficiary:
+    put:
       tags:
         - initiative
       summary: Association of beneficiary rules to an initiative
+      description: Association of beneficiary rules to an initiative
       operationId: updateInitiativeBeneficiary
       parameters:
         - name: initiativeId
@@ -264,7 +389,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: 'Unique identifier of the subscribed initiative, instrument HPAN'
+        description: Unique identifier of the subscribed initiative, instrument HPAN
         content:
           application/json:
             schema:
@@ -273,7 +398,7 @@ paths:
         '200':
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -352,19 +477,6 @@ components:
           type: string
         dpiaLink:
           type: string
-    InitiativeBeneficiaryRuleDTO:
-      type: object
-      properties:
-        selfDeclarationCriteria:
-          type: array
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/SelfCriteriaMultiDTO'
-              - $ref: '#/components/schemas/SelfCriteriaBoolDTO'
-        automatedCriteria:
-          type: array
-          items:
-            $ref: '#/components/schemas/AutomatedCriteriaDTO'
     InitiativeGeneralDTO:
       type: object
       properties:
@@ -373,10 +485,10 @@ components:
         budget:
           type: number
         beneficiaryType:
-          type: string
           enum:
             - PF
             - PG
+          type: string
         beneficiaryKnown:
           type: boolean
         beneficiaryBudget:
@@ -409,46 +521,10 @@ components:
         code:
           type: string
         field:
-          type: boolean
+          type: string
         operator:
           type: string
         value:
-          type: string
-    SelfCriteriaBoolDTO:
-      title: SelfCriteriaBoolDTO
-      type: object
-      properties:
-        _type:
-          enum:
-            - boolean
-            - multi
-          type: string
-        description:
-          type: string
-        value:
-          type: boolean
-        code:
-          type: string
-    SelfCriteriaMultiDTO:
-      title: SelfCriteriaMultiDTO
-      type: object
-      properties:
-        _type:
-          enum:
-            - boolean
-            - multi
-          type: string
-        description:
-          type: string
-        value:
-          type: array
-          items:
-            type: string
-          example:
-            - value1
-            - value2
-            - value3
-        code:
           type: string
     InitiativeDTO:
       type: object
@@ -470,20 +546,17 @@ components:
         beneficiaryRanking:
           type: boolean
         general:
-          $ref : '#/components/schemas/InitiativeGeneralDTO'
+          $ref: '#/components/schemas/InitiativeGeneralDTO'
         additionalInfo:
-          $ref : '#/components/schemas/InitiativeAdditionalDTO'
+          $ref: '#/components/schemas/InitiativeAdditionalDTO'
         beneficiaryRule:
-          $ref : '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+          $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
         legal:
-          $ref : '#/components/schemas/InitiativeLegalDTO'
-    InitiativePatchDTO:
-      type: object
-      properties:
-        general:
-          $ref : '#/components/schemas/InitiativeGeneralDTO'
-        additionalInfo:
-          $ref : '#/components/schemas/InitiativeAdditionalDTO'
+          $ref: '#/components/schemas/InitiativeLegalDTO'
+    InitiativeSummaryArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/InitiativeSummaryDTO'
     InitiativeSummaryDTO:
       type: object
       properties:
@@ -493,21 +566,84 @@ components:
           type: string
         status:
           type: string
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+    InitiativeInfoDTO:
+      type: object
+      properties:
+        general:
+          $ref: '#/components/schemas/InitiativeGeneralDTO'
+        additionalInfo:
+          $ref: '#/components/schemas/InitiativeAdditionalDTO'
     ErrorDTO:
       type: object
       properties:
         code:
-          type: integer
-          format: int32
+          type: string
         message:
+          type: string
+    AnyOfInitiativeBeneficiaryRuleDTOSelfDeclarationCriteriaItems:
+      type: object
+      anyOf:
+        - $ref: '#/components/schemas/SelfCriteriaBoolDTO'
+        - $ref: '#/components/schemas/SelfCriteriaMultiDTO'
+      description: List of possible self criteria
+    InitiativeBeneficiaryRuleDTO:
+      type: object
+      properties:
+        selfDeclarationCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnyOfInitiativeBeneficiaryRuleDTOSelfDeclarationCriteriaItems'
+          description: List of generic contents inside Customer
+        automatedCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/AutomatedCriteriaDTO'
+    SelfCriteriaBoolDTO:
+      type: object
+      properties:
+        _type:
+          enum:
+            - boolean
+          type: string
+        description:
+          type: string
+        value:
+          type: boolean
+        code:
+          type: string
+    SelfCriteriaMultiDTO:
+      title: SelfCriteriaMultiDTO
+      type: object
+      properties:
+        _type:
+          enum:
+            - multi
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+          example:
+            - value1
+            - value2
+            - value3
+        code:
           type: string
   securitySchemes:
     Bearer:
       type: apiKey
-      name: Bearer Auth. Token
+      name: Authorization
       in: header
 security:
-  - Bearer: [ ]
+  - Bearer: []
 tags:
   - name: initiative
     description: ''
