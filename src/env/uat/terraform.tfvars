@@ -245,7 +245,7 @@ aks_metric_alerts = {
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
-sftp_account_replication_type = "GRS"
+sftp_account_replication_type = "LRS"
 sftp_ip_rules                 = []
 sftp_enable_private_endpoint  = true
 
