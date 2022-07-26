@@ -577,6 +577,7 @@ components:
           - web
           - email
           - mobile
+          type: string
         contact: 
           type: string
     ErrorDTO:
