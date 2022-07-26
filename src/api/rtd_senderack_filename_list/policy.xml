@@ -7,7 +7,7 @@
     }"
     />
 
-    <send-request mode="new" response-variable-name="sender-code" timeout="60" ignore-error="true">
+    <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
       <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
       <set-method>GET</set-method>
     </send-request>
@@ -16,7 +16,7 @@
     <set-backend-service base-url="http://${rtd-ingress-ip}/rtdmsfileregister"/>
 
     <set-query-parameter name="sender" exists-action="override">
-      <value>@(((IResponse)context.Variables["sender-code"]).Body.As<string>())</value>
+      <value>@(((IResponse)context.Variables["senderCode"]).Body.As<string>())</value>
     </set-query-parameter>
   </inbound>
   <backend>
