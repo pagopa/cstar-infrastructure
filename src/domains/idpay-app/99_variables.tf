@@ -152,3 +152,9 @@ variable "reverse_proxy_be_io" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "pdv_tokenizer_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PDV uri. Endpoint for encryption of pii information."
+}
+

@@ -52,3 +52,8 @@ enable = {
     eventhub = true
   }
 }
+
+#
+# PDV
+#
+pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1/tokens"
