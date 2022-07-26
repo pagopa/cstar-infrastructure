@@ -299,22 +299,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InitiativeInfoDTO'
-            example:
-              general:
-                name: string
-                budget: 0
-                beneficiaryType: PF
-                beneficiaryKnown: true
-                beneficiaryBudget: 0
-                startDate: '2022-01-30'
-                endDate: '2022-01-30'
-                rankingStartDate: '2022-01-30'
-                rankingEndDate: '2022-01-30'
-              additionalInfo:
-                serviceId: string
-                serviceName: string
-                argument: string
-                description: string
       responses:
         '200':
           description: Enrollment OK
@@ -466,6 +450,8 @@ components:
           type: string
         description:
           type: string
+        channels:
+          $ref: '#/components/schemas/ChannelArrayDTO'
     InitiativeLegalDTO:
       type: object
       properties:
@@ -579,6 +565,20 @@ components:
           $ref: '#/components/schemas/InitiativeGeneralDTO'
         additionalInfo:
           $ref: '#/components/schemas/InitiativeAdditionalDTO'
+    ChannelArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChannelDTO'
+    ChannelDTO:
+      type: object
+      properties:
+        type: 
+          enum:
+          - web
+          - email
+          - mobile
+        contact: 
+          type: string
     ErrorDTO:
       type: object
       properties:
