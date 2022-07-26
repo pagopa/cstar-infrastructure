@@ -78,15 +78,7 @@
                 </return-response>
             </when>
             <otherwise>
-                <set-header name="x-fiscal-code" exists-action="override">
-                    <value>@((string)context.Variables["fiscalCode"])</value>
-                </set-header>
-                <set-header name="x-user-id" exists-action="override">
-                    <value>@((string)context.Variables["fiscalCode"])</value>
-                </set-header>
-                <set-header name="x-apim-request-id" exists-action="override">
-                    <value>@(context.RequestId.ToString())</value>
-                </set-header>
+
                 <choose>
                     <when condition="@("true".Equals((string)context.Variables["bypassCacheStorage"]))">
                         <!-- Store result in cache -->
