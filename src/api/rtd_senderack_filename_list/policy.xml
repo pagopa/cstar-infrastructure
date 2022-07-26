@@ -1,0 +1,31 @@
+<policies>
+  <inbound>
+    <base/>
+    <set-variable name="keyHash" value="@{
+                    System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
+                    return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
+    }"
+    />
+
+    <send-request mode="new" response-variable-name="sender-code" timeout="60" ignore-error="true">
+      <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+      <set-method>GET</set-method>
+    </send-request>
+
+
+    <set-backend-service base-url="http://${rtd-ingress-ip}/rtdmsfileregister"/>
+
+    <set-query-parameter name="sender" exists-action="override">
+      <value>@(((IResponse)context.Variables["sender-code"]).Body.As<string>())</value>
+    </set-query-parameter>
+  </inbound>
+  <backend>
+    <base/>
+  </backend>
+  <outbound>
+    <base/>
+  </outbound>
+  <on-error>
+    <base/>
+  </on-error>
+</policies>
