@@ -153,9 +153,7 @@ components:
           type: boolean
           description: flag to indicate a change from previously accepted permits
         consents: 
-          items:  
             $ref : '#/components/schemas/ConsentItemArrayDTO'
-          description: List of consent
     ConsentItemDTO:
       type: object
       required:
@@ -168,6 +166,8 @@ components:
            - privacy
            - tc
         sha:
+          type: string
+        url:
           type: string
     ConsentItemArrayDTO:
       type: array
