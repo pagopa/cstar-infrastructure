@@ -246,7 +246,7 @@ devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
 sftp_account_replication_type = "GRS"
-sftp_ip_rules                 = []
+sftp_ip_rules                 = ["217.175.52.126"]
 sftp_enable_private_endpoint  = true
 
 db_sku_name       = "GP_Gen5_2"
@@ -388,37 +388,6 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
-
-tae_cosmos_db_params = {
-  enabled      = true
-  kind         = "GlobalDocumentDB"
-  capabilities = []
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
-  }
-  server_version                   = null
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
-
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = false
-  additional_geo_locations          = []
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = false
-}
-
-tae_cosmos_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
-}
-
-
 
 ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
@@ -819,6 +788,7 @@ enable = {
     file_register                       = false
     batch_service_api                   = true
     enrolled_payment_instrument         = false
+    mongodb_storage                     = true
   }
   fa = {
     api = true
