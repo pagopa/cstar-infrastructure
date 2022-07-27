@@ -6,6 +6,105 @@ info:
 servers:
   - url: http://api-io.dev.cstar.pagopa.it/idpay/initiative
 paths:
+  "/{initiativeId}/beneficiary/view":
+    get:
+      tags:
+        - initiative
+      summary: Returns the detail of an active initiative
+      operationId: getInitiativeBeneficiaryView
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+              example:
+                initiativeId: string
+                initiativeName: string
+                organizationId: string
+                pdndToken: string
+                status: string
+                pdndCheck: true
+                autocertificationCheck: true
+                beneficiaryRanking: true
+                general:
+                  budget: 0
+                  beneficiaryType: PF
+                  beneficiaryKnown: true
+                  beneficiaryBudget: 0
+                  startDate: '2022-01-30'
+                  endDate: '2022-01-30'
+                  rankingStartDate: '2022-01-30'
+                  rankingEndDate: '2022-01-30'
+                additionalInfo:
+                  serviceId: string
+                  serviceName: string
+                  argument: string
+                  description: string
+                beneficiaryRule:
+                  selfDeclarationCriteria:
+                    - _type: boolean
+                      description: string
+                      value:
+                        - value1
+                        - value2
+                        - value3
+                      code: string
+                  automatedCriteria:
+                    - authority: string
+                      code: string
+                      field: true
+                      operator: string
+                      value: string
+                legal:
+                  privacyLink: string
+                  tcLink: string
+                  regulationLink: string
+                  dpiaLink: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
   /summary:
     get:
       tags:
@@ -20,6 +119,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeSummaryArrayDTO'
+              example:
+                initiativeId: string
+                initiativeName: string
+                status: string
+                creationDate: '2022-07-27T13:56:51.104Z'
+                updateDate: '2022-07-27T13:56:51.104Z'
         '401':
           description: Authentication failed
           content:
@@ -78,7 +183,6 @@ paths:
                 autocertificationCheck: true
                 beneficiaryRanking: true
                 general:
-                  name: string
                   budget: 0
                   beneficiaryType: PF
                   beneficiaryKnown: true
@@ -163,7 +267,6 @@ paths:
               $ref: '#/components/schemas/InitiativeInfoDTO'
             example:
               general:
-                name: string
                 budget: 0
                 beneficiaryType: PF
                 beneficiaryKnown: true
@@ -194,7 +297,6 @@ paths:
                 autocertificationCheck: true
                 beneficiaryRanking: true
                 general:
-                  name: string
                   budget: 0
                   beneficiaryType: PF
                   beneficiaryKnown: true
@@ -283,8 +385,8 @@ paths:
     put:
       tags:
         - initiative
-      summary: Save initiative and first subset of data 'general info'
-      description: Save initiative and first subset of data 'general info'
+      summary: Update initiative and first subset of data 'general info'
+      description: Update initiative and first subset of data 'general info'
       operationId: updateInitiativeGeneralInfo
       parameters:
         - name: initiativeId
@@ -299,9 +401,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InitiativeInfoDTO'
+            example:
+              general:
+                budget: 0
+                beneficiaryType: PF
+                beneficiaryKnown: true
+                beneficiaryBudget: 0
+                startDate: '2022-01-30'
+                endDate: '2022-01-30'
+                rankingStartDate: '2022-01-30'
+                rankingEndDate: '2022-01-30'
+              additionalInfo:
+                serviceId: string
+                serviceName: string
+                argument: string
+                description: string
+                channels:
+                - type: web
+                  contact: string
       responses:
-        '200':
-          description: Enrollment OK
+        '204':
+          description: No Content
           content:
             application/json: {}
         '400':
@@ -378,9 +498,118 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+            example:
+              selfDeclarationCriteria:
+                - _type: boolean
+                  description: string
+                  value:
+                    - value1
+                    - value2
+                    - value3
+                  code: string
+              automatedCriteria:
+                - authority: string
+                  code: string
+                  field: true
+                  operator: string
+                  value: string
       responses:
-        '200':
-          description: Enrollment OK
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  /{initiativeId}/beneficiary/draft:
+    put:
+      tags:
+        - initiative
+      summary: Association of beneficiary rules to a draft initiative without validation
+      description: Association of beneficiary rules to a draft initiative without validation
+      operationId: updateInitiativeBeneficiaryDraft
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Unique identifier of the subscribed initiative, instrument HPAN
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+            example:
+              selfDeclarationCriteria:
+                - _type: boolean
+                  description: string
+                  value:
+                    - value1
+                    - value2
+                    - value3
+                  code: string
+              automatedCriteria:
+                - authority: string
+                  code: string
+                  field: true
+                  operator: string
+                  value: string
+      responses:
+        '204':
+          description: No Content
           content:
             application/json: {}
         '400':
@@ -466,8 +695,6 @@ components:
     InitiativeGeneralDTO:
       type: object
       properties:
-        name:
-          type: string
         budget:
           type: number
         beneficiaryType:

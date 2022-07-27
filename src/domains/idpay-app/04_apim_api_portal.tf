@@ -122,9 +122,14 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "updateInitiativeBeneficiaryDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
-
   ]
-
 
 }
