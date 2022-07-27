@@ -19,6 +19,8 @@ resource "azurerm_data_factory_linked_service_cosmosdb" "cosmos_ls" {
   name            = "${local.product}-cosmos-linked-service"
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
+  database = "tae"
+
   connection_string = format(
     "AccountEndpoint=%s;AccountKey=%s;Database=tae;",
     data.azurerm_cosmosdb_account.cosmos.endpoint,

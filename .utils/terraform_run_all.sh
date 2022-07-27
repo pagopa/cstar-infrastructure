@@ -3,8 +3,8 @@
 
 
 #
-# bash .utils/terraform_run_all.sh init local
-# bash .utils/terraform_run_all.sh init docker
+# bash .utils/terraform_run_all.sh <Action>
+# bash .utils/terraform_run_all.sh init
 #
 
 # 'set -e' tells the shell to exit if any of the foreground command fails,
@@ -12,7 +12,6 @@
 set -eu
 
 ACTION="$1"
-MODE="$2"
 
 array=(
     'src::dev'
@@ -23,10 +22,12 @@ array=(
     'src/domains/idpay-common::dev'
     'src/domains/tae-app::dev'
     'src/domains/tae-common::dev'
+    'src/domains/rtd-app::dev'
+    'src/domains/rtd-common::dev'
 )
 
 function rm_terraform {
-    find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -iname ".terraform-version" \) -print0 | xargs -0 echo
+    find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -iname ".terraform-version" \) -print0 | xargs -0 rm -rf
 }
 
 echo "[INFO] 🪚 Delete all .terraform folders"
@@ -38,7 +39,7 @@ for index in "${array[@]}" ; do
     COMMAND="${index##*::}"
     pushd "$(pwd)/${FOLDER}"
         echo "$FOLDER - $COMMAND"
-        echo "🔬 folder: $(pwd) in under terraform: $ACTION action $MODE mode"
+        echo "🔬 folder: $(pwd) in under terraform: $ACTION action"
         sh terraform.sh "$ACTION" "$COMMAND" &
     popd
 done

@@ -387,37 +387,6 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
-tae_cosmos_db_params = {
-  enabled      = true
-  kind         = "GlobalDocumentDB"
-  capabilities = []
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
-  }
-  server_version                   = null
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
-
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = true
-  additional_geo_locations          = []
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = false
-}
-
-tae_cosmos_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
-}
-
-
-
 ehns_sku_name = "Standard"
 
 ehns_alerts_enabled = false
@@ -684,6 +653,26 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-enrolled-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-enrolled-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-enrolled-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
 ]
 
 eventhubs_fa = [
@@ -836,6 +825,8 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = true
     batch_service_api                   = true
+    enrolled_payment_instrument         = true
+    mongodb_storage                     = true
   }
   fa = {
     api = true

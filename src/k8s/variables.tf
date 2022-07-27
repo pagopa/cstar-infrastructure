@@ -206,6 +206,10 @@ variable "configmaps_fanotificationmanager" {
   type = map(string)
 }
 
+variable "configmaps_rtdenrolledpaymentinstrument" {
+  type = map(string)
+}
+
 variable "autoscaling_specs" {
   type = map(object({
     namespace    = string
@@ -238,6 +242,8 @@ variable "enable" {
       csv_transaction_apis                = bool
       ingestor                            = bool
       file_register                       = bool
+      enrolled_payment_instrument         = bool
+      mongodb_storage                     = bool
     })
     fa = object({
       api = bool
@@ -251,6 +257,8 @@ variable "enable" {
       csv_transaction_apis                = false
       ingestor                            = false
       file_register                       = false
+      enrolled_payment_instrument         = false
+      mongodb_storage                     = false
     }
     fa = {
       api = false

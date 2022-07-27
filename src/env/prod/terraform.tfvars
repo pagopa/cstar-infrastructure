@@ -790,6 +790,8 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = false
     batch_service_api                   = false
+    enrolled_payment_instrument         = false
+    mongodb_storage                     = false
   }
   fa = {
     api = false

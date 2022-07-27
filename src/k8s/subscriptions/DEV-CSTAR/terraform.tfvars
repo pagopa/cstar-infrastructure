@@ -349,6 +349,14 @@ configmaps_rtddecrypter = {
   SPLITTER_LINE_THRESHOLD = 15000
 }
 
+# rtd-ms-enrolled-payment-instrument
+configmaps_rtdenrolledpaymentinstrument = {
+  #  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  #  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
+  #  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  #  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment
@@ -455,7 +463,8 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key",
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
-  "mongo-db-connection-uri"
+  "mongo-db-connection-uri",
+  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"
 ]
 
 enable = {
@@ -465,6 +474,8 @@ enable = {
     csv_transaction_apis                = true
     ingestor                            = true
     file_register                       = true
+    enrolled_payment_instrument         = true
+    mongodb_storage                     = true
   }
   fa = {
     api = true

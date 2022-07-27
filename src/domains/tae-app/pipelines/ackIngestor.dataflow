@@ -7,12 +7,12 @@ source(output(
 		status as integer,
 		errorCode as string
 	),
-	allowSchemaDrift: true,
+	allowSchemaDrift: false,
 	validateSchema: false,
-	ignoreNoFilesFound: false,
+	ignoreNoFilesFound: true,
 	modifiedAfter: ($windowStart),
 	modifiedBefore: ($windowEnd),
-	wildcardPaths:['ack/*csv']) ~> sourceAck
+	wildcardPaths:['ack/ADEACK*']) ~> sourceAck
 source(output(
 		accountingDate as string,
 		acquirerId as string,
@@ -33,11 +33,13 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-sourceAck, aggregates lookup(sourceAck@id == aggregates@id,
-	multiple: false,
-	pickup: 'any',
-	broadcast: 'auto')~> joinAcksWithAggregatesOnId
 joinAcksWithAggregatesOnId alterRow(updateIf(isMatch())) ~> updAggregatesWithAck
+updAggregatesWithAck derive(ackFileName = toString(senderCode) + '/' + 'ADEACK' + '_' + toString(senderCode) + '_' + toString(acquirerId) + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
+sourceAck, aggregates join(sourceAck@id == aggregates@id,
+	joinType:'inner',
+	matchType:'exact',
+	ignoreSpaces: false,
+	broadcast: 'auto')~> joinAcksWithAggregatesOnId
 updAggregatesWithAck sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
@@ -64,3 +66,13 @@ updAggregatesWithAck sink(allowSchemaDrift: true,
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
+addFileName sink(allowSchemaDrift: true,
+	validateSchema: false,
+	input(
+		senderCode as string,
+		acquirerId as string,
+		fiscalCode as string
+	),
+	rowUrlColumn:'ackFileName',
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> wrongFiscalCodesByAcquirer
