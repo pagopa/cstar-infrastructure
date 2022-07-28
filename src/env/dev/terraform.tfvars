@@ -860,6 +860,7 @@ enable = {
     batch_service_api                   = true
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
+    sender_auth                         = true
   }
   fa = {
     api = true
