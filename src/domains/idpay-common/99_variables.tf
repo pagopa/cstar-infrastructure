@@ -171,7 +171,8 @@ variable "ehns_zone_redundant" {
   default     = false
 }
 
-variable "eventhubs_idpay" {
+
+variable "eventhubs_idpay_00" {
   description = "A list of event hubs to add to namespace for IDPAY application."
   type = list(object({
     name              = string
@@ -238,6 +239,29 @@ EOD
       }
     ))
   }))
+}
+
+#Redis
+
+variable "redis_capacity" {
+  type    = number
+  default = 1
+}
+
+variable "redis_sku_name" {
+  type    = string
+  default = "Basic"
+}
+
+variable "redis_family" {
+  type    = string
+  default = "C"
+}
+
+variable "cidr_idpay_subnet_redis" {
+  type        = list(string)
+  description = "Redis network address space."
+  default     = []
 }
 
 ### External resources

@@ -90,6 +90,7 @@ variable "cidr_subnet_cosmos_mongodb" {
   description = "Cosmos Mongo DB network address space."
 }
 
+
 variable "cidr_subnet_adf" {
   type        = list(string)
   description = "ADF Address Space."
@@ -330,6 +331,11 @@ variable "k8s_ip_filter_range" {
     from = string
     to   = string
   })
+}
+
+variable "cstar_support_email" {
+  type        = string
+  description = "Email for CSTAR support, read by the CSTAR team and Operations team"
 }
 
 ## Application gateway
@@ -750,6 +756,9 @@ variable "enable" {
       csv_transaction_apis                = bool
       file_register                       = bool
       batch_service_api                   = bool
+      enrolled_payment_instrument         = bool
+      mongodb_storage                     = bool
+      sender_auth                         = bool
     })
     fa = object({
       api = bool
@@ -775,6 +784,9 @@ variable "enable" {
       csv_transaction_apis                = false
       file_register                       = false
       batch_service_api                   = false
+      enrolled_payment_instrument         = false
+      mongodb_storage                     = false
+      sender_auth                         = false
     }
     fa = {
       api = false

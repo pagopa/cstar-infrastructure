@@ -378,7 +378,16 @@ configmaps_fanotificationmanager = {
 }
 
 configmaps_rtddecrypter = {
-  SPLITTER_LINE_THRESHOLD = 50000
+  ENABLE_CHUNK_UPLOAD     = false
+  SPLITTER_LINE_THRESHOLD = 250000
+}
+
+# rtd-ms-enrolled-payment-instrument
+configmaps_rtdenrolledpaymentinstrument = {
+  #  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+  #  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
+  #  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  #  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
 autoscaling_specs = {
@@ -653,6 +662,8 @@ enable = {
     csv_transaction_apis                = true
     ingestor                            = false
     file_register                       = false
+    enrolled_payment_instrument         = false
+    mongodb_storage                     = false
   }
   fa = {
     api = false

@@ -1,101 +1,35 @@
 resource "azurerm_data_factory_custom_dataset" "aggregate" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "Aggregate"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
-  type            = "CosmosDbMongoDbApiCollection"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "CosmosDbSqlApiCollection"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_cosmosdb_mongoapi.tae_adf_mongo_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_cosmosdb.cosmos_ls.name
   }
 
   type_properties_json = <<JSON
   {
-    "collection": "aggregates"
+    "collectionName": "aggregates"
   }
   JSON
 
-  description = "Aggregates to be stored in Cosmos/MongoDB"
+  description = "Aggregates to be stored in Cosmos"
   annotations = ["Aggregates"]
 
-  schema_json = <<JSON
-  [
-    {
-      "name": "id",
-      "type": "String"
-    },
-    {
-      "name": "senderCode",
-      "type": "String"
-    },
-    {
-      "name": "operationType",
-      "type": "String"
-    },
-    {
-      "name": "transmissionDate",
-      "type": "Date"
-    },
-    {
-      "name": "accountingDate",
-      "type": "Date"
-    },
-    {
-      "name": "numTrx",
-      "type": "Int32"
-    },
-    {
-      "name": "totalAmount",
-      "type": "Int32"
-    },
-    {
-      "name": "acquirerId",
-      "type": "String"
-    },
-    {
-      "name": "merchantId",
-      "type": "String"
-    },
-    {
-      "name": "terminalId",
-      "type": "String"
-    },
-    {
-      "name": "fiscalCode",
-      "type": "String"
-    },
-    {
-      "name":  "vat",
-      "type": "String"
-    },
-    {
-      "name":  "posType",
-      "type": "String"
-    },
-    {
-      "name":  "fileName",
-      "type": "String"
-    },
-    {
-      "name":  "recordId",
-      "type": "String"
-    }
-  ]
-  JSON
+  schema_json = file("pipelines/aggregatesSchema.json")
+
 }
 
 
 resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "SourceAggregate"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sa_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
   }
 
   type_properties_json = <<JSON
@@ -180,14 +114,12 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
 
 resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "DestinationAggregate"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   }
 
   type_properties_json = <<JSON
@@ -202,6 +134,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
       }
     },
     "columnDelimiter": ";",
+    "compressionCodec": "gzip",
     "encodingName": "UTF-8",
     "quoteChar": ""
   }     
@@ -278,14 +211,12 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
 
 resource "azurerm_data_factory_custom_dataset" "source_ack" {
 
-  count = var.enable.tae.adf ? 1 : 0
-
   name            = "SourceAck"
-  data_factory_id = data.azurerm_data_factory.tae_adf[count.index].id
+  data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_azure_blob_storage.tae_adf_sftp_linked_service[count.index].name
+    name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   }
 
   type_properties_json = <<JSON
@@ -293,7 +224,52 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
     "location": {
       "type": "AzureBlobStorageLocation",
       "container": "ade",
-      "folderPath": "ack",
+      "folderPath": "ack"
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8",
+    "quoteChar": ""
+  }     
+  JSON
+
+  description = "ACKs sent by ADE"
+  annotations = ["SourceAcks"]
+
+  parameters = {}
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "id",
+      "type": "String"
+    },
+    {
+      "name": "status",
+      "type": "Int32"
+    },
+    {
+      "name": "errorCode",
+      "type": "String"
+    }
+  ]
+  JSON
+}
+
+resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
+
+  name            = "WrongFiscalCodes"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "container": "sender-ade-ack",
       "fileName": {
         "value": "@dataset().file",
         "type": "Expression"
@@ -305,8 +281,8 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
   }     
   JSON
 
-  description = "ACKs sent by ADE"
-  annotations = ["SourceAcks"]
+  description = "Wrong Fiscal Codes to be Returned to Senders"
+  annotations = ["WrongFiscalCodes"]
 
   parameters = {
     file = "myFile"
@@ -315,15 +291,15 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
   schema_json = <<JSON
   [
     {
-      "name": "recordId",
+      "name": "senderCode",
       "type": "String"
     },
     {
-      "name": "status",
-      "type": "Int32"
+      "name": "acquirerId",
+      "type": "String"
     },
     {
-      "name": "errorCode",
+      "name": "fiscalCode",
       "type": "String"
     }
   ]

@@ -77,6 +77,11 @@ variable "terraform_remote_state_core" {
   })
 }
 
+variable "event_hub_port" {
+  type    = number
+  default = 9093
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -120,10 +125,17 @@ variable "ingress_load_balancer_hostname" {
   type = string
 }
 
+# DNS
 variable "external_domain" {
   type        = string
-  default     = null
+  default     = "pagopa.it"
   description = "Domain for delegation"
+}
+
+variable "dns_zone_prefix" {
+  type        = string
+  default     = "cstar"
+  description = "The dns subdomain."
 }
 
 variable "dns_zone_internal_prefix" {

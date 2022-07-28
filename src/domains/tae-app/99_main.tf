@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 2.99.0"
+      version = "= 3.14.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -44,12 +44,12 @@ data "terraform_remote_state" "core" {
   }
 }
 
-provider "kubernetes" {
-  config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
-}
+# provider "kubernetes" {
+#   config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
+# }
 
-provider "helm" {
-  kubernetes {
-    config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
-  }
-}
+# provider "helm" {
+#   kubernetes {
+#     config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
+#   }
+# }

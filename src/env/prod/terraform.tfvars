@@ -6,6 +6,7 @@ location_pair_short = "neu"
 env_short           = "p"
 
 apim_notification_sender_email = "info@pagopa.it"
+cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
 
@@ -789,6 +790,9 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = false
     batch_service_api                   = false
+    enrolled_payment_instrument         = false
+    mongodb_storage                     = false
+    sender_auth                         = false
   }
   fa = {
     api = false

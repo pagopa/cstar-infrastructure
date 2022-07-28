@@ -15,11 +15,26 @@ locals {
   aks_name                = var.aks_name
   aks_resource_group_name = var.aks_resource_group_name
 
-  apim_rg_name = "cstar-${var.env_short}-api-rg"
-  apim_name    = "cstar-${var.env_short}-apim"
-
+  apim_rg_name                  = "cstar-${var.env_short}-api-rg"
+  apim_name                     = "cstar-${var.env_short}-apim"
+  vnet_core_name                = "${local.product}-vnet"
+  vnet_core_resource_group_name = "${local.product}-vnet-rg"
   # DOMAINS
   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
+
+  #ORIGINS (used for CORS on IDPAY Welfare Portal)
+  origins = {
+    base = concat(
+      [
+        format("https://portal.%s", data.azurerm_dns_zone.public.name),
+        format("https://management.%s", data.azurerm_dns_zone.public.name),
+        format("https://%s.developer.azure-api.net", local.apim_name),
+        format("https://%s", local.idpay-portal-hostname)
+      ],
+      var.env_short != "p" ? ["https://localhost:3000", "http://localhost:3000", "https://localhost:3001", "http://localhost:3001"] : []
+    )
+  }
+
 
 }

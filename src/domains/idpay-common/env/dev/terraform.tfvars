@@ -9,8 +9,8 @@ instance       = "dev"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
-  Owner       = "IO"
-  Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
+  Owner       = "CSTAR"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
   Application = "IdPay"
 }
@@ -62,7 +62,7 @@ log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 ##Eventhub
 ehns_sku_name = "Standard"
 
-eventhubs_idpay = [
+eventhubs_idpay_00 = [
   {
     name              = "idpay-onboarding-request"
     partitions        = 3
@@ -77,6 +77,26 @@ eventhubs_idpay = [
       },
       {
         name   = "idpay-onboarding-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-onboarding-outcome"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-outcome-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-outcome-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-outcome-consumer"
         listen = true
         send   = false
         manage = false
@@ -257,3 +277,5 @@ enable = {
   }
 
 }
+
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]

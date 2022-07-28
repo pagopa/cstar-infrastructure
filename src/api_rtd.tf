@@ -281,7 +281,9 @@ module "rtd_senderadeack_filename_list" {
     host = "https://httpbin.org"
   })
 
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {})
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
+    rtd-ingress-ip = var.reverse_proxy_ip
+  })
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
@@ -365,15 +367,44 @@ module "rtd_deposited_file_check" {
   path         = "rtd/sftp-retrieve"
   protocols    = ["https"]
 
-  service_url = "https://cstardsftp.blob.core.windows.net/ade/in/"
+  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value = templatefile("./api/rtd_deposited_file_check/openapi.yml", {
-    host = "https://cstardsftp.blob.core.windows.net/ade/in/"
+    host = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
   })
 
   xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
+
+module "rtd_sender_auth_put_api_key" {
+
+  count = var.enable.rtd.sender_auth ? 1 : 0
+
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.7"
+
+  name                = format("%s-rtd-sender-auth-put", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "RTD API to store a new association between sender code and api key"
+  display_name = "RTD API to store senderCode-apiKey"
+  path         = "rtd/sender-auth"
+  protocols    = ["https"]
+
+  service_url = format("http://%s/rtdmssenderauth", var.reverse_proxy_ip)
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = file("./api/rtd_sender_auth_put/openapi.yml")
+
+  xml_content = file("./api/rtd_sender_auth_put/policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true

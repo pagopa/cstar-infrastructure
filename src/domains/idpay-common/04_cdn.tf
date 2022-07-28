@@ -122,7 +122,7 @@ module "idpay_cdn" {
     ]
     url_rewrite_action = {
       source_pattern          = "/"
-      destination             = "/portal/index.html"
+      destination             = "/portale-enti/index.html"
       preserve_unmatched_path = false
     }
     }],

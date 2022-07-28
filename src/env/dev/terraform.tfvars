@@ -5,7 +5,16 @@ location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "d"
 
+tags = {
+  CreatedBy   = "Terraform"
+  Environment = "Dev"
+  Owner       = "cstar"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
+  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
 apim_notification_sender_email = "info@pagopa.it"
+cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
@@ -26,6 +35,9 @@ cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
+
+# IDPAY - cidr utilizzati sul progetto IdPay
+# cidr_idpay_subnet_redis        = ["10.1.139.0/24"]
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -366,7 +378,7 @@ cosmos_mongo_db_params = {
   }
   server_version                   = "4.0"
   main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
+  enable_free_tier                 = false
 
   private_endpoint_enabled          = false
   public_network_access_enabled     = true
@@ -382,6 +394,39 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
+
+tae_cosmos_db_params = {
+  enabled      = true
+  kind         = "GlobalDocumentDB"
+  capabilities = []
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = null
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = true
+
+  private_endpoint_enabled          = true
+  public_network_access_enabled     = true
+  additional_geo_locations          = []
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+}
+
+tae_cosmos_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
+}
+
+#
+# EHNS
+#
 
 ehns_sku_name = "Standard"
 
@@ -649,6 +694,26 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-enrolled-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-enrolled-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-enrolled-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
 ]
 
 eventhubs_fa = [
@@ -783,14 +848,6 @@ app_gw_load_client_certificate          = false
 
 enable_iac_pipeline = true
 
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "Dev"
-  Owner       = "cstar"
-  Source      = "https://github.com/pagopa/cstar-infrastructure"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-}
-
 enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
 
@@ -801,6 +858,9 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = true
     batch_service_api                   = true
+    enrolled_payment_instrument         = true
+    mongodb_storage                     = true
+    sender_auth                         = true
   }
   fa = {
     api = true

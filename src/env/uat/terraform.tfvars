@@ -5,7 +5,16 @@ location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "u"
 
+tags = {
+  CreatedBy   = "Terraform"
+  Environment = "Uat"
+  Owner       = "cstar"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
+  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
 apim_notification_sender_email = "info@pagopa.it"
+cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Developer_1"
 
@@ -244,9 +253,9 @@ aks_metric_alerts = {
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
-sftp_account_replication_type = "GRS"
-sftp_ip_rules                 = []
+sftp_account_replication_type = "LRS"
 sftp_enable_private_endpoint  = true
+sftp_ip_rules                 = ["217.175.52.126"]
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
@@ -354,7 +363,7 @@ dns_storage_account_tkm = {
 }
 
 cosmos_mongo_db_params = {
-  enabled      = false
+  enabled      = true
   kind         = "MongoDB"
   capabilities = ["EnableMongo", "EnableServerless"]
   offer_type   = "Standard"
@@ -365,7 +374,7 @@ cosmos_mongo_db_params = {
   }
   server_version                   = "4.0"
   main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
+  enable_free_tier                 = false
 
   # additional_geo_locations = [{
   #   location          = "northeurope"
@@ -387,6 +396,39 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
+
+tae_cosmos_db_params = {
+  enabled      = true
+  kind         = "GlobalDocumentDB"
+  capabilities = []
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = null
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = true
+
+  private_endpoint_enabled          = true
+  public_network_access_enabled     = false
+  additional_geo_locations          = []
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+}
+
+tae_cosmos_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
+}
+
+#
+# EHNS
+#
 
 ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
@@ -768,14 +810,6 @@ cdc_api_params = {
   host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
 }
 
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "Uat"
-  Owner       = "cstar"
-  Source      = "https://github.com/pagopa/cstar-infrastructure"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-}
-
 enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
 
@@ -786,6 +820,9 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = false
     batch_service_api                   = true
+    enrolled_payment_instrument         = false
+    mongodb_storage                     = true
+    sender_auth                         = true
   }
   fa = {
     api = true
@@ -795,9 +832,9 @@ enable = {
   }
   tae = {
     api             = true
-    db_collections  = false
+    db_collections  = true
     blob_containers = true
-    adf             = false
+    adf             = true
   }
   idpay = {
     eventhub_idpay = true

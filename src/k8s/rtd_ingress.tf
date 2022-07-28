@@ -40,6 +40,18 @@ resource "kubernetes_ingress_v1" "rtd_ingress" {
           path = "/rtdmsfileregister/(.*)"
         }
 
+        path {
+          backend {
+            service {
+              name = "rtdmssenderauth"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/rtdmssenderauth/(.*)"
+        }
+
       }
     }
   }
