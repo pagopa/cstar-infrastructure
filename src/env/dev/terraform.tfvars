@@ -5,6 +5,14 @@ location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "d"
 
+tags = {
+  CreatedBy   = "Terraform"
+  Environment = "Dev"
+  Owner       = "cstar"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
+  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
 apim_notification_sender_email = "info@pagopa.it"
 cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella DEV"
@@ -416,7 +424,9 @@ tae_cosmos_db_transaction_params = {
   throughput         = 1000
 }
 
-
+#
+# EHNS
+#
 
 ehns_sku_name = "Standard"
 
@@ -837,14 +847,6 @@ app_gateway_management_certificate_name = "management-dev-cstar-pagopa-it"
 app_gw_load_client_certificate          = false
 
 enable_iac_pipeline = true
-
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "Dev"
-  Owner       = "cstar"
-  Source      = "https://github.com/pagopa/cstar-infrastructure"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-}
 
 enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true

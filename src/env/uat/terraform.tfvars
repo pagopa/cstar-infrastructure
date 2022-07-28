@@ -5,6 +5,14 @@ location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "u"
 
+tags = {
+  CreatedBy   = "Terraform"
+  Environment = "Uat"
+  Owner       = "cstar"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
+  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
 apim_notification_sender_email = "info@pagopa.it"
 cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella UAT"
@@ -246,7 +254,9 @@ devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
 sftp_account_replication_type = "LRS"
-sftp_ip_rules                 = []
+sftp_ip_rules                 = [
+  "93.63.219.234"
+]
 sftp_enable_private_endpoint  = true
 
 db_sku_name       = "GP_Gen5_2"
@@ -418,7 +428,9 @@ tae_cosmos_db_transaction_params = {
   throughput         = 1000
 }
 
-
+#
+# EHNS
+#
 
 ehns_sku_name       = "Standard"
 ehns_alerts_enabled = false
@@ -798,14 +810,6 @@ enable_iac_pipeline = true
 
 cdc_api_params = {
   host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"
-}
-
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "Uat"
-  Owner       = "cstar"
-  Source      = "https://github.com/pagopa/cstar-infrastructure"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
 enable_api_fa                              = true
