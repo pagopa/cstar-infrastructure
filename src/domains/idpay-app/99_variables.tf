@@ -77,6 +77,11 @@ variable "terraform_remote_state_core" {
   })
 }
 
+variable "event_hub_port" {
+  type    = number
+  default = 9093
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
