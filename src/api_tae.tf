@@ -26,7 +26,9 @@ module "rtd_senderack_download_file" {
 
   subscription_required = true
 
-  xml_content = file("./api/rtd_senderack_download_file/azureblob_policy.xml")
+  xml_content = templatefile("./api/rtd_senderack_download_file/azureblob_policy.xml", {
+    rtd-ingress-ip = var.reverse_proxy_ip
+  })
 
   product_ids = [module.rtd_api_product.product_id]
 
