@@ -28,6 +28,7 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_checkiban_outcome_topic    = "idpay-checkiban-outcome"
     idpay_timeline_topic             = "idpay-timeline"
     idpay-timeline-consumer-group    = "idpay-timeline-consumer-group"
+
   }
 
 }
@@ -57,8 +58,26 @@ resource "kubernetes_config_map" "idpay-rest-client" {
   }
 
   data = {
-    rest_client_schema : "http"
-    idpay_payment_instrument_host : "idpay-payment-instrument-microservice-chart"
+    rest_client_schema            = "http"
+    idpay_payment_instrument_host = "idpay-payment-instrument-microservice-chart"
+    checkiban_base_url            = https://bankingservices-sandbox.pagopa.it
+    checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holde"r
+    idpay_payment_instrument_host = idpay-payment-instrument-microservice-chart
+    pdv_decrypt_base_url          = https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1
+    rest_client_schema            = http
+  }
+
+}
+
+resource "kubernetes_config_map" "rtd-eventhub" {
+  metadata {
+    name      = "rtd-eventhub"
+    namespace = var.domain
+  }
+
+  data = {
+    kafka_broker_rtd      = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    rtd_enrolled_pi_topic = "rtd-enrolled-pi"
   }
 
 }
