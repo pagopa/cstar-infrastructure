@@ -62,9 +62,7 @@ resource "kubernetes_config_map" "idpay-rest-client" {
     idpay_payment_instrument_host = "idpay-payment-instrument-microservice-chart"
     checkiban_base_url            = https://bankingservices-sandbox.pagopa.it
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holde"r
-    idpay_payment_instrument_host = idpay-payment-instrument-microservice-chart
     pdv_decrypt_base_url          = https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1
-    rest_client_schema            = http
   }
 
 }
