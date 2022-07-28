@@ -9,15 +9,24 @@
         "url": "${host}"
     }],
     "paths": {
-        "/*": {
+        "/{fileName}": {
             "get": {
                 "summary": "GET BlobURI",
                 "operationId": "getBlob",
                 "responses": {
                     "200": {
-                        "description": null
+                        "description": "Ok"
                     }
-                }
+                },
+                "parameters": [{
+                    "name": "fileName",
+                    "in": "path",
+                    "description": "Name of the file to be downloaded from PagoPA",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }]
             }
         }
     },
