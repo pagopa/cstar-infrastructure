@@ -758,6 +758,7 @@ variable "enable" {
       batch_service_api                   = bool
       enrolled_payment_instrument         = bool
       mongodb_storage                     = bool
+      sender_auth                         = bool
     })
     fa = object({
       api = bool
@@ -785,6 +786,7 @@ variable "enable" {
       batch_service_api                   = false
       enrolled_payment_instrument         = false
       mongodb_storage                     = false
+      sender_auth                         = false
     }
     fa = {
       api = false
