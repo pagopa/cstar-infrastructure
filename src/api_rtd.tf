@@ -281,7 +281,9 @@ module "rtd_senderadeack_filename_list" {
     host = "https://httpbin.org"
   })
 
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {})
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
+    rtd-ingress-ip = var.reverse_proxy_ip
+  })
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
