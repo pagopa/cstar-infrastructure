@@ -698,41 +698,6 @@ variable "cosmos_mongo_db_transaction_params" {
   })
 }
 
-variable "tae_cosmos_db_params" {
-  type = object({
-    enabled      = bool
-    capabilities = list(string)
-    offer_type   = string
-    kind         = string
-    consistency_policy = object({
-      consistency_level       = string
-      max_interval_in_seconds = number
-      max_staleness_prefix    = number
-    })
-    main_geo_location_zone_redundant = bool
-    enable_free_tier                 = bool
-    main_geo_location_zone_redundant = bool
-    additional_geo_locations = list(object({
-      location          = string
-      failover_priority = number
-      zone_redundant    = bool
-    }))
-    private_endpoint_enabled          = bool
-    public_network_access_enabled     = bool
-    is_virtual_network_filter_enabled = bool
-    backup_continuous_enabled         = bool
-  })
-}
-
-variable "tae_cosmos_db_transaction_params" {
-  type = object({
-    enable_serverless  = bool
-    enable_autoscaling = bool
-    throughput         = number
-    max_throughput     = number
-  })
-}
-
 variable "cdc_api_params" {
   type = object({
     host = string
@@ -792,6 +757,8 @@ variable "enable" {
       file_register                       = bool
       batch_service_api                   = bool
       enrolled_payment_instrument         = bool
+      mongodb_storage                     = bool
+      sender_auth                         = bool
     })
     fa = object({
       api = bool
@@ -818,6 +785,8 @@ variable "enable" {
       file_register                       = false
       batch_service_api                   = false
       enrolled_payment_instrument         = false
+      mongodb_storage                     = false
+      sender_auth                         = false
     }
     fa = {
       api = false
