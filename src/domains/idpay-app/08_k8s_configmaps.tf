@@ -22,13 +22,16 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     kafka_broker                     = "${local.product}-${var.domain}-evh-ns-00.servicebus.windows.net:${var.event_hub_port}"
     kafka_sasl_mechanism             = "PLAIN"
     kafka_security_protocol          = "SASL_SSL"
+    idpay-checkiban-eval-consumer-group = "idpay-checkiban-eval-consumer-group"
+    idpay-timeline-consumer-group    = "idpay-timeline-consumer-group"
+    idpay-onboarding-outcome-onboarding-consumer-group = "idpay-onboarding-outcome-onboarding-consumer-group"
+    idpay-onboarding-outcome-wallet-consumer-group = "idpay-onboarding-outcome-wallet-consumer-group"
+    idpay-onboarding-outcome-notify-consumer-group = "idpay-onboarding-outcome-notify-consumer-group"
     idpay_onboarding_request_topic   = "idpay-onboarding-request"
     idpay_onboarding_outcome_topic   = "idpay-onboarding-outcome"
     idpay_checkiban_evaluation_topic = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic    = "idpay-checkiban-outcome"
     idpay_timeline_topic             = "idpay-timeline"
-    idpay-timeline-consumer-group    = "idpay-timeline-consumer-group"
-
   }
 
 }
@@ -40,18 +43,19 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
   }
 
   data = {
-    kafka_broker                  = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
-    kafka_sasl_mechanism          = "PLAIN"
-    kafka_security_protocol       = "SASL_SSL"
-    idpay_transaction_topic       = "idpay-transaction"
-    idpay_transaction_error_topic = "idpay-transaction-error"
-    idpay_reward_error_topic      = "idpay-reward-error"
-    idpay_hpan_update_topic       = "idpay-hpan-update"
-    idpay_rule_update_topic       = "idpay-rule-update"
+    kafka_broker                     = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism             = "PLAIN"
+    kafka_security_protocol          = "SASL_SSL"
+    idpay_transaction_consumer_group = "idpay-transaction-consumer-group"
+    idpay_transaction_topic          = "idpay-transaction"
+    idpay_transaction_error_topic    = "idpay-transaction-error"
+    idpay_reward_error_topic         = "idpay-reward-error"
+    idpay_hpan_update_topic          = "idpay-hpan-update"
+    idpay_rule_update_topic          = "idpay-rule-update"
   }
 }
 
-resource "kubernetes_config_map" "idpay-rest-client" {
+resource "kubernetes_config_map" "rest-client" {
   metadata {
     name      = "idpay-rest-client"
     namespace = var.domain
@@ -60,9 +64,9 @@ resource "kubernetes_config_map" "idpay-rest-client" {
   data = {
     rest_client_schema            = "http"
     idpay_payment_instrument_host = "idpay-payment-instrument-microservice-chart"
-    checkiban_base_url            = https://bankingservices-sandbox.pagopa.it
-    checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holde"r
-    pdv_decrypt_base_url          = https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1
+    checkiban_base_url            = var.checkiban_base_url
+    checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
+    pdv_decrypt_base_url          = var.pdv_tokenizer_url
   }
 
 }
