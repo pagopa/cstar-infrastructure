@@ -1,0 +1,19 @@
+openapi: 3.0.1
+info:
+  title: RTD API to store senderCode apiKey
+  description: RTD API to store a new association between sender code and api key
+  version: 0.0.1
+
+paths:
+  /{senderCode}:
+    put:
+      parameters:
+        - in: path
+          name: senderCode
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Mapping saved
+          content: {}

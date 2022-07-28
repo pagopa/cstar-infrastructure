@@ -792,6 +792,7 @@ enable = {
     batch_service_api                   = false
     enrolled_payment_instrument         = false
     mongodb_storage                     = false
+    sender_auth                         = false
   }
   fa = {
     api = false
