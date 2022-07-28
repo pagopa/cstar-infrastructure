@@ -9,9 +9,10 @@ instance       = "uat"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
-  Owner       = "IO"
-  Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/ecommerce"
+  Owner       = "CSTAR"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+  Application = "IdPay"
 }
 
 lock_enable = true
@@ -19,8 +20,8 @@ lock_enable = true
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
   storage_account_name = "cstarinfrastterraformuat"
-  container_name       = "azureadstate"
-  key                  = "uat.terraform.tfstate"
+  container_name       = "azurestate"
+  key                  = "terraform.tfstate"
 }
 
 cosmos_mongo_db_params = {
@@ -57,3 +58,204 @@ cosmos_mongo_db_transaction_params = {
 monitor_resource_group_name                 = "cstar-u-monitor-rg"
 log_analytics_workspace_name                = "cstar-u-law"
 log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
+
+##Eventhub
+ehns_sku_name = "Standard"
+
+eventhubs_idpay = [
+  {
+    name              = "idpay-onboarding-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-request-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-checkiban-evaluation"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-checkiban-evaluation-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-checkiban-evaluation-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-checkiban-evaluation-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-checkiban-outcome"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-checkiban-outcome-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-checkiban-outcome-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-checkiban-outcome-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-timeline"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-timeline-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-timeline-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-timeline-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  }
+]
+
+
+eventhubs_idpay_01 = [
+  {
+    name              = "idpay-transaction"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-transaction-error"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-error-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-error-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-error-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-reward-error"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-reward-error-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-reward-error-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-reward-error-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-rule-update"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-rule-update-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-rule-update-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-rule-update-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-hpan-update"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-hpan-update-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-hpan-update-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-hpan-update-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  }
+
+]
+
+### handle resource enable
+enable = {
+  idpay = {
+    eventhub_idpay_00 = true
+  }
+
+}
+
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]
