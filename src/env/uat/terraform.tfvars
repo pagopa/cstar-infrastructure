@@ -254,10 +254,8 @@ devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
 
 sftp_account_replication_type = "LRS"
-sftp_ip_rules = [
-  "93.63.219.234"
-]
 sftp_enable_private_endpoint = true
+sftp_ip_rules                 = ["217.175.52.126"]
 
 db_sku_name       = "GP_Gen5_2"
 db_enable_replica = false
@@ -823,6 +821,7 @@ enable = {
     file_register                       = false
     batch_service_api                   = true
     enrolled_payment_instrument         = false
+    mongodb_storage                     = true
   }
   fa = {
     api = true
