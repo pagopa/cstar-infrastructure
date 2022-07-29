@@ -94,7 +94,7 @@ resource "azurerm_role_assignment" "data_reader_role" {
   ]
 }
 
-resource "azurerm_role_assignment" "data_contributor_role" {
+resource "azurerm_role_assignment" "sftp_data_contributor_role" {
   scope                = module.sftp.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = module.apim.principal_id
