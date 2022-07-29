@@ -13,10 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
-        <cache-remove-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["fiscalCode"]+"/status")" />
+        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"]+"/status")" />
     </inbound>
     <backend>
         <base />
