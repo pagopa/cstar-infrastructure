@@ -139,3 +139,29 @@ resource "azurerm_api_management_api_operation_policy" "idpay_token_exchange_pol
   })
 
 }
+
+##TEST API used for automated test
+resource "azurerm_api_management_api_operation" "idpay_token_exchange_test" {
+  count               = var.env_short != "p" ? 1 : 0
+  operation_id        = "idpay_token_exchange_test"
+  api_name            = azurerm_api_management_api.idpay_token_exchange.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Token Exchange Test"
+  method              = "POST"
+  url_template        = "/token/test"
+  description         = "Endpoint for selfcare token exchange test"
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_token_exchange_policy_test" {
+  count               = var.env_short != "p" ? 1 : 0
+  api_name            = azurerm_api_management_api_operation.idpay_token_exchange_test[0].api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_token_exchange_test[0].api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_token_exchange_test[0].resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_token_exchange_test[0].operation_id
+
+  xml_content = templatefile("./api/idpay_token_exchange/jwt_token_test.xml.tpl", {
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
+  })
+
+}
