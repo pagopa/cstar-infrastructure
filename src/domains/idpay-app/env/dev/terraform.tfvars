@@ -53,7 +53,7 @@ enable = {
   }
 }
 
-#
+# Enrolled payment instrument event hub
 eventhub_enrolled_pi = {
   namespace_name      = "cstar-d-evh-ns"
   resource_group_name = "cstar-d-msg-rg"
