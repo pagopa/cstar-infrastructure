@@ -6,7 +6,7 @@ resource "kubernetes_config_map" "idpay-common" {
 
   data = {
     TZ                = "Europe/Rome",
-    JAVA_TOOL_OPTIONS = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
+    JAVA_TOOL_OPTIONS = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   }
 
 }
@@ -67,6 +67,9 @@ resource "kubernetes_config_map" "rest-client" {
     checkiban_base_url            = var.checkiban_base_url
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url          = var.pdv_tokenizer_url
+    io_backend_base_url           = "https://api.io.italia.it"
+    io_backend_message_url        = "/api/v1/messages"
+    io_backend_profile_url        = "/api/v1/profiles"
   }
 
 }
