@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: RTD API to get AdE file
-  description: RTD API to retrieve a deposited ADE file in SFTP by name
+  title: RTD API to put AdE ACK file
+  description: RTD API to deposit a synthetic ADE ACK file in SFTP
   version: '1.0'
 servers:
   - url: ${host}
