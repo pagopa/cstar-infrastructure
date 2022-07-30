@@ -13,10 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
-        <cache-remove-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
-        <rewrite-uri template="@("idpay/onboarding/citizen/"+ (string)context.Variables["fiscalCode"])" />
+        <rewrite-uri template="@("idpay/onboarding/citizen/"+ (string)context.Variables["tokenPDV"])" />
     </inbound>
     <backend>
         <base />
