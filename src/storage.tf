@@ -255,7 +255,7 @@ module "backupstorage" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
   access_tier              = "Cool"
-  enable_versioning        = false
+  enable_versioning        = true
   resource_group_name      = azurerm_resource_group.rg_storage.name
   location                 = var.location
   allow_blob_public_access = false
@@ -268,4 +268,23 @@ resource "azurerm_storage_container" "apim_backup" {
   name                  = "apim"
   storage_account_name  = module.backupstorage[0].name
   container_access_type = "private"
+}
+
+resource "azurerm_storage_management_policy" "backups" {
+  count              = var.env_short == "p" ? 1 : 0
+  storage_account_id = module.backupstorage[0].id
+
+  rule {
+    name    = "deleteafterdays"
+    enabled = true
+    filters {
+      prefix_match = [azurerm_storage_container.apim_backup[0].name]
+      blob_types   = ["blockBlob", "appendBlob"]
+    }
+    actions {
+      version {
+        delete_after_days_since_creation = 20
+      }
+    }
+  }
 }
