@@ -77,6 +77,11 @@ variable "terraform_remote_state_core" {
   })
 }
 
+variable "event_hub_port" {
+  type    = number
+  default = 9093
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -150,5 +155,11 @@ variable "reverse_proxy_be_io" {
   type        = string
   default     = "127.0.0.1"
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+
+variable "pdv_tokenizer_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PDV uri. Endpoint for encryption of pii information."
 }
 

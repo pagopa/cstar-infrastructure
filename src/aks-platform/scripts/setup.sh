@@ -7,9 +7,9 @@ set -e
 # Usage:
 #  ./setup.sh <ENV>
 #
-#  ./setup.sh dev
-#  ./setup.sh uat
-#  ./setup.sh prod
+#  ./setup.sh dev01
+#  ./setup.sh uat01
+#  ./setup.sh prod01
 
 SCRIPT_PATH="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 CURRENT_DIRECTORY="$(basename "$SCRIPT_PATH")"
