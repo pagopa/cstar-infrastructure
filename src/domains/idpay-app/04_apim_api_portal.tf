@@ -80,7 +80,7 @@ module "idpay_initiative_portal" {
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_initiative/swagger.initiative.yml")
+  content_value  = file("./api/idpay_initiative/openapi.initiative.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -112,19 +112,24 @@ module "idpay_initiative_portal" {
     {
       operation_id = "updateInitiativeGeneralInfo"
 
-      xml_content = templatefile("./api/idpay_initiative/patch-initiative-general.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "updateInitiativeBeneficiary"
 
-      xml_content = templatefile("./api/idpay_initiative/patch-initiative-beneficiary.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeBeneficiaryDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary-draft.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
-
   ]
-
 
 }
