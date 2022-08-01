@@ -17,13 +17,20 @@ module "idpay_api_io_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = templatefile("./api_product/app_io/policy.xml.tpl", {
+  policy_xml = templatefile("./api_product/app_io/policy_io.xml.tpl", {
     env_short           = var.env_short
     reverse_proxy_be_io = var.reverse_proxy_be_io
     appio_timeout_sec   = var.appio_timeout_sec
+    pdv_tokenizer_url   = var.pdv_tokenizer_url
+    pdv_api_key         = data.azurerm_key_vault_secret.pdv_api_key.value
   })
 
   groups = ["developers"]
+}
+
+data "azurerm_key_vault_secret" "pdv_api_key" {
+  name         = "pdv-api-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
 }
 
 #
