@@ -58,3 +58,8 @@ eventhub_enrolled_pi = {
   namespace_name      = "cstar-d-evh-ns"
   resource_group_name = "cstar-d-msg-rg"
 }
+
+#
+# PDV
+#
+pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1/tokens"

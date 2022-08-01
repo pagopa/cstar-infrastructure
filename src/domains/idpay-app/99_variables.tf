@@ -164,3 +164,10 @@ variable "eventhub_enrolled_pi" {
   })
   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 }
+
+variable "pdv_tokenizer_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PDV uri. Endpoint for encryption of pii information."
+}
+
