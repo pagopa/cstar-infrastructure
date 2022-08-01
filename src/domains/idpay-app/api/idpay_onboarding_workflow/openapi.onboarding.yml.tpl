@@ -318,8 +318,6 @@ components:
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
-      required:
-        - listaStatoPerAnno
       type: object
       properties:
         pdndCriteria:
