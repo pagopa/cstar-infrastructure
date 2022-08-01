@@ -242,3 +242,31 @@ resource "null_resource" "upload_tc_pdf" {
           EOT
   }
 }
+
+
+
+# Storage account to store backups: mainly api management
+## Storage account to save cstar blob
+module "backupstorage" {
+  count  = var.env_short == "p" ? 1 : 0
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
+
+  name                     = replace(format("%s-backupstorage", local.project), "-", "")
+  account_kind             = "BlobStorage"
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  access_tier              = "Cool"
+  enable_versioning        = false
+  resource_group_name      = azurerm_resource_group.rg_storage.name
+  location                 = var.location
+  allow_blob_public_access = false
+
+  tags = var.tags
+}
+
+resource "azurerm_storage_container" "apim_backup" {
+  count                 = var.env_short == "p" ? 1 : 0
+  name                  = "apim"
+  storage_account_name  = module.backupstorage[0].name
+  container_access_type = "private"
+}
