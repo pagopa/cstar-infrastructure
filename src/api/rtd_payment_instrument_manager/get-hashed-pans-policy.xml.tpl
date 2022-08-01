@@ -23,8 +23,9 @@ IMPORTANT:
     <set-variable name="accessKey" value="${blob-storage-access-key}" />
     <set-variable name="storageAccount" value="${blob-storage-account-name}" />
     <set-variable name="storagePrivateFqdn" value="${blob-storage-private-fqdn}" />
-    <set-variable name="containerPrefix" value="${blob-storage-container-prefix}" />
-    <set-variable name="hashedPanFileBasename" value="hashedPans.zip" />
+    <set-variable name="containerName" value="${blob-storage-container-prefix}" />
+    <set-variable name="hashedPanFilePart" value="@(context.Request.OriginalUrl.Query.ContainsKey("filePart") ? string.Format("_{0}", context.Request.OriginalUrl.Query.GetValueOrDefault("filePart")) : "")" />
+    <set-variable name="hashedPanFilename" value="@(string.Format("hashedPans{0}.zip", context.Variables["hashedPanFilePart"]))" />
     <set-variable name="apimSubscriptionKeyHash" value="@{
                 System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
                 return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key", "")))).Replace("-", "").ToLowerInvariant();
@@ -32,9 +33,7 @@ IMPORTANT:
     <!-- SAS Token variables -->
     <set-variable name="sasTokenExpiresInMinutes" value="60" />
     <!-- Extract container name -->
-    <set-variable name="containerName" value="@{
-            return (string)context.Variables["containerPrefix"];
-        }" />
+    <set-variable name="containerName" value="@((string)context.Variables["containerName"])" />
     <!-- Genere a service-level SAS token -->
     <set-variable name="signedPermissions" value="rcw" />
     <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mmZ"))" />
@@ -109,16 +108,20 @@ IMPORTANT:
               (string)context.Variables["signedVersion"]
           );
     }" />
-    <!-- set backend url -->
+    <!-- section: rewrite request to backend -->
+    <!-- change base backend url -->
     <set-backend-service base-url="@{
             return "https://" + context.Variables["storagePrivateFqdn"] + "/" + context.Variables["containerName"];
     }" />
     <set-method>GET</set-method>
+    <!-- remove filePart query parameter -->
+    <set-query-parameter name="filePart" exists-action="delete" />
+    <!-- rewrite request to backend specfying sas -->
     <rewrite-uri template="@{
             return string.Format("/{0}?{1}",
-              context.Variables["hashedPanFileBasename"],
-              context.Variables["sas"]
-            );
+    context.Variables["hashedPanFilename"],
+    context.Variables["sas"]
+    );
     }" />
   </inbound>
   <backend>
