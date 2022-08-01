@@ -27,10 +27,7 @@ IMPORTANT:
     <!-- build name part filename based on filePart query params e.g. hashedPans_1 or hashedPans -->
     <set-variable name="hashedPanFilePart" value="@(context.Request.OriginalUrl.Query.ContainsKey("filePart") ? string.Format("_{0}", context.Request.OriginalUrl.Query.GetValueOrDefault("filePart")) : "")" />
     <set-variable name="hashedPanFilename" value="@(string.Format("hashedPans{0}.zip", context.Variables["hashedPanFilePart"]))" />
-    <set-variable name="apimSubscriptionKeyHash" value="@{
-                System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key", "")))).Replace("-", "").ToLowerInvariant();
-    }" />
+
     <!-- SAS Token variables -->
     <set-variable name="sasTokenExpiresInMinutes" value="60" />
     <!-- Extract container name -->
