@@ -24,6 +24,7 @@ IMPORTANT:
     <set-variable name="storageAccount" value="${blob-storage-account-name}" />
     <set-variable name="storagePrivateFqdn" value="${blob-storage-private-fqdn}" />
     <set-variable name="containerName" value="${blob-storage-container-prefix}" />
+    <!-- build name part filename based on filePart query params e.g. hashedPans_1 or hashedPans -->
     <set-variable name="hashedPanFilePart" value="@(context.Request.OriginalUrl.Query.ContainsKey("filePart") ? string.Format("_{0}", context.Request.OriginalUrl.Query.GetValueOrDefault("filePart")) : "")" />
     <set-variable name="hashedPanFilename" value="@(string.Format("hashedPans{0}.zip", context.Variables["hashedPanFilePart"]))" />
     <set-variable name="apimSubscriptionKeyHash" value="@{
