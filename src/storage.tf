@@ -256,6 +256,7 @@ module "backupstorage" {
   account_replication_type = "GRS"
   access_tier              = "Cool"
   enable_versioning        = true
+  versioning_name          = "versioning"
   resource_group_name      = azurerm_resource_group.rg_storage.name
   location                 = var.location
   allow_blob_public_access = false
