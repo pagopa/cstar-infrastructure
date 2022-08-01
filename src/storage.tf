@@ -246,7 +246,6 @@ resource "null_resource" "upload_tc_pdf" {
 
 
 # Storage account to store backups: mainly api management
-## Storage account to save cstar blob
 module "backupstorage" {
   count  = var.env_short == "p" ? 1 : 0
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
