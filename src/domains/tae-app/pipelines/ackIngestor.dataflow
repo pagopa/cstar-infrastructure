@@ -12,7 +12,7 @@ source(output(
 	ignoreNoFilesFound: true,
 	modifiedAfter: ($windowStart),
 	modifiedBefore: ($windowEnd),
-	wildcardPaths:['ack/ADEACK*']) ~> sourceAck
+	wildcardPaths:['ack/CSTAR.ADEACK.*']) ~> sourceAck
 source(output(
 		accountingDate as string,
 		acquirerId as string,
