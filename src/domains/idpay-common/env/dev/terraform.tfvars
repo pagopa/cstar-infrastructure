@@ -266,6 +266,26 @@ eventhubs_idpay_01 = [
         manage = false
       }
     ]
+  },
+  {
+    name              = "idpay-transaction-user-id-splitter"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-user-id-splitter-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-user-id-splitter-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-user-id-splitter-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
   }
 
 ]
@@ -275,7 +295,6 @@ enable = {
   idpay = {
     eventhub_idpay_00 = true
   }
-
 }
 
 cidr_idpay_subnet_redis = ["10.1.139.0/24"]
