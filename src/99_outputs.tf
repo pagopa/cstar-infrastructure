@@ -170,6 +170,10 @@ output "primary_blob_host" {
   value = module.cstarblobstorage.primary_blob_host
 }
 
+output "backup_storage_account_name" {
+  value = try(module.backupstorage[0].name, null)
+}
+
 output "primary_web_host" {
   value = module.cstarblobstorage.primary_web_host
 }
