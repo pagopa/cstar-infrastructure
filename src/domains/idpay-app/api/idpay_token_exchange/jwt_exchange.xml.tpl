@@ -12,8 +12,23 @@
 -->
 <policies>
     <inbound>
-        <base />
-        <validate-jwt query-parameter-name="token" failed-validation-httpcode="401" require-expiration-time="true" require-signed-tokens="true" output-token-variable-name="outputToken">
+        <cors allow-credentials="true">
+            <allowed-origins>
+              %{ for origin in origins ~}
+              <origin>${origin}</origin>
+              %{ endfor ~}
+            </allowed-origins>
+            <allowed-methods preflight-result-max-age="300">
+                <method>*</method>
+            </allowed-methods>
+            <allowed-headers>
+                <header>*</header>
+            </allowed-headers>
+            <expose-headers>
+                <header>*</header>
+            </expose-headers>
+        </cors>
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="outputToken">
             <openid-config url="${openid-config-url}" />
             <audiences>
                 <audience>idpay.welfare.pagopa.it</audience>
@@ -72,10 +87,7 @@
                     
                 }" />
         <return-response>
-            <set-status code="303" reason="Redirecting" />
-            <set-header name="Location" exists-action="override">
-                <value>@("https://${idpay-portal-hostname}/portale-enti/auth#token="+(string)context.Variables["idpayPortalToken"])</value>
-            </set-header>
+            <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
         </return-response>
     </inbound>
     <backend>
