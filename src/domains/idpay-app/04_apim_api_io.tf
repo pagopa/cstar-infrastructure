@@ -203,3 +203,43 @@ module "idpay_timeline_io" {
   ]
 
 }
+
+## IDPAY IBAN Wallet IO API ##
+module "idpay_iban_io" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-iban"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY IBAN IO"
+  display_name = "IDPAY IBAN IO API"
+  path         = "idpay/iban"
+  protocols    = ["https", "http"]
+
+  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_io_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getIban"
+      xml_content = templatefile("./api/idpay_iban/get-iban-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getIbanList"
+      xml_content = templatefile("./api/idpay_iban/get-iban-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
