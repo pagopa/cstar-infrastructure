@@ -33,17 +33,21 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
   storage_permissions     = []
 }
 
+#
 # azure devops policy
-data "azuread_service_principal" "iac_principal" {
+#
+
+#pagopaspa-cstar-platform-iac-projects-{subscription}
+data "azuread_service_principal" "platform_iac_sp" {
   count        = var.enable_iac_pipeline ? 1 : 0
-  display_name = "pagopaspa-cstar-iac-projects-${data.azurerm_subscription.current.subscription_id}"
+  display_name = "pagopaspa-cstar-platform-iac-projects-${data.azurerm_subscription.current.subscription_id}"
 }
 
-resource "azurerm_key_vault_access_policy" "azdevops_iac_policy" {
+resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
   count        = var.enable_iac_pipeline ? 1 : 0
   key_vault_id = module.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azuread_service_principal.iac_principal[0].object_id
+  object_id    = data.azuread_service_principal.platform_iac_sp[0].object_id
 
   secret_permissions = ["Get", "List", "Set", ]
 
@@ -51,8 +55,11 @@ resource "azurerm_key_vault_access_policy" "azdevops_iac_policy" {
   ]
 
   storage_permissions = []
-
 }
+
+#
+# Application Gateway
+#
 
 ## user assined identity: (application gateway) ##
 resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
