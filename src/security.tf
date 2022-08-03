@@ -37,26 +37,6 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
 # azure devops policy
 #
 
-#pagopaspa-cstar-iac-projects
-data "azuread_service_principal" "iac_principal" {
-  count        = var.enable_iac_pipeline ? 1 : 0
-  display_name = "pagopaspa-cstar-iac-projects-${data.azurerm_subscription.current.subscription_id}"
-}
-
-resource "azurerm_key_vault_access_policy" "azdevops_iac_policy" {
-  count        = var.enable_iac_pipeline ? 1 : 0
-  key_vault_id = module.key_vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azuread_service_principal.iac_principal[0].object_id
-
-  secret_permissions = ["Get", "List", "Set", ]
-
-  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get"
-  ]
-
-  storage_permissions = []
-}
-
 #pagopaspa-cstar-platform-iac-projects-{subscription}
 data "azuread_service_principal" "platform_iac_sp" {
   count        = var.enable_iac_pipeline ? 1 : 0
