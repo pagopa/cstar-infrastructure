@@ -3,6 +3,8 @@ info:
   title: IDPAY Onboarding Workflow IO API
   description: IDPAY Onboarding Workflow IO
   version: '1.0'
+servers:
+ - url: https://api-io.dev.cstar.pagopa.it/idpay/onboarding
 paths:
   /citizen:
     put:

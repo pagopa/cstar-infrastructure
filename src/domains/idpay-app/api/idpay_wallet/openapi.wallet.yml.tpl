@@ -3,6 +3,8 @@ info:
   title: IDPAY Wallet IO API
   description: IDPAY Wallet IO
   version: '1.0'
+servers:
+ - url: https://api-io.dev.cstar.pagopa.it/idpay/wallet
 paths:
   /:
     get:
@@ -162,67 +164,6 @@ paths:
                 message: string
         '403':
           description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '500':
-          description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-  '/iban/{initiativeId}':
-    get:
-      tags:
-        - wallet
-      summary: Returns the detail of the IBAN associated to the initiative by the citizen
-      operationId: getIbanDetail
-      parameters:
-        - name: initiativeId
-          in: path
-          description: The initiative ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IbanDTO'
-              example:
-                iban: string
-                description: string
-                holderBank: string
-                channel: string
-        '401':
-          description: Authentication failed
           content:
             application/json:
               schema:
@@ -591,17 +532,6 @@ components:
         hpan:
           type: string
           description: Payment instrument id
-        channel:
-          type: string
-    IbanDTO:
-      type: object
-      properties:
-        iban:
-          type: string
-        description:
-          type: string
-        holderBank:
-          type: string
         channel:
           type: string
     InitiativeDTO:
