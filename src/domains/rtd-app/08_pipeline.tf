@@ -11,3 +11,22 @@ resource "azurerm_data_factory_pipeline" "hashpan_csv_pipeline" {
     azurerm_data_factory_custom_dataset.hpans_blob_csv_destination
   ]
 }
+
+resource "azurerm_data_factory_trigger_tumbling_window" "every_5_min_trigger" {
+
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  frequency       = "Minute"
+  interval        = 5
+  name            = "every5MinTrigger"
+  start_time      = "2022-08-03T14:50:00Z"
+
+  pipeline {
+    name = azurerm_data_factory_pipeline.hashpan_csv_pipeline.name
+  }
+
+  activated = false
+
+  depends_on = [
+    azurerm_data_factory_pipeline.hashpan_csv_pipeline
+  ]
+}
