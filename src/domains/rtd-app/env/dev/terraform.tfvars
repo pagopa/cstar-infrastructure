@@ -49,3 +49,8 @@ dns_zone_internal_prefix = "internal.dev.cstar"
 #
 enable = {
 }
+
+#
+# Hashpan generation pipeline related variables
+#
+hpan_blob_storage_container_name = "cstart-exports-2"

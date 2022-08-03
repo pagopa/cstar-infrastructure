@@ -32,7 +32,7 @@ resource "azurerm_data_factory_custom_dataset" "hpans_blob_csv_destination" {
   {
     "location": {
         "type": "AzureBlobStorageLocation",
-        "container": "cstart-exports-2"
+        "container": "${var.hpan_blob_storage_container_name}"
     },
     "columnDelimiter": ",",
     "escapeChar": "\\",
@@ -65,7 +65,7 @@ resource "azurerm_data_factory_custom_dataset" "binary_source_dataset" {
             "value": "@dataset().filenamePattern",
             "type": "Expression"
         },
-        "container": "cstart-exports-2"
+        "container": "${var.hpan_blob_storage_container_name}"
     }
   }
   JSON
@@ -93,7 +93,7 @@ resource "azurerm_data_factory_custom_dataset" "binary_destination_dataset" {
             "value": "@dataset().filename",
             "type": "Expression"
         },
-        "container": "cstart-exports-2"
+        "container": "${var.hpan_blob_storage_container_name}"
     },
     "compression": {
         "type": "ZipDeflate",

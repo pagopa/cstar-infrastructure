@@ -152,3 +152,9 @@ variable "reverse_proxy_be_io" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+# Hashpan generation pipeline related variables
+variable "hpan_blob_storage_container_name" {
+  type        = string
+  default     = "cstart-exports-2"
+  description = "The container name where hashpan file will be created by pipeline"
+}
