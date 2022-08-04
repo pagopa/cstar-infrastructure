@@ -76,3 +76,244 @@ module "mongdb_collection_onboarding_citizen" {
 
   lock_enable = false #TODO temporary only for dev
 }
+
+# Collections
+module "mongdb_collection_iban" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "iban"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_payment_instrument" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "payment_instrument"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_notification" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "notification"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_wallet" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "wallet"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+
+
+module "mongdb_collection_timeline" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "timeline"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    },
+    {
+      keys   = ["operationDate"]
+      unique = false
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_initiative" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "initiative"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_transaction" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "transaction"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_reward_rule" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "reward_rule"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_beneficiary_rule" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "beneficiary_rule"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_hpan_initiatives_lookup" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "hpan_initiatives_lookup"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_user_initiative_counters" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "user_initiative_counters"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_role_permission" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "role_permission"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
+
+module "mongdb_collection_portal_consent" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "portal_consent"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+    }
+  ]
+
+  lock_enable = false #TODO temporary only for dev
+}
