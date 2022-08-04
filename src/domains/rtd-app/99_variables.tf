@@ -158,3 +158,9 @@ variable "hpan_blob_storage_container_name" {
   default     = "cstart-exports-2"
   description = "The container name where hashpan file will be created by pipeline"
 }
+
+variable "enable_hpan_pipeline_periodic_trigger" {
+  type        = bool
+  default     = false
+  description = "Feature flag to enable/disable periodic trigger for hpan pipeline"
+}

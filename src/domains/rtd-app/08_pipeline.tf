@@ -24,7 +24,7 @@ resource "azurerm_data_factory_trigger_tumbling_window" "every_5_min_trigger" {
     name = azurerm_data_factory_pipeline.hashpan_csv_pipeline.name
   }
 
-  activated = false
+  activated = var.enable_hpan_pipeline_periodic_trigger
 
   depends_on = [
     azurerm_data_factory_pipeline.hashpan_csv_pipeline
