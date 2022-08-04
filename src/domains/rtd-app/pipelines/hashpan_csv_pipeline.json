@@ -26,7 +26,7 @@
         },
         "formatSettings": {
           "type": "DelimitedTextWriteSettings",
-          "maxRowsPerFile": 3,
+          "maxRowsPerFile": 4000000,
           "fileNamePrefix": "hashedPans",
           "quoteAllText": true,
           "fileExtension": ".csv"

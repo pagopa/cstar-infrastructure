@@ -168,7 +168,7 @@ module "rtd_payment_instrument_manager_v2" {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
         blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
-        blob-storage-container-prefix = "cstar-exports"
+        blob-storage-container-prefix = azurerm_storage_container.cstar_hashed_pans.name
       })
     },
   ]
