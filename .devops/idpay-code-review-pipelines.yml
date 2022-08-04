@@ -82,6 +82,8 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AKS_NAME: "ciccio"
+              AKS_RG_NAME: "rg"
 
   # - stage: UAT
   #   dependsOn: []
