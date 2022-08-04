@@ -43,7 +43,7 @@
                             </when>
                             <otherwise>
                                 <send-request mode="new" response-variable-name="responsePDV" timeout="${appio_timeout_sec}" ignore-error="true">
-                                    <set-url>${pdv_tokenizer_url}</set-url>
+                                    <set-url>${pdv_tokenizer_url}/tokens</set-url>
                                     <set-method>PUT</set-method>
                                     <set-header name="x-api-key" exists-action="override">
                                         <value>${pdv_api_key}</value>

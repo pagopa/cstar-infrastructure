@@ -19,19 +19,19 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
   }
 
   data = {
-    kafka_broker                     = "${local.product}-${var.domain}-evh-ns-00.servicebus.windows.net:${var.event_hub_port}"
-    kafka_sasl_mechanism             = "PLAIN"
-    kafka_security_protocol          = "SASL_SSL"
-    idpay-checkiban-eval-consumer-group = "idpay-checkiban-eval-consumer-group"
-    idpay-timeline-consumer-group    = "idpay-timeline-consumer-group"
+    kafka_broker                                       = "${local.product}-${var.domain}-evh-ns-00.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism                               = "PLAIN"
+    kafka_security_protocol                            = "SASL_SSL"
+    idpay-checkiban-eval-consumer-group                = "idpay-checkiban-eval-consumer-group"
+    idpay-timeline-consumer-group                      = "idpay-timeline-consumer-group"
     idpay-onboarding-outcome-onboarding-consumer-group = "idpay-onboarding-outcome-onboarding-consumer-group"
-    idpay-onboarding-outcome-wallet-consumer-group = "idpay-onboarding-outcome-wallet-consumer-group"
-    idpay-onboarding-outcome-notify-consumer-group = "idpay-onboarding-outcome-notify-consumer-group"
-    idpay_onboarding_request_topic   = "idpay-onboarding-request"
-    idpay_onboarding_outcome_topic   = "idpay-onboarding-outcome"
-    idpay_checkiban_evaluation_topic = "idpay-checkiban-evaluation"
-    idpay_checkiban_outcome_topic    = "idpay-checkiban-outcome"
-    idpay_timeline_topic             = "idpay-timeline"
+    idpay-onboarding-outcome-wallet-consumer-group     = "idpay-onboarding-outcome-wallet-consumer-group"
+    idpay-onboarding-outcome-notify-consumer-group     = "idpay-onboarding-outcome-notify-consumer-group"
+    idpay_onboarding_request_topic                     = "idpay-onboarding-request"
+    idpay_onboarding_outcome_topic                     = "idpay-onboarding-outcome"
+    idpay_checkiban_evaluation_topic                   = "idpay-checkiban-evaluation"
+    idpay_checkiban_outcome_topic                      = "idpay-checkiban-outcome"
+    idpay_timeline_topic                               = "idpay-timeline"
   }
 
 }
