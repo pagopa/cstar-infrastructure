@@ -12,5 +12,7 @@ paths:
         200:
           description: Check API Key
           content:
-            application/json: {}
+            application/json:
+              example:
+                result: PASS
 
