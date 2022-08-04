@@ -56,7 +56,7 @@ stages:
         steps:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
+      - job: terraform_plan_idpay_common
         dependsOn: terraform_install
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
@@ -67,6 +67,11 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      - job: terraform_plan_idpay_app
+        dependsOn: terraform_install
+        timeoutInMinutes: $[variables.TIME_OUT]
+        steps:
+          - checkout: self
           # 2. Run terraform plan idpay-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
