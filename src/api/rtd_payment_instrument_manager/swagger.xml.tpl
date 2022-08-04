@@ -49,6 +49,15 @@
                 "description": "Get Hashed PANs",
                 "operationId": "get-hashed-pans",
                 "summary": "Get Hashed PANs",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "filePart",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of hashed-pan page"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "null"
