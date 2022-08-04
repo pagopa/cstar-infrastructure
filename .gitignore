@@ -1,3 +1,5 @@
+**/terraform-debug.log
+
 # Local .terraform directories
 **/.terraform/*
 
