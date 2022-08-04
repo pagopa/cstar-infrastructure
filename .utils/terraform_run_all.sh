@@ -11,6 +11,7 @@
 # i.e. exits with a non-zero status.
 set -eu
 
+pids=()
 ACTION="$1"
 
 array=(
@@ -30,7 +31,7 @@ function rm_terraform {
     find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -iname ".terraform-version" \) -print0 | xargs -0 rm -rf
 }
 
-echo "[INFO] 🪚 Delete all .terraform folders"
+echo "[INFO] 🪚  Delete all .terraform folders"
 rm_terraform
 
 echo "[INFO] 🏁 Init all terraform repos"
@@ -41,6 +42,22 @@ for index in "${array[@]}" ; do
         echo "$FOLDER - $COMMAND"
         echo "🔬 folder: $(pwd) in under terraform: $ACTION action"
         sh terraform.sh "$ACTION" "$COMMAND" &
+
+        pids+=($!)
     popd
 done
 
+
+# Wait for each specific process to terminate.
+# Instead of this loop, a single call to 'wait' would wait for all the jobs
+# to terminate, but it would not give us their exit status.
+#
+for pid in "${pids[@]}"; do
+  #
+  # Waiting on a specific PID makes the wait command return with the exit
+  # status of that process. Because of the 'set -e' setting, any exit status
+  # other than zero causes the current shell to terminate with that exit
+  # status as well.
+  #
+  wait "$pid"
+done
