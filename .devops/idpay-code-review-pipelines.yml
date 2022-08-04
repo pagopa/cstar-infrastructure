@@ -5,10 +5,8 @@ pr:
       - main
   paths:
     include:
-      - 'src/*'
-      - '.devops/*'
-    exclude:
-      - 'src/k8s/*'
+      - 'src/domains/idpay-app'
+      - 'src/domains/idpay-common'
 
 parameters:
   - name: 'DEV'
@@ -44,7 +42,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v17
+      ref: refs/heads/improve-terraform-plan
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -63,50 +61,57 @@ stages:
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
-          # 2. Run terragrunt plan
+          # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: DEV-CSTAR-SERVICE-CONN
-              ENVIRONMENT: dev
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/idpay-common'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          # 2. Run terraform plan idpay-app
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/idpay-app'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
 
-  - stage: UAT
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: cstar-uat-linux
-    jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 2. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: UAT-CSTAR-SERVICE-CONN
-              ENVIRONMENT: uat
+  # - stage: UAT
+  #   dependsOn: []
+  #   condition: and(succeeded(), eq(${{parameters.UAT}}, true))
+  #   pool:
+  #     name: cstar-uat-linux
+  #   jobs:
+  #     - job: terraform_install
+  #       steps:
+  #         # 1. Install terraform and terragrunt
+  #         - template: templates/terraform-setup/template.yaml@terraform
+  #     - job: terraform_plan
+  #       dependsOn: terraform_install
+  #       timeoutInMinutes: $[variables.TIME_OUT]
+  #       steps:
+  #         - checkout: self
+  #         # 2. Run terragrunt plan
+  #         - template: templates/terraform-plan/template.yaml@terraform
+  #           parameters:
+  #             SUBSCRIPTION: UAT-CSTAR-SERVICE-CONN
+  #             ENVIRONMENT: uat
 
-  - stage: PROD
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: cstar-prod-linux
-    jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 2. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: PROD-CSTAR-SERVICE-CONN
-              ENVIRONMENT: prod
+  # - stage: PROD
+  #   dependsOn: []
+  #   condition: and(succeeded(), eq(${{parameters.PROD}}, true))
+  #   pool:
+  #     name: cstar-prod-linux
+  #   jobs:
+  #     - job: terraform_install
+  #       steps:
+  #         # 1. Install terraform and terragrunt
+  #         - template: templates/terraform-setup/template.yaml@terraform
+  #     - job: terraform_plan
+  #       dependsOn: terraform_install
+  #       timeoutInMinutes: $[variables.TIME_OUT]
+  #       steps:
+  #         - checkout: self
+  #         # 2. Run terragrunt plan
+  #         - template: templates/terraform-plan/template.yaml@terraform
+  #           parameters:
+  #             SUBSCRIPTION: PROD-CSTAR-SERVICE-CONN
+  #             ENVIRONMENT: prod
