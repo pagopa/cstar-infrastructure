@@ -26,7 +26,7 @@
         },
         "formatSettings": {
           "type": "DelimitedTextWriteSettings",
-          "maxRowsPerFile": 1,
+          "maxRowsPerFile": 3,
           "fileNamePrefix": "hashedPans",
           "quoteAllText": true,
           "fileExtension": ".csv"
@@ -96,7 +96,7 @@
     "type": "ForEach",
     "dependsOn": [
       {
-        "activity": "delete old zip files",
+        "activity": "get csv files",
         "dependencyConditions": [
           "Succeeded"
         ]
@@ -108,7 +108,8 @@
         "value": "@activity('get csv files').output.childItems",
         "type": "Expression"
       },
-      "isSequential": true,
+      "isSequential": false,
+      "batchCount": 2,
       "activities": [
         {
           "name": "Zip single file",
@@ -175,7 +176,7 @@
     "type": "Delete",
     "dependsOn": [
       {
-        "activity": "get csv files",
+        "activity": "zip all splitted csv",
         "dependencyConditions": [
           "Succeeded"
         ]
@@ -201,6 +202,10 @@
       "storeSettings": {
         "type": "AzureBlobStorageReadSettings",
         "recursive": true,
+        "modifiedDatetimeEnd": {
+          "value": "@pipeline().TriggerTime",
+          "type": "Expression"
+        },
         "wildcardFileName": "*.zip",
         "enablePartitionDiscovery": false
       }
