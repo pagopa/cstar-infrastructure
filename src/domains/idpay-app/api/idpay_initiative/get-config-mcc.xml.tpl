@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
-        <rewrite-uri template="@("config/transaction/mcc")" />
+        <rewrite-uri template="@("/idpay/initiative/config/transaction/mcc")" />
     </inbound>
     <backend>
         <base />
