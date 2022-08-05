@@ -133,6 +133,7 @@
 | [azurerm_api_management_user.user_internal](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/api_management_user) | resource |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/application_insights) | resource |
 | [azurerm_container_group.coredns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/container_group) | resource |
+| [azurerm_cosmosdb_mongo_collection.file_register](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/cosmosdb_mongo_collection) | resource |
 | [azurerm_cosmosdb_mongo_collection.rtd_enrolled_payment_instrument_collection](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/cosmosdb_mongo_collection) | resource |
 | [azurerm_cosmosdb_mongo_collection.sender_auth](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/cosmosdb_mongo_collection) | resource |
 | [azurerm_cosmosdb_mongo_database.rtd_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/cosmosdb_mongo_database) | resource |
