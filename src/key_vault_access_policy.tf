@@ -16,7 +16,7 @@ resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
 
   secret_permissions      = ["Get", "List", "Set", ]
   storage_permissions     = []
-  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", "ManageContacts", ]
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "List", "Get", ]
 }
 
 #
