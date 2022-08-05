@@ -40,6 +40,18 @@ sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	matchType:'exact',
 	ignoreSpaces: false,
 	broadcast: 'auto')~> joinAcksWithAggregatesOnId
+addFileName select(mapColumn(
+		merchantId,
+		terminalId,
+		fiscalCode,
+		acquirerId,
+		status,
+		errorCode,
+		ackFileName
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
+projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
 updAggregatesWithAck sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
@@ -66,7 +78,7 @@ updAggregatesWithAck sink(allowSchemaDrift: true,
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
-addFileName sink(allowSchemaDrift: true,
+selectByStatusNotOk sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
 		senderCode as string,
