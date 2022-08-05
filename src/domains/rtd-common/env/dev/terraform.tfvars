@@ -12,7 +12,7 @@ tags = {
   Owner       = "CSTAR"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-  Application = "IdPay"
+  Application = "RTD"
 }
 
 lock_enable = true

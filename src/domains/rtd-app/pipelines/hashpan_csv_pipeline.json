@@ -1,0 +1,250 @@
+[
+  {
+    "name": "copy to splitted csv",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+      "timeout": "7.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "source": {
+        "type": "CosmosDbMongoDbApiSource",
+        "batchSize": 100,
+        "cursorMethods": {
+          "project": "{ hashPan: 1}"
+        }
+      },
+      "sink": {
+        "type": "DelimitedTextSink",
+        "storeSettings": {
+          "type": "AzureBlobStorageWriteSettings"
+        },
+        "formatSettings": {
+          "type": "DelimitedTextWriteSettings",
+          "maxRowsPerFile": 3,
+          "fileNamePrefix": "hashedPans",
+          "quoteAllText": true,
+          "fileExtension": ".csv"
+        }
+      },
+      "enableStaging": false,
+      "translator": {
+        "type": "TabularTranslator",
+        "mapComplexValuesToString": false
+      }
+    },
+    "inputs": [
+      {
+        "referenceName": "enrolled_payment_instrument_dataset",
+        "type": "DatasetReference"
+      }
+    ],
+    "outputs": [
+      {
+        "referenceName": "hpans_blob_csv_destination",
+        "type": "DatasetReference"
+      }
+    ]
+  },
+  {
+    "name": "get csv files",
+    "type": "GetMetadata",
+    "dependsOn": [
+      {
+        "activity": "copy to splitted csv",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "policy": {
+      "timeout": "7.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "dataset": {
+        "referenceName": "binary_source_dataset",
+        "type": "DatasetReference",
+        "parameters": {
+          "filenamePattern": "*.csv"
+        }
+      },
+      "fieldList": [
+        "childItems"
+      ],
+      "storeSettings": {
+        "type": "AzureBlobStorageReadSettings",
+        "recursive": true,
+        "enablePartitionDiscovery": false
+      },
+      "formatSettings": {
+        "type": "BinaryReadSettings"
+      }
+    }
+  },
+  {
+    "name": "zip all splitted csv",
+    "type": "ForEach",
+    "dependsOn": [
+      {
+        "activity": "get csv files",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "userProperties": [],
+    "typeProperties": {
+      "items": {
+        "value": "@activity('get csv files').output.childItems",
+        "type": "Expression"
+      },
+      "isSequential": false,
+      "batchCount": 2,
+      "activities": [
+        {
+          "name": "Zip single file",
+          "type": "Copy",
+          "dependsOn": [],
+          "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+          },
+          "userProperties": [],
+          "typeProperties": {
+            "source": {
+              "type": "BinarySource",
+              "storeSettings": {
+                "type": "AzureBlobStorageReadSettings",
+                "recursive": true,
+                "deleteFilesAfterCompletion": false
+              },
+              "formatSettings": {
+                "type": "BinaryReadSettings"
+              }
+            },
+            "sink": {
+              "type": "BinarySink",
+              "storeSettings": {
+                "type": "AzureBlobStorageWriteSettings"
+              }
+            },
+            "enableStaging": false
+          },
+          "inputs": [
+            {
+              "referenceName": "binary_source_dataset",
+              "type": "DatasetReference",
+              "parameters": {
+                "filenamePattern": {
+                  "value": "@item().Name",
+                  "type": "Expression"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "referenceName": "binary_destination_dataset",
+              "type": "DatasetReference",
+              "parameters": {
+                "filename": {
+                  "value": "@concat(\n    first(split(item().Name, '_')),\n    if(\n        equals(int(substring(item().Name, 11, 5)), 0),\n        '',\n        concat('_', string(int(substring(item().Name, 11, 5))))    \n    ),\n    '.zip'\n)",
+                  "type": "Expression"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "delete old zip files",
+    "type": "Delete",
+    "dependsOn": [
+      {
+        "activity": "zip all splitted csv",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "policy": {
+      "timeout": "7.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "dataset": {
+        "referenceName": "binary_destination_dataset",
+        "type": "DatasetReference",
+        "parameters": {
+          "filename": "*"
+        }
+      },
+      "enableLogging": false,
+      "storeSettings": {
+        "type": "AzureBlobStorageReadSettings",
+        "recursive": true,
+        "modifiedDatetimeEnd": {
+          "value": "@pipeline().TriggerTime",
+          "type": "Expression"
+        },
+        "wildcardFileName": "*.zip",
+        "enablePartitionDiscovery": false
+      }
+    }
+  },
+  {
+    "name": "delete temporary csv",
+    "type": "Delete",
+    "dependsOn": [
+      {
+        "activity": "zip all splitted csv",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "policy": {
+      "timeout": "7.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "dataset": {
+        "referenceName": "binary_source_dataset",
+        "type": "DatasetReference",
+        "parameters": {
+          "filenamePattern": "*"
+        }
+      },
+      "enableLogging": false,
+      "storeSettings": {
+        "type": "AzureBlobStorageReadSettings",
+        "recursive": true,
+        "wildcardFileName": "*.csv",
+        "enablePartitionDiscovery": false
+      }
+    }
+  }
+]

@@ -171,3 +171,8 @@ variable "pdv_tokenizer_url" {
   description = "PDV uri. Endpoint for encryption of pii information."
 }
 
+variable "checkiban_base_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "Check IBAN uri."
+}
