@@ -40,11 +40,13 @@ resource "azurerm_key_vault_access_policy" "ad_group_policy" {
   certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", "ManageContacts", ]
 }
 
+#
+# policy developers
+#
 data "azuread_group" "adgroup_developers" {
   display_name = "${local.project}-adgroup-developers"
 }
 
-## ad group policy ##
 resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
   key_vault_id = module.key_vault.id
 
@@ -54,14 +56,16 @@ resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
   key_permissions         = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", ] : ["Get", "List", "Update", "Create", "Import", ]
   secret_permissions      = var.env_short == "d" ? ["Get", "List", "Set", "Delete", ] : ["Get", "List", "Set", ]
   storage_permissions     = []
-  certificate_permissions = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", "ManageContacts", ] : ["Get", "List", "Update", "Create", "Import", "Restore", "Recover", "ManageContacts", ]
+  certificate_permissions = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", "ManageContacts", ] : ["Get", "List", "Update", "Create", "Import", "Restore", "Recover", ]
 }
 
+#
+# policy externals
+#
 data "azuread_group" "adgroup_externals" {
   display_name = "${local.project}-adgroup-externals"
 }
 
-## ad group policy ##
 resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
   count = var.env_short == "d" ? 1 : 0
 
@@ -76,6 +80,9 @@ resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
   certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", "ManageContacts", ]
 }
 
+#
+# policy security
+#
 data "azuread_group" "adgroup_security" {
   display_name = "${local.project}-adgroup-security"
 }
