@@ -15,8 +15,8 @@ resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
   object_id    = data.azuread_service_principal.platform_iac_sp[0].object_id
 
   secret_permissions      = ["Get", "List", "Set", ]
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", ]
   storage_permissions     = []
-  certificate_permissions = ["SetIssuers", "DeleteIssuers", "List", "Get", ]
 }
 
 #
