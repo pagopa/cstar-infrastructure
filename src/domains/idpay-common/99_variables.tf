@@ -137,7 +137,7 @@ variable "spa" {
   type        = list(string)
   description = "spa root dirs"
   default = [
-    "portal"
+    "portale-enti"
   ]
 }
 ## Event hub
