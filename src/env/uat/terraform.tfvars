@@ -823,6 +823,7 @@ enable = {
     enrolled_payment_instrument         = false
     mongodb_storage                     = true
     sender_auth                         = true
+    hashed_pans_container               = true
   }
   fa = {
     api = true

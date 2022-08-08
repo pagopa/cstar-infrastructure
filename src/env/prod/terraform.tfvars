@@ -793,6 +793,7 @@ enable = {
     enrolled_payment_instrument         = false
     mongodb_storage                     = false
     sender_auth                         = false
+    hashed_pans_container               = false
   }
   fa = {
     api = false
