@@ -36,7 +36,7 @@ module "cstarblobstorage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
 
   name                     = replace(format("%s-blobstorage", local.project), "-", "")
-  account_kind             = "BlobStorage"
+  account_kind             = "StorageV2"
   account_tier             = "Standard"
   account_replication_type = "LRS"
   access_tier              = "Hot"
