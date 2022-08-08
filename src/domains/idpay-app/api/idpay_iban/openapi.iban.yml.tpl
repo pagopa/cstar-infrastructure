@@ -115,6 +115,15 @@ components:
   schemas:
     IbanDTO:
       type: object
+      required:
+        - iban
+        - checkIbanStatus
+        - holderBank
+        - description
+        - channel
+        - bicCode
+        - queueDate
+        - checkIbanResponseDate
       properties:
         iban:
           type: string
@@ -135,6 +144,8 @@ components:
           format: date-time
     IbanListDTO:
       type: object
+      required:
+        - ibanList
       properties:
         ibanList:
           type: array
@@ -143,6 +154,9 @@ components:
           description: The list of iban of a citizen
     ErrorDTO:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: integer

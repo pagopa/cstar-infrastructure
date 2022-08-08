@@ -288,6 +288,10 @@ components:
     ConsentPutDTO:
       title: ConsentPutDTO
       type: object
+      required:
+        - initiativeId
+        - pdndAccept
+        - selfDeclarationList
       properties:
         initiativeId:
           type: string
@@ -303,6 +307,8 @@ components:
     OnboardingPutDTO:
       title: OnboardingPutDTO
       type: object
+      required: 
+       - initiativeId
       properties:
         initiativeId:
           type: string
@@ -310,6 +316,8 @@ components:
     OnboardingStatusDTO:
       title: OnboardingStatusDTO
       type: object
+      required:
+        - status
       properties:
         status:
           enum:
@@ -321,6 +329,9 @@ components:
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
       type: object
+      required:
+        - pdndCriteria
+        - selfDeclarationList
       properties:
         pdndCriteria:
           type: array
@@ -334,6 +345,10 @@ components:
           description: The list of required self-declared criteria
     PDNDCriteriaDTO:
       type: object
+      required:
+        - code
+        - description
+        - authority
       properties:
         code:
           type: string
@@ -343,6 +358,9 @@ components:
           type: string
     SelfDeclarationDTO:
       type: object
+      required:
+        - code
+        - description
       properties:
         code:
           type: string
@@ -350,6 +368,9 @@ components:
           type: string
     SelfConsentDTO:
       type: object
+      required:
+        - code
+        - accepted
       properties:
         code:
           type: string
@@ -357,6 +378,9 @@ components:
           type: boolean
     ErrorDto:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: integer

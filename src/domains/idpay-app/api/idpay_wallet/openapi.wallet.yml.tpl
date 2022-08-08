@@ -477,6 +477,10 @@ components:
     IbanPutDTO:
       title: IbanPutDTO
       type: object
+      required:
+        - initiativeId
+        - iban
+        - description
       properties:
         initiativeId:
           type: string
@@ -490,6 +494,9 @@ components:
     InstrumentPutDTO:
       title: InstrumentPutDTO
       type: object
+      required:
+        - initiativeId
+        - hpan
       properties:
         initiativeId:
           type: string
@@ -500,6 +507,8 @@ components:
     WalletStatusDTO:
       title: WalletStatusDTO
       type: object
+      required:
+        - status
       properties:
         status:
           enum:
@@ -511,6 +520,8 @@ components:
           description: actual status of the citizen wallet for an initiative
     WalletDTO:
       type: object
+      required:
+        - initiativeList
       properties:
         initiativeList:
           type: array
@@ -519,6 +530,8 @@ components:
           description: The list of active initiatives of a citizen
     InstrumentListDTO:
       type: object
+      required:
+        - instrumentList
       properties:
         instrumentList:
           type: array
@@ -528,6 +541,9 @@ components:
     InstrumentDTO:
       title: InstrumentDTO
       type: object
+      required:
+        - hpan
+        - channel
       properties:
         hpan:
           type: string
@@ -536,6 +552,11 @@ components:
           type: string
     InitiativeDTO:
       type: object
+      required:
+        - initiativeId
+        - status
+        - endDate
+        - nInstr
       properties:
         initiativeId:
           type: string
@@ -563,6 +584,9 @@ components:
           type: string
     ErrorDTO:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: integer

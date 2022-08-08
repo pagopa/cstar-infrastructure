@@ -166,6 +166,9 @@ components:
   schemas:
     TimelineDTO:
       type: object
+      required:
+        - lastUpdate
+        - operationList
       properties:
         lastUpdate:
           type: string
@@ -178,6 +181,9 @@ components:
           description: the list of transactions and operations of an initiative of a citizen
     DetailOperationDTO:
       type: object
+      required:
+        - operationId
+        - operationType
       properties:
         operationId:
           type: string
@@ -225,6 +231,9 @@ components:
           type: string
     OperationDTO:
       type: object
+      required:
+        - operationId
+        - operationType
       properties:
         operationId:
           type: string
@@ -266,6 +275,9 @@ components:
           type: string
     ErrorDTO:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: integer
