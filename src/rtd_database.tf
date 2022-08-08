@@ -102,3 +102,18 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
     unique = true
   }
 }
+
+resource "azurerm_cosmosdb_mongo_collection" "file_register" {
+
+  count = var.enable.rtd.mongodb_storage ? 1 : 0
+
+  name                = "fileregister"
+  resource_group_name = azurerm_resource_group.db_rg.name
+  account_name        = module.cosmosdb_account_mongodb[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+}
