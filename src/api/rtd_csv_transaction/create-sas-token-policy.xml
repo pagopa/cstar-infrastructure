@@ -262,9 +262,7 @@
             <set-body>@{
                 return new JObject(
                     new JProperty("sas", context.Variables["sas"]),
-                    new JProperty("authorizedContainer", context.Variables["containerName"]),
-                    new JProperty("senderCode", context.Variables["senderCode"]),
-                    new JProperty("senderCodeHash", context.Variables["senderCodeHash"])
+                    new JProperty("authorizedContainer", context.Variables["containerName"])
                 ).ToString();
              }
             </set-body>
