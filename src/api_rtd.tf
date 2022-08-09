@@ -204,7 +204,7 @@ module "rtd_csv_transaction" {
   api_operation_policies = [
     {
       operation_id = "createAdeSasToken",
-      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml", {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
         blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
@@ -214,7 +214,7 @@ module "rtd_csv_transaction" {
     },
     {
       operation_id = "createRtdSasToken",
-      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml", {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
         blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
