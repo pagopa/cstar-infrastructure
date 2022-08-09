@@ -16,7 +16,7 @@
         <!--
             This policy grants temporary upload grants to clients by issuing SAS tokens.
 
-            Access is limited to a single container derived from client's APIM Subscription Key.
+            Access is limited to a single container derived from client's sender code.
             The container, if not already present, is created on the fly from the policy itself.
         -->
 
@@ -28,16 +28,28 @@
 
         <!-- SAS Token variables -->
         <set-variable name="sasTokenExpiresInMinutes" value="60" />
-        
+
+        <!-- Translate from API Key to Sender Code -->
+        <set-variable name="keyHash" value="@{
+                    System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
+                    return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
+        }"
+        />
+
+        <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
+            <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+            <set-method>GET</set-method>
+        </send-request>
+
         <!--
-            START - Derive the client's own container from the APIM Subscription Key
+            START - Derive the client's own container from the sender code
 
             The container name is computed by combining a static prefix (containerPrefix) and the first 44 characters
-            of the SHA256 checksum of the APIM Subscription Key.
+            of the SHA256 checksum of the sender code.
         -->
         
         <!--
-            The following block computes the SHA256 checksum of the API Subscription Key using C# cryptographic library.
+            The following block computes the SHA256 checksum of the Sender Code using C# cryptographic library.
 
             To compute the same hash in Python (tested with Python 3.9.9):
 
@@ -47,20 +59,20 @@
 
             To compute the same hash with Coreutils sha256sum from command line:
 
-            echo -n <APIM_SUBSCRIPTION_KEY> | sha256sum
+            echo -n <Sender Code> | sha256sum
 
             See: https://stackoverflow.com/questions/38474362/get-a-file-sha256-hash-code-and-checksum
         -->
-        <set-variable name="apimSubscriptionKeyHash" value="@{
+        <set-variable name="senderCodeHash" value="@{
                 System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key", "")))).Replace("-", "").ToLowerInvariant();
+                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("senderCode", "")))).Replace("-", "").ToLowerInvariant();
             }"
         />
         
         <set-variable name="containerName" value="@{
             return string.Format("{0}-{1}",
                 (string)context.Variables["containerPrefix"],
-                ((string)context.Variables["apimSubscriptionKeyHash"]).Substring(0, 44));
+                ((string)context.Variables["senderCodeHash"]).Substring(0, 44));
             }"
         />
         <!--
