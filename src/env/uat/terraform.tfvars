@@ -384,7 +384,7 @@ cosmos_mongo_db_params = {
 
   additional_geo_locations          = []
   private_endpoint_enabled          = true
-  public_network_access_enabled     = false
+  public_network_access_enabled     = true
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
@@ -820,7 +820,7 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = false
     batch_service_api                   = true
-    enrolled_payment_instrument         = false
+    enrolled_payment_instrument         = true
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
