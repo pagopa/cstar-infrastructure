@@ -36,7 +36,7 @@
         }"
         />
 
-        <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
+        <send-request mode="new" response-variable-name="senderCodeResponse" timeout="60" ignore-error="true">
             <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
             <set-method>GET</set-method>
         </send-request>
@@ -63,9 +63,10 @@
 
             See: https://stackoverflow.com/questions/38474362/get-a-file-sha256-hash-code-and-checksum
         -->
+        <set-variable name="senderCode" value="@((IResponse)context.Variables["senderCodeResponse"]).Body.As<string>()"/>
         <set-variable name="senderCodeHash" value="@{
                 System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("senderCode", "")))).Replace("-", "").ToLowerInvariant();
+                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Variables.GetValueOrDefault("senderCode", "")))).Replace("-", "").ToLowerInvariant();
             }"
         />
         
