@@ -255,6 +255,51 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
   JSON
 }
 
+resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes_intermediate" {
+
+  name            = "WrongFiscalCodesIntermediate"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "container": "tmp",
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8",
+    "escapeChar": "\\",
+    "quoteChar": ""
+  }
+  JSON
+
+  description = "Wrong Fiscal Codes to be intermediately stored"
+  annotations = ["WrongFiscalCodesIntermediate"]
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "senderCode",
+      "type": "String"
+    },
+    {
+      "name": "acquirerId",
+      "type": "String"
+    },
+    {
+      "name": "fiscalCode",
+      "type": "String"
+    }
+  ]
+  JSON
+}
+
+
 resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
 
   name            = "WrongFiscalCodes"
@@ -270,23 +315,16 @@ resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
     "location": {
       "type": "AzureBlobStorageLocation",
       "container": "sender-ade-ack",
-      "fileName": {
-        "value": "@dataset().file",
-        "type": "Expression"
-      }
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8",
+    "escapeChar": "\\",
     "quoteChar": ""
   }     
   JSON
 
-  description = "Wrong Fiscal Codes to be Returned to Senders"
+  description = "Wrong Fiscal Codes to be returned to Senders"
   annotations = ["WrongFiscalCodes"]
-
-  parameters = {
-    file = "myFile"
-  }
 
   schema_json = <<JSON
   [

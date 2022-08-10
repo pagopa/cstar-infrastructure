@@ -1,6 +1,7 @@
 parameters{
 	windowStart as timestamp,
-	windowEnd as timestamp
+	windowEnd as timestamp,
+	RunID as string
 }
 source(output(
 		id as string,
@@ -34,12 +35,24 @@ source(output(
 	format: 'document',
 	systemColumns: true) ~> aggregates
 joinAcksWithAggregatesOnId alterRow(updateIf(isMatch())) ~> updAggregatesWithAck
-updAggregatesWithAck derive(ackFileName = toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
+updAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
 	matchType:'exact',
 	ignoreSpaces: false,
 	broadcast: 'auto')~> joinAcksWithAggregatesOnId
+addFileName select(mapColumn(
+		merchantId,
+		terminalId,
+		fiscalCode,
+		acquirerId,
+		status,
+		errorCode,
+		ackFileName
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
+projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
 updAggregatesWithAck sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
@@ -66,7 +79,7 @@ updAggregatesWithAck sink(allowSchemaDrift: true,
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
-addFileName sink(allowSchemaDrift: true,
+selectByStatusNotOk sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
 		senderCode as string,

@@ -1,30 +1,131 @@
-[
-  {
-    "name": "ackIngestAndSplit",
-    "type": "ExecuteDataFlow",
-    "dependsOn": [],
-    "policy": {
-      "timeout": "1.00:00:00",
-      "retry": 0,
-      "retryIntervalInSeconds": 30,
-      "secureOutput": false,
-      "secureInput": false
-    },
-    "userProperties": [],
-    "typeProperties": {
-      "dataflow": {
-        "referenceName": "ackjoinupdate",
-        "type": "DataFlowReference",
-        "parameters": {
-          "windowStart": "toTimestamp(left('@{pipeline().parameters.windowStart}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
-          "windowEnd": "toTimestamp(left('@{pipeline().parameters.windowEnd}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')"
+{
+  "name": "ack_ingestor",
+  "properties": {
+    "activities": [
+      {
+        "name": "ackIngestAndSplit",
+        "type": "ExecuteDataFlow",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "1.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "dataflow": {
+            "referenceName": "ackjoinupdate",
+            "type": "DataFlowReference",
+            "parameters": {
+              "windowStart": "toTimestamp(left('@{pipeline().parameters.windowStart}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
+              "windowEnd": "toTimestamp(left('@{pipeline().parameters.windowEnd}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
+              "RunID": {
+                "value": "'@{pipeline().RunId}'",
+                "type": "Expression"
+              }
+            }
+          },
+          "compute": {
+            "coreCount": 8,
+            "computeType": "General"
+          },
+          "traceLevel": "Fine"
         }
       },
-      "compute": {
-        "coreCount": 8,
-        "computeType": "General"
+      {
+        "name": "copyToTriggerEvents",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "ackIngestAndSplit",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings",
+              "recursive": true,
+              "wildcardFolderPath": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "wildcardFileName": {
+                "value": "*",
+                "type": "Expression"
+              },
+              "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            }
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "storeSettings": {
+              "type": "AzureBlobStorageWriteSettings",
+              "copyBehavior": "PreserveHierarchy"
+            },
+            "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "quoteAllText": true,
+              "fileExtension": ".txt"
+            }
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "WrongFiscalCodesIntermediate",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "WrongFiscalCodes",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "windowEnd": {
+        "type": "String",
+        "defaultValue": "windowEndTime"
       },
-      "traceLevel": "Fine"
-    }
-  }
-]
+      "windowStart": {
+        "type": "String",
+        "defaultValue": "windowStartTime"
+      }
+    },
+    "variables": {
+      "senderCode": {
+        "type": "String"
+      }
+    },
+    "annotations": [],
+    "lastPublishTime": "2022-08-09T15:05:16Z"
+  },
+  "type": "Microsoft.DataFactory/factories/pipelines"
+}
