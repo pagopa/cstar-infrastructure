@@ -40,13 +40,13 @@
     },
     "inputs": [
       {
-        "referenceName": "enrolled_payment_instrument_dataset",
+        "referenceName": "${enrolled_payment_dataset}",
         "type": "DatasetReference"
       }
     ],
     "outputs": [
       {
-        "referenceName": "hpans_blob_csv_destination",
+        "referenceName": "${hashpan_csv_destination}",
         "type": "DatasetReference"
       }
     ]
@@ -72,7 +72,7 @@
     "userProperties": [],
     "typeProperties": {
       "dataset": {
-        "referenceName": "binary_source_dataset",
+        "referenceName": "${binary_source_csv}",
         "type": "DatasetReference",
         "parameters": {
           "filenamePattern": "*.csv"
@@ -145,7 +145,7 @@
           },
           "inputs": [
             {
-              "referenceName": "binary_source_dataset",
+              "referenceName": "${binary_source_csv}",
               "type": "DatasetReference",
               "parameters": {
                 "filenamePattern": {
@@ -157,7 +157,7 @@
           ],
           "outputs": [
             {
-              "referenceName": "binary_destination_dataset",
+              "referenceName": "${binary_destination_zip}",
               "type": "DatasetReference",
               "parameters": {
                 "filename": {
@@ -192,7 +192,7 @@
     "userProperties": [],
     "typeProperties": {
       "dataset": {
-        "referenceName": "binary_destination_dataset",
+        "referenceName": "${binary_destination_zip}",
         "type": "DatasetReference",
         "parameters": {
           "filename": "*"
@@ -232,7 +232,7 @@
     "userProperties": [],
     "typeProperties": {
       "dataset": {
-        "referenceName": "binary_source_dataset",
+        "referenceName": "${binary_source_csv}",
         "type": "DatasetReference",
         "parameters": {
           "filenamePattern": "*"
