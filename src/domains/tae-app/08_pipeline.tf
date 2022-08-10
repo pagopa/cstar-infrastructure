@@ -75,8 +75,28 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     name = "wrongFiscalCodesByAcquirer"
 
     dataset {
-      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes.name
+      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes_intermediate.name
     }
+  }
+
+  transformation {
+    name = "updAggregatesWithAck"
+  }
+
+  transformation {
+    name = "addFileName"
+  }
+
+  transformation {
+    name = "joinAcksWithAggregatesOnId"
+  }
+
+  transformation {
+    name = "projectSenderAdeAck"
+  }
+
+  transformation {
+    name = "selectByStatusNotOk"
   }
 
   script = file("pipelines/ackIngestor.dataflow")
@@ -108,6 +128,7 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   interval  = 15
   frequency = "Minute"
   activated = true
+  time_zone = "UTC"
 
   annotations = ["AdeAcks"]
   description = "The trigger fires every 15 minutes"
