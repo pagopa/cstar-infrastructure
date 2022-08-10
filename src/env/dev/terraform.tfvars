@@ -703,7 +703,7 @@ eventhubs = [
       {
         name   = "rtd-enrolled-pi-consumer-policy"
         listen = true
-        send   = false
+        send   = true
         manage = false
       },
       {
