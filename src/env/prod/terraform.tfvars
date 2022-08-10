@@ -627,6 +627,26 @@ eventhubs = [
       }
     ]
   },
+  {
+    name              = "rtd-enrolled-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-enrolled-pi-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-enrolled-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
 ]
 
 
@@ -793,6 +813,7 @@ enable = {
     enrolled_payment_instrument         = false
     mongodb_storage                     = false
     sender_auth                         = false
+    hashed_pans_container               = false
   }
   fa = {
     api = false

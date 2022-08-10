@@ -155,7 +155,7 @@ variable "reverse_proxy_be_io" {
 # Hashpan generation pipeline related variables
 variable "hpan_blob_storage_container_name" {
   type        = string
-  default     = "cstart-exports-2"
+  default     = null
   description = "The container name where hashpan file will be created by pipeline"
 }
 

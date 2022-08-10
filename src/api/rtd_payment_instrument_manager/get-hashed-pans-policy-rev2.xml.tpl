@@ -117,15 +117,34 @@ IMPORTANT:
     <!-- rewrite request to backend specfying sas -->
     <rewrite-uri template="@{
             return string.Format("/{0}?{1}",
-    context.Variables["hashedPanFilename"],
-    context.Variables["sas"]
-    );
+                context.Variables["hashedPanFilename"],
+                context.Variables["sas"]
+            );
     }" />
   </inbound>
   <backend>
     <base />
   </backend>
-  <outbound />
+    <outbound>
+        <base />
+        <set-header name="x-ms-error-code" exists-action="delete" />
+        <set-header name="x-ms-version" exists-action="delete" />
+        <set-header name="x-ms-request-id" exists-action="delete" />
+        <set-header name="x-ms-creation-time" exists-action="delete" />
+        <set-header name="x-ms-lease-status" exists-action="delete" />
+        <set-header name="x-ms-lease-state" exists-action="delete" />
+        <set-header name="x-ms-blob-type" exists-action="delete" />
+        <set-header name="x-ms-server-encrypted" exists-action="delete" />
+        <set-header name="ETag" exists-action="delete" />
+        <choose>
+            <when condition="@(context.Response.StatusCode != 200)">
+                <return-response>
+                    <set-status code="@(context.Response.StatusCode)" reason="@(context.Response.StatusReason)" />
+                    <set-body />
+                </return-response>
+            </when>
+        </choose>
+    </outbound>
   <on-error>
     <base />
   </on-error>
