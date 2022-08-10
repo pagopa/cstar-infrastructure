@@ -131,14 +131,17 @@ module "rtd_payment_instrument_manager" {
 module "rtd_payment_instrument_manager_v2" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
 
-  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
+  # cause this api relies on new container, enable it when container is enabled
+  count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
+
+  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   description         = ""
   display_name        = "RTD Payment Instrument Manager API"
   path                = "rtd/payment-instrument-manager"
   protocols           = ["https", "http"]
-  service_url         = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
+  service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
   version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v2"
 
@@ -168,7 +171,7 @@ module "rtd_payment_instrument_manager_v2" {
         blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
         blob-storage-account-name     = module.cstarblobstorage.name,
         blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
-        blob-storage-container-prefix = "cstar-exports"
+        blob-storage-container-prefix = azurerm_storage_container.cstar_hashed_pans[0].name
       })
     },
   ]

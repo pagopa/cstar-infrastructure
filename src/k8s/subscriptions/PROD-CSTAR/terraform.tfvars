@@ -384,7 +384,7 @@ configmaps_rtddecrypter = {
 
 # rtd-ms-enrolled-payment-instrument
 configmaps_rtdenrolledpaymentinstrument = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx4g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
@@ -652,7 +652,9 @@ secrets_to_be_read_from_kv = [
   "tae-ade-api-client-secret",
   "cstarblobstorage-private-key",
   "cstarblobstorage-private-key-passphrase",
-  "rtd-internal-api-product-subscription-key"
+  "rtd-internal-api-product-subscription-key",
+  "mongo-db-connection-uri",
+  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"
 ]
 
 enable = {
