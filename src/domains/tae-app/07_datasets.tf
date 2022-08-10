@@ -269,7 +269,7 @@ resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes_intermediate"
   {
     "location": {
       "type": "AzureBlobStorageLocation",
-      "container": "tmp",
+      "container": "tmp"
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8",
@@ -314,7 +314,7 @@ resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
   {
     "location": {
       "type": "AzureBlobStorageLocation",
-      "container": "sender-ade-ack",
+      "container": "sender-ade-ack"
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8",
