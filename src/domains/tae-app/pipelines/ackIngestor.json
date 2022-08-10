@@ -31,10 +31,7 @@
             "coreCount": 8,
             "computeType": "General"
           },
-          "traceLevel": "None",
-          "cacheSinks": {
-            "firstRowOnly": true
-          }
+          "traceLevel": "Fine"
         }
       },
       {
@@ -128,7 +125,7 @@
       }
     },
     "annotations": [],
-    "lastPublishTime": "2022-08-08T12:21:52Z"
+    "lastPublishTime": "2022-08-09T15:05:16Z"
   },
   "type": "Microsoft.DataFactory/factories/pipelines"
 }
