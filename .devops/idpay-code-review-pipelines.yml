@@ -55,10 +55,10 @@ stages:
     pool:
       name: cstar-dev-linux
     jobs:
-      # - job: terraform_install
-      #   steps:
-      #     # 1. Install terraform and terragrunt
-      #     - template: templates/terraform-setup/template.yaml@terraform
+      - job: terraform_install
+        steps:
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
       # - job: terraform_plan_idpay_common
       #   strategy:
       #     parallel: 1
