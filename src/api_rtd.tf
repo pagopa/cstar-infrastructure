@@ -134,14 +134,14 @@ module "rtd_payment_instrument_manager_v2" {
   # cause this api relies on new container, enable it when container is enabled
   count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
 
-  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
+  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
   description         = ""
   display_name        = "RTD Payment Instrument Manager API"
   path                = "rtd/payment-instrument-manager"
   protocols           = ["https", "http"]
-  service_url         = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
+  service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
   version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v2"
 
