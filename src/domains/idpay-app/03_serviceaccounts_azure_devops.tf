@@ -31,6 +31,23 @@ resource "kubernetes_role_binding" "deployer_binding" {
   }
 }
 
+resource "kubernetes_role_binding" "system_deployer_binding" {
+  metadata {
+    name      = "deployer-binding"
+    namespace = local.system_domain_namespace
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-deployer"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "azure-devops"
+    namespace = local.system_domain_namespace
+  }
+}
+
 #
 # Secrets service account on KV
 #
