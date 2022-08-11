@@ -5,7 +5,7 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 
   rule {
     api_groups = [""]
-    resources  = ["services", "configmaps", "secrets"]
+    resources  = ["namespaces", "services", "configmaps", "secrets"]
     verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
   }
 
