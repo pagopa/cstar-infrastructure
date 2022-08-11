@@ -36,6 +36,7 @@ variables:
   dev01AksApiServerUrl: '$(DEV01-AKS-APISERVER-URL)'
   dev01AksAzureDevopsSACacrt: '$(DEV01-AKS-AZURE-DEVOPS-SA-CACRT)'
   dev01AksAzureDevopsSAToken: '$(DEV01-AKS-AZURE-DEVOPS-SA-TOKEN)'
+  aksDevName: '$(AKS_DEV_NAME)'
 
 pool:
   vmImage: 'ubuntu-20.04'
@@ -85,7 +86,7 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: 'cstar-d-weu-dev01-aks'
+              AKS_NAME: ${{ variables.aksDevName }}
               AKS_API_SERVER_URL: ${{ variables.dev01AksApiServerUrl }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.dev01AksAzureDevopsSACacrt }}
               AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.dev01AksAzureDevopsSAToken }}
