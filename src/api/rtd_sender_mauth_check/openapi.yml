@@ -12,5 +12,6 @@ paths:
         200:
           description: Check Client Certificate
           content:
-            application/json: {}
-
+            application/json:
+              example:
+                result: PASS

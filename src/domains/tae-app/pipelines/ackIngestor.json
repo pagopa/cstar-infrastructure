@@ -17,7 +17,11 @@
         "type": "DataFlowReference",
         "parameters": {
           "windowStart": "toTimestamp(left('@{pipeline().parameters.windowStart}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
-          "windowEnd": "toTimestamp(left('@{pipeline().parameters.windowEnd}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')"
+          "windowEnd": "toTimestamp(left('@{pipeline().parameters.windowEnd}', 19), 'yyyy-MM-dd\\'T\\'HH:mm:ss')",
+          "RunID": {
+            "value": "'@{pipeline().RunId}'",
+            "type": "Expression"
+          }
         }
       },
       "compute": {
@@ -26,5 +30,79 @@
       },
       "traceLevel": "Fine"
     }
+  },
+  {
+    "name": "copyToTriggerEvents",
+    "type": "Copy",
+    "dependsOn": [
+      {
+        "activity": "ackIngestAndSplit",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "policy": {
+      "timeout": "7.00:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "source": {
+        "type": "DelimitedTextSource",
+        "storeSettings": {
+          "type": "AzureBlobStorageReadSettings",
+          "recursive": true,
+          "wildcardFolderPath": {
+            "value": "@pipeline().RunId",
+            "type": "Expression"
+          },
+          "wildcardFileName": {
+            "value": "*",
+            "type": "Expression"
+          },
+          "enablePartitionDiscovery": false
+        },
+        "formatSettings": {
+          "type": "DelimitedTextReadSettings"
+        }
+      },
+      "sink": {
+        "type": "DelimitedTextSink",
+        "storeSettings": {
+          "type": "AzureBlobStorageWriteSettings",
+          "copyBehavior": "PreserveHierarchy"
+        },
+        "formatSettings": {
+          "type": "DelimitedTextWriteSettings",
+          "quoteAllText": true,
+          "fileExtension": ".txt"
+        }
+      },
+      "enableStaging": false,
+      "translator": {
+        "type": "TabularTranslator",
+        "typeConversion": true,
+        "typeConversionSettings": {
+          "allowDataTruncation": true,
+          "treatBooleanAsNumber": false
+        }
+      }
+    },
+    "inputs": [
+      {
+        "referenceName": "WrongFiscalCodesIntermediate",
+        "type": "DatasetReference"
+      }
+    ],
+    "outputs": [
+      {
+        "referenceName": "WrongFiscalCodes",
+        "type": "DatasetReference"
+      }
+    ]
   }
 ]

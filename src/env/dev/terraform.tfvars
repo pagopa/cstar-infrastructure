@@ -703,7 +703,7 @@ eventhubs = [
       {
         name   = "rtd-enrolled-pi-consumer-policy"
         listen = true
-        send   = false
+        send   = true
         manage = false
       },
       {
@@ -861,6 +861,7 @@ enable = {
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
     sender_auth                         = true
+    hashed_pans_container               = true
   }
   fa = {
     api = true

@@ -9,6 +9,8 @@ pr:
       - '.devops/*'
     exclude:
       - 'src/k8s/*'
+      - 'src/domains/*'
+      - 'src/aks-platform/*'
 
 parameters:
   - name: 'DEV'

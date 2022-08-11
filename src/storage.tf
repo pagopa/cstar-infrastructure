@@ -36,7 +36,7 @@ module "cstarblobstorage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
 
   name                     = replace(format("%s-blobstorage", local.project), "-", "")
-  account_kind             = "BlobStorage"
+  account_kind             = "StorageV2"
   account_tier             = "Standard"
   account_replication_type = "LRS"
   access_tier              = "Hot"
@@ -157,6 +157,14 @@ resource "null_resource" "auth_info_privacy" {
 # Container export
 resource "azurerm_storage_container" "cstar_exports" {
   name                  = "cstar-exports"
+  storage_account_name  = module.cstarblobstorage.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "cstar_hashed_pans" {
+  count = var.enable.rtd.hashed_pans_container ? 1 : 0
+
+  name                  = "cstar-hashed-pans"
   storage_account_name  = module.cstarblobstorage.name
   container_access_type = "private"
 }

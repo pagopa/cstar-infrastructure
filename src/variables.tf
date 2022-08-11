@@ -759,6 +759,7 @@ variable "enable" {
       enrolled_payment_instrument         = bool
       mongodb_storage                     = bool
       sender_auth                         = bool
+      hashed_pans_container               = bool
     })
     fa = object({
       api = bool
@@ -787,6 +788,7 @@ variable "enable" {
       enrolled_payment_instrument         = false
       mongodb_storage                     = false
       sender_auth                         = false
+      hashed_pans_container               = false
     }
     fa = {
       api = false
