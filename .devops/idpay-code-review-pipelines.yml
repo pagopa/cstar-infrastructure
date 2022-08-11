@@ -69,8 +69,8 @@ stages:
           # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-common'
+              # ENVIRONMENT: "dev"
+              # WORKINGDIR: 'src/domains/idpay-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
       - job: terraform_plan_idpay_app
         dependsOn: terraform_install
@@ -85,10 +85,14 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: 'cstar-d-weu-dev01-aks'
-              AKS_API_SERVER_URL: ${{ variables.dev01AksApiServerUrl }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.dev01AksAzureDevopsSACacrt }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.dev01AksAzureDevopsSAToken }}
+              # AKS_NAME: 'cstar-d-weu-dev01-aks'
+              # AKS_API_SERVER_URL: ${{ variables.dev01AksApiServerUrl }}
+              # AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.dev01AksAzureDevopsSACacrt }}
+              # AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.dev01AksAzureDevopsSAToken }}
+              AKS_NAME: ''
+              AKS_API_SERVER_URL: 
+              AKS_AZURE_DEVOPS_SA_CA_CRT: 
+              AKS_AZURE_DEVOPS_SA_TOKEN: 
 
   # - stage: UAT
   #   dependsOn: []
