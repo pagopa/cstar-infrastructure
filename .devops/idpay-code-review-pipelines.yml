@@ -56,10 +56,6 @@ stages:
     pool:
       name: cstar-dev-linux
     jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
       - job: terraform_plan_idpay_common
         strategy:
           parallel: 1
@@ -67,6 +63,8 @@ stages:
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
           # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
@@ -80,6 +78,8 @@ stages:
           parallel: 1
         steps:
           - checkout: self
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
           # Run terraform plan idpay-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
