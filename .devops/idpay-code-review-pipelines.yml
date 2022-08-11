@@ -86,9 +86,9 @@ stages:
               WORKINGDIR: 'src/domains/idpay-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
               AKS_NAME: 'cstar-d-weu-dev01-aks'
-              # AKS_API_SERVER_URL: ${{ variables.dev01AksApiServerUrl }}
-              # AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.dev01AksAzureDevopsSACacrt }}
-              # AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.dev01AksAzureDevopsSAToken }}
+              AKS_API_SERVER_URL: ${{ variables.dev01AksApiServerUrl }}
+              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.dev01AksAzureDevopsSACacrt }}
+              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.dev01AksAzureDevopsSAToken }}
 
   # - stage: UAT
   #   dependsOn: []
