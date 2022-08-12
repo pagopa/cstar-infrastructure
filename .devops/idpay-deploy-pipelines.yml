@@ -54,8 +54,6 @@ stages:
       # idpay_common
       #
       - job: tf_plan_idpay_common
-        strategy:
-          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
@@ -68,8 +66,6 @@ stages:
               WORKINGDIR: 'src/domains/idpay-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
       - job: tf_apply_idpay_common
-        strategy:
-          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
@@ -86,8 +82,6 @@ stages:
       #
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
         steps:
           - checkout: self
           # 1. Install terraform and terragrunt
@@ -104,8 +98,6 @@ stages:
               AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
       - job: tf_apply_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
         steps:
           - checkout: self
           # 1. Install terraform and terragrunt
