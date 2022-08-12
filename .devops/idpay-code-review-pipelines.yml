@@ -46,7 +46,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/heads/improve-terraform-plan
+      ref: refs/tags/v2.3.0
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
