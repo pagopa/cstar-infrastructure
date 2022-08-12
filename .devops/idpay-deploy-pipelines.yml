@@ -1,12 +1,6 @@
-pr:
-  autoCancel: false
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - 'src/domains/idpay-app'
-      - 'src/domains/idpay-common'
+# only manual
+trigger: none
+pr: none
 
 parameters:
   - name: 'DEV'
@@ -33,10 +27,10 @@ parameters:
 
 variables:
   TIME_OUT: 10
-  dev01AksApiServerUrl: '$(DEV01-AKS-APISERVER-URL)'
-  dev01AksAzureDevopsSACacrt: '$(DEV01-AKS-AZURE-DEVOPS-SA-CACRT)'
-  dev01AksAzureDevopsSAToken: '$(DEV01-AKS-AZURE-DEVOPS-SA-TOKEN)'
-  aksDevName: '$(AKS_DEV_NAME)'
+  DEV01_AKS_APISERVER_URL: '$(TF_DEV01_AKS_APISERVER_URL)'
+  DEV01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_CACRT)'
+  DEV01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_TOKEN)'
+  AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
 
 pool:
   vmImage: 'ubuntu-20.04'
@@ -56,7 +50,10 @@ stages:
     pool:
       name: cstar-dev-linux
     jobs:
-      - job: terraform_plan_idpay_common
+      #
+      # idpay_common
+      #
+      - job: tf_plan_idpay_common
         strategy:
           parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
@@ -70,7 +67,24 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-      - job: terraform_plan_idpay_app
+      - job: tf_apply_idpay_common
+        strategy:
+          parallel: 1
+        timeoutInMinutes: $[variables.TIME_OUT]
+        steps:
+          - checkout: self
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # 2. Run terraform plan idpay-common
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/idpay-common'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      #
+      # idpay_app
+      #
+      - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
           parallel: 1
@@ -84,10 +98,28 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: ${{ variables.aksDevName }}
-              AKS_API_SERVER_URL: ${{ variables.dev01AksApiServerUrl }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.dev01AksAzureDevopsSACacrt }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.dev01AksAzureDevopsSAToken }}
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+      - job: tf_apply_idpay_app
+        timeoutInMinutes: $[variables.TIME_OUT]
+        strategy:
+          parallel: 1
+        steps:
+          - checkout: self
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # Run terraform plan idpay-app
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/idpay-app'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
   # - stage: UAT
   #   dependsOn: []
@@ -95,12 +127,12 @@ stages:
   #   pool:
   #     name: cstar-uat-linux
   #   jobs:
-  #     - job: terraform_install
+  #     - job: tf_install
   #       steps:
   #         # 1. Install terraform and terragrunt
   #         - template: templates/terraform-setup/template.yaml@terraform
-  #     - job: terraform_plan
-  #       dependsOn: terraform_install
+  #     - job: tf_plan
+  #       dependsOn: tf_install
   #       timeoutInMinutes: $[variables.TIME_OUT]
   #       steps:
   #         - checkout: self
@@ -116,12 +148,12 @@ stages:
   #   pool:
   #     name: cstar-prod-linux
   #   jobs:
-  #     - job: terraform_install
+  #     - job: tf_install
   #       steps:
   #         # 1. Install terraform and terragrunt
   #         - template: templates/terraform-setup/template.yaml@terraform
-  #     - job: terraform_plan
-  #       dependsOn: terraform_install
+  #     - job: tf_plan
+  #       dependsOn: tf_install
   #       timeoutInMinutes: $[variables.TIME_OUT]
   #       steps:
   #         - checkout: self
