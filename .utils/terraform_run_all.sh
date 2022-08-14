@@ -15,7 +15,7 @@ pids=()
 ACTION="$1"
 
 array=(
-    'src::dev'
+    'src/core::dev'
     'src/k8s::dev-cstar'
     'src/aks-platform::dev01'
     'src/psql::dev-cstar'
