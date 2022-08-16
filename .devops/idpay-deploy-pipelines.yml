@@ -24,6 +24,20 @@ parameters:
   #   values:
   #     - False
   #     - True
+  - name: 'COMMON'
+    displayName: 'Run on COMMON domain'
+    type: boolean
+    default: True
+    values:
+      - False
+      - True
+  - name: 'APP'
+    displayName: 'Run on APP domain'
+    type: boolean
+    default: True
+    values:
+      - False
+      - True
 
 variables:
   TIME_OUT: 10
@@ -44,9 +58,9 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
+  - stage: apply_common
     dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
+    condition: and(and(succeeded(), eq(${{parameters.DEV}}, true)), and(succeeded(), eq(${{parameters.COMMON}}, true)))
     pool:
       name: cstar-dev-linux
     jobs:
@@ -60,17 +74,24 @@ stages:
           # 1. Install terraform
           - template: templates/terraform-setup/template.yaml@terraform
           # 2. Run terraform plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-          # 3. Run terraform apply
-          - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          # - template: templates/terraform-plan/template.yaml@terraform
+          #   parameters:
+          #     ENVIRONMENT: "dev"
+          #     WORKINGDIR: 'src/domains/idpay-common'
+          #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          # # 3. Run terraform apply
+          # - template: templates/terraform-apply/template.yaml@terraform
+          #   parameters:
+          #     ENVIRONMENT: "dev"
+          #     WORKINGDIR: 'src/domains/idpay-common'
+          #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+
+  - stage: apply_app
+    dependsOn: []
+    condition: and(and(succeeded(), eq(${{parameters.DEV}}, true)), and(succeeded(), eq(${{parameters.APP}}, true)))
+    pool:
+      name: cstar-dev-linux
+    jobs:
       #
       # idpay_app
       #
@@ -81,25 +102,25 @@ stages:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
           # 2. Run terraform plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-app'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
-          # 3. Run terraform apply
-          - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-app'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+          # - template: templates/terraform-plan/template.yaml@terraform
+          #   parameters:
+          #     ENVIRONMENT: "dev"
+          #     WORKINGDIR: 'src/domains/idpay-app'
+          #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          #     AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+          #     AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+          #     AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+          #     AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+          # # 3. Run terraform apply
+          # - template: templates/terraform-apply/template.yaml@terraform
+          #   parameters:
+          #     ENVIRONMENT: "dev"
+          #     WORKINGDIR: 'src/domains/idpay-app'
+          #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          #     AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+          #     AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+          #     AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+          #     AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
   # - stage: UAT
   #   dependsOn: []
