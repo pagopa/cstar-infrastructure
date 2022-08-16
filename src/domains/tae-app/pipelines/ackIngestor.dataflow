@@ -9,7 +9,7 @@ source(output(
 		errorCode as string
 	),
 	allowSchemaDrift: false,
-	validateSchema: false,
+	validateSchema: true,
 	ignoreNoFilesFound: true,
 	modifiedAfter: ($windowStart),
 	modifiedBefore: ($windowEnd),
@@ -30,7 +30,7 @@ source(output(
 		trasmissionDate as string,
 		vat as string
 	),
-	allowSchemaDrift: true,
+	allowSchemaDrift: false,
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
@@ -53,7 +53,7 @@ addFileName select(mapColumn(
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
 projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
-updAggregatesWithAck sink(allowSchemaDrift: true,
+updAggregatesWithAck sink(allowSchemaDrift: false,
 	validateSchema: false,
 	input(
 		accountingDate as string,
@@ -79,7 +79,7 @@ updAggregatesWithAck sink(allowSchemaDrift: true,
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
-selectByStatusNotOk sink(allowSchemaDrift: true,
+selectByStatusNotOk sink(allowSchemaDrift: false,
 	validateSchema: false,
 	input(
 		senderCode as string,
