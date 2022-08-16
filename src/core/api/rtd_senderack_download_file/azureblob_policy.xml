@@ -31,6 +31,11 @@
     </backend>
     <outbound>
         <base />
+      <send-request mode="new" timeout="60" ignore-error="true">
+        <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/file-status)</set-url>
+        <set-body>@("{ \"name\": \""+{fileName}+"\",\"status\":1,\"type\":6,\"application\":1,\"size\":555}")</set-body>
+        <set-method>PUT</set-method>
+      </send-request>
     </outbound>
     <on-error>
         <base />
