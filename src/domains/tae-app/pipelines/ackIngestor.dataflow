@@ -54,7 +54,7 @@ addFileName select(mapColumn(
 	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
 projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
 updAggregatesWithAck sink(allowSchemaDrift: false,
-	validateSchema: false,
+	validateSchema: true,
 	input(
 		accountingDate as string,
 		acquirerId as string,
@@ -82,7 +82,7 @@ updAggregatesWithAck sink(allowSchemaDrift: false,
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
 selectByStatusNotOk sink(allowSchemaDrift: false,
-	validateSchema: false,
+	validateSchema: true,
 	input(
 		senderCode as string,
 		acquirerId as string,
