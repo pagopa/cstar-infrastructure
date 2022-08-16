@@ -1,8 +1,11 @@
 
-                    
+
 <policies>
     <inbound>
       <base />
+      <set-variable name="senderAdeAckName" value="@(context.Request.MatchedParameters["fileName"])" />
+
+
       <set-variable name="keyHash" value="@{
                     System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
                     return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
@@ -30,11 +33,14 @@
         <base />
     </backend>
     <outbound>
-        <base />
-      <send-request mode="new" timeout="60" ignore-error="true">
-        <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/file-status)</set-url>
-        <set-body>@("{ \"name\": \""+{fileName}+"\",\"status\":1,\"type\":6,\"application\":1,\"size\":555}")</set-body>
+      <base />
+      <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
+        <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/file-status")</set-url>
         <set-method>PUT</set-method>
+        <set-header name="Content-Type" exists-action="override">
+          <value>application/json</value>
+        </set-header>
+        <set-body>@("{ \"name\": \""+context.Variables["senderAdeAckName"]+"\",\"status\":1,\"type\":6,\"application\":1,\"size\":555}")</set-body>
       </send-request>
     </outbound>
     <on-error>
