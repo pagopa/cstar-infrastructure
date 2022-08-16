@@ -5,12 +5,8 @@ pr:
       - main
   paths:
     include:
-      - 'src/*'
+      - 'src/core/*'
       - '.devops/*'
-    exclude:
-      - 'src/k8s/*'
-      - 'src/domains/*'
-      - 'src/aks-platform/*'
 
 parameters:
   - name: 'DEV'
@@ -46,69 +42,69 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v17
+      ref: refs/tags/v2.4.0
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
+  - stage: tf_plan_core_dev
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
       name: cstar-dev-linux
     jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
+      - job: tf_plan_core
+        strategy:
+          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
-          # 2. Run terragrunt plan
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: DEV-CSTAR-SERVICE-CONN
-              ENVIRONMENT: dev
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
 
-  - stage: UAT
+  - stage: tf_plan_core_uat
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.UAT}}, true))
     pool:
-      name: cstar-uat-linux
+      name: cstar-dev-linux
     jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
+      - job: tf_plan_core
+        strategy:
+          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
-          # 2. Run terragrunt plan
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: UAT-CSTAR-SERVICE-CONN
-              ENVIRONMENT: uat
+              ENVIRONMENT: "uat"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
 
-  - stage: PROD
+  - stage: tf_plan_core_prod
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.PROD}}, true))
     pool:
-      name: cstar-prod-linux
+      name: cstar-dev-linux
     jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
+      - job: tf_plan_core
+        strategy:
+          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
-          # 2. Run terragrunt plan
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: PROD-CSTAR-SERVICE-CONN
-              ENVIRONMENT: prod
+              ENVIRONMENT: "prod"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
