@@ -34,7 +34,7 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-joinAcksWithAggregatesOnId alterRow(updateIf(isMatch())) ~> updAggregatesWithAck
+joinAcksWithAggregatesOnId alterRow(updateIf(aggregates@id==sourceAck@id)) ~> updAggregatesWithAck
 updAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
