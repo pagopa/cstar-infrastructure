@@ -2,12 +2,12 @@
   "type": "object",
   "properties": {
     "senderCode": {
-      "type": "integer"
+      "type": "string"
     },
     "operationType": {
       "type": "string"
     },
-    "trasmissionDate": {
+    "transmissionDate": {
       "type": "date"
     },
     "accountingDate": {
@@ -41,6 +41,12 @@
       "type": "string"
     },
     "fileName": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "errorCode": {
       "type": "string"
     }
   }
