@@ -52,18 +52,18 @@ stages:
           - checkout: self
           # 1. Install terraform
           - template: templates/terraform-setup/template.yaml@terraform
-          # # 2. Run terraform plan
-          # - template: templates/terraform-plan/template.yaml@terraform
-          #   parameters:
-          #     ENVIRONMENT: "dev"
-          #     WORKINGDIR: 'src/core'
-          #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-          # # 3. Run terraform apply
-          # - template: templates/terraform-apply/template.yaml@terraform
-          #   parameters:
-          #     ENVIRONMENT: "dev"
-          #     WORKINGDIR: 'src/core'
-          #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          # 2. Run terraform plan
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
 
   - stage: apply_uat
     dependsOn: []
@@ -80,18 +80,18 @@ stages:
           - checkout: self
           # 1. Install terraform
           - template: templates/terraform-setup/template.yaml@terraform
-          # # 2. Run terraform plan
-          # - template: templates/terraform-plan/template.yaml@terraform
-          #   parameters:
-          #     ENVIRONMENT: "uat"
-          #     WORKINGDIR: 'src/core'
-          #     AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
-          # # 3. Run terraform apply
-          # - template: templates/terraform-apply/template.yaml@terraform
-          #   parameters:
-          #     ENVIRONMENT: "uat"
-          #     WORKINGDIR: 'src/core'
-          #     AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
+          # 2. Run terraform plan
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "uat"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "uat"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
 
   - stage: apply_prod
     dependsOn: []
@@ -108,15 +108,15 @@ stages:
           - checkout: self
           # 1. Install terraform
           - template: templates/terraform-setup/template.yaml@terraform
-          # # 2. Run terraform plan
-          # - template: templates/terraform-plan/template.yaml@terraform
-          #   parameters:
-          #     ENVIRONMENT: "prod"
-          #     WORKINGDIR: 'src/core'
-          #     AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
-          # # 3. Run terraform apply
-          # - template: templates/terraform-apply/template.yaml@terraform
-          #   parameters:
-          #     ENVIRONMENT: "prod"
-          #     WORKINGDIR: 'src/core'
-          #     AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
+          # 2. Run terraform plan
+          - template: templates/terraform-plan/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "prod"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "prod"
+              WORKINGDIR: 'src/core'
+              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
