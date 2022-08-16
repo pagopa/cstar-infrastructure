@@ -69,7 +69,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.UAT}}, true))
     pool:
-      name: cstar-dev-linux
+      name: cstar-uat-linux
     jobs:
       - job: tf_plan_core
         timeoutInMinutes: $[variables.TIME_OUT]
@@ -88,7 +88,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.PROD}}, true))
     pool:
-      name: cstar-dev-linux
+      name: cstar-prod-linux
     jobs:
       - job: tf_plan_core
         timeoutInMinutes: $[variables.TIME_OUT]
