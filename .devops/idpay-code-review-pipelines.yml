@@ -72,7 +72,7 @@ stages:
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
 
   - stage: tf_plan_app
-    dependsOn: []
+    dependsOn: [tf_plan_common]
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
       name: cstar-dev-linux
