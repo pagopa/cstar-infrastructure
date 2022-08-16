@@ -53,8 +53,6 @@ stages:
       name: cstar-dev-linux
     jobs:
       - job: tf_plan_core
-        strategy:
-          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
@@ -74,8 +72,6 @@ stages:
       name: cstar-dev-linux
     jobs:
       - job: tf_plan_core
-        strategy:
-          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
@@ -95,8 +91,6 @@ stages:
       name: cstar-dev-linux
     jobs:
       - job: tf_plan_core
-        strategy:
-          parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
