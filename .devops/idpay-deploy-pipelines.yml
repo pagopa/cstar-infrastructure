@@ -24,6 +24,20 @@ parameters:
   #   values:
   #     - False
   #     - True
+  - name: 'COMMON'
+    displayName: 'Run on COMMON domain'
+    type: boolean
+    default: True
+    values:
+      - False
+      - True
+  - name: 'APP'
+    displayName: 'Run on APP domain'
+    type: boolean
+    default: True
+    values:
+      - False
+      - True
 
 variables:
   TIME_OUT: 10
@@ -40,13 +54,13 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/heads/DEVOPS-492-cstar-idpay-creazione-deploy-pipeline
+      ref: refs/tags/v2.4.0
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
+  - stage: apply_common
     dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
+    condition: and(and(succeeded(), eq(${{parameters.DEV}}, true)), and(succeeded(), eq(${{parameters.COMMON}}, true)))
     pool:
       name: cstar-dev-linux
     jobs:
@@ -71,6 +85,13 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/idpay-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+
+  - stage: apply_app
+    dependsOn: []
+    condition: and(and(succeeded(), eq(${{parameters.DEV}}, true)), and(succeeded(), eq(${{parameters.APP}}, true)))
+    pool:
+      name: cstar-dev-linux
+    jobs:
       #
       # idpay_app
       #

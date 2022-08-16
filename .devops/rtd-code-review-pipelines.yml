@@ -5,8 +5,8 @@ pr:
       - main
   paths:
     include:
-      - 'src/domains/idpay-app'
-      - 'src/domains/idpay-common'
+      - 'src/domains/rtd-app'
+      - 'src/domains/rtd-common'
 
 parameters:
   - name: 'DEV'
@@ -46,17 +46,17 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v2.4.0
+      ref: refs/tags/v2.3.0
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: tf_plan_common
+  - stage: DEV
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
       name: cstar-dev-linux
     jobs:
-      - job: tf_plan_idpay_common
+      - job: terraform_plan_rtd_common
         strategy:
           parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
@@ -64,20 +64,13 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan idpay-common
+          # 2. Run terraform plan rtd-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-common'
+              WORKINGDIR: 'src/domains/rtd-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-
-  - stage: tf_plan_app
-    dependsOn: [tf_plan_common]
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: cstar-dev-linux
-    jobs:
-      - job: tf_plan_idpay_app
+      - job: terraform_plan_rtd_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
           parallel: 1
@@ -85,11 +78,11 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan idpay-app
+          # Run terraform plan rtd-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-app'
+              WORKINGDIR: 'src/domains/rtd-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
@@ -102,12 +95,12 @@ stages:
   #   pool:
   #     name: cstar-uat-linux
   #   jobs:
-  #     - job: tf_install
+  #     - job: terraform_install
   #       steps:
   #         # 1. Install terraform and terragrunt
   #         - template: templates/terraform-setup/template.yaml@terraform
-  #     - job: tf_plan
-  #       dependsOn: tf_install
+  #     - job: terraform_plan
+  #       dependsOn: terraform_install
   #       timeoutInMinutes: $[variables.TIME_OUT]
   #       steps:
   #         - checkout: self
@@ -123,12 +116,12 @@ stages:
   #   pool:
   #     name: cstar-prod-linux
   #   jobs:
-  #     - job: tf_install
+  #     - job: terraform_install
   #       steps:
   #         # 1. Install terraform and terragrunt
   #         - template: templates/terraform-setup/template.yaml@terraform
-  #     - job: tf_plan
-  #       dependsOn: tf_install
+  #     - job: terraform_plan
+  #       dependsOn: terraform_install
   #       timeoutInMinutes: $[variables.TIME_OUT]
   #       steps:
   #         - checkout: self

@@ -1,12 +1,6 @@
-pr:
-  autoCancel: false
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - 'src/domains/idpay-app'
-      - 'src/domains/idpay-common'
+# only manual
+trigger: none
+pr: none
 
 parameters:
   - name: 'DEV'
@@ -46,50 +40,61 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v2.4.0
+      ref: refs/heads/DEVOPS-492-cstar-rtd-creazione-deploy-pipeline
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: tf_plan_common
+  - stage: DEV
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
       name: cstar-dev-linux
     jobs:
-      - job: tf_plan_idpay_common
-        strategy:
-          parallel: 1
+      #
+      # rtd_common
+      #
+      - job: tf_plan_rtd_common
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
-          # 1. Install terraform and terragrunt
+          # 1. Install terraform
           - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan idpay-common
+          # 2. Run terraform plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-common'
+              WORKINGDIR: 'src/domains/rtd-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-
-  - stage: tf_plan_app
-    dependsOn: [tf_plan_common]
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: cstar-dev-linux
-    jobs:
-      - job: tf_plan_idpay_app
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/rtd-common'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      #
+      # rtd_app
+      #
+      - job: tf_plan_rtd_app
         timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
         steps:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan idpay-app
+          # 2. Run terraform plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-app'
+              WORKINGDIR: 'src/domains/rtd-app'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/rtd-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
