@@ -210,7 +210,10 @@
         "typeProperties": {
             "source": {
                 "type": "CosmosDbSqlApiSource",
-                "query": "SELECT * FROM c WHERE c.fileName = \"@{pipeline().parameters.file}\"",
+                "query": {
+                    "value": "SELECT * FROM c WHERE c.fileName = \"@{pipeline().parameters.file}\"",
+                    "type": "Expression"
+                },
                 "preferredRegions": []
             },
             "sink": {
