@@ -24,7 +24,7 @@ source(output(
 		numTrx as integer,
 		operationType as string,
 		posType as string,
-		senderCode as integer,
+		senderCode as string,
 		terminalId as string,
 		totalAmount as integer,
 		transmissionDate as string,
@@ -53,7 +53,28 @@ addFileName select(mapColumn(
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
 projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
-updAggregatesWithAck sink(allowSchemaDrift: false,
+updAggregatesWithAck select(mapColumn(
+		id = sourceAck@id,
+		status,
+		errorCode,
+		accountingDate,
+		acquirerId,
+		currency,
+		fileName,
+		fiscalCode,
+		merchantId,
+		numTrx,
+		operationType,
+		posType,
+		senderCode,
+		terminalId,
+		totalAmount,
+		transmissionDate,
+		vat
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> projectOnlyOneID
+projectOnlyOneID sink(allowSchemaDrift: true,
 	validateSchema: true,
 	input(
 		accountingDate as string,
@@ -80,7 +101,26 @@ updAggregatesWithAck sink(allowSchemaDrift: false,
 	format: 'document',
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
-	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
+	skipDuplicateMapOutputs: true,
+	mapColumn(
+		id,
+		status,
+		errorCode,
+		accountingDate,
+		acquirerId,
+		currency,
+		fiscalCode,
+		merchantId,
+		numTrx,
+		operationType,
+		posType,
+		senderCode,
+		terminalId,
+		totalAmount,
+		transmissionDate,
+		vat,
+		fileName
+	)) ~> aggregatesWithAck
 selectByStatusNotOk sink(allowSchemaDrift: false,
 	validateSchema: true,
 	input(
