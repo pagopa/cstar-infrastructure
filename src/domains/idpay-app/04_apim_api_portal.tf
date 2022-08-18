@@ -140,6 +140,40 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary-draft.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "updateTrxAndRewardRules"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-reward.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateTrxAndRewardRulesDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-reward-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    //CONFIG
+    {
+      operation_id = "getBeneficiaryConfigRules"
+
+      xml_content = templatefile("./api/idpay_initiative/simple-mock-policy.xml", {})
+    },
+    {
+      operation_id = "getTransactionConfigRules"
+
+      xml_content = templatefile("./api/idpay_initiative/get-config-transaction-rule.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMccConfig"
+
+      xml_content = templatefile("./api/idpay_initiative/get-config-mcc.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
