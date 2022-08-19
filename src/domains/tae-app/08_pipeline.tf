@@ -20,8 +20,7 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   data_factory_id       = data.azurerm_data_factory.datafactory.id
   storage_account_id    = data.azurerm_storage_account.acquirer_sa.id
   events                = ["Microsoft.Storage.BlobCreated"]
-  blob_path_ends_with   = ".decrypted"
-  blob_path_begins_with = "/ade-transactions-decrypted/"
+  blob_path_begins_with = "/ade-transactions-decrypted/blobs/AGGADE."
   ignore_empty_blobs    = true
   activated             = true
 
