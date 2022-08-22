@@ -9,8 +9,8 @@ location_short = "weu"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
-  Owner       = "CSTAR"
-  Source      = "https://github.com/pagopa/cstar-infrastructure"
+  Owner       = "DevOps"
+  Source      = "https://github.com/pagopa/devopslab-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 

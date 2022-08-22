@@ -49,3 +49,9 @@ dns_zone_internal_prefix = "internal.uat.cstar"
 #
 enable = {
 }
+
+#
+# Hashpan generation pipeline related variables
+#
+hpan_blob_storage_container_name      = "cstar-hashed-pans"
+enable_hpan_pipeline_periodic_trigger = false

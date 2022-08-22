@@ -487,7 +487,8 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key",
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
-  "mongo-db-connection-uri"
+  "mongo-db-connection-uri",
+  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"
 ]
 
 enable = {
@@ -497,7 +498,7 @@ enable = {
     csv_transaction_apis                = true
     ingestor                            = false
     file_register                       = false
-    enrolled_payment_instrument         = false
+    enrolled_payment_instrument         = true
     mongodb_storage                     = true
   }
   fa = {

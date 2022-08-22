@@ -20,8 +20,7 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   data_factory_id       = data.azurerm_data_factory.datafactory.id
   storage_account_id    = data.azurerm_storage_account.acquirer_sa.id
   events                = ["Microsoft.Storage.BlobCreated"]
-  blob_path_ends_with   = ".decrypted"
-  blob_path_begins_with = "/ade-transactions-decrypted/"
+  blob_path_begins_with = "/ade-transactions-decrypted/blobs/AGGADE."
   ignore_empty_blobs    = true
   activated             = true
 
@@ -75,8 +74,32 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     name = "wrongFiscalCodesByAcquirer"
 
     dataset {
-      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes.name
+      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes_intermediate.name
     }
+  }
+
+  transformation {
+    name = "updAggregatesWithAck"
+  }
+
+  transformation {
+    name = "addFileName"
+  }
+
+  transformation {
+    name = "joinAcksWithAggregatesOnId"
+  }
+
+  transformation {
+    name = "projectSenderAdeAck"
+  }
+
+  transformation {
+    name = "selectByStatusNotOk"
+  }
+
+  transformation {
+    name = "projectOnlyOneID"
   }
 
   script = file("pipelines/ackIngestor.dataflow")
@@ -108,6 +131,7 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   interval  = 15
   frequency = "Minute"
   activated = true
+  time_zone = "UTC"
 
   annotations = ["AdeAcks"]
   description = "The trigger fires every 15 minutes"
