@@ -55,6 +55,16 @@ cosmos_db_aggregates_params = {
 
 ### External resources
 
+# Monitoring
 monitor_resource_group_name                 = "cstar-u-monitor-rg"
 log_analytics_workspace_name                = "cstar-u-law"
 log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
+
+
+acquirer_storage_params = {
+  analytics_workspace_enabled = true
+}
+
+sftp_storage_params = {
+  analytics_workspace_enabled = true
+}

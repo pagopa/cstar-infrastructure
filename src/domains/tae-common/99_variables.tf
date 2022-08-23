@@ -112,6 +112,18 @@ variable "cosmos_db_aggregates_params" {
   })
 }
 
+variable "acquirer_storage_params" {
+  type = object({
+    analytics_workspace_enabled = bool
+  })
+}
+
+variable "sftp_storage_params" {
+  type = object({
+    analytics_workspace_enabled = bool
+  })
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
