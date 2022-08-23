@@ -53,6 +53,10 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+service_bus_namespace = {
+  sku = "Standard"
+}
+
 ### External resources
 
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
