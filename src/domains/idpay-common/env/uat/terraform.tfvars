@@ -246,7 +246,27 @@ eventhubs_idpay_01 = [
         manage = false
       }
     ]
-  }
+  },
+    {
+    name              = "idpay-errors"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-errors-group"]
+    keys = [
+      {
+        name   = "idpay-errors-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-errors-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 
 ]
 
