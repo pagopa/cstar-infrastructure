@@ -347,25 +347,25 @@ pgres_flex_params = {
 
 dns_zone_prefix = "cstar"
 cosmos_mongo_db_params = {
-  enabled      = false
+  enabled      = true
   kind         = "MongoDB"
   capabilities = ["EnableMongo"]
   offer_type   = "Standard"
   consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
+    consistency_level       = "Strong"
+    max_interval_in_seconds = 5
+    max_staleness_prefix    = 100
   }
-  server_version                   = "4.0"
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
+  server_version                   = "4.2"
+  main_geo_location_zone_redundant = true
+  enable_free_tier                 = false
 
   private_endpoint_enabled      = true
   public_network_access_enabled = false
   additional_geo_locations = [{
     location          = "northeurope"
     failover_priority = 1
-    zone_redundant    = false
+    zone_redundant    = true
   }]
 
   is_virtual_network_filter_enabled = true
