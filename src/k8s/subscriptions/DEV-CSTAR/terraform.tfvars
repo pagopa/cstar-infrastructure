@@ -405,30 +405,6 @@ autoscaling_specs = {
       }
     ]
   }
-  # map key must be the name of a deployment
-  bpdmscitizen = {
-
-    namespace = "bpd" # namespace of the deployment in the map key
-
-    max_replicas = 5
-    min_replicas = 1
-
-    # Support for multiple metrics per autoscaler
-    metrics = [
-      {
-        type = "Resource"
-        resource = {
-
-          name = "cpu"
-
-          target = {
-            type                = "Utilization"
-            average_utilization = 85
-          }
-        }
-      }
-    ]
-  }
 }
 
 secrets_to_be_read_from_kv = [
