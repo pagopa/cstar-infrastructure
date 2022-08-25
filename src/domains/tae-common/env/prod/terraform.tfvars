@@ -31,7 +31,7 @@ cosmos_dbms_params = {
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "Strong"
-    max_interval_in_seconds = 5 # Standard value, should not be set
+    max_interval_in_seconds = 5   # Standard value, should not be set
     max_staleness_prefix    = 100 # standard value, should not be set
   }
   server_version                   = null
