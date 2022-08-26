@@ -599,7 +599,7 @@ autoscaling_specs = {
       }
     ]
   }
-  
+
   # map key must be the name of a deployment
   rtdmsdecrypter = {
 
