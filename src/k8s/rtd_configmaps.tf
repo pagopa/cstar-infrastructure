@@ -65,7 +65,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
     , ".")
     SPLITTER_LINE_THRESHOLD = 250000,
     ENABLE_CHUNK_UPLOAD     = false,
-    CONSUMER_TIMEOUT_MS     = 600000 # 10 minutes
+    CONSUMER_TIMEOUT_MS     = 7200000 # 2 hours
     },
   var.configmaps_rtddecrypter)
 }
