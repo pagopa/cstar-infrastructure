@@ -6,13 +6,20 @@ info:
 servers:
   - url: ${host}
 paths:
-  /*:
+  /{fileName}:
     get:
       summary: GET BlobURI
       operationId: getBlob
       responses:
         "200":
           description: "Ok"
+      parameters:
+        - name: fileName
+          in: path
+          description: filename to download
+          required: true
+          schema:
+            type: string
 components:
   securitySchemes:
     apiKeyHeader:
