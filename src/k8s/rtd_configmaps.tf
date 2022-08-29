@@ -64,7 +64,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
     CSV_TRANSACTION_DECRYPT_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
     , ".")
     SPLITTER_LINE_THRESHOLD = 250000,
-    ENABLE_CHUNK_UPLOAD     = false,
+    ENABLE_CHUNK_UPLOAD     = true,
     CONSUMER_TIMEOUT_MS     = 7200000 # 2h
     },
   var.configmaps_rtddecrypter)
