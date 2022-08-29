@@ -39,7 +39,7 @@ cosmos_dbms_params = {
   enable_free_tier                 = false
 
   private_endpoint_enabled          = true
-  public_network_access_enabled     = false
+  public_network_access_enabled     = true
   additional_geo_locations          = []
   is_virtual_network_filter_enabled = true
 
