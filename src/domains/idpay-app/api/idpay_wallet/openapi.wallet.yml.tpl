@@ -272,23 +272,102 @@ paths:
               example:
                 code: 0
                 message: string
+  
+  /{initiativeId}/instruments/{hpan}:              
     delete:
       tags:
         - wallet
       summary: Delete a payment instrument from an initiative
       operationId: deleteInstrument
-      requestBody:
-        description: 'Unique identifier of the subscribed initiative, instrument HPAN'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InstrumentPutDTO'
-            example:
-              initiativeId: string
-              hpan: string
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: hpan
+          in: path
+          description: The PI hpan
+          required: true
+          schema:
+            type: string
       responses:
         '200':
-          description: Enrollment OK
+          description: delete OK
+          content:
+            application/json: { }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+                
+  /unsubscribe/{initiativeId}:
+    delete:
+      tags:
+        - wallet
+      summary: Unsubscribe to an initiative
+      operationId: unsubscribe
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Unsubscribe OK
           content:
             application/json: { }
         '400':
