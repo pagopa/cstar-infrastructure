@@ -128,8 +128,8 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   name            = format("%s-ade-ack-trigger", local.project)
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
-  interval  = 15
-  frequency = "Minute"
+  interval  = var.ack_ingestor_conf.interval
+  frequency = var.ack_ingestor_conf.frequency
   activated = true
   time_zone = "UTC"
 
