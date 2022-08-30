@@ -127,3 +127,14 @@ variable "dns_zone_internal_prefix" {
   default     = null
   description = "The dns subdomain."
 }
+
+variable "ack_ingestor_conf" {
+  type = object({
+    interval  = number
+    frequency = string
+  })
+  default = {
+    interval  = 15
+    frequency = "Minute"
+  }
+}
