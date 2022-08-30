@@ -52,6 +52,8 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_reward_error_topic         = "idpay-reward-error"
     idpay_hpan_update_topic          = "idpay-hpan-update"
     idpay_rule_update_topic          = "idpay-rule-update"
+    idpay_error_topic                = "idpay-errors"
+    idpay_transaction_userid_splitter_topic = "idpay-transaction-user-id-splitter"
   }
 }
 
@@ -83,6 +85,7 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   data = {
     kafka_broker_rtd      = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
     rtd_enrolled_pi_topic = "rtd-enrolled-pi"
+    rtd_trx_topic = "rtd-trx"
   }
 
 }
