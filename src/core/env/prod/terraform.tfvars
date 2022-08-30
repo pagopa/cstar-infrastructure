@@ -347,25 +347,25 @@ pgres_flex_params = {
 
 dns_zone_prefix = "cstar"
 cosmos_mongo_db_params = {
-  enabled      = false
+  enabled      = true
   kind         = "MongoDB"
   capabilities = ["EnableMongo"]
   offer_type   = "Standard"
   consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
+    consistency_level       = "Strong"
+    max_interval_in_seconds = 5
+    max_staleness_prefix    = 100
   }
   server_version                   = "4.0"
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
+  main_geo_location_zone_redundant = true
+  enable_free_tier                 = false
 
   private_endpoint_enabled      = true
   public_network_access_enabled = false
   additional_geo_locations = [{
     location          = "northeurope"
     failover_priority = 1
-    zone_redundant    = false
+    zone_redundant    = true
   }]
 
   is_virtual_network_filter_enabled = true
@@ -607,9 +607,9 @@ eventhubs = [
   },
   {
     name              = "rtd-platform-events"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    partitions        = 4
+    message_retention = 7
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
     keys = [
       {
         # publisher
@@ -808,12 +808,12 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
-    file_register                       = false
+    file_register                       = true
     batch_service_api                   = true
     enrolled_payment_instrument         = false
-    mongodb_storage                     = false
-    sender_auth                         = false
-    hashed_pans_container               = false
+    mongodb_storage                     = true
+    sender_auth                         = true
+    hashed_pans_container               = true
   }
   fa = {
     api = false
@@ -823,9 +823,9 @@ enable = {
   }
   tae = {
     api             = true
-    db_collections  = false
+    db_collections  = true
     blob_containers = true
-    adf             = false
+    adf             = true
   }
   idpay = {
     eventhub_idpay = true
