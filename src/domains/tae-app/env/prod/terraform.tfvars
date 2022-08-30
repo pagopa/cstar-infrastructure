@@ -44,7 +44,7 @@ external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.prod.cstar"
 
 ack_ingestor_conf = {
-  interval  = 15
+  interval  = 60
   frequency = "Minute"
 
 }
