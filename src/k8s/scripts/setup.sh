@@ -2,8 +2,8 @@
 
 #
 # Setup configuration relative to a given subscription
-# Subscription are defined in ./subscription
-# Usage:
+# Subscription are defined in ../subscription
+# Usage from script folder
 #  ./setup.sh ENV-CSTAR
 #
 #  ./setup.sh DEV-CSTAR
@@ -12,6 +12,7 @@
 
 BASHDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 WORKDIR="${BASHDIR//scripts/}"
+aks_name='' # inside ./subscriptions/${SUBSCRIPTION}/conf
 
 set -e
 
@@ -30,7 +31,7 @@ fi
 echo "Please make sure to be under VPN"
 
 az account set -s "${SUBSCRIPTION}"
-source ./subscriptions/${SUBSCRIPTION}/conf
+source ../subscriptions/${SUBSCRIPTION}/conf
 
 echo "vm_name=${vm_name}" > "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
 echo "vm_resource_group_name=${vm_resource_group_name}" >> "${WORKDIR}/subscriptions/${SUBSCRIPTION}/.bastianhost.ini"
