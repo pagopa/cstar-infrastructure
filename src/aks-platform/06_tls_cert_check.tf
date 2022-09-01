@@ -1,4 +1,6 @@
 resource "helm_release" "tls_cert_check_cstar-env-apim-private-custom-domain-cert" {
+    count = var.aks_enabled && var.aks_private_cluster_enabled ? 1 : 0
+
   name       = "tls-cert-check-apim-internal-${var.env}-cstar-pagopa-it"
   chart      = "microservice-chart"
   repository = "https://pagopa.github.io/aks-microservice-chart-blueprint"
@@ -23,6 +25,7 @@ resource "helm_release" "tls_cert_check_cstar-env-apim-private-custom-domain-cer
 }
 
 resource "azurerm_monitor_metric_alert" "tls_cert_check_cstar-env-apim-private-custom-domain-cert" {
+    count = var.aks_enabled && var.aks_private_cluster_enabled ? 1 : 0
   name                = "apim-internal-${var.env}-cstar-pagopa-it"
   resource_group_name = data.azurerm_resource_group.rg_monitor.name
   scopes              = [data.azurerm_application_insights.application_insights.id]
