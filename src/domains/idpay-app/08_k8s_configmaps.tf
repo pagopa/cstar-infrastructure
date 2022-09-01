@@ -65,7 +65,9 @@ resource "kubernetes_config_map" "rest-client" {
 
   data = {
     rest_client_schema            = "http"
-    idpay_payment_instrument_host = "idpay-payment-instrument-microservice-chart"
+    idpay_onboarding_host         = "http://idpay-onboarding-workflow-microservice-chart:8080"
+    idpay_payment_instrument_host = "http://idpay-payment-instrument-microservice-chart:8080"
+    initiative_ms_base_url=       = "http://idpay-portal-welfare-backend-initiative-microservice-chart:8080"
     checkiban_base_url            = var.checkiban_base_url
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url          = var.pdv_tokenizer_url
