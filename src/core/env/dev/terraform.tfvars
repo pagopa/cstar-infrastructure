@@ -424,6 +424,20 @@ tae_cosmos_db_transaction_params = {
   throughput         = 1000
 }
 
+dexp_params = {
+    enabled = true
+    sku     = "Dev(No SLA)_Standard_D11_v2"
+    autoscale = {
+      min_instances = 1
+      max_instances = 2
+    }
+    public_network_access_enabled = false
+    double_encryption_enabled = false
+    disk_encryption_enabled = true
+    purge_enabled = false
+
+}
+
 #
 # EHNS
 #

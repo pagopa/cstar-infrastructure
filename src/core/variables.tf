@@ -707,6 +707,21 @@ variable "cdc_api_params" {
   }
 }
 
+variable "dexp_params" {
+  type = object({
+    enabled = bool
+    sku     = string
+    autoscale = object({
+      min_instances = number
+      max_instances = number
+    })
+    public_network_access_enabled = bool
+    double_encryption_enabled = bool
+    disk_encryption_enabled = bool
+    purge_enabled= bool
+  })
+}
+
 variable "sftp_account_replication_type" {
   type        = string
   description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
@@ -807,6 +822,7 @@ variable "enable" {
     }
   }
 }
+
 
 locals {
   project            = "${var.prefix}-${var.env_short}"
