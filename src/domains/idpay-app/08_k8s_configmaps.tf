@@ -43,16 +43,16 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
   }
 
   data = {
-    kafka_broker                     = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
-    kafka_sasl_mechanism             = "PLAIN"
-    kafka_security_protocol          = "SASL_SSL"
-    idpay_transaction_consumer_group = "idpay-transaction-consumer-group"
-    idpay_transaction_topic          = "idpay-transaction"
-    idpay_transaction_error_topic    = "idpay-transaction-error"
-    idpay_reward_error_topic         = "idpay-reward-error"
-    idpay_hpan_update_topic          = "idpay-hpan-update"
-    idpay_rule_update_topic          = "idpay-rule-update"
-    idpay_error_topic                = "idpay-errors"
+    kafka_broker                            = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism                    = "PLAIN"
+    kafka_security_protocol                 = "SASL_SSL"
+    idpay_transaction_consumer_group        = "idpay-transaction-consumer-group"
+    idpay_transaction_topic                 = "idpay-transaction"
+    idpay_transaction_error_topic           = "idpay-transaction-error"
+    idpay_reward_error_topic                = "idpay-reward-error"
+    idpay_hpan_update_topic                 = "idpay-hpan-update"
+    idpay_rule_update_topic                 = "idpay-rule-update"
+    idpay_error_topic                       = "idpay-errors"
     idpay_transaction_userid_splitter_topic = "idpay-transaction-user-id-splitter"
   }
 }
@@ -67,7 +67,7 @@ resource "kubernetes_config_map" "rest-client" {
     rest_client_schema            = "http"
     idpay_onboarding_host         = "http://idpay-onboarding-workflow-microservice-chart:8080"
     idpay_payment_instrument_host = "http://idpay-payment-instrument-microservice-chart:8080"
-    initiative_ms_base_url=       = "http://idpay-portal-welfare-backend-initiative-microservice-chart:8080"
+    initiative_ms_base_url        = "http://idpay-portal-welfare-backend-initiative-microservice-chart:8080"
     checkiban_base_url            = var.checkiban_base_url
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url          = var.pdv_tokenizer_url
@@ -87,21 +87,21 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   data = {
     kafka_broker_rtd      = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
     rtd_enrolled_pi_topic = "rtd-enrolled-pi"
-    rtd_trx_topic = "rtd-trx"
+    rtd_trx_topic         = "rtd-trx"
   }
 
 }
 
 
 # Dynamic persistenc volume claim for group file
-resource kubernetes_persistent_volume_claim "pvc-idpay-file-group" {
+resource "kubernetes_persistent_volume_claim" "pvc-idpay-file-group" {
   metadata {
-    name = "pvc-idpay-file-group"
+    name      = "pvc-idpay-file-group"
     namespace = var.domain
   }
   spec {
     storage_class_name = "managed-csi"
-    access_modes = ["ReadWriteMany"]
+    access_modes       = ["ReadWriteMany"]
     resources {
       requests = {
         storage = "1Gi"
