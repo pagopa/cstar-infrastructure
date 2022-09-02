@@ -247,7 +247,7 @@ eventhubs_idpay_01 = [
       }
     ]
   },
-    {
+  {
     name              = "idpay-errors"
     partitions        = 3
     message_retention = 1
