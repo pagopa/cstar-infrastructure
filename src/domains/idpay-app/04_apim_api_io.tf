@@ -132,12 +132,6 @@ module "idpay_wallet_io" {
       })
     },
     {
-      operation_id = "getIbanDetail"
-      xml_content = templatefile("./api/idpay_wallet/get-iban-detail-policy.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
@@ -158,6 +152,13 @@ module "idpay_wallet_io" {
     {
       operation_id = "getInstrumentList"
       xml_content = templatefile("./api/idpay_wallet/get-instrument-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "unsubscribe"
+
+      xml_content = templatefile("./api/idpay_wallet/put-unsuscribe-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }

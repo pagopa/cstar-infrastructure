@@ -352,7 +352,7 @@ paths:
                 code: 0
                 message: string
                 
-  /unsubscribe/{initiativeId}:
+  /{initiativeId}/unsubscribe:
     delete:
       tags:
         - wallet
