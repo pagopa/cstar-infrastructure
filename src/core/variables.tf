@@ -716,9 +716,9 @@ variable "dexp_params" {
       max_instances = number
     })
     public_network_access_enabled = bool
-    double_encryption_enabled = bool
-    disk_encryption_enabled = bool
-    purge_enabled= bool
+    double_encryption_enabled     = bool
+    disk_encryption_enabled       = bool
+    purge_enabled                 = bool
   })
 }
 
