@@ -691,7 +691,14 @@ eventhubs = [
         listen = true
         send   = false
         manage = false
-      }
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-tests"
+        listen = true
+        send   = false
+        manage = false
+      },
     ]
   },
   {

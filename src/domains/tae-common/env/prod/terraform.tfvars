@@ -49,7 +49,7 @@ cosmos_dbms_params = {
 cosmos_db_aggregates_params = {
   enable_serverless  = false
   enable_autoscaling = true
-  max_throughput     = 10000
+  max_throughput     = 50000
   throughput         = 1000
 }
 
