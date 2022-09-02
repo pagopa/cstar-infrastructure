@@ -91,3 +91,22 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   }
 
 }
+
+
+# Dynamic persistenc volume claim for group file
+resource kubernetes_persistent_volume_claim "pvc-idpay-file-group" {
+  metadata {
+    name = "pvc-idpay-file-group"
+    namespace = var.domain
+  }
+  spec {
+    storage_class_name = "managed-csi"
+    access_modes = ["ReadWriteMany"]
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+
+}
