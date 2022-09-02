@@ -13,3 +13,11 @@ resource "azurerm_storage_container" "sender_ade_ack" {
   storage_account_name  = module.cstarblobstorage.name
   container_access_type = "private"
 }
+
+# Container for the ade ack ingestor pipeline
+resource "azurerm_storage_container" "tmp_container" {
+  count                 = var.enable.tae.blob_containers ? 1 : 0
+  name                  = "tmp"
+  storage_account_name  = module.cstarblobstorage.name
+  container_access_type = "private"
+}

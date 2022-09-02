@@ -128,17 +128,17 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   name            = format("%s-ade-ack-trigger", local.project)
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
-  interval  = 15
-  frequency = "Minute"
+  interval  = var.ack_ingestor_conf.interval
+  frequency = var.ack_ingestor_conf.frequency
   activated = true
   time_zone = "UTC"
 
   annotations = ["AdeAcks"]
-  description = "The trigger fires every 15 minutes"
+  description = format("The trigger fires every %s minutes", var.ack_ingestor_conf.interval)
 
   pipeline_name = azurerm_data_factory_pipeline.ack_ingestor.name
   pipeline_parameters = {
-    windowStart = "@addminutes(trigger().scheduledTime, -15)",
+    windowStart = format("@addminutes(trigger().scheduledTime, -%s)", var.ack_ingestor_conf.interval)
     windowEnd   = "@trigger().scheduledTime"
   }
 

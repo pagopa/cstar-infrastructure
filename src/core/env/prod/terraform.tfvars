@@ -607,9 +607,9 @@ eventhubs = [
   },
   {
     name              = "rtd-platform-events"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group"]
+    partitions        = 4
+    message_retention = 7
+    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
     keys = [
       {
         # publisher
@@ -808,12 +808,12 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
-    file_register                       = false
+    file_register                       = true
     batch_service_api                   = true
     enrolled_payment_instrument         = false
     mongodb_storage                     = true
-    sender_auth                         = false
-    hashed_pans_container               = false
+    sender_auth                         = true
+    hashed_pans_container               = true
   }
   fa = {
     api = false

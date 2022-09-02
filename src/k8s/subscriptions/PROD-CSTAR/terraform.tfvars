@@ -378,7 +378,7 @@ configmaps_fanotificationmanager = {
 }
 
 configmaps_rtddecrypter = {
-  ENABLE_CHUNK_UPLOAD     = false
+  ENABLE_CHUNK_UPLOAD     = true
   SPLITTER_LINE_THRESHOLD = 250000
 }
 
@@ -599,31 +599,6 @@ autoscaling_specs = {
       }
     ]
   }
-
-  # map key must be the name of a deployment
-  rtdmsdecrypter = {
-
-    namespace = "rtd" # namespace of the deployment in the map key
-
-    max_replicas = 4
-    min_replicas = 1
-
-    # Support for multiple metrics per autoscaler
-    metrics = [
-      {
-        type = "Resource"
-        resource = {
-
-          name = "cpu"
-
-          target = {
-            type                = "Utilization"
-            average_utilization = 80
-          }
-        }
-      }
-    ]
-  }
 }
 
 secrets_to_be_read_from_kv = [
@@ -688,9 +663,9 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     ingestor                            = false
-    file_register                       = false
+    file_register                       = true
     enrolled_payment_instrument         = false
-    mongodb_storage                     = false
+    mongodb_storage                     = true
   }
   fa = {
     api = false
