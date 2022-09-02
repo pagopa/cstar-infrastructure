@@ -264,6 +264,12 @@ variable "cidr_idpay_subnet_redis" {
   default     = []
 }
 
+variable "service_bus_namespace" {
+  type = object({
+    sku = string
+  })
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
