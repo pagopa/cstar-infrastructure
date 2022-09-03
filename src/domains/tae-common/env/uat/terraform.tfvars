@@ -53,6 +53,12 @@ cosmos_db_aggregates_params = {
   throughput         = 1000
 }
 
+dexp_db = {
+  enable             = false
+  hot_cache_period   = "P15D"
+  soft_delete_period = "P3M"
+}
+
 ### External resources
 
 # Monitoring
