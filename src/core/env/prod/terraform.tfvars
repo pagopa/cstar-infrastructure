@@ -380,6 +380,23 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+dexp_params = {
+  enabled = false
+  sku = {
+    name     = "Standard_D11_v2"
+    capacity = 2
+  }
+  autoscale = {
+    min_instances = 2
+    max_instances = 3
+  }
+  public_network_access_enabled = false
+  double_encryption_enabled     = false
+  disk_encryption_enabled       = true
+  purge_enabled                 = false
+
+}
+
 ehns_sku_name                 = "Standard"
 ehns_capacity                 = 5
 ehns_auto_inflate_enabled     = true

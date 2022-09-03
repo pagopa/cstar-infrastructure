@@ -174,7 +174,8 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   resource_group_name = azurerm_resource_group.monitor_rg.name
 
   sku {
-    name = var.dexp_params.sku
+    name     = var.dexp_params.sku.name
+    capacity = var.dexp_params.sku.capacity
   }
 
   optimized_auto_scale {

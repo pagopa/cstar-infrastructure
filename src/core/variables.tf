@@ -710,7 +710,10 @@ variable "cdc_api_params" {
 variable "dexp_params" {
   type = object({
     enabled = bool
-    sku     = string
+    sku = object({
+      name     = string
+      capacity = number
+    })
     autoscale = object({
       min_instances = number
       max_instances = number

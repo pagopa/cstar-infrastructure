@@ -395,41 +395,15 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
-tae_cosmos_db_params = {
-  enabled      = true
-  kind         = "GlobalDocumentDB"
-  capabilities = []
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
-  }
-  server_version                   = null
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
-
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = true
-  additional_geo_locations          = []
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = false
-}
-
-tae_cosmos_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
-}
-
 dexp_params = {
   enabled = true
-  sku     = "Dev(No SLA)_Standard_D11_v2"
+  sku = {
+    name     = "Standard_D11_v2"
+    capacity = 2
+  }
   autoscale = {
-    min_instances = 1
-    max_instances = 2
+    min_instances = 2
+    max_instances = 3
   }
   public_network_access_enabled = false
   double_encryption_enabled     = false
