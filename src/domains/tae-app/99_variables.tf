@@ -138,3 +138,9 @@ variable "ack_ingestor_conf" {
     frequency = "Minute"
   }
 }
+
+variable "dexp_tae_db_linkes_service" {
+  type = object({
+    enable = bool
+  })
+}
