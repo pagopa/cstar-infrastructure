@@ -40,7 +40,10 @@
     "posType": {
       "type": "string"
     },
-    "fileName": {
+    "sourceFileName": {
+      "type": "string"
+    },
+    "ingestPipelineRun": {
       "type": "string"
     },
     "status": {
