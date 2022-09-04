@@ -44,7 +44,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "sftp_ls" {
 }
 
 resource "azurerm_data_factory_linked_service_kusto" "dexp_tae" {
-  
+
   count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
 
 

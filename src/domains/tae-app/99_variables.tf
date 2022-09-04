@@ -139,7 +139,7 @@ variable "ack_ingestor_conf" {
   }
 }
 
-variable dexp_tae_db_linkes_service {
+variable "dexp_tae_db_linkes_service" {
   type = object({
     enable = bool
   })
