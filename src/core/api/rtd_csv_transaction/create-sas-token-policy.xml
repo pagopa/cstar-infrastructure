@@ -73,9 +73,9 @@
             </otherwise>
         </choose>
 
-        <set-variable name="senderCodeHash" value="@{
+        <set-variable name="keyHash" value="@{
                 System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Variables.GetValueOrDefault("senderCode", "")))).Replace("-", "").ToLowerInvariant();
+                    return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
             }"
         />
         
