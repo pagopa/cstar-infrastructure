@@ -11,6 +11,7 @@ source(output(
 	allowSchemaDrift: false,
 	validateSchema: true,
 	ignoreNoFilesFound: true,
+	rowUrlColumn: 'ackFileName',
 	modifiedAfter: ($windowStart),
 	modifiedBefore: ($windowEnd),
 	wildcardPaths:['ack/CSTAR.ADEACK.*']) ~> sourceAck
@@ -74,6 +75,7 @@ updAggregatesWithAck select(mapColumn(
 	),
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectOnlyOneID
+sourceAck derive(ackPipelineRun = $RunID) ~> addPipelineRunId
 projectOnlyOneID sink(allowSchemaDrift: true,
 	validateSchema: true,
 	input(
@@ -81,13 +83,14 @@ projectOnlyOneID sink(allowSchemaDrift: true,
 		acquirerId as string,
 		currency as integer,
 		errorCode as string,
-		fileName as string,
 		fiscalCode as string,
+		ingestPipelineRun as string,
 		merchantId as string,
 		numTrx as integer,
 		operationType as string,
 		posType as string,
 		senderCode as string,
+		sourceFileName as string,
 		status as integer,
 		terminalId as string,
 		totalAmount as integer,
@@ -131,3 +134,22 @@ selectByStatusNotOk sink(allowSchemaDrift: false,
 	rowUrlColumn:'ackFileName',
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> wrongFiscalCodesByAcquirer
+addPipelineRunId sink(allowSchemaDrift: true,
+	validateSchema: false,
+	input(
+		id as string,
+		status as integer,
+		errorCode as string,
+		fileName as string,
+		pipelineRun as string
+	),
+	format: 'table',
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true,
+	mapColumn(
+		id,
+		status,
+		errorCode,
+		fileName = ackFileName,
+		pipelineRun = ackPipelineRun
+	)) ~> acksLog
