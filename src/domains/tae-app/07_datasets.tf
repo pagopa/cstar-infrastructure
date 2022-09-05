@@ -435,3 +435,49 @@ resource "azurerm_data_factory_custom_dataset" "aggregates_log" {
   JSON
 }
 
+resource "azurerm_data_factory_custom_dataset" "ack_log" {
+
+  count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
+
+  name            = "AcksLog"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "AzureDataExplorerTable"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_kusto.dexp_tae[count.index].name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "table": "Acks"
+  }     
+  JSON
+
+  description = "Log of Acks received from ADE"
+  annotations = ["AcksLog"]
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "status",
+      "type": "int"
+    },
+    {
+      "name": "errorCode",
+      "type": "string"
+    },
+    {
+      "name": "fileName",
+      "type": "string"
+    },
+    {
+      "name": "pipelineRun",
+      "type": "string"
+    }
+  ]
+  JSON
+}

@@ -67,5 +67,5 @@ resource "azurerm_kusto_database_principal_assignment" "tae_principal_assignment
   tenant_id      = data.azurerm_data_factory.datafactory.identity.0.tenant_id
   principal_id   = data.azurerm_data_factory.datafactory.identity.0.principal_id
   principal_type = "App"
-  role           = "Ingestor"
+  role           = "Admin"
 }
