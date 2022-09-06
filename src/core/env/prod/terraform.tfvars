@@ -381,17 +381,17 @@ cosmos_mongo_db_transaction_params = {
 }
 
 dexp_params = {
-  enabled = false
+  enabled = true
   sku = {
     name     = "Standard_D11_v2"
     capacity = 2
   }
   autoscale = {
     min_instances = 2
-    max_instances = 3
+    max_instances = 5
   }
-  public_network_access_enabled = false
-  double_encryption_enabled     = false
+  public_network_access_enabled = true
+  double_encryption_enabled     = true
   disk_encryption_enabled       = true
   purge_enabled                 = false
 

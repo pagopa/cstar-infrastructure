@@ -430,6 +430,10 @@ resource "azurerm_data_factory_custom_dataset" "aggregates_log" {
     {
       "name": "pipelineRun",
       "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "datetime"
     }
   ]
   JSON
