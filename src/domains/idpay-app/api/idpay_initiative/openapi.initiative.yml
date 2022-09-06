@@ -139,6 +139,8 @@ paths:
           description: ''
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigBeneficiaryRuleArrayDTO'
               example:
                 - code: ISEE
                   authority: INPS
@@ -585,7 +587,122 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-
+  /{initiativeId}/refund:
+    put:
+      tags:
+        - initiative
+      summary: Save the refund rule of the initiative
+      operationId: updateInitiativeRefundRule
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/refund/draft:
+    put:
+      tags:
+        - initiative
+      summary: Save the refund rule of the initiative in Draft
+      operationId: updateInitiativeRefundRuleDraft
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     InitiativeAdditionalDTO:
@@ -684,6 +801,12 @@ components:
           $ref: '#/components/schemas/InitiativeAdditionalDTO'
         beneficiaryRule:
           $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+        rewardRule:
+          $ref: '#/components/schemas/InitiativeRewardRuleDTO'
+        trxRule:
+          $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
+        refundRule:
+          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
         legal:
           $ref: '#/components/schemas/InitiativeLegalDTO'
     InitiativeSummaryArrayDTO:
@@ -784,6 +907,24 @@ components:
             - value3
         code:
           type: string
+    ConfigBeneficiaryRuleArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigBeneficiaryRuleDTO'
+    ConfigBeneficiaryRuleDTO:
+      title: ConfigBeneficiaryRuleDTO
+      type: object
+      properties:
+        code:
+          type: string
+        authority:
+          type: string
+        field:
+          type: string
+        operator:
+          type: string
+        checked:
+          type: boolean
     ConfigTrxRuleArrayDTO:
       type: array
       items:
@@ -835,7 +976,6 @@ components:
     InitiativeRewardAndTrxRulesDTO:
       required:
         - rewardRule
-        - trxRule
       type: object
       properties:
         rewardRule:
@@ -961,6 +1101,47 @@ components:
           format: int64
         toIncluded:
           type: boolean
+    InitiativeRefundRuleDTO:
+      type: object
+      properties:
+        accumulatedAmount:
+          $ref: '#/components/schemas/AccumulatedAmountDTO'
+        timeParameter:
+          $ref: '#/components/schemas/TimeParameterDTO'
+        additionalInfo:
+          $ref: '#/components/schemas/AdditionalInfoDTO'
+    AccumulatedAmountDTO:
+      required:
+        - accomulatedType
+      type: object
+      properties:
+        accomulatedType:
+          type: string
+          enum:
+            - BUDGET_EXHAUSTED
+            - THRESHOLD_REACHED
+        refundThreshold:
+          type: number
+    TimeParameterDTO:
+      required:
+        - timeType
+      type: object
+      properties:
+        timeType:
+          type: string
+          enum:
+            - CLOSED
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - QUARTERLY
+    AdditionalInfoDTO:
+      required:
+        - identificationCode
+      type: object
+      properties:
+        identificationCode:
+          type: string
   securitySchemes:
     Bearer:
       type: apiKey
