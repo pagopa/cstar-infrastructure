@@ -35,8 +35,8 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-joinAcksWithAggregatesOnId alterRow(deleteIf(aggregates@id==sourceAck@id)) ~> updAggregatesWithAck
-updAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
+joinAcksWithAggregatesOnId alterRow(deleteIf(aggregates@id==sourceAck@id)) ~> deleteAggregatesWithAck
+deleteAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
 	matchType:'exact',

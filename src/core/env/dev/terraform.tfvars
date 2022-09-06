@@ -405,7 +405,7 @@ dexp_params = {
     min_instances = 2
     max_instances = 3
   }
-  public_network_access_enabled = false
+  public_network_access_enabled = true
   double_encryption_enabled     = false
   disk_encryption_enabled       = true
   purge_enabled                 = false
