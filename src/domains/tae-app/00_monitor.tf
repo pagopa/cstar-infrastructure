@@ -41,5 +41,5 @@ resource "azurerm_kusto_script" "create_tables" {
 
   script_content                     = file("scripts/create_tables.dexp")
   continue_on_errors_enabled         = true
-  force_an_update_when_value_changed = "v3" # change this version to re-execute the script
+  force_an_update_when_value_changed = "v4" # change this version to re-execute the script
 }

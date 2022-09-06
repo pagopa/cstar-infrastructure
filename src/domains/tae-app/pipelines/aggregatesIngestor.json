@@ -569,6 +569,15 @@
                             "type": "String",
                             "name": "pipelineRun"
                         }
+                    },
+                    {
+                        "source": {
+                            "path": "$['_ts']"
+                        },
+                        "sink": {
+                            "type": "Int32",
+                            "name": "timestamp"
+                        }
                     }
                 ]
             }
