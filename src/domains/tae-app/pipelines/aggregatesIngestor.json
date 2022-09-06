@@ -227,7 +227,7 @@
             "source": {
                 "type": "CosmosDbSqlApiSource",
                 "query": {
-                    "value": "SELECT * FROM c WHERE c.fileName = \"@{pipeline().parameters.file}\"",
+                    "value": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
                     "type": "Expression"
                 },
                 "preferredRegions": []
