@@ -7,6 +7,8 @@ pr:
     include:
       - 'src/domains/rtd-app'
       - 'src/domains/rtd-common'
+    exclude:
+      - '**/*.lock.hcl'
 
 parameters:
   - name: 'DEV'
