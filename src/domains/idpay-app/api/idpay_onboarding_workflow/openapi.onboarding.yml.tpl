@@ -6,7 +6,7 @@ info:
 servers:
  - url: https://api-io.dev.cstar.pagopa.it/idpay/onboarding
 paths:
-  /citizen:
+  /:
     put:
       tags:
         - onboarding
