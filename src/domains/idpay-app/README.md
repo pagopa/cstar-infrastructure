@@ -18,6 +18,7 @@
 | <a name="module_idpay_api_io_product"></a> [idpay\_api\_io\_product](#module\_idpay\_api\_io\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v2.18.2 |
 | <a name="module_idpay_api_portal_product"></a> [idpay\_api\_portal\_product](#module\_idpay\_api\_portal\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v2.18.2 |
 | <a name="module_idpay_iban_io"></a> [idpay\_iban\_io](#module\_idpay\_iban\_io) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.2 |
+| <a name="module_idpay_group_portal"></a> [idpay\_group\_portal](#module\_idpay\_group\_portal) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.2 |
 | <a name="module_idpay_initiative_portal"></a> [idpay\_initiative\_portal](#module\_idpay\_initiative\_portal) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.2 |
 | <a name="module_idpay_onboarding_workflow_io"></a> [idpay\_onboarding\_workflow\_io](#module\_idpay\_onboarding\_workflow\_io) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.2 |
 | <a name="module_idpay_permission_portal"></a> [idpay\_permission\_portal](#module\_idpay\_permission\_portal) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.2 |

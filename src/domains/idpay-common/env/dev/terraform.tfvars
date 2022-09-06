@@ -53,6 +53,10 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+service_bus_namespace = {
+  sku = "Standard"
+}
+
 ### External resources
 
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
@@ -286,8 +290,27 @@ eventhubs_idpay_01 = [
         manage = false
       }
     ]
-  }
-
+  },
+  {
+    name              = "idpay-errors"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-errors-group"]
+    keys = [
+      {
+        name   = "idpay-errors-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-errors-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 ### handle resource enable

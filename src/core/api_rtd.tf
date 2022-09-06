@@ -430,11 +430,12 @@ module "rtd_deposited_file_check" {
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_deposited_file_check/openapi.yml", {
-    host = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
-  })
+  content_value  = file("./api/rtd_deposited_file_check/openapi.yml")
 
-  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
+  xml_content = templatefile("./api/rtd_deposited_file_check/azureblob_policy.xml", {
+    ade-in  = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short),
+    ade-out = format("https://cstar%ssftp.blob.core.windows.net/ade/out/", var.env_short)
+  })
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true

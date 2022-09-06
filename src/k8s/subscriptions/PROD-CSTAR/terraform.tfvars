@@ -378,7 +378,7 @@ configmaps_fanotificationmanager = {
 }
 
 configmaps_rtddecrypter = {
-  ENABLE_CHUNK_UPLOAD     = false
+  ENABLE_CHUNK_UPLOAD     = true
   SPLITTER_LINE_THRESHOLD = 250000
 }
 
@@ -663,9 +663,9 @@ enable = {
     internal_api                        = true
     csv_transaction_apis                = true
     ingestor                            = false
-    file_register                       = false
+    file_register                       = true
     enrolled_payment_instrument         = false
-    mongodb_storage                     = false
+    mongodb_storage                     = true
   }
   fa = {
     api = false

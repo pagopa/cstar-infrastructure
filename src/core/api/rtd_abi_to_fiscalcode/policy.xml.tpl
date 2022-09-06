@@ -8,9 +8,10 @@
       </set-header>
       <set-body>@{
         return new JObject(
-          new JProperty("EVODE", "IE9813461A"),
           new JProperty("STPAY", "LU30726739"),
-          new JProperty("BPAY1", "04949971008")
+          new JProperty("BPAY1", "04949971008"),
+          new JProperty("SUMUP", "IE9813461A"),
+          new JProperty("ICARD", "BG175325806")
         ).ToString();
         }
       </set-body>
