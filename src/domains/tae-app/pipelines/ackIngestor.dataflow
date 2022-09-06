@@ -35,7 +35,7 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-joinAcksWithAggregatesOnId alterRow(updateIf(aggregates@id==sourceAck@id)) ~> updAggregatesWithAck
+joinAcksWithAggregatesOnId alterRow(deleteIf(aggregates@id==sourceAck@id)) ~> updAggregatesWithAck
 updAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
@@ -54,7 +54,7 @@ addFileName select(mapColumn(
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
 projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
-updAggregatesWithAck select(mapColumn(
+deleteAggregatesWithAck select(mapColumn(
 		id = sourceAck@id,
 		status,
 		errorCode,
@@ -76,6 +76,26 @@ updAggregatesWithAck select(mapColumn(
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectOnlyOneID
 sourceAck derive(ackPipelineRun = $RunID) ~> addPipelineRunId
+addPipelineRunId sink(allowSchemaDrift: true,
+	validateSchema: false,
+	input(
+		id as string,
+		status as integer,
+		errorCode as string,
+		fileName as string,
+		pipelineRun as string
+	),
+	format: 'table',
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true,
+	saveOrder: 1,
+	mapColumn(
+		id,
+		status,
+		errorCode,
+		fileName = ackFileName,
+		pipelineRun = ackPipelineRun
+	)) ~> acksLog
 projectOnlyOneID sink(allowSchemaDrift: true,
 	validateSchema: true,
 	input(
@@ -97,14 +117,15 @@ projectOnlyOneID sink(allowSchemaDrift: true,
 		transmissionDate as string,
 		vat as string
 	),
-	deletable:false,
+	deletable:true,
 	insertable:false,
-	updateable:true,
+	updateable:false,
 	upsertable:false,
 	format: 'document',
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true,
+	saveOrder: 2,
 	mapColumn(
 		id,
 		status,
@@ -133,23 +154,5 @@ selectByStatusNotOk sink(allowSchemaDrift: false,
 	),
 	rowUrlColumn:'ackFileName',
 	skipDuplicateMapInputs: true,
-	skipDuplicateMapOutputs: true) ~> wrongFiscalCodesByAcquirer
-addPipelineRunId sink(allowSchemaDrift: true,
-	validateSchema: false,
-	input(
-		id as string,
-		status as integer,
-		errorCode as string,
-		fileName as string,
-		pipelineRun as string
-	),
-	format: 'table',
-	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true,
-	mapColumn(
-		id,
-		status,
-		errorCode,
-		fileName = ackFileName,
-		pipelineRun = ackPipelineRun
-	)) ~> acksLog
+	saveOrder: 1) ~> wrongFiscalCodesByAcquirer
