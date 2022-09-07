@@ -332,7 +332,7 @@ db_metric_alerts = {
 
 pgres_flex_params = {
 
-  enabled    = false
+  enabled    = true
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
   # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
@@ -827,7 +827,7 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = true
     batch_service_api                   = true
-    enrolled_payment_instrument         = false
+    enrolled_payment_instrument         = true
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
