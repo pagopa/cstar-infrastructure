@@ -28,12 +28,11 @@ cidr_subnet_azdoa        = ["10.1.130.0/24"]
 cidr_subnet_jumpbox      = ["10.1.131.0/24"]
 cidr_subnet_redis        = ["10.1.132.0/24"]
 cidr_subnet_vpn          = ["10.1.133.0/24"]
-cidr_subnet_dnsforwarder = ["10.1.134.0/29"]
 cidr_subnet_adf          = ["10.1.135.0/24"]
-
 cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
+cidr_subnet_dnsforwarder = ["10.1.199.0/29"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
 # IDPAY - cidr utilizzati sul progetto IdPay
