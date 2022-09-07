@@ -25,9 +25,9 @@ paths:
                     initiativeName: string
                     status: NOT_REFUNDABLE_ONLY_IBAN
                     endDate: string
-                    available: string
-                    accrued: string
-                    refunded: string
+                    available: 100.10
+                    accrued: 1.10
+                    refunded: 0.10
                     iban: string
                     nInstr: string
         '401':
@@ -82,9 +82,9 @@ paths:
                 initiativeName: string
                 status: NOT_REFUNDABLE_ONLY_IBAN
                 endDate: string
-                available: string
-                accrued: string
-                refunded: string
+                available: 100.10
+                accrued: 1.10
+                refunded: 0.10
                 iban: string
                 nInstr: string
         '401':
@@ -123,12 +123,19 @@ paths:
               example:
                 code: 0
                 message: string
-  /iban:
+  /{initiativeId}/iban:
     put:
       tags:
         - wallet
       summary: Association of an IBAN to an initiative
       operationId: enrollIban
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
       requestBody:
         description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
         content:
@@ -136,7 +143,6 @@ paths:
             schema:
               $ref: '#/components/schemas/IbanPutDTO'
             example:
-              initiativeId: string
               iban: string
               description: string
       responses:
@@ -198,12 +204,19 @@ paths:
               example:
                 code: 0
                 message: string
-  /instrument:
+  /{initiativeId}/instruments:
     put:
       tags:
         - wallet
       summary: Association of a payment instrument to an initiative
       operationId: enrollInstrument
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
       requestBody:
         description: 'Unique identifier of the subscribed initiative, instrument HPAN'
         content:
@@ -211,7 +224,6 @@ paths:
             schema:
               $ref: '#/components/schemas/InstrumentPutDTO'
             example:
-              initiativeId: string
               hpan: string
       responses:
         '200':
@@ -557,13 +569,9 @@ components:
       title: IbanPutDTO
       type: object
       required:
-        - initiativeId
         - iban
         - description
       properties:
-        initiativeId:
-          type: string
-          description: Unique identifier of the subscribed initiative
         iban:
           type: string
           description: IBAN of the citizen
@@ -574,12 +582,8 @@ components:
       title: InstrumentPutDTO
       type: object
       required:
-        - initiativeId
         - hpan
       properties:
-        initiativeId:
-          type: string
-          description: Unique identifier of the subscribed initiative
         hpan:
           type: string
           description: Payment instrument of the citizen
@@ -652,11 +656,11 @@ components:
           type: string
           format: date
         available:
-          type: string
+          type: number
         accrued:
-          type: string
+          type: number
         refunded:
-          type: string
+          type: number
         iban:
           type: string
         nInstr:
