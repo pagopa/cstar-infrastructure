@@ -166,7 +166,27 @@ eventhubs_idpay_00 = [
         manage = false
       }
     ]
-  }
+  },
+  {
+    name              = "idpay-notification-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-notification-request-group"]
+    keys = [
+      {
+        name   = "idpay-notification-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-notification-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 
