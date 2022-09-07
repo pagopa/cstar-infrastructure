@@ -4,20 +4,20 @@ resource "kubernetes_namespace" "domain_namespace" {
   }
 }
 
-module "domain_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.13.1"
+# module "domain_pod_identity" {
+#  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.13.1"
 
-  resource_group_name = local.aks_resource_group_name
-  location            = var.location
-  tenant_id           = data.azurerm_subscription.current.tenant_id
-  cluster_name        = local.aks_name
+#  resource_group_name = local.aks_resource_group_name
+#  location            = var.location
+#  tenant_id           = data.azurerm_subscription.current.tenant_id
+#  cluster_name        = local.aks_name
 
-  identity_name = "${var.domain}-pod-identity"
-  namespace     = kubernetes_namespace.domain_namespace.metadata[0].name
-  key_vault     = data.azurerm_key_vault.kv
+#  identity_name = "${var.domain}-pod-identity"
+#  namespace     = kubernetes_namespace.domain_namespace.metadata[0].name
+#  key_vault     = data.azurerm_key_vault.kv
 
-  secret_permissions = ["get"]
-}
+#  secret_permissions = ["get"]
+# }
 
 resource "helm_release" "reloader" {
   name       = "reloader"

@@ -1,0 +1,974 @@
+openapi: 3.0.1
+info:
+  title: IDPAY Welfare Portal Initiative API
+  description: IDPAY Welfare Portal Initiative
+  version: '1.0'
+servers:
+  - url: http://api-io.dev.cstar.pagopa.it/idpay/initiative
+paths:
+  '/{initiativeId}/beneficiary/view':
+    get:
+      tags:
+        - initiative
+      summary: Returns the detail of an active initiative
+      operationId: getInitiativeBeneficiaryView
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /summary:
+    get:
+      tags:
+        - initiative
+      summary: Returns the list of initiatives names for a specific organization
+      description: Returns the list of initiatives names for a specific organization
+      operationId: getInitativeSummary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeSummaryArrayDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}:
+    get:
+      tags:
+        - initiative
+      summary: Returns the detail of an active initiative
+      description: Returns the detail of an active initiative
+      operationId: getInitiativeDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /config/beneficiary/rule:
+    get:
+      tags:
+        - initiative
+      summary: Returns fixed automated Criteria
+      description: Returns fixed automated Criteria
+      operationId: getBeneficiaryConfigRules
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              example:
+                - code: ISEE
+                  authority: INPS
+                  operator: EQ
+                  checked: false
+                - code: BIRTHDATE
+                  authority: AUTH1
+                  field: Year
+                  operator: EQ
+                  checked: false
+                - code: RESIDENCE
+                  authority: AUTH2
+                  field: City
+                  operator: EQ
+                  checked: false
+  /config/transaction/rule:
+    get:
+      tags:
+        - initiative
+      summary: Return transaction config rules content
+      description: Return transaction config rules content
+      operationId: getTransactionConfigRules
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigTrxRuleArrayDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /config/transaction/mcc:
+    get:
+      tags:
+        - initiative
+      summary: Return MCC config contents
+      description: Return MCC config contents
+      operationId: getMccConfig
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigMccArrayDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /general:
+    post:
+      tags:
+        - initiative
+      summary: Save initiative and first subset of data 'general info'
+      description: Save initiative and first subset of data 'general info'
+      operationId: saveInitiativeGeneralInfo
+      requestBody:
+        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeInfoDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/general:
+    put:
+      tags:
+        - initiative
+      summary: Update initiative and first subset of data 'general info'
+      description: Update initiative and first subset of data 'general info'
+      operationId: updateInitiativeGeneralInfo
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeInfoDTO'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/beneficiary:
+    put:
+      tags:
+        - initiative
+      summary: Association of beneficiary rules to an initiative
+      description: Association of beneficiary rules to an initiative
+      operationId: updateInitiativeBeneficiary
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Unique identifier of the subscribed initiative, instrument HPAN
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward:
+    put:
+      tags:
+        - initiative
+      summary: Association of transaction and reward rules to an initiative
+      operationId: updateTrxAndRewardRules
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeRewardAndTrxRulesDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/beneficiary/draft:
+    put:
+      tags:
+        - initiative
+      summary: Association of beneficiary rules to a draft initiative without validation
+      description: Association of beneficiary rules to a draft initiative without validation
+      operationId: updateInitiativeBeneficiaryDraft
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Unique identifier of the subscribed initiative, instrument HPAN
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/draft:
+    put:
+      tags:
+        - initiative
+      summary: Association of transaction and reward rules to a draft initiative without validation
+      operationId: updateTrxAndRewardRulesDraft
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeRewardAndTrxRulesDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+
+components:
+  schemas:
+    InitiativeAdditionalDTO:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        serviceName:
+          type: string
+        argument:
+          type: string
+        description:
+          type: string
+        channels:
+          $ref: '#/components/schemas/ChannelArrayDTO'
+    InitiativeLegalDTO:
+      type: object
+      properties:
+        privacyLink:
+          type: string
+        tcLink:
+          type: string
+        regulationLink:
+          type: string
+        dpiaLink:
+          type: string
+    InitiativeGeneralDTO:
+      type: object
+      properties:
+        budget:
+          type: number
+        beneficiaryType:
+          enum:
+            - PF
+            - PG
+          type: string
+        beneficiaryKnown:
+          type: boolean
+        beneficiaryBudget:
+          type: number
+        startDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+        endDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+        rankingStartDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+        rankingEndDate:
+          type: string
+          description: Start date
+          format: date
+          example: '2022-01-30'
+    AutomatedCriteriaDTO:
+      type: object
+      properties:
+        authority:
+          type: string
+        code:
+          type: string
+        field:
+          type: string
+        operator:
+          type: string
+        value:
+          type: string
+    InitiativeDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        organizationId:
+          type: string
+        pdndToken:
+          type: string
+        status:
+          type: string
+        pdndCheck:
+          type: boolean
+        autocertificationCheck:
+          type: boolean
+        beneficiaryRanking:
+          type: boolean
+        general:
+          $ref: '#/components/schemas/InitiativeGeneralDTO'
+        additionalInfo:
+          $ref: '#/components/schemas/InitiativeAdditionalDTO'
+        beneficiaryRule:
+          $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+        legal:
+          $ref: '#/components/schemas/InitiativeLegalDTO'
+    InitiativeSummaryArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/InitiativeSummaryDTO'
+    InitiativeSummaryDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        status:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+    InitiativeInfoDTO:
+      type: object
+      properties:
+        general:
+          $ref: '#/components/schemas/InitiativeGeneralDTO'
+        additionalInfo:
+          $ref: '#/components/schemas/InitiativeAdditionalDTO'
+    ChannelArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChannelDTO'
+    ChannelDTO:
+      type: object
+      properties:
+        type:
+          enum:
+            - web
+            - email
+            - mobile
+          type: string
+        contact:
+          type: string
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    AnyOfInitiativeBeneficiaryRuleDTOSelfDeclarationCriteriaItems:
+      type: object
+      anyOf:
+        - $ref: '#/components/schemas/SelfCriteriaBoolDTO'
+        - $ref: '#/components/schemas/SelfCriteriaMultiDTO'
+      description: List of possible criteria
+    InitiativeBeneficiaryRuleDTO:
+      type: object
+      properties:
+        selfDeclarationCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnyOfInitiativeBeneficiaryRuleDTOSelfDeclarationCriteriaItems'
+        automatedCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/AutomatedCriteriaDTO'
+    SelfCriteriaBoolDTO:
+      type: object
+      properties:
+        _type:
+          enum:
+            - boolean
+          type: string
+        description:
+          type: string
+        value:
+          type: boolean
+        code:
+          type: string
+    SelfCriteriaMultiDTO:
+      title: SelfCriteriaMultiDTO
+      type: object
+      properties:
+        _type:
+          enum:
+            - multi
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+          example:
+            - value1
+            - value2
+            - value3
+        code:
+          type: string
+    ConfigTrxRuleArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigTrxRuleDTO'
+    ConfigTrxRuleDTO:
+      title: ConfigTrxRuleDTO
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        checked:
+          type: boolean
+    ConfigMccArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigMccDTO'
+    ConfigMccDTO:
+      title: ConfigMccDTO
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    DayConfig:
+      type: object
+      properties:
+        daysOfWeek:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+              - MONDAY
+              - TUESDAY
+              - WEDNESDAY
+              - THURSDAY
+              - FRIDAY
+              - SATURDAY
+              - SUNDAY
+        intervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interval'
+    InitiativeRewardAndTrxRulesDTO:
+      required:
+        - rewardRule
+        - trxRule
+      type: object
+      properties:
+        rewardRule:
+          oneOf:
+            - $ref: '#/components/schemas/RewardGroupsDTO'
+            - $ref: '#/components/schemas/RewardValueDTO'
+        trxRule:
+          $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
+    InitiativeRewardRuleDTO:
+      required:
+        - _type
+      type: object
+      properties:
+        _type:
+          type: string
+      discriminator:
+        propertyName: _type
+    InitiativeTrxConditionsDTO:
+      type: object
+      properties:
+        daysOfWeek:
+          type: array
+          properties:
+            empty:
+              type: boolean
+          items:
+            $ref: '#/components/schemas/DayConfig'
+        threshold:
+          $ref: '#/components/schemas/ThresholdDTO'
+        mccFilter:
+          $ref: '#/components/schemas/MccFilterDTO'
+        trxCount:
+          $ref: '#/components/schemas/TrxCountDTO'
+        rewardLimits:
+          type: array
+          items:
+            $ref: '#/components/schemas/RewardLimitsDTO'
+    Interval:
+      type: object
+      properties:
+        startTime:
+          type: string
+          description: "hours:minutes:seconds.nano"
+          example: "00:16:00.000"
+        endTime:
+          type: string
+          description: "hours:minutes:seconds.nano"
+          example: "02:00:00.000"
+    MccFilterDTO:
+      type: object
+      properties:
+        allowedList:
+          type: boolean
+        values:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    RewardGroupDTO:
+      type: object
+      properties:
+        from:
+          type: number
+        to:
+          type: number
+        rewardValue:
+          maximum: 100
+          minimum: 0
+          type: number
+    RewardGroupsDTO:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
+        - type: object
+          properties:
+            rewardGroups:
+              type: array
+              items:
+                $ref: '#/components/schemas/RewardGroupDTO'
+    RewardLimitsDTO:
+      type: object
+      properties:
+        frequency:
+          type: string
+          enum:
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - YEARLY
+        rewardLimit:
+          type: number
+    RewardValueDTO:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
+        - type: object
+          properties:
+            rewardValue:
+              maximum: 100
+              minimum: 0
+              type: number
+    ThresholdDTO:
+      type: object
+      properties:
+        from:
+          type: number
+        fromIncluded:
+          type: boolean
+        to:
+          type: number
+        toIncluded:
+          type: boolean
+    TrxCountDTO:
+      type: object
+      properties:
+        from:
+          type: integer
+          format: int64
+        fromIncluded:
+          type: boolean
+        to:
+          type: integer
+          format: int64
+        toIncluded:
+          type: boolean
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+security:
+  - Bearer: []
+tags:
+  - name: initiative
+    description: ''
+        

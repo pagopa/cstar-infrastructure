@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: RTD API to get AdE file
+  description: RTD API to retrieve a deposited ADE file in SFTP by name
+  version: '1.0'
+servers:
+  - url: ${host}
+paths:
+  /{fileName}:
+    get:
+      summary: GET BlobURI
+      operationId: getBlob
+      responses:
+        "200":
+          description: "Ok"
+      parameters:
+        - name: fileName
+          in: path
+          description: filename to download
+          required: true
+          schema:
+            type: string
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []

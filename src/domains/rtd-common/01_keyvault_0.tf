@@ -18,8 +18,8 @@ module "key_vault_domain" {
   lock_enable = true
 
   # Logs
-  sec_log_analytics_workspace_id = var.env_short == "p" ? data.terraform_remote_state.core.outputs.sec_workspace_id : null
-  sec_storage_id                 = var.env_short == "p" ? data.terraform_remote_state.core.outputs.sec_storage_id : null
+  #  sec_log_analytics_workspace_id = var.env_short == "p" ? data.terraform_remote_state.core.outputs.sec_workspace_id : null
+  #  sec_storage_id                 = var.env_short == "p" ? data.terraform_remote_state.core.outputs.sec_storage_id : null
 
   tags = var.tags
 }
@@ -37,8 +37,27 @@ resource "azurerm_key_vault_access_policy" "ad_admin_group_policy" {
   certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ]
 }
 
-## ad group policy ##
+#
+# policy developers
+#
 resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
+
+  key_vault_id = module.key_vault_domain.id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = data.azuread_group.adgroup_developers.object_id
+
+  key_permissions         = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", ] : ["Get", "List", "Update", "Create", "Import", ]
+  secret_permissions      = var.env_short == "d" ? ["Get", "List", "Set", "Delete", ] : ["Get", "List", "Set", ]
+  storage_permissions     = []
+  certificate_permissions = var.env_short == "d" ? ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", "ManageContacts", ] : ["Get", "List", "Update", "Create", "Import", "Restore", "Recover", ]
+}
+
+#
+# policy externals
+#
+
+resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
   count = var.env_short == "d" ? 1 : 0
 
   key_vault_id = module.key_vault_domain.id
@@ -46,11 +65,29 @@ resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = data.azuread_group.adgroup_developers.object_id
 
-  key_permissions     = ["Get", "List", "Update", "Create", "Import", "Delete", ]
-  secret_permissions  = ["Get", "List", "Set", "Delete", ]
+  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions      = ["Get", "List", "Set", "Delete", ]
+  storage_permissions     = []
+  certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", "ManageContacts", ]
+}
+
+#
+# IaC
+#
+
+#pagopaspa-cstar-platform-iac-projects-{subscription}
+data "azuread_service_principal" "platform_iac_sp" {
+  display_name = "pagopaspa-cstar-platform-iac-projects-${data.azurerm_subscription.current.subscription_id}"
+}
+
+resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
+  key_vault_id = module.key_vault_domain.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.platform_iac_sp.object_id
+
+  secret_permissions = ["Get", "List", "Set", ]
+
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", ]
+
   storage_permissions = []
-  certificate_permissions = [
-    "Get", "List", "Update", "Create", "Import",
-    "Delete", "Restore", "Purge", "Recover"
-  ]
 }

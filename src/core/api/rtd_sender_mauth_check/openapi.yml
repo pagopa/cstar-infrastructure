@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: RTD API to Check mAuth
+  description: RTD API to check muthual authentication (client certificate)
+  version: 0.0.1
+servers:
+- url: https://httpbin.org
+paths:
+  /check:
+    get:
+      responses:
+        200:
+          description: Check Client Certificate
+          content:
+            application/json:
+              example:
+                result: PASS

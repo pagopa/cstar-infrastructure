@@ -53,6 +53,10 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+service_bus_namespace = {
+  sku = "Standard"
+}
+
 ### External resources
 
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
@@ -266,8 +270,47 @@ eventhubs_idpay_01 = [
         manage = false
       }
     ]
-  }
-
+  },
+  {
+    name              = "idpay-transaction-user-id-splitter"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-user-id-splitter-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-user-id-splitter-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-user-id-splitter-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-errors"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-errors-group"]
+    keys = [
+      {
+        name   = "idpay-errors-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-errors-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 ### handle resource enable
@@ -275,7 +318,6 @@ enable = {
   idpay = {
     eventhub_idpay_00 = true
   }
-
 }
 
 cidr_idpay_subnet_redis = ["10.1.139.0/24"]

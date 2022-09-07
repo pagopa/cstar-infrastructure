@@ -39,13 +39,13 @@ module "idpay_permission_portal" {
 
   description  = "IDPAY Welfare Portal User Permission"
   display_name = "IDPAY Welfare Portal User Permission API"
-  path         = "idpay/welfare/authorization"
+  path         = "idpay/authorization"
   protocols    = ["https", "http"]
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_role_permission/swagger.role.permission.yml")
+  content_value  = file("./api/idpay_role_permission/openapi.permission.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -57,7 +57,18 @@ module "idpay_permission_portal" {
       operation_id = "userPermission"
       xml_content = templatefile("./api/idpay_role_permission/get-permission-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        jwt_cert_signing_kv_id         = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name
+      })
+    },
+    {
+      operation_id = "saveConsent"
+      xml_content = templatefile("./api/idpay_role_permission/consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "retrieveConsent"
+      xml_content = templatefile("./api/idpay_role_permission/consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
   ]
@@ -80,7 +91,7 @@ module "idpay_initiative_portal" {
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_initiative/swagger.initiative.yml")
+  content_value  = file("./api/idpay_initiative/openapi.initiative.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -112,19 +123,101 @@ module "idpay_initiative_portal" {
     {
       operation_id = "updateInitiativeGeneralInfo"
 
-      xml_content = templatefile("./api/idpay_initiative/patch-initiative-general.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "updateInitiativeBeneficiary"
 
-      xml_content = templatefile("./api/idpay_initiative/patch-initiative-beneficiary.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeBeneficiaryDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateTrxAndRewardRules"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-reward.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateTrxAndRewardRulesDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-reward-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    //CONFIG
+    {
+      operation_id = "getBeneficiaryConfigRules"
+
+      xml_content = templatefile("./api/idpay_initiative/simple-mock-policy.xml", {})
+    },
+    {
+      operation_id = "getTransactionConfigRules"
+
+      xml_content = templatefile("./api/idpay_initiative/get-config-transaction-rule.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMccConfig"
+
+      xml_content = templatefile("./api/idpay_initiative/get-config-mcc.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
-
   ]
 
+}
+
+
+## IDPAY Welfare Portal Group API ##
+module "idpay_group_portal" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-group"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY Welfare Portal File Group"
+  display_name = "IDPAY Welfare Portal File Group API"
+  path         = "idpay/group"
+  protocols    = ["https"]
+
+  service_url = "http://${var.ingress_load_balancer_hostname}/idpaygroup/"
+
+  content_format = "openapi"
+  content_value  = file("./api/idpay_group/openapi.group.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_portal_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "getGroupOfBeneficiaryStatusAndDetails"
+
+      xml_content = templatefile("./api/idpay_group/get-group-status.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "uploadGroupOfBeneficiary"
+
+      xml_content = templatefile("./api/idpay_group/put-group-upload.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
 
 }

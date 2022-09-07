@@ -53,8 +53,23 @@ cosmos_db_aggregates_params = {
   throughput         = 1000
 }
 
+dexp_db = {
+  enable             = true
+  hot_cache_period   = "P7D"
+  soft_delete_period = "P1M"
+}
+
 ### External resources
 
+# Monitoring
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
 log_analytics_workspace_name                = "cstar-d-law"
 log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
+
+acquirer_storage_params = {
+  analytics_workspace_enabled = true
+}
+
+sftp_storage_params = {
+  analytics_workspace_enabled = true
+}
