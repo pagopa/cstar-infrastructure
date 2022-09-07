@@ -21,19 +21,18 @@ apim_sku                       = "Developer_1"
 
 cidr_vnet = ["10.1.0.0/16"]
 
-cidr_subnet_k8s          = ["10.1.0.0/17"]
-cidr_subnet_appgateway   = ["10.1.128.0/24"]
-cidr_subnet_db           = ["10.1.129.0/24"]
-cidr_subnet_azdoa        = ["10.1.130.0/24"]
-cidr_subnet_jumpbox      = ["10.1.131.0/24"]
-cidr_subnet_redis        = ["10.1.132.0/24"]
-cidr_subnet_vpn          = ["10.1.133.0/24"]
-cidr_subnet_dnsforwarder = ["10.1.134.0/29"]
-cidr_subnet_adf          = ["10.1.135.0/24"]
-
+cidr_subnet_k8s              = ["10.1.0.0/17"]
+cidr_subnet_appgateway       = ["10.1.128.0/24"]
+cidr_subnet_db               = ["10.1.129.0/24"]
+cidr_subnet_azdoa            = ["10.1.130.0/24"]
+cidr_subnet_jumpbox          = ["10.1.131.0/24"]
+cidr_subnet_redis            = ["10.1.132.0/24"]
+cidr_subnet_vpn              = ["10.1.133.0/24"]
+cidr_subnet_adf              = ["10.1.135.0/24"]
 cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
+cidr_subnet_dnsforwarder     = ["10.1.199.0/29"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
 # IDPAY - cidr utilizzati sul progetto IdPay
@@ -395,33 +394,21 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
-tae_cosmos_db_params = {
-  enabled      = true
-  kind         = "GlobalDocumentDB"
-  capabilities = []
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
+dexp_params = {
+  enabled = true
+  sku = {
+    name     = "Standard_D11_v2"
+    capacity = 2
   }
-  server_version                   = null
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = true
+  autoscale = {
+    min_instances = 2
+    max_instances = 3
+  }
+  public_network_access_enabled = true
+  double_encryption_enabled     = false
+  disk_encryption_enabled       = true
+  purge_enabled                 = false
 
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = true
-  additional_geo_locations          = []
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = false
-}
-
-tae_cosmos_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
 }
 
 #
@@ -691,7 +678,14 @@ eventhubs = [
         listen = true
         send   = false
         manage = false
-      }
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-tests"
+        listen = true
+        send   = false
+        manage = false
+      },
     ]
   },
   {

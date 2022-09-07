@@ -124,6 +124,14 @@ variable "sftp_storage_params" {
   })
 }
 
+variable "dexp_db" {
+  type = object({
+    enable             = bool
+    hot_cache_period   = string
+    soft_delete_period = string
+  })
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {

@@ -63,6 +63,14 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   sink {
+    name = "acksLog"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.ack_log[0].name
+    }
+  }
+
+  sink {
     name = "aggregatesWithAck"
 
     dataset {
@@ -79,7 +87,11 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   transformation {
-    name = "updAggregatesWithAck"
+    name = "addPipelineRunId"
+  }
+
+  transformation {
+    name = "deleteAggregatesWithAck"
   }
 
   transformation {
