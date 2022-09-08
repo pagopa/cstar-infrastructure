@@ -74,7 +74,7 @@ module "mongdb_collection_onboarding_citizen" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 # Collections
@@ -93,7 +93,7 @@ module "mongdb_collection_iban" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_payment_instrument" {
@@ -111,7 +111,7 @@ module "mongdb_collection_payment_instrument" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_notification" {
@@ -129,7 +129,7 @@ module "mongdb_collection_notification" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_wallet" {
@@ -147,7 +147,7 @@ module "mongdb_collection_wallet" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 
@@ -171,7 +171,7 @@ module "mongdb_collection_timeline" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_initiative" {
@@ -189,7 +189,7 @@ module "mongdb_collection_initiative" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_transaction" {
@@ -207,7 +207,7 @@ module "mongdb_collection_transaction" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_reward_rule" {
@@ -225,7 +225,7 @@ module "mongdb_collection_reward_rule" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_beneficiary_rule" {
@@ -243,7 +243,7 @@ module "mongdb_collection_beneficiary_rule" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_hpan_initiatives_lookup" {
@@ -261,7 +261,7 @@ module "mongdb_collection_hpan_initiatives_lookup" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_user_initiative_counters" {
@@ -279,7 +279,7 @@ module "mongdb_collection_user_initiative_counters" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_role_permission" {
@@ -297,7 +297,7 @@ module "mongdb_collection_role_permission" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }
 
 module "mongdb_collection_portal_consent" {
@@ -315,5 +315,41 @@ module "mongdb_collection_portal_consent" {
     }
   ]
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
+}
+
+module "mongdb_collection_initiative_counters" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "initiative_counters"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+  }
+  ]
+
+  lock_enable = true
+}
+
+module "mongdb_collection_transactions_processed" {
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+
+  name                = "transactions_processed"
+  resource_group_name = azurerm_resource_group.data_rg.name
+
+  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+
+  indexes = [{
+    keys   = ["_id"]
+    unique = true
+  }
+  ]
+
+  lock_enable = true
 }
