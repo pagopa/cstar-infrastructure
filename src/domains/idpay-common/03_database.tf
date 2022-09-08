@@ -329,7 +329,7 @@ module "mongdb_collection_initiative_counters" {
   indexes = [{
     keys   = ["_id"]
     unique = true
-  }
+    }
   ]
 
   lock_enable = true
@@ -347,7 +347,7 @@ module "mongdb_collection_transactions_processed" {
   indexes = [{
     keys   = ["_id"]
     unique = true
-  }
+    }
   ]
 
   lock_enable = true

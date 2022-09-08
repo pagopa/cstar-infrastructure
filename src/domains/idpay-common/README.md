@@ -9,6 +9,14 @@
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
 | <a name="requirement_pkcs12"></a> [pkcs12](#requirement\_pkcs12) | 0.0.7 |
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.21.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 2.99.0 |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
+
 ## Modules
 
 | Name | Source | Version |
@@ -24,6 +32,7 @@
 | <a name="module_mongdb_collection_hpan_initiatives_lookup"></a> [mongdb\_collection\_hpan\_initiatives\_lookup](#module\_mongdb\_collection\_hpan\_initiatives\_lookup) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_iban"></a> [mongdb\_collection\_iban](#module\_mongdb\_collection\_iban) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_initiative"></a> [mongdb\_collection\_initiative](#module\_mongdb\_collection\_initiative) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
+| <a name="module_mongdb_collection_initiative_counters"></a> [mongdb\_collection\_initiative\_counters](#module\_mongdb\_collection\_initiative\_counters) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_notification"></a> [mongdb\_collection\_notification](#module\_mongdb\_collection\_notification) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_onboarding_citizen"></a> [mongdb\_collection\_onboarding\_citizen](#module\_mongdb\_collection\_onboarding\_citizen) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_payment_instrument"></a> [mongdb\_collection\_payment\_instrument](#module\_mongdb\_collection\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
@@ -32,6 +41,7 @@
 | <a name="module_mongdb_collection_role_permission"></a> [mongdb\_collection\_role\_permission](#module\_mongdb\_collection\_role\_permission) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_timeline"></a> [mongdb\_collection\_timeline](#module\_mongdb\_collection\_timeline) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_transaction"></a> [mongdb\_collection\_transaction](#module\_mongdb\_collection\_transaction) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
+| <a name="module_mongdb_collection_transactions_processed"></a> [mongdb\_collection\_transactions\_processed](#module\_mongdb\_collection\_transactions\_processed) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_user_initiative_counters"></a> [mongdb\_collection\_user\_initiative\_counters](#module\_mongdb\_collection\_user\_initiative\_counters) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 | <a name="module_mongdb_collection_wallet"></a> [mongdb\_collection\_wallet](#module\_mongdb\_collection\_wallet) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 
