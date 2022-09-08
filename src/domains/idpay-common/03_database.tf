@@ -77,7 +77,6 @@ module "mongdb_collection_onboarding_citizen" {
   lock_enable = true
 }
 
-# Collections
 module "mongdb_collection_iban" {
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
 
