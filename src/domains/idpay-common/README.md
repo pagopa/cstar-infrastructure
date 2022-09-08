@@ -20,22 +20,7 @@
 | <a name="module_idpay_redis_00"></a> [idpay\_redis\_00](#module\_idpay\_redis\_00) | git::https://github.com/pagopa/azurerm.git//redis_cache | v1.0.37 |
 | <a name="module_idpay_redis_snet"></a> [idpay\_redis\_snet](#module\_idpay\_redis\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | git::https://github.com/pagopa/azurerm.git//key_vault | v2.16.0 |
-| <a name="module_mongdb_collection_beneficiary_rule"></a> [mongdb\_collection\_beneficiary\_rule](#module\_mongdb\_collection\_beneficiary\_rule) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_hpan_initiatives_lookup"></a> [mongdb\_collection\_hpan\_initiatives\_lookup](#module\_mongdb\_collection\_hpan\_initiatives\_lookup) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_iban"></a> [mongdb\_collection\_iban](#module\_mongdb\_collection\_iban) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_initiative"></a> [mongdb\_collection\_initiative](#module\_mongdb\_collection\_initiative) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_initiative_counters"></a> [mongdb\_collection\_initiative\_counters](#module\_mongdb\_collection\_initiative\_counters) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_notification"></a> [mongdb\_collection\_notification](#module\_mongdb\_collection\_notification) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_onboarding_citizen"></a> [mongdb\_collection\_onboarding\_citizen](#module\_mongdb\_collection\_onboarding\_citizen) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_payment_instrument"></a> [mongdb\_collection\_payment\_instrument](#module\_mongdb\_collection\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_portal_consent"></a> [mongdb\_collection\_portal\_consent](#module\_mongdb\_collection\_portal\_consent) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_reward_rule"></a> [mongdb\_collection\_reward\_rule](#module\_mongdb\_collection\_reward\_rule) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_role_permission"></a> [mongdb\_collection\_role\_permission](#module\_mongdb\_collection\_role\_permission) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_timeline"></a> [mongdb\_collection\_timeline](#module\_mongdb\_collection\_timeline) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_transaction"></a> [mongdb\_collection\_transaction](#module\_mongdb\_collection\_transaction) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_transactions_processed"></a> [mongdb\_collection\_transactions\_processed](#module\_mongdb\_collection\_transactions\_processed) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_user_initiative_counters"></a> [mongdb\_collection\_user\_initiative\_counters](#module\_mongdb\_collection\_user\_initiative\_counters) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
-| <a name="module_mongdb_collection_wallet"></a> [mongdb\_collection\_wallet](#module\_mongdb\_collection\_wallet) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
+| <a name="module_mongdb_collections"></a> [mongdb\_collections](#module\_mongdb\_collections) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
 
 ## Resources
 
