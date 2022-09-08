@@ -41,17 +41,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimelineDTO'
-              example:
-                lastUpdate: string
-                operationList:
-                  - operationId: string
-                    operationType: PAID_REFUND
-                    hpan: string
-                    amount: string
-                    operationDate: string
-                    circuitType: '00'
-                    channel: string
-                    iban: string
         '401':
           description: Authentication failed
           content:
@@ -113,19 +102,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailOperationDTO'
-              example:
-                operationId: string
-                operationType: PAID_REFUND
-                hpan: string
-                amount: string
-                accrued: string
-                operationDate: string
-                circuitType: '00'
-                channel: string
-                iban: string
-                idTrxIssuer: string
-                idTrxAcquirer: string
+                oneOf:
+                  - $ref: '#/components/schemas/TransactionDetailDTO'
+                  - $ref: '#/components/schemas/InstrumentOperationDTO'
+                  - $ref: '#/components/schemas/IbanOperationDTO'
+                  - $ref: '#/components/schemas/OnboardingOperationDTO'
+                  - $ref: '#/components/schemas/RefundOperationDTO'
         '401':
           description: Authentication failed
           content:
@@ -177,32 +159,39 @@ components:
         operationList:
           type: array
           items:
-            $ref: '#/components/schemas/OperationDTO'
+            oneOf:
+            - $ref: '#/components/schemas/TransactionOperationDTO'
+            - $ref: '#/components/schemas/InstrumentOperationDTO'
+            - $ref: '#/components/schemas/IbanOperationDTO'
+            - $ref: '#/components/schemas/OnboardingOperationDTO'
+            - $ref: '#/components/schemas/RefundOperationDTO'
           description: the list of transactions and operations of an initiative of a citizen
-    DetailOperationDTO:
+    TransactionDetailDTO:
       type: object
       required:
         - operationId
         - operationType
+        - operationDate
+        - hpan
+        - amount
+        - accrued
+        - circuitType
+        - idTrxIssuer
+        - idTrxAcquirer
       properties:
         operationId:
           type: string
         operationType:
           enum:
-            - PAID_REFUND
             - TRANSACTION
             - REVERSAL
-            - ADD_IBAN
-            - ADD_INSTRUMENT
-            - DELETE_INSTRUMENT
-            - ONBOARDING
           type: string
         hpan:
           type: string
         amount:
-          type: string
+          type: number
         accrued:
-          type: string
+          type: number
         operationDate:
           type: string
           format: date-time
@@ -221,39 +210,114 @@ components:
             - '10'
           type: string
           description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
-        channel:
-          type: string
-        iban:
-          type: string
         idTrxIssuer:
           type: string
         idTrxAcquirer:
           type: string
-    OperationDTO:
+    InstrumentOperationDTO:
       type: object
       required:
         - operationId
         - operationType
+        - operationDate
+        - hpan
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ADD_INSTRUMENT
+            - DELETE_INSTRUMENT
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        hpan:
+          type: string
+        channel:
+          type: string
+    IbanOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - iban
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ADD_IBAN
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        iban:
+          type: string
+        channel:
+          type: string
+    OnboardingOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ONBOARDING
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    RefundOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - amount
       properties:
         operationId:
           type: string
         operationType:
           enum:
             - PAID_REFUND
+          type: string
+        operationDate:
+          type: string
+          format: date
+        amount:
+          type: number
+    TransactionOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - hpan
+        - amount
+        - circuitType
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
             - TRANSACTION
             - REVERSAL
-            - ADD_IBAN
-            - ADD_INSTRUMENT
-            - DELETE_INSTRUMENT
-            - ONBOARDING
-          type: string
-        hpan:
-          type: string
-        amount:
           type: string
         operationDate:
           type: string
           format: date-time
+        hpan:
+          type: string
+        amount:
+          type: number
         circuitType:
           enum:
             - '00'
@@ -269,10 +333,6 @@ components:
             - '10'
           type: string
           description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
-        channel:
-          type: string
-        iban:
-          type: string
     ErrorDTO:
       type: object
       required:
