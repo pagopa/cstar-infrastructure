@@ -44,7 +44,8 @@ data "terraform_remote_state" "core" {
   }
 }
 
-data "azurerm_dns_zone" "public" {
-  name                = join(".", [var.env, var.dns_zone_prefix, var.external_domain])
-  resource_group_name = local.vnet_core_resource_group_name
-}
+#NOT USED
+#data "azurerm_dns_zone" "public" {
+#  name                = join(".", [var.env, var.dns_zone_prefix, var.external_domain])
+#  resource_group_name = local.vnet_core_resource_group_name
+#}

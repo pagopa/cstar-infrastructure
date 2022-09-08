@@ -48,3 +48,7 @@ ack_ingestor_conf = {
   frequency = "Minute"
 
 }
+
+dexp_tae_db_linkes_service = {
+  enable = true
+}
