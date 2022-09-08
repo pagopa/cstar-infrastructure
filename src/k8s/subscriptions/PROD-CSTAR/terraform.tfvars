@@ -664,7 +664,7 @@ enable = {
     csv_transaction_apis                = true
     ingestor                            = false
     file_register                       = true
-    enrolled_payment_instrument         = false
+    enrolled_payment_instrument         = true
     mongodb_storage                     = true
   }
   fa = {

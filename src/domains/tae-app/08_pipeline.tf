@@ -91,7 +91,7 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   transformation {
-    name = "updAggregatesWithAck"
+    name = "deleteAggregatesWithAck"
   }
 
   transformation {
