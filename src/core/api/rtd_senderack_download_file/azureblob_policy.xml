@@ -1,0 +1,49 @@
+
+
+<policies>
+    <inbound>
+      <base />
+      <set-variable name="senderAdeAckName" value="@(context.Request.MatchedParameters["fileName"])" />
+
+
+      <set-variable name="keyHash" value="@{
+                    System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
+                    return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
+      }"
+      />
+
+      <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
+        <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+        <set-method>GET</set-method>
+      </send-request>
+
+      <rewrite-uri template="@(((IResponse)context.Variables["senderCode"]).Body.As<string>()+"/{fileName}")"/>
+
+      <authentication-managed-identity resource="https://storage.azure.com/" output-token-variable-name="msi-access-token" ignore-error="false" />
+      <set-header name="X-Ms-Version" exists-action="override">
+        <value>2019-12-12</value>
+      </set-header>
+ 
+      <set-header name="Authorization" exists-action="override">
+        <value>@("Bearer " + (string)context.Variables["msi-access-token"])</value>
+      </set-header>
+      
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+      <base />
+      <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
+        <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/file-status")</set-url>
+        <set-method>PUT</set-method>
+        <set-header name="Content-Type" exists-action="override">
+          <value>application/json</value>
+        </set-header>
+        <set-body>@("{ \"name\": \""+context.Variables["senderAdeAckName"]+"\",\"status\":1,\"type\":6,\"application\":1}")</set-body>
+      </send-request>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

@@ -2,12 +2,12 @@
   "type": "object",
   "properties": {
     "senderCode": {
-      "type": "integer"
+      "type": "string"
     },
     "operationType": {
       "type": "string"
     },
-    "trasmissionDate": {
+    "transmissionDate": {
       "type": "date"
     },
     "accountingDate": {
@@ -40,7 +40,16 @@
     "posType": {
       "type": "string"
     },
-    "fileName": {
+    "sourceFileName": {
+      "type": "string"
+    },
+    "ingestPipelineRun": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "errorCode": {
       "type": "string"
     }
   }

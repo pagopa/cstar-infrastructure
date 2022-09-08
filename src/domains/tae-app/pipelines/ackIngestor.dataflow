@@ -1,6 +1,7 @@
 parameters{
 	windowStart as timestamp,
-	windowEnd as timestamp
+	windowEnd as timestamp,
+	RunID as string
 }
 source(output(
 		id as string,
@@ -8,11 +9,12 @@ source(output(
 		errorCode as string
 	),
 	allowSchemaDrift: false,
-	validateSchema: false,
+	validateSchema: true,
 	ignoreNoFilesFound: true,
+	rowUrlColumn: 'ackFileName',
 	modifiedAfter: ($windowStart),
 	modifiedBefore: ($windowEnd),
-	wildcardPaths:['ack/ADEACK*']) ~> sourceAck
+	wildcardPaths:['ack/CSTAR.ADEACK.*']) ~> sourceAck
 source(output(
 		accountingDate as string,
 		acquirerId as string,
@@ -23,51 +25,128 @@ source(output(
 		numTrx as integer,
 		operationType as string,
 		posType as string,
-		senderCode as integer,
+		senderCode as string,
 		terminalId as string,
 		totalAmount as integer,
-		trasmissionDate as string,
+		transmissionDate as string,
 		vat as string
 	),
-	allowSchemaDrift: true,
+	allowSchemaDrift: false,
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-joinAcksWithAggregatesOnId alterRow(updateIf(isMatch())) ~> updAggregatesWithAck
-updAggregatesWithAck derive(ackFileName = toString(senderCode) + '/' + 'ADEACK' + '_' + toString(senderCode) + '_' + toString(acquirerId) + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
+joinAcksWithAggregatesOnId alterRow(deleteIf(aggregates@id==sourceAck@id)) ~> deleteAggregatesWithAck
+deleteAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
 	matchType:'exact',
 	ignoreSpaces: false,
 	broadcast: 'auto')~> joinAcksWithAggregatesOnId
-updAggregatesWithAck sink(allowSchemaDrift: true,
+addFileName select(mapColumn(
+		merchantId,
+		terminalId,
+		fiscalCode,
+		acquirerId,
+		status,
+		errorCode,
+		ackFileName
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
+projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
+deleteAggregatesWithAck select(mapColumn(
+		id = sourceAck@id,
+		status,
+		errorCode,
+		accountingDate,
+		acquirerId,
+		currency,
+		fileName,
+		fiscalCode,
+		merchantId,
+		numTrx,
+		operationType,
+		posType,
+		senderCode,
+		terminalId,
+		totalAmount,
+		transmissionDate,
+		vat
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> projectOnlyOneID
+sourceAck derive(ackPipelineRun = $RunID) ~> addPipelineRunId
+addPipelineRunId sink(allowSchemaDrift: true,
 	validateSchema: false,
+	input(
+		id as string,
+		status as integer,
+		errorCode as string,
+		fileName as string,
+		pipelineRun as string
+	),
+	format: 'table',
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true,
+	saveOrder: 1,
+	mapColumn(
+		id,
+		status,
+		errorCode,
+		fileName = ackFileName,
+		pipelineRun = ackPipelineRun
+	)) ~> acksLog
+projectOnlyOneID sink(allowSchemaDrift: true,
+	validateSchema: true,
 	input(
 		accountingDate as string,
 		acquirerId as string,
 		currency as integer,
-		fileName as string,
+		errorCode as string,
 		fiscalCode as string,
+		ingestPipelineRun as string,
 		merchantId as string,
 		numTrx as integer,
 		operationType as string,
 		posType as string,
-		senderCode as integer,
+		senderCode as string,
+		sourceFileName as string,
+		status as integer,
 		terminalId as string,
 		totalAmount as integer,
-		trasmissionDate as string,
+		transmissionDate as string,
 		vat as string
 	),
-	deletable:false,
+	deletable:true,
 	insertable:false,
-	updateable:true,
+	updateable:false,
 	upsertable:false,
 	format: 'document',
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
-	skipDuplicateMapOutputs: true) ~> aggregatesWithAck
-addFileName sink(allowSchemaDrift: true,
-	validateSchema: false,
+	skipDuplicateMapOutputs: true,
+	saveOrder: 2,
+	mapColumn(
+		id,
+		status,
+		errorCode,
+		accountingDate,
+		acquirerId,
+		currency,
+		fiscalCode,
+		merchantId,
+		numTrx,
+		operationType,
+		posType,
+		senderCode,
+		terminalId,
+		totalAmount,
+		transmissionDate,
+		vat,
+		fileName
+	)) ~> aggregatesWithAck
+selectByStatusNotOk sink(allowSchemaDrift: false,
+	validateSchema: true,
 	input(
 		senderCode as string,
 		acquirerId as string,
@@ -75,4 +154,5 @@ addFileName sink(allowSchemaDrift: true,
 	),
 	rowUrlColumn:'ackFileName',
 	skipDuplicateMapInputs: true,
-	skipDuplicateMapOutputs: true) ~> wrongFiscalCodesByAcquirer
+	skipDuplicateMapOutputs: true,
+	saveOrder: 1) ~> wrongFiscalCodesByAcquirer

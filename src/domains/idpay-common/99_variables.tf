@@ -137,7 +137,7 @@ variable "spa" {
   type        = list(string)
   description = "spa root dirs"
   default = [
-    "portal"
+    "portale-enti"
   ]
 }
 ## Event hub
@@ -262,6 +262,12 @@ variable "cidr_idpay_subnet_redis" {
   type        = list(string)
   description = "Redis network address space."
   default     = []
+}
+
+variable "service_bus_namespace" {
+  type = object({
+    sku = string
+  })
 }
 
 ### External resources

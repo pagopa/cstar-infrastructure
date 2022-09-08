@@ -42,3 +42,30 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "sftp_ls" {
   use_managed_identity = true
   storage_kind         = "StorageV2" # not supported in v 2.99 of the azurerm provider
 }
+
+resource "azurerm_data_factory_linked_service_kusto" "dexp_tae" {
+
+  count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
+
+
+  name                 = "${local.product}-dexp-tae-linked-service"
+  data_factory_id      = data.azurerm_data_factory.datafactory.id
+  kusto_endpoint       = data.azurerm_kusto_cluster.dexp_cluster[count.index].uri
+  kusto_database_name  = data.azurerm_kusto_database.tae_db[count.index].name
+  use_managed_identity = true
+}
+
+resource "azurerm_kusto_database_principal_assignment" "tae_principal_assignment" {
+
+  count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
+
+  name                = "DexpPrincipalAssignment"
+  resource_group_name = data.azurerm_kusto_cluster.dexp_cluster[count.index].resource_group_name
+  cluster_name        = data.azurerm_kusto_cluster.dexp_cluster[count.index].name
+  database_name       = data.azurerm_kusto_database.tae_db[count.index].name
+
+  tenant_id      = data.azurerm_data_factory.datafactory.identity.0.tenant_id
+  principal_id   = data.azurerm_data_factory.datafactory.identity.0.principal_id
+  principal_type = "App"
+  role           = "Admin"
+}

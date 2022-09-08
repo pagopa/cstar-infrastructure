@@ -20,8 +20,7 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   data_factory_id       = data.azurerm_data_factory.datafactory.id
   storage_account_id    = data.azurerm_storage_account.acquirer_sa.id
   events                = ["Microsoft.Storage.BlobCreated"]
-  blob_path_ends_with   = ".decrypted"
-  blob_path_begins_with = "/ade-transactions-decrypted/"
+  blob_path_begins_with = "/ade-transactions-decrypted/blobs/AGGADE."
   ignore_empty_blobs    = true
   activated             = true
 
@@ -64,6 +63,14 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   sink {
+    name = "acksLog"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.ack_log[0].name
+    }
+  }
+
+  sink {
     name = "aggregatesWithAck"
 
     dataset {
@@ -75,8 +82,36 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     name = "wrongFiscalCodesByAcquirer"
 
     dataset {
-      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes.name
+      name = azurerm_data_factory_custom_dataset.wrong_fiscal_codes_intermediate.name
     }
+  }
+
+  transformation {
+    name = "addPipelineRunId"
+  }
+
+  transformation {
+    name = "deleteAggregatesWithAck"
+  }
+
+  transformation {
+    name = "addFileName"
+  }
+
+  transformation {
+    name = "joinAcksWithAggregatesOnId"
+  }
+
+  transformation {
+    name = "projectSenderAdeAck"
+  }
+
+  transformation {
+    name = "selectByStatusNotOk"
+  }
+
+  transformation {
+    name = "projectOnlyOneID"
   }
 
   script = file("pipelines/ackIngestor.dataflow")
@@ -105,16 +140,17 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   name            = format("%s-ade-ack-trigger", local.project)
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
-  interval  = 15
-  frequency = "Minute"
+  interval  = var.ack_ingestor_conf.interval
+  frequency = var.ack_ingestor_conf.frequency
   activated = true
+  time_zone = "UTC"
 
   annotations = ["AdeAcks"]
-  description = "The trigger fires every 15 minutes"
+  description = format("The trigger fires every %s minutes", var.ack_ingestor_conf.interval)
 
   pipeline_name = azurerm_data_factory_pipeline.ack_ingestor.name
   pipeline_parameters = {
-    windowStart = "@addminutes(trigger().scheduledTime, -15)",
+    windowStart = format("@addminutes(trigger().scheduledTime, -%s)", var.ack_ingestor_conf.interval)
     windowEnd   = "@trigger().scheduledTime"
   }
 
