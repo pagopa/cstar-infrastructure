@@ -192,6 +192,30 @@ locals {
         unique = true
         }
       ]
+    },
+    {
+      name = "group"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "config_mcc"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "config_trx_rule"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
     }
   ]
 }
