@@ -190,7 +190,16 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
-        }
+        },{
+        keys   = ["userId"]
+        unique = false
+      },{
+        keys   = ["correlationId"]
+        unique = false
+      },{
+        keys   = ["acquirerId"]
+        unique = false
+      }
       ]
     },
     {
