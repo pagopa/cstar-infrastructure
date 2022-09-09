@@ -212,26 +212,6 @@ eventhubs_idpay_01 = [
     ]
   },
   {
-    name              = "idpay-transaction-error"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-transaction-error-group"]
-    keys = [
-      {
-        name   = "idpay-transaction-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-transaction-error-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "idpay-reward-error"
     partitions        = 3
     message_retention = 1
