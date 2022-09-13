@@ -269,7 +269,11 @@ resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes_intermediate"
   {
     "location": {
       "type": "AzureBlobStorageLocation",
-      "container": "tmp"
+      "container": "tmp",
+      "folderPath": {
+        "type": "Expression",
+        "value": "@pipeline().RunId"
+      }
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8",
