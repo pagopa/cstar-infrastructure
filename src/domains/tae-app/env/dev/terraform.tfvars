@@ -43,10 +43,14 @@ ingress_load_balancer_ip = "10.11.100.250"
 external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.dev.cstar"
 
+aggregates_ingestor_conf = {
+  enable = true
+}
+
 ack_ingestor_conf = {
   interval  = 120
   frequency = "Minute"
-
+  enable    = false
 }
 
 dexp_tae_db_linkes_service = {
