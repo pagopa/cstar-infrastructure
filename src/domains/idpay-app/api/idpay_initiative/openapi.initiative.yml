@@ -238,7 +238,70 @@ paths:
         - initiative
       summary: Save initiative and first subset of data 'service info'
       description: Save initiative and first subset of data 'service info'
-      operationId: saveInitiativeGeneralInfo
+      operationId: saveInitiativeServiceInfo
+      requestBody:
+        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeAdditionalDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/info:
+    put:
+      tags:
+        - initiative
+      summary: Save initiative and first subset of data 'service info'
+      description: Save initiative and first subset of data 'service info'
+      operationId: updateInitiativeServiceInfo
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Unique identifier of the subscribed initiative, IBAN of the citizen
         content:
@@ -774,6 +837,7 @@ components:
         serviceName:
           type: string
         serviceScope:
+          type: string
           enum:
             - LOCAL
             - NATIONAL
