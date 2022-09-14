@@ -6,6 +6,8 @@ location       = "westeurope"
 location_short = "weu"
 instance       = "uat"
 
+dns_zone_prefix = "uat.cstar"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
