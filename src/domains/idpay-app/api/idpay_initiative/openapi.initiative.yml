@@ -309,12 +309,10 @@ paths:
             schema:
               $ref: '#/components/schemas/InitiativeAdditionalDTO'
       responses:
-        '201':
-          description: Created
+        '204':
+          description: No Content
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InitiativeDTO'
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -495,6 +493,8 @@ paths:
       responses:
         '204':
           description: No Content
+          content:
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -553,6 +553,8 @@ paths:
       responses:
         '204':
           description: No Content
+          content:
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -841,6 +843,7 @@ components:
           enum:
             - LOCAL
             - NATIONAL
+          type: string
         description:
           type: string
         privacyLink:
