@@ -82,7 +82,7 @@
         <set-variable name="containerName" value="@{
             return string.Format("{0}-{1}{2}",
             (string)context.Variables["containerPrefix"],
-            (string)context.Variables["senderCode"],
+            ((string)context.Variables["senderCode"]).ToLowerInvariant(),
             ((string)context.Variables["keyHash"]).Substring(0, 39));
             }"
         />
