@@ -86,19 +86,17 @@ module "idpay_cdn" {
       {
         action = "Overwrite"
         name   = "Content-Security-Policy-Report-Only"
-        value = format("default-src 'self'; object-src 'none'; connect-src 'self' https://api.%s.%s/ https://api-eu.mixpanel.com/track/; "
-        , var.dns_zone_prefix, var.external_domain)
-      },
-      #TODO alig with
-      {
-        action = "Append"
-        name   = "Content-Security-Policy-Report-Only"
-        value  = "script-src 'self'; style-src 'self' 'unsafe-inline' https://portal.welfare.pagopa.it/assets/font/selfhostedfonts.css; worker-src 'none'; font-src 'self' https://portal.welfare.pagopa.it/assets/font/; "
+        value  = "default-src 'self'; object-src 'none'; connect-src 'self' https://api-io.${var.dns_zone_prefix}.${var.external_domain}/ https://api-eu.mixpanel.com/track/; "
       },
       {
         action = "Append"
         name   = "Content-Security-Policy-Report-Only"
-        value  = format("img-src 'self' https://assets.cdn.io.italia.it https://%s data:; ", module.idpay_cdn.storage_primary_web_host)
+        value  = "script-src 'self'; style-src 'self' 'unsafe-inline' https://selfcare.pagopa.it/assets/font/selfhostedfonts.css; worker-src 'none'; font-src 'self' https://selfcare.pagopa.it/assets/font/; "
+      },
+      {
+        action = "Append"
+        name   = "Content-Security-Policy-Report-Only"
+        value  = "img-src 'self' https://assets.cdn.io.italia.it https://${module.idpay_cdn.storage_primary_web_host} https://${var.env != "prod" ? "${var.env}." : ""}selfcare.pagopa.it https://selc${var.env_short}checkoutsa.z6.web.core.windows.net/institutions/ data:; "
       },
       {
         action = "Append"

@@ -1,103 +1,83 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Groups of beneficiary API for Initiative
-  description: IDPAY Groups of beneficiary for Initiative
+  title: IDPAY Welfare Portal File Group API
+  description: IDPAY Welfare Portal File Group
   version: '1.0'
 servers:
-  - url: http://api.dev.cstar.pagopa.it/idpay/initiative/group
-  - url: http://apim.internal.dev.cstar.pagopa.it/idpay/initiative/group
-  - url: https://api.dev.cstar.pagopa.it/idpay/initiative/group
-  - url: https://apim.internal.dev.cstar.pagopa.it/idpay/initiative/group
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/group
 paths:
-  '/initiative/{initiativeId}/upload':
+  /initiative/{initiativeId}/upload:
     put:
       tags:
-        - initiative
+        - group
       summary: Upload CSV file containing a group of Beneficiary
-      description: Upload CSV file containing a group of Beneficiary
       operationId: uploadGroupOfBeneficiary
       parameters:
-        - name: initiativeId
-          in: path
-          description: The initiative ID
-          required: true
-          schema:
-            type: string
+      - name: initiativeId
+        in: path
+        description: The initiative ID
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
-          multipart/form-data: { }
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupUpdateDTO'
-              example:
-                status: string
-                errorRow: 0
-                errorKey: string
-                elabTimeStamp: string
         '400':
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '409':
           description: The requested ID was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
-  '/initiative/{initiativeId}/status':
+  /initiative/{initiativeId}/status:
     get:
       tags:
-        - initiative
+        - group
       summary: Return Group of Beneficiary CSV file upload status with relative error detail if present
-      description: Return Group of Beneficiary CSV file upload status with relative error detail if present
       operationId: getGroupOfBeneficiaryStatusAndDetails
       parameters:
         - name: initiativeId
@@ -113,54 +93,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatusGroupDTO'
-              example:
-                status: string
-                errorMessage: string
         '400':
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: string
-                message: string
+  /initiative/{initiativeId}/citizen/{citizenToken}:
+    get:
+      tags:
+        - group
+      summary: Return a positive or negative boolean if the searched user is part of the preset group list uploaded for the specific initiative
+      operationId: getCitizenStatusForInitiative
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: citizenToken
+          in: path
+          description: The citizen Token encrypted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenStatusDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     ErrorDTO:
@@ -188,5 +206,22 @@ components:
       properties:
         status:
           type: string
+        fileUploadingDateTime:
+          type: string
+          format: date-time
+        fileName:
+          type: string
         errorMessage:
           type: string
+    CitizenStatusDTO:
+      type: object
+      properties:
+        status:
+          type: boolean
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+security:
+  - Bearer: []
