@@ -6,3 +6,8 @@
 
 .create-merge table Acks(id: string, status: int, errorCode: string, fileName: string,
     pipelineRun: string)
+
+.create-merge table DecodeErrors (statusError: int, description: string) 
+
+.create-merge table Abi (codiceABI: string, DEN_INT: string, ID_ATTI: long, COD_ATTI: long, DES_ATTI: string) 
+
