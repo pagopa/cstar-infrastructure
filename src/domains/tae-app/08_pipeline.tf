@@ -22,7 +22,7 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   events                = ["Microsoft.Storage.BlobCreated"]
   blob_path_begins_with = "/ade-transactions-decrypted/blobs/AGGADE."
   ignore_empty_blobs    = true
-  activated             = true
+  activated             = var.aggregates_ingestor_conf.enable
 
   annotations = ["AcquirerAggregates"]
   description = "The trigger fires when an acquirer send aggregates files"
@@ -142,7 +142,7 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
 
   interval  = var.ack_ingestor_conf.interval
   frequency = var.ack_ingestor_conf.frequency
-  activated = true
+  activated = var.ack_ingestor_conf.enable
   time_zone = "UTC"
 
   annotations = ["AdeAcks"]
