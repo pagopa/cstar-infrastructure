@@ -14,7 +14,7 @@ module "domain_pod_identity" {
 
   identity_name = "${var.domain}-pod-identity"
   namespace     = kubernetes_namespace.domain_namespace.metadata[0].name
-  key_vault_id     = data.azurerm_key_vault.kv.id
+  key_vault_id  = data.azurerm_key_vault.kv.id
 
   secret_permissions = ["Get"]
 }
