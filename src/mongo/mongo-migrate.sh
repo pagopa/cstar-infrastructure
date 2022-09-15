@@ -2,10 +2,12 @@
 
 #
 # Based on https://github.com/seppevs/migrate-mongo, so please refer to this repo.
-# Example:
-#   ./mongo-migrate.sh DEV-CSTAR rtd create|up|down|status
-#   ./mongo-migrate.sh UAT-CSTAR rtd create|up|down|status
-#   ./mongo-migrate.sh PROD-CSTAR rtd create|up|down|status
+# Usage:
+#   ./mongo-migrate.sh <subscription> <database_name> <collection_name> create|up|down|status
+# Examples:
+#   ./mongo-migrate.sh DEV-CSTAR rtd senderauth create|up|down|status
+#   ./mongo-migrate.sh UAT-CSTAR rtd senderauth create|up|down|status
+#   ./mongo-migrate.sh PROD-CSTAR rtd senderauth create|up|down|status
 #
 
 BASHDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -14,7 +16,8 @@ WORKDIR="$BASHDIR"
 set -e
 SUBSCRIPTION=$1
 DATABASE=$2
-shift 2
+COLLECTION_NAME=$3
+shift 3
 other=$@
 
 if [ -z "${SUBSCRIPTION}" ]; then
@@ -22,10 +25,10 @@ if [ -z "${SUBSCRIPTION}" ]; then
     exit 1
 fi
 
-LOCATION="${WORKDIR}/migrations/${SUBSCRIPTION}"
+LOCATION="${WORKDIR}/migrations/${SUBSCRIPTION}/${COLLECTION_NAME}"
 
 if [ ! -d ${LOCATION} ]; then
-    printf "\e[1;31mYou must provide a subscription for which a variable file is defined. You provided: '%s'.\n" "${SUBSCRIPTION}" > /dev/stderr
+    printf "\e[1;31mYou must provide a valid collection migration folder. You provided: '%s'.\n" "${SUBSCRIPTION} and ${COLLECTION_NAME}" > /dev/stderr
     exit 1
 fi
 
@@ -45,6 +48,8 @@ MONGODB_URI=$(az cosmosdb keys list --resource-group ${resource_group} \
                 --query 'connectionStrings[0].connectionString' \
                 --output tsv)
 
+#MONGODB_URI=mongodb://localhost:27017
+
 # Resume before apply
 echo "Please be sure to be under VPN"
 echo "Resume before apply:"
@@ -58,8 +63,10 @@ if [[ $choice =~ ^[Yy]$ ]]
 then
     docker run --rm -it --network=host \
       -v ${LOCATION}:/app \
+      -v ${WORKDIR}/migrate-mongo-config.js:/config/migrate-mongo-config.js \
       -e MONGO_URI=${MONGODB_URI} \
       -e MONGO_DATABASE=${DATABASE} \
+      -e COLLECTION_NAME=${COLLECTION_NAME} \
       petretiandrea/migrate-mongo \
-      migrate-mongo ${other}
+      migrate-mongo ${other} -f '/config/migrate-mongo-config.js'
 fi
