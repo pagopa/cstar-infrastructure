@@ -29,18 +29,6 @@
         <!-- SAS Token variables -->
         <set-variable name="sasTokenExpiresInMinutes" value="60" />
 
-        <!-- Translate from API Key to Sender Code -->
-        <set-variable name="keyHash" value="@{
-                    System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
-                    return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
-        }"
-        />
-
-        <send-request mode="new" response-variable-name="senderCodeResponse" timeout="60" ignore-error="true">
-            <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
-            <set-method>GET</set-method>
-        </send-request>
-
         <!--
             START - Derive the client's own container from the sender code
 
@@ -63,27 +51,16 @@
 
             See: https://stackoverflow.com/questions/38474362/get-a-file-sha256-hash-code-and-checksum
         -->
-
-        <choose>
-            <when condition="@(((IResponse)context.Variables["senderCodeResponse"]).StatusCode == 200)" >
-                <set-variable name="senderCode" value="@(((IResponse)context.Variables["senderCodeResponse"]).Body.As<string>())"/>
-            </when>
-            <otherwise>
-                <set-variable name="senderCode" value="unkno"/>
-            </otherwise>
-        </choose>
-
         <set-variable name="keyHash" value="@{
                 System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
                     return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
             }"
         />
-        
+
         <set-variable name="containerName" value="@{
-            return string.Format("{0}-{1}{2}",
+            return string.Format("{0}-{1}",
             (string)context.Variables["containerPrefix"],
-            (string)context.Variables["senderCode"],
-            ((string)context.Variables["keyHash"]).Substring(0, 39));
+            ((string)context.Variables["keyHash"]).Substring(0, 44));
             }"
         />
         <!--
