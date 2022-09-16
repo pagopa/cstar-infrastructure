@@ -78,7 +78,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_base_url           = "https://api.io.italia.it"
     io_backend_message_url        = "/api/v1/messages"
     io_backend_profile_url        = "/api/v1/profiles"
-  } 
+  }
 
 }
 
