@@ -13,31 +13,14 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaygroup/" />
-        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/upload")" />
-    </inbound>    
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
+        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/general/draft")" />
+    </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
         <base />
-        <choose>
-            <when condition="@(context.Response.StatusCode == 413)">
-                <return-response>
-                    <set-status code="200" reason="OK" />
-                    <set-header name="Content-Type" exists-action="override">
-                        <value>application/json</value>
-                    </set-header>
-                    <set-body>@{
-                        return new JObject(
-                                new JProperty("status", "KO"),
-                                new JProperty("errorKey", "group.groups.invalid.file.size"),
-                                new JProperty("elabTimeStamp", DateTime.Now)
-                            ).ToString();
-                    }</set-body>
-                </return-response>
-            </when>
-        </choose>
     </outbound>
     <on-error>
         <base />
