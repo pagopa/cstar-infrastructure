@@ -50,14 +50,15 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     kafka_sasl_mechanism                    = "PLAIN"
     kafka_security_protocol                 = "SASL_SSL"
     idpay_transaction_consumer_group        = "idpay-transaction-consumer-group"
+    idpay_transaction_wallet_consumer_group = "idpay-transaction-wallet-consumer-group"
     idpay_transaction_topic                 = "idpay-transaction"
-    idpay_transaction_error_topic           = "idpay-transaction-error"
     idpay_reward_error_topic                = "idpay-reward-error"
     idpay_hpan_update_topic                 = "idpay-hpan-update"
     idpay_rule_update_topic                 = "idpay-rule-update"
     idpay_error_topic                       = "idpay-errors"
     idpay_transaction_userid_splitter_topic = "idpay-transaction-user-id-splitter"
   }
+
 }
 
 resource "kubernetes_config_map" "rest-client" {
@@ -77,7 +78,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_base_url           = "https://api.io.italia.it"
     io_backend_message_url        = "/api/v1/messages"
     io_backend_profile_url        = "/api/v1/profiles"
-  }
+  } 
 
 }
 
