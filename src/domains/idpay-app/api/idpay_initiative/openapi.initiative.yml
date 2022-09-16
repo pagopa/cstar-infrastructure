@@ -4,7 +4,7 @@ info:
   description: IDPAY Welfare Portal Initiative
   version: '1.0'
 servers:
-  - url: http://api-io.dev.cstar.pagopa.it/idpay/initiative
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/initiative
 paths:
   '/{initiativeId}/beneficiary/view':
     get:
@@ -139,6 +139,8 @@ paths:
           description: ''
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigBeneficiaryRuleArrayDTO'
               example:
                 - code: ISEE
                   authority: INPS
@@ -230,19 +232,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /general:
+  /info:
     post:
       tags:
         - initiative
-      summary: Save initiative and first subset of data 'general info'
-      description: Save initiative and first subset of data 'general info'
-      operationId: saveInitiativeGeneralInfo
+      summary: Save initiative and first subset of data 'service info'
+      description: Save initiative and first subset of data 'service info'
+      operationId: saveInitiativeServiceInfo
       requestBody:
         description: Unique identifier of the subscribed initiative, IBAN of the citizen
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InitiativeInfoDTO'
+              $ref: '#/components/schemas/InitiativeAdditionalDTO'
       responses:
         '201':
           description: Created
@@ -286,11 +288,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/info:
+    put:
+      tags:
+        - initiative
+      summary: Save initiative and first subset of data 'service info'
+      description: Save initiative and first subset of data 'service info'
+      operationId: updateInitiativeServiceInfo
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeAdditionalDTO'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /{initiativeId}/general:
     put:
       tags:
         - initiative
-      summary: Update initiative and first subset of data 'general info'
+      summary: Update initiative and subset of data 'general info'
       description: Update initiative and first subset of data 'general info'
       operationId: updateInitiativeGeneralInfo
       parameters:
@@ -305,7 +368,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InitiativeInfoDTO'
+              $ref: '#/components/schemas/InitiativeGeneralDTO'
       responses:
         '204':
           description: No Content
@@ -430,6 +493,128 @@ paths:
       responses:
         '204':
           description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/refund:
+    put:
+      tags:
+        - initiative
+      summary: Save the refund rule of the initiative
+      operationId: updateInitiativeRefundRule
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/general/draft:
+    put:
+      tags:
+        - initiative
+      summary: Update initiative and subset of data 'general info'
+      description: Update initiative and first subset of data 'general info'
+      operationId: updateInitiativeGeneralInfoDraft
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeGeneralDTO'
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -481,7 +666,6 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Unique identifier of the subscribed initiative, instrument HPAN
         content:
           application/json:
             schema:
@@ -585,33 +769,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-
+  /{initiativeId}/refund/draft:
+    put:
+      tags:
+        - initiative
+      summary: Save the refund rule of the initiative in Draft
+      operationId: updateInitiativeRefundRuleDraft
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     InitiativeAdditionalDTO:
       type: object
       properties:
+        serviceIO:
+          type: boolean
         serviceId:
           type: string
         serviceName:
           type: string
-        argument:
+        serviceScope:
+          type: string
+          enum:
+            - LOCAL
+            - NATIONAL
           type: string
         description:
           type: string
-        channels:
-          $ref: '#/components/schemas/ChannelArrayDTO'
-    InitiativeLegalDTO:
-      type: object
-      properties:
         privacyLink:
           type: string
         tcLink:
           type: string
-        regulationLink:
-          type: string
-        dpiaLink:
-          type: string
+        channels:
+          $ref: '#/components/schemas/ChannelArrayDTO'
     InitiativeGeneralDTO:
       type: object
       properties:
@@ -684,8 +924,12 @@ components:
           $ref: '#/components/schemas/InitiativeAdditionalDTO'
         beneficiaryRule:
           $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
-        legal:
-          $ref: '#/components/schemas/InitiativeLegalDTO'
+        rewardRule:
+          $ref: '#/components/schemas/InitiativeRewardRuleDTO'
+        trxRule:
+          $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
+        refundRule:
+          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
     InitiativeSummaryArrayDTO:
       type: array
       items:
@@ -705,13 +949,6 @@ components:
         updateDate:
           type: string
           format: date-time
-    InitiativeInfoDTO:
-      type: object
-      properties:
-        general:
-          $ref: '#/components/schemas/InitiativeGeneralDTO'
-        additionalInfo:
-          $ref: '#/components/schemas/InitiativeAdditionalDTO'
     ChannelArrayDTO:
       type: array
       items:
@@ -784,6 +1021,24 @@ components:
             - value3
         code:
           type: string
+    ConfigBeneficiaryRuleArrayDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigBeneficiaryRuleDTO'
+    ConfigBeneficiaryRuleDTO:
+      title: ConfigBeneficiaryRuleDTO
+      type: object
+      properties:
+        code:
+          type: string
+        authority:
+          type: string
+        field:
+          type: string
+        operator:
+          type: string
+        checked:
+          type: boolean
     ConfigTrxRuleArrayDTO:
       type: array
       items:
@@ -835,7 +1090,6 @@ components:
     InitiativeRewardAndTrxRulesDTO:
       required:
         - rewardRule
-        - trxRule
       type: object
       properties:
         rewardRule:
@@ -961,6 +1215,47 @@ components:
           format: int64
         toIncluded:
           type: boolean
+    InitiativeRefundRuleDTO:
+      type: object
+      properties:
+        accumulatedAmount:
+          $ref: '#/components/schemas/AccumulatedAmountDTO'
+        timeParameter:
+          $ref: '#/components/schemas/TimeParameterDTO'
+        additionalInfo:
+          $ref: '#/components/schemas/RefundAdditionalInfoDTO'
+    AccumulatedAmountDTO:
+      required:
+        - accumulatedType
+      type: object
+      properties:
+        accumulatedType:
+          type: string
+          enum:
+            - BUDGET_EXHAUSTED
+            - THRESHOLD_REACHED
+        refundThreshold:
+          type: number
+    TimeParameterDTO:
+      required:
+        - timeType
+      type: object
+      properties:
+        timeType:
+          type: string
+          enum:
+            - CLOSED
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - QUARTERLY
+    RefundAdditionalInfoDTO:
+      required:
+        - identificationCode
+      type: object
+      properties:
+        identificationCode:
+          type: string
   securitySchemes:
     Bearer:
       type: apiKey
@@ -971,4 +1266,3 @@ security:
 tags:
   - name: initiative
     description: ''
-        

@@ -56,9 +56,10 @@ resource "azurerm_private_dns_a_record" "data_factory_a_record" {
 resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   for_each = tomap(
     {
-      (data.azurerm_storage_account.acquirer_sa.id) = "blob",
-      (data.azurerm_storage_account.sftp_sa.id)     = "blob",
-      (module.cosmosdb_account.id)                  = "SQL"
+      (data.azurerm_storage_account.acquirer_sa.id)   = "blob",
+      (data.azurerm_storage_account.sftp_sa.id)       = "blob",
+      (module.cosmosdb_account.id)                    = "SQL",
+      (data.azurerm_kusto_cluster.dexp_cluster[0].id) = "cluster"
     }
   )
   name               = replace(format("%s-%s-mng-private-endpoint", azurerm_data_factory.data_factory.name, substr(sha256(each.key), 0, 3)), "-", "_")

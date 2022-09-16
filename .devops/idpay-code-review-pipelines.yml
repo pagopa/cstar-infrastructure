@@ -7,6 +7,8 @@ pr:
     include:
       - 'src/domains/idpay-app'
       - 'src/domains/idpay-common'
+    exclude:
+      - '**/*.lock.hcl'
 
 parameters:
   - name: 'DEV'
@@ -32,7 +34,7 @@ parameters:
   #     - True
 
 variables:
-  TIME_OUT: 10
+  TIME_OUT: 15
   DEV01_AKS_APISERVER_URL: '$(TF_DEV01_AKS_APISERVER_URL)'
   DEV01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_CACRT)'
   DEV01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_TOKEN)'

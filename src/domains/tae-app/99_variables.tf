@@ -128,13 +128,30 @@ variable "dns_zone_internal_prefix" {
   description = "The dns subdomain."
 }
 
+variable "aggregates_ingestor_conf" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "ack_ingestor_conf" {
   type = object({
     interval  = number
     frequency = string
+    enable    = bool
   })
   default = {
     interval  = 15
     frequency = "Minute"
+    enable    = false
   }
+}
+
+variable "dexp_tae_db_linkes_service" {
+  type = object({
+    enable = bool
+  })
 }

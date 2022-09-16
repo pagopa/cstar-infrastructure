@@ -6,6 +6,8 @@ location       = "westeurope"
 location_short = "weu"
 instance       = "uat"
 
+dns_zone_prefix = "uat.cstar"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
@@ -53,6 +55,10 @@ cosmos_mongo_db_transaction_params = {
   throughput         = 1000
 }
 
+service_bus_namespace = {
+  sku = "Standard"
+}
+
 ### External resources
 
 monitor_resource_group_name                 = "cstar-u-monitor-rg"
@@ -62,7 +68,7 @@ log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 ##Eventhub
 ehns_sku_name = "Standard"
 
-eventhubs_idpay = [
+eventhubs_idpay_00 = [
   {
     name              = "idpay-onboarding-request"
     partitions        = 3
@@ -77,6 +83,26 @@ eventhubs_idpay = [
       },
       {
         name   = "idpay-onboarding-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-onboarding-outcome"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-outcome-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-outcome-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-outcome-consumer"
         listen = true
         send   = false
         manage = false
@@ -142,7 +168,27 @@ eventhubs_idpay = [
         manage = false
       }
     ]
-  }
+  },
+  {
+    name              = "idpay-notification-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-notification-request-group"]
+    keys = [
+      {
+        name   = "idpay-notification-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-notification-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 
@@ -161,26 +207,6 @@ eventhubs_idpay_01 = [
       },
       {
         name   = "idpay-transaction-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "idpay-transaction-error"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-transaction-error-group"]
-    keys = [
-      {
-        name   = "idpay-transaction-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-transaction-error-consumer"
         listen = true
         send   = false
         manage = false
@@ -246,8 +272,47 @@ eventhubs_idpay_01 = [
         manage = false
       }
     ]
-  }
-
+  },
+  {
+    name              = "idpay-transaction-user-id-splitter"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-transaction-user-id-splitter-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-transaction-user-id-splitter-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-transaction-user-id-splitter-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-errors"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-errors-group"]
+    keys = [
+      {
+        name   = "idpay-errors-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-errors-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 ### handle resource enable
@@ -255,7 +320,6 @@ enable = {
   idpay = {
     eventhub_idpay_00 = true
   }
-
 }
 
 cidr_idpay_subnet_redis = ["10.1.139.0/24"]

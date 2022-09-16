@@ -6,6 +6,8 @@ location       = "westeurope"
 location_short = "weu"
 instance       = "dev"
 
+dns_zone_prefix = "dev.cstar"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
@@ -51,6 +53,10 @@ cosmos_mongo_db_transaction_params = {
   enable_autoscaling = true
   max_throughput     = 5000
   throughput         = 1000
+}
+
+service_bus_namespace = {
+  sku = "Standard"
 }
 
 ### External resources
@@ -162,7 +168,27 @@ eventhubs_idpay_00 = [
         manage = false
       }
     ]
-  }
+  },
+  {
+    name              = "idpay-notification-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-notification-request-group"]
+    keys = [
+      {
+        name   = "idpay-notification-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-notification-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 
@@ -181,26 +207,6 @@ eventhubs_idpay_01 = [
       },
       {
         name   = "idpay-transaction-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "idpay-transaction-error"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-transaction-error-group"]
-    keys = [
-      {
-        name   = "idpay-transaction-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-transaction-error-consumer"
         listen = true
         send   = false
         manage = false
@@ -286,8 +292,27 @@ eventhubs_idpay_01 = [
         manage = false
       }
     ]
-  }
-
+  },
+  {
+    name              = "idpay-errors"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-errors-group"]
+    keys = [
+      {
+        name   = "idpay-errors-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-errors-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 ### handle resource enable

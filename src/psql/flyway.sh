@@ -72,7 +72,7 @@ export FLYWAY_URL="jdbc:postgresql://${psql_server_private_fqdn}:5432/${DATABASE
 export FLYWAY_USER="${user}"
 export FLYWAY_PASSWORD="${administrator_login_password}"
 export SERVER_NAME="${psql_server_name}"
-FLYWAY_VERSION="8.4.4"
+FLYWAY_VERSION="9.2.3"
 export FLYWAY_DOCKER_TAG="${FLYWAY_VERSION}-alpine"
 
 bpd_user_password=$(az keyvault secret show --name db-bpd-user-password --vault-name "${keyvault_name}" -o tsv --query value)

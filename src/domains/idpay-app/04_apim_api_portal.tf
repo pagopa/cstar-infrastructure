@@ -114,14 +114,28 @@ module "idpay_initiative_portal" {
       })
     },
     {
-      operation_id = "saveInitiativeGeneralInfo"
+      operation_id = "saveInitiativeServiceInfo"
 
-      xml_content = templatefile("./api/idpay_initiative/post-initiative-general.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/post-initiative-info.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeServiceInfo"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-info.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "updateInitiativeGeneralInfo"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeGeneralInfoDraft"
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
@@ -155,6 +169,20 @@ module "idpay_initiative_portal" {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
+    {
+      operation_id = "updateInitiativeRefundRule"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-refund.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeRefundRuleDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-refund-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
     //CONFIG
     {
       operation_id = "getBeneficiaryConfigRules"
@@ -172,6 +200,49 @@ module "idpay_initiative_portal" {
       operation_id = "getMccConfig"
 
       xml_content = templatefile("./api/idpay_initiative/get-config-mcc.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
+
+
+## IDPAY Welfare Portal Group API ##
+module "idpay_group_portal" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-group"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY Welfare Portal File Group"
+  display_name = "IDPAY Welfare Portal File Group API"
+  path         = "idpay/group"
+  protocols    = ["https"]
+
+  service_url = "http://${var.ingress_load_balancer_hostname}/idpaygroup/"
+
+  content_format = "openapi"
+  content_value  = file("./api/idpay_group/openapi.group.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_portal_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "getGroupOfBeneficiaryStatusAndDetails"
+
+      xml_content = templatefile("./api/idpay_group/get-group-status.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "uploadGroupOfBeneficiary"
+
+      xml_content = templatefile("./api/idpay_group/put-group-upload.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
