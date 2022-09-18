@@ -57,13 +57,13 @@ stages:
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CORE-AZURE-SERVICE-CONN
           # 3. Run terraform apply
           - template: templates/terraform-apply/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CORE-AZURE-SERVICE-CONN
 
   - stage: apply_uat
     dependsOn: []
@@ -85,13 +85,13 @@ stages:
             parameters:
               ENVIRONMENT: "uat"
               WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: UAT-CORE-AZURE-SERVICE-CONN
           # 3. Run terraform apply
           - template: templates/terraform-apply/template.yaml@terraform
             parameters:
               ENVIRONMENT: "uat"
               WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: UAT-CORE-AZURE-SERVICE-CONN
 
   - stage: apply_prod
     dependsOn: []
@@ -113,10 +113,10 @@ stages:
             parameters:
               ENVIRONMENT: "prod"
               WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: PROD-CORE-AZURE-SERVICE-CONN
           # 3. Run terraform apply
           - template: templates/terraform-apply/template.yaml@terraform
             parameters:
               ENVIRONMENT: "prod"
               WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: PROD-CORE-AZURE-SERVICE-CONN

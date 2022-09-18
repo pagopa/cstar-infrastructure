@@ -64,13 +64,13 @@ stages:
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: DEV-RTD-AZURE-SERVICE-CONN
           # 3. Run terraform apply
           - template: templates/terraform-apply/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: DEV-RTD-AZURE-SERVICE-CONN
       #
       # rtd_app
       #
@@ -85,7 +85,7 @@ stages:
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-app'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: DEV-RTD-AZURE-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
@@ -95,7 +95,7 @@ stages:
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-app'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: DEV-RTD-AZURE-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
@@ -119,7 +119,7 @@ stages:
   #         # 2. Run terragrunt plan
   #         - template: templates/terraform-plan/template.yaml@terraform
   #           parameters:
-  #             SUBSCRIPTION: UAT-CSTAR-SERVICE-CONN
+  #             SUBSCRIPTION: UAT-RTD-AZURE-SERVICE-CONN
   #             ENVIRONMENT: uat
 
   # - stage: PROD
@@ -140,5 +140,5 @@ stages:
   #         # 2. Run terragrunt plan
   #         - template: templates/terraform-plan/template.yaml@terraform
   #           parameters:
-  #             SUBSCRIPTION: PROD-CSTAR-SERVICE-CONN
+  #             SUBSCRIPTION: PROD-RTD-AZURE-SERVICE-CONN
   #             ENVIRONMENT: prod
