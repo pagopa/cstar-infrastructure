@@ -44,7 +44,7 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
+  - stage: tf_plan_rtd_common
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
@@ -65,9 +65,15 @@ stages:
           #     ENVIRONMENT: "dev"
           #     WORKINGDIR: 'src/domains/rtd-common'
           #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+
+  - stage: tf_apply_rtd_common
+    dependsOn: [tf_plan_rtd_common]
+    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
+    pool:
+      name: cstar-dev-linux
+    jobs:
       - deployment: tf_apply_rtd_common
         continueOnError: false
-        dependsOn: tf_plan_rtd_common
         environment: 'DEV'
         strategy:
           runOnce:
@@ -82,6 +88,9 @@ stages:
                 #     ENVIRONMENT: "dev"
                 #     WORKINGDIR: 'src/domains/rtd-common'
                 #     AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+
+
+
       # #
       # # rtd_app
       # #
