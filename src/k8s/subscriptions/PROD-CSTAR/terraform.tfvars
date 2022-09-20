@@ -390,6 +390,11 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
+configmaps_rtdproducerenrolledpaymentinstrument = {
+  KAFKA_PARTITION_KEY_EXPRESSION = "headers.partitionKey"
+  KAFKA_PARTITION_COUNT          = 1
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment
@@ -670,4 +675,10 @@ enable = {
   fa = {
     api = false
   }
+}
+
+eventhub_enrolled_pi = {
+  name                = "rtd-enrolled-pi"
+  namespace_name      = "cstar-p-evh-ns"
+  resource_group_name = "cstar-p-msg-rg"
 }

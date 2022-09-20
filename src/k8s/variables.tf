@@ -210,6 +210,10 @@ variable "configmaps_rtdenrolledpaymentinstrument" {
   type = map(string)
 }
 
+variable "configmaps_rtdproducerenrolledpaymentinstrument" {
+  type = map(string)
+}
+
 variable "autoscaling_specs" {
   type = map(object({
     namespace    = string
@@ -264,4 +268,12 @@ variable "enable" {
       api = false
     }
   }
+}
+
+variable "eventhub_enrolled_pi" {
+  type = object({
+    name                = string,
+    namespace_name      = string,
+    resource_group_name = string
+  })
 }
