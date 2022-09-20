@@ -194,6 +194,7 @@ pre-commit run -a
 | [kubernetes_config_map.rtd-eventhub-common](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-eventhub-logging](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-jvm](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-producer-enrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-rest-client](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdingestor](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
@@ -246,6 +247,7 @@ pre-commit run -a
 | [azuread_group.adgroup_security](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_technical_project_managers](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/group) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/client_config) | data source |
+| [azurerm_eventhub.rtd-enrolled-pi](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/eventhub) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/subscription) | data source |
 | [kubernetes_secret.azure_devops_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/secret) | data source |
 
@@ -281,6 +283,7 @@ pre-commit run -a
 | <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | n/a | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdpaymentinstrumentmanager"></a> [configmaps\_rtdpaymentinstrumentmanager](#input\_configmaps\_rtdpaymentinstrumentmanager) | n/a | `map(string)` | n/a | yes |
+| <a name="input_configmaps_rtdproducerenrolledpaymentinstrument"></a> [configmaps\_rtdproducerenrolledpaymentinstrument](#input\_configmaps\_rtdproducerenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdtransactionfilter"></a> [configmaps\_rtdtransactionfilter](#input\_configmaps\_rtdtransactionfilter) | n/a | `map(string)` | `{}` | no |
 | <a name="input_default_service_port"></a> [default\_service\_port](#input\_default\_service\_port) | n/a | `number` | `8080` | no |
 | <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    rtd = object({<br>      blob_storage_event_grid_integration = bool<br>      internal_api                        = bool<br>      csv_transaction_apis                = bool<br>      ingestor                            = bool<br>      file_register                       = bool<br>      enrolled_payment_instrument         = bool<br>      mongodb_storage                     = bool<br>    })<br>    fa = object({<br>      api = bool<br>    })<br>  })</pre> | <pre>{<br>  "fa": {<br>    "api": false<br>  },<br>  "rtd": {<br>    "blob_storage_event_grid_integration": false,<br>    "csv_transaction_apis": false,<br>    "enrolled_payment_instrument": false,<br>    "file_register": false,<br>    "ingestor": false,<br>    "internal_api": false,<br>    "mongodb_storage": false<br>  }<br>}</pre> | no |
@@ -288,6 +291,7 @@ pre-commit run -a
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_event_hub_port"></a> [event\_hub\_port](#input\_event\_hub\_port) | n/a | `number` | `9093` | no |
+| <a name="input_eventhub_enrolled_pi"></a> [eventhub\_enrolled\_pi](#input\_eventhub\_enrolled\_pi) | n/a | <pre>object({<br>    name                = string,<br>    namespace_name      = string,<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_ingress_replica_count"></a> [ingress\_replica\_count](#input\_ingress\_replica\_count) | n/a | `string` | n/a | yes |
 | <a name="input_k8s_apiserver_host"></a> [k8s\_apiserver\_host](#input\_k8s\_apiserver\_host) | n/a | `string` | n/a | yes |
