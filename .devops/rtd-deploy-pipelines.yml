@@ -44,7 +44,7 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - template: templates/terraform-plan/template.yaml@terraform
+  - template: templates/terraform-plan-apply/template.yaml@terraform
     parameters:
       ENVIRONMENT: "dev"
       WORKINGDIR: 'src/domains/rtd-app'
