@@ -65,12 +65,23 @@ stages:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-          # 3. Run terraform apply
-          - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      - deployment: tf_apply_rtd_common
+        continueOnError: false
+        dependsOn: tf_plan_rtd_common
+        environment: 'DEV'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                # 1. Install terraform
+                - template: templates/terraform-setup/template.yaml@terraform
+                # 2. Run terraform apply
+                - template: templates/terraform-apply/template.yaml@terraform
+                  parameters:
+                    ENVIRONMENT: "dev"
+                    WORKINGDIR: 'src/domains/rtd-common'
+                    AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
       #
       # rtd_app
       #
