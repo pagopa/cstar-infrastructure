@@ -46,6 +46,7 @@ resources:
 stages:
   - template: templates/terraform-plan-apply/template.yaml@terraform
     parameters:
+      AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux"
       ENVIRONMENT: "dev"
       WORKINGDIR: 'src/domains/rtd-app'
       AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
