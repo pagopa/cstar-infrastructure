@@ -81,8 +81,10 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   }
 
   data = {
-    kafka_broker_rtd      = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
-    rtd_enrolled_pi_topic = "rtd-enrolled-pi"
+    kafka_broker_rtd               = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    rtd_enrolled_pi_topic          = "rtd-enrolled-pi"
+    kafka_partition_count          = data.azurerm_eventhub.enrolled_pi_hub.partition_count
+    kafka_partition_key_expression = "headers.partitionKey"
   }
 
 }
