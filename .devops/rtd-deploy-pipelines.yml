@@ -44,9 +44,11 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
+${{ if eq(parameters['ENV'], 'dev') }}:
+  # DEV RTD APP
   - template: templates/terraform-plan-apply/template.yaml@terraform
     parameters:
-      DOMAIN_NAME: 'rtd_common'
+      DOMAIN_NAME: 'rtd_app'
       AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux"
       ENVIRONMENT: "dev"
       WORKINGDIR: 'src/domains/rtd-app'
@@ -55,6 +57,47 @@ stages:
       AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
       AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
       AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+
+  # DEV RTD COMMON
+  - template: templates/terraform-plan-apply/template.yaml@terraform
+    parameters:
+      DOMAIN_NAME: 'rtd_common'
+      AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux"
+      ENVIRONMENT: "dev"
+      WORKINGDIR: 'src/domains/rtd-common'
+      AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+      AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+      AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+      AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+
+${{ if eq(parameters['ENV'], 'uat') }}:
+  # UAT RTD APP
+  - template: templates/terraform-plan-apply/template.yaml@terraform
+    parameters:
+      DOMAIN_NAME: 'rtd_app'
+      AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux"
+      ENVIRONMENT: "uat"
+      WORKINGDIR: 'src/domains/rtd-app'
+      AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+      AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+      AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+      AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+
+  # UAT RTD COMMON
+  - template: templates/terraform-plan-apply/template.yaml@terraform
+    parameters:
+      DOMAIN_NAME: 'rtd_common'
+      AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux"
+      ENVIRONMENT: "uat"
+      WORKINGDIR: 'src/domains/rtd-common'
+      AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+      AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+      AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+      AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+
 
   # - stage: dev_tf_plan_rtd_common
   #   dependsOn: []
