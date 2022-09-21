@@ -76,10 +76,10 @@ stages:
         AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
         AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
-#
-# UAT
-#
-- ${{ if eq(parameters['UAT'], true) }}:
+  #
+  # UAT
+  #
+  - ${{ if eq(parameters['UAT'], true) }}:
     # UAT RTD APP
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
