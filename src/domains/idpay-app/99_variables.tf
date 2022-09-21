@@ -159,6 +159,7 @@ variable "reverse_proxy_be_io" {
 
 variable "eventhub_enrolled_pi" {
   type = object({
+    eventhub_name       = string
     resource_group_name = string,
     namespace_name      = string
   })
