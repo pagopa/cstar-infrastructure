@@ -636,3 +636,22 @@ module "fa_ext_provider_original" {
   ]
 }
 
+
+module "fa_api_product" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+
+  product_id   = "fa-api-product"
+  display_name = "FA_API_PRODUCT"
+  description  = "FA_API_PRODUCT"
+
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  published             = true
+  subscription_required = true
+  approval_required     = false
+
+  policy_xml = templatefile("./api_product/fa_api/policy.xml", {
+    env_short = var.env_short
+  })
+}
