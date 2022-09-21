@@ -44,7 +44,7 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - ${{ if eq(parameters['ENV'], 'dev') }}:
+  - ${{ if eq(parameters['DEV'], true) }}:
     # DEV RTD APP
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
@@ -71,7 +71,7 @@ stages:
         AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
         AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
-  - ${{ if eq(parameters['ENV'], 'uat') }}:
+  - ${{ if eq(parameters['UAT'], true) }}:
     # UAT RTD APP
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
