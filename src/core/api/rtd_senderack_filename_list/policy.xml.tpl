@@ -15,7 +15,7 @@
     <choose>
       <when condition="@(((IResponse)context.Variables["senderCode"]).StatusCode == 200)">
       <!-- join sender codes using "," to obtain sendercode1,sendercode,etc... -->
-        <set-backend-service base-url="http://10.1.0.250/rtdmsfileregister" />
+        <set-backend-service base-url="http://${rtd-ingress-ip}/rtdmsfileregister" />
         <set-query-parameter name="senders" exists-action="override">
           <value>@(string.Join(",", ((IResponse)context.Variables["senderCode"]).Body.As<JArray>()))</value>
         </set-query-parameter>
