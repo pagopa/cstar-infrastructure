@@ -183,6 +183,27 @@ module "idpay_initiative_portal" {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
+    {
+      operation_id = "updateInitiativeApprovedStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-approve.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeToCheckStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-reject.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativePublishedStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-publish.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
     //CONFIG
     {
       operation_id = "getBeneficiaryConfigRules"
