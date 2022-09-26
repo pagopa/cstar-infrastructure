@@ -340,7 +340,7 @@ module "rtd_senderadeack_filename_list" {
     host = "https://httpbin.org"
   })
 
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
     rtd-ingress-ip = var.reverse_proxy_ip
   })
 
