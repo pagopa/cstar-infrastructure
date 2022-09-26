@@ -817,7 +817,7 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-enable_api_fa                              = false
+enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
 
 enable = {
@@ -831,9 +831,10 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
+    pm_wallet_ext_api                   = false
   }
   fa = {
-    api = false
+    api = true
   }
   cdc = {
     api = true
