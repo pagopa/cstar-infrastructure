@@ -209,6 +209,103 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
   JSON
 }
 
+resource "azurerm_data_factory_custom_dataset" "integration_aggregates" {
+
+  name            = "IntegrationAggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "container": "ade-integration-aggregates",
+      "fileName": {
+        "value": "@dataset().file",
+        "type": "Expression"
+      }
+    },
+    "columnDelimiter": ";",
+    "compressionCodec": "gzip",
+    "encodingName": "UTF-8",
+    "escapeChar": "\\",
+    "quoteChar": ""
+  }
+  JSON
+
+  description = "Destination Aggregates sent by Acquirer and stored for integration purposes"
+  annotations = ["IntegrationAggregates"]
+
+  parameters = {
+    file = "myFile"
+  }
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "recordId",
+      "type": "String"
+    },
+    {
+      "name": "senderCode",
+      "type": "String"
+    },
+    {
+      "name": "operationType",
+      "type": "String"
+    },
+    {
+      "name": "transmissionDate",
+      "type": "Date"
+    },
+    {
+      "name": "accountingDate",
+      "type": "Date"
+    },
+    {
+      "name": "numTrx",
+      "type": "Int32"
+    },
+    {
+      "name": "totalAmount",
+      "type": "Int32"
+    },
+    {
+      "name": "currency",
+      "type": "String"
+    },
+    {
+      "name": "acquirerId",
+      "type": "String"
+    },
+    {
+      "name": "merchantId",
+      "type": "String"
+    },
+    {
+      "name": "terminalId",
+      "type": "String"
+    },
+    {
+      "name": "fiscalCode",
+      "type": "String"
+    },
+    {
+      "name":  "vat",
+      "type": "String"
+    },
+    {
+      "name":  "posType",
+      "type": "String"
+    }
+  ]
+  JSON
+}
+
 resource "azurerm_data_factory_custom_dataset" "source_ack" {
 
   name            = "SourceAck"
