@@ -42,6 +42,54 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   ]
 }
 
+resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name            = "aggregates_ingestor_testing"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    file = "myFile"
+  }
+  activities_json = file("pipelines/aggregatesIngestorTesting.json")
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.destination_aggregate,
+    azurerm_data_factory_custom_dataset.source_aggregate,
+    azurerm_data_factory_custom_dataset.aggregate,
+    azurerm_data_factory_custom_dataset.integration_aggregates
+  ]
+}
+
+resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate_testing" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name                  = format("%s-acquirer-aggregates-trigger", local.project)
+  data_factory_id       = data.azurerm_data_factory.datafactory.id
+  storage_account_id    = data.azurerm_storage_account.acquirer_sa.id
+  events                = ["Microsoft.Storage.BlobCreated"]
+  blob_path_begins_with = "/ade-transactions-decrypted/blobs/AGGADE."
+  ignore_empty_blobs    = true
+  activated             = var.aggregates_ingestor_conf.enable
+
+  annotations = ["AcquirerAggregatesTesting"]
+  description = "The trigger fires when an acquirer send aggregates files"
+
+  pipeline {
+    name = azurerm_data_factory_pipeline.aggregates_ingestor_testing[0].name
+    parameters = {
+      # folder = "@triggerBody().folderPath"
+      file = "@triggerBody().fileName"
+    }
+  }
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.destination_aggregate,
+    azurerm_data_factory_custom_dataset.source_aggregate,
+    azurerm_data_factory_custom_dataset.aggregate,
+    azurerm_data_factory_custom_dataset.integration_aggregates
+  ]
+}
+
 resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
 
   name            = "ackjoinupdate"
