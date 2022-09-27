@@ -593,6 +593,67 @@
                 "referenceName": "AggregatesLog",
                 "type": "DatasetReference"
             }
-        ]
-    }
+          ]
+        },
+        {
+          "name": "AggregatesOnIntegrationContainer",
+          "type": "Copy",
+          "dependsOn": [
+            {
+              "activity": "SenderAggregatesToDatastore",
+              "dependencyConditions": [
+                "Succeeded"
+              ]
+            }
+          ],
+          "policy": {
+            "timeout": "0.12:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+          },
+          "userProperties": [],
+          "typeProperties": {
+            "source": {
+              "type": "CosmosDbSqlApiSource",
+              "query": {
+                "value": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                "type": "Expression"
+              },
+              "preferredRegions": [],
+              "detectDatetime": true
+            },
+            "sink": {
+              "type": "DelimitedTextSink",
+              "storeSettings": {
+                "type": "AzureBlobStorageWriteSettings"
+              },
+              "formatSettings": {
+                "type": "DelimitedTextWriteSettings",
+                "quoteAllText": true,
+                "fileExtension": ".txt"
+              }
+            },
+            "enableStaging": false
+          },
+          "inputs": [
+            {
+              "referenceName": "Aggregate",
+              "type": "DatasetReference"
+            }
+          ],
+          "outputs": [
+            {
+              "referenceName": "IntegrationAggregates",
+              "type": "DatasetReference",
+              "parameters": {
+                "file": {
+                  "value": "@{pipeline().parameters.file}.gz",
+                  "type": "Expression"
+                }
+              }
+            }
+          ]
+        }
 ]
