@@ -635,7 +635,140 @@
                 "fileExtension": ".txt"
               }
             },
-            "enableStaging": false
+            "enableStaging": false,
+            "translator": {
+                  "type": "TabularTranslator",
+                  "mappings": [
+                      {
+                          "source": {
+                              "path": "$['id']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 1
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['senderCode']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 2
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['operationType']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 3
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['transmissionDate']"
+                          },
+                          "sink": {
+                              "type": "DateTime",
+                              "format": "yyyy-MM-dd",
+                              "ordinal": 4
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['accountingDate']"
+                          },
+                          "sink": {
+                              "type": "DateTime",
+                              "format": "yyyy-MM-dd",
+                              "ordinal": 5
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['numTrx']"
+                          },
+                          "sink": {
+                              "type": "Int32",
+                              "ordinal": 6
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['totalAmount']"
+                          },
+                          "sink": {
+                              "type": "Int32",
+                              "ordinal": 7
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['currency']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 8
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['acquirerId']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 9
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['merchantId']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 10
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['terminalId']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 11
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['fiscalCode']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 12
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['vat']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 13
+                          }
+                      },
+                      {
+                          "source": {
+                              "path": "$['posType']"
+                          },
+                          "sink": {
+                              "type": "String",
+                              "ordinal": 14
+                          }
+                      }
+                  ]
+              }
           },
           "inputs": [
             {
