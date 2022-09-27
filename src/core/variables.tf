@@ -778,6 +778,7 @@ variable "enable" {
       mongodb_storage                     = bool
       sender_auth                         = bool
       hashed_pans_container               = bool
+      pm_wallet_ext_api                   = bool
     })
     fa = object({
       api = bool
@@ -807,6 +808,7 @@ variable "enable" {
       mongodb_storage                     = false
       sender_auth                         = false
       hashed_pans_container               = false
+      pm_wallet_ext_api                   = false
     }
     fa = {
       api = false

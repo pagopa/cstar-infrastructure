@@ -832,6 +832,7 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
+    pm_wallet_ext_api                   = true
   }
   fa = {
     api = true
