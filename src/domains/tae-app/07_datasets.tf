@@ -210,6 +210,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
 }
 
 resource "azurerm_data_factory_custom_dataset" "integration_aggregates" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
 
   name            = "IntegrationAggregates"
   data_factory_id = data.azurerm_data_factory.datafactory.id

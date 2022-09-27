@@ -1,4 +1,5 @@
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
   name            = "aggregates_ingestor"
   data_factory_id = data.azurerm_data_factory.datafactory.id
@@ -15,6 +16,7 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
 }
 
 resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
   name                  = format("%s-acquirer-aggregates-trigger", local.project)
   data_factory_id       = data.azurerm_data_factory.datafactory.id
@@ -28,7 +30,7 @@ resource "azurerm_data_factory_trigger_blob_event" "acquirer_aggregate" {
   description = "The trigger fires when an acquirer send aggregates files"
 
   pipeline {
-    name = azurerm_data_factory_pipeline.aggregates_ingestor.name
+    name = azurerm_data_factory_pipeline.aggregates_ingestor[0].name
     parameters = {
       # folder = "@triggerBody().folderPath"
       file = "@triggerBody().fileName"
