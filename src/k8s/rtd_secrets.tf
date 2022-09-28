@@ -226,7 +226,7 @@ resource "kubernetes_secret" "rtd-tkm-write-update-consumer" {
     KAFKA_SASL_JAAS_CONFIG_TKM_PIM = format(
       local.jaas_config_template_rtd,
       "tkm-write-update-token",
-      "rtd-pim-consumer-group",
+      "tkm-write-update-token-sub",
       module.key_vault_secrets_query.values["evh-tkm-write-update-token-tkm-write-update-token-sub-key"].value
     )
   }
