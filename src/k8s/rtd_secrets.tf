@@ -221,11 +221,11 @@ resource "kubernetes_secret" "rtd-tkm-write-update-consumer" {
   }
 
   data = {
-    KAFKA_TOPIC_TKM_BROKER = "tkm-write-update-token-sub"
+    KAFKA_TOPIC_TKM_BROKER = "tkm-write-update-token"
     KAFKA_BROKER_TKM       = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
     KAFKA_SASL_JAAS_CONFIG_TKM_PIM = format(
       local.jaas_config_template_rtd,
-      "tkm-write-update-token-sub",
+      "tkm-write-update-token",
       "rtd-pim-consumer-group",
       module.key_vault_secrets_query.values["evh-tkm-write-update-token-tkm-write-update-token-sub-key"].value
     )
