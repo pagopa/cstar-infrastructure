@@ -213,3 +213,23 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
   }
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "rtd-tkm-write-update-consumer" {
+  metadata {
+    name      = "rtd-tkm-write-update-consumer"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_TOPIC_TKM_BROKER = "tkm-write-update-token-sub"
+    KAKFA_BROKER_TKM       = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_SASL_JAAS_CONFIG_TKM_PIM = format(
+      local.jaas_config_template_rtd,
+      "tkm-write-update-token-sub",
+      "rtd-pim-consumer-group",
+      module.key_vault_secrets_query.values["evh-tkm-write-update-token-tkm-write-update-token-sub-key"].value
+    )
+  }
+
+  type = "Opaque"
+}

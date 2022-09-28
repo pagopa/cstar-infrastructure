@@ -663,7 +663,7 @@ eventhubs = [
     name              = "tkm-write-update-token"
     partitions        = 1
     message_retention = 1
-    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group"]
+    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"]
     keys = [
       {
         # publisher
