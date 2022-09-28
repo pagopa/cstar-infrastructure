@@ -362,11 +362,13 @@ cosmos_mongo_db_params = {
 
   private_endpoint_enabled      = true
   public_network_access_enabled = false
-  additional_geo_locations = [{
-    location          = "northeurope"
-    failover_priority = 1
-    zone_redundant    = true
-  }]
+  additional_geo_locations = [
+    {
+      location          = "northeurope"
+      failover_priority = 1
+      zone_redundant    = true
+    }
+  ]
 
   is_virtual_network_filter_enabled = true
 
@@ -442,8 +444,10 @@ ehns_metric_alerts = {
       {
         name     = "EntityName"
         operator = "Include"
-        values = ["bpd-trx-error",
-        "rtd-trx-error"]
+        values = [
+          "bpd-trx-error",
+          "rtd-trx-error"
+        ]
       }
     ],
   },
@@ -626,7 +630,9 @@ eventhubs = [
     name              = "rtd-platform-events"
     partitions        = 4
     message_retention = 7
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
+    consumers = [
+      "rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"
+    ]
     keys = [
       {
         # publisher
@@ -662,6 +668,37 @@ eventhubs = [
         send   = true
         manage = false
       }
+    ]
+  },
+  {
+    name              = "tkm-write-update-token"
+    partitions        = 1
+    message_retention = 1
+    consumers = [
+      "tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"
+    ]
+    keys = [
+      {
+        # publisher
+        name   = "tkm-write-update-token-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-sub"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-tests"
+        listen = true
+        send   = false
+        manage = false
+      },
     ]
   }
 ]
