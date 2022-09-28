@@ -34,7 +34,9 @@ No modules.
 | [azurerm_data_factory_linked_service_kusto.dexp_tae](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_linked_service_kusto) | resource |
 | [azurerm_data_factory_pipeline.ack_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.aggregates_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_blob_event) | resource |
+| [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_schedule) | resource |
 | [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_database_principal_assignment) | resource |
 | [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_script) | resource |
