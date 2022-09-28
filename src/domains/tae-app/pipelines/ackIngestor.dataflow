@@ -29,7 +29,8 @@ source(output(
 		terminalId as string,
 		totalAmount as integer,
 		transmissionDate as string,
-		vat as string
+		vat as string,
+		id as string
 	),
 	allowSchemaDrift: false,
 	validateSchema: false,
