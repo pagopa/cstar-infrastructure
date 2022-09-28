@@ -12,7 +12,7 @@
           new JProperty("BPAY1", "04949971008"),
           new JProperty("SUMUP", "IE9813461A"),
           new JProperty("ICARD", "BG175325806"),
-          new JProperty("TPAY1", "9771701001")
+          new JProperty("TPAY1", "09771701001")
         ).ToString();
         }
       </set-body>
