@@ -337,9 +337,9 @@ configmaps_fainvoicemanager = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "famsinvoicemanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE            = "2"
-  POSTGRES_SHOW_SQL            = "true"
-  LOG_LEVEL_FA_INVOICE_MANAGER = "INFO"
+  POSTGRES_POOLSIZE                                      = "2"
+  POSTGRES_SHOW_SQL                                      = "true"
+  LOG_LEVEL_FA_INVOICE_MANAGER                           = "INFO"
   MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
   MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
 }
