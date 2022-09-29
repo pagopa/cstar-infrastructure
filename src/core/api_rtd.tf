@@ -432,7 +432,7 @@ module "rtd_deposited_file_check" {
   content_format = "openapi"
   content_value  = file("./api/rtd_deposited_file_check/openapi.yml")
 
-  xml_content = templatefile("./api/rtd_deposited_file_check/azureblob_policy.xml")
+  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
