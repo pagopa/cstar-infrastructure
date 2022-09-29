@@ -1,9 +1,9 @@
-
-                    
 <policies>
     <inbound>
       <base />
       <authentication-managed-identity resource="https://storage.azure.com/" output-token-variable-name="msi-access-token" ignore-error="false" />
+<!--      # [RTD-607] We no longer want to access SFTP storage to retrieve deposited file, thus the
+                      request is redirected to the integration container on a Blob storage not exposed to AdE-->
       <set-header name="X-Ms-Version" exists-action="override">
         <value>2021-06-08</value>
       </set-header>
