@@ -376,9 +376,9 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = false
 
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = true
-  additional_geo_locations          = []
+  private_endpoint_enabled      = true
+  public_network_access_enabled = true
+  additional_geo_locations      = []
   # additional_geo_locations = [{
   #   location          = "northeurope"
   #   failover_priority = 1
