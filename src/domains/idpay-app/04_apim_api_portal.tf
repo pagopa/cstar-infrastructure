@@ -204,6 +204,13 @@ module "idpay_initiative_portal" {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
+    {
+      operation_id = "logicallyDeleteInitiative"
+
+      xml_content = templatefile("./api/idpay_initiative/delete-initiative-general.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
     //CONFIG
     {
       operation_id = "getBeneficiaryConfigRules"
