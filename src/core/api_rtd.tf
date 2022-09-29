@@ -426,7 +426,7 @@ module "rtd_deposited_file_check" {
   path         = "rtd/sftp-retrieve"
   protocols    = ["https"]
 
-  service_url = format("https://cstar%sblobstorage.blob.core.windows.net/ade-integration-aggregates/", var.env_short)
+  service_url = "https://cstar${var.env_short}blobstorage.blob.core.windows.net/ade-integration-aggregates/"
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
