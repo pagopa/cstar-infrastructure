@@ -126,6 +126,18 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["idTrxIssuer"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["trxDate"]
+          unique = false
         }
       ]
     },
