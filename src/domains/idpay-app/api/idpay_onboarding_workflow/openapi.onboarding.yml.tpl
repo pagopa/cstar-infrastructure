@@ -91,14 +91,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequiredCriteriaDTO'
-              example:
-                pdndCriteria:
-                  - code: string
-                    description: string
-                    authority: string
-                selfDeclarationList:
-                  - code: string
-                    description: string
         '202':
           description: Accepted - Request Taken Over
           content:
@@ -169,12 +161,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ConsentPutDTO'
-            example:
-              initiativeId: string
-              pdndAccept: true
-              selfDeclarationList:
-                - code: string
-                  accepted: true
       responses:
         '202':
           description: Accepted - Request Taken Over
@@ -302,7 +288,9 @@ components:
         selfDeclarationList:
           type: array
           items:
-            $ref: '#/components/schemas/SelfConsentDTO'
+            anyOf:
+              - $ref: '#/components/schemas/SelfConsentBoolDTO'
+              - $ref: '#/components/schemas/SelfConsentMultiDTO'
           description: The list of accepted self-declared criteria
     OnboardingPutDTO:
       title: OnboardingPutDTO
@@ -341,7 +329,9 @@ components:
         selfDeclarationList:
           type: array
           items:
-            $ref: '#/components/schemas/SelfDeclarationDTO'
+            anyOf:
+              - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
+              - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
           description: The list of required self-declared criteria
     PDNDCriteriaDTO:
       type: object
@@ -356,26 +346,74 @@ components:
           type: string
         authority:
           type: string
-    SelfDeclarationDTO:
+    SelfDeclarationBoolDTO:
       type: object
       required:
+        - _type
         - code
         - description
+        - value
       properties:
+        _type:
+          type: string
+          enum:
+            - boolean
         code:
           type: string
         description:
           type: string
-    SelfConsentDTO:
+        value:
+          type: boolean
+    SelfDeclarationMultiDTO:
       type: object
       required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - multi
+        code:
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+    SelfConsentBoolDTO:
+      type: object
+      required:
+        - _type
         - code
         - accepted
       properties:
+        _type:
+          type: string
+          enum:
+            - boolean
         code:
           type: string
         accepted:
           type: boolean
+    SelfConsentMultiDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - multi
+        code:
+          type: string
+        value:
+          type: string
     ErrorDto:
       type: object
       required:
