@@ -22,6 +22,7 @@ No modules.
 | [azurerm_data_factory_custom_dataset.aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.aggregates_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.destination_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.integration_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.source_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.source_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.wrong_fiscal_codes](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
@@ -33,7 +34,9 @@ No modules.
 | [azurerm_data_factory_linked_service_kusto.dexp_tae](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_linked_service_kusto) | resource |
 | [azurerm_data_factory_pipeline.ack_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.aggregates_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_blob_event) | resource |
+| [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_schedule) | resource |
 | [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_database_principal_assignment) | resource |
 | [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_script) | resource |
@@ -60,7 +63,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ack_ingestor_conf"></a> [ack\_ingestor\_conf](#input\_ack\_ingestor\_conf) | n/a | <pre>object({<br>    interval  = number<br>    frequency = string<br>  })</pre> | <pre>{<br>  "frequency": "Minute",<br>  "interval": 15<br>}</pre> | no |
+| <a name="input_ack_ingestor_conf"></a> [ack\_ingestor\_conf](#input\_ack\_ingestor\_conf) | n/a | <pre>object({<br>    interval  = number<br>    frequency = string<br>    enable    = bool<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Minute",<br>  "interval": 15<br>}</pre> | no |
+| <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
 | <a name="input_dexp_tae_db_linkes_service"></a> [dexp\_tae\_db\_linkes\_service](#input\_dexp\_tae\_db\_linkes\_service) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |

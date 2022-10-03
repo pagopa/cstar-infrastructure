@@ -3,14 +3,21 @@ data "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = local.aks_resource_group_name
 }
 
-# retrieve enrolled payment instrument event hub role to get connection string
+# retrieve enrolled pim hub to take partition count
+data "azurerm_eventhub" "enrolled_pi_hub" {
+  name                = var.eventhub_enrolled_pi.eventhub_name
+  namespace_name      = var.eventhub_enrolled_pi.namespace_name
+  resource_group_name = var.eventhub_enrolled_pi.resource_group_name
+}
 
+# retrieve enrolled payment instrument event hub role to get connection string
 data "azurerm_eventhub_authorization_rule" "enrolled_pi_producer_role" {
   name                = "rtd-enrolled-pi-producer-policy"
   namespace_name      = var.eventhub_enrolled_pi.namespace_name
   resource_group_name = var.eventhub_enrolled_pi.resource_group_name
-  eventhub_name       = "rtd-enrolled-pi"
+  eventhub_name       = var.eventhub_enrolled_pi.eventhub_name
 }
+
 
 locals {
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn

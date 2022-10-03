@@ -256,7 +256,7 @@ devops_service_connection_object_id = "2ba3cc79-7714-4297-867a-ed354a085bf0"
 azdo_sp_tls_cert_enabled            = false # will be enabled when TLS cert will be generated with new acme tiny
 
 sftp_account_replication_type = "LRS"
-sftp_enable_private_endpoint  = false
+sftp_enable_private_endpoint  = true
 sftp_disable_network_rules    = true
 
 db_sku_name       = "GP_Gen5_2"
@@ -663,7 +663,7 @@ eventhubs = [
     name              = "tkm-write-update-token"
     partitions        = 1
     message_retention = 1
-    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group"]
+    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"]
     keys = [
       {
         # publisher
@@ -856,6 +856,7 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
+    pm_wallet_ext_api                   = false
   }
   fa = {
     api = true
