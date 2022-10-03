@@ -493,7 +493,8 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
-  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"
+  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key",
+  "evh-tkm-write-update-token-tkm-write-update-token-sub-key"
 ]
 
 enable = {
