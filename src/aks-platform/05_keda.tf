@@ -33,6 +33,10 @@ resource "azurerm_role_assignment" "keda_monitoring_reader" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Monitoring Reader"
   principal_id         = module.keda_pod_identity.identity.principal_id
+
+  depends_on = [
+    module.aks
+  ]
 }
 
 resource "helm_release" "keda" {
