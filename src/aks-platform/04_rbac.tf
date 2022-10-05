@@ -207,6 +207,10 @@ resource "kubernetes_cluster_role_binding" "edit_binding" {
     name      = data.azuread_group.adgroup_developers.object_id
     namespace = "kube-system"
   }
+
+  depends_on = [
+    module.aks
+  ]
 }
 
 resource "kubernetes_cluster_role_binding" "view_binding" {
