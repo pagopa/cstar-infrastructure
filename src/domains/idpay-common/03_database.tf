@@ -59,20 +59,203 @@ resource "azurerm_cosmosdb_mongo_database" "idpay" {
 }
 
 # Collections
-module "mongdb_collection_onboarding_citizen" {
+locals {
+  collections = [
+    {
+      name = "onboarding_citizen"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "iban"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "payment_instrument"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "notification"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "wallet"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "timeline"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["operationDate"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "initiative"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "transaction"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["idTrxIssuer"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["trxDate"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "reward_rule"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "beneficiary_rule"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "hpan_initiatives_lookup"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "user_initiative_counters"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "role_permission"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "portal_consent"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "initiative_counters"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "transactions_processed"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }, {
+        keys   = ["userId"]
+        unique = false
+        }, {
+        keys   = ["correlationId"]
+        unique = false
+        }, {
+        keys   = ["acquirerId"]
+        unique = false
+        }
+      ]
+    },
+    {
+      name = "group"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "config_mcc"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "config_trx_rule"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    }
+  ]
+}
+
+module "mongdb_collections" {
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
 
-  name                = "onboarding_citizen"
+  for_each = {
+    for index, coll in local.collections :
+    coll.name => coll
+  }
+
+  name                = each.value.name
   resource_group_name = azurerm_resource_group.data_rg.name
 
   cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
   cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
 
-  indexes = [{
-    keys   = ["_id"]
-    unique = true
-    }
-  ]
+  indexes = each.value.indexes
 
-  lock_enable = false #TODO temporary only for dev
+  lock_enable = true
 }

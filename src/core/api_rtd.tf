@@ -340,7 +340,7 @@ module "rtd_senderadeack_filename_list" {
     host = "https://httpbin.org"
   })
 
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
     rtd-ingress-ip = var.reverse_proxy_ip
   })
 
@@ -426,16 +426,13 @@ module "rtd_deposited_file_check" {
   path         = "rtd/sftp-retrieve"
   protocols    = ["https"]
 
-  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
+  service_url = "https://cstar${var.env_short}blobstorage.blob.core.windows.net/ade-integration-aggregates/"
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value  = file("./api/rtd_deposited_file_check/openapi.yml")
 
-  xml_content = templatefile("./api/rtd_deposited_file_check/azureblob_policy.xml", {
-    ade-in  = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short),
-    ade-out = format("https://cstar%ssftp.blob.core.windows.net/ade/out/", var.env_short)
-  })
+  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true

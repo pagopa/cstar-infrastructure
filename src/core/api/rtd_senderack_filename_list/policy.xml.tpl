@@ -12,12 +12,21 @@
       <set-method>GET</set-method>
     </send-request>
 
-
-    <set-backend-service base-url="http://${rtd-ingress-ip}/rtdmsfileregister"/>
-
-    <set-query-parameter name="sender" exists-action="override">
-      <value>@(((IResponse)context.Variables["senderCode"]).Body.As<string>())</value>
-    </set-query-parameter>
+    <choose>
+      <when condition="@(((IResponse)context.Variables["senderCode"]).StatusCode == 200)">
+      <!-- join sender codes using "," to obtain sendercode1,sendercode,etc... -->
+        <set-backend-service base-url="http://${rtd-ingress-ip}/rtdmsfileregister" />
+        <set-query-parameter name="senders" exists-action="override">
+          <value>@(string.Join(",", ((IResponse)context.Variables["senderCode"]).Body.As<JArray>()))</value>
+        </set-query-parameter>
+      </when>
+      <otherwise>
+        <return-response>
+          <set-status code="@(((IResponse)context.Variables["senderCode"]).StatusCode)" reason="@(((IResponse)context.Variables["senderCode"]).StatusReason)" />
+          <set-body />
+        </return-response>
+      </otherwise>
+    </choose>
   </inbound>
   <backend>
     <base/>

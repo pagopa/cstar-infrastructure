@@ -387,6 +387,11 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
+configmaps_rtdproducerenrolledpaymentinstrument = {
+  KAFKA_PARTITION_KEY_EXPRESSION = "headers.partitionKey"
+  KAFKA_PARTITION_COUNT          = 1
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment
@@ -488,7 +493,8 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
-  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"
+  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key",
+  "evh-tkm-write-update-token-tkm-write-update-token-sub-key"
 ]
 
 enable = {
@@ -504,4 +510,10 @@ enable = {
   fa = {
     api = true
   }
+}
+
+eventhub_enrolled_pi = {
+  name                = "rtd-enrolled-pi"
+  namespace_name      = "cstar-u-evh-ns"
+  resource_group_name = "cstar-u-msg-rg"
 }
