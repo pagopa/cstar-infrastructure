@@ -350,6 +350,37 @@ module "rtd_senderadeack_filename_list" {
   api_operation_policies = []
 }
 
+module "rtd_senderack_correct_download_ack" {
+  count  = var.enable.tae.api ? 1 : 0
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.3"
+
+  name                = format("%s-senderack-explicit-ack", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "TAE API to ACK error file after download"
+  display_name = "TAE API to ACK error file after download"
+  path         = "rtd/file-register/ack-received"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_senderack_correct_download_ack/openapi.yml", {
+    host = local.rtd_senderack_download_file_uri
+  })
+
+  subscription_required = true
+
+  xml_content = templatefile("./api/rtd_senderack_correct_download_ack/policy.xml", {
+    rtd-ingress-ip = var.reverse_proxy_ip
+  })
+
+  product_ids = [module.rtd_api_product.product_id]
+
+  api_operation_policies = []
+}
+
 module "rtd_sender_mauth_check" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0
