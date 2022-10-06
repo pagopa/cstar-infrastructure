@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Timeline IO API
+  title: IDPAY Timeline IO API v2
   description: IDPAY Timeline IO
-  version: '1.0'
+  version: '2.0'
 servers:
  - url: https://api-io.dev.cstar.pagopa.it/idpay/timeline
 paths:
@@ -172,7 +172,8 @@ components:
         - operationId
         - operationType
         - operationDate
-        - hpan
+        - brandLogo
+        - maskedPan
         - amount
         - accrued
         - circuitType
@@ -186,7 +187,9 @@ components:
             - TRANSACTION
             - REVERSAL
           type: string
-        hpan:
+        brandLogo:
+          type: string
+        maskedPan:
           type: string
         amount:
           type: number
@@ -220,7 +223,8 @@ components:
         - operationId
         - operationType
         - operationDate
-        - hpan
+        - brandLogo
+        - maskedPan
         - channel
       properties:
         operationId:
@@ -233,7 +237,9 @@ components:
         operationDate:
           type: string
           format: date-time
-        hpan:
+        brandLogo:
+          type: string
+        maskedPan:
           type: string
         channel:
           type: string
@@ -300,7 +306,8 @@ components:
         - operationId
         - operationType
         - operationDate
-        - hpan
+        - brandLogo
+        - maskedPan
         - amount
         - circuitType
       properties:
@@ -314,7 +321,9 @@ components:
         operationDate:
           type: string
           format: date-time
-        hpan:
+        brandLogo:
+          type: string
+        maskedPan:
           type: string
         amount:
           type: number

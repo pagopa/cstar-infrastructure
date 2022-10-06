@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Wallet IO API
+  title: IDPAY Wallet IO API v2
   description: IDPAY Wallet IO
-  version: '1.0'
+  version: '2.0'
 servers:
  - url: https://api-io.dev.cstar.pagopa.it/idpay/wallet
 paths:
@@ -25,9 +25,9 @@ paths:
                     initiativeName: string
                     status: NOT_REFUNDABLE_ONLY_IBAN
                     endDate: string
-                    available: 100.10
-                    accrued: 1.10
-                    refunded: 0.10
+                    available: 0.01
+                    accrued: 0.01
+                    refunded: 0.01
                     iban: string
                     nInstr: string
         '401':
@@ -82,9 +82,9 @@ paths:
                 initiativeName: string
                 status: NOT_REFUNDABLE_ONLY_IBAN
                 endDate: string
-                available: 100.10
-                accrued: 1.10
-                refunded: 0.10
+                available: 0.01
+                accrued: 0.01
+                refunded: 0.01
                 iban: string
                 nInstr: string
         '401':
@@ -204,7 +204,7 @@ paths:
               example:
                 code: 0
                 message: string
-  /{initiativeId}/instruments:
+  /{initiativeId}/instruments/{idWallet}:
     put:
       tags:
         - wallet
@@ -217,14 +217,12 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        description: 'Unique identifier of the subscribed initiative, instrument HPAN'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InstrumentPutDTO'
-            example:
-              hpan: string
+        - name: idWallet
+          in: path
+          description: A unique id that identifies a payment method
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Enrollment OK
@@ -284,8 +282,64 @@ paths:
               example:
                 code: 0
                 message: string
-  
-  /{initiativeId}/instruments/{hpan}:              
+  /{initiativeId}/instruments:
+    get:
+      tags:
+        - wallet
+      summary: Returns the list of payment instruments associated to the initiative by the citizen
+      operationId: getInstrumentList
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentListDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+
+  /{initiativeId}/instruments/{instrumentId}:
     delete:
       tags:
         - wallet
@@ -298,15 +352,15 @@ paths:
           required: true
           schema:
             type: string
-        - name: hpan
+        - name: instrumentId
           in: path
-          description: The PI hpan
+          description: A unique id, internally detached, which identifies a payment method
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: delete OK
+          description: Delete OK
           content:
             application/json: { }
         '400':
@@ -436,66 +490,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/instrument/{initiativeId}':
-    get:
-      tags:
-        - wallet
-      summary: Returns the list of payment instruments associated to the initiative by the citizen
-      operationId: getInstrumentList
-      parameters:
-        - name: initiativeId
-          in: path
-          description: The initiative ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InstrumentListDTO'
-              example:
-                instrumentList:
-                  - hpan: string
-                    channel: string
-        '401':
-          description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '500':
-          description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
+  
   '/{initiativeId}/status':
     get:
       tags:
@@ -625,14 +620,22 @@ components:
       title: InstrumentDTO
       type: object
       required:
-        - hpan
-        - channel
+        - instrumentId
       properties:
-        hpan:
+        idWallet:
+          type: string
+          description: Wallet's id provided by the Payment manager
+        instrumentId:
           type: string
           description: Payment instrument id
+        maskedPan:
+          type: string
+          description: Masked Pan
         channel:
           type: string
+        brandLogo:
+          type: string
+          description: Card's brand as mastercard, visa, ecc.
     InitiativeDTO:
       type: object
       required:

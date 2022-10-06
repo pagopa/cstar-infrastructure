@@ -6,6 +6,63 @@ info:
 servers:
  - url: https://api-io.dev.cstar.pagopa.it/idpay/onboarding
 paths:
+  /service/{serviceId}:
+    get:
+      tags:
+        - onboarding
+      summary: Retrieves the initiative ID starting from the corresponding service ID
+      operationId: getInitiativeId
+      parameters:
+        - name: serviceId
+          in: path
+          description: The service ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get successful
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/InitiativeDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+              example:
+                code: 0
+                message: string
+        
   /:
     put:
       tags:
@@ -424,6 +481,13 @@ components:
           type: integer
           format: int32
         message:
+          type: string
+    InitiativeDto:
+      type: object
+      required:
+        - initiativeId
+      properties:
+        initiativeId:
           type: string
   securitySchemes:
     apiKeyHeader:
