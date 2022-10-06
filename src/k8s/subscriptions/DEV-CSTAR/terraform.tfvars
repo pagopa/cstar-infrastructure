@@ -346,7 +346,7 @@ configmaps_fanotificationmanager = {
 
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD     = true
-  SPLITTER_LINE_THRESHOLD = 15000
+  SPLITTER_LINE_THRESHOLD = 4000000
 }
 
 # rtd-ms-enrolled-payment-instrument
