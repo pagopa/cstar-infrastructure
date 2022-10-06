@@ -442,7 +442,7 @@ autoscaling_specs = {
   }
 }
 
-fa_austoscaling_specs {
+fa_austoscaling_specs = {
 
   famscustomer = {
 
