@@ -1,0 +1,26 @@
+<policies>
+  <inbound>
+    <base/>
+    <set-variable name="fileName" value="@(context.Request.MatchedParameters["fileName"])" />
+
+    <send-request mode="new" response-variable-name="explicitAckResponse" timeout="60" ignore-error="true">
+      <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/sender-ade-ack?filename="+(string)context.Variables["fileName"])</set-url>
+      <set-method>PUT</set-method>
+    </send-request>
+
+    <return-response>
+      <set-status code="@(((IResponse)context.Variables["explicitAckResponse"]).StatusCode)" reason="@(((IResponse)context.Variables["explicitAckResponse"]).StatusReason)" />
+      <set-body />
+    </return-response>
+
+  </inbound>
+  <backend>
+    <base/>
+  </backend>
+  <outbound>
+    <base/>
+  </outbound>
+  <on-error>
+    <base/>
+  </on-error>
+</policies>
