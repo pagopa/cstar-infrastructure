@@ -13,7 +13,7 @@ locals {
 
   core = {
     event_hub = {
-      namespace_name       = "cstar-${var.env_short}-evh-ns"
+      namespace_name      = "cstar-${var.env_short}-evh-ns"
       resource_group_name = "cstar-${var.env_short}-msg-rg"
     }
   }
