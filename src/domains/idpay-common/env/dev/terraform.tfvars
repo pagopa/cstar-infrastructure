@@ -17,6 +17,11 @@ tags = {
   Application = "IdPay"
 }
 
+#
+# CIRDs
+#
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]
+
 lock_enable = true
 
 terraform_remote_state_core = {
@@ -321,5 +326,3 @@ enable = {
     eventhub_idpay_00 = true
   }
 }
-
-cidr_idpay_subnet_redis = ["10.1.139.0/24"]
