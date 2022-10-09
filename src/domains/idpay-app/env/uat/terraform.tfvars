@@ -41,8 +41,8 @@ reverse_proxy_be_io            = "10.1.0.250"
 #
 # Dns
 # 
-external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.uat.cstar"
+external_domain          = "pagopa.it"
 
 #
 # Enable components
