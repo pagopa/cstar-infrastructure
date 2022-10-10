@@ -167,6 +167,35 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   script = file("pipelines/ackIngestor.dataflow")
 }
 
+resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name            = "bulkDeleteAggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  source {
+    name = "aggregates"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.aggregate.name
+    }
+  }
+
+  sink {
+    name = "aggregatesWithAck"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.aggregate.name
+    }
+  }
+
+  transformation {
+    name = "joinAcksWithAggregatesOnId"
+  }
+
+  script = file("pipelines/bulkDeleteAggregates.dataflow")
+}
+
 resource "azurerm_data_factory_pipeline" "ack_ingestor" {
 
   name            = "ack_ingestor"
