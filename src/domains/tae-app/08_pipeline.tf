@@ -238,3 +238,16 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
     azurerm_data_factory_custom_dataset.aggregate
   ]
 }
+
+resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates" {
+
+  name            = "bulk_delete_aggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  activities_json = file("pipelines/bulkDeleteAggregates.json")
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregate,
+    azurerm_data_factory_data_flow.ack_joinupdate
+  ]
+}
