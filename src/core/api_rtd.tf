@@ -85,7 +85,7 @@ resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manage
 
 # v1 #
 module "rtd_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.3"
 
   name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
   api_management_name = module.apim.name
@@ -98,7 +98,8 @@ module "rtd_payment_instrument_manager" {
 
   version_set_id = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
 
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_payment_instrument_manager/openapi.yml", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
@@ -127,9 +128,22 @@ module "rtd_payment_instrument_manager" {
   ]
 }
 
+resource "azurerm_api_management_named_value" "tkm-sas-token" {
+  name                = "tkm-sas-token"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "tkm-sas-token"
+  secret       = true
+
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.tkm-sas-token.id
+  }
+}
+
 ## v2 ##
 module "rtd_payment_instrument_manager_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.3"
 
   # cause this api relies on new container, enable it when container is enabled
   count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
@@ -147,7 +161,8 @@ module "rtd_payment_instrument_manager_v2" {
 
   depends_on = [module.rtd_payment_instrument_manager]
 
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_payment_instrument_manager/openapi.yml", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
@@ -174,6 +189,13 @@ module "rtd_payment_instrument_manager_v2" {
         blob-storage-container-prefix = azurerm_storage_container.cstar_hashed_pans[0].name
       })
     },
+    {
+      operation_id = "put-resolve-hashpans",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/put_resolve_hpans_tkm_policy.xml.tpl", {
+        tkm-storage-fqdn   = "u89blobtestaccount.blob.core.windows.net",
+        tkm-container-name = "tkm-sit-acquirer",
+      })
+    }
   ]
 }
 

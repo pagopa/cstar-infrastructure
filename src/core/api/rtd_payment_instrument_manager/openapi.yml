@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: RTD Payment Instrument Manager API
+  description: ''
+  version: '1.0'
+servers:
+  - url: ${host}
+paths:
+  /salt:
+    get:
+      summary: Get Hash Salt
+      description: Get Hash Salt
+      operationId: get-hash-salt
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salt'
+              example: SALT123
+  /hashed-pans:
+    get:
+      summary: Get Hashed PANs
+      description: Get Hashed PANs
+      operationId: get-hashed-pans
+      parameters:
+        - name: filePart
+          in: query
+          description: The number of hashed-pan page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'null'
+  /resolve/{fileName}:
+    put:
+      summary: "Put hashed pan file to resolve by tkm"
+      description: "Put hashed pan file to resolve by tkm"
+      operationId: put-resolve-hashpans
+      parameters:
+        - name: fileName
+          in: path
+          required: true
+          description: File name to upload
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'File uploaded'
+components:
+  schemas:
+    Salt:
+      type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

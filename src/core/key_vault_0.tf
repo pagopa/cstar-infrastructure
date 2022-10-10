@@ -160,3 +160,13 @@ data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
   name         = "cstarblobstorage-public-key"
   key_vault_id = module.key_vault.id
 }
+
+data "azurerm_key_vault" "rtd_domain_kv" {
+  name                = "cstar-${var.env_short}-rtd-kv"
+  resource_group_name = "cstar-${var.env_short}-rtd-sec-rg"
+}
+
+data "azurerm_key_vault_secret" "tkm-sas-token" {
+  name         = "tkm-sas-token"
+  key_vault_id = data.azurerm_key_vault.rtd_domain_kv.id
+}
