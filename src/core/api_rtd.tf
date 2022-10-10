@@ -192,8 +192,8 @@ module "rtd_payment_instrument_manager_v2" {
     {
       operation_id = "put-resolve-hashpans",
       xml_content = templatefile("./api/rtd_payment_instrument_manager/put_resolve_hpans_tkm_policy.xml.tpl", {
-        tkm-storage-fqdn   = "u89blobtestaccount.blob.core.windows.net",
-        tkm-container-name = "tkm-sit-acquirer",
+        tkm-storage-fqdn   = var.tkm.storage_fqdn
+        tkm-container-name = var.tkm.container_name
       })
     }
   ]

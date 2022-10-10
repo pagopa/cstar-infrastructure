@@ -828,6 +828,12 @@ variable "enable" {
   }
 }
 
+variable "tkm" {
+  type = object({
+    storage_fqdn   = string
+    container_name = string
+  })
+}
 
 locals {
   project            = "${var.prefix}-${var.env_short}"
@@ -846,4 +852,9 @@ locals {
   idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
   idpay_keyvault_name    = "${local.project}-idpay-kv"
 
+  #
+  # RTD
+  #
+  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
+  rtd_keyvault_name    = "${local.project}-rtd-kv"
 }

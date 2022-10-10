@@ -874,3 +874,8 @@ enable = {
     eventhub_idpay = true
   }
 }
+
+tkm = {
+  storage_fqdn   = "u89blobtestaccount.blob.core.windows.net"
+  container_name = "tkm-sit-acquirer"
+}
