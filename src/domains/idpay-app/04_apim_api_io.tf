@@ -84,6 +84,13 @@ module "idpay_onboarding_workflow_io" {
       xml_content = templatefile("./api/idpay_onboarding_workflow/put-consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getInitiativeId"
+
+      xml_content = templatefile("./api/idpay_onboarding_workflow/get-initiative-id-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
