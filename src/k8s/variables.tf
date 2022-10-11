@@ -236,7 +236,6 @@ variable "autoscaling_specs" {
 
 variable "fa_autoscaling_specs" {
   type = map(object({
-    namespace    = string
     min_replicas = number
     max_replicas = number
     metrics = list(object({
