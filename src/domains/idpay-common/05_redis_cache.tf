@@ -15,3 +15,11 @@ module "idpay_redis_00" {
 
   tags = var.tags
 }
+
+resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_string" {
+  name         = "idpay-redis-00-primary-connection-string"
+  value        = module.idpay_redis_00.primary_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
