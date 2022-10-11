@@ -618,26 +618,6 @@ eventhubs = [
     ]
   },
   {
-    name              = "rtd-log"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["elk"]
-    keys = [
-      {
-        name   = "app"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "elk"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "rtd-platform-events"
     partitions        = 1
     message_retention = 1
@@ -702,6 +682,26 @@ eventhubs = [
       },
       {
         name   = "rtd-enrolled-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "rtd-revoked-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-revoked-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-revoked-pi-producer-policy"
         listen = false
         send   = true
         manage = false
