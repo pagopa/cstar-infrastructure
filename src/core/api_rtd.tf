@@ -114,6 +114,7 @@ module "rtd_payment_instrument_manager" {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
         env_short                            = var.env_short
+        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
       })
     },
     {
@@ -163,6 +164,7 @@ module "rtd_payment_instrument_manager_v2" {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
         env_short                            = var.env_short
+        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
       })
     },
     {
