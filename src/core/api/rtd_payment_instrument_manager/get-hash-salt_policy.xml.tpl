@@ -22,9 +22,9 @@
                 </return-response>
             </when>
             <otherwise>
-                %{ if env_short == "d" ~}
+                %{ if mock_response ~}
                     <return-response>
-                        <set-body>SALT876</set-body>
+                        <set-body>FAKE_SALT</set-body>
                     </return-response>
                 %{ else ~}
                     <set-backend-service base-url="${pm-backend-url}/pp-restapi-rtd/v1" />
