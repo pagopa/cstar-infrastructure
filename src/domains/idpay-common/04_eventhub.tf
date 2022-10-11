@@ -1,5 +1,18 @@
 locals {
   jaas_config_template_idpay = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
+
+  core_event_hub = {
+    keys = [
+      {
+        name          = "rtd-trx-consumer"
+        eventhub_name = "rtd-trx"
+      },
+      {
+        name          = "rtd-trx-producer"
+        eventhub_name = "rtd-trx"
+      }
+    ]
+  }
 }
 
 resource "azurerm_resource_group" "msg_rg" {
@@ -110,6 +123,32 @@ resource "azurerm_key_vault_secret" "event_hub_keys_idpay_01" {
 
   name         = format("evh-%s-%s-idpay-01", replace(each.key, ".", "-"), "jaas-config")
   value        = format(local.jaas_config_template_idpay, module.event_hub_idpay_01[0].keys[each.key].primary_connection_string)
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
+
+data "azurerm_eventhub_authorization_rule" "core_event_hub_keys" {
+  for_each = {
+    for index, key in local.core_event_hub.keys :
+    key.name => key
+  }
+
+  name                = each.value.name
+  namespace_name      = local.core.event_hub.namespace_name
+  eventhub_name       = each.value.eventhub_name
+  resource_group_name = local.core.event_hub.resource_group_name
+}
+
+#tfsec:ignore:AZU023
+resource "azurerm_key_vault_secret" "core_event_hub_keys" {
+  for_each = {
+    for index, key in data.azurerm_eventhub_authorization_rule.core_event_hub_keys :
+    key.name => key
+  }
+
+  name         = "evh-${each.value.eventhub_name}-${each.key}-jaas-config"
+  value        = format(local.jaas_config_template_idpay, each.value.primary_connection_string)
   content_type = "text/plain"
 
   key_vault_id = module.key_vault_idpay.id

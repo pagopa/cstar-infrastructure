@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: REST API ACK after download AdE errors
+  description: REST API to explicitly ack after completed download of AdE errors file
+  version: 0.0.1
+servers:
+  - url: ${host}
+paths:
+  /{fileName}:
+    put:
+      summary: Put ACK
+      operationId: putACK
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+        '500':
+          description: Internal Server Error
+      parameters:
+        - name: fileName
+          in: path
+          description: Name of the file to ACK after correct download
+          required: true
+          schema:
+            type: string
+
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
