@@ -1,6 +1,6 @@
 [
   {
-    "name": "aggregates_bulk_delete",
+    "name": "bulkDeleteAggregates",
     "type": "ExecuteDataFlow",
     "dependsOn": [],
     "policy": {
@@ -13,7 +13,7 @@
     "userProperties": [],
     "typeProperties": {
       "dataflow": {
-        "referenceName": "aggregates_bulk_delete",
+        "referenceName": "bulkDeleteAggregates",
         "type": "DataFlowReference"
       },
       "compute": {
