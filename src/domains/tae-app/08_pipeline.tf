@@ -239,7 +239,8 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   ]
 }
 
-resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates" {
+resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates_pipeline" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
 
   name            = "bulk_delete_aggregates"
   data_factory_id = data.azurerm_data_factory.datafactory.id
