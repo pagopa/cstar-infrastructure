@@ -10,4 +10,11 @@ locals {
 
   container_registry_common_name    = "${local.project}-common-acr"
   rg_container_registry_common_name = "${local.project}-container-registry-rg"
+
+  core = {
+    event_hub = {
+      namespace_name      = "cstar-${var.env_short}-evh-ns"
+      resource_group_name = "cstar-${var.env_short}-msg-rg"
+    }
+  }
 }
