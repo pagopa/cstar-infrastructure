@@ -707,6 +707,26 @@ eventhubs = [
         manage = false
       }
     ]
+  },
+  {
+    name              = "rtd-revoked-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-revoked-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-revoked-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
   }
 ]
 
