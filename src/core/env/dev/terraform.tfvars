@@ -618,26 +618,6 @@ eventhubs = [
     ]
   },
   {
-    name              = "rtd-log"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["elk"]
-    keys = [
-      {
-        name   = "app"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "elk"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "rtd-platform-events"
     partitions        = 1
     message_retention = 1
