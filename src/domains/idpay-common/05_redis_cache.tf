@@ -23,3 +23,11 @@ resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_string" {
 
   key_vault_id = module.key_vault_idpay.id
 }
+
+resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_url" {
+  name         = "idpay-redis-00-primary-connection-url"
+  value        = "rediss://:${module.idpay_redis_00.primary_access_key}@${module.idpay_redis_00.hostname}:${module.idpay_redis_00.ssl_port}"
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
