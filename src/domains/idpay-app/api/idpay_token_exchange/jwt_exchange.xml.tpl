@@ -55,7 +55,8 @@
                     var email = selcToken.Claims.GetValueOrDefault("email", "");
                     JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
                     var org_id = organization["id"];
-                    var org_vat = organization["fiscal_code"];            
+                    var org_vat = organization["fiscal_code"];
+                    var org_name = organization["name"];              
                     var org_party_role = organization.Value<JArray>("roles").First().Value<string>("partyRole");
                     var org_role = organization.Value<JArray>("roles").First().Value<string>("role");
                     var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
@@ -70,6 +71,7 @@
                     email,
                     org_id,
                     org_vat,
+                    org_name,
                     org_party_role,
                     org_role
                     }

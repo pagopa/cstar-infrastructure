@@ -47,6 +47,7 @@
                 <claim name="org_vat" match="all" />
                 <claim name="org_party_role" match="all" />
                 <claim name="org_role" match="all" />
+                <claim name="org_name" match="all" />
             </required-claims>
         </validate-jwt>
     </inbound>
