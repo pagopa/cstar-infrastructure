@@ -1,4 +1,3 @@
-# To provision a redis cache uncomment the following lines
 module "idpay_redis_00" {
 
   source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.37"
