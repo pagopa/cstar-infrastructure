@@ -234,6 +234,25 @@ variable "autoscaling_specs" {
   ))
 }
 
+variable "fa_autoscaling_specs" {
+  type = map(object({
+    min_replicas = number
+    max_replicas = number
+    metrics = list(object({
+      type = string
+      resource = object({
+        name = string
+        target = object({
+          type                = string
+          average_utilization = number
+        })
+      })
+    }))
+
+    }
+  ))
+}
+
 variable "secrets_to_be_read_from_kv" {
   type = list(string)
 }
