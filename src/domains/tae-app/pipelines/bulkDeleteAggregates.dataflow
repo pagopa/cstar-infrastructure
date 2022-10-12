@@ -18,7 +18,7 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-aggregates alterRow(deleteIf(1==1)) ~> deleteAggregatesWithAck
+aggregates alterRow(deleteIf(true())) ~> deleteAggregatesWithAck
 deleteAggregatesWithAck sink(allowSchemaDrift: true,
 	validateSchema: true,
 	input(
