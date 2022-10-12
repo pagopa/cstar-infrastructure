@@ -190,7 +190,7 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
   }
 
   transformation {
-    name = "joinAcksWithAggregatesOnId"
+    name = "deleteAggregatesWithAck"
   }
 
   script = file("pipelines/bulkDeleteAggregates.dataflow")
