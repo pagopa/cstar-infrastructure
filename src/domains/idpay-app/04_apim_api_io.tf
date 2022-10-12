@@ -168,6 +168,13 @@ module "idpay_wallet_io" {
       xml_content = templatefile("./api/idpay_wallet/put-unsuscribe-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "pm-mock-io"
+
+      xml_content = templatefile("./api/idpay_wallet/get-pm-mock-io.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 }

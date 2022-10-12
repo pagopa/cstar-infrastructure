@@ -558,6 +558,37 @@ paths:
               example:
                 code: 0
                 message: string
+  '/test/pmservice':
+    get:
+      summary: pm-mock-io
+      operationId: pm-mock-io
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              example:
+                data:
+                  - createDate: '2020-01-01T00:00:00.0000000+00:00'
+                    enableableFunctions:
+                      - pagoPA
+                    favourite: true
+                    idWallet: '84018'
+                    onboardingChannel: test_onboarding
+                    updateDate: '2020-01-01T00:00:00.0000000+00:00'
+                    walletType: CARD
+                    info:
+                      blurredNumber: test_blurredNumber
+                      brand: brand
+                      brandLogo: brandLogo
+                      expireMonth: '12'
+                      expireYear: '2022'
+                      hashPan: test_hashPan
+                      holder: test_holder
+                      htokenList:
+                        - token1
+                      issuerAbiCode: test_issuerAbiCode
+                      type: PP
 components:
   schemas:
     IbanPutDTO:
