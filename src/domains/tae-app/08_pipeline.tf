@@ -249,6 +249,6 @@ resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates_pipeline" {
 
   depends_on = [
     azurerm_data_factory_custom_dataset.aggregate,
-    azurerm_data_factory_data_flow.ack_joinupdate
+    azurerm_data_factory_data_flow.bulk_delete_aggregates
   ]
 }
