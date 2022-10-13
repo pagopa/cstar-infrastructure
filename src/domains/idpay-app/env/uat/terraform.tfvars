@@ -54,8 +54,9 @@ enable = {
 }
 
 # Enrolled payment instrument event hub
-eventhub_enrolled_pi = {
-  eventhub_name       = "rtd-enrolled-pi"
-  namespace_name      = "cstar-u-evh-ns"
-  resource_group_name = "cstar-u-msg-rg"
+eventhub_pim = {
+  enrolled_pi_eventhub = "rtd-enrolled-pi"
+  revoked_pi_eventhub  = "rtd-revoked-pi"
+  namespace_name       = "cstar-u-evh-ns"
+  resource_group_name  = "cstar-u-msg-rg"
 }

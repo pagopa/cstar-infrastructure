@@ -376,7 +376,7 @@ configmaps_fanotificationmanager = {
 
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD     = true
-  SPLITTER_LINE_THRESHOLD = 250000
+  SPLITTER_LINE_THRESHOLD = 2000000
 }
 
 # rtd-ms-enrolled-payment-instrument
@@ -423,6 +423,210 @@ autoscaling_specs = {
     namespace = "bpd"
 
     max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+}
+
+fa_autoscaling_specs = {
+
+  famscustomer = {
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 80
+          }
+        }
+      }
+    ]
+  }
+  famsenrollemnt = {
+
+    max_replicas = 6
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 80
+          }
+        }
+      }
+    ]
+  }
+  famspaymentinstrument = {
+
+    max_replicas = 5
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 80
+          }
+        }
+      }
+    ]
+  }
+  famsinvoicemanager = {
+
+    max_replicas = 4
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+  famsinvoiceprovider = {
+
+    max_replicas = 4
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+  famsmerchant = {
+
+    max_replicas = 6
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 80
+          }
+        }
+      }
+    ]
+  }
+  famsnotificationmanager = {
+
+    max_replicas = 4
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 85
+          }
+        }
+      }
+    ]
+  }
+  famsonboardingmerchant = {
+
+    max_replicas = 7
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 80
+          }
+        }
+      }
+    ]
+  }
+  famstransaction = {
+
+    max_replicas = 7
+    min_replicas = 1
+
+    metrics = [
+      {
+        type = "Resource"
+        resource = {
+
+          name = "cpu"
+
+          target = {
+            type                = "Utilization"
+            average_utilization = 80
+          }
+        }
+      }
+    ]
+  }
+  famstransactionerrormanager = {
+
+    max_replicas = 4
     min_replicas = 1
 
     metrics = [

@@ -167,6 +167,35 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   script = file("pipelines/ackIngestor.dataflow")
 }
 
+resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name            = "bulkDeleteAggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  source {
+    name = "aggregates"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.aggregate.name
+    }
+  }
+
+  sink {
+    name = "aggregatesWithAck"
+
+    dataset {
+      name = azurerm_data_factory_custom_dataset.aggregate.name
+    }
+  }
+
+  transformation {
+    name = "deleteAggregatesWithAck"
+  }
+
+  script = file("pipelines/bulkDeleteAggregates.dataflow")
+}
+
 resource "azurerm_data_factory_pipeline" "ack_ingestor" {
 
   name            = "ack_ingestor"
@@ -207,5 +236,19 @@ resource "azurerm_data_factory_trigger_schedule" "ade_ack" {
   depends_on = [
     azurerm_data_factory_custom_dataset.source_ack,
     azurerm_data_factory_custom_dataset.aggregate
+  ]
+}
+
+resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates_pipeline" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name            = "bulk_delete_aggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  activities_json = file("pipelines/bulkDeleteAggregates.json")
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregate,
+    azurerm_data_factory_data_flow.bulk_delete_aggregates
   ]
 }
