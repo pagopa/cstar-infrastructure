@@ -118,3 +118,25 @@ module "pm_api_product" {
 
   policy_xml = file("./api_product/pm_api/policy.xml")
 }
+
+data "azurerm_key_vault_secret" "pagopa_platform_api_key" {
+  count = var.enable.rtd.pm_integration ? 1 : 0
+
+  name         = "pagopa-platform-apim-api-key-primary"
+  key_vault_id = module.key_vault.id
+}
+
+resource "azurerm_api_management_named_value" "pagopa_platform_api_key" {
+  count = var.enable.rtd.pm_integration ? 1 : 0
+
+  name                = format("%s-pagopa-platform-api-key", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "pagopa-platform-apim-api-key-primary"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_key[count.index].id
+  }
+
+}

@@ -817,7 +817,7 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "https://10.49.20.119:444"
+pm_backend_url = "https://api.uat.platform.pagopa.it"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
@@ -862,6 +862,7 @@ enable = {
     sender_auth                         = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
+    pm_integration                      = true
   }
   fa = {
     api = true

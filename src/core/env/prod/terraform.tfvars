@@ -889,6 +889,7 @@ enable = {
     sender_auth                         = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = false
+    pm_integration                      = false
   }
   fa = {
     api = true

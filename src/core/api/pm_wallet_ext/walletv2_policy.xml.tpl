@@ -25,15 +25,15 @@ return "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding
         <send-request mode="new" response-variable-name="walletresponse" timeout="${PM-Timeout-Sec}" ignore-error="true">
             <set-url>@("${pm-backend-url}/pp-admin-panel/v1/external/walletv2")</set-url>
             <set-method>GET</set-method>
-            <set-header name="Authorization" exists-action="override">
-                <value>@(context.Variables.GetValueOrDefault<string>("basicAuthDetails"))</value>
-            </set-header>
             <set-header name="Fiscal-Code" exists-action="override">
                 <value>@(context.Variables.GetValueOrDefault<string>("fiscalcode"))</value>
             </set-header>
-            %{ if env_short != "d" ~}
-            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-            %{ endif ~}
+            <set-header name="Host" exists-action="override">
+                <value>api.uat.platform.pagopa.it</value>
+            </set-header>
+            <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                <value>{{pagopa-platform-apim-api-key-primary}}</value>
+            </set-header>
         </send-request>
         <return-response response-variable-name="walletresponse" />
     </inbound>
