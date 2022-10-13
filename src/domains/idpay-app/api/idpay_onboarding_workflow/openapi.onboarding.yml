@@ -71,6 +71,7 @@ paths:
       operationId: onboardingCitizen
       requestBody:
         description: Id of the initiative
+        required: true
         content:
           application/json:
             schema:
@@ -135,6 +136,7 @@ paths:
       operationId: checkPrerequisites
       requestBody:
         description: Id of the iniziative
+        required: true
         content:
           application/json:
             schema:
@@ -214,6 +216,7 @@ paths:
       operationId: consentOnboarding
       requestBody:
         description: 'Unique identifier of the subscribed initiative, flag for PDND acceptation and the list of accepted self-declared criteria'
+        required: true
         content:
           application/json:
             schema:
@@ -345,10 +348,12 @@ components:
         selfDeclarationList:
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/SelfConsentBoolDTO'
-              - $ref: '#/components/schemas/SelfConsentMultiDTO'
+            $ref: "#/components/schemas/SelfConsentDTO"
           description: The list of accepted self-declared criteria
+    SelfConsentDTO:
+      oneOf:
+        - $ref: '#/components/schemas/SelfConsentBoolDTO'
+        - $ref: '#/components/schemas/SelfConsentMultiDTO'
     OnboardingPutDTO:
       title: OnboardingPutDTO
       type: object
@@ -386,10 +391,12 @@ components:
         selfDeclarationList:
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
-              - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
+            $ref: "#/components/schemas/SelfDeclarationDTO"
           description: The list of required self-declared criteria
+    SelfDeclarationDTO:
+      oneOf:
+        - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
+        - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
     PDNDCriteriaDTO:
       type: object
       required:
