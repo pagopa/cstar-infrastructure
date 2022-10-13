@@ -91,11 +91,13 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   }
 
   data = {
-    kafka_broker_rtd               = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
-    rtd_enrolled_pi_topic          = "rtd-enrolled-pi"
-    rtd_trx_topic                  = "rtd-trx"
-    kafka_partition_count          = data.azurerm_eventhub.enrolled_pi_hub.partition_count
-    kafka_partition_key_expression = "headers.partitionKey"
+    kafka_broker_rtd                              = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    rtd_enrolled_pi_topic                         = "rtd-enrolled-pi"
+    rtd_trx_topic                                 = "rtd-trx"
+    kafka_partition_count                         = data.azurerm_eventhub.enrolled_pi_hub.partition_count
+    kafka_partition_key_expression                = "headers.partitionKey"
+    rtd_revoked_pi_topic                          = "rtd_revoked_pi"
+    rtd_revoked_payment_instrument_consumer_group = "rtd-revoked-payment-instrument-consumer-group"
   }
 
 }
