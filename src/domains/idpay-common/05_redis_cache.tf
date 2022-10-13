@@ -1,4 +1,3 @@
-# To provision a redis cache uncomment the following lines
 module "idpay_redis_00" {
 
   source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.37"
@@ -14,4 +13,20 @@ module "idpay_redis_00" {
   subnet_id             = length(module.idpay_redis_snet.*.id) == 0 ? null : module.idpay_redis_snet[0].id
 
   tags = var.tags
+}
+
+resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_string" {
+  name         = "idpay-redis-00-primary-connection-string"
+  value        = module.idpay_redis_00.primary_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
+
+resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_url" {
+  name         = "idpay-redis-00-primary-connection-url"
+  value        = "rediss://:${module.idpay_redis_00.primary_access_key}@${module.idpay_redis_00.hostname}:${module.idpay_redis_00.ssl_port}"
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
 }

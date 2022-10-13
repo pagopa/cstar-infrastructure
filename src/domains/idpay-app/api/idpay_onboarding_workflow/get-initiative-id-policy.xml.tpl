@@ -13,13 +13,28 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] +"/instruments/{hpan}")" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
+        <cache-lookup-value key="@(context.Request.MatchedParameters["serviceId"])" variable-name="initiativeIdResponse"  />
+        <choose>
+            <!-- If API Management find it in the cache, make a request for it and store it -->
+            <when condition="@(context.Variables.ContainsKey("initiativeIdResponse"))">
+                <return-response response-variable-name="initiativeIdResponse" />
+            </when>
+            <otherwise>
+                <rewrite-uri template="@("/idpay/initiative/?serviceId={serviceId}")" copy-unmatched-params="true" />
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <!-- Store result in cache -->
+                <cache-store-value key="@(context.Request.MatchedParameters["serviceId"])" value="@(context.Response)" duration="86400"  />
+            </when>
+        </choose>
         <base />
     </outbound>
     <on-error>

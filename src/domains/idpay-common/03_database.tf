@@ -66,6 +66,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
         }
       ]
     },
@@ -74,6 +78,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
@@ -82,6 +90,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = false
         }
       ]
     },
@@ -98,6 +110,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
         }
       ]
     },
@@ -108,7 +124,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["operationDate"]
+          keys   = ["initiativeId", "userId", "operationDate"]
           unique = false
         }
       ]
@@ -235,6 +251,82 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        }
+      ]
+    },
+    {
+      name = "reward_notification_rule"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "rewards_iban"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "rewards"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "rewards_notification"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["externalId"]
+          unique = false
+        },
+        {
+          keys   = ["exportId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["notificationDate"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "rewards_organization_exports"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["organizationId"]
+          unique = false
+        },
+        {
+          keys   = ["notificationDate"]
+          unique = false
         }
       ]
     }
