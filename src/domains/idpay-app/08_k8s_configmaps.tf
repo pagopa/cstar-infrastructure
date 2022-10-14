@@ -72,6 +72,7 @@ resource "kubernetes_config_map" "rest-client" {
     idpay_onboarding_host         = "http://idpay-onboarding-workflow-microservice-chart:8080"
     idpay_payment_instrument_host = "http://idpay-payment-instrument-microservice-chart:8080"
     idpay_group_host              = "http://idpay-group-microservice-chart:8080"
+    idpay_wallet_host             = "http://idpay-wallet-microservice-chart:8080"
     initiative_ms_base_url        = "http://idpay-portal-welfare-backend-initiative-microservice-chart:8080"
     checkiban_base_url            = var.checkiban_base_url
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
@@ -80,6 +81,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_message_url        = "/api/v1/messages"
     io_backend_profile_url        = "/api/v1/profiles"
     io_backend_service_url        = "/api/v1/services"
+    pm_service_base_url           = "https://api-io.dev.cstar.pagopa.it"
   }
 
 }
