@@ -238,6 +238,7 @@ pre-commit run -a
 | [kubernetes_secret.rtd-enrolled-pi-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-internal-api](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-postgres-credentials](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-revoke-pi-events-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-tkm-write-update-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
@@ -257,7 +258,7 @@ pre-commit run -a
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_autoscaling_specs"></a> [autoscaling\_specs](#input\_autoscaling\_specs) | n/a | <pre>map(object({<br>    namespace    = string<br>    min_replicas = number<br>    max_replicas = number<br>    metrics = list(object({<br>      type = string<br>      resource = object({<br>        name = string<br>        target = object({<br>          type                = string<br>          average_utilization = number<br>        })<br>      })<br>    }))<br><br>    }<br>  ))</pre> | n/a | yes |
+| <a name="input_autoscaling_specs"></a> [autoscaling\_specs](#input\_autoscaling\_specs) | n/a | <pre>map(object({<br>    namespace    = string<br>    min_replicas = number<br>    max_replicas = number<br>    metrics = list(object({<br>      type = string<br>      resource = object({<br>        name = string<br>        target = object({<br>          type                = string<br>          average_utilization = number<br>        })<br>      })<br>    }))<br>    }<br>  ))</pre> | n/a | yes |
 | <a name="input_configmaps_bpdmsawardperiod"></a> [configmaps\_bpdmsawardperiod](#input\_configmaps\_bpdmsawardperiod) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_bpdmsawardwinner"></a> [configmaps\_bpdmsawardwinner](#input\_configmaps\_bpdmsawardwinner) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_bpdmscitizen"></a> [configmaps\_bpdmscitizen](#input\_configmaps\_bpdmscitizen) | n/a | `map(string)` | n/a | yes |
@@ -294,7 +295,7 @@ pre-commit run -a
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_event_hub_port"></a> [event\_hub\_port](#input\_event\_hub\_port) | n/a | `number` | `9093` | no |
 | <a name="input_eventhub_enrolled_pi"></a> [eventhub\_enrolled\_pi](#input\_eventhub\_enrolled\_pi) | n/a | <pre>object({<br>    name                = string,<br>    namespace_name      = string,<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
-| <a name="input_fa_autoscaling_specs"></a> [fa\_autoscaling\_specs](#input\_fa\_autoscaling\_specs) | n/a | <pre>map(object({<br>    min_replicas = number<br>    max_replicas = number<br>    metrics = list(object({<br>      type = string<br>      resource = object({<br>        name = string<br>        target = object({<br>          type                = string<br>          average_utilization = number<br>        })<br>      })<br>    }))<br><br>    }<br>  ))</pre> | n/a | yes |
+| <a name="input_fa_autoscaling_specs"></a> [fa\_autoscaling\_specs](#input\_fa\_autoscaling\_specs) | n/a | <pre>map(object({<br>    min_replicas = number<br>    max_replicas = number<br>    metrics = list(object({<br>      type = string<br>      resource = object({<br>        name = string<br>        target = object({<br>          type                = string<br>          average_utilization = number<br>        })<br>      })<br>    }))<br>    }<br>  ))</pre> | `{}` | no |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_ingress_replica_count"></a> [ingress\_replica\_count](#input\_ingress\_replica\_count) | n/a | `string` | n/a | yes |
 | <a name="input_k8s_apiserver_host"></a> [k8s\_apiserver\_host](#input\_k8s\_apiserver\_host) | n/a | `string` | n/a | yes |
