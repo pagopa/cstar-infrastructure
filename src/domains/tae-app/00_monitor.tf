@@ -73,7 +73,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   evaluation_frequency = "P1D"
   window_duration      = "P1D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 4
+  severity             = 0
   criteria {
     query                   = <<-QUERY
       let today = StorageBlobLogs 
