@@ -464,7 +464,7 @@ fa_autoscaling_specs = {
       }
     ]
   }
-  famsenrollemnt = {
+  famsenrollment = {
 
     max_replicas = 6
     min_replicas = 1

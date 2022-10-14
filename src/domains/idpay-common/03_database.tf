@@ -66,6 +66,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
         }
       ]
     },
@@ -74,6 +78,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
@@ -82,6 +90,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = false
         }
       ]
     },
@@ -98,6 +110,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
         }
       ]
     },
@@ -108,7 +124,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["operationDate"]
+          keys   = ["initiativeId", "userId", "operationDate"]
           unique = false
         }
       ]
