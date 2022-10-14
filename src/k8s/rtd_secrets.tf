@@ -214,6 +214,30 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
   type = "Opaque"
 }
 
+
+resource "kubernetes_secret" "rtd-revoke-pi-events-producer" {
+  count = var.enable.rtd.enrolled_payment_instrument ? 1 : 0
+
+  metadata {
+    name      = "rtd-revoke-pi-producer"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_TOPIC_REVOKE = "rtd-revoked-pi"
+    # due to limit of 10 queues in PROD, this queue is temporary available in fa eventhub ns
+    KAFKA_BROKER_REVOKE = format("%s.servicebus.windows.net:9093",
+      var.env_short == "p" ? "${local.project}-evh-ns-fa-01" : "${local.project}-evh-ns",
+    )
+    KAFKA_SASL_JAAS_CONFIG_RTD_REVOKED = format(
+      local.jaas_config_template_rtd,
+      "rtd-revoked-pi",
+      "rtd-revoked-pi-producer-policy",
+      module.key_vault_secrets_query.values["evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"].value
+    )
+  }
+}
+
 resource "kubernetes_secret" "rtd-tkm-write-update-consumer" {
   metadata {
     name      = "rtd-tkm-write-update-consumer"
