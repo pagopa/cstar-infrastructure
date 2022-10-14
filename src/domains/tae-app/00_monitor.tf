@@ -43,3 +43,21 @@ resource "azurerm_kusto_script" "create_tables" {
   continue_on_errors_enabled         = true
   force_an_update_when_value_changed = "v6" # change this version to re-execute the script
 }
+
+## Alarms
+
+resource "azurerm_monitor_action_group" "send_to_operations" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "send_to_operations"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  short_name          = "send_to_ops"
+
+  email_receiver {
+    name                    = "send_to_operations"
+    email_address           = data.azurerm_key_vault_secret.operations_slack_email[count.index].value
+    use_common_alert_schema = true
+  }
+
+}
