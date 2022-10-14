@@ -13,7 +13,7 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://dev01.idpay.internal.dev.cstar.pagopa.it/idpaywallet" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
         <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/instruments/")" />
     </inbound>
     <backend>
