@@ -61,3 +61,72 @@ resource "azurerm_monitor_action_group" "send_to_operations" {
   }
 
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "sender-doesnt-send"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 4
+  criteria {
+    query                   = <<-QUERY
+      let today = StorageBlobLogs 
+        | where OperationName == 'PutBlob'
+        | where TimeGenerated >= ago(1d)
+        | extend SenderCode = tostring(extract(@".{126,126}ADE\.([\w\d]{5,5})", 1, Uri))
+        | where isnotempty(SenderCode)
+        | distinct SenderCode;
+      let yesterday = StorageBlobLogs 
+        | where OperationName == 'PutBlob'
+        | where TimeGenerated >= ago(2d) and TimeGenerated < ago(1d)
+        | extend SenderCode = tostring(extract(@".{126,126}ADE\.([\w\d]{5,5})", 1, Uri))
+        | where isnotempty(SenderCode)
+        | distinct SenderCode;
+      yesterday 
+        | join kind=leftouter today on SenderCode
+        | where isempty(SenderCode1)
+        | project SenderCode
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    # resource_id_column    = "client_CountryOrRegion"
+    # metric_measure_column = "CountByCountry"
+    # dimension {
+    #   name     = "client_CountryOrRegion"
+    #   operator = "Exclude"
+    #   values   = ["123"]
+    # }
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "In the last 24h at least one sender didn't submitted files"
+  display_name                     = "a-sender-didnt-send"
+  enabled                          = true
+  #query_time_range_override        = "PT1H"
+  skip_query_validation            = false
+  action {
+    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key  = "value"
+    key2 = "value2"
+  }
+}
