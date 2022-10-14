@@ -233,6 +233,8 @@ resource "kubernetes_secret" "rtd-revoke-pi-events-producer" {
       local.jaas_config_template_rtd,
       "rtd-revoked-pi",
       "rtd-revoked-pi-producer-policy",
+      var.env_short == "p" ?
+      module.key_vault_secrets_query.values["evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key-fa-01"].value :
       module.key_vault_secrets_query.values["evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"].value
     )
   }
