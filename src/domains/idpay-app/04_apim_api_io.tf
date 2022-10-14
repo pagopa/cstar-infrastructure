@@ -142,6 +142,8 @@ module "idpay_wallet_io" {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
       })
     },
     {
