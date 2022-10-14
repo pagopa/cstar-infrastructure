@@ -44,7 +44,7 @@ external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.prod.cstar"
 
 aggregates_ingestor_conf = {
-  enable = false
+  enable = true
 }
 
 ack_ingestor_conf = {
