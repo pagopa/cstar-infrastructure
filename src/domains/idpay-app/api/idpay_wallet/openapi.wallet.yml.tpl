@@ -573,7 +573,7 @@ paths:
                     enableableFunctions:
                       - pagoPA
                     favourite: true
-                    idWallet: '1990'
+                    idWallet: '19920'
                     onboardingChannel: test_onboarding2
                     updateDate: '2022-10-13 00:00:00'
                     walletType: CARD
@@ -635,7 +635,7 @@ paths:
                       brand: brand
                       expireMonth: '12'
                       expireYear: '2022'
-                      hashPan: test_hashPan
+                      uidHash: test_uidHash
                       holder: test_holder
                       htokenList:
                         - token1
