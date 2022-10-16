@@ -58,7 +58,7 @@ module "idpay_onboarding_workflow_io" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
