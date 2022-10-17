@@ -13,7 +13,7 @@ module "idpay_api_io_product" {
 
   published             = true
   subscription_required = false
-  approval_required     = true
+  approval_required     = false
 
   subscriptions_limit = 50
 
