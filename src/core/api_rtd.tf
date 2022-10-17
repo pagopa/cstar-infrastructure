@@ -66,7 +66,9 @@ module "api_azureblob" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = templatefile("./api/azureblob/azureblob_external_policy.xml", {
+    rtd-ingress-ip = var.reverse_proxy_ip
+  })
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
