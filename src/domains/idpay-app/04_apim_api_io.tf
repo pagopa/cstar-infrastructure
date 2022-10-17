@@ -57,7 +57,7 @@ module "idpay_onboarding_workflow_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -115,7 +115,7 @@ module "idpay_wallet_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -199,7 +199,7 @@ module "idpay_timeline_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -238,7 +238,7 @@ module "idpay_iban_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
