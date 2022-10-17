@@ -142,6 +142,8 @@ module "idpay_wallet_io" {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
       })
     },
     {
@@ -166,6 +168,13 @@ module "idpay_wallet_io" {
       operation_id = "unsubscribe"
 
       xml_content = templatefile("./api/idpay_wallet/put-unsuscribe-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "pm-mock-io"
+
+      xml_content = templatefile("./api/idpay_wallet/get-pm-mock-io.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
