@@ -12,8 +12,8 @@ module "idpay_api_io_product" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   published             = true
-  subscription_required = true
-  approval_required     = true
+  subscription_required = false
+  approval_required     = false
 
   subscriptions_limit = 50
 
@@ -57,8 +57,7 @@ module "idpay_onboarding_workflow_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -116,8 +115,7 @@ module "idpay_wallet_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -201,8 +199,7 @@ module "idpay_timeline_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -241,8 +238,7 @@ module "idpay_iban_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
