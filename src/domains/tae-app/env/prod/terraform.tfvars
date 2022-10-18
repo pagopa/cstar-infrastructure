@@ -48,7 +48,7 @@ aggregates_ingestor_conf = {
 }
 
 ack_ingestor_conf = {
-  interval  = 60
+  interval  = 240
   frequency = "Minute"
   enable    = true
 }
