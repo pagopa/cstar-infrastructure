@@ -138,6 +138,15 @@ data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
+  count        = var.enable.rtd.csv_transaction_apis ? 1 : 0
+  name         = "cstarblobstorage-public-key"
+  key_vault_id = module.key_vault.id
+}
+
+#
+# Security Subscription
+#
 data "azurerm_key_vault_secret" "sec_sub_id" {
   name         = "sec-subscription-id"
   key_vault_id = module.key_vault.id
@@ -152,11 +161,5 @@ data "azurerm_key_vault_secret" "sec_workspace_id" {
 data "azurerm_key_vault_secret" "sec_storage_id" {
   count        = var.env_short == "p" ? 1 : 0
   name         = "sec-storage-id"
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
-  count        = var.enable.rtd.csv_transaction_apis ? 1 : 0
-  name         = "cstarblobstorage-public-key"
   key_vault_id = module.key_vault.id
 }

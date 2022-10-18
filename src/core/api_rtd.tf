@@ -114,6 +114,7 @@ module "rtd_payment_instrument_manager" {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
         env_short                            = var.env_short
+        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
       })
     },
     {
@@ -163,6 +164,7 @@ module "rtd_payment_instrument_manager_v2" {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
         env_short                            = var.env_short
+        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
       })
     },
     {
@@ -340,12 +342,43 @@ module "rtd_senderadeack_filename_list" {
     host = "https://httpbin.org"
   })
 
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
     rtd-ingress-ip = var.reverse_proxy_ip
   })
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
+
+  api_operation_policies = []
+}
+
+module "rtd_senderack_correct_download_ack" {
+  count  = var.enable.tae.api ? 1 : 0
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.3"
+
+  name                = format("%s-senderack-explicit-ack", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "TAE API to ACK error file after download"
+  display_name = "TAE API to ACK error file after download"
+  path         = "rtd/file-register/ack-received"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_senderack_correct_download_ack/openapi.yml", {
+    host = local.rtd_senderack_download_file_uri
+  })
+
+  subscription_required = true
+
+  xml_content = templatefile("./api/rtd_senderack_correct_download_ack/policy.xml", {
+    rtd-ingress-ip = var.reverse_proxy_ip
+  })
+
+  product_ids = [module.rtd_api_product.product_id]
 
   api_operation_policies = []
 }
@@ -426,16 +459,13 @@ module "rtd_deposited_file_check" {
   path         = "rtd/sftp-retrieve"
   protocols    = ["https"]
 
-  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short)
+  service_url = "https://cstar${var.env_short}blobstorage.blob.core.windows.net/ade-integration-aggregates/"
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value  = file("./api/rtd_deposited_file_check/openapi.yml")
 
-  xml_content = templatefile("./api/rtd_deposited_file_check/azureblob_policy.xml", {
-    ade-in  = format("https://cstar%ssftp.blob.core.windows.net/ade/in/", var.env_short),
-    ade-out = format("https://cstar%ssftp.blob.core.windows.net/ade/out/", var.env_short)
-  })
+  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true

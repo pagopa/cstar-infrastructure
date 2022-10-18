@@ -29,7 +29,8 @@
                     var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
                     var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
                     var org_id = context.Request.Body.As<JObject>(preserveContent: true)["orgId"];
-                    var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"];            
+                    var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"]; 
+                    var org_name = context.Request.Body.As<JObject>(preserveContent: true)["orgName"];              
                     var org_party_role = context.Request.Body.As<JObject>(preserveContent: true)["orgPartyRole"];
                     var org_role = context.Request.Body.As<JObject>(preserveContent: true)["orgRole"];
                     var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
@@ -44,6 +45,7 @@
                     email,
                     org_id,
                     org_vat,
+                    org_name,
                     org_party_role,
                     org_role
                     }

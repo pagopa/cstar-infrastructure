@@ -61,11 +61,10 @@ resource "kubernetes_config_map" "rtddecrypter" {
   data = merge({
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
-    CSV_TRANSACTION_DECRYPT_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
-    , ".")
-    SPLITTER_LINE_THRESHOLD = 250000,
-    ENABLE_CHUNK_UPLOAD     = true,
-    CONSUMER_TIMEOUT_MS     = 7200000 # 2h
+    CSV_TRANSACTION_DECRYPT_HOST     = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), "..", ".")
+    SPLITTER_LINE_THRESHOLD          = 2000000,
+    ENABLE_CHUNK_UPLOAD              = true,
+    CONSUMER_TIMEOUT_MS              = 7200000 # 2h
     },
   var.configmaps_rtddecrypter)
 }
@@ -80,8 +79,8 @@ resource "kubernetes_config_map" "rtdingestor" {
 
   data = {
     JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
-    CSV_INGESTOR_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), ".."
-  , ".") }
+    CSV_INGESTOR_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), "..", ".")
+  }
 }
 
 resource "kubernetes_config_map" "rtd-eventhub-common" {
@@ -148,4 +147,22 @@ resource "kubernetes_config_map" "rtd-enrolledpaymentinstrument" {
     },
     var.configmaps_rtdenrolledpaymentinstrument
   )
+}
+
+# Get event hub to take partition count
+data "azurerm_eventhub" "rtd-enrolled-pi" {
+  name                = var.eventhub_enrolled_pi.name
+  resource_group_name = var.eventhub_enrolled_pi.resource_group_name
+  namespace_name      = var.eventhub_enrolled_pi.namespace_name
+}
+
+resource "kubernetes_config_map" "rtd-producer-enrolledpaymentinstrument" {
+  metadata {
+    name      = "rtd-producer-enrolledpaymentinstrument"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    KAFKA_PARTITION_COUNT = data.azurerm_eventhub.rtd-enrolled-pi.partition_count
+  }, var.configmaps_rtdproducerenrolledpaymentinstrument)
 }

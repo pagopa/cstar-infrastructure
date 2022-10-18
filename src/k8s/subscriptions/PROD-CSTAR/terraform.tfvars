@@ -337,10 +337,11 @@ configmaps_fainvoicemanager = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "famsinvoicemanager"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-
-  POSTGRES_POOLSIZE            = "2"
-  POSTGRES_SHOW_SQL            = "true"
-  LOG_LEVEL_FA_INVOICE_MANAGER = "INFO"
+  POSTGRES_POOLSIZE                                      = "2"
+  POSTGRES_SHOW_SQL                                      = "true"
+  LOG_LEVEL_FA_INVOICE_MANAGER                           = "INFO"
+  MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
+  MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
 }
 
 configmaps_fainvoiceprovider = {
@@ -379,7 +380,7 @@ configmaps_fanotificationmanager = {
 
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD     = true
-  SPLITTER_LINE_THRESHOLD = 250000
+  SPLITTER_LINE_THRESHOLD = 2000000
 }
 
 # rtd-ms-enrolled-payment-instrument
@@ -388,6 +389,11 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdproducerenrolledpaymentinstrument = {
+  KAFKA_PARTITION_KEY_EXPRESSION = "headers.partitionKey"
+  KAFKA_PARTITION_COUNT          = 1
 }
 
 autoscaling_specs = {
@@ -654,7 +660,9 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
-  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"
+  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key",
+  "evh-tkm-write-update-token-tkm-write-update-token-sub-key",
+  "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key-fa-01"
 ]
 
 enable = {
@@ -664,10 +672,16 @@ enable = {
     csv_transaction_apis                = true
     ingestor                            = false
     file_register                       = true
-    enrolled_payment_instrument         = false
+    enrolled_payment_instrument         = true
     mongodb_storage                     = true
   }
   fa = {
     api = false
   }
+}
+
+eventhub_enrolled_pi = {
+  name                = "rtd-enrolled-pi"
+  namespace_name      = "cstar-p-evh-ns"
+  resource_group_name = "cstar-p-msg-rg"
 }

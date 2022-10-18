@@ -36,7 +36,7 @@ source(output(
 	format: 'document',
 	systemColumns: true) ~> aggregates
 joinAcksWithAggregatesOnId alterRow(deleteIf(aggregates@id==sourceAck@id)) ~> deleteAggregatesWithAck
-deleteAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.csv') ~> addFileName
+deleteAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.' + $RunID + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
 	matchType:'exact',
@@ -122,6 +122,7 @@ projectOnlyOneID sink(allowSchemaDrift: true,
 	updateable:false,
 	upsertable:false,
 	format: 'document',
+	batchSize: 1000,
 	partitionKey: ['/terminalId'],
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true,

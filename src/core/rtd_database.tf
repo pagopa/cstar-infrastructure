@@ -101,6 +101,15 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
     keys   = ["_id"]
     unique = true
   }
+
+  index {
+    keys   = ["apiKey"]
+    unique = true
+  }
+
+  index {
+    keys = ["senderCodes"]
+  }
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "file_register" {

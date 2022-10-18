@@ -210,6 +210,10 @@ variable "configmaps_rtdenrolledpaymentinstrument" {
   type = map(string)
 }
 
+variable "configmaps_rtdproducerenrolledpaymentinstrument" {
+  type = map(string)
+}
+
 variable "autoscaling_specs" {
   type = map(object({
     namespace    = string
@@ -225,9 +229,27 @@ variable "autoscaling_specs" {
         })
       })
     }))
-
     }
   ))
+}
+
+variable "fa_autoscaling_specs" {
+  type = map(object({
+    min_replicas = number
+    max_replicas = number
+    metrics = list(object({
+      type = string
+      resource = object({
+        name = string
+        target = object({
+          type                = string
+          average_utilization = number
+        })
+      })
+    }))
+    }
+  ))
+  default = {}
 }
 
 variable "secrets_to_be_read_from_kv" {
@@ -264,4 +286,12 @@ variable "enable" {
       api = false
     }
   }
+}
+
+variable "eventhub_enrolled_pi" {
+  type = object({
+    name                = string,
+    namespace_name      = string,
+    resource_group_name = string
+  })
 }

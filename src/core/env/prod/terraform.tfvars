@@ -5,6 +5,14 @@ location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "p"
 
+tags = {
+  CreatedBy   = "Terraform"
+  Environment = "Prod"
+  Owner       = "cstar"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
+  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+}
+
 apim_notification_sender_email = "info@pagopa.it"
 cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
@@ -252,13 +260,13 @@ devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 
 sftp_account_replication_type = "GRS"
-sftp_ip_rules                 = ["217.175.54.31", "217.175.48.25"]
 sftp_enable_private_endpoint  = true
+sftp_ip_rules                 = ["217.175.54.31", "217.175.48.25"]
 
 db_sku_name                     = "GP_Gen5_2"
-db_geo_redundant_backup_enabled = false
 db_enable_replica               = false
 db_storage_mb                   = 5242880 # 5TB
+db_geo_redundant_backup_enabled = false
 
 db_network_rules = {
   ip_rules = [
@@ -361,12 +369,14 @@ cosmos_mongo_db_params = {
   enable_free_tier                 = false
 
   private_endpoint_enabled      = true
-  public_network_access_enabled = false
-  additional_geo_locations = [{
-    location          = "northeurope"
-    failover_priority = 1
-    zone_redundant    = true
-  }]
+  public_network_access_enabled = true
+  additional_geo_locations = [
+    {
+      location          = "northeurope"
+      failover_priority = 1
+      zone_redundant    = true
+    }
+  ]
 
   is_virtual_network_filter_enabled = true
 
@@ -442,8 +452,10 @@ ehns_metric_alerts = {
       {
         name     = "EntityName"
         operator = "Include"
-        values = ["bpd-trx-error",
-        "rtd-trx-error"]
+        values = [
+          "bpd-trx-error",
+          "rtd-trx-error"
+        ]
       }
     ],
   },
@@ -626,7 +638,9 @@ eventhubs = [
     name              = "rtd-platform-events"
     partitions        = 4
     message_retention = 7
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
+    consumers = [
+      "rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"
+    ]
     keys = [
       {
         # publisher
@@ -662,6 +676,37 @@ eventhubs = [
         send   = true
         manage = false
       }
+    ]
+  },
+  {
+    name              = "tkm-write-update-token"
+    partitions        = 1
+    message_retention = 1
+    consumers = [
+      "tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"
+    ]
+    keys = [
+      {
+        # publisher
+        name   = "tkm-write-update-token-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-sub"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-tests"
+        listen = true
+        send   = false
+        manage = false
+      },
     ]
   }
 ]
@@ -768,6 +813,26 @@ eventhubs_fa = [
       }
     ]
   },
+  { // to be removed from here, temporary allocated here due to limit of 10 queue in rtd namespace
+    name              = "rtd-revoked-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-revoked-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-revoked-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
 ]
 
 external_domain = "pagopa.it"
@@ -809,15 +874,7 @@ cdc_api_params = {
   host = "https://api.sogei.it/interop/carta-cultura"
 }
 
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "Prod"
-  Owner       = "cstar"
-  Source      = "https://github.com/pagopa/cstar-infrastructure"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-}
-
-enable_api_fa                              = false
+enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
 
 enable = {
@@ -827,13 +884,14 @@ enable = {
     csv_transaction_apis                = true
     file_register                       = true
     batch_service_api                   = true
-    enrolled_payment_instrument         = false
+    enrolled_payment_instrument         = true
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
+    pm_wallet_ext_api                   = false
   }
   fa = {
-    api = false
+    api = true
   }
   cdc = {
     api = true

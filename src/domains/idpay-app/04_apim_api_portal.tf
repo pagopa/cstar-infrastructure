@@ -114,14 +114,28 @@ module "idpay_initiative_portal" {
       })
     },
     {
-      operation_id = "saveInitiativeGeneralInfo"
+      operation_id = "saveInitiativeServiceInfo"
 
-      xml_content = templatefile("./api/idpay_initiative/post-initiative-general.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/post-initiative-info.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeServiceInfo"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-info.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "updateInitiativeGeneralInfo"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeGeneralInfoDraft"
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
@@ -152,6 +166,48 @@ module "idpay_initiative_portal" {
       operation_id = "updateTrxAndRewardRulesDraft"
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-reward-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeRefundRule"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-refund.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeRefundRuleDraft"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-refund-draft.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeApprovedStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-approve.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativeToCheckStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-reject.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateInitiativePublishedStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-publish.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "logicallyDeleteInitiative"
+
+      xml_content = templatefile("./api/idpay_initiative/delete-initiative-general.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },

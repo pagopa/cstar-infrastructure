@@ -376,15 +376,15 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = false
 
+  private_endpoint_enabled      = true
+  public_network_access_enabled = true
+  additional_geo_locations      = []
   # additional_geo_locations = [{
   #   location          = "northeurope"
   #   failover_priority = 1
   #   zone_redundant    = false
   # }]
 
-  additional_geo_locations          = []
-  private_endpoint_enabled          = true
-  public_network_access_enabled     = true
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
@@ -620,26 +620,6 @@ eventhubs = [
     ]
   },
   {
-    name              = "rtd-log"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["elk"]
-    keys = [
-      {
-        name   = "app"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "elk"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "rtd-platform-events"
     partitions        = 4
     message_retention = 7
@@ -679,6 +659,55 @@ eventhubs = [
         send   = true
         manage = false
       }
+    ]
+  },
+  {
+    name              = "rtd-revoked-pi"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-revoked-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-revoked-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "tkm-write-update-token"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"]
+    keys = [
+      {
+        # publisher
+        name   = "tkm-write-update-token-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-sub"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "tkm-write-update-token-tests"
+        listen = true
+        send   = false
+        manage = false
+      },
     ]
   }
 ]
@@ -832,6 +861,7 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
+    pm_wallet_ext_api                   = true
   }
   fa = {
     api = true

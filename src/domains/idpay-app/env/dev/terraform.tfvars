@@ -41,8 +41,8 @@ reverse_proxy_be_io            = "10.1.0.250"
 #
 # Dns
 # 
-external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.dev.cstar"
+external_domain          = "pagopa.it"
 
 #
 # Enable components
@@ -54,9 +54,11 @@ enable = {
 }
 
 # Enrolled payment instrument event hub
-eventhub_enrolled_pi = {
-  namespace_name      = "cstar-d-evh-ns"
-  resource_group_name = "cstar-d-msg-rg"
+eventhub_pim = {
+  enrolled_pi_eventhub = "rtd-enrolled-pi"
+  revoked_pi_eventhub  = "rtd-revoked-pi"
+  namespace_name       = "cstar-d-evh-ns"
+  resource_group_name  = "cstar-d-msg-rg"
 }
 
 #

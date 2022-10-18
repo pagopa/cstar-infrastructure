@@ -12,8 +12,8 @@ module "idpay_api_io_product" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   published             = true
-  subscription_required = true
-  approval_required     = true
+  subscription_required = false
+  approval_required     = false
 
   subscriptions_limit = 50
 
@@ -52,12 +52,12 @@ module "idpay_onboarding_workflow_io" {
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
 
-  content_value = templatefile("./api/idpay_onboarding_workflow/swagger.onboarding.json.tpl", {})
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_onboarding_workflow/openapi.onboarding.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -83,6 +83,13 @@ module "idpay_onboarding_workflow_io" {
       xml_content = templatefile("./api/idpay_onboarding_workflow/put-consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getInitiativeId"
+
+      xml_content = templatefile("./api/idpay_onboarding_workflow/get-initiative-id-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
@@ -103,12 +110,12 @@ module "idpay_wallet_io" {
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
 
-  content_value = templatefile("./api/idpay_wallet/swagger.wallet.json.tpl", {})
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_wallet/openapi.wallet.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -130,15 +137,11 @@ module "idpay_wallet_io" {
       })
     },
     {
-      operation_id = "getIbanDetail"
-      xml_content = templatefile("./api/idpay_wallet/get-iban-detail-policy.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
       })
     },
     {
@@ -156,6 +159,20 @@ module "idpay_wallet_io" {
     {
       operation_id = "getInstrumentList"
       xml_content = templatefile("./api/idpay_wallet/get-instrument-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "unsubscribe"
+
+      xml_content = templatefile("./api/idpay_wallet/put-unsuscribe-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "pm-mock-io"
+
+      xml_content = templatefile("./api/idpay_wallet/get-pm-mock-io.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
@@ -177,12 +194,12 @@ module "idpay_timeline_io" {
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
 
-  content_value = templatefile("./api/idpay_timeline/swagger.timeline.json.tpl", {})
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_timeline/openapi.timeline.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_io_product.product_id]
-  subscription_required = true
+  product_ids = [module.idpay_api_io_product.product_id]
 
   api_operation_policies = [
     {
@@ -194,6 +211,45 @@ module "idpay_timeline_io" {
     {
       operation_id = "getTimelineDetail"
       xml_content = templatefile("./api/idpay_timeline/get-timeline-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
+
+## IDPAY IBAN Wallet IO API ##
+module "idpay_iban_io" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-iban"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY IBAN IO"
+  display_name = "IDPAY IBAN IO API"
+  path         = "idpay/iban"
+  protocols    = ["https", "http"]
+
+  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.idpay_api_io_product.product_id]
+
+  api_operation_policies = [
+    {
+      operation_id = "getIban"
+      xml_content = templatefile("./api/idpay_iban/get-iban-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getIbanList"
+      xml_content = templatefile("./api/idpay_iban/get-iban-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
