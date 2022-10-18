@@ -166,6 +166,11 @@ variable "configmaps_rtddecrypter" {
   default = {}
 }
 
+variable "configmaps_rtdfileregister" {
+  type    = map(string)
+  default = {}
+}
+
 variable "configmaps_facustomer" {
   type = map(string)
 }
