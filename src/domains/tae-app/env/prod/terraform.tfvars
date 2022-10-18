@@ -50,7 +50,7 @@ aggregates_ingestor_conf = {
 ack_ingestor_conf = {
   interval  = 60
   frequency = "Minute"
-  enable    = false
+  enable    = true
 }
 
 dexp_tae_db_linkes_service = {
