@@ -229,7 +229,6 @@ variable "autoscaling_specs" {
         })
       })
     }))
-
     }
   ))
 }
@@ -248,9 +247,9 @@ variable "fa_autoscaling_specs" {
         })
       })
     }))
-
     }
   ))
+  default = {}
 }
 
 variable "secrets_to_be_read_from_kv" {

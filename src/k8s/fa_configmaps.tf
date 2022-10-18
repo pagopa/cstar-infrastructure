@@ -164,7 +164,7 @@ resource "kubernetes_config_map" "famsinvoicemanager" {
     MS_AGENZIA_ENTRATE_URL    = "https://api.agenziaentrate.gov.it/entrate/api"
     MS_AGENZIA_ENTRATE_PORT   = ""
     MS_AGENZIA_ENTRATE_SCHEMA = "https"
-    MS_CUSTOMER_DATA_HOST     = (var.env_short != "p" ? format("%s/cstariobackendtest", var.ingress_load_balancer_ip) : "")
+    MS_CUSTOMER_DATA_HOST     = format("%s/cstariobackendtest", var.ingress_load_balancer_ip)
     MS_CUSTOMER_DATA_PORT     = ""
   }, var.configmaps_fainvoicemanager)
 

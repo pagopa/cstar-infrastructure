@@ -42,6 +42,7 @@ No modules.
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_schedule) | resource |
 | [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_database_principal_assignment) | resource |
 | [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_script) | resource |
+| [azurerm_monitor_action_group.send_to_operations](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/monitor_action_group) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
@@ -50,6 +51,7 @@ No modules.
 | [azurerm_cosmosdb_account.cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/cosmosdb_account) | data source |
 | [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/data_factory) | data source |
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/key_vault) | data source |
+| [azurerm_key_vault_secret.operations_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_kusto_cluster.dexp_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/kusto_cluster) | data source |
 | [azurerm_kusto_database.tae_db](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/kusto_database) | data source |
 | [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/log_analytics_workspace) | data source |

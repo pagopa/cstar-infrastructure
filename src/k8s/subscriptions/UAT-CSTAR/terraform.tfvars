@@ -464,7 +464,7 @@ fa_autoscaling_specs = {
       }
     ]
   }
-  famsenrollemnt = {
+  famsenrollment = {
 
     max_replicas = 6
     min_replicas = 1
@@ -698,7 +698,8 @@ secrets_to_be_read_from_kv = [
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
   "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key",
-  "evh-tkm-write-update-token-tkm-write-update-token-sub-key"
+  "evh-tkm-write-update-token-tkm-write-update-token-sub-key",
+  "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"
 ]
 
 enable = {

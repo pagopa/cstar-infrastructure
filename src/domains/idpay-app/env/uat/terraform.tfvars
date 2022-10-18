@@ -60,3 +60,13 @@ eventhub_pim = {
   namespace_name       = "cstar-u-evh-ns"
   resource_group_name  = "cstar-u-msg-rg"
 }
+
+#
+# PDV
+#
+pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
+
+#
+# Check IBAN
+#
+checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
