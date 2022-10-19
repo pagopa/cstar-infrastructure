@@ -126,7 +126,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   }
 
   tags = {
-    key  = "value"
-    key2 = "value2"
+    key  = "Sender Monitoring"
   }
 }
