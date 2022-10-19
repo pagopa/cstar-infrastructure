@@ -49,7 +49,7 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v3.2.0"
+  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v3.2.1"
 
   name                  = "idpaycdn"
   prefix                = local.project
