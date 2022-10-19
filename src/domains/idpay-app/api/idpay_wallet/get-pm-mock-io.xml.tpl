@@ -12,9 +12,7 @@
 -->
 <policies>
     <inbound>
-        <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/instruments/{idWallet}")" />
+        <mock-response status-code="200" content-type="application/json" />
     </inbound>
     <backend>
         <base />

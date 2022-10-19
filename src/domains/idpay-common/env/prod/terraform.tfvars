@@ -1,16 +1,16 @@
 prefix         = "cstar"
-env_short      = "d"
-env            = "dev"
+env_short      = "p"
+env            = "prod"
 domain         = "idpay"
 location       = "westeurope"
 location_short = "weu"
-instance       = "dev"
+instance       = "prod"
 
-dns_zone_prefix = "dev.cstar"
+dns_zone_prefix = "cstar"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
+  Environment = "Prod"
   Owner       = "CSTAR"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
@@ -18,22 +18,23 @@ tags = {
 }
 
 #
-# CIRDs
+# CIDRs
 #
 cidr_idpay_subnet_redis = ["10.1.139.0/24"]
+
 
 lock_enable = true
 
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraformdev"
-  container_name       = "azureadstate"
-  key                  = "dev.terraform.tfstate"
+  storage_account_name = "cstarinfrastterraform"
+  container_name       = "azurermstate"
+  key                  = "prod.terraform.tfstate"
 }
 
 cosmos_mongo_db_params = {
   enabled      = true
-  capabilities = ["EnableMongo", "EnableServerless"]
+  capabilities = ["EnableMongo"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "Strong"
@@ -66,9 +67,9 @@ service_bus_namespace = {
 
 ### External resources
 
-monitor_resource_group_name                 = "cstar-d-monitor-rg"
-log_analytics_workspace_name                = "cstar-d-law"
-log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
+monitor_resource_group_name                 = "cstar-p-monitor-rg"
+log_analytics_workspace_name                = "cstar-p-law"
+log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
 
 ##Eventhub
 ehns_sku_name = "Standard"
@@ -115,19 +116,19 @@ eventhubs_idpay_00 = [
     ]
   },
   {
-    name              = "idpay-checkiban-evaluation"
+    name              = "idpay-checkiban-evalprodion"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-checkiban-evaluation-consumer-group"]
+    consumers         = ["idpay-checkiban-evalprodion-consumer-group"]
     keys = [
       {
-        name   = "idpay-checkiban-evaluation-producer"
+        name   = "idpay-checkiban-evalprodion-producer"
         listen = false
         send   = true
         manage = false
       },
       {
-        name   = "idpay-checkiban-evaluation-consumer"
+        name   = "idpay-checkiban-evalprodion-consumer"
         listen = true
         send   = false
         manage = false
