@@ -60,6 +60,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
 
   data = merge({
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME    = "rtddecrypter"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
     CSV_TRANSACTION_DECRYPT_HOST     = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), "..", ".")
     SPLITTER_LINE_THRESHOLD          = 2000000,
