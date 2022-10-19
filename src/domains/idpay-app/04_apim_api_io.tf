@@ -15,7 +15,7 @@ module "idpay_api_io_product" {
   subscription_required = false
   approval_required     = false
 
-  subscriptions_limit = 50
+  subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/app_io/policy_io.xml.tpl", {
     env_short           = var.env_short
