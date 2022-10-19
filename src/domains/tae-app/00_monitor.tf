@@ -116,7 +116,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   display_name                     = "a-sender-didnt-send"
   enabled                          = true
   #query_time_range_override        = "PT1H"
-  skip_query_validation            = false
+  skip_query_validation = false
   action {
     action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
     custom_properties = {
@@ -126,6 +126,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   }
 
   tags = {
-    key  = "Sender Monitoring"
+    key = "Sender Monitoring"
   }
 }
