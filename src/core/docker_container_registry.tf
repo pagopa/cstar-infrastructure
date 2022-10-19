@@ -31,5 +31,11 @@ module "container_registry_common" {
     zone_redundancy_enabled   = true
   }] : []
 
+  network_rule_set = [{
+    default_action  = "Allow"
+    ip_rule         = []
+    virtual_network = []
+  }]
+
   tags = var.tags
 }
