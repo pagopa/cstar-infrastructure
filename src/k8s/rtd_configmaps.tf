@@ -78,10 +78,10 @@ resource "kubernetes_config_map" "rtdfileregister" {
   }
 
   data = merge({
-    JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
-    APPLICATIONINSIGHTS_ROLE_NAME    = "rtdfileregister"
-  },
-    var.configmaps_rtdfileregister)
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdfileregister"
+    },
+  var.configmaps_rtdfileregister)
 }
 
 resource "kubernetes_config_map" "rtdingestor" {
