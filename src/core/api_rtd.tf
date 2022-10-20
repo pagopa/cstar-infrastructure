@@ -66,14 +66,19 @@ module "api_azureblob" {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = templatefile("./api/azureblob/azureblob_external_policy.xml", {
-    rtd-ingress-ip = var.reverse_proxy_ip
-  })
+  xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "putblob",
+      xml_content = templatefile("./api/azureblob/azureblob_external_policy.xml", {
+        rtd-ingress-ip = var.reverse_proxy_ip
+      })
+    }
+  ]
 }
 
 ## RTD Payment Instrument Manager API ##
