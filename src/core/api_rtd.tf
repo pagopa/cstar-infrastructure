@@ -74,7 +74,7 @@ module "api_azureblob" {
   api_operation_policies = [
     {
       operation_id = "putblob",
-      xml_content = templatefile("./api/azureblob/azureblob_external_policy.xml", {
+      xml_content = templatefile("./api/azureblob/azureblob_authorizative_policy.xml", {
         rtd-ingress-ip = var.reverse_proxy_ip
       })
     }
