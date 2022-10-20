@@ -9,6 +9,7 @@ pr:
       - 'src/domains/rtd-common'
     exclude:
       - '**/*.lock.hcl'
+      - '**/*.md'
 
 parameters:
   - name: 'DEV'
