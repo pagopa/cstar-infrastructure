@@ -60,6 +60,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
 
   data = merge({
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME    = "rtddecrypter"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
     CSV_TRANSACTION_DECRYPT_HOST     = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), "..", ".")
     SPLITTER_LINE_THRESHOLD          = 2000000,
@@ -158,7 +159,8 @@ resource "kubernetes_config_map" "rtd-enrolledpaymentinstrument" {
   }
 
   data = merge({
-    MONGODB_NAME = "rtd"
+    MONGODB_NAME            = "rtd"
+    BASEURL_BPD_DELETE_CARD = var.env_short == "p" ? "http://${var.ingress_load_balancer_ip}/bpdmspaymentinstrument/bpd/payment-instruments" : "" # a fake will be created
     },
     var.configmaps_rtdenrolledpaymentinstrument
   )
