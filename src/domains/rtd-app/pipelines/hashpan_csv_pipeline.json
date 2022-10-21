@@ -15,8 +15,12 @@
       "source": {
         "type": "CosmosDbMongoDbApiSource",
         "batchSize": 100,
+        "filter": {
+          "value": "{\n    state: {\n        $eq: \"READY\"\n    }\n}",
+          "type": "Expression"
+        },
         "cursorMethods": {
-          "project": "{ hashPan: 1}"
+          "project": "{ hashPan: 1, hashPanChildren:1, par:1 }"
         }
       },
       "sink": {
@@ -35,7 +39,37 @@
       "enableStaging": false,
       "translator": {
         "type": "TabularTranslator",
-        "mapComplexValuesToString": false
+        "mappings": [
+          {
+            "source": {
+              "path": "$['hashPan']"
+            },
+            "sink": {
+              "type": "String",
+              "ordinal": 1
+            }
+          },
+          {
+            "source": {
+              "path": "$['par']"
+            },
+            "sink": {
+              "type": "String",
+              "ordinal": 2
+            }
+          },
+          {
+            "source": {
+              "path": "$['hashPanChildren']"
+            },
+            "sink": {
+              "type": "String",
+              "ordinal": 3
+            }
+          }
+        ],
+        "collectionReference": "",
+        "mapComplexValuesToString": true
       }
     },
     "inputs": [
