@@ -52,6 +52,17 @@ resource "kubernetes_ingress_v1" "rtd_ingress" {
           path = "/rtdmssenderauth/(.*)"
         }
 
+        path {
+          backend {
+            service {
+              name = "rtd-ms-enrolledpaymentinstrument"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/enrolledpaymentinstrumentmanager/(.*)"
+        }
       }
     }
   }
