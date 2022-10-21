@@ -59,3 +59,19 @@ eventhub_enrolled_pi = {
   namespace_name      = "cstar-p-evh-ns"
   resource_group_name = "cstar-p-msg-rg"
 }
+
+#
+# PDV
+#
+pdv_tokenizer_url = "https://api.tokenizer.pdv.pagopa.it/tokenizer/v1"
+
+#
+# Check IBAN
+#
+checkiban_base_url = "https://bankingservices.pagopa.it"
+
+#
+# SelfCare API
+#
+selc_base_url = "https://api.selfcare.pagopa.it"
+

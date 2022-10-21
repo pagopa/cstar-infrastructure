@@ -13,12 +13,69 @@
 <policies>
     <inbound>
         <base />
+        <send-request mode="new" response-variable-name="institutionUserResponse" timeout="5" ignore-error="true">
+            <set-url>@("https://api.dev.selfcare.pagopa.it/external/v1/institutions/" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "") + "/products/prod-idpay/users?userId=" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))</set-url>
+            <set-method>GET</set-method>
+            <set-header name="x-selfcare-uid" exists-action="override">
+                <value>idpay</value>
+            </set-header>
+            <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                <value>42a5abedcd0b4334bc3600fbc399c7b9</value>
+            </set-header>
+        </send-request>
+        <choose>
+            <when condition="@(context.Response == null)">
+                <return-response>
+                    <set-status code="504" reason="Backend SelfCare Timeout" />
+                    <set-body>@{
+                        return new JObject(
+                                new JProperty("code", "notification.email.selfcare.timeout"),
+                                new JProperty("message", "Backend SelfCare Timeout")
+                            ).ToString();
+                    }</set-body>
+                </return-response>
+            </when>
+            <when condition="@(context.Response.StatusCode == 200)">
+                <return-response>
+                    <set-header name="Content-Type" exists-action="override">
+                        <value>application/json</value>
+                    </set-header>
+                    <set-body>@{
+                        JArray instUserRespArray = ((IResponse)context.Variables["institutionUserResponse"]).Body.As<JArray>();
+                        if(instUserRespArray.Count > 0)
+                        {
+                            return new JObject(
+                                new JProperty("email", instUserRespArray.First().Value<string>("email"))
+                            ).ToString();
+                        }
+                        else
+                        {
+                            JObject newBody = new JObject();                          
+                            return newBody.ToString();
+                        }
+                    }</set-body>
+                </return-response>
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="500" />
+                    <set-header name="Content-Type" exists-action="override">
+                        <value>application/json</value>
+                    </set-header>
+                    <set-body>@{
+                        return new JObject(
+                                new JProperty("code", "notification.email.error"),
+                                new JProperty("message", "Cannot retrive institutional email")
+                            ).ToString();
+                    }</set-body>
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />
     </backend>
-    <outbound>
-    </outbound>
+    <outbound />
     <on-error>
         <base />
     </on-error>

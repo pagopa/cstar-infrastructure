@@ -320,9 +320,34 @@ module "idpay_notification_email_api" {
       operation_id = "getInstitutionProductUserInfo"
 
       xml_content = templatefile("./api/idpay_notification_email/get-institution-user-info-policy.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+        selc_base_url = var.selc_base_url,
+        selc_timeout_sec = var.selc_timeout_sec
+        selc_external_api_key_reference = azurerm_api_management_named_value.selc-external-api-key.name
       })
     }
   ]
 
+}
+
+#
+# Named values
+#
+resource "azurerm_api_management_named_value" "selc-external-api-key" {
+
+  name                = format("%s-selc-external-api-key-secret", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  
+  display_name = "selc-external-api-key"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.selc-external-api-key-secret.id
+  }
+
+}
+
+data "azurerm_key_vault_secret" "selc-external-api-key-secret" {
+  name         = "selc-external-api-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
 }

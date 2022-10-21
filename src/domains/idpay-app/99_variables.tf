@@ -178,3 +178,14 @@ variable "checkiban_base_url" {
   default     = "127.0.0.1"
   description = "Check IBAN uri."
 }
+
+variable "selc_base_url" {
+  type        = string
+  description = "SelfCare api backend url"
+}
+
+variable "selc_timeout_sec" {
+  type        = number
+  description = "SelfCare api timeout (sec)"
+  default     = 5
+}
