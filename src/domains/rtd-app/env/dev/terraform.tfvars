@@ -1,11 +1,11 @@
-prefix         = "cstar"
-env_short      = "d"
-env            = "dev"
-domain         = "rtd"
-location       = "westeurope"
+prefix          = "cstar"
+env_short       = "d"
+env             = "dev"
+domain          = "rtd"
+location        = "westeurope"
 location_string = "West Europe"
-location_short = "weu"
-instance       = "dev01"
+location_short  = "weu"
+instance        = "dev01"
 
 tags = {
   CreatedBy   = "Terraform"

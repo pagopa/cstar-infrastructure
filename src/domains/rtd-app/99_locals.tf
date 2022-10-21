@@ -2,7 +2,7 @@ locals {
   project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
   product = "${var.prefix}-${var.env_short}"
 
-monitor_appinsights_name        = "${local.product}-appinsights"
+  monitor_appinsights_name        = "${local.product}-appinsights"
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
@@ -25,6 +25,6 @@ monitor_appinsights_name        = "${local.product}-appinsights"
   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
 
-  domain_aks_hostname  = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
+  domain_aks_hostname = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
 
 }

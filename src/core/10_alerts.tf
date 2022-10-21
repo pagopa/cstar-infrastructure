@@ -9,19 +9,19 @@ locals {
       expected_http_status = 200
     },
     {
-        # portal.env.cstar.pagopa.it
+      # portal.env.cstar.pagopa.it
       host                 = trimsuffix(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, "."),
       path                 = "",
       expected_http_status = 200
     },
     {
-        # api.env.cstar.pagopa.it
+      # api.env.cstar.pagopa.it
       host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, "."),
       path                 = "",
       expected_http_status = 400
     },
     {
-        # management.env.cstar.pagopa.it
+      # management.env.cstar.pagopa.it
       host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, "."),
       path                 = "",
       expected_http_status = 200
