@@ -656,7 +656,7 @@ eventhubs = [
         # subscriber
         name   = "tkm-write-update-token-sub"
         listen = true
-        send   = false
+        send   = true
         manage = false
       },
       {
