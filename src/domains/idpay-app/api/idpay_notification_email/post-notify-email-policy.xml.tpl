@@ -18,6 +18,7 @@
         <base />
     </backend>
     <outbound>
+        <base />
     </outbound>
     <on-error>
         <base />
