@@ -13,14 +13,14 @@
 <policies>
     <inbound>
         <base />
-        <send-request mode="new" response-variable-name="institutionUserResponse" timeout="5" ignore-error="true">
-            <set-url>@("https://api.dev.selfcare.pagopa.it/external/v1/institutions/" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "") + "/products/prod-idpay/users?userId=" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))</set-url>
+        <send-request mode="new" response-variable-name="institutionUserResponse" timeout="${selc_timeout_sec}" ignore-error="true">
+            <set-url>@("${selc_base_url}/external/v1/institutions/" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "") + "/products/prod-idpay/users?userId=" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))</set-url>
             <set-method>GET</set-method>
             <set-header name="x-selfcare-uid" exists-action="override">
                 <value>idpay</value>
             </set-header>
             <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
-                <value>42a5abedcd0b4334bc3600fbc399c7b9</value>
+                <value>{{${selc_external_api_key_reference}}}</value>
             </set-header>
         </send-request>
         <choose>
@@ -50,8 +50,9 @@
                         }
                         else
                         {
-                            JObject newBody = new JObject();                          
-                            return newBody.ToString();
+                            return new JObject(
+                                new JProperty("email", "")
+                            ).ToString();
                         }
                     }</set-body>
                 </return-response>
