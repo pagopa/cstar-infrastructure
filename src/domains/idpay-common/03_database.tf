@@ -329,6 +329,14 @@ locals {
           unique = false
         }
       ]
+    },
+    {
+      name = "initiative_statistics"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
     }
   ]
 }
