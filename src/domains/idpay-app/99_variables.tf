@@ -39,6 +39,11 @@ variable "location" {
   description = "One of westeurope, northeurope"
 }
 
+variable "location_string" {
+  type        = string
+  description = "One of West Europe, North Europe"
+}
+
 variable "location_short" {
   type = string
   validation {
@@ -178,3 +183,16 @@ variable "checkiban_base_url" {
   default     = "127.0.0.1"
   description = "Check IBAN uri."
 }
+
+#
+# Tls Checker
+#
+variable "tls_cert_check_helm" {
+  type = object({
+    chart_version = string,
+    image_name    = string,
+    image_tag     = string
+  })
+  description = "tls cert helm chart configuration"
+}
+
