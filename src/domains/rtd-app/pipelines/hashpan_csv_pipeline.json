@@ -20,7 +20,7 @@
           "type": "Expression"
         },
         "cursorMethods": {
-          "project": "{ hashPan: 1, hashPanChildren:1, par:1 }"
+          "project": "{ hashPanExports:1, par:1 }"
         }
       },
       "sink": {
@@ -42,7 +42,7 @@
         "mappings": [
           {
             "source": {
-              "path": "$['hashPan']"
+              "path": "['value']"
             },
             "sink": {
               "type": "String",
@@ -57,18 +57,9 @@
               "type": "String",
               "ordinal": 2
             }
-          },
-          {
-            "source": {
-              "path": "$['hashPanChildren']"
-            },
-            "sink": {
-              "type": "String",
-              "ordinal": 3
-            }
           }
         ],
-        "collectionReference": "",
+        "collectionReference": "$['hashPanExports']",
         "mapComplexValuesToString": true
       }
     },
