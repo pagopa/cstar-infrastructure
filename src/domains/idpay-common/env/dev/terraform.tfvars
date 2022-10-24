@@ -75,30 +75,10 @@ ehns_sku_name = "Standard"
 
 eventhubs_idpay_00 = [
   {
-    name              = "idpay-onboarding-request"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-onboarding-request-consumer-group"]
-    keys = [
-      {
-        name   = "idpay-onboarding-request-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-onboarding-request-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "idpay-onboarding-outcome"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-onboarding-outcome-consumer-group"]
+    consumers         = ["idpay-onboarding-outcome-consumer-group", "idpay-initiative-onboarding-statistics-group"]
     keys = [
       {
         name   = "idpay-onboarding-outcome-producer"
@@ -118,7 +98,7 @@ eventhubs_idpay_00 = [
     name              = "idpay-checkiban-evaluation"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-checkiban-evaluation-consumer-group"]
+    consumers         = ["idpay-checkiban-evaluation-consumer-group", "idpay-rewards-notification-checkiban-req-group"]
     keys = [
       {
         name   = "idpay-checkiban-evaluation-producer"
@@ -138,7 +118,7 @@ eventhubs_idpay_00 = [
     name              = "idpay-checkiban-outcome"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-checkiban-outcome-consumer-group"]
+    consumers         = ["idpay-checkiban-outcome-consumer-group", "idpay-rewards-notification-checkiban-out-group"]
     keys = [
       {
         name   = "idpay-checkiban-outcome-producer"
@@ -202,7 +182,7 @@ eventhubs_idpay_01 = [
     name              = "idpay-transaction"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-transaction-consumer-group"]
+    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group"]
     keys = [
       {
         name   = "idpay-transaction-producer"
@@ -219,30 +199,10 @@ eventhubs_idpay_01 = [
     ]
   },
   {
-    name              = "idpay-reward-error"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-reward-error-consumer-group"]
-    keys = [
-      {
-        name   = "idpay-reward-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-reward-error-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "idpay-rule-update"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-rule-update-consumer-group"]
+    consumers         = ["idpay-beneficiary-rule-update-consumer-group", "idpay-reward-calculator-rule-consumer-group", "idpay-rewards-notification-rule-consumer-group"]
     keys = [
       {
         name   = "idpay-rule-update-producer"
@@ -262,7 +222,7 @@ eventhubs_idpay_01 = [
     name              = "idpay-hpan-update"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-hpan-update-consumer-group"]
+    consumers         = ["idpay-reward-calculator-hpan-update-consumer-group"]
     keys = [
       {
         name   = "idpay-hpan-update-producer"
@@ -279,10 +239,30 @@ eventhubs_idpay_01 = [
     ]
   },
   {
+    name              = "idpay-hpan-update-outcome"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-hpan-update-outcome-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-hpan-update-outcome-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-hpan-update-outcome-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
     name              = "idpay-transaction-user-id-splitter"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-transaction-user-id-splitter-consumer-group"]
+    consumers         = ["idpay-reward-calculator-consumer-group"]
     keys = [
       {
         name   = "idpay-transaction-user-id-splitter-producer"
@@ -302,7 +282,7 @@ eventhubs_idpay_01 = [
     name              = "idpay-errors"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-errors-group"]
+    consumers         = ["idpay-errors-recovery-group"]
     keys = [
       {
         name   = "idpay-errors-producer"
