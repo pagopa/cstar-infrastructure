@@ -13,6 +13,8 @@
 <policies>
     <inbound>
         <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaynotificationemail" />
+        <rewrite-uri template="@("/idpay/email-notification/notify")" />
     </inbound>
     <backend>
         <base />
