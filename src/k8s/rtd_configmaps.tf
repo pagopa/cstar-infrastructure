@@ -85,6 +85,21 @@ resource "kubernetes_config_map" "rtdfileregister" {
   var.configmaps_rtdfileregister)
 }
 
+resource "kubernetes_config_map" "rtdsenderauth" {
+  count = var.enable.rtd.blob_storage_event_grid_integration ? 1 : 0
+
+  metadata {
+    name      = "rtdsenderauth"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdsenderauth"
+    },
+  var.configmaps_rtdsenderauth)
+}
+
 resource "kubernetes_config_map" "rtdingestor" {
   count = var.enable.rtd.ingestor ? 1 : 0
 
