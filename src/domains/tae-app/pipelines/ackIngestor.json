@@ -12,7 +12,7 @@
     },
     "userProperties": [],
     "typeProperties": {
-      "dataflow": {
+      "dataFlow": {
         "referenceName": "ackjoinupdate",
         "type": "DataFlowReference",
         "parameters": {
