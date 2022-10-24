@@ -379,7 +379,7 @@ configmaps_rtddecrypter = {
   SPLITTER_LINE_THRESHOLD = 2000000
 }
 
-configmaps_rtdsenderauth = {
+configmaps_rtdfileregister = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }

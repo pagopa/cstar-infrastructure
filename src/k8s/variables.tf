@@ -166,7 +166,7 @@ variable "configmaps_rtddecrypter" {
   default = {}
 }
 
-variable "configmaps_rtdsenderauth" {
+variable "configmaps_rtdfileregister" {
   type    = map(string)
   default = {}
 }

@@ -715,6 +715,7 @@ variable "dexp_params" {
       capacity = number
     })
     autoscale = object({
+      enabled       = bool
       min_instances = number
       max_instances = number
     })

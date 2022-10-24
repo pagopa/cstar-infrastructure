@@ -307,7 +307,7 @@ configmaps_fainvoicemanager = {
   LOG_LEVEL_FA_INVOICE_MANAGER                           = "DEBUG"
   MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
   MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
-  # the two rows below are ignored if MS_AGENZIA_ENTRATE_URL has already been set
+  # the two rows below are ignored if MS_AGENZIA_ENTRATE_URL has already been set 
   MS_AGENZIA_ENTRATE_PORT   = ""
   MS_AGENZIA_ENTRATE_SCHEMA = "https"
 }
@@ -349,7 +349,7 @@ configmaps_rtddecrypter = {
   SPLITTER_LINE_THRESHOLD = 2000000
 }
 
-configmaps_rtdsenderauth = {
+configmaps_rtdfileregister = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
