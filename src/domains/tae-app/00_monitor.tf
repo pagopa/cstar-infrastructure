@@ -140,16 +140,16 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
 
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
-#  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]???
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
   severity             = 0
   criteria {
     query                   = <<-QUERY
-      requests
-        | where timestamp >= ago(5m)
-        | where client_Type != "Browser"
-        | where (cloud_RoleName == 'rtdsenderauth')
-        | where operation_Name == 'GET /authorize/{senderCode}'
-        | where resultCode == 401
+      AppRequests
+      | where TimeGenerated >= ago(5m)
+      | where ClientType != "Browser"
+      | where AppRoleName == "rtdsenderauth"
+      | where OperationName == "GET /authorize/{senderCode}"
+      | where ResultCode == 401
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -163,7 +163,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Trigger whenever at least one 401 is returned in response to an unauthorized request to sender auth."
+  description                      = "Triggers whenever at least one 401 is returned in response to an unauthorized request to sender auth."
   display_name                     = "cstar-${var.env_short}-sender-auth-failed-authentications"
   enabled                          = true
 
