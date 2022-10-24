@@ -197,6 +197,7 @@ pre-commit run -a
 | [kubernetes_config_map.rtd-producer-enrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-rest-client](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdfileregister](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdingestor](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdpaymentinstrumentmanager](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdtransactionfilter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
@@ -285,6 +286,7 @@ pre-commit run -a
 | <a name="input_configmaps_fatransactionerrormanager"></a> [configmaps\_fatransactionerrormanager](#input\_configmaps\_fatransactionerrormanager) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | n/a | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
+| <a name="input_configmaps_rtdfileregister"></a> [configmaps\_rtdfileregister](#input\_configmaps\_rtdfileregister) | n/a | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdpaymentinstrumentmanager"></a> [configmaps\_rtdpaymentinstrumentmanager](#input\_configmaps\_rtdpaymentinstrumentmanager) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdproducerenrolledpaymentinstrument"></a> [configmaps\_rtdproducerenrolledpaymentinstrument](#input\_configmaps\_rtdproducerenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdtransactionfilter"></a> [configmaps\_rtdtransactionfilter](#input\_configmaps\_rtdtransactionfilter) | n/a | `map(string)` | `{}` | no |

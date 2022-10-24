@@ -1,10 +1,11 @@
-prefix         = "cstar"
-env_short      = "d"
-env            = "dev"
-domain         = "idpay"
-location       = "westeurope"
-location_short = "weu"
-instance       = "dev01"
+prefix          = "cstar"
+env_short       = "d"
+env             = "dev"
+domain          = "idpay"
+location        = "westeurope"
+location_string = "West Europe"
+location_short  = "weu"
+instance        = "dev01"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -40,7 +41,7 @@ reverse_proxy_be_io            = "10.1.0.250"
 
 #
 # Dns
-# 
+#
 dns_zone_internal_prefix = "internal.dev.cstar"
 external_domain          = "pagopa.it"
 
@@ -75,4 +76,16 @@ checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
 # SelfCare API
 #
 selc_base_url = "https://api.dev.selfcare.pagopa.it"
+
+
+#
+# TLS Checker
+#
+# chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
+# image tags: https://github.com/pagopa/infra-ssl-check/releases
+tls_cert_check_helm = {
+  chart_version = "1.21.0"
+  image_name    = "ghcr.io/pagopa/infra-ssl-check"
+  image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
+}
 
