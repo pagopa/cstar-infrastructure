@@ -71,7 +71,14 @@ module "api_azureblob" {
   product_ids           = [module.rtd_api_product.product_id]
   subscription_required = true
 
-  api_operation_policies = []
+  api_operation_policies = [
+    {
+      operation_id = "putblob",
+      xml_content = templatefile("./api/azureblob/azureblob_authorizative_policy.xml", {
+        rtd-ingress-ip = var.reverse_proxy_ip
+      })
+    }
+  ]
 }
 
 ## RTD Payment Instrument Manager API ##
