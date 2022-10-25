@@ -50,6 +50,11 @@ variable "location_short" {
   description = "One of wue, neu"
 }
 
+variable "location_string" {
+  type        = string
+  description = "One of West Europe, North Europe"
+}
+
 variable "instance" {
   type        = string
   description = "One of beta, prod01, prod02"
@@ -172,4 +177,16 @@ variable "enable_hpan_par_pipeline_periodic_trigger" {
   type        = bool
   default     = false
   description = "Feature flag to enable/disable periodic trigger for hpan par pipeline"
+}
+
+#
+# Tls Checker
+#
+variable "tls_cert_check_helm" {
+  type = object({
+    chart_version = string,
+    image_name    = string,
+    image_tag     = string
+  })
+  description = "tls cert helm chart configuration"
 }
