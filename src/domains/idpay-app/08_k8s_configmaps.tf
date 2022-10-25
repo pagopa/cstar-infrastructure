@@ -51,9 +51,11 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     kafka_security_protocol                 = "SASL_SSL"
     idpay_transaction_consumer_group        = "idpay-transaction-consumer-group"
     idpay_transaction_wallet_consumer_group = "idpay-transaction-wallet-consumer-group"
+    idpay_hpan_update_outcome_consumer_group= "idpay-hpan-update-outcome-consumer-group"
     idpay_transaction_topic                 = "idpay-transaction"
     idpay_reward_error_topic                = "idpay-reward-error"
     idpay_hpan_update_topic                 = "idpay-hpan-update"
+    idpay_hpan_update_outcome_topic         = "idpay-hpan-update-outcome"
     idpay_rule_update_topic                 = "idpay-rule-update"
     idpay_error_topic                       = "idpay-errors"
     idpay_transaction_userid_splitter_topic = "idpay-transaction-user-id-splitter"
@@ -81,7 +83,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_message_url        = "/api/v1/messages"
     io_backend_profile_url        = "/api/v1/profiles"
     io_backend_service_url        = "/api/v1/services"
-    pm_service_base_url           = "https://api-io.dev.cstar.pagopa.it"
+    pm_service_base_url           = var.pm_service_base_url
   }
 
 }
@@ -98,7 +100,7 @@ resource "kubernetes_config_map" "rtd-eventhub" {
     rtd_trx_topic                                 = "rtd-trx"
     kafka_partition_count                         = data.azurerm_eventhub.enrolled_pi_hub.partition_count
     kafka_partition_key_expression                = "headers.partitionKey"
-    rtd_revoked_pi_topic                          = "rtd_revoked_pi"
+    rtd_revoked_pi_topic                          = "rtd-revoked-pi"
     rtd_revoked_payment_instrument_consumer_group = "rtd-revoked-payment-instrument-consumer-group"
   }
 

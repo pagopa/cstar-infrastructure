@@ -184,6 +184,12 @@ variable "checkiban_base_url" {
   description = "Check IBAN uri."
 }
 
+variable "pm_service_base_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PM Service uri. Endpoint to retrieve Payment Instruments information."
+}
+
 #
 # Tls Checker
 #
