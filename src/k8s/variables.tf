@@ -171,6 +171,11 @@ variable "configmaps_rtdfileregister" {
   default = {}
 }
 
+variable "configmaps_rtdsenderauth" {
+  type    = map(string)
+  default = {}
+}
+
 variable "configmaps_facustomer" {
   type = map(string)
 }
