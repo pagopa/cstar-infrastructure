@@ -169,6 +169,14 @@ resource "azurerm_storage_container" "cstar_hashed_pans" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_container" "cstar_hashed_pans_par" {
+  count = var.enable.rtd.hashed_pans_container ? 1 : 0
+
+  name                  = "cstar-hashed-pans-par"
+  storage_account_name  = module.cstarblobstorage.name
+  container_access_type = "private"
+}
+
 # Container transaction decrypted RTD
 resource "azurerm_storage_container" "rtd_transactions_decrypted" {
   name                  = "rtd-transactions-decrypted"
