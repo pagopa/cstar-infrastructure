@@ -20,7 +20,9 @@ resource "azurerm_data_factory_custom_dataset" "enrolled_payment_instrument_data
 
 resource "azurerm_data_factory_custom_dataset" "hpans_blob_csv_destination" {
 
-  name            = "hpans_blob_csv_destination"
+  for_each = var.hpan_blob_storage_container_name
+
+  name            = "hpans_blob_csv_destination_${each.key}"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
@@ -32,7 +34,7 @@ resource "azurerm_data_factory_custom_dataset" "hpans_blob_csv_destination" {
   {
     "location": {
         "type": "AzureBlobStorageLocation",
-        "container": "${var.hpan_blob_storage_container_name}"
+        "container": "${var.hpan_blob_storage_container_name[each.key]}"
     },
     "columnDelimiter": ",",
     "escapeChar": "\\",
@@ -45,7 +47,9 @@ resource "azurerm_data_factory_custom_dataset" "hpans_blob_csv_destination" {
 
 resource "azurerm_data_factory_custom_dataset" "binary_source_dataset" {
 
-  name            = "binary_source_dataset"
+  for_each = var.hpan_blob_storage_container_name
+
+  name            = "binary_source_dataset_${each.key}"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "Binary"
 
@@ -65,7 +69,7 @@ resource "azurerm_data_factory_custom_dataset" "binary_source_dataset" {
             "value": "@dataset().filenamePattern",
             "type": "Expression"
         },
-        "container": "${var.hpan_blob_storage_container_name}"
+        "container": "${var.hpan_blob_storage_container_name[each.key]}"
     }
   }
   JSON
@@ -73,7 +77,9 @@ resource "azurerm_data_factory_custom_dataset" "binary_source_dataset" {
 
 resource "azurerm_data_factory_custom_dataset" "binary_destination_dataset" {
 
-  name            = "binary_destination_dataset"
+  for_each = var.hpan_blob_storage_container_name
+
+  name            = "binary_destination_dataset_${each.key}"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "Binary"
 
@@ -93,7 +99,7 @@ resource "azurerm_data_factory_custom_dataset" "binary_destination_dataset" {
             "value": "@dataset().filename",
             "type": "Expression"
         },
-        "container": "${var.hpan_blob_storage_container_name}"
+        "container": "${var.hpan_blob_storage_container_name[each.key]}"
     },
     "compression": {
         "type": "ZipDeflate",

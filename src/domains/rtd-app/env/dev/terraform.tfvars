@@ -53,5 +53,9 @@ enable = {
 #
 # Hashpan generation pipeline related variables
 #
-hpan_blob_storage_container_name      = "cstar-hashed-pans"
-enable_hpan_pipeline_periodic_trigger = false
+hpan_blob_storage_container_name = {
+  hpan     = "cstar-hashed-pans"
+  hpan_par = "cstar-hashed-pans-par"
+}
+enable_hpan_pipeline_periodic_trigger     = false
+enable_hpan_par_pipeline_periodic_trigger = false
