@@ -73,6 +73,12 @@ pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
 checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
 
 #
+# SelfCare API
+#
+selc_base_url = "https://api.dev.selfcare.pagopa.it"
+
+
+#
 # TLS Checker
 #
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
