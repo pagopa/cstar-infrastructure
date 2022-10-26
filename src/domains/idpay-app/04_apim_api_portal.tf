@@ -323,7 +323,7 @@ module "idpay_notification_email_api" {
         ingress_load_balancer_hostname  = var.ingress_load_balancer_hostname,
         selc_base_url                   = var.selc_base_url,
         selc_timeout_sec                = var.selc_timeout_sec
-        selc_external_api_key_reference = azurerm_api_management_named_value.selc-external-api-key.display_name
+        selc_external_api_key_reference = azurerm_api_management_named_value.selc_external_api_key.display_name
       })
     }
   ]
@@ -342,7 +342,7 @@ resource "azurerm_api_management_named_value" "selc_external_api_key" {
   display_name = "selc-external-api-key"
   secret       = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.selc-external-api-key-secret.id
+    secret_id = data.azurerm_key_vault_secret.selc_external_api_key_secret.id
   }
 
 }
