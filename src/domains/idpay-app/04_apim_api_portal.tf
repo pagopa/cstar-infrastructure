@@ -333,7 +333,7 @@ module "idpay_notification_email_api" {
 #
 # Named values
 #
-resource "azurerm_api_management_named_value" "selc-external-api-key" {
+resource "azurerm_api_management_named_value" "selc_external_api_key" {
 
   name                = format("%s-selc-external-api-key-secret", var.env_short)
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -347,7 +347,7 @@ resource "azurerm_api_management_named_value" "selc-external-api-key" {
 
 }
 
-data "azurerm_key_vault_secret" "selc-external-api-key-secret" {
+data "azurerm_key_vault_secret" "selc_external_api_key_secret" {
   name         = "selc-external-api-key"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
