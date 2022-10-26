@@ -1,10 +1,11 @@
-prefix         = "cstar"
-env_short      = "p"
-env            = "prod"
-domain         = "idpay"
-location       = "westeurope"
-location_short = "weu"
-instance       = "prod01"
+prefix          = "cstar"
+env_short       = "p"
+env             = "prod"
+domain          = "idpay"
+location        = "westeurope"
+location_string = "West Europe"
+location_short  = "weu"
+instance        = "prod01"
 
 tags = {
   CreatedBy   = "Terraform"
