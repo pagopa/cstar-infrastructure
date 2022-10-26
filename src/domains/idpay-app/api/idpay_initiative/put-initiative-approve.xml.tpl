@@ -22,7 +22,7 @@
             <value>application/json</value>
         </set-header>
         <set-body>@{
-            JObject requestToBeModified = context.Request.Body.As<JObject>();
+            JObject requestToBeModified = new JObject();
             requestToBeModified.Add(new JProperty("organizationName", context.Variables["varOrgNameFromValidToken"]));
             requestToBeModified.Add(new JProperty("organizationVat", context.Variables["varOrgNameFromValidToken"]));
             requestToBeModified.Add(new JProperty("organizationUserId", context.Variables["varOrgNameFromValidToken"]));
