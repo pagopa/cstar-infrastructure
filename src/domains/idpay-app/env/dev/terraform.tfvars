@@ -78,6 +78,12 @@ pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"
 checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
 
 #
+# SelfCare API
+#
+selc_base_url = "https://api.dev.selfcare.pagopa.it"
+
+
+#
 # TLS Checker
 #
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
