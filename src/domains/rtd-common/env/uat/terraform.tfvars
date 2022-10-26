@@ -39,5 +39,9 @@ aks_vnet = {
 
 ### Eventhub
 eventhub_rtd_namespace = {
-  sku = "Standard"
+  sku                      = "Standard"
+  capacity                 = null
+  maximum_throughput_units = null
+  auto_inflate_enabled     = false
+  zone_redundant           = false
 }
