@@ -34,26 +34,6 @@ resource "azurerm_eventhub_namespace" "event_hub_rtd_namespace" {
   tags = var.tags
 }
 
-## Create Virtual network configurations
-resource "azurerm_private_dns_zone_virtual_network_link" "event_hub_rtd" {
-  for_each = {
-    core : data.azurerm_virtual_network.vnet_core,
-    aks : data.azurerm_virtual_network.vnet_domain_aks,
-    integration : data.azurerm_virtual_network.vnet_integration,
-  }
-
-  name = format(
-    "%s-private-dns-zone-link-%s",
-    azurerm_eventhub_namespace.event_hub_rtd_namespace.name,
-    each.key
-  )
-  resource_group_name   = azurerm_resource_group.msg_rg.name
-  private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns.name
-  virtual_network_id    = each.value.id
-
-  tags = var.tags
-}
-
 ## Create private endpoint and dns A record for it
 resource "azurerm_private_endpoint" "event_hub_rtd_namespace" {
   name                = format("%s-private-endpoint", azurerm_eventhub_namespace.event_hub_rtd_namespace.name)
