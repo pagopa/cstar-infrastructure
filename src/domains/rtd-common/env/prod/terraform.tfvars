@@ -34,6 +34,7 @@ log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
 aks_vnet = {
   name           = "cstar-p-weu-prod01-vnet"
   resource_group = "cstar-p-weu-prod01-vnet-rg"
+  subnet         = "cstar-p-weu-prod01-aks-snet"
 }
 
 ### Eventhub
