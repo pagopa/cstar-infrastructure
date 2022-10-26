@@ -35,3 +35,33 @@ resource "azurerm_kusto_database" "database" {
   hot_cache_period   = var.dexp_db.hot_cache_period
   soft_delete_period = var.dexp_db.soft_delete_period
 }
+
+data "azurerm_key_vault_secret" "alert_domain_notification_email" {
+  name         = "alert-${var.domain}-notification-email"
+  key_vault_id = module.key_vault_domain.id
+}
+
+data "azurerm_key_vault_secret" "alert_domain_notification_slack" {
+  name         = "alert-${var.domain}-notification-slack"
+  key_vault_id = module.key_vault_domain.id
+}
+
+resource "azurerm_monitor_action_group" "domain" {
+  name                = "${var.prefix}${var.env_short}${var.domain}"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  short_name          = "${var.prefix}${var.env_short}${var.domain}"
+
+  email_receiver {
+    name                    = "email"
+    email_address           = data.azurerm_key_vault_secret.alert_domain_notification_email.value
+    use_common_alert_schema = true
+  }
+
+  email_receiver {
+    name                    = "slack"
+    email_address           = data.azurerm_key_vault_secret.alert_domain_notification_slack.value
+    use_common_alert_schema = true
+  }
+
+  tags = var.tags
+}

@@ -150,6 +150,15 @@ variable "ack_ingestor_conf" {
   }
 }
 
+variable "zendesk_action_enabled" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "dexp_tae_db_linkes_service" {
   type = object({
     enable = bool
