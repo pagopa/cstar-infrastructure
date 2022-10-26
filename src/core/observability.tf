@@ -22,6 +22,7 @@ resource "azurerm_application_insights" "application_insights" {
   location            = azurerm_resource_group.monitor_rg.location
   resource_group_name = azurerm_resource_group.monitor_rg.name
   application_type    = "other"
+  workspace_id        = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
   tags = var.tags
 }
@@ -112,7 +113,6 @@ resource "azurerm_monitor_diagnostic_setting" "activity_log" {
 }
 
 resource "azurerm_kusto_cluster" "data_explorer_cluster" {
-
   count = var.dexp_params.enabled ? 1 : 0
 
   name                = replace(format("%sdataexplorer", local.project), "-", "")
@@ -124,9 +124,13 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
     capacity = var.dexp_params.sku.capacity
   }
 
-  optimized_auto_scale {
-    minimum_instances = var.dexp_params.autoscale.min_instances
-    maximum_instances = var.dexp_params.autoscale.max_instances
+  dynamic "optimized_auto_scale" {
+    for_each = var.dexp_params.autoscale.enabled ? [1] : []
+
+    content {
+      minimum_instances = var.dexp_params.autoscale.min_instances
+      maximum_instances = var.dexp_params.autoscale.max_instances
+    }
   }
 
   public_network_access_enabled = var.dexp_params.public_network_access_enabled
@@ -134,5 +138,4 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   engine                        = "V3"
 
   tags = var.tags
-
 }

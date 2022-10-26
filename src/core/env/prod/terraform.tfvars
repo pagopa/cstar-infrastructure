@@ -397,6 +397,7 @@ dexp_params = {
     capacity = 2
   }
   autoscale = {
+    enabled       = true
     min_instances = 2
     max_instances = 5
   }
@@ -404,7 +405,6 @@ dexp_params = {
   double_encryption_enabled     = true
   disk_encryption_enabled       = true
   purge_enabled                 = false
-
 }
 
 ehns_sku_name                 = "Standard"
