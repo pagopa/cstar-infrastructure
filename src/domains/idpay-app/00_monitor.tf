@@ -25,3 +25,7 @@ data "azurerm_monitor_action_group" "email" {
   name                = local.monitor_action_group_email_name
 }
 
+data "azurerm_monitor_action_group" "domain" {
+  resource_group_name = var.monitor_resource_group_name
+  name                = local.alert_action_group_domain_name
+}
