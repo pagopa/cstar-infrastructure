@@ -152,6 +152,7 @@ data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
   resource_group_name = "${local.project}-msg-rg"
 }
 
+# *-vnet and *-integration-vnet private network links are already created by "eventhub" pagopa module
 resource "azurerm_private_dns_zone_virtual_network_link" "aks_eventhub_private_virtual_network_link" {
   for_each              = { for n in var.aks_networks : n.domain_name => n }
   name                  = "${local.project}-aks-eventhub-${each.key}-private-dns-zone-link"
