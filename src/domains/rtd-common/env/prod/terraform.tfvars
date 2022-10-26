@@ -29,3 +29,10 @@ terraform_remote_state_core = {
 monitor_resource_group_name                 = "cstar-p-monitor-rg"
 log_analytics_workspace_name                = "cstar-p-law"
 log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
+
+### Eventhub
+eventhub_sku_name                 = "Standard"
+eventhub_capacity                 = 5
+eventhub_auto_inflate_enabled     = true
+eventhub_maximum_throughput_units = 5
+eventhub_zone_redundant           = true

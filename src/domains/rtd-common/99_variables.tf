@@ -123,3 +123,33 @@ variable "log_analytics_workspace_resource_group_name" {
   description = "The name of the resource group in which the Log Analytics workspace is located in."
 }
 
+### Eventhub
+variable "eventhub_sku_name" {
+  type        = string
+  description = "Defines which tier to use."
+  default     = "Basic"
+}
+
+variable "eventhub_capacity" {
+  type        = number
+  description = "Specifies the Capacity / Throughput Units for a Standard SKU namespace."
+  default     = null
+}
+
+variable "eventhub_maximum_throughput_units" {
+  type        = number
+  description = "Specifies the maximum number of throughput units when Auto Inflate is Enabled"
+  default     = null
+}
+
+variable "eventhub_auto_inflate_enabled" {
+  type        = bool
+  description = "Is Auto Inflate enabled for the EventHub Namespace?"
+  default     = false
+}
+
+variable "eventhub_zone_redundant" {
+  type        = bool
+  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
+  default     = false
+}

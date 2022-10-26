@@ -29,3 +29,6 @@ terraform_remote_state_core = {
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
 log_analytics_workspace_name                = "cstar-d-law"
 log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
+
+### Eventhub
+eventhub_sku_name = "Standard"
