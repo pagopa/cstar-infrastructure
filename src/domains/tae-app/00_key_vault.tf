@@ -10,3 +10,11 @@ data "azurerm_key_vault_secret" "operations_slack_email" {
   name         = "operations-slack-channel-email"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+
+data "azurerm_key_vault_secret" "operations_zendesk_email" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name         = "operations-zendesk-email"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
