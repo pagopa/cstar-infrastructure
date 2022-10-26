@@ -145,6 +145,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
 #
 # Private DNS zone for EventHub
 #
+# When BPD queue will be removed this zone will be destroyed.
+# THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
 data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
   resource_group_name = "${local.project}-msg-rg"
