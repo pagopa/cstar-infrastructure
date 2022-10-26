@@ -164,10 +164,11 @@ variable "reverse_proxy_be_io" {
 
 variable "eventhub_pim" {
   type = object({
-    enrolled_pi_eventhub = string,
-    revoked_pi_eventhub  = string,
-    resource_group_name  = string,
-    namespace_name       = string
+    enrolled_pi_eventhub  = string,
+    revoked_pi_eventhub   = string,
+    resource_group_name   = string,
+    namespace_enrolled_pi = string
+    namespace_revoked_pi  = string
   })
   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 }
