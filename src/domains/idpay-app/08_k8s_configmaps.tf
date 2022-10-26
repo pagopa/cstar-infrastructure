@@ -84,6 +84,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_profile_url        = "/api/v1/profiles"
     io_backend_service_url        = "/api/v1/services"
     pm_service_base_url           = var.pm_service_base_url
+    selc_base_url                 = var.selc_base_url
   }
 
 }
@@ -104,4 +105,17 @@ resource "kubernetes_config_map" "rtd-eventhub" {
     rtd_revoked_payment_instrument_consumer_group = "rtd-revoked-payment-instrument-consumer-group"
   }
 
+}
+
+
+resource "kubernetes_config_map" " notification-email" {
+  metadata {
+    name      = " notification-email"
+    namespace = var.domain
+  }
+
+  data = {
+    mail_server_host = "smtp.mailosaur.net"
+    mail_server_port = "587"
+  }
 }
