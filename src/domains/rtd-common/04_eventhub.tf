@@ -12,6 +12,7 @@ resource "azurerm_eventhub_namespace" "event_hub_rtd_namespace" {
   capacity                 = var.eventhub_rtd_namespace.capacity
   maximum_throughput_units = var.eventhub_rtd_namespace.maximum_throughput_units
   zone_redundant           = var.eventhub_rtd_namespace.zone_redundant
+  auto_inflate_enabled     = var.eventhub_rtd_namespace.auto_inflate_enabled
 
   network_rulesets {
     default_action = "Deny"
