@@ -1,10 +1,11 @@
-prefix         = "cstar"
-env_short      = "p"
-env            = "prod"
-domain         = "idpay"
-location       = "westeurope"
-location_short = "weu"
-instance       = "prod01"
+prefix          = "cstar"
+env_short       = "p"
+env             = "prod"
+domain          = "idpay"
+location        = "westeurope"
+location_string = "West Europe"
+location_short  = "weu"
+instance        = "prod01"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -54,11 +55,29 @@ enable = {
 }
 
 # Enrolled payment instrument event hub
-eventhub_enrolled_pi = {
-  eventhub_name       = "rtd-enrolled-pi"
-  namespace_name      = "cstar-p-evh-ns"
-  resource_group_name = "cstar-p-msg-rg"
+eventhub_pim = {
+  enrolled_pi_eventhub  = "rtd-enrolled-pi"
+  revoked_pi_eventhub   = "rtd-revoked-pi"
+  namespace_enrolled_pi = "cstar-p-evh-ns"
+  namespace_revoked_pi  = "cstar-p-evh-ns-fa-01"
+  resource_group_name   = "cstar-p-msg-rg"
 }
+
+#
+# PDV
+#
+pdv_tokenizer_url = "https://api.tokenizer.pdv.pagopa.it/tokenizer/v1"
+
+#
+# Check IBAN
+#
+checkiban_base_url = "https://bankingservices.pagopa.it"
+
+#
+# SelfCare API
+#
+selc_base_url = "https://api.selfcare.pagopa.it"
+
 
 #
 # TLS Checker
