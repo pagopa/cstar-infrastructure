@@ -104,7 +104,7 @@
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_event_hub_port"></a> [event\_hub\_port](#input\_event\_hub\_port) | n/a | `number` | `9093` | no |
-| <a name="input_eventhub_pim"></a> [eventhub\_pim](#input\_eventhub\_pim) | Namespace and groupname configuration for enrolled payment instrument eventhub | <pre>object({<br>    enrolled_pi_eventhub = string,<br>    revoked_pi_eventhub  = string,<br>    resource_group_name  = string,<br>    namespace_name       = string<br>  })</pre> | n/a | yes |
+| <a name="input_eventhub_pim"></a> [eventhub\_pim](#input\_eventhub\_pim) | Namespace and groupname configuration for enrolled payment instrument eventhub | <pre>object({<br>    enrolled_pi_eventhub  = string,<br>    revoked_pi_eventhub   = string,<br>    resource_group_name   = string,<br>    namespace_enrolled_pi = string<br>    namespace_revoked_pi  = string<br>  })</pre> | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `"pagopa.it"` | no |
 | <a name="input_ingress_load_balancer_hostname"></a> [ingress\_load\_balancer\_hostname](#input\_ingress\_load\_balancer\_hostname) | n/a | `string` | n/a | yes |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
