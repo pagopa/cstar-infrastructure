@@ -185,12 +185,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one 401 is returned in response to an unauthorized request to sender auth."
-  display_name                     = "cstar-${var.env_short}-sender-auth-failed-authentications"
+  display_name                     = "cstar-${var.env_short}-sender-auth-failed-authentications-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
     custom_properties = {
       key  = "value"
       key2 = "value2"
