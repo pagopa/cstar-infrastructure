@@ -111,7 +111,7 @@ resource "kubernetes_config_map" "rtd-eventhub" {
 
 resource "kubernetes_config_map" "notification-email" {
   metadata {
-    name      = " notification-email"
+    name      = "notification-email"
     namespace = var.domain
   }
 
