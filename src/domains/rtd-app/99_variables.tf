@@ -190,3 +190,23 @@ variable "tls_cert_check_helm" {
   })
   description = "tls cert helm chart configuration"
 }
+
+#
+# Eventhub
+#
+variable "event_hub_hubs" {
+  type = list(
+    object({
+      name       = string
+      retention  = number
+      partitions = number
+      consumers  = list(string)
+      policies = list(object({
+        name   = string
+        listen = bool
+        send   = bool
+        manage = bool
+      }))
+    })
+  )
+}
