@@ -123,3 +123,21 @@ variable "log_analytics_workspace_resource_group_name" {
   description = "The name of the resource group in which the Log Analytics workspace is located in."
 }
 
+variable "aks_vnet" {
+  type = object({
+    name           = string
+    resource_group = string
+    subnet         = string
+  })
+}
+
+### Eventhub
+variable "eventhub_rtd_namespace" {
+  type = object({
+    sku                      = string
+    capacity                 = number
+    maximum_throughput_units = number
+    auto_inflate_enabled     = bool
+    zone_redundant           = bool
+  })
+}
