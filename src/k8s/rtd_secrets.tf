@@ -230,7 +230,7 @@ resource "kubernetes_secret" "rtd-revoke-pi-events-producer" {
       var.env_short == "p" ? "${local.project}-evh-ns-fa-01" : "${local.project}-evh-ns",
     )
     KAFKA_SASL_JAAS_CONFIG_RTD_REVOKED = format(
-      local.jaas_config_template_rtd,
+      var.env_short == "p" ? local.jaas_config_template_fa : local.jaas_config_template_rtd,
       "rtd-revoked-pi",
       "rtd-revoked-pi-producer-policy",
       var.env_short == "p" ?
