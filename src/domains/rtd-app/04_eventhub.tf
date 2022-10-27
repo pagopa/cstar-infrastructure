@@ -1,3 +1,7 @@
+locals {
+  jaas_template = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
+}
+
 data "azurerm_resource_group" "msg_rg" {
   name = "${local.product}-${var.domain}-msg-rg"
 }
@@ -40,4 +44,16 @@ resource "azurerm_eventhub_authorization_rule" "event_hub_rtd_policy" {
   send                = each.value.policy.send
   manage              = each.value.policy.manage
   depends_on          = [azurerm_eventhub.event_hub_rtd_hub]
+}
+
+# Copy connection string to kv
+resource "azurerm_key_vault_secret" "event_hub_rtd_jaas_connection_string" {
+  for_each = merge([for hub in var.event_hub_hubs : { for policy in hub.policies : policy.name => { hub_name = hub.name, policy = policy } }]...)
+  name     = format("evh-%s-rtd", "${each.value.hub_name}-${each.key}")
+  value = format(
+    local.jaas_template,
+    azurerm_eventhub_authorization_rule.event_hub_rtd_policy[each.key].primary_connection_string
+  )
+  content_type = "text/plain"
+  key_vault_id = data.azurerm_key_vault.kv.id
 }
