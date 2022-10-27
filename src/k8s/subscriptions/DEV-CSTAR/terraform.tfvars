@@ -484,6 +484,16 @@ secrets_to_be_read_from_kv = [
   "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"
 ]
 
+secrets_from_rtd_domain_kv = {
+  keyvault       = "cstar-d-rtd-kv"
+  resource_group = "cstar-d-rtd-sec-rg"
+  secrets = [
+    "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
+    "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
+    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd"
+  ]
+}
+
 enable = {
   rtd = {
     blob_storage_event_grid_integration = true
