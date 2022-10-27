@@ -236,12 +236,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one 404 is returned by Sender Auth in response to a request to obtain sender codes associated to a (missing) internal ID."
-  display_name                     = "cstar-${var.env_short}-sender-auth-missing-internal-id"
+  display_name                     = "cstar-${var.env_short}-sender-auth-missing-internal-id-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
     custom_properties = {
       key  = "value"
       key2 = "value2"
