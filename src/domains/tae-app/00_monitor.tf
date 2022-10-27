@@ -69,7 +69,7 @@ resource "azurerm_monitor_action_group" "send_to_operations" {
 
 resource "azurerm_monitor_action_group" "send_to_zendesk" {
 
-  count = var.env_short == "p" ? 1 : 0
+  count = var.zendesk_action_enabled.enable == true ? 1 : 0
 
   name                = "send_to_zendesk"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
