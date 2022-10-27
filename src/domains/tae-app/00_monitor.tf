@@ -134,7 +134,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "In the last 24h at least one sender didn't submitted files"
-  display_name                     = "tae-${var.env_short}-a-sender-didnt-send-#ACQ"
+  display_name                     = "${var.domain}-${var.env_short}-a-sender-didnt-send-#ACQ"
   enabled                          = true
   #query_time_range_override        = "PT1H"
   skip_query_validation = false
