@@ -268,7 +268,7 @@ resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failur
   name                = "${var.domain}-${var.env_short}-adf-pipelines-failures"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
   scopes              = [data.azurerm_data_factory.datafactory.id]
-  description         = "Triggers whenever at least one pipeline fails."
+  description         = "Triggers whenever at least one pipeline fails #ACQ."
   frequency           = "PT5M"
   window_size         = "PT5M"
   severity            = 1
@@ -283,5 +283,13 @@ resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failur
 
   action {
     action_group_id = azurerm_monitor_action_group.send_to_operations[0].id
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.send_to_zendesk[0].id
+  }
+
+  tags = {
+    key = "Sender Monitoring"
   }
 }
