@@ -69,6 +69,11 @@ eventhub_pim = {
 pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
 
 #
+# PM
+#
+pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"
+
+#
 # Check IBAN
 #
 checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
