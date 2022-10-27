@@ -75,71 +75,71 @@ tls_cert_check_helm = {
 #
 # Eventhubs
 #
-event_hub_rtd_pi_to_app = {
-  name       = "rtd-pi-to-app"
-  retention  = 7
-  partitions = 1
-  consumers = [
-    "rtd-pi-to-app-consumer-group"
-  ]
-  policies = [
-    {
-      name   = "rtd-pi-to-app-consumer-policy"
-      listen = true
-      send   = true
-      manage = false
-    },
-    {
-      name   = "rtd-pi-to-app-producer-policy"
-      listen = false
-      send   = true
-      manage = false
-    }
-  ]
-}
-
-event_hub_rtd_pi_from_app = {
-  name       = "rtd-pi-from-app"
-  retention  = 1
-  partitions = 1
-  consumers = [
-    "rtd-pi-from-app-consumer-group"
-  ]
-  policies = [
-    {
-      name   = "rtd-pi-from-app-consumer-policy"
-      listen = true
-      send   = true
-      manage = false
-    },
-    {
-      name   = "rtd-pi-from-app-producer-policy"
-      listen = false
-      send   = true
-      manage = false
-    }
-  ]
-}
-
-event_hub_rtd_split_by_pi = {
-  name       = "rtd-split-by-pi"
-  retention  = 1
-  partitions = 1
-  consumers = [
-    "rtd-split-by-pi-consumer-group"
-  ]
-  policies = [
-    {
-      name   = "rtd-split-by-pi-consumer-policy"
-      listen = true
-      send   = true
-      manage = false
-    },
-    {
-      name   = "rtd-split-by-pi-producer-policy"
-      listen = false
-      send   = true
-      manage = false
-    }
-  ]
-}
+event_hub_hubs = [
+  {
+    name       = "rtd-pi-to-app"
+    retention  = 7
+    partitions = 1
+    consumers = [
+      "rtd-pi-to-app-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-pi-to-app-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-pi-to-app-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-pi-from-app"
+    retention  = 7
+    partitions = 1
+    consumers = [
+      "rtd-pi-from-app-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-pi-from-app-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-pi-from-app-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-split-by-pi"
+    retention  = 7
+    partitions = 1
+    consumers = [
+      "rtd-split-by-pi-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-split-by-pi-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-split-by-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
+]
