@@ -139,7 +139,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   #query_time_range_override        = "PT1H"
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id, azurerm_monitor_action_group.domain.id]
     custom_properties = {
       key  = "value"
       key2 = "value2"
@@ -190,7 +190,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
 
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id, azurerm_monitor_action_group.domain.id]
     custom_properties = {
       key  = "value"
       key2 = "value2"
@@ -241,7 +241,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
 
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id, azurerm_monitor_action_group.domain.id]
     custom_properties = {
       key  = "value"
       key2 = "value2"
@@ -274,5 +274,9 @@ resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failur
 
   action {
     action_group_id = azurerm_monitor_action_group.send_to_operations[0].id
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.domain.id
   }
 }
