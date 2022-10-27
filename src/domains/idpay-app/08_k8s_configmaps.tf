@@ -46,17 +46,19 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
   }
 
   data = {
-    kafka_broker                            = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
-    kafka_sasl_mechanism                    = "PLAIN"
-    kafka_security_protocol                 = "SASL_SSL"
-    idpay_transaction_consumer_group        = "idpay-transaction-consumer-group"
-    idpay_transaction_wallet_consumer_group = "idpay-transaction-wallet-consumer-group"
-    idpay_transaction_topic                 = "idpay-transaction"
-    idpay_reward_error_topic                = "idpay-reward-error"
-    idpay_hpan_update_topic                 = "idpay-hpan-update"
-    idpay_rule_update_topic                 = "idpay-rule-update"
-    idpay_error_topic                       = "idpay-errors"
-    idpay_transaction_userid_splitter_topic = "idpay-transaction-user-id-splitter"
+    kafka_broker                             = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism                     = "PLAIN"
+    kafka_security_protocol                  = "SASL_SSL"
+    idpay_transaction_consumer_group         = "idpay-transaction-consumer-group"
+    idpay_transaction_wallet_consumer_group  = "idpay-transaction-wallet-consumer-group"
+    idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
+    idpay_transaction_topic                  = "idpay-transaction"
+    idpay_reward_error_topic                 = "idpay-reward-error"
+    idpay_hpan_update_topic                  = "idpay-hpan-update"
+    idpay_hpan_update_outcome_topic          = "idpay-hpan-update-outcome"
+    idpay_rule_update_topic                  = "idpay-rule-update"
+    idpay_error_topic                        = "idpay-errors"
+    idpay_transaction_userid_splitter_topic  = "idpay-transaction-user-id-splitter"
   }
 
 }
@@ -74,6 +76,7 @@ resource "kubernetes_config_map" "rest-client" {
     idpay_group_host              = "http://idpay-group-microservice-chart:8080"
     idpay_wallet_host             = "http://idpay-wallet-microservice-chart:8080"
     initiative_ms_base_url        = "http://idpay-portal-welfare-backend-initiative-microservice-chart:8080"
+    email_notification_ms_host    = "http://idpay-notification-email-microservice-chart:8080"
     checkiban_base_url            = var.checkiban_base_url
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url          = var.pdv_tokenizer_url
@@ -81,7 +84,8 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_message_url        = "/api/v1/messages"
     io_backend_profile_url        = "/api/v1/profiles"
     io_backend_service_url        = "/api/v1/services"
-    pm_service_base_url           = "https://api-io.dev.cstar.pagopa.it"
+    pm_service_base_url           = var.pm_service_base_url
+    selc_base_url                 = var.selc_base_url
   }
 
 }
@@ -98,8 +102,21 @@ resource "kubernetes_config_map" "rtd-eventhub" {
     rtd_trx_topic                                 = "rtd-trx"
     kafka_partition_count                         = data.azurerm_eventhub.enrolled_pi_hub.partition_count
     kafka_partition_key_expression                = "headers.partitionKey"
-    rtd_revoked_pi_topic                          = "rtd_revoked_pi"
+    rtd_revoked_pi_topic                          = "rtd-revoked-pi"
     rtd_revoked_payment_instrument_consumer_group = "rtd-revoked-payment-instrument-consumer-group"
   }
 
+}
+
+
+resource "kubernetes_config_map" "notification-email" {
+  metadata {
+    name      = "notification-email"
+    namespace = var.domain
+  }
+
+  data = {
+    mail_server_host = "smtp.mailosaur.net"
+    mail_server_port = "587"
+  }
 }
