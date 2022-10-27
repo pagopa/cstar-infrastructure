@@ -55,8 +55,9 @@ aks_networks = [
 aks_enable_auto_scaling = true
 aks_min_node_count      = 1
 aks_max_node_count      = 3
-aks_alerts_enabled      = false
+aks_alerts_enabled      = true
 aks_node_count          = 1
+
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
@@ -133,7 +134,7 @@ aks_metric_alerts = {
     metric_name      = "podCount"
     operator         = "GreaterThan"
     threshold        = 0
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -149,7 +150,7 @@ aks_metric_alerts = {
     metric_name      = "PodReadyPercentage"
     operator         = "LessThan"
     threshold        = 80
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -170,7 +171,7 @@ aks_metric_alerts = {
     metric_name      = "cpuExceededPercentage"
     operator         = "GreaterThan"
     threshold        = 95
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -191,7 +192,7 @@ aks_metric_alerts = {
     metric_name      = "memoryWorkingSetExceededPercentage"
     operator         = "GreaterThan"
     threshold        = 95
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -212,8 +213,8 @@ aks_metric_alerts = {
     metric_name      = "oomKilledContainerCount"
     operator         = "GreaterThan"
     threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT1M"
+    frequency        = "PT5M"
+    window_size      = "PT5M"
     dimension = [
       {
         name     = "kubernetes namespace"
@@ -233,8 +234,8 @@ aks_metric_alerts = {
     metric_name      = "restartingContainerCount"
     operator         = "GreaterThan"
     threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT1M"
+    frequency        = "PT5M"
+    window_size      = "PT5M"
     dimension = [
       {
         name     = "kubernetes namespace"

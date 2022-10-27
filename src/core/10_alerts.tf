@@ -47,10 +47,7 @@ module "web_test_availability_alert_rules_for_api" {
 
   actions = [
     {
-      action_group_id = azurerm_monitor_action_group.email.id,
-    },
-    {
-      action_group_id = azurerm_monitor_action_group.slack.id,
+      action_group_id = azurerm_monitor_action_group.core.id,
     },
   ]
 }

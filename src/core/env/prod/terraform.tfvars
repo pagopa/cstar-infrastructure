@@ -139,7 +139,7 @@ aks_metric_alerts = {
     metric_name      = "podCount"
     operator         = "GreaterThan"
     threshold        = 0
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -155,7 +155,7 @@ aks_metric_alerts = {
     metric_name      = "PodReadyPercentage"
     operator         = "LessThan"
     threshold        = 80
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -176,7 +176,7 @@ aks_metric_alerts = {
     metric_name      = "cpuExceededPercentage"
     operator         = "GreaterThan"
     threshold        = 95
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -197,7 +197,7 @@ aks_metric_alerts = {
     metric_name      = "memoryWorkingSetExceededPercentage"
     operator         = "GreaterThan"
     threshold        = 95
-    frequency        = "PT1M"
+    frequency        = "PT5M"
     window_size      = "PT5M"
     dimension = [
       {
@@ -218,8 +218,8 @@ aks_metric_alerts = {
     metric_name      = "oomKilledContainerCount"
     operator         = "GreaterThan"
     threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT1M"
+    frequency        = "PT5M"
+    window_size      = "PT5M"
     dimension = [
       {
         name     = "kubernetes namespace"
@@ -239,8 +239,8 @@ aks_metric_alerts = {
     metric_name      = "restartingContainerCount"
     operator         = "GreaterThan"
     threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT1M"
+    frequency        = "PT5M"
+    window_size      = "PT5M"
     dimension = [
       {
         name     = "kubernetes namespace"

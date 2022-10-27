@@ -26,13 +26,9 @@ module "event_hub" {
   metric_alerts  = var.ehns_metric_alerts
   action = [
     {
-      action_group_id    = azurerm_monitor_action_group.slack.id
+      action_group_id    = azurerm_monitor_action_group.core.id
       webhook_properties = null
     },
-    {
-      action_group_id    = azurerm_monitor_action_group.email.id
-      webhook_properties = null
-    }
   ]
 
   tags = var.tags
@@ -74,13 +70,9 @@ module "event_hub_fa_01" {
   metric_alerts  = var.ehns_metric_alerts
   action = [
     {
-      action_group_id    = azurerm_monitor_action_group.slack.id
+      action_group_id    = azurerm_monitor_action_group.core.id
       webhook_properties = null
     },
-    {
-      action_group_id    = azurerm_monitor_action_group.email.id
-      webhook_properties = null
-    }
   ]
 
   tags = var.tags

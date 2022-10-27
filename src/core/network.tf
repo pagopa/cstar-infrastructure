@@ -401,13 +401,9 @@ module "app_gw" {
 
   action = [
     {
-      action_group_id    = azurerm_monitor_action_group.slack.id
+      action_group_id    = azurerm_monitor_action_group.core.id
       webhook_properties = null
     },
-    {
-      action_group_id    = azurerm_monitor_action_group.email.id
-      webhook_properties = null
-    }
   ]
 
   # metrics docs
@@ -429,8 +425,8 @@ module "app_gw" {
           operator          = "GreaterOrLessThan"
           alert_sensitivity = "Low"
           # todo after api app migration change to High
-          evaluation_total_count   = 2
-          evaluation_failure_count = 2
+          evaluation_total_count   = 4
+          evaluation_failure_count = 4
           dimension                = []
         }
       ]
@@ -469,8 +465,8 @@ module "app_gw" {
           metric_name              = "TotalRequests"
           operator                 = "GreaterThan"
           alert_sensitivity        = "Medium"
-          evaluation_total_count   = 1
-          evaluation_failure_count = 1
+          evaluation_total_count   = 4
+          evaluation_failure_count = 4
           dimension                = []
         }
       ]
@@ -490,8 +486,8 @@ module "app_gw" {
           metric_name              = "FailedRequests"
           operator                 = "GreaterThan"
           alert_sensitivity        = "Medium"
-          evaluation_total_count   = 2
-          evaluation_failure_count = 2
+          evaluation_total_count   = 4
+          evaluation_failure_count = 4
           dimension                = []
         }
       ]

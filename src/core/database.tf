@@ -55,23 +55,15 @@ module "postgresql" {
   replica_monitor_metric_alert_criteria = var.db_metric_alerts
   action = [
     {
-      action_group_id    = azurerm_monitor_action_group.email.id
+      action_group_id    = azurerm_monitor_action_group.core.id
       webhook_properties = null
     },
-    {
-      action_group_id    = azurerm_monitor_action_group.slack.id
-      webhook_properties = null
-    }
   ]
   replica_action = [
     {
-      action_group_id    = azurerm_monitor_action_group.email.id
+      action_group_id    = azurerm_monitor_action_group.core.id
       webhook_properties = null
     },
-    {
-      action_group_id    = azurerm_monitor_action_group.slack.id
-      webhook_properties = null
-    }
   ]
 
   tags = var.tags
