@@ -13,7 +13,7 @@ data "azurerm_key_vault_secret" "operations_slack_email" {
 
 data "azurerm_key_vault_secret" "operations_zendesk_email" {
 
-  count = var.zendesk_action_enabled == true ? 1 : 0
+  count = var.zendesk_action_enabled.enable == true ? 1 : 0
 
   name         = "operations-zendesk-email"
   key_vault_id = data.azurerm_key_vault.kv.id
