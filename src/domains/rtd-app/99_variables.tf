@@ -190,3 +190,52 @@ variable "tls_cert_check_helm" {
   })
   description = "tls cert helm chart configuration"
 }
+
+#
+# Eventhub
+#
+variable "event_hub_rtd_pi_to_app" {
+  type = object({
+    name       = string
+    retention  = number
+    partitions = number
+    consumers  = list(string)
+    policies = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  })
+}
+
+variable "event_hub_rtd_pi_from_app" {
+  type = object({
+    name       = string
+    retention  = number
+    partitions = number
+    consumers  = list(string)
+    policies = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  })
+}
+
+variable "event_hub_rtd_split_by_pi" {
+  type = object({
+    name       = string
+    retention  = number
+    partitions = number
+    consumers  = list(string)
+    policies = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  })
+}
+
