@@ -558,6 +558,89 @@ paths:
               example:
                 code: 0
                 message: string
+  '/test/pmservice':
+    get:
+      summary: pm-mock-io
+      operationId: pm-mock-io
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              example:
+                data:
+                  - createDate: '2022-10-11 00:00:00'
+                    enableableFunctions:
+                      - pagoPA
+                    favourite: true
+                    idWallet: '19920'
+                    onboardingChannel: test_onboarding2
+                    updateDate: '2022-10-13 00:00:00'
+                    walletType: CARD
+                    info:
+                      blurredNumber: test_blurredNumber2
+                      brand: brand
+                      brandLogo: brandLogo2
+                      expireMonth: '12'
+                      expireYear: '2022'
+                      hashPan: test_hashPan2
+                      holder: test_holder
+                      htokenList:
+                        - token1
+                      issuerAbiCode: test_issuerAbiCode
+                      type: PP
+                  - createDate: '2022-10-11 00:00:00'
+                    enableableFunctions:
+                      - pagoPA
+                    favourite: true
+                    idWallet: '19921'
+                    onboardingChannel: test_onboarding
+                    updateDate: '2022-10-13 00:00:00'
+                    walletType: BANCOMAT
+                    info:
+                      blurredNumber: test_blurredNumber
+                      brand: brand
+                      brandLogo: brandLogo
+                      expireMonth: '12'
+                      expireYear: '2022'
+                      hashPan: test_hashPan
+                      holder: test_holder
+                      htokenList:
+                        - token1
+                      issuerAbiCode: test_issuerAbiCode
+                      type: PP
+                  - createDate: '2022-10-11 00:00:00'
+                    enableableFunctions:
+                      - pagoPA
+                    favourite: true
+                    idWallet: '19922'
+                    onboardingChannel: test_onboarding
+                    updateDate: '2022-10-13 00:00:00'
+                    walletType: SATISPAY
+                    info:
+                      uuid: test_uuid
+                      brandLogo: brandLogo
+                  - createDate: '2022-10-11 00:00:00'
+                    enableableFunctions:
+                      - pagoPA
+                    favourite: true
+                    idWallet: '19923'
+                    onboardingChannel: test_onboarding
+                    updateDate: '2022-10-13 00:00:00'
+                    walletType: BPAY
+                    info:
+                      bankName: test_bankName
+                      brandLogo: brandLogo
+                      numberObfuscated: test_numberObfuscated
+                      brand: brand
+                      expireMonth: '12'
+                      expireYear: '2022'
+                      uidHash: test_uidHash
+                      holder: test_holder
+                      htokenList:
+                        - token1
+                      issuerAbiCode: test_issuerAbiCode
+                      type: PP
 components:
   schemas:
     IbanPutDTO:

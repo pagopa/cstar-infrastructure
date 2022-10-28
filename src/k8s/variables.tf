@@ -166,6 +166,16 @@ variable "configmaps_rtddecrypter" {
   default = {}
 }
 
+variable "configmaps_rtdfileregister" {
+  type    = map(string)
+  default = {}
+}
+
+variable "configmaps_rtdsenderauth" {
+  type    = map(string)
+  default = {}
+}
+
 variable "configmaps_facustomer" {
   type = map(string)
 }
@@ -255,6 +265,15 @@ variable "fa_autoscaling_specs" {
 variable "secrets_to_be_read_from_kv" {
   type = list(string)
 }
+
+variable "secrets_from_rtd_domain_kv" {
+  type = object({
+    keyvault       = string
+    resource_group = string
+    secrets        = list(string)
+  })
+}
+
 
 variable "enable" {
   type = object({

@@ -5,6 +5,25 @@ resource "azurerm_resource_group" "rg_aks" {
   tags     = var.tags
 }
 
+# k8s cluster subnet
+module "snet_aks" {
+  source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.15.1"
+  name   = "${local.project}-aks-snet"
+
+  resource_group_name  = data.azurerm_resource_group.vnet_aks_rg.name
+  virtual_network_name = data.azurerm_virtual_network.vnet_aks.name
+
+  address_prefixes                               = var.cidr_subnet_aks
+  enforce_private_link_endpoint_network_policies = var.aks_private_cluster_enabled
+
+  service_endpoints = [
+    "Microsoft.Web",
+    "Microsoft.Storage",
+    "Microsoft.EventHub"
+  ]
+}
+
+
 module "aks" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.16.0"
 
@@ -105,50 +124,4 @@ resource "azurerm_role_assignment" "aks_to_acr" {
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = module.aks[0].kubelet_identity_id
-}
-
-#
-# Vnet Link
-#
-
-# vnet needs a vnet link with aks private dns zone
-# aks terrform module doesn't export private dns zone
-resource "null_resource" "create_vnet_core_aks_link" {
-
-  count = var.aks_enabled && var.aks_private_cluster_enabled ? 1 : 0
-  triggers = {
-    cluster_name = module.aks[0].name
-    vnet_id      = data.azurerm_virtual_network.vnet_core.id
-    vnet_name    = data.azurerm_virtual_network.vnet_core.name
-  }
-
-  provisioner "local-exec" {
-    command = <<EOT
-      dns_zone_name=$(az network private-dns zone list --output tsv --query "[?contains(id,'${self.triggers.cluster_name}')].{name:name}")
-      dns_zone_resource_group_name=$(az network private-dns zone list --output tsv --query "[?contains(id,'${self.triggers.cluster_name}')].{resourceGroup:resourceGroup}")
-      az network private-dns link vnet create \
-        --name ${self.triggers.vnet_name} \
-        --registration-enabled false \
-        --resource-group $dns_zone_resource_group_name \
-        --virtual-network ${self.triggers.vnet_id} \
-        --zone-name $dns_zone_name
-    EOT
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
-      dns_zone_name=$(az network private-dns zone list --output tsv --query "[?contains(id,'${self.triggers.cluster_name}')].{name:name}")
-      dns_zone_resource_group_name=$(az network private-dns zone list --output tsv --query "[?contains(id,'${self.triggers.cluster_name}')].{resourceGroup:resourceGroup}")
-      az network private-dns link vnet delete \
-        --name ${self.triggers.vnet_name} \
-        --resource-group $dns_zone_resource_group_name \
-        --zone-name $dns_zone_name \
-        --yes
-    EOT
-  }
-
-  depends_on = [
-    module.aks
-  ]
 }

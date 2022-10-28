@@ -60,6 +60,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
 
   data = merge({
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME    = "rtddecrypter"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
     CSV_TRANSACTION_DECRYPT_HOST     = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), "..", ".")
     SPLITTER_LINE_THRESHOLD          = 2000000,
@@ -67,6 +68,36 @@ resource "kubernetes_config_map" "rtddecrypter" {
     CONSUMER_TIMEOUT_MS              = 7200000 # 2h
     },
   var.configmaps_rtddecrypter)
+}
+
+resource "kubernetes_config_map" "rtdfileregister" {
+  count = var.enable.rtd.blob_storage_event_grid_integration ? 1 : 0
+
+  metadata {
+    name      = "rtdfileregister"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdfileregister"
+    },
+  var.configmaps_rtdfileregister)
+}
+
+resource "kubernetes_config_map" "rtdsenderauth" {
+  count = var.enable.rtd.blob_storage_event_grid_integration ? 1 : 0
+
+  metadata {
+    name      = "rtdsenderauth"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdsenderauth"
+    },
+  var.configmaps_rtdsenderauth)
 }
 
 resource "kubernetes_config_map" "rtdingestor" {
@@ -143,7 +174,8 @@ resource "kubernetes_config_map" "rtd-enrolledpaymentinstrument" {
   }
 
   data = merge({
-    MONGODB_NAME = "rtd"
+    MONGODB_NAME            = "rtd"
+    BASEURL_BPD_DELETE_CARD = var.env_short == "p" ? "http://${var.ingress_load_balancer_ip}/bpdmspaymentinstrument/bpd/payment-instruments" : "" # a fake will be created
     },
     var.configmaps_rtdenrolledpaymentinstrument
   )

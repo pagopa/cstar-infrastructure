@@ -50,6 +50,11 @@ variable "location_short" {
   description = "One of wue, neu"
 }
 
+variable "location_string" {
+  type        = string
+  description = "One of West Europe, North Europe"
+}
+
 variable "instance" {
   type        = string
   description = "One of beta, prod01, prod02"
@@ -154,7 +159,10 @@ variable "reverse_proxy_be_io" {
 
 # Hashpan generation pipeline related variables
 variable "hpan_blob_storage_container_name" {
-  type        = string
+  type = object({
+    hpan     = string
+    hpan_par = string
+  })
   default     = null
   description = "The container name where hashpan file will be created by pipeline"
 }
@@ -163,4 +171,42 @@ variable "enable_hpan_pipeline_periodic_trigger" {
   type        = bool
   default     = false
   description = "Feature flag to enable/disable periodic trigger for hpan pipeline"
+}
+
+variable "enable_hpan_par_pipeline_periodic_trigger" {
+  type        = bool
+  default     = false
+  description = "Feature flag to enable/disable periodic trigger for hpan par pipeline"
+}
+
+#
+# Tls Checker
+#
+variable "tls_cert_check_helm" {
+  type = object({
+    chart_version = string,
+    image_name    = string,
+    image_tag     = string
+  })
+  description = "tls cert helm chart configuration"
+}
+
+#
+# Eventhub
+#
+variable "event_hub_hubs" {
+  type = list(
+    object({
+      name       = string
+      retention  = number
+      partitions = number
+      consumers  = list(string)
+      policies = list(object({
+        name   = string
+        listen = bool
+        send   = bool
+        manage = bool
+      }))
+    })
+  )
 }
