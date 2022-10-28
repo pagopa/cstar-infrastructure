@@ -293,7 +293,7 @@ resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failur
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.domain.id
+    action_group_id = data.azurerm_monitor_action_group.domain.id
   }
 
   tags = {
