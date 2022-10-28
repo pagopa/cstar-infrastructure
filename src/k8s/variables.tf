@@ -266,6 +266,15 @@ variable "secrets_to_be_read_from_kv" {
   type = list(string)
 }
 
+variable "secrets_from_rtd_domain_kv" {
+  type = object({
+    keyvault       = string
+    resource_group = string
+    secrets        = list(string)
+  })
+}
+
+
 variable "enable" {
   type = object({
     rtd = object({
