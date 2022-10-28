@@ -33,5 +33,30 @@ resource "kubernetes_horizontal_pod_autoscaler" "fa_hpa" {
       }
 
     }
+
+    dynamic "behavior" {
+      for_each = each.value.behaviors
+      content {
+        scale_down {
+          stabilization_window_seconds = behavior.value.scale_down.stabilization_window_seconds
+          select_policy                = behavior.value.scale_down.select_policy
+          policy {
+            period_seconds = behavior.value.scale_down.policy.period_seconds
+            type           = behavior.value.scale_down.policy.type
+            value          = behavior.value.scale_down.policy.value
+          }
+        }
+        scale_up {
+          stabilization_window_seconds = behavior.value.scale_up.stabilization_window_seconds
+          select_policy                = behavior.value.scale_up.select_policy
+          policy {
+            period_seconds = behavior.value.scale_up.policy.period_seconds
+            type           = behavior.value.scale_up.policy.type
+            value          = behavior.value.scale_up.policy.value
+          }
+        }
+      }
+
+    }
   }
 }
