@@ -259,3 +259,43 @@ resource "kubernetes_secret" "rtd-tkm-write-update-consumer" {
 
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "rtd-pi-from-app-consumer" {
+  metadata {
+    name      = "rtd-pi-from-app-consumer"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_RTD_PI_FROM_APP                  = "rtd-pi-from-app"
+    KAFKA_RTD_PI_FROM_APP_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    KAFKA_RTD_PI_FROM_APP_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd"].value
+  }
+}
+
+resource "kubernetes_secret" "rtd-pi-to-app-producer" {
+  metadata {
+    name      = "rtd-pi-to-app-producer"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_RTD_PI_TO_APP                  = "rtd-pi-to-app"
+    KAFKA_RTD_PI_TO_APP_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    KAFKA_RTD_PI_TO_APP_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd"].value
+  }
+}
+
+// evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd
+resource "kubernetes_secret" "rtd-split-by-pi-consumer" {
+  metadata {
+    name      = "rtd-split-by-pi-consumer"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    KAFKA_RTD_SPLIT_TOPIC            = "rtd-split-by-pi"
+    KAFKA_RTD_SPLIT_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    KAFKA_RTD_SPLIT_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd"].value
+  }
+}
