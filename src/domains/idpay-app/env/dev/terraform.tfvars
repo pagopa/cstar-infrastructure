@@ -56,10 +56,11 @@ enable = {
 
 # Enrolled payment instrument event hub
 eventhub_pim = {
-  enrolled_pi_eventhub = "rtd-enrolled-pi"
-  revoked_pi_eventhub  = "rtd-revoked-pi"
-  namespace_name       = "cstar-d-evh-ns"
-  resource_group_name  = "cstar-d-msg-rg"
+  enrolled_pi_eventhub  = "rtd-enrolled-pi"
+  revoked_pi_eventhub   = "rtd-revoked-pi"
+  namespace_enrolled_pi = "cstar-d-evh-ns"
+  namespace_revoked_pi  = "cstar-d-evh-ns"
+  resource_group_name   = "cstar-d-msg-rg"
 }
 
 #
@@ -68,9 +69,20 @@ eventhub_pim = {
 pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
 
 #
+# PM
+#
+pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"
+
+#
 # Check IBAN
 #
 checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
+
+#
+# SelfCare API
+#
+selc_base_url = "https://api.dev.selfcare.pagopa.it"
+
 
 #
 # TLS Checker

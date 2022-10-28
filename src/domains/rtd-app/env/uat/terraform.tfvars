@@ -54,8 +54,12 @@ enable = {
 #
 # Hashpan generation pipeline related variables
 #
-hpan_blob_storage_container_name      = "cstar-hashed-pans"
-enable_hpan_pipeline_periodic_trigger = false
+hpan_blob_storage_container_name = {
+  hpan     = "cstar-hashed-pans"
+  hpan_par = "cstar-hashed-pans-par"
+}
+enable_hpan_pipeline_periodic_trigger     = false
+enable_hpan_par_pipeline_periodic_trigger = false
 
 #
 # TLS Checker
@@ -67,3 +71,77 @@ tls_cert_check_helm = {
   image_name    = "ghcr.io/pagopa/infra-ssl-check"
   image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
 }
+
+
+#
+# Eventhubs
+#
+event_hub_hubs = [
+  {
+    name       = "rtd-pi-to-app"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-pi-to-app-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-pi-to-app-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-pi-to-app-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-pi-from-app"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-pi-from-app-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-pi-from-app-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-pi-from-app-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-split-by-pi"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-split-by-pi-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-split-by-pi-consumer-policy"
+        listen = true
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-split-by-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
+]
+

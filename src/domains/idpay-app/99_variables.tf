@@ -164,10 +164,11 @@ variable "reverse_proxy_be_io" {
 
 variable "eventhub_pim" {
   type = object({
-    enrolled_pi_eventhub = string,
-    revoked_pi_eventhub  = string,
-    resource_group_name  = string,
-    namespace_name       = string
+    enrolled_pi_eventhub  = string,
+    revoked_pi_eventhub   = string,
+    resource_group_name   = string,
+    namespace_enrolled_pi = string
+    namespace_revoked_pi  = string
   })
   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 }
@@ -182,6 +183,23 @@ variable "checkiban_base_url" {
   type        = string
   default     = "127.0.0.1"
   description = "Check IBAN uri."
+}
+
+variable "selc_base_url" {
+  type        = string
+  description = "SelfCare api backend url"
+}
+
+variable "selc_timeout_sec" {
+  type        = number
+  description = "SelfCare api timeout (sec)"
+  default     = 5
+}
+
+variable "pm_service_base_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PM Service uri. Endpoint to retrieve Payment Instruments information."
 }
 
 #

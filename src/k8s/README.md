@@ -142,6 +142,7 @@ pre-commit run -a
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_key_vault_domain_rtd_secrets_query"></a> [key\_vault\_domain\_rtd\_secrets\_query](#module\_key\_vault\_domain\_rtd\_secrets\_query) | git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query | v1.0.7 |
 | <a name="module_key_vault_secrets_query"></a> [key\_vault\_secrets\_query](#module\_key\_vault\_secrets\_query) | git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query | v1.0.7 |
 
 ## Resources
@@ -239,8 +240,11 @@ pre-commit run -a
 | [kubernetes_secret.rtd-blob-storage-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-enrolled-pi-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-internal-api](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-pi-from-app-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-pi-to-app-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-postgres-credentials](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-revoke-pi-events-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-split-by-pi-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-tkm-write-update-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
@@ -309,6 +313,7 @@ pre-commit run -a
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westeurope"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"cstar"` | no |
 | <a name="input_rbac_namespaces"></a> [rbac\_namespaces](#input\_rbac\_namespaces) | n/a | `list(string)` | n/a | yes |
+| <a name="input_secrets_from_rtd_domain_kv"></a> [secrets\_from\_rtd\_domain\_kv](#input\_secrets\_from\_rtd\_domain\_kv) | n/a | <pre>object({<br>    keyvault       = string<br>    resource_group = string<br>    secrets        = list(string)<br>  })</pre> | n/a | yes |
 | <a name="input_secrets_to_be_read_from_kv"></a> [secrets\_to\_be\_read\_from\_kv](#input\_secrets\_to\_be\_read\_from\_kv) | n/a | `list(string)` | n/a | yes |
 
 ## Outputs

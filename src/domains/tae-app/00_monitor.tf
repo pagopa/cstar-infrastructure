@@ -17,6 +17,11 @@ data "azurerm_monitor_action_group" "email" {
   name                = local.monitor_action_group_email_name
 }
 
+data "azurerm_monitor_action_group" "domain" {
+  resource_group_name = var.monitor_resource_group_name
+  name                = local.alert_action_group_domain_name
+}
+
 data "azurerm_kusto_cluster" "dexp_cluster" {
   count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
 
@@ -41,7 +46,7 @@ resource "azurerm_kusto_script" "create_tables" {
 
   script_content                     = file("scripts/create_tables.dexp")
   continue_on_errors_enabled         = true
-  force_an_update_when_value_changed = "v6" # change this version to re-execute the script
+  force_an_update_when_value_changed = "v7" # change this version to re-execute the script
 }
 
 ## Alarms
@@ -57,6 +62,22 @@ resource "azurerm_monitor_action_group" "send_to_operations" {
   email_receiver {
     name                    = "send_to_operations"
     email_address           = data.azurerm_key_vault_secret.operations_slack_email[count.index].value
+    use_common_alert_schema = true
+  }
+
+}
+
+resource "azurerm_monitor_action_group" "send_to_zendesk" {
+
+  count = var.zendesk_action_enabled.enable == true ? 1 : 0
+
+  name                = "send_to_zendesk"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  short_name          = "send_to_zd"
+
+  email_receiver {
+    name                    = "send_to_zendesk"
+    email_address           = data.azurerm_key_vault_secret.operations_zendesk_email[count.index].value
     use_common_alert_schema = true
   }
 
@@ -113,12 +134,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "In the last 24h at least one sender didn't submitted files"
-  display_name                     = "a-sender-didnt-send"
+  display_name                     = "${var.domain}-${var.env_short}-a-sender-didnt-send-#ACQ"
   enabled                          = true
   #query_time_range_override        = "PT1H"
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
     custom_properties = {
       key  = "value"
       key2 = "value2"
@@ -164,12 +188,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one 401 is returned in response to an unauthorized request to sender auth."
-  display_name                     = "cstar-${var.env_short}-sender-auth-failed-authentications"
+  display_name                     = "cstar-${var.env_short}-sender-auth-failed-authentications-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
     custom_properties = {
       key  = "value"
       key2 = "value2"
@@ -215,12 +242,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one 404 is returned by Sender Auth in response to a request to obtain sender codes associated to a (missing) internal ID."
-  display_name                     = "cstar-${var.env_short}-sender-auth-missing-internal-id"
+  display_name                     = "cstar-${var.env_short}-sender-auth-missing-internal-id-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
   action {
-    action_groups = [azurerm_monitor_action_group.send_to_operations[0].id]
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
     custom_properties = {
       key  = "value"
       key2 = "value2"
@@ -231,3 +261,103 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
     key = "Sender Monitoring"
   }
 }
+
+resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failures" {
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "${var.domain}-${var.env_short}-adf-pipelines-failures"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  scopes              = [data.azurerm_data_factory.datafactory.id]
+  description         = "Triggers whenever at least one pipeline fails #ACQ."
+  frequency           = "PT5M"
+  window_size         = "PT5M"
+  severity            = 1
+
+  criteria {
+    metric_namespace = "Microsoft.DataFactory/factories"
+    metric_name      = "PipelineFailedRuns"
+    aggregation      = "Total"
+    operator         = "GreaterThan"
+    threshold        = 0
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.send_to_operations[0].id
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.send_to_zendesk[0].id
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_error" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "${var.domain}-${var.env_short}-created-file-in-ade-error"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      let created = StorageBlobLogs
+      | where TimeGenerated > ago(5m)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == "SftpCreate"
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
+      let wrote = StorageBlobLogs
+      | where TimeGenerated > ago(5m)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == "SftpWrite"
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
+      let committed = StorageBlobLogs
+      | where TimeGenerated > ago(5m)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == "SftpCommit"
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
+      created
+      | join kind=inner wrote on Uri
+      | join kind=inner committed on Uri
+      | project Uri
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one file is created through SFTP to the ade/error directory."
+  display_name                     = "${var.domain}-${var.env_short}-created-file-in-ade-error-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+

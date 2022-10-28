@@ -28,11 +28,17 @@
 | [azurerm_data_factory_linked_service_azure_blob_storage.storage_account_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
 | [azurerm_data_factory_linked_service_cosmosdb_mongoapi.cosmos_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory_linked_service_cosmosdb_mongoapi) | resource |
 | [azurerm_data_factory_pipeline.hashpan_csv_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.hashpan_par_csv_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_tumbling_window.every_5_min_trigger](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory_trigger_tumbling_window) | resource |
+| [azurerm_data_factory_trigger_tumbling_window.every_5_min_trigger_hpan_par](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/data_factory_trigger_tumbling_window) | resource |
+| [azurerm_eventhub.event_hub_rtd_hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/eventhub) | resource |
+| [azurerm_eventhub_authorization_rule.event_hub_rtd_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/eventhub_authorization_rule) | resource |
+| [azurerm_eventhub_consumer_group.event_hub_rtd_consumer_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/eventhub_consumer_group) | resource |
 | [azurerm_key_vault_access_policy.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.event_hub_rtd_jaas_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/2.5.1/docs/resources/release) | resource |
 | [kubernetes_namespace.domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/namespace) | resource |
@@ -50,16 +56,19 @@
 | [azurerm_cosmosdb_account.cosmos_account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/cosmosdb_account) | data source |
 | [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/data_factory) | data source |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/dns_zone) | data source |
+| [azurerm_eventhub_namespace.event_hub_rtd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/eventhub_namespace) | data source |
 | [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_secret.mongodb_connection_uri](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_kubernetes_cluster.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/kubernetes_cluster) | data source |
 | [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
+| [azurerm_monitor_action_group.domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_private_dns_zone.internal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
 | [azurerm_resource_group.apim_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [azurerm_resource_group.msg_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_storage_account.blobstorage_account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [kubernetes_secret.azure_devops_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/data-sources/secret) | data source |
@@ -75,11 +84,13 @@
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `"cstar"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
+| <a name="input_enable_hpan_par_pipeline_periodic_trigger"></a> [enable\_hpan\_par\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_par\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan par pipeline | `bool` | `false` | no |
 | <a name="input_enable_hpan_pipeline_periodic_trigger"></a> [enable\_hpan\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan pipeline | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
+| <a name="input_event_hub_hubs"></a> [event\_hub\_hubs](#input\_event\_hub\_hubs) | Eventhub | <pre>list(<br>    object({<br>      name       = string<br>      retention  = number<br>      partitions = number<br>      consumers  = list(string)<br>      policies = list(object({<br>        name   = string<br>        listen = bool<br>        send   = bool<br>        manage = bool<br>      }))<br>    })<br>  )</pre> | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `"pagopa.it"` | no |
-| <a name="input_hpan_blob_storage_container_name"></a> [hpan\_blob\_storage\_container\_name](#input\_hpan\_blob\_storage\_container\_name) | The container name where hashpan file will be created by pipeline | `string` | `null` | no |
+| <a name="input_hpan_blob_storage_container_name"></a> [hpan\_blob\_storage\_container\_name](#input\_hpan\_blob\_storage\_container\_name) | The container name where hashpan file will be created by pipeline | <pre>object({<br>    hpan     = string<br>    hpan_par = string<br>  })</pre> | `null` | no |
 | <a name="input_ingress_load_balancer_hostname"></a> [ingress\_load\_balancer\_hostname](#input\_ingress\_load\_balancer\_hostname) | n/a | `string` | n/a | yes |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |

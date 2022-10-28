@@ -140,3 +140,23 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
   private_dns_zone_name = azurerm_private_dns_zone.adf[count.index].name
   virtual_network_id    = module.vnet.id
 }
+
+
+#
+# Private DNS zone for EventHub
+#
+# When BPD queue will be removed this zone will be destroyed.
+# THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
+data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
+  name                = "privatelink.servicebus.windows.net"
+  resource_group_name = "${local.project}-msg-rg"
+}
+
+# *-vnet and *-integration-vnet private network links are already created by "eventhub" pagopa module
+resource "azurerm_private_dns_zone_virtual_network_link" "aks_eventhub_private_virtual_network_link" {
+  for_each              = { for n in var.aks_networks : n.domain_name => n }
+  name                  = "${local.project}-aks-eventhub-${each.key}-private-dns-zone-link"
+  resource_group_name   = data.azurerm_private_dns_zone.eventhub_private_dns_zone.resource_group_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns_zone.name
+  virtual_network_id    = module.vnet_aks[each.key].id
+}

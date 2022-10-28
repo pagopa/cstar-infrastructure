@@ -11,3 +11,4 @@
 
 .create-merge table Abi (codiceABI: string, DEN_INT: string, ID_ATTI: string, COD_ATTI: string, DES_ATTI: string) 
 
+.create-merge table Senders (senderCode: string, description: string) 
