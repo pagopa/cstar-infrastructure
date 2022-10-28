@@ -293,3 +293,71 @@ resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failur
     key = "Sender Monitoring"
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_error" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "${var.domain}-${var.env_short}-created-file-in-ade-error"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      let created = StorageBlobLogs
+      | where TimeGenerated > ago(5m)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == "SftpCreate"
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
+      let wrote = StorageBlobLogs
+      | where TimeGenerated > ago(5m)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == "SftpWrite"
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
+      let committed = StorageBlobLogs
+      | where TimeGenerated > ago(5m)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == "SftpCommit"
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
+      created
+      | join kind=inner wrote on Uri
+      | join kind=inner committed on Uri
+      | project Uri
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one file is created through SFTP to the ade/error directory."
+  display_name                     = "${var.domain}-${var.env_short}-created-file-in-ade-error-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
