@@ -1,5 +1,5 @@
 module "tls_checker" {
-  source = "git::https://github.com/pagopa/azurerm.git//tls_checker?ref=v3.2.2"
+  source = "git::https://github.com/pagopa/azurerm.git//tls_checker?ref=v3.2.3"
 
   for_each = { for chkr in var.tls_checker_https_endpoints_to_check : chkr.alert_name => chkr }
 
