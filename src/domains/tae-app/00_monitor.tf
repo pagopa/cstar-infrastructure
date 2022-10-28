@@ -142,7 +142,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
       azurerm_monitor_action_group.send_to_zendesk[0].id,
-      azurerm_monitor_action_group.domain.id,
+      data.azurerm_monitor_action_group.domain.id,
     ]
     custom_properties = {
       key  = "value"
@@ -197,7 +197,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
       azurerm_monitor_action_group.send_to_zendesk[0].id,
-      azurerm_monitor_action_group.domain.id,
+      data.azurerm_monitor_action_group.domain.id,
     ]
     custom_properties = {
       key  = "value"
@@ -252,7 +252,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
       azurerm_monitor_action_group.send_to_zendesk[0].id,
-      azurerm_monitor_action_group.domain.id,
+      data.azurerm_monitor_action_group.domain.id,
     ]
     custom_properties = {
       key  = "value"
