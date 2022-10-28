@@ -383,6 +383,16 @@ configmaps_rtddecrypter = {
   SPLITTER_LINE_THRESHOLD = 2000000
 }
 
+configmaps_rtdfileregister = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
 # rtd-ms-enrolled-payment-instrument
 configmaps_rtdenrolledpaymentinstrument = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx4g -javaagent:/app/applicationinsights-agent.jar"
@@ -664,6 +674,16 @@ secrets_to_be_read_from_kv = [
   "evh-tkm-write-update-token-tkm-write-update-token-sub-key",
   "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key-fa-01"
 ]
+
+secrets_from_rtd_domain_kv = {
+  keyvault       = "cstar-p-rtd-kv"
+  resource_group = "cstar-p-rtd-sec-rg"
+  secrets = [
+    "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
+    "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
+    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd"
+  ]
+}
 
 enable = {
   rtd = {

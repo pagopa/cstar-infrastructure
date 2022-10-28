@@ -150,6 +150,15 @@ variable "ack_ingestor_conf" {
   }
 }
 
+variable "zendesk_action_enabled" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "bulk_delete_aggregates_conf" {
   type = object({
     interval  = number

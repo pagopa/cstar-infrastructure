@@ -142,6 +142,7 @@ pre-commit run -a
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_key_vault_domain_rtd_secrets_query"></a> [key\_vault\_domain\_rtd\_secrets\_query](#module\_key\_vault\_domain\_rtd\_secrets\_query) | git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query | v1.0.7 |
 | <a name="module_key_vault_secrets_query"></a> [key\_vault\_secrets\_query](#module\_key\_vault\_secrets\_query) | git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query | v1.0.7 |
 
 ## Resources
@@ -197,8 +198,10 @@ pre-commit run -a
 | [kubernetes_config_map.rtd-producer-enrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-rest-client](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdfileregister](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdingestor](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdpaymentinstrumentmanager](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdsenderauth](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdtransactionfilter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_horizontal_pod_autoscaler.fa_hpa](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/horizontal_pod_autoscaler) | resource |
 | [kubernetes_horizontal_pod_autoscaler.hpa](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/horizontal_pod_autoscaler) | resource |
@@ -237,8 +240,11 @@ pre-commit run -a
 | [kubernetes_secret.rtd-blob-storage-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-enrolled-pi-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-internal-api](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-pi-from-app-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-pi-to-app-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-postgres-credentials](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-revoke-pi-events-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [kubernetes_secret.rtd-split-by-pi-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-tkm-write-update-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
@@ -285,8 +291,10 @@ pre-commit run -a
 | <a name="input_configmaps_fatransactionerrormanager"></a> [configmaps\_fatransactionerrormanager](#input\_configmaps\_fatransactionerrormanager) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | n/a | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
+| <a name="input_configmaps_rtdfileregister"></a> [configmaps\_rtdfileregister](#input\_configmaps\_rtdfileregister) | n/a | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdpaymentinstrumentmanager"></a> [configmaps\_rtdpaymentinstrumentmanager](#input\_configmaps\_rtdpaymentinstrumentmanager) | n/a | `map(string)` | n/a | yes |
 | <a name="input_configmaps_rtdproducerenrolledpaymentinstrument"></a> [configmaps\_rtdproducerenrolledpaymentinstrument](#input\_configmaps\_rtdproducerenrolledpaymentinstrument) | n/a | `map(string)` | n/a | yes |
+| <a name="input_configmaps_rtdsenderauth"></a> [configmaps\_rtdsenderauth](#input\_configmaps\_rtdsenderauth) | n/a | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdtransactionfilter"></a> [configmaps\_rtdtransactionfilter](#input\_configmaps\_rtdtransactionfilter) | n/a | `map(string)` | `{}` | no |
 | <a name="input_default_service_port"></a> [default\_service\_port](#input\_default\_service\_port) | n/a | `number` | `8080` | no |
 | <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    rtd = object({<br>      blob_storage_event_grid_integration = bool<br>      internal_api                        = bool<br>      csv_transaction_apis                = bool<br>      ingestor                            = bool<br>      file_register                       = bool<br>      enrolled_payment_instrument         = bool<br>      mongodb_storage                     = bool<br>    })<br>    fa = object({<br>      api = bool<br>    })<br>  })</pre> | <pre>{<br>  "fa": {<br>    "api": false<br>  },<br>  "rtd": {<br>    "blob_storage_event_grid_integration": false,<br>    "csv_transaction_apis": false,<br>    "enrolled_payment_instrument": false,<br>    "file_register": false,<br>    "ingestor": false,<br>    "internal_api": false,<br>    "mongodb_storage": false<br>  }<br>}</pre> | no |
@@ -305,6 +313,7 @@ pre-commit run -a
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westeurope"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"cstar"` | no |
 | <a name="input_rbac_namespaces"></a> [rbac\_namespaces](#input\_rbac\_namespaces) | n/a | `list(string)` | n/a | yes |
+| <a name="input_secrets_from_rtd_domain_kv"></a> [secrets\_from\_rtd\_domain\_kv](#input\_secrets\_from\_rtd\_domain\_kv) | n/a | <pre>object({<br>    keyvault       = string<br>    resource_group = string<br>    secrets        = list(string)<br>  })</pre> | n/a | yes |
 | <a name="input_secrets_to_be_read_from_kv"></a> [secrets\_to\_be\_read\_from\_kv](#input\_secrets\_to\_be\_read\_from\_kv) | n/a | `list(string)` | n/a | yes |
 
 ## Outputs

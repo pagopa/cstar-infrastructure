@@ -5,7 +5,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.21.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.14.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.26.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.5.1 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.11.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
@@ -18,50 +18,57 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_data_factory_custom_dataset.ack_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.aggregates_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.destination_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.integration_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.source_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.source_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.wrong_fiscal_codes](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.wrong_fiscal_codes_intermediate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_data_flow.ack_joinupdate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_data_flow) | resource |
-| [azurerm_data_factory_data_flow.bulk_delete_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_data_flow) | resource |
-| [azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
-| [azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
-| [azurerm_data_factory_linked_service_cosmosdb.cosmos_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_linked_service_cosmosdb) | resource |
-| [azurerm_data_factory_linked_service_kusto.dexp_tae](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_linked_service_kusto) | resource |
-| [azurerm_data_factory_pipeline.ack_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
-| [azurerm_data_factory_pipeline.aggregates_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
-| [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
-| [azurerm_data_factory_pipeline.bulk_delete_aggregates_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_pipeline) | resource |
-| [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_blob_event) | resource |
-| [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_blob_event) | resource |
-| [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_schedule) | resource |
-| [azurerm_data_factory_trigger_schedule.bulk_delete_overnight_trigger](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/data_factory_trigger_schedule) | resource |
-| [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_database_principal_assignment) | resource |
-| [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/kusto_script) | resource |
-| [azurerm_monitor_action_group.send_to_operations](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_data_factory_custom_dataset.ack_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.aggregates_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.destination_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.integration_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.source_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.source_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.wrong_fiscal_codes](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.wrong_fiscal_codes_intermediate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_data_flow.ack_joinupdate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_data_flow) | resource |
+| [azurerm_data_factory_data_flow.bulk_delete_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_data_flow) | resource |
+| [azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
+| [azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
+| [azurerm_data_factory_linked_service_cosmosdb.cosmos_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_cosmosdb) | resource |
+| [azurerm_data_factory_linked_service_kusto.dexp_tae](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_kusto) | resource |
+| [azurerm_data_factory_pipeline.ack_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.aggregates_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.bulk_delete_aggregates_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_blob_event) | resource |
+| [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_blob_event) | resource |
+| [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_schedule) | resource |
+| [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/kusto_database_principal_assignment) | resource |
+| [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/kusto_script) | resource |
+| [azurerm_monitor_action_group.send_to_operations](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.send_to_zendesk](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_metric_alert.tae_azure_data_factory_pipelines_failures](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.created_file_in_ade_error](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.sender_auth_failed_authentications](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.sender_auth_missing_internal_id](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.sender_doesnt_send](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_security](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/client_config) | data source |
-| [azurerm_cosmosdb_account.cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/cosmosdb_account) | data source |
-| [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/data_factory) | data source |
-| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/key_vault) | data source |
-| [azurerm_key_vault_secret.operations_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_kusto_cluster.dexp_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/kusto_cluster) | data source |
-| [azurerm_kusto_database.tae_db](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/kusto_database) | data source |
-| [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/log_analytics_workspace) | data source |
-| [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/monitor_action_group) | data source |
-| [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/monitor_action_group) | data source |
-| [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/resource_group) | data source |
-| [azurerm_storage_account.acquirer_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/storage_account) | data source |
-| [azurerm_storage_account.sftp_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/storage_account) | data source |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/data-sources/subscription) | data source |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/client_config) | data source |
+| [azurerm_cosmosdb_account.cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/cosmosdb_account) | data source |
+| [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/data_factory) | data source |
+| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault) | data source |
+| [azurerm_key_vault_secret.operations_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.operations_zendesk_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_kusto_cluster.dexp_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/kusto_cluster) | data source |
+| [azurerm_kusto_database.tae_db](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/kusto_database) | data source |
+| [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/log_analytics_workspace) | data source |
+| [azurerm_monitor_action_group.domain](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/monitor_action_group) | data source |
+| [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/monitor_action_group) | data source |
+| [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/monitor_action_group) | data source |
+| [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/resource_group) | data source |
+| [azurerm_storage_account.acquirer_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/storage_account) | data source |
+| [azurerm_storage_account.sftp_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/storage_account) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/subscription) | data source |
 | [terraform_remote_state.core](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
@@ -72,7 +79,6 @@ No modules.
 | <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
-| <a name="input_bulk_delete_aggregates_conf"></a> [bulk\_delete\_aggregates\_conf](#input\_bulk\_delete\_aggregates\_conf) | n/a | <pre>object({<br>    interval  = number<br>    frequency = string<br>    enable    = bool<br>    hours     = number<br>    minutes   = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Day",<br>  "hours": 3,<br>  "interval": 1,<br>  "minutes": 0<br>}</pre> | no |
 | <a name="input_dexp_tae_db_linkes_service"></a> [dexp\_tae\_db\_linkes\_service](#input\_dexp\_tae\_db\_linkes\_service) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
@@ -91,6 +97,7 @@ No modules.
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
 | <a name="input_terraform_remote_state_core"></a> [terraform\_remote\_state\_core](#input\_terraform\_remote\_state\_core) | n/a | <pre>object({<br>    resource_group_name  = string,<br>    storage_account_name = string,<br>    container_name       = string,<br>    key                  = string<br>  })</pre> | n/a | yes |
+| <a name="input_zendesk_action_enabled"></a> [zendesk\_action\_enabled](#input\_zendesk\_action\_enabled) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 
 ## Outputs
 

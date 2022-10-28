@@ -9,6 +9,7 @@ pr:
       - '.devops/*'
     exclude:
       - '**/*.lock.hcl'
+      - '**/*.md'
 
 parameters:
   - name: 'DEV'

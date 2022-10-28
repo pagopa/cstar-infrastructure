@@ -307,7 +307,7 @@ configmaps_fainvoicemanager = {
   LOG_LEVEL_FA_INVOICE_MANAGER                           = "DEBUG"
   MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
   MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
-  # the two rows below are ignored if MS_AGENZIA_ENTRATE_URL has already been set 
+  # the two rows below are ignored if MS_AGENZIA_ENTRATE_URL has already been set
   MS_AGENZIA_ENTRATE_PORT   = ""
   MS_AGENZIA_ENTRATE_SCHEMA = "https"
 }
@@ -347,6 +347,16 @@ configmaps_fanotificationmanager = {
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD     = true
   SPLITTER_LINE_THRESHOLD = 2000000
+}
+
+configmaps_rtdfileregister = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
 # rtd-ms-enrolled-payment-instrument
@@ -473,6 +483,16 @@ secrets_to_be_read_from_kv = [
   "evh-tkm-write-update-token-tkm-write-update-token-sub-key",
   "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"
 ]
+
+secrets_from_rtd_domain_kv = {
+  keyvault       = "cstar-d-rtd-kv"
+  resource_group = "cstar-d-rtd-sec-rg"
+  secrets = [
+    "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
+    "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
+    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd"
+  ]
+}
 
 enable = {
   rtd = {
