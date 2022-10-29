@@ -20,7 +20,7 @@
 | <a name="module_idpay_redis_00"></a> [idpay\_redis\_00](#module\_idpay\_redis\_00) | git::https://github.com/pagopa/azurerm.git//redis_cache | v1.0.37 |
 | <a name="module_idpay_redis_snet"></a> [idpay\_redis\_snet](#module\_idpay\_redis\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | git::https://github.com/pagopa/azurerm.git//key_vault | v2.16.0 |
-| <a name="module_mongdb_collections"></a> [mongdb\_collections](#module\_mongdb\_collections) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v2.3.0 |
+| <a name="module_mongdb_collections"></a> [mongdb\_collections](#module\_mongdb\_collections) | git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection | v3.2.4 |
 
 ## Resources
 
