@@ -192,7 +192,7 @@ paths:
       tags:
         - initiative
       summary: Return of onboard users and the budget spent (accrued bonus)
-      operationId: getGroupOfBeneficiaryStatusAndDetails
+      operationId: initiativeStatistics
       parameters:
         - name: initiativeId
           in: path
@@ -1092,7 +1092,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /initiative/{initiativeId}/reward/notification/exports:
+  /{initiativeId}/reward/notification/exports:
     get:
       tags:
         - initiative-reward

@@ -241,7 +241,9 @@ module "idpay_initiative_portal" {
     {
       operation_id = "getRewardNotificationExportsPaged"
 
-      xml_content = templatefile("./api/idpay_initiative/simple-mock-policy.xml", {})
+      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
