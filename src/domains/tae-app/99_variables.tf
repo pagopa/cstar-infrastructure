@@ -159,6 +159,23 @@ variable "zendesk_action_enabled" {
   }
 }
 
+variable "bulk_delete_aggregates_conf" {
+  type = object({
+    interval  = number
+    frequency = string
+    enable    = bool
+    hours     = number
+    minutes   = number
+  })
+  default = {
+    interval  = 1
+    frequency = "Day"
+    enable    = false
+    hours     = 3
+    minutes   = 0
+  }
+}
+
 variable "dexp_tae_db_linkes_service" {
   type = object({
     enable = bool
