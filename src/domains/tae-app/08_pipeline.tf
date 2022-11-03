@@ -252,3 +252,30 @@ resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates_pipeline" {
     azurerm_data_factory_data_flow.bulk_delete_aggregates
   ]
 }
+
+resource "azurerm_data_factory_trigger_schedule" "bulk_delete_overnight_trigger" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name            = format("%s-bulk-delete-overnigh-trigger", local.project)
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  interval  = var.bulk_delete_aggregates_conf.interval
+  frequency = var.bulk_delete_aggregates_conf.frequency
+
+  schedule {
+    hours   = [var.bulk_delete_aggregates_conf.hours]
+    minutes = [var.bulk_delete_aggregates_conf.minutes]
+  }
+
+  activated = var.bulk_delete_aggregates_conf.enable
+  time_zone = "UTC"
+
+  annotations = ["BulkDelete"]
+  description = "The trigger fires every day at 3AM"
+
+  pipeline_name = azurerm_data_factory_pipeline.bulk_delete_aggregates_pipeline[0].name
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregate
+  ]
+}

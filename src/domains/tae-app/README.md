@@ -40,6 +40,7 @@ No modules.
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_schedule) | resource |
+| [azurerm_data_factory_trigger_schedule.bulk_delete_overnight_trigger](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_schedule) | resource |
 | [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/kusto_database_principal_assignment) | resource |
 | [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/kusto_script) | resource |
 | [azurerm_monitor_action_group.send_to_operations](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_action_group) | resource |
@@ -47,6 +48,8 @@ No modules.
 | [azurerm_monitor_metric_alert.tae_azure_data_factory_pipelines_failures](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.ade_removes_ack_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.created_file_in_ade_error](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.failed_decryption](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.not_all_chunks_are_verified_decrypter](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.sender_auth_failed_authentications](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.sender_auth_missing_internal_id](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.sender_doesnt_send](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
@@ -81,6 +84,7 @@ No modules.
 | <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
+| <a name="input_bulk_delete_aggregates_conf"></a> [bulk\_delete\_aggregates\_conf](#input\_bulk\_delete\_aggregates\_conf) | n/a | <pre>object({<br>    interval  = number<br>    frequency = string<br>    enable    = bool<br>    hours     = number<br>    minutes   = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Day",<br>  "hours": 3,<br>  "interval": 1,<br>  "minutes": 0<br>}</pre> | no |
 | <a name="input_dexp_tae_db_linkes_service"></a> [dexp\_tae\_db\_linkes\_service](#input\_dexp\_tae\_db\_linkes\_service) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |

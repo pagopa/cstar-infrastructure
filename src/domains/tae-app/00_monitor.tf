@@ -468,3 +468,107 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ade_removes_ack_file"
     key = "Sender Monitoring"
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "not_all_chunks_are_verified_decrypter" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-decrypter-not-all-chunks-verified"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtddecrypter"
+      | where SeverityLevel == 3
+      | where Message startswith "Not all chunks are verified, no chunks will be uploaded"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one input file has not all of its chunks verified by the decrypter."
+  display_name                     = "cstar-${var.env_short}-decrypter-not-all-chunks-verified-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_decryption" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-decrypter-failed-decryption"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtddecrypter"
+      | where SeverityLevel == 3
+      | where Message startswith "Cannot decrypt"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one input file cannot be decrypted."
+  display_name                     = "cstar-${var.env_short}-decrypter-failed-decryption-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
