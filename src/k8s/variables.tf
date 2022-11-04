@@ -230,7 +230,7 @@ variable "configmaps_rtdpieventprocessor" {
     APPLICATIONINSIGHTS_ROLE_NAME                          = string
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = string
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = string
-    KAFKA_SPLIT_BY_PI_PARTITION_COUNT                      = number
+    KAFKA_RTD_SPLIT_PARTITION_COUNT                        = number
   })
 }
 

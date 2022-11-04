@@ -408,7 +408,7 @@ configmaps_rtdpieventprocessor = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  KAFKA_SPLIT_BY_PI_PARTITION_COUNT                      = 1
+  KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
 }
 
 autoscaling_specs = {
