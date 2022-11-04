@@ -247,8 +247,9 @@ resource "kubernetes_secret" "rtd-tkm-write-update-consumer" {
   }
 
   data = {
-    KAFKA_TOPIC_TKM_BROKER = "tkm-write-update-token"
-    KAFKA_BROKER_TKM       = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_TOPIC_TKM_BROKER         = "tkm-write-update-token"
+    KAFKA_TOPIC_TKM_CONSUMER_GROUP = "rtd-pim-consumer-group"
+    KAFKA_BROKER_TKM               = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
     KAFKA_SASL_JAAS_CONFIG_TKM_PIM = format(
       local.jaas_config_template_rtd,
       "tkm-write-update-token",
@@ -268,6 +269,7 @@ resource "kubernetes_secret" "rtd-pi-from-app-consumer" {
 
   data = {
     KAFKA_RTD_PI_FROM_APP                  = "rtd-pi-from-app"
+    KAFKA_RTD_PI_FROM_APP_CONSUMER_GROUP   = "rtd-pi-from-app-consumer-group"
     KAFKA_RTD_PI_FROM_APP_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
     KAFKA_RTD_PI_FROM_APP_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd"].value
   }
