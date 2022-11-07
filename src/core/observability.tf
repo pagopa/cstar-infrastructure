@@ -160,8 +160,8 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
   log {
-    category       = "GatewayLogs"
-    enabled        = true
+    category = "GatewayLogs"
+    enabled  = true
     retention_policy {
       enabled = true
       days    = 365
