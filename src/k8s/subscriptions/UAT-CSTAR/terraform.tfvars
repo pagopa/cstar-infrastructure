@@ -402,6 +402,15 @@ configmaps_rtdproducerenrolledpaymentinstrument = {
   KAFKA_PARTITION_COUNT          = 1
 }
 
+# rtd-ms-pi-event-processor
+configmaps_rtdpieventprocessor = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+  KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment
@@ -718,7 +727,8 @@ secrets_from_rtd_domain_kv = {
   secrets = [
     "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
     "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd"
+    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
+    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd"
   ]
 }
 
