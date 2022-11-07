@@ -224,6 +224,16 @@ variable "configmaps_rtdproducerenrolledpaymentinstrument" {
   type = map(string)
 }
 
+variable "configmaps_rtdpieventprocessor" {
+  type = object({
+    JAVA_TOOL_OPTIONS                                      = string
+    APPLICATIONINSIGHTS_ROLE_NAME                          = string
+    APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = string
+    APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = string
+    KAFKA_RTD_SPLIT_PARTITION_COUNT                        = number
+  })
+}
+
 variable "autoscaling_specs" {
   type = map(object({
     namespace    = string
