@@ -237,6 +237,13 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/get-initiative-statistics.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getRewardNotificationExportsPaged"
+
+      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
