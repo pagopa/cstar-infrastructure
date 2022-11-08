@@ -740,7 +740,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 0
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
