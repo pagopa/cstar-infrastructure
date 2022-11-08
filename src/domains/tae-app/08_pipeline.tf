@@ -279,3 +279,30 @@ resource "azurerm_data_factory_trigger_schedule" "bulk_delete_overnight_trigger"
     azurerm_data_factory_custom_dataset.aggregate
   ]
 }
+
+resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_settings" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+
+  name                       = "acquirer-aggregate-diagnostic-settings"
+  target_resource_id         = data.azurerm_data_factory.datafactory.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
+
+  log {
+    category       = null
+    category_group = "allLogs"
+    enabled        = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      enabled = false
+    }
+  }
+}
