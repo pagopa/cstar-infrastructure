@@ -681,7 +681,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
 
   count = var.env_short == "p" ? 1 : 0
 
-  name                = "${var.domain}-${var.env_short}-ack-ingestor-failures"
+  name                = "${var.domain}-${var.env_short}-adf-ack-ingestor-failures"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
   location            = data.azurerm_resource_group.monitor_rg.location
 
@@ -709,7 +709,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one ack ingestor pipeline fails."
-  display_name                     = "${var.domain}-${var.env_short}-ack-ingestor-failures-#ACQ"
+  display_name                     = "${var.domain}-${var.env_short}-adf-ack-ingestor-failures-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
