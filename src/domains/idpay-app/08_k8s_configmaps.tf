@@ -32,6 +32,7 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_notification_request_topic                   = "idpay-notification-request"
     idpay_onboarding_request_topic                     = "idpay-onboarding-request"
     idpay_onboarding_outcome_topic                     = "idpay-onboarding-outcome"
+    idpay-onboarding-notification_topic                = "idpay-onboarding-notification"
     idpay_checkiban_evaluation_topic                   = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic                      = "idpay-checkiban-outcome"
     idpay_timeline_topic                               = "idpay-timeline"
