@@ -331,8 +331,47 @@ module "idpay_notification_email_api" {
 }
 
 #
+# Storage for refunds API
+#
+resource "azurerm_resource_group" "rg_refund_storage" {
+  name     = "${local.product}-${var.domain}-storage-rg"
+  location = var.location
+  tags     = var.tags
+}
+
+#tfsec:ignore:azure-storage-default-action-deny
+module "idpay_refund_storage" {
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
+
+  name                       = replace("${var.domain}-refund-storage", "-", "")
+  account_kind               = "StorageV2"
+  account_tier               = "Standard"
+  account_replication_type   = var.storage_account_replication_type
+  access_tier                = "Hot"
+  versioning_name            = "versioning"
+  enable_versioning          = var.storage_enable_versioning
+  resource_group_name        = azurerm_resource_group.rg_refund_storage.name
+  location                   = var.location
+  advanced_threat_protection = var.storage_advanced_threat_protection
+  allow_blob_public_access   = false
+
+  blob_properties_delete_retention_policy_days = var.storage_delete_retention_days
+
+  tags = var.tags
+}
+
+resource "azurerm_storage_container" "idpay_refund_container" {
+  name                  = "refund"
+  storage_account_name  = module.idpay_refund_storage.name
+  container_access_type = "private"
+}
+
+
+#
 # Named values
 #
+
+# selfcare api
 resource "azurerm_api_management_named_value" "selc_external_api_key" {
 
   name                = format("%s-selc-external-api-key-secret", var.env_short)
@@ -349,5 +388,34 @@ resource "azurerm_api_management_named_value" "selc_external_api_key" {
 
 data "azurerm_key_vault_secret" "selc_external_api_key_secret" {
   name         = "selc-external-api-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+# storage
+
+#tfsec:ignore:AZU023
+resource "azurerm_key_vault_secret" "refund_storage_access_key" {
+  name         = "refund-storage-access-key"
+  value        = module.idpay_refund_storage.primary_access_key
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+#tfsec:ignore:azure-keyvault-ensure-secret-expiry
+resource "azurerm_key_vault_secret" "refund_storage_connection_string" {
+  name         = "refund-storage-connection-string"
+  value        = module.idpay_refund_storage.primary_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+#tfsec:ignore:azure-keyvault-ensure-secret-expiry
+resource "azurerm_key_vault_secret" "refund_storage_blob_connection_string" {
+  name         = "refund-storage-blob-connection-string"
+  value        = module.idpay_refund_storage.primary_blob_connection_string
+  content_type = "text/plain"
+
   key_vault_id = data.azurerm_key_vault.kv.id
 }
