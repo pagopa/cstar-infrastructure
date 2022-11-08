@@ -25,6 +25,7 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay-checkiban-eval-consumer-group                = "idpay-checkiban-eval-consumer-group"
     idpay-checkiban-outcome-consumer-group             = "idpay-checkiban-outcome-consumer-group"
     idpay-timeline-consumer-group                      = "idpay-timeline-consumer-group"
+    idpay-onboarding-notification-consumer-group       = "idpay-onboarding-notification-consumer-group"
     idpay-onboarding-outcome-onboarding-consumer-group = "idpay-onboarding-outcome-onboarding-consumer-group"
     idpay-onboarding-outcome-wallet-consumer-group     = "idpay-onboarding-outcome-wallet-consumer-group"
     idpay-onboarding-outcome-notify-consumer-group     = "idpay-onboarding-outcome-notify-consumer-group"
