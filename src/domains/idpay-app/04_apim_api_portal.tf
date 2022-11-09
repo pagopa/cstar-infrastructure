@@ -244,6 +244,13 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getOnboardingStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/get-onboarding-status.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
