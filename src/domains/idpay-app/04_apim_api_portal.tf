@@ -251,6 +251,13 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/get-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getRewardFileDownload"
+
+      xml_content = templatefile("./api/idpay_initiative/get-reward-download.xml.tpl", {
+        refund-storage-account-name = module.idpay_refund_storage.name
+      })
     }
   ]
 
@@ -405,9 +412,27 @@ data "azurerm_key_vault_secret" "selc_external_api_key_secret" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
+# storage access key
+
+
 # storage
 
 #tfsec:ignore:AZU023
+
+resource "azurerm_api_management_named_value" "refund_storage_access_key" {
+
+  name                = format("%s-refund-storage-access-key", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  display_name = "refund-storage-access-key"
+  secret       = true
+  value_from_key_vault {
+    secret_id = azurerm_key_vault_secret.refund_storage_access_key.id
+  }
+
+}
+
 resource "azurerm_key_vault_secret" "refund_storage_access_key" {
   name         = "refund-storage-access-key"
   value        = module.idpay_refund_storage.primary_access_key
