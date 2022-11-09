@@ -1684,12 +1684,25 @@ components:
           format: date-time
         organizationId:
           type: string
+        percentageResulted:
+          type: string
+        percentageResultedOk:
+          type: string
+        percentageResults:
+          type: string
+        rewardsExported:
+          type: string
         rewardsNotified:
-          type: number
-          format: bigdecimal
+          type: integer
+          format: int64
         rewardsResulted:
-          type: number
-          format: bigdecimal
+          type: integer
+          format: int64
+        rewardsResultedOk:
+          type: integer
+          format: int64
+        rewardsResults:
+          type: string
         status:
           type: string
   securitySchemes:
