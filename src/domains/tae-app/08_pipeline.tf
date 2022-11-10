@@ -164,7 +164,7 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     name = "projectOnlyOneID"
   }
 
-  script = templatefile("pipelines/ackIngestor.dataflow",{
+  script = templatefile("pipelines/ackIngestor.dataflow", {
     throughput-cap = var.cosmos_sink_throughput.cap
   })
 }
@@ -195,7 +195,7 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
     name = "deleteAggregatesWithAck"
   }
 
-  script = templatefile("pipelines/bulkDeleteAggregates.dataflow",{
+  script = templatefile("pipelines/bulkDeleteAggregates.dataflow", {
     throughput-cap = var.cosmos_sink_throughput.cap
   })
 }
