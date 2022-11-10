@@ -97,17 +97,23 @@
             }" />
         <!-- section: rewrite request to backend -->
         <!-- change base backend url -->
-        <set-backend-service base-url="https://${refund-storage-account-name}.blob.core.windows.net/refund/" />
-        
-        <set-method>GET</set-method>
-        <!-- remove original Authorization header -->
-        <set-header name="Authorization" exists-action="delete" />
-        <rewrite-uri template="@{
-                return string.Format("/{0}?{1}",
+
+        <return-response>
+            <set-status code="201" reason="Created" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>@{
+                return new JObject(
+                    new JProperty("sas", string.Format("{0}/{1}/{2}/export/{3}?{4}",
+                    "https://${refund-storage-account-name}.blob.core.windows.net/refund",
+                    ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", ""),
+                    context.Request.MatchedParameters["initiativeId"],
                     context.Request.MatchedParameters["filename"],
-                    context.Variables["sas"]
-                );
-        }" />
+                    context.Variables["sas"]))
+                ).ToString();
+             }</set-body>
+        </return-response>
     </inbound>
     <backend>
         <base />
@@ -123,20 +129,6 @@
         <set-header name="x-ms-blob-type" exists-action="delete" />
         <set-header name="x-ms-server-encrypted" exists-action="delete" />
         <set-header name="ETag" exists-action="delete" />
-        <set-header name="Content-Type" exists-action="override">
-            <value>text/csv</value>
-        </set-header>
-        <set-header name="Content-Disposition" exists-action="override">
-            <value>@("attachment;filename=" + context.Request.MatchedParameters["filename"])</value>
-        </set-header>
-        <choose>
-            <when condition="@(context.Response.StatusCode != 200)">
-                <return-response>
-                    <set-status code="@(context.Response.StatusCode)" reason="@(context.Response.StatusReason)" />
-                    <set-body />
-                </return-response>
-            </when>
-        </choose>
     </outbound>
     <on-error>
         <base />

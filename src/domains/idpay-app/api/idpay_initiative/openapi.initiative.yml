@@ -1225,14 +1225,14 @@ paths:
           style: form
           schema:
             type: string
-            format: date-time
+            format: date
         - name: notificationDateTo
           in: query
           required: false
           style: form
           schema:
             type: string
-            format: date-time
+            format: date
       responses:
         '200':
           description: OK
@@ -1298,8 +1298,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+           application/json:
+              schema:
+                $ref: '#/components/schemas/SasToken'
         '400':
           description: Bad request
           content:
@@ -1338,6 +1342,11 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
+    SasToken:
+      type: object
+      properties:
+        sas: 
+          type: string
     InitiativeAdditionalDTO:
       type: object
       properties:
@@ -1812,18 +1821,6 @@ components:
           format: int32
         accruedRewards:
           type: string
-    Pageable:
-      title: Pageable
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        sort:
-          type: string
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
       type: object
@@ -1855,7 +1852,7 @@ components:
           type: string
         notificationDate:
           type: string
-          format: date-time
+          format: date
         organizationId:
           type: string
         percentageResulted:
