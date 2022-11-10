@@ -18,11 +18,19 @@
         <set-variable name="varOrgVatFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_vat", ""))" />
         <set-variable name="varUserIdFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
         <set-variable name="varUserOrgRoleFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
+        <set-variable name="varUserNameFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("name", ""))" />
+        <set-variable name="varUserFamilyNameFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("family_name", ""))" />
         <set-header name="Content-Type" exists-action="override">
             <value>application/json</value>
         </set-header>
         <set-header name="organization_user_id" exists-action="override">
             <value>@context.Variables["varUserIdFromValidToken"]</value>
+        </set-header>
+        <set-header name="organization_user_name" exists-action="override">
+            <value>@context.Variables["varUserNameFromValidToken"]</value>
+        </set-header>
+        <set-header name="organization_user_family_name" exists-action="override">
+            <value>@context.Variables["varUserFamilyNameFromValidToken"]</value>
         </set-header>
         <set-body>@{
             var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
