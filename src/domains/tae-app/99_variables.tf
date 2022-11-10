@@ -181,3 +181,12 @@ variable "dexp_tae_db_linkes_service" {
     enable = bool
   })
 }
+
+variable "cosmos_sink_throughput" {
+  type = object({
+    cap = number
+  })
+  default = {
+    cap = 1000
+  }
+}

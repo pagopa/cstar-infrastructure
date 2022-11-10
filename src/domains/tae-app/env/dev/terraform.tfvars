@@ -60,3 +60,7 @@ dexp_tae_db_linkes_service = {
 zendesk_action_enabled = {
   enable = false
 }
+
+cosmos_sink_throughput = {
+  cap = 1000
+}
