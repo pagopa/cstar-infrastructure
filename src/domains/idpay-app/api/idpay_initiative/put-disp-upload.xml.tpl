@@ -22,7 +22,7 @@
         <!-- SAS Token variables -->
         <set-variable name="sasTokenExpiresInMinutes" value="60" />
         <!-- Genere a service-level SAS token -->
-        <set-variable name="signedPermissions" value="r" />
+        <set-variable name="signedPermissions" value="rcw" />
         <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mmZ"))" />
         <set-variable name="signedExpiry" value="@(DateTime.UtcNow.AddMinutes(Convert.ToDouble((string)context.Variables["sasTokenExpiresInMinutes"])).ToString("yyyy-MM-ddTHH:mmZ"))" />
         <!-- se, required -->
@@ -95,25 +95,20 @@
                 (string)context.Variables["signedVersion"]
             );
             }" />
-        <!-- section: rewrite request to backend -->
-        <!-- change base backend url -->
-
-        <return-response>
-            <set-status code="201" reason="Created" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>@{
-                return new JObject(
-                    new JProperty("sas", string.Format("{0}/{1}/{2}/export/{3}?{4}",
-                    "https://${refund-storage-account-name}.blob.core.windows.net/refund",
+            <!-- section: rewrite request to backend -->
+            <!-- change base backend url -->
+            <set-backend-service base-url="https://${refund-storage-account-name}.blob.core.windows.net/refund" />
+            <set-method>PUT</set-method>
+            <!-- remove filePart query parameter -->
+            <set-header name="Authorization" exists-action="delete" />
+            <!-- rewrite request to backend specfying sas -->
+            <rewrite-uri template="@{
+                    return string.Format("/{0}/{1}/import/{2}?{3}",
                     ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", ""),
                     context.Request.MatchedParameters["initiativeId"],
                     context.Request.MatchedParameters["filename"],
-                    context.Variables["sas"]))
-                ).ToString();
-             }</set-body>
-        </return-response>
+                    context.Variables["sas"]);
+            }" />
     </inbound>
     <backend>
         <base />

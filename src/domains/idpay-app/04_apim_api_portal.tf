@@ -258,6 +258,13 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/get-reward-download.xml.tpl", {
         refund-storage-account-name = module.idpay_refund_storage.name
       })
+    },
+    {
+      operation_id = "putDispFileUpload"
+
+      xml_content = templatefile("./api/idpay_initiative/put-disp-upload.xml.tpl", {
+        refund-storage-account-name = module.idpay_refund_storage.name
+      })
     }
   ]
 
