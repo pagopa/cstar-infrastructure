@@ -123,6 +123,12 @@
         <set-header name="x-ms-blob-type" exists-action="delete" />
         <set-header name="x-ms-server-encrypted" exists-action="delete" />
         <set-header name="ETag" exists-action="delete" />
+        <set-header name="Content-Type" exists-action="override">
+            <value>text/csv</value>
+        </set-header>
+        <set-header name="Content-Disposition" exists-action="override">
+            <value>@("attachment;filename=" + context.Request.MatchedParameters["filename"])</value>
+        </set-header>
         <choose>
             <when condition="@(context.Response.StatusCode != 200)">
                 <return-response>

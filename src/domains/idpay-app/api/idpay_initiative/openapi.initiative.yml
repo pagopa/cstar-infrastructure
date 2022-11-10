@@ -286,6 +286,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: state
+          in: query
+          description: onboarding state
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Ok
@@ -1826,8 +1832,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RewardExportsDTO'
-        pageable:
-          $ref: '#/components/schemas/Pageable'
         totalElements:
           type: integer
           format: int64
