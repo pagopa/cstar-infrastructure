@@ -368,7 +368,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  
+
     delete:
       tags:
         - initiative
@@ -1416,7 +1416,7 @@ components:
     SasToken:
       type: object
       properties:
-        sas: 
+        sas:
           type: string
     InitiativeAdditionalDTO:
       type: object
@@ -1908,6 +1908,22 @@ components:
           format: int32
     RewardExportsDTO:
       title: RewardExportsDTO
+      required: [
+        "id",
+        "organizationId",
+        "initiativeId",
+        "initiativeName",
+        "filePath",
+        "status",
+        "notificationDate",
+        "percentageResulted",
+        "percentageResults",
+        "rewardsExported",
+        "rewardsNotified",
+        "rewardsResulted",
+        "rewardsResultedOk",
+        "rewardsResults"
+      ]
       type: object
       properties:
         feedbackDate:
