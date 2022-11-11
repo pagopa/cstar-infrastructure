@@ -22,7 +22,7 @@
             <value>application/json</value>
         </set-header>
         <set-header name="organization_user_id" exists-action="override">
-            <value>@context.Variables["varUserIdFromValidToken"]</value>
+            <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
         </set-header>
         <set-body>@{
             var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);

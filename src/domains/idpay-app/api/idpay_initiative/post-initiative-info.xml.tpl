@@ -24,13 +24,13 @@
             <value>application/json</value>
         </set-header>
         <set-header name="organization_user_id" exists-action="override">
-            <value>@context.Variables["varUserIdFromValidToken"]</value>
+            <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
         </set-header>
         <set-header name="organization_user_name" exists-action="override">
-            <value>@context.Variables["varUserNameFromValidToken"]</value>
+            <value>@((string)context.Variables["varUserNameFromValidToken"])</value>
         </set-header>
         <set-header name="organization_user_family_name" exists-action="override">
-            <value>@context.Variables["varUserFamilyNameFromValidToken"]</value>
+            <value>@((string)context.Variables["varUserFamilyNameFromValidToken"])</value>
         </set-header>
         <set-body>@{
             var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);

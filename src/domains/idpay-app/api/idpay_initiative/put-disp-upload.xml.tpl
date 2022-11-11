@@ -99,8 +99,11 @@
             <!-- change base backend url -->
             <set-backend-service base-url="https://${refund-storage-account-name}.blob.core.windows.net/refund" />
             <set-method>PUT</set-method>
-            <!-- remove filePart query parameter -->
+            <!-- Configura headers parameter -->
             <set-header name="Authorization" exists-action="delete" />
+            <set-header name="X-Ms-Blob-type" exists-action="override">
+                <value>BlockBlob</value>
+            </set-header>
             <!-- rewrite request to backend specfying sas -->
             <rewrite-uri template="@{
                     return string.Format("/{0}/{1}/import/{2}?{3}",
