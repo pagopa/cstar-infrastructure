@@ -77,6 +77,13 @@ variable "terraform_remote_state_core" {
   })
 }
 
+variable "rtd_keyvault" {
+  type = object({
+    name           = string
+    resource_group = string
+  })
+}
+
 variable "cosmos_mongo_db_params" {
   type = object({
     enabled        = bool
