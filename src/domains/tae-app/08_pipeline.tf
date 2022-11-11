@@ -165,7 +165,7 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   script = templatefile("pipelines/ackIngestor.dataflow", {
-    throughput-cap = var.cosmos_sink_throughput.cap
+    throughput-cap = var.ack_ingestor_conf.sink_thoughput_cap
   })
 }
 
@@ -196,7 +196,7 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
   }
 
   script = templatefile("pipelines/bulkDeleteAggregates.dataflow", {
-    throughput-cap = var.cosmos_sink_throughput.cap
+    throughput-cap = var.bulk_delete_aggregates_conf.sink_thoughput_cap
   })
 }
 

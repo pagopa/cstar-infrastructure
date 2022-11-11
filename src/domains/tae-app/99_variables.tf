@@ -139,14 +139,18 @@ variable "aggregates_ingestor_conf" {
 
 variable "ack_ingestor_conf" {
   type = object({
-    interval  = number
-    frequency = string
-    enable    = bool
+    interval                     = number
+    frequency                    = string
+    enable                       = bool
+    sink_thoughput_cap           = number
+    sink_write_throughput_budget = number
   })
   default = {
-    interval  = 15
-    frequency = "Minute"
-    enable    = false
+    interval                     = 15
+    frequency                    = "Minute"
+    enable                       = false
+    sink_thoughput_cap           = 500
+    sink_write_throughput_budget = 1000
   }
 }
 
@@ -161,18 +165,22 @@ variable "zendesk_action_enabled" {
 
 variable "bulk_delete_aggregates_conf" {
   type = object({
-    interval  = number
-    frequency = string
-    enable    = bool
-    hours     = number
-    minutes   = number
+    interval                     = number
+    frequency                    = string
+    enable                       = bool
+    hours                        = number
+    minutes                      = number
+    sink_thoughput_cap           = number
+    sink_write_throughput_budget = number
   })
   default = {
-    interval  = 1
-    frequency = "Day"
-    enable    = false
-    hours     = 3
-    minutes   = 0
+    interval                     = 1
+    frequency                    = "Day"
+    enable                       = false
+    hours                        = 3
+    minutes                      = 0
+    sink_thoughput_cap           = 500
+    sink_write_throughput_budget = 1000
   }
 }
 
@@ -180,13 +188,4 @@ variable "dexp_tae_db_linkes_service" {
   type = object({
     enable = bool
   })
-}
-
-variable "cosmos_sink_throughput" {
-  type = object({
-    cap = number
-  })
-  default = {
-    cap = 1000
-  }
 }

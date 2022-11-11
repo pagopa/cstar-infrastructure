@@ -48,9 +48,11 @@ aggregates_ingestor_conf = {
 }
 
 ack_ingestor_conf = {
-  interval  = 15
-  frequency = "Minute"
-  enable    = false
+  interval                     = 15
+  frequency                    = "Minute"
+  enable                       = false
+  sink_thoughput_cap           = 500
+  sink_write_throughput_budget = 1000
 }
 
 dexp_tae_db_linkes_service = {
@@ -63,4 +65,14 @@ zendesk_action_enabled = {
 
 cosmos_sink_throughput = {
   cap = 1500
+}
+
+bulk_delete_aggregates_conf = {
+  interval                     = 1
+  frequency                    = "Day"
+  enable                       = true
+  hours                        = 3
+  minutes                      = 0
+  sink_thoughput_cap           = 500
+  sink_write_throughput_budget = 1000
 }
