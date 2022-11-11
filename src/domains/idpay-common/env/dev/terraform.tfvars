@@ -31,6 +31,11 @@ terraform_remote_state_core = {
   key                  = "dev.terraform.tfstate"
 }
 
+rtd_keyvault = {
+  name           = "cstar-d-rtd-kv"
+  resource_group = "cstar-d-rtd-sec-rg"
+}
+
 cosmos_mongo_db_params = {
   enabled      = true
   capabilities = ["EnableMongo", "EnableServerless"]
@@ -78,7 +83,10 @@ eventhubs_idpay_00 = [
     name              = "idpay-onboarding-outcome"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-onboarding-outcome-consumer-group", "idpay-initiative-onboarding-statistics-group"]
+    consumers = [
+      "idpay-onboarding-outcome-consumer-group",
+      "idpay-initiative-onboarding-statistics-group"
+    ]
     keys = [
       {
         name   = "idpay-onboarding-outcome-producer"
@@ -98,7 +106,10 @@ eventhubs_idpay_00 = [
     name              = "idpay-checkiban-evaluation"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-checkiban-evaluation-consumer-group", "idpay-rewards-notification-checkiban-req-group"]
+    consumers = [
+      "idpay-checkiban-evaluation-consumer-group",
+      "idpay-rewards-notification-checkiban-req-group"
+    ]
     keys = [
       {
         name   = "idpay-checkiban-evaluation-producer"
@@ -118,7 +129,10 @@ eventhubs_idpay_00 = [
     name              = "idpay-checkiban-outcome"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-checkiban-outcome-consumer-group", "idpay-rewards-notification-checkiban-out-group"]
+    consumers = [
+      "idpay-checkiban-outcome-consumer-group",
+      "idpay-rewards-notification-checkiban-out-group"
+    ]
     keys = [
       {
         name   = "idpay-checkiban-outcome-producer"
@@ -182,7 +196,12 @@ eventhubs_idpay_01 = [
     name              = "idpay-transaction"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group"]
+    consumers = [
+      "idpay-transaction-consumer-group",
+      "idpay-transaction-wallet-consumer-group",
+      "idpay-rewards-notification-transaction-group",
+      "idpay-initiative-rewards-statistics-group"
+    ]
     keys = [
       {
         name   = "idpay-transaction-producer"
@@ -202,7 +221,11 @@ eventhubs_idpay_01 = [
     name              = "idpay-rule-update"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-beneficiary-rule-update-consumer-group", "idpay-reward-calculator-rule-consumer-group", "idpay-rewards-notification-rule-consumer-group"]
+    consumers = [
+      "idpay-beneficiary-rule-update-consumer-group",
+      "idpay-reward-calculator-rule-consumer-group",
+      "idpay-rewards-notification-rule-consumer-group"
+    ]
     keys = [
       {
         name   = "idpay-rule-update-producer"
