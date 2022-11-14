@@ -47,6 +47,7 @@ deleteAggregatesWithAck sink(allowSchemaDrift: true,
 	format: 'document',
 	batchSize: 1000,
 	partitionKey: ['/terminalId'],
+	throughput: ${throughput-cap},
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true,
 	saveOrder: 1) ~> aggregatesWithAck
