@@ -31,6 +31,11 @@ terraform_remote_state_core = {
   key                  = "terraform.tfstate"
 }
 
+rtd_keyvault = {
+  name           = "cstar-u-rtd-kv"
+  resource_group = "cstar-u-rtd-sec-rg"
+}
+
 cosmos_mongo_db_params = {
   enabled      = true
   capabilities = ["EnableMongo", "EnableServerless"]
