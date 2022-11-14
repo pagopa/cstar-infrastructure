@@ -1963,21 +1963,6 @@ components:
           type: string
         status:
           type: string
-      required:
-        - id
-        - organizationId
-        - initiativeId
-        - initiativeName
-        - filePath
-        - status
-        - notificationDate
-        - percentageResulted
-        - percentageResults
-        - rewardsExported
-        - rewardsNotified
-        - rewardsResulted
-        - rewardsResultedOk
-        - rewardsResults
   securitySchemes:
     Bearer:
       type: apiKey
