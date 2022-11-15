@@ -386,8 +386,8 @@ cosmos_mongo_db_params = {
 cosmos_mongo_db_transaction_params = {
   enable_serverless  = true
   enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
+  max_throughput     = 10000
+  throughput         = 2000
 }
 
 dexp_params = {
