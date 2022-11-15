@@ -164,6 +164,10 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     name = "projectOnlyOneID"
   }
 
+  transformation {
+    name = "addttl"
+  }
+
   script = templatefile("pipelines/ackIngestor.dataflow", {
     throughput-cap = var.ack_ingestor_conf.sink_thoughput_cap
   })
@@ -189,6 +193,10 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
     dataset {
       name = azurerm_data_factory_custom_dataset.aggregate.name
     }
+  }
+
+  transformation {
+    name = "addttl"
   }
 
   transformation {

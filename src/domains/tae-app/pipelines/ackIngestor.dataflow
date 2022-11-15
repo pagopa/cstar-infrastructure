@@ -35,7 +35,7 @@ source(output(
 	validateSchema: false,
 	format: 'document',
 	systemColumns: true) ~> aggregates
-joinAcksWithAggregatesOnId alterRow(deleteIf(aggregates@id==sourceAck@id)) ~> deleteAggregatesWithAck
+addttl alterRow(updateIf(aggregates@id==sourceAck@id)) ~> deleteAggregatesWithAck
 deleteAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.' + $RunID + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,
 	joinType:'inner',
@@ -71,11 +71,13 @@ deleteAggregatesWithAck select(mapColumn(
 		terminalId,
 		totalAmount,
 		transmissionDate,
-		vat
+		vat,
+		ttl
 	),
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectOnlyOneID
 sourceAck derive(ackPipelineRun = $RunID) ~> addPipelineRunId
+joinAcksWithAggregatesOnId derive(ttl = 10) ~> addttl
 addPipelineRunId sink(allowSchemaDrift: true,
 	validateSchema: false,
 	input(
