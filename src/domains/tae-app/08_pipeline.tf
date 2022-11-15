@@ -197,6 +197,7 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
 
   transformation {
     name = "addttl"
+    description = "Adds ttl column"
   }
 
   transformation {
