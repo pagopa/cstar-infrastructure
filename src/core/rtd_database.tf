@@ -123,18 +123,18 @@ resource "azurerm_cosmosdb_mongo_collection" "file_register" {
   database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
 
   index {
-    keys   = ["name"]
+    keys = ["name"]
   }
 
   index {
-    keys   = ["sender"]
+    keys = ["sender"]
   }
 
   index {
     keys   = ["_id"]
     unique = true
   }
-  
+
   autoscale_settings {
     max_throughput = 4000 # overridden via azure portal
   }
