@@ -104,6 +104,9 @@
             <set-header name="X-Ms-Blob-type" exists-action="override">
                 <value>BlockBlob</value>
             </set-header>
+            <set-header name="If-None-Match" exists-action="override">
+                <value>*</value>
+            </set-header>
             <!-- rewrite request to backend specfying sas -->
             <rewrite-uri template="@{
                     return string.Format("/{0}/{1}/import/{2}?{3}",

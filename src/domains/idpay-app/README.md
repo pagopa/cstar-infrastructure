@@ -43,6 +43,8 @@
 | [azurerm_api_management_certificate.idpay_token_exchange_cert_jwt](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/api_management_certificate) | resource |
 | [azurerm_api_management_named_value.refund_storage_access_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/api_management_named_value) | resource |
 | [azurerm_api_management_named_value.selc_external_api_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/api_management_named_value) | resource |
+| [azurerm_eventgrid_system_topic.idpay_refund_storage_topic](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/eventgrid_system_topic) | resource |
+| [azurerm_eventgrid_system_topic_event_subscription.idpay_refund_storage_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
 | [azurerm_key_vault_access_policy.apim](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_certificate.idpay_jwt_signing_cert](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
@@ -80,6 +82,7 @@
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/client_config) | data source |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/dns_zone) | data source |
 | [azurerm_eventhub.enrolled_pi_hub](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/eventhub) | data source |
+| [azurerm_eventhub.eventhub_idpay_reward_notification_storage_events](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/eventhub) | data source |
 | [azurerm_eventhub.revoked_pi_hub](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/eventhub) | data source |
 | [azurerm_eventhub_authorization_rule.enrolled_pi_producer_role](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/eventhub_authorization_rule) | data source |
 | [azurerm_eventhub_authorization_rule.revoked_pi_consumer_role](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/eventhub_authorization_rule) | data source |
