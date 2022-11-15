@@ -262,38 +262,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   }
 }
 
-#resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failures" {
-#  count = var.env_short == "p" ? 1 : 0
-#
-#  name                = "${var.domain}-${var.env_short}-adf-pipelines-failures"
-#  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-#  scopes              = [data.azurerm_data_factory.datafactory.id]
-#  description         = "Triggers whenever at least one pipeline fails #ACQ."
-#  frequency           = "PT5M"
-#  window_size         = "PT5M"
-#  severity            = 1
-#
-#  criteria {
-#    metric_namespace = "Microsoft.DataFactory/factories"
-#    metric_name      = "PipelineFailedRuns"
-#    aggregation      = "Total"
-#    operator         = "GreaterThan"
-#    threshold        = 0
-#  }
-#
-#  action {
-#    action_group_id = azurerm_monitor_action_group.send_to_operations[0].id
-#  }
-#
-#  action {
-#    action_group_id = azurerm_monitor_action_group.send_to_zendesk[0].id
-#  }
-#
-#  tags = {
-#    key = "Sender Monitoring"
-#  }
-#}
-
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_error" {
 
   count = var.env_short == "p" ? 1 : 0
