@@ -147,7 +147,8 @@ projectOnlyOneID sink(allowSchemaDrift: true,
 		totalAmount,
 		transmissionDate,
 		vat,
-		fileName
+		fileName,
+		ttl
 	)) ~> aggregatesWithAck
 selectByStatusNotOk sink(allowSchemaDrift: false,
 	validateSchema: true,
