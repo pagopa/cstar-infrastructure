@@ -76,6 +76,6 @@ resource "azurerm_cosmosdb_sql_container" "aggregates" {
     }
   }
 
- default_ttl = -1
+  default_ttl = -1
 
 }
