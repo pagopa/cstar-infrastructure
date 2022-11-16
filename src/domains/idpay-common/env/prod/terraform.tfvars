@@ -101,6 +101,26 @@ eventhubs_idpay_00 = [
     ]
   },
   {
+    name              = "idpay-onboarding-notification"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-notification-consumer-group", "idpay-onboarding-workflow-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-notification-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-notification-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
     name              = "idpay-checkiban-evaluation"
     partitions        = 3
     message_retention = 1
