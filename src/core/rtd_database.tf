@@ -49,7 +49,7 @@ resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
   dynamic "autoscale_settings" {
     for_each = var.cosmos_mongo_db_transaction_params.enable_autoscaling && !var.cosmos_mongo_db_transaction_params.enable_serverless ? [""] : []
     content {
-      max_throughput = var.cosmos_mongo_db_transaction_params.enable_serverless.max_throughput
+      max_throughput = var.cosmos_mongo_db_transaction_params.max_throughput
     }
   }
 }
@@ -110,6 +110,7 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
   index {
     keys = ["senderCodes"]
   }
+
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "file_register" {
@@ -122,7 +123,26 @@ resource "azurerm_cosmosdb_mongo_collection" "file_register" {
   database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
 
   index {
+    keys = ["name"]
+  }
+
+  index {
+    keys = ["sender"]
+  }
+
+  index {
     keys   = ["_id"]
     unique = true
   }
+
+  autoscale_settings {
+    max_throughput = 4000 # overridden via azure portal
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
+
 }
