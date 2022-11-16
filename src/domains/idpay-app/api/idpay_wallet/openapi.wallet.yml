@@ -4,7 +4,7 @@ info:
   description: IDPAY Wallet IO
   version: '2.0'
 servers:
- - url: https://api-io.dev.cstar.pagopa.it/idpay/wallet
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/wallet
 paths:
   /:
     get:
@@ -25,11 +25,11 @@ paths:
                     initiativeName: string
                     status: NOT_REFUNDABLE_ONLY_IBAN
                     endDate: string
-                    available: 0.01
+                    amount: 0.01
                     accrued: 0.01
                     refunded: 0.01
                     iban: string
-                    nInstr: string
+                    nInstr: 0
         '401':
           description: Authentication failed
           content:
@@ -82,11 +82,11 @@ paths:
                 initiativeName: string
                 status: NOT_REFUNDABLE_ONLY_IBAN
                 endDate: string
-                available: 0.01
+                amount: 0.01
                 accrued: 0.01
                 refunded: 0.01
                 iban: string
-                nInstr: string
+                nInstr: 0
         '401':
           description: Authentication failed
           content:
@@ -417,7 +417,7 @@ paths:
               example:
                 code: 0
                 message: string
-                
+
   /{initiativeId}/unsubscribe:
     delete:
       tags:
@@ -490,7 +490,7 @@ paths:
               example:
                 code: 0
                 message: string
-  
+
   '/{initiativeId}/status':
     get:
       tags:
@@ -573,15 +573,6 @@ components:
         description:
           type: string
           description: further information about the iban
-    InstrumentPutDTO:
-      title: InstrumentPutDTO
-      type: object
-      required:
-        - hpan
-      properties:
-        hpan:
-          type: string
-          description: Payment instrument of the citizen
     WalletStatusDTO:
       title: WalletStatusDTO
       type: object
@@ -594,6 +585,7 @@ components:
             - NOT_REFUNDABLE_ONLY_INSTRUMENT
             - REFUNDABLE
             - NOT_REFUNDABLE
+            - UNSUBSCRIBED
           type: string
           description: actual status of the citizen wallet for an initiative
     WalletDTO:
@@ -636,6 +628,13 @@ components:
         brandLogo:
           type: string
           description: Card's brand as mastercard, visa, ecc.
+        status:
+          enum:
+            - ACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+          type: string
+          description: The status of the instrument
     InitiativeDTO:
       type: object
       required:
@@ -654,11 +653,12 @@ components:
             - NOT_REFUNDABLE_ONLY_INSTRUMENT
             - REFUNDABLE
             - NOT_REFUNDABLE
+            - UNSUBSCRIBED
           type: string
         endDate:
           type: string
           format: date
-        available:
+        amount:
           type: number
         accrued:
           type: number
@@ -667,7 +667,8 @@ components:
         iban:
           type: string
         nInstr:
-          type: string
+          type: integer
+          format: int32
     ErrorDTO:
       type: object
       required:
