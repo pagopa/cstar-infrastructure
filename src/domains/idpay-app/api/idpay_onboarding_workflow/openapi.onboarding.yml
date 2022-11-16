@@ -11,7 +11,7 @@ paths:
       tags:
         - onboarding
       summary: Retrieves the initiative ID starting from the corresponding service ID
-      operationId: getInitiativeId
+      operationId: getInitiativeData
       parameters:
         - name: serviceId
           in: path
@@ -19,6 +19,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Get successful
@@ -134,6 +141,14 @@ paths:
         - onboarding
       summary: Check the initiative prerequisites
       operationId: checkPrerequisites
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       requestBody:
         description: Id of the iniziative
         required: true
@@ -402,12 +417,22 @@ components:
       required:
         - code
         - description
+        - value
         - authority
       properties:
         code:
           type: string
         description:
           type: string
+        value:
+          type: string
+          description: The expected value for the criteria. It is used in conjunction with the operator to define a range or an equality over that criteria.
+        value2:
+          type: string
+          description: In situations where the operator expects two values (e.g BETWEEN) this field is populated
+        operator:
+          type: string
+          description: Represents the relation between the criteria and the value field
         authority:
           type: string
     SelfDeclarationBoolDTO:
@@ -493,8 +518,11 @@ components:
       type: object
       required:
         - initiativeId
+        - description
       properties:
         initiativeId:
+          type: string
+        description:
           type: string
   securitySchemes:
     bearerAuth:
