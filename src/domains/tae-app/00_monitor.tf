@@ -767,6 +767,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
       | where OperationName == "ack_ingestor - Failed"
       | where status_s == "Failed"
       | where pipelineName_s == "ack_ingestor"
+      | where todynamic(Predecessors_s)[0]["InvokedByType"] != "Manual"
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -820,6 +821,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
       | where pipelineName_s == "aggregates_ingestor"
       | where OperationName == "aggregates_ingestor - Failed"
       | where status_s == "Failed"
+      | where todynamic(Predecessors_s)[0]["InvokedByType"] != "Manual"
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
