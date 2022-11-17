@@ -12,6 +12,14 @@ paths:
         - wallet
       summary: Returns the list of active initiatives of a citizen
       operationId: getWallet
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Ok
@@ -64,6 +72,13 @@ paths:
       summary: Returns the detail of an active initiative of a citizen
       operationId: getWalletDetail
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -130,6 +145,13 @@ paths:
       summary: Association of an IBAN to an initiative
       operationId: enrollIban
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -211,6 +233,13 @@ paths:
       summary: Association of a payment instrument to an initiative
       operationId: enrollInstrument
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -289,6 +318,13 @@ paths:
       summary: Returns the list of payment instruments associated to the initiative by the citizen
       operationId: getInstrumentList
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -346,6 +382,13 @@ paths:
       summary: Delete a payment instrument from an initiative
       operationId: deleteInstrument
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -425,6 +468,13 @@ paths:
       summary: Unsubscribe to an initiative
       operationId: unsubscribe
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -498,6 +548,13 @@ paths:
       summary: Returns the actual wallet status
       operationId: getWalletStatus
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
