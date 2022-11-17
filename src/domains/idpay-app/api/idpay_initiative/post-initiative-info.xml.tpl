@@ -23,13 +23,13 @@
         <set-header name="Content-Type" exists-action="override">
             <value>application/json</value>
         </set-header>
-        <set-header name="organization_user_id" exists-action="override">
+        <set-header name="organization-user-id" exists-action="override">
             <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
         </set-header>
-        <set-header name="organization_user_name" exists-action="override">
+        <set-header name="organization-user-name" exists-action="override">
             <value>@((string)context.Variables["varUserNameFromValidToken"])</value>
         </set-header>
-        <set-header name="organization_user_family_name" exists-action="override">
+        <set-header name="organization-user-family-name" exists-action="override">
             <value>@((string)context.Variables["varUserFamilyNameFromValidToken"])</value>
         </set-header>
         <set-body>@{
