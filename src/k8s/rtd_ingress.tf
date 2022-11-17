@@ -75,6 +75,18 @@ resource "kubernetes_ingress_v1" "rtd_ingress" {
           }
           path = "/rtdmspieventprocessor/(.*)"
         }
+
+        path {
+          backend {
+            service {
+              name = "rtdmsfilereporter"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/rtdmsfilereporter/(.*)"
+        }
       }
     }
   }
