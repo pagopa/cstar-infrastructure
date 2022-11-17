@@ -14,6 +14,25 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
+        <set-variable name="varOrgNameFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_name", ""))" />
+        <set-variable name="varOrgVatFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_vat", ""))" />
+        <set-variable name="varUserIdFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
+        <set-variable name="varUserOrgRoleFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+        <set-header name="organization_user_id" exists-action="override">
+            <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
+        </set-header>
+        <set-body>@{
+            var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
+            requestToBeModified.Add(new JProperty("organizationName", context.Variables["varOrgNameFromValidToken"]));
+            requestToBeModified.Add(new JProperty("organizationVat", context.Variables["varOrgVatFromValidToken"]));
+            requestToBeModified.Add(new JProperty("organizationUserId", context.Variables["varUserIdFromValidToken"]));
+            requestToBeModified.Add(new JProperty("organizationUserRole", context.Variables["varUserOrgRoleFromValidToken"]));
+            return requestToBeModified.ToString();
+            }
+        </set-body>
         <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/draft")" />
     </inbound>
     <backend>

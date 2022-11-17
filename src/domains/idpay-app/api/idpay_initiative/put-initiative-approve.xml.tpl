@@ -21,14 +21,16 @@
         <set-header name="Content-Type" exists-action="override">
             <value>application/json</value>
         </set-header>
-        <set-body>@{
-            JObject requestToBeModified = new JObject();
-            requestToBeModified.Add(new JProperty("organizationName", context.Variables["varOrgNameFromValidToken"]));
-            requestToBeModified.Add(new JProperty("organizationVat", context.Variables["varOrgNameFromValidToken"]));
-            requestToBeModified.Add(new JProperty("organizationUserId", context.Variables["varOrgNameFromValidToken"]));
-            requestToBeModified.Add(new JProperty("organizationUserRole", context.Variables["varOrgNameFromValidToken"]));
-            return requestToBeModified.ToString();
-            }
+        <set-header name="organization_user_id" exists-action="override">
+            <value>@context.Variables["varUserIdFromValidToken"]</value>
+        </set-header>
+        <set-body template="liquid">
+        {
+            "organizationName": "{{context.Variables["varOrgNameFromValidToken"]}}",
+            "organizationVat": "{{context.Variables["varOrgVatFromValidToken"]}}",
+            "organizationUserId": "{{context.Variables["varUserIdFromValidToken"]}}",
+            "organizationUserRole": "{{context.Variables["varUserOrgRoleFromValidToken"]}}"
+        }
         </set-body>
         <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/approved")" />
     </inbound>
