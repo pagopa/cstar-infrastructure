@@ -206,7 +206,8 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
   }
 
   script = templatefile("pipelines/bulkDeleteAggregates.dataflow", {
-    throughput-cap = var.bulk_delete_aggregates_conf.sink_thoughput_cap
+    throughput-cap          = var.bulk_delete_aggregates_conf.sink_thoughput_cap
+    write-throughput-budget = var.bulk_delete_aggregates_conf.sink_write_throughput_budget
   })
 }
 
