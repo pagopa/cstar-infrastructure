@@ -116,9 +116,11 @@ variable "dns_zone_internal_prefix" {
 variable "aggregates_ingestor_conf" {
   type = object({
     enable = bool
+    copy_activity_retries = number
   })
   default = {
     enable = false
+    copy_activity_retries = 3
   }
 }
 

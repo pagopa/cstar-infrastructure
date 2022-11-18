@@ -36,6 +36,7 @@ dns_zone_internal_prefix = "internal.dev.cstar"
 
 aggregates_ingestor_conf = {
   enable = true
+  copy_activity_retries = 3
 }
 
 ack_ingestor_conf = {

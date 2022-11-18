@@ -6,7 +6,9 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   parameters = {
     file = "myFile"
   }
-  activities_json = file("pipelines/aggregatesIngestor.json")
+  activities_json = templatefile("pipelines/aggregatesIngestor.json.tpl" ,{
+    copy_activity_retries = var.aggregates_ingestor_conf.copy_activity_retries
+  })
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
@@ -52,7 +54,9 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
   parameters = {
     file = "myFile"
   }
-  activities_json = file("pipelines/aggregatesIngestorTesting.json")
+  activities_json = templatefile("pipelines/aggregatesIngestorTesting.json.tpl" ,{
+    copy_activity_retries = var.aggregates_ingestor_conf.copy_activity_retries
+  })
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
