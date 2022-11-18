@@ -22,16 +22,6 @@ tags = {
 #
 cidr_idpay_subnet_redis = ["10.1.139.0/24"]
 
-
-lock_enable = true
-
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraformdev"
-  container_name       = "azureadstate"
-  key                  = "dev.terraform.tfstate"
-}
-
 rtd_keyvault = {
   name           = "cstar-d-rtd-kv"
   resource_group = "cstar-d-rtd-sec-rg"
