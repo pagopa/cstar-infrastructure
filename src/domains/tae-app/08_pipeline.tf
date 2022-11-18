@@ -8,6 +8,7 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   }
   activities_json = templatefile("pipelines/aggregatesIngestor.json.tpl" ,{
     copy_activity_retries = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
   })
 
   depends_on = [
@@ -56,6 +57,7 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
   }
   activities_json = templatefile("pipelines/aggregatesIngestorTesting.json.tpl" ,{
     copy_activity_retries = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
   })
 
   depends_on = [

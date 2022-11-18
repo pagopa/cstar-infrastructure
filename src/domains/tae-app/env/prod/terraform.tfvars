@@ -37,6 +37,7 @@ dns_zone_internal_prefix = "internal.prod.cstar"
 aggregates_ingestor_conf = {
   enable = true
   copy_activity_retries = 3
+  copy_activity_retry_interval_seconds = 1800
 }
 
 ack_ingestor_conf = {

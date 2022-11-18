@@ -117,10 +117,12 @@ variable "aggregates_ingestor_conf" {
   type = object({
     enable = bool
     copy_activity_retries = number
+    copy_activity_retry_interval_seconds = number
   })
   default = {
     enable = false
     copy_activity_retries = 3
+    copy_activity_retry_interval_seconds = 1800
   }
 }
 
