@@ -163,6 +163,7 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_collection" {
 
   index {
     keys = ["senderCode"]
+    unique = true
   }
 
 }
