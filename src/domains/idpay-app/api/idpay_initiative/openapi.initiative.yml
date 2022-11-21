@@ -440,10 +440,10 @@ paths:
           multipart/form-data:
             schema:
               required:
-              - file
+              - logo
               type: object
               properties:
-                file:
+                logo:
                   type: string
                   format: binary
       responses:
