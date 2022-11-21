@@ -16,7 +16,7 @@ module "idpay_initiative_storage" {
   resource_group_name        = azurerm_resource_group.rg_refund_storage.name
   location                   = var.location
   advanced_threat_protection = var.storage_advanced_threat_protection
-  allow_blob_public_access   = false
+  allow_blob_public_access   = true
 
   blob_properties_delete_retention_policy_days = var.storage_delete_retention_days
 
@@ -26,7 +26,7 @@ module "idpay_initiative_storage" {
 resource "azurerm_storage_container" "idpay_logo_container" {
   name                  = "logo"
   storage_account_name  = module.idpay_initiative_storage.name
-  container_access_type = "private"
+  container_access_type = "blob"
 }
 
 # storage access key
