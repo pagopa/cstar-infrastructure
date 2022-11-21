@@ -1940,10 +1940,10 @@ components:
       properties:
         logoFileName:
           type: string
-          example: "NTT-Data-Logo.svg.png"
+          example: "logo-name.png"
         logoURL:
           type: string
-          example: "https://idpaydinitiativestorage.blob.core.windows.net/logo/initiative/636e1473cc8ec714db521f05/logo"
+          example: "https://localhost:8080/logo/initiative/logo.png"
         logoUploadDate:
           type: string
           description: date-time
@@ -2113,7 +2113,7 @@ components:
           type: integer
           format: int32
     PageRewardImportsDTO:
-      title: Page«RewardImportsDTO»
+      title: PageRewardImportsDTO
       type: object
       properties:
         content:

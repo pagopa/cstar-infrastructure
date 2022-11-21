@@ -241,7 +241,14 @@ module "idpay_initiative_portal" {
     {
       operation_id = "getRewardNotificationExportsPaged"
 
-      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications-exp.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getRewardNotificationImportsPaged"
+
+      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications-imp.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
@@ -265,7 +272,14 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/put-disp-upload.xml.tpl", {
         refund-storage-account-name = module.idpay_refund_storage.name
       })
-    }
+    },
+    {
+      operation_id = "uploadAndUpdateLogo"
+
+      xml_content = templatefile("./api/idpay_initiative/put-logo-upload.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }    
   ]
 
 }
