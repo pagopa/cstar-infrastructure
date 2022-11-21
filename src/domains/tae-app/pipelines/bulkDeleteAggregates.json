@@ -14,7 +14,13 @@
     "typeProperties": {
       "dataflow": {
         "referenceName": "bulkDeleteAggregates",
-        "type": "DataFlowReference"
+            "type": "DataFlowReference",
+            "parameters": {
+              "timestamp": {
+                "value": "@pipeline().parameters.timestamp",
+                "type": "Expression"
+              }
+            }
       },
       "compute": {
         "coreCount": 8,
