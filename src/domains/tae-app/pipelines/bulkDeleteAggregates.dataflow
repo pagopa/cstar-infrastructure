@@ -1,3 +1,6 @@
+parameters{
+	timestamp as integer (0)
+}
 source(output(
 		id as string,
 		terminalId as string
@@ -5,7 +8,8 @@ source(output(
 	allowSchemaDrift: true,
 	validateSchema: false,
 	inferDriftedColumnTypes: true,
-	format: 'document',
+	query: (concat('select c.id, c.terminalId from c where c._ts < ',toString($timestamp))),
+	format: 'documentQuery',
 	systemColumns: false,
 	throughput: ${throughput-cap}) ~> aggregates
 addttl alterRow(updateIf(true())) ~> deleteAggregatesWithAck
