@@ -322,9 +322,9 @@ resource "kubernetes_secret" "rtd-file-register-projector-producer" {
   }
 
   data = {
-    KAFKA_RTD_SPLIT_TOPIC            = "rtd-file-register-projector"
-    KAFKA_RTD_SPLIT_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
-    KAFKA_RTD_SPLIT_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"].value
+    KAFKA_RTD_PROJECTOR_TOPIC            = "rtd-file-register-projector"
+    KAFKA_RTD_PROJECTOR_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    KAFKA_RTD_PROJECTOR_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"].value
   }
 }
 
@@ -335,9 +335,9 @@ resource "kubernetes_secret" "rtd-file-register-projector-consumer" {
   }
 
   data = {
-    KAFKA_RTD_SPLIT_TOPIC            = "rtd-file-register-projector"
-    KAFKA_RTD_SPLIT_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
-    KAFKA_RTD_SPLIT_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd"].value
+    KAFKA_RTD_PROJECTOR_TOPIC            = "rtd-file-register-projector"
+    KAFKA_RTD_PROJECTOR_BROKER           = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    KAFKA_RTD_PROJECTOR_SASL_JAAS_CONFIG = module.key_vault_domain_rtd_secrets_query.values["evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd"].value
   }
 }
 
