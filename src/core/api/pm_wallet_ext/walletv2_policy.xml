@@ -20,12 +20,6 @@
             <set-header name="Fiscal-Code" exists-action="override">
                 <value>@(context.Variables.GetValueOrDefault<string>("fiscalcode"))</value>
             </set-header>
-            <!--  <set-header name="Host" exists-action="override">
-                <value>api.uat.platform.pagopa.it</value>
-            </set-header>
-           <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
-                <value>{{pagopa-platform-apim-api-key-primary}}</value>
-            </set-header> -->
             <set-header name="Authorization" exists-action="override">
                 <value>{{pm-np-wallet-basic-auth}}</value>
             </set-header>
