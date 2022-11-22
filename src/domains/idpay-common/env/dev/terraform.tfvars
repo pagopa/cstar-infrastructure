@@ -17,19 +17,17 @@ tags = {
   Application = "IdPay"
 }
 
-#
-# CIRDs
-#
-cidr_idpay_subnet_redis = ["10.1.139.0/24"]
-
-lock_enable = true
-
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
   storage_account_name = "cstarinfrastterraformdev"
   container_name       = "azureadstate"
   key                  = "dev.terraform.tfstate"
 }
+
+#
+# CIDRs
+#
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]
 
 rtd_keyvault = {
   name           = "cstar-d-rtd-kv"
@@ -96,6 +94,26 @@ eventhubs_idpay_00 = [
       },
       {
         name   = "idpay-onboarding-outcome-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-onboarding-notification"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-notification-consumer-group", "idpay-onboarding-workflow-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-notification-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-notification-consumer"
         listen = true
         send   = false
         manage = false
