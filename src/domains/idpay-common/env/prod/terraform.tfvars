@@ -17,20 +17,17 @@ tags = {
   Application = "IdPay"
 }
 
-#
-# CIDRs
-#
-cidr_idpay_subnet_redis = ["10.1.139.0/24"]
-
-
-lock_enable = true
-
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
   storage_account_name = "cstarinfrastterraform"
   container_name       = "azurermstate"
   key                  = "prod.terraform.tfstate"
 }
+
+#
+# CIDRs
+#
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]
 
 rtd_keyvault = {
   name           = "cstar-p-rtd-kv"

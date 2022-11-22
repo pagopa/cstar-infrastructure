@@ -51,6 +51,7 @@ No modules.
 | [azurerm_monitor_scheduled_query_rules_alert_v2.aggregates_ingestor_failures](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.created_file_in_ade_error](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.failed_decryption](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.file_not_created_in_ade_out](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.no_data_in_decryted_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.not_all_chunks_are_verified_decrypter](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.sender_auth_failed_authentications](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
@@ -80,16 +81,16 @@ No modules.
 | [azurerm_storage_account.acquirer_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/storage_account) | data source |
 | [azurerm_storage_account.sftp_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/storage_account) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/subscription) | data source |
-| [terraform_remote_state.core](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ack_ingestor_conf"></a> [ack\_ingestor\_conf](#input\_ack\_ingestor\_conf) | n/a | <pre>object({<br>    interval                     = number<br>    frequency                    = string<br>    enable                       = bool<br>    sink_thoughput_cap           = number<br>    sink_write_throughput_budget = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Minute",<br>  "interval": 15,<br>  "sink_thoughput_cap": 500,<br>  "sink_write_throughput_budget": 1000<br>}</pre> | no |
-| <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
+| <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable                               = bool<br>    copy_activity_retries                = number<br>    copy_activity_retry_interval_seconds = number<br>  })</pre> | <pre>{<br>  "copy_activity_retries": 3,<br>  "copy_activity_retry_interval_seconds": 1800,<br>  "enable": false<br>}</pre> | no |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
+| <a name="input_alerts_conf"></a> [alerts\_conf](#input\_alerts\_conf) | n/a | <pre>object({<br>    max_days_just_into_ade_in = number<br>  })</pre> | <pre>{<br>  "max_days_just_into_ade_in": 3<br>}</pre> | no |
 | <a name="input_bulk_delete_aggregates_conf"></a> [bulk\_delete\_aggregates\_conf](#input\_bulk\_delete\_aggregates\_conf) | n/a | <pre>object({<br>    interval                     = number<br>    frequency                    = string<br>    enable                       = bool<br>    hours                        = number<br>    minutes                      = number<br>    sink_thoughput_cap           = number<br>    sink_write_throughput_budget = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Day",<br>  "hours": 3,<br>  "interval": 1,<br>  "minutes": 0,<br>  "sink_thoughput_cap": 500,<br>  "sink_write_throughput_budget": 1000<br>}</pre> | no |
 | <a name="input_dexp_tae_db_linkes_service"></a> [dexp\_tae\_db\_linkes\_service](#input\_dexp\_tae\_db\_linkes\_service) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
@@ -102,13 +103,11 @@ No modules.
 | <a name="input_k8s_kube_config_path_prefix"></a> [k8s\_kube\_config\_path\_prefix](#input\_k8s\_kube\_config\_path\_prefix) | n/a | `string` | `"~/.kube"` | no |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | One of wue, neu | `string` | n/a | yes |
-| <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Specifies the name of the Log Analytics Workspace. | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
-| <a name="input_terraform_remote_state_core"></a> [terraform\_remote\_state\_core](#input\_terraform\_remote\_state\_core) | n/a | <pre>object({<br>    resource_group_name  = string,<br>    storage_account_name = string,<br>    container_name       = string,<br>    key                  = string<br>  })</pre> | n/a | yes |
 | <a name="input_zendesk_action_enabled"></a> [zendesk\_action\_enabled](#input\_zendesk\_action\_enabled) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 
 ## Outputs
