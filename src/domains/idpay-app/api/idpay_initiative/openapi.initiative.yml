@@ -368,7 +368,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-
     delete:
       tags:
         - initiative
@@ -406,6 +405,74 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Initiative ID not found or already deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/logo:
+    put:
+      tags:
+        - initiative
+      summary: Upload and update Logo
+      description: Upload and update Logo
+      operationId: uploadAndUpdateLogo
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - logo
+              type: object
+              properties:
+                logo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
           content:
             application/json:
               schema:
@@ -1183,7 +1250,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: Return a pageable list of reward notification for a specific Initiative by using filters
+      summary: Return a pageable list of reward exports notification for a specific Initiative by using filters
       operationId: getRewardNotificationExportsPaged
       parameters:
         - name: initiativeId
@@ -1240,6 +1307,103 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PageRewardExportsDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/imports:
+    get:
+      tags:
+        - initiative-reward
+      summary: Return a pageable list of reward imports notification for a specific Initiative by using filters
+      operationId: getRewardNotificationImportsPaged
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: elabDateFrom
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date-time
+        - name: elabDateTo
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageRewardImportsDTO'
         '400':
           description: Bad request
           content:
@@ -1440,6 +1604,13 @@ components:
           type: string
         channels:
           $ref: '#/components/schemas/ChannelArrayDTO'
+        logoFileName:
+          type: string
+        logoURL:
+          type: string
+        logoUploadDate:
+          type: string
+          format: date-time
     InitiativeGeneralDTO:
       type: object
       properties:
@@ -1474,6 +1645,10 @@ components:
           description: Start date
           format: date
           example: '2022-01-30'
+        rankingEnabled:
+          type: boolean
+        descriptionMap:
+          $ref: '#/components/schemas/DescriptionMap'
     AutomatedCriteriaDTO:
       type: object
       properties:
@@ -1487,6 +1662,11 @@ components:
           type: string
         value:
           type: string
+        orderDirection:
+          type: string
+          enum:
+          - ASC
+          - DESC
     InitiativeDTO:
       type: object
       properties:
@@ -1526,6 +1706,15 @@ components:
           $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
         refundRule:
           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+    DescriptionLanguageMap:
+      type: object
+      properties:
+        language:
+          type: string
+        description:
+          type: string
+      items:
+        $ref: '#/components/schemas/DescriptionLanguageMap'
     InitiativeSummaryArrayDTO:
       type: array
       items:
@@ -1545,6 +1734,8 @@ components:
         updateDate:
           type: string
           format: date-time
+        rankingEnabled:
+          type: boolean
     ChannelArrayDTO:
       type: array
       items:
@@ -1744,6 +1935,19 @@ components:
           type: array
           items:
             type: string
+    LogoDTO:
+      type: object
+      properties:
+        logoFileName:
+          type: string
+          example: "logo-name.png"
+        logoURL:
+          type: string
+          example: "https://localhost:8080/logo/initiative/logo.png"
+        logoUploadDate:
+          type: string
+          description: date-time
+          example: "2022-11-18T17:16:08.8820821"
     RewardGroupDTO:
       type: object
       properties:
@@ -1798,6 +2002,7 @@ components:
           type: number
         toIncluded:
           type: boolean
+    
     TrxCountDTO:
       type: object
       properties:
@@ -1845,6 +2050,7 @@ components:
             - WEEKLY
             - MONTHLY
             - QUARTERLY
+            
     OnboardingDTO:
       type: object
       properties:
@@ -1906,6 +2112,28 @@ components:
         totalPages:
           type: integer
           format: int32
+    PageRewardImportsDTO:
+      title: PageRewardImportsDTO
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RewardImportsDTO"
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    DescriptionMap:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            it: Ciao!
+            en: Hello!
+            fr: Salut!
     RewardExportsDTO:
       title: RewardExportsDTO
       required: [
@@ -1962,6 +2190,61 @@ components:
         rewardsResults:
           type: string
         status:
+          type: string
+    RewardImportsDTO:
+      title: RewardImportsDTO
+      type: object
+      properties:
+        contentLength:
+          type: integer
+          format: int32
+        eTag:
+          type: string
+        elabDate:
+          type: string
+          format: date-time
+        errorsSize:
+          type: integer
+          format: int32
+        exportIds:
+          type: array
+          items:
+            type: string
+        feedbackDate:
+          type: string
+          format: date-time
+        filePath:
+          type: string
+        initiativeId:
+          type: string
+        organizationId:
+          type: string
+        percentageResulted:
+          type: string
+        percentageResultedOk:
+          type: string
+        percentageResultedOkElab:
+          type: string
+        rewardsResulted:
+          type: integer
+          format: int64
+        rewardsResultedError:
+          type: integer
+          format: int64
+        rewardsResultedOk:
+          type: integer
+          format: int64
+        rewardsResultedOkError:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - COMPLETE
+          - ERROR
+          - IN_PROGRESS
+          - WARN
+        url:
           type: string
   securitySchemes:
     Bearer:

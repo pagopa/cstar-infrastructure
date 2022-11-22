@@ -42,10 +42,56 @@ resource "azurerm_eventgrid_system_topic" "idpay_refund_storage_topic" {
   topic_type             = "Microsoft.Storage.StorageAccounts"
 }
 
+/* cannot use delivery_property with plugin 2.99
 resource "azurerm_eventgrid_system_topic_event_subscription" "idpay_refund_storage_subscription" {
   name                = format("%s-events-refund-storage-subscription", local.project)
   system_topic        = azurerm_eventgrid_system_topic.idpay_refund_storage_topic.name
   resource_group_name = azurerm_resource_group.rg_refund_storage.name
 
   eventhub_endpoint_id = data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+
+  delivery_property {
+    header_name  = "PartitionKey"
+    type         = "Dynamic"
+    source_field = "data.clientRequestId"
+  }
+}*/
+
+resource "azapi_resource" "idpay_refund_storage_topic_event_subscription" {
+  type      = "Microsoft.EventGrid/systemTopics/eventSubscriptions@2021-12-01"
+  name      = format("%s-events-refund-storage-subscription", local.project)
+  parent_id = azurerm_eventgrid_system_topic.idpay_refund_storage_topic.id
+
+  body = jsonencode({
+    "properties" : {
+      "destination" : {
+        "endpointType" : "EventHub",
+        "properties" : {
+          "deliveryAttributeMappings" : [
+            {
+              "name" : "PartitionKey",
+              "properties" : {
+                "sourceField" : "data.clientRequestId"
+              },
+              "type" : "Dynamic"
+            }
+          ],
+          "resourceId" : data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+        }
+      },
+      "eventDeliverySchema" : "EventGridSchema",
+      "filter" : {
+        "includedEventTypes" : [
+          "Microsoft.Storage.BlobCreated"
+        ],
+      },
+      "labels" : [],
+      "retryPolicy" : {
+        "eventTimeToLiveInMinutes" : 1440,
+        "maxDeliveryAttempts" : 30
+      },
+    }
+  })
+
+  response_export_values = ["*"]
 }

@@ -107,6 +107,9 @@
             <set-header name="If-None-Match" exists-action="override">
                 <value>*</value>
             </set-header>
+            <set-header name="x-ms-client-request-id" exists-action="override">
+                <value>@("orgId="+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+";initiativeId="+context.Request.MatchedParameters["initiativeId"])</value>
+            </set-header>
             <!-- rewrite request to backend specfying sas -->
             <rewrite-uri template="@{
                     return string.Format("/{0}/{1}/import/{2}?{3}",
