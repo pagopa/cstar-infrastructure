@@ -34,7 +34,8 @@ source(output(
 	allowSchemaDrift: false,
 	validateSchema: false,
 	format: 'document',
-	systemColumns: true) ~> aggregates
+	systemColumns: true,
+	throughput: ${throughput-cap}) ~> aggregates
 addttl alterRow(updateIf(aggregates@id==sourceAck@id)) ~> deleteAggregatesWithAck
 deleteAggregatesWithAck derive(ackFileName = $RunID + '/' + toString(senderCode) + '/' + 'ADEACK' + '.' + toString(senderCode) + '.' + toString(acquirerId) + '.' + toString(currentDate('YYYYMMdd')) + '.' + $RunID + '.csv') ~> addFileName
 sourceAck, aggregates join(sourceAck@id == aggregates@id,

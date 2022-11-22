@@ -15,15 +15,6 @@ tags = {
   Application = "TAE"
 }
 
-lock_enable = true
-
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraform"
-  container_name       = "azureadstate"
-  key                  = "prod.terraform.tfstate"
-}
-
 ### External resources
 
 monitor_resource_group_name                 = "cstar-p-monitor-rg"
@@ -44,7 +35,9 @@ external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.prod.cstar"
 
 aggregates_ingestor_conf = {
-  enable = true
+  enable                               = true
+  copy_activity_retries                = 3
+  copy_activity_retry_interval_seconds = 1800
 }
 
 ack_ingestor_conf = {
