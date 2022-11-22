@@ -416,7 +416,10 @@
         "typeProperties": {
             "source": {
                 "type": "CosmosDbSqlApiSource",
-                "query": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                "query": {
+                    "value": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                    "type": "Expression"
+                },
                 "preferredRegions": []
             },
             "sink": {
@@ -600,7 +603,7 @@
           "type": "Copy",
           "dependsOn": [
             {
-              "activity": "SenderAggregatesToDatastore",
+                "activity": "AggregatesToSftp",
               "dependencyConditions": [
                 "Succeeded"
               ]
