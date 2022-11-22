@@ -178,3 +178,12 @@ variable "dexp_tae_db_linkes_service" {
     enable = bool
   })
 }
+
+variable "alerts_conf" {
+  type = object({
+    max_days_just_into_ade_in = number
+  })
+  default = {
+    max_days_just_into_ade_in = 3
+  }
+}
