@@ -279,7 +279,7 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/put-logo-upload.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
-    }    
+    }
   ]
 
 }
