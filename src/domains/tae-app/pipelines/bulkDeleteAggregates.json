@@ -13,6 +13,10 @@
     "userProperties": [],
     "typeProperties": {
       "dataFlow": {
+        "datasetParameters" : {
+          "aggregates" : {},
+          "aggregatesWithAck" : {}
+        },
         "referenceName": "bulkDeleteAggregates",
             "type": "DataFlowReference",
             "parameters": {
@@ -26,7 +30,8 @@
         "coreCount": 8,
         "computeType": "General"
       },
-      "traceLevel": "Fine"
+      "traceLevel": "Fine",
+      "staging" : {}
     }
   }
 ]
