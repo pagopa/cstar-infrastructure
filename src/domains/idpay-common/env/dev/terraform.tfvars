@@ -104,7 +104,7 @@ eventhubs_idpay_00 = [
     name              = "idpay-onboarding-notification"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-onboarding-notification-consumer-group", "idpay-onboarding-workflow-consumer-group"]
+    consumers         = ["idpay-onboarding-notification-consumer-group"]
     keys = [
       {
         name   = "idpay-onboarding-notification-producer"
@@ -200,6 +200,26 @@ eventhubs_idpay_00 = [
       },
       {
         name   = "idpay-notification-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-onboarding-ranking-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-ranking-request-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-ranking-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-ranking-request-consumer"
         listen = true
         send   = false
         manage = false

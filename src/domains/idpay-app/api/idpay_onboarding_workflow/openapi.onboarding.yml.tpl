@@ -4,14 +4,14 @@ info:
   description: IDPAY Onboarding Workflow IO
   version: '1.0'
 servers:
- - url: https://api-io.dev.cstar.pagopa.it/idpay/onboarding
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/onboarding
 paths:
   /service/{serviceId}:
     get:
       tags:
         - onboarding
       summary: Retrieves the initiative ID starting from the corresponding service ID
-      operationId: getInitiativeId
+      operationId: getInitiativeData
       parameters:
         - name: serviceId
           in: path
@@ -19,12 +19,19 @@ paths:
           required: true
           schema:
             type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Get successful
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/InitiativeDto'
         '400':
           description: Bad request
@@ -62,13 +69,21 @@ paths:
               example:
                 code: 0
                 message: string
-        
+
   /:
     put:
       tags:
         - onboarding
       summary: Acceptance of Terms & Conditions
       operationId: onboardingCitizen
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       requestBody:
         description: Id of the initiative
         required: true
@@ -134,6 +149,14 @@ paths:
         - onboarding
       summary: Check the initiative prerequisites
       operationId: checkPrerequisites
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       requestBody:
         description: Id of the iniziative
         required: true
@@ -214,6 +237,14 @@ paths:
         - onboarding
       summary: Save the consensus of both PDND and self-declaration
       operationId: consentOnboarding
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       requestBody:
         description: 'Unique identifier of the subscribed initiative, flag for PDND acceptation and the list of accepted self-declared criteria'
         required: true
@@ -278,6 +309,13 @@ paths:
       summary: Returns the actual onboarding status
       operationId: onboardingStatus
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -357,8 +395,8 @@ components:
     OnboardingPutDTO:
       title: OnboardingPutDTO
       type: object
-      required: 
-       - initiativeId
+      required:
+        - initiativeId
       properties:
         initiativeId:
           type: string
@@ -375,6 +413,7 @@ components:
             - ON_EVALUATION
             - ONBOARDING_KO
             - ONBOARDING_OK
+            - INACTIVE
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
@@ -402,12 +441,22 @@ components:
       required:
         - code
         - description
+        - value
         - authority
       properties:
         code:
           type: string
         description:
           type: string
+        value:
+          type: string
+          description: The expected value for the criteria. It is used in conjunction with the operator to define a range or an equality over that criteria.
+        value2:
+          type: string
+          description: In situations where the operator expects two values (e.g BETWEEN) this field is populated
+        operator:
+          type: string
+          description: Represents the relation between the criteria and the value field
         authority:
           type: string
     SelfDeclarationBoolDTO:
@@ -495,6 +544,8 @@ components:
         - initiativeId
       properties:
         initiativeId:
+          type: string
+        description:
           type: string
   securitySchemes:
     bearerAuth:

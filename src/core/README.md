@@ -87,6 +87,7 @@
 | <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
 | <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
 | <a name="module_rtd_payment_instrument_manager_v2"></a> [rtd\_payment\_instrument\_manager\_v2](#module\_rtd\_payment\_instrument\_manager\_v2) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
+| <a name="module_rtd_payment_instrument_manager_v3"></a> [rtd\_payment\_instrument\_manager\_v3](#module\_rtd\_payment\_instrument\_manager\_v3) | git::https://github.com/pagopa/azurerm.git//api_management_api | v1.0.16 |
 | <a name="module_rtd_sender_api_key_check"></a> [rtd\_sender\_api\_key\_check](#module\_rtd\_sender\_api\_key\_check) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.4 |
 | <a name="module_rtd_sender_auth_put_api_key"></a> [rtd\_sender\_auth\_put\_api\_key](#module\_rtd\_sender\_auth\_put\_api\_key) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.7 |
 | <a name="module_rtd_sender_mauth_check"></a> [rtd\_sender\_mauth\_check](#module\_rtd\_sender\_mauth\_check) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.4 |
@@ -180,6 +181,7 @@
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_diagnostic_setting.activity_log](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.apim_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.appgw_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_network_profile.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/network_profile) | resource |
 | [azurerm_private_dns_a_record.private_dns_a_record_api](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_a_record) | resource |
 | [azurerm_private_dns_a_record.private_dns_a_record_management](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_a_record) | resource |
