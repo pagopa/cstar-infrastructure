@@ -4,7 +4,7 @@ info:
   description: IDPAY Timeline IO
   version: '2.0'
 servers:
- - url: https://api-io.dev.cstar.pagopa.it/idpay/timeline
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/timeline
 paths:
   '/{initiativeId}':
     get:
@@ -13,6 +13,13 @@ paths:
       summary: Returns the list of transactions and operations of an initiative of a citizen sorted by date (newest->oldest)
       operationId: getTimeline
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -84,6 +91,13 @@ paths:
       summary: Returns the detail of a transaction
       operationId: getTimelineDetail
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -160,12 +174,41 @@ components:
           type: array
           items:
             oneOf:
-            - $ref: '#/components/schemas/TransactionOperationDTO'
-            - $ref: '#/components/schemas/InstrumentOperationDTO'
-            - $ref: '#/components/schemas/IbanOperationDTO'
-            - $ref: '#/components/schemas/OnboardingOperationDTO'
-            - $ref: '#/components/schemas/RefundOperationDTO'
+              - $ref: '#/components/schemas/TransactionOperationDTO'
+              - $ref: '#/components/schemas/InstrumentOperationDTO'
+              - $ref: '#/components/schemas/RejectedInstrumentOperationDTO'
+              - $ref: '#/components/schemas/IbanOperationDTO'
+              - $ref: '#/components/schemas/OnboardingOperationDTO'
+              - $ref: '#/components/schemas/RefundOperationDTO'
           description: the list of transactions and operations of an initiative of a citizen
+    RejectedInstrumentOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - REJECTED_ADD_INSTRUMENT
+            - REJECTED_DELETE_INSTRUMENT
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        instrumentId:
+          type: string
+        maskedPan:
+          type: string
+        channel:
+          type: string
     TransactionDetailDTO:
       type: object
       required:
@@ -294,6 +337,7 @@ components:
         operationType:
           enum:
             - PAID_REFUND
+            - REJECTED_REFUND
           type: string
         operationDate:
           type: string
@@ -354,17 +398,11 @@ components:
         message:
           type: string
   securitySchemes:
-    apiKeyHeader:
-      type: apiKey
-      name: Ocp-Apim-Subscription-Key
-      in: header
-    apiKeyQuery:
-      type: apiKey
-      name: subscription-key
-      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
 security:
-  - apiKeyHeader: [ ]
-  - apiKeyQuery: [ ]
+  - bearerAuth: [ ]
 tags:
   - name: timeline
     description: ''
