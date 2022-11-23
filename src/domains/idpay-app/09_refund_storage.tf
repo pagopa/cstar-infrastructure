@@ -10,13 +10,12 @@ resource "azurerm_resource_group" "rg_refund_storage" {
 #tfsec:ignore:azure-storage-default-action-deny
 module "idpay_refund_storage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
-
-  name                       = replace("${var.domain}-refund-storage", "-", "")
+  name                       = replace("${var.domain}${var.env_short}-refund-storage", "-", "")
   account_kind               = "StorageV2"
   account_tier               = "Standard"
   account_replication_type   = var.storage_account_replication_type
   access_tier                = "Hot"
-  versioning_name            = "versioning"
+  versioning_name            = "${var.domain}${var.env_short}-refund-storage-versioning"
   enable_versioning          = var.storage_enable_versioning
   resource_group_name        = azurerm_resource_group.rg_refund_storage.name
   location                   = var.location
