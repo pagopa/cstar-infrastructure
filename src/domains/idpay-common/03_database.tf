@@ -70,6 +70,10 @@ locals {
         {
           keys   = ["initiativeId", "userId"]
           unique = true
+        },
+        {
+          keys   = ["updateDate"]
+          unique = false
         }
       ]
     },
@@ -337,7 +341,43 @@ locals {
         unique = true
         }
       ]
-    }
+    },
+    {
+      name = "rewards_organization_imports"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["organizationId"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "onboarding_ranking_requests"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId", "rankingValue", "criteriaConsensusTimestamp"]
+          unique = false
+        },
+        {
+          keys   = ["organizationId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        }
+      ]
+    },
   ]
 }
 

@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
-        <cache-lookup-value key="@(context.Request.MatchedParameters["serviceId"])" variable-name="initiativeIdResponse"  />
+        <cache-lookup-value key="@(context.Request.MatchedParameters["serviceId"]+"-"+context.Request.Headers.GetValueOrDefault("Accept-Language","it_IT").Split('_').First())" variable-name="initiativeIdResponse"  />
         <choose>
             <!-- If API Management find it in the cache, make a request for it and store it -->
             <when condition="@(context.Variables.ContainsKey("initiativeIdResponse"))">
@@ -32,7 +32,7 @@
         <choose>
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
                 <!-- Store result in cache -->
-                <cache-store-value key="@(context.Request.MatchedParameters["serviceId"])" value="@(context.Response)" duration="86400"  />
+                <cache-store-value key="@(context.Request.MatchedParameters["serviceId"]+"-"+context.Request.Headers.GetValueOrDefault("Accept-Language","it_IT").Split('_').First())" value="@(context.Response)" duration="86400"  />
             </when>
         </choose>
         <base />
