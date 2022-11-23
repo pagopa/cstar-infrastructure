@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "rg_refund_storage" {
 
 #tfsec:ignore:azure-storage-default-action-deny
 module "idpay_refund_storage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
+  source                     = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
   name                       = replace("${var.domain}${var.env_short}-refund-storage", "-", "")
   account_kind               = "StorageV2"
   account_tier               = "Standard"
