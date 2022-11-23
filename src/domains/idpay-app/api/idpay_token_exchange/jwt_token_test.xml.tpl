@@ -26,7 +26,7 @@
                     var iss = "https://api-io.dev.cstar.pagopa.it";
                     var uid = context.Request.Body.As<JObject>(preserveContent: true)["uid"];
                     var name = context.Request.Body.As<JObject>(preserveContent: true)["name"];
-                    var family-name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
+                    var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
                     var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
                     var org_id = context.Request.Body.As<JObject>(preserveContent: true)["orgId"];
                     var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"]; 
