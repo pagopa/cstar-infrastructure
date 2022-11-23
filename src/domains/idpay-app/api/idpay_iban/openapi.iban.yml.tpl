@@ -4,7 +4,7 @@ info:
   description: IDPAY IBAN IO
   version: '1.0'
 servers:
- - url: https://api-io.dev.cstar.pagopa.it/idpay/iban
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/iban
 paths:
   '/{iban}':
     get:
@@ -13,6 +13,13 @@ paths:
       summary: Returns the detail of the IBAN associated to the initiative by the citizen
       operationId: getIban
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: iban
           in: path
           description: The citizen iban
@@ -65,9 +72,17 @@ paths:
   '/':
     get:
       tags:
-        - wallet
+        - iban
       summary: Returns the list of iban associated to the citizen
       operationId: getIbanList
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Ok
@@ -164,17 +179,11 @@ components:
         message:
           type: string
   securitySchemes:
-    apiKeyHeader:
-      type: apiKey
-      name: Ocp-Apim-Subscription-Key
-      in: header
-    apiKeyQuery:
-      type: apiKey
-      name: subscription-key
-      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
 security:
-  - apiKeyHeader: [ ]
-  - apiKeyQuery: [ ]
+  - bearerAuth: [ ]
 tags:
   - name: iban
     description: ''
