@@ -423,29 +423,3 @@ resource "azurerm_api_management_named_value" "refund_storage_access_key" {
   }
 
 }
-
-resource "azurerm_key_vault_secret" "refund_storage_access_key" {
-  name         = "refund-storage-access-key"
-  value        = module.idpay_refund_storage.primary_access_key
-  content_type = "text/plain"
-
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
-
-#tfsec:ignore:azure-keyvault-ensure-secret-expiry
-resource "azurerm_key_vault_secret" "refund_storage_connection_string" {
-  name         = "refund-storage-connection-string"
-  value        = module.idpay_refund_storage.primary_connection_string
-  content_type = "text/plain"
-
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
-
-#tfsec:ignore:azure-keyvault-ensure-secret-expiry
-resource "azurerm_key_vault_secret" "refund_storage_blob_connection_string" {
-  name         = "refund-storage-blob-connection-string"
-  value        = module.idpay_refund_storage.primary_blob_connection_string
-  content_type = "text/plain"
-
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
