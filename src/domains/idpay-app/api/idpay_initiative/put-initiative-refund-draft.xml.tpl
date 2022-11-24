@@ -21,12 +21,15 @@
         <set-header name="Content-Type" exists-action="override">
             <value>application/json</value>
         </set-header>
+        <set-header name="organization-user-id" exists-action="override">
+            <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
+        </set-header>
         <set-body>@{
-            JObject requestToBeModified = context.Request.Body.As<JObject>();
+            var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
             requestToBeModified.Add(new JProperty("organizationName", context.Variables["varOrgNameFromValidToken"]));
-            requestToBeModified.Add(new JProperty("organizationVat", context.Variables["varOrgNameFromValidToken"]));
-            requestToBeModified.Add(new JProperty("organizationUserId", context.Variables["varOrgNameFromValidToken"]));
-            requestToBeModified.Add(new JProperty("organizationUserRole", context.Variables["varOrgNameFromValidToken"]));
+            requestToBeModified.Add(new JProperty("organizationVat", context.Variables["varOrgVatFromValidToken"]));
+            requestToBeModified.Add(new JProperty("organizationUserId", context.Variables["varUserIdFromValidToken"]));
+            requestToBeModified.Add(new JProperty("organizationUserRole", context.Variables["varUserOrgRoleFromValidToken"]));
             return requestToBeModified.ToString();
             }
         </set-body>

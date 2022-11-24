@@ -38,5 +38,16 @@ locals {
     )
   }
 
+  idpay_eventhubs = {
+    evh01 = {
+      namespace           = "${local.product}-${var.domain}-evh-ns-01"
+      resource_group_name = "${local.product}-${var.domain}-msg-rg"
+    }
+    evh00 = {
+      namespace           = "${local.product}-${var.domain}-evh-ns-00"
+      resource_group_name = "${local.product}-${var.domain}-msg-rg"
+    }
+  }
+
   domain_aks_hostname = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
 }

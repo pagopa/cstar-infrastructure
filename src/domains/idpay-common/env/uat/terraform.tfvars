@@ -341,6 +341,46 @@ eventhubs_idpay_01 = [
       }
     ]
   },
+  {
+    name              = "idpay-reward-notification-storage-events"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-reward-notification-storage-group"]
+    keys = [
+      {
+        name   = "idpay-reward-notification-storage-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-reward-notification-storage-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-reward-notification-response"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-reward-notification-response-group"]
+    keys = [
+      {
+        name   = "idpay-reward-notification-response-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-reward-notification-response-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 ### handle resource enable
