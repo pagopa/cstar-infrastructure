@@ -137,7 +137,7 @@ module "idpay_initiative_portal" {
     {
       operation_id = "updateInitiativeGeneralInfoDraft"
 
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-general-draft.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
@@ -277,6 +277,13 @@ module "idpay_initiative_portal" {
       operation_id = "uploadAndUpdateLogo"
 
       xml_content = templatefile("./api/idpay_initiative/put-logo-upload.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getDispFileErrors"
+
+      xml_content = templatefile("./api/idpay_initiative/get-disp-errors.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
