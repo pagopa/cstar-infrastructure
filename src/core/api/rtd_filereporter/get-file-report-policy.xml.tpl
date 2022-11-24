@@ -15,7 +15,7 @@
                     new JProperty("size", 2048),
                     new JProperty("transmissionDate", "2022-01-29T13:08Z"),
                     new JProperty("status", "RECEIVED_BY_PAGOPA")
-                  )
+                  ),
                   new JObject(
                     new JProperty("name", "ADE.12345.TRNLOG.20220130.140805.001.01.csv.pgp"),
                     new JProperty("size", 2049),
