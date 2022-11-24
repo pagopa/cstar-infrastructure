@@ -33,7 +33,7 @@ components:
       title: FileReportDTO
       type: object
       properties:
-        filesUploaded:
+        filesRecentlyUploaded:
           type: array
           items:
             $ref: '#/components/schemas/FileInformationDTO'
