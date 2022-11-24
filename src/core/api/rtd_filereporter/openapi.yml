@@ -60,9 +60,8 @@ components:
             description: Current status of the file sent
             enum:
               - RECEIVED_BY_PAGOPA
+              - VALIDATED_BY_PAGOPA
               - SENT_TO_AGENZIA_DELLE_ENTRATE
-              - RECEIVED_BY_AGENZIA_DELLE_ENTRATE
-              - ACKED_BY_AGENZIA_DELLE_ENTRATE
             example: "RECEIVED_BY_PAGOPA"
   securitySchemes:
     apiKeyHeader:
