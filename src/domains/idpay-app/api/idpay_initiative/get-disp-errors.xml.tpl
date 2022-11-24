@@ -21,6 +21,18 @@
     </backend>
     <outbound>
         <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <return-response>
+                    <set-body>@{
+                        var response = context.Response.Body.As<String>(preserveContent: true);
+                        return new JObject(
+                               new JProperty("data", response)
+                        ).ToString();
+                    }</set-body>
+                </return-response>
+            </when>
+        </choose>
     </outbound>
     <on-error>
         <base />

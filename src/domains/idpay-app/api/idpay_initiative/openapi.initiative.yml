@@ -1600,7 +1600,9 @@ paths:
         '200':
           description: OK
           content: 
-            text/csv: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsvDTO'
         '400':
           description: Bad request
           content:
@@ -2307,6 +2309,12 @@ components:
           - IN_PROGRESS
           - WARN
         url:
+          type: string
+    CsvDTO:
+      title: CsvDTO
+      type: object
+      properties:
+        data: 
           type: string
   securitySchemes:
     Bearer:
