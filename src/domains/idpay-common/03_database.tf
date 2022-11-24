@@ -355,6 +355,10 @@ locals {
         {
           keys   = ["organizationId"]
           unique = false
+        },
+        {
+          keys   = ["feedbackDate"]
+          unique = false
         }
       ]
     },
