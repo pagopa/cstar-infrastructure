@@ -33,6 +33,32 @@ resource "azurerm_storage_container" "idpay_refund_container" {
   container_access_type = "private"
 }
 
+resource "azurerm_key_vault_secret" "refund_storage_access_key" {
+  name         = "refund-storage-access-key"
+  value        = module.idpay_refund_storage.primary_access_key
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+#tfsec:ignore:azure-keyvault-ensure-secret-expiry
+resource "azurerm_key_vault_secret" "refund_storage_connection_string" {
+  name         = "refund-storage-connection-string"
+  value        = module.idpay_refund_storage.primary_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+#tfsec:ignore:azure-keyvault-ensure-secret-expiry
+resource "azurerm_key_vault_secret" "refund_storage_blob_connection_string" {
+  name         = "refund-storage-blob-connection-string"
+  value        = module.idpay_refund_storage.primary_blob_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
 resource "azurerm_eventgrid_system_topic" "idpay_refund_storage_topic" {
   name                   = format("%s-events-refund-storage-topic", local.project)
   location               = var.location
@@ -41,7 +67,7 @@ resource "azurerm_eventgrid_system_topic" "idpay_refund_storage_topic" {
   topic_type             = "Microsoft.Storage.StorageAccounts"
 }
 
-/* cannot use delivery_property with plugin 2.99
+/* cannot use delivery_property with plugin 2.99, creating through azapi_resource.idpay_refund_storage_topic_event_subscription instead
 resource "azurerm_eventgrid_system_topic_event_subscription" "idpay_refund_storage_subscription" {
   name                = format("%s-events-refund-storage-subscription", local.project)
   system_topic        = azurerm_eventgrid_system_topic.idpay_refund_storage_topic.name
