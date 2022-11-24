@@ -6,20 +6,20 @@ data "azurerm_kubernetes_cluster" "aks" {
 # retrieve enrolled pim hub to take partition count
 data "azurerm_eventhub" "enrolled_pi_hub" {
   name                = var.eventhub_pim.enrolled_pi_eventhub
-  namespace_name      = var.eventhub_pim.namespace_name
+  namespace_name      = var.eventhub_pim.namespace_enrolled_pi
   resource_group_name = var.eventhub_pim.resource_group_name
 }
 
 data "azurerm_eventhub" "revoked_pi_hub" {
   name                = var.eventhub_pim.revoked_pi_eventhub
-  namespace_name      = var.eventhub_pim.namespace_name
+  namespace_name      = var.eventhub_pim.namespace_revoked_pi
   resource_group_name = var.eventhub_pim.resource_group_name
 }
 
 # retrieve enrolled payment instrument event hub role to get connection string
 data "azurerm_eventhub_authorization_rule" "enrolled_pi_producer_role" {
   name                = "rtd-enrolled-pi-producer-policy"
-  namespace_name      = var.eventhub_pim.namespace_name
+  namespace_name      = var.eventhub_pim.namespace_enrolled_pi
   resource_group_name = var.eventhub_pim.resource_group_name
   eventhub_name       = var.eventhub_pim.enrolled_pi_eventhub
 }
@@ -27,7 +27,7 @@ data "azurerm_eventhub_authorization_rule" "enrolled_pi_producer_role" {
 # retrieve enrolled payment instrument event hub role to get connection string
 data "azurerm_eventhub_authorization_rule" "revoked_pi_consumer_role" {
   name                = "rtd-revoked-pi-consumer-policy"
-  namespace_name      = var.eventhub_pim.namespace_name
+  namespace_name      = var.eventhub_pim.namespace_revoked_pi
   resource_group_name = var.eventhub_pim.resource_group_name
   eventhub_name       = var.eventhub_pim.revoked_pi_eventhub
 }
@@ -43,6 +43,13 @@ resource "azurerm_key_vault_secret" "aks_apiserver_url" {
   content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+resource "azurerm_key_vault_secret" "appinsights-instrumentation-key" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  name         = "appinsights-instrumentation-key"
+  value        = data.azurerm_application_insights.application_insights.connection_string
+  content_type = "text/plain"
 }
 
 resource "azurerm_key_vault_secret" "enrolled_pi_producer_connection_uri" {

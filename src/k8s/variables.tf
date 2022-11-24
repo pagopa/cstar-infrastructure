@@ -166,6 +166,16 @@ variable "configmaps_rtddecrypter" {
   default = {}
 }
 
+variable "configmaps_rtdfileregister" {
+  type    = map(string)
+  default = {}
+}
+
+variable "configmaps_rtdsenderauth" {
+  type    = map(string)
+  default = {}
+}
+
 variable "configmaps_facustomer" {
   type = map(string)
 }
@@ -214,6 +224,16 @@ variable "configmaps_rtdproducerenrolledpaymentinstrument" {
   type = map(string)
 }
 
+variable "configmaps_rtdpieventprocessor" {
+  type = object({
+    JAVA_TOOL_OPTIONS                                      = string
+    APPLICATIONINSIGHTS_ROLE_NAME                          = string
+    APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = string
+    APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = string
+    KAFKA_RTD_SPLIT_PARTITION_COUNT                        = number
+  })
+}
+
 variable "autoscaling_specs" {
   type = map(object({
     namespace    = string
@@ -229,7 +249,6 @@ variable "autoscaling_specs" {
         })
       })
     }))
-
     }
   ))
 }
@@ -248,14 +267,23 @@ variable "fa_autoscaling_specs" {
         })
       })
     }))
-
     }
   ))
+  default = {}
 }
 
 variable "secrets_to_be_read_from_kv" {
   type = list(string)
 }
+
+variable "secrets_from_rtd_domain_kv" {
+  type = object({
+    keyvault       = string
+    resource_group = string
+    secrets        = list(string)
+  })
+}
+
 
 variable "enable" {
   type = object({

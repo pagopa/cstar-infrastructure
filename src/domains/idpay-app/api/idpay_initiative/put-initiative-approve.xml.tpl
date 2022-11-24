@@ -14,6 +14,24 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
+        <set-variable name="varOrgNameFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_name", ""))" />
+        <set-variable name="varOrgVatFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_vat", ""))" />
+        <set-variable name="varUserIdFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
+        <set-variable name="varUserOrgRoleFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+        <set-header name="organization-user-id" exists-action="override">
+            <value>@context.Variables["varUserIdFromValidToken"]</value>
+        </set-header>
+        <set-body template="liquid">
+        {
+            "organizationName": "{{context.Variables["varOrgNameFromValidToken"]}}",
+            "organizationVat": "{{context.Variables["varOrgVatFromValidToken"]}}",
+            "organizationUserId": "{{context.Variables["varUserIdFromValidToken"]}}",
+            "organizationUserRole": "{{context.Variables["varUserOrgRoleFromValidToken"]}}"
+        }
+        </set-body>
         <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/approved")" />
     </inbound>
     <backend>

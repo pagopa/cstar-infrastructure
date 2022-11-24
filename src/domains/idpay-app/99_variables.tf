@@ -39,6 +39,11 @@ variable "location" {
   description = "One of westeurope, northeurope"
 }
 
+variable "location_string" {
+  type        = string
+  description = "One of West Europe, North Europe"
+}
+
 variable "location_short" {
   type = string
   validation {
@@ -55,26 +60,11 @@ variable "instance" {
   description = "One of beta, prod01, prod02"
 }
 
-variable "lock_enable" {
-  type        = bool
-  default     = false
-  description = "Apply locks to block accedentaly deletions."
-}
-
 variable "tags" {
   type = map(any)
   default = {
     CreatedBy = "Terraform"
   }
-}
-
-variable "terraform_remote_state_core" {
-  type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
-  })
 }
 
 variable "event_hub_port" {
@@ -159,10 +149,11 @@ variable "reverse_proxy_be_io" {
 
 variable "eventhub_pim" {
   type = object({
-    enrolled_pi_eventhub = string,
-    revoked_pi_eventhub  = string,
-    resource_group_name  = string,
-    namespace_name       = string
+    enrolled_pi_eventhub  = string,
+    revoked_pi_eventhub   = string,
+    resource_group_name   = string,
+    namespace_enrolled_pi = string
+    namespace_revoked_pi  = string
   })
   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 }
@@ -177,4 +168,57 @@ variable "checkiban_base_url" {
   type        = string
   default     = "127.0.0.1"
   description = "Check IBAN uri."
+}
+
+variable "selc_base_url" {
+  type        = string
+  description = "SelfCare api backend url"
+}
+
+variable "selc_timeout_sec" {
+  type        = number
+  description = "SelfCare api timeout (sec)"
+  default     = 5
+}
+
+variable "pm_service_base_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PM Service uri. Endpoint to retrieve Payment Instruments information."
+}
+
+#
+# Tls Checker
+#
+variable "tls_cert_check_helm" {
+  type = object({
+    chart_version = string,
+    image_name    = string,
+    image_tag     = string
+  })
+  description = "tls cert helm chart configuration"
+}
+
+variable "storage_account_replication_type" {
+  type        = string
+  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
+  default     = "LRS"
+}
+
+variable "storage_delete_retention_days" {
+  type        = number
+  description = "Number of days to retain deleted files"
+  default     = 5
+}
+
+variable "storage_enable_versioning" {
+  type        = bool
+  description = "Enable versioning"
+  default     = false
+}
+
+variable "storage_advanced_threat_protection" {
+  type        = bool
+  description = "Enable threat advanced protection"
+  default     = false
 }

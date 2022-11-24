@@ -64,6 +64,46 @@ resource "azurerm_monitor_action_group" "slack" {
   tags = var.tags
 }
 
+resource "azurerm_monitor_action_group" "core" {
+  name                = "${var.prefix}${var.env_short}core"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  short_name          = "${var.prefix}${var.env_short}core"
+
+  email_receiver {
+    name                    = "email"
+    email_address           = data.azurerm_key_vault_secret.alert_core_notification_email.value
+    use_common_alert_schema = true
+  }
+
+  email_receiver {
+    name                    = "slack"
+    email_address           = data.azurerm_key_vault_secret.alert_core_notification_slack.value
+    use_common_alert_schema = true
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_monitor_action_group" "error" {
+  name                = "${var.prefix}${var.env_short}error"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  short_name          = "${var.prefix}${var.env_short}error"
+
+  email_receiver {
+    name                    = "email"
+    email_address           = data.azurerm_key_vault_secret.alert_error_notification_email.value
+    use_common_alert_schema = true
+  }
+
+  email_receiver {
+    name                    = "slack"
+    email_address           = data.azurerm_key_vault_secret.alert_error_notification_slack.value
+    use_common_alert_schema = true
+  }
+
+  tags = var.tags
+}
+
 resource "azurerm_monitor_diagnostic_setting" "activity_log" {
   count                      = var.env_short == "p" ? 1 : 0
   name                       = "SecurityLogs"
@@ -112,62 +152,77 @@ resource "azurerm_monitor_diagnostic_setting" "activity_log" {
   }
 }
 
-## web availabolity test
-locals {
+resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
-  test_urls = [
-    {
-      host                 = trimsuffix(azurerm_dns_a_record.dns-a-managementcstar.fqdn, "."),
-      path                 = "/ServiceStatus",
-      expected_http_status = 200
-    },
-    {
-      host                 = trimsuffix(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, "."),
-      path                 = "",
-      expected_http_status = 200
-    },
-    {
-      host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, "."),
-      path                 = "",
-      expected_http_status = 400
-    },
-    {
-      host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, "."),
-      path                 = "",
-      expected_http_status = 200
-    },
-    ## CDN custom domains ##
-    # no cdn              ##
-  ]
+  name                       = "apim-diagnostic-settings"
+  target_resource_id         = module.apim.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
+  log {
+    category = "GatewayLogs"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      enabled = false
+    }
+  }
 }
 
-module "web_test_api" {
-  for_each = { for v in local.test_urls : v.host => v if v != null }
-  source   = "git::https://github.com/pagopa/azurerm.git//application_insights_web_test_preview?ref=v2.8.2"
+resource "azurerm_monitor_diagnostic_setting" "appgw_diagnostic_settings" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
-  subscription_id                   = data.azurerm_subscription.current.subscription_id
-  name                              = format("%s-test", each.value.host)
-  location                          = azurerm_resource_group.monitor_rg.location
-  resource_group                    = azurerm_resource_group.monitor_rg.name
-  application_insight_name          = azurerm_application_insights.application_insights.name
-  request_url                       = format("https://%s%s", each.value.host, each.value.path)
-  ssl_cert_remaining_lifetime_check = 7
-  expected_http_status              = each.value.expected_http_status
+  name                       = "appgw-diagnostic-settings"
+  target_resource_id         = module.app_gw.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  actions = [
-    {
-      action_group_id = azurerm_monitor_action_group.email.id,
-    },
-    {
-      action_group_id = azurerm_monitor_action_group.slack.id,
-    },
-  ]
+  log {
+    category = "ApplicationGatewayAccessLog"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
 
+  log {
+    category = "ApplicationGatewayPerformanceLog"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayFirewallLog"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      enabled = false
+    }
+  }
 }
 
 resource "azurerm_kusto_cluster" "data_explorer_cluster" {
-
   count = var.dexp_params.enabled ? 1 : 0
 
   name                = replace(format("%sdataexplorer", local.project), "-", "")
@@ -179,9 +234,13 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
     capacity = var.dexp_params.sku.capacity
   }
 
-  optimized_auto_scale {
-    minimum_instances = var.dexp_params.autoscale.min_instances
-    maximum_instances = var.dexp_params.autoscale.max_instances
+  dynamic "optimized_auto_scale" {
+    for_each = var.dexp_params.autoscale.enabled ? [1] : []
+
+    content {
+      minimum_instances = var.dexp_params.autoscale.min_instances
+      maximum_instances = var.dexp_params.autoscale.max_instances
+    }
   }
 
   public_network_access_enabled = var.dexp_params.public_network_access_enabled
@@ -189,5 +248,4 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   engine                        = "V3"
 
   tags = var.tags
-
 }

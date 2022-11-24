@@ -50,7 +50,9 @@ module "private_endpoint_snet" {
   address_prefixes     = var.cidr_subnet_private_endpoint
 
   enforce_private_link_endpoint_network_policies = true
-  service_endpoints                              = ["Microsoft.Web", "Microsoft.AzureCosmosDB"]
+  service_endpoints = [
+    "Microsoft.Web", "Microsoft.AzureCosmosDB", "Microsoft.EventHub"
+  ]
 }
 
 module "redis_snet" {
@@ -62,7 +64,7 @@ module "redis_snet" {
   virtual_network_name = module.vnet.name
 }
 
-# k8s cluster subnet 
+# k8s cluster subnet
 module "k8s_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.7"
   name                                           = format("%s-k8s-snet", local.project)
@@ -75,6 +77,7 @@ module "k8s_snet" {
     "Microsoft.Web",
     "Microsoft.Storage",
     "Microsoft.AzureCosmosDB",
+    "Microsoft.EventHub"
   ]
 }
 
@@ -157,10 +160,11 @@ module "adf_snet" {
 
   service_endpoints = [
     "Microsoft.AzureCosmosDB",
+    "Microsoft.EventHub"
   ]
 }
 
-## Peering between the vnet(main) and integration vnet 
+## Peering between the vnet(main) and integration vnet
 module "vnet_peering" {
   source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v1.0.30"
 
@@ -169,7 +173,8 @@ module "vnet_peering" {
   source_resource_group_name       = azurerm_resource_group.rg_vnet.name
   source_virtual_network_name      = module.vnet.name
   source_remote_virtual_network_id = module.vnet.id
-  source_allow_gateway_transit     = true # needed by vpn gateway for enabling routing from vnet to vnet_integration
+  source_allow_gateway_transit     = true
+  # needed by vpn gateway for enabling routing from vnet to vnet_integration
   target_resource_group_name       = azurerm_resource_group.rg_vnet.name
   target_virtual_network_name      = module.vnet_integration.name
   target_remote_virtual_network_id = module.vnet_integration.id
@@ -187,7 +192,7 @@ resource "azurerm_public_ip" "apigateway_public_ip" {
   tags = var.tags
 }
 
-## Application gateway ## 
+## Application gateway ##
 # Application gateway: Multilistener configuration
 module "app_gw" {
   source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.0.23"
@@ -228,11 +233,13 @@ module "app_gw" {
     }
 
     portal = {
-      protocol                    = "Https"
-      host                        = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
-      port                        = 443
-      ip_addresses                = module.apim.private_ip_addresses
-      fqdns                       = [azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn]
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
+      fqdns = [
+        azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn
+      ]
       probe                       = "/signin"
       probe_name                  = "probe-portal"
       request_timeout             = 60
@@ -240,11 +247,13 @@ module "app_gw" {
     }
 
     management = {
-      protocol                    = "Https"
-      host                        = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
-      port                        = 443
-      ip_addresses                = module.apim.private_ip_addresses
-      fqdns                       = [azurerm_dns_a_record.dns-a-managementcstar.fqdn]
+      protocol     = "Https"
+      host         = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
+      port         = 443
+      ip_addresses = module.apim.private_ip_addresses
+      fqdns = [
+        azurerm_dns_a_record.dns-a-managementcstar.fqdn
+      ]
       probe                       = "/ServiceStatus"
       probe_name                  = "probe-management"
       request_timeout             = 60
@@ -252,23 +261,28 @@ module "app_gw" {
     }
   }
 
-  ssl_profiles = [{
-    name                             = format("%s-issuer-mauth-profile", local.project)
-    trusted_client_certificate_names = [format("%s-issuer-chain", local.project)]
-    verify_client_cert_issuer_dn     = true
-    ssl_policy = {
-      disabled_protocols = []
-      policy_type        = "Custom"
-      policy_name        = "" # with Custom type set empty policy_name (not required by the provider)
-      cipher_suites = [
-        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
-        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
-        "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+  ssl_profiles = [
+    {
+      name = format("%s-issuer-mauth-profile", local.project)
+      trusted_client_certificate_names = [
+        format("%s-issuer-chain", local.project)
       ]
-      min_protocol_version = "TLSv1_2"
+      verify_client_cert_issuer_dn = true
+      ssl_policy = {
+        disabled_protocols = []
+        policy_type        = "Custom"
+        policy_name        = ""
+        # with Custom type set empty policy_name (not required by the provider)
+        cipher_suites = [
+          "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+          "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+          "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+          "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+        ]
+        min_protocol_version = "TLSv1_2"
+      }
     }
-  }]
+  ]
 
   trusted_client_certificates = [
     {
@@ -379,10 +393,6 @@ module "app_gw" {
   app_gateway_min_capacity = var.app_gateway_min_capacity
   app_gateway_max_capacity = var.app_gateway_max_capacity
 
-  # Logs
-  sec_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_workspace_id[0].value : null
-  sec_storage_id                 = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_storage_id[0].value : null
-
   alerts_enabled = var.app_gateway_alerts_enabled
 
   action = [
@@ -410,10 +420,11 @@ module "app_gw" {
       criteria = []
       dynamic_criteria = [
         {
-          aggregation              = "Average"
-          metric_name              = "ComputeUnits"
-          operator                 = "GreaterOrLessThan"
-          alert_sensitivity        = "Low" # todo after api app migration change to High
+          aggregation       = "Average"
+          metric_name       = "ComputeUnits"
+          operator          = "GreaterOrLessThan"
+          alert_sensitivity = "Low"
+          # todo after api app migration change to High
           evaluation_total_count   = 2
           evaluation_failure_count = 2
           dimension                = []
@@ -585,7 +596,7 @@ module "route_table_peering_sia" {
   tags = var.tags
 }
 
-# Postgres Flexible Server subnet 
+# Postgres Flexible Server subnet
 module "postgres_flexible_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
   name                                           = format("%s-pgres-flexible-snet", local.project)
@@ -606,7 +617,7 @@ module "postgres_flexible_snet" {
   }
 }
 
-# Azure Blob Storage subnet 
+# Azure Blob Storage subnet
 module "storage_account_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
   name                                           = format("%s-storage-account-snet", local.project)

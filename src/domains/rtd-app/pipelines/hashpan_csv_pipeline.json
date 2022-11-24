@@ -15,6 +15,7 @@
       "source": {
         "type": "CosmosDbMongoDbApiSource",
         "batchSize": 100,
+        "filter": "{ state: { $eq: \"READY\" } }",
         "cursorMethods": {
           "project": "{ hashPan: 1}"
         }
@@ -35,7 +36,18 @@
       "enableStaging": false,
       "translator": {
         "type": "TabularTranslator",
-        "mapComplexValuesToString": false
+        "mappings": [
+          {
+            "source": {
+              "path": "$['hashPan']"
+            },
+            "sink": {
+              "type": "String",
+              "ordinal": 1
+            }
+          }
+        ],
+        "mapComplexValuesToString": true
       }
     },
     "inputs": [

@@ -6,7 +6,10 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   parameters = {
     file = "myFile"
   }
-  activities_json = file("pipelines/aggregatesIngestor.json")
+  activities_json = templatefile("pipelines/aggregatesIngestor.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+  })
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
@@ -52,7 +55,10 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
   parameters = {
     file = "myFile"
   }
-  activities_json = file("pipelines/aggregatesIngestorTesting.json")
+  activities_json = templatefile("pipelines/aggregatesIngestorTesting.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+  })
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
@@ -164,7 +170,14 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
     name = "projectOnlyOneID"
   }
 
-  script = file("pipelines/ackIngestor.dataflow")
+  transformation {
+    name        = "addttl"
+    description = "Adds ttl column"
+  }
+
+  script = templatefile("pipelines/ackIngestor.dataflow", {
+    throughput-cap = var.ack_ingestor_conf.sink_thoughput_cap
+  })
 }
 
 resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
@@ -190,10 +203,18 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
   }
 
   transformation {
+    name        = "addttl"
+    description = "Adds ttl column"
+  }
+
+  transformation {
     name = "deleteAggregatesWithAck"
   }
 
-  script = file("pipelines/bulkDeleteAggregates.dataflow")
+  script = templatefile("pipelines/bulkDeleteAggregates.dataflow", {
+    throughput-cap          = var.bulk_delete_aggregates_conf.sink_thoughput_cap
+    write-throughput-budget = var.bulk_delete_aggregates_conf.sink_write_throughput_budget
+  })
 }
 
 resource "azurerm_data_factory_pipeline" "ack_ingestor" {
@@ -251,4 +272,58 @@ resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates_pipeline" {
     azurerm_data_factory_custom_dataset.aggregate,
     azurerm_data_factory_data_flow.bulk_delete_aggregates
   ]
+}
+
+resource "azurerm_data_factory_trigger_schedule" "bulk_delete_overnight_trigger" {
+  count = var.env_short == "p" ? 0 : 1 # this resource should exists only in dev and uat
+
+  name            = format("%s-bulk-delete-overnigh-trigger", local.project)
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  interval  = var.bulk_delete_aggregates_conf.interval
+  frequency = var.bulk_delete_aggregates_conf.frequency
+
+  schedule {
+    hours   = [var.bulk_delete_aggregates_conf.hours]
+    minutes = [var.bulk_delete_aggregates_conf.minutes]
+  }
+
+  activated = var.bulk_delete_aggregates_conf.enable
+  time_zone = "UTC"
+
+  annotations = ["BulkDelete"]
+  description = "The trigger fires every day at 3AM"
+
+  pipeline_name = azurerm_data_factory_pipeline.bulk_delete_aggregates_pipeline[0].name
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregate
+  ]
+}
+
+resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_settings" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+
+  name                       = "acquirer-aggregate-diagnostic-settings"
+  target_resource_id         = data.azurerm_data_factory.datafactory.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
+
+  log {
+    category       = null
+    category_group = "allLogs"
+    enabled        = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      enabled = false
+    }
+  }
 }

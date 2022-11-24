@@ -386,8 +386,8 @@ cosmos_mongo_db_params = {
 cosmos_mongo_db_transaction_params = {
   enable_serverless  = true
   enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
+  max_throughput     = 10000
+  throughput         = 2000
 }
 
 dexp_params = {
@@ -397,6 +397,7 @@ dexp_params = {
     capacity = 2
   }
   autoscale = {
+    enabled       = true
     min_instances = 2
     max_instances = 5
   }
@@ -404,7 +405,6 @@ dexp_params = {
   double_encryption_enabled     = true
   disk_encryption_enabled       = true
   purge_enabled                 = false
-
 }
 
 ehns_sku_name                 = "Standard"
@@ -697,7 +697,7 @@ eventhubs = [
         # subscriber
         name   = "tkm-write-update-token-sub"
         listen = true
-        send   = false
+        send   = true
         manage = false
       },
       {

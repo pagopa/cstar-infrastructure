@@ -53,7 +53,7 @@ resource "azurerm_cosmosdb_mongo_database" "idpay" {
   dynamic "autoscale_settings" {
     for_each = var.cosmos_mongo_db_transaction_params.enable_autoscaling && !var.cosmos_mongo_db_transaction_params.enable_serverless ? [""] : []
     content {
-      max_throughput = var.cosmos_mongo_db_transaction_params.enable_serverless.max_throughput
+      max_throughput = var.cosmos_mongo_db_transaction_params.max_throughput
     }
   }
 }
@@ -66,6 +66,14 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
+        },
+        {
+          keys   = ["updateDate"]
+          unique = false
         }
       ]
     },
@@ -74,6 +82,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
@@ -82,6 +94,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = false
         }
       ]
     },
@@ -98,6 +114,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
         }
       ]
     },
@@ -108,7 +128,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["operationDate"]
+          keys   = ["initiativeId", "userId", "operationDate"]
           unique = false
         }
       ]
@@ -313,12 +333,56 @@ locals {
           unique = false
         }
       ]
-    }
+    },
+    {
+      name = "initiative_statistics"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "rewards_organization_imports"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["organizationId"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "onboarding_ranking_requests"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId", "rankingValue", "criteriaConsensusTimestamp"]
+          unique = false
+        },
+        {
+          keys   = ["organizationId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        }
+      ]
+    },
   ]
 }
 
 module "mongdb_collections" {
-  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v2.3.0"
+  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v3.2.4"
 
   for_each = {
     for index, coll in local.collections :

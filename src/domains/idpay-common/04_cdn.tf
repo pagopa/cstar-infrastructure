@@ -49,7 +49,7 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v3.2.0"
+  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v3.2.1"
 
   name                  = "idpaycdn"
   prefix                = local.project
@@ -57,7 +57,7 @@ module "idpay_cdn" {
   location              = var.location
   hostname              = format("welfare.%s", data.azurerm_dns_zone.public.name)
   https_rewrite_enabled = true
-  lock_enabled          = var.lock_enable
+  lock_enabled          = false
 
   index_document     = "index.html"
   error_404_document = "error.html"
