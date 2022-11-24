@@ -1,5 +1,6 @@
 parameters{
-	timestamp as integer (0)
+	timestamp_start as integer (0),
+	timestamp_end as integer (0)
 }
 source(output(
 		id as string,
@@ -8,7 +9,7 @@ source(output(
 	allowSchemaDrift: true,
 	validateSchema: false,
 	inferDriftedColumnTypes: true,
-	query: (concat('select c.id, c.terminalId from c where c._ts < ',toString($timestamp))),
+	query: (concat('select c.id, c.terminalId from c where c._ts BETWEEN ',toString($timestamp_start),' AND ', toString($timestamp_end))),
 	format: 'documentQuery',
 	systemColumns: false,
 	throughput: ${throughput-cap}) ~> aggregates

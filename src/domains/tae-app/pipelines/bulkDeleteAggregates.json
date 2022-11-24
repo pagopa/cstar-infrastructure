@@ -20,8 +20,12 @@
         "referenceName": "bulkDeleteAggregates",
             "type": "DataFlowReference",
             "parameters": {
-              "timestamp": {
-                "value": "@pipeline().parameters.timestamp",
+              "timestamp_start": {
+                "value": "@pipeline().parameters.timestamp_start",
+                "type": "Expression"
+              },
+              "timestamp_end": {
+                "value": "@pipeline().parameters.timestamp_end",
                 "type": "Expression"
               }
             }

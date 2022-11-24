@@ -266,7 +266,8 @@ resource "azurerm_data_factory_pipeline" "bulk_delete_aggregates_pipeline" {
   name            = "bulk_delete_aggregates"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
-    timestamp = ""
+    timestamp_start = "",
+    timestamp_end   = ""
   }
 
   activities_json = file("pipelines/bulkDeleteAggregates.json")
