@@ -1575,6 +1575,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/import/{filename}/errors:
+    get:
+      tags:
+        - initiative-reward
+      summary: Get dispositive file errors
+      operationId: getDispFileErrors
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: filename
+          in: path
+          description: filename
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsvDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     SasToken:
@@ -2245,6 +2309,12 @@ components:
           - IN_PROGRESS
           - WARN
         url:
+          type: string
+    CsvDTO:
+      title: CsvDTO
+      type: object
+      properties:
+        data: 
           type: string
   securitySchemes:
     Bearer:
