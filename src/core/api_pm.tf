@@ -47,7 +47,7 @@ data "azurerm_key_vault" "rtd_kv" {
 
 
 data "azurerm_key_vault_secret" "pm_np_wallet_basic_auth" {
-  
+
   count = var.enable.rtd.pm_wallet_ext_api ? 1 : 0
 
   name         = "pm-np-wallet-basic-auth"
@@ -101,9 +101,9 @@ module "pm_wallet_ext" {
     {
       operation_id = "walletv2",
       xml_content = templatefile("./api/pm_wallet_ext/walletv2_policy.xml", {
-        pm-backend-url                       = var.pm_backend_url,
-        PM-Timeout-Sec                       = var.pm_timeout_sec
-        env_short                            = var.env_short
+        pm-backend-url = var.pm_backend_url,
+        PM-Timeout-Sec = var.pm_timeout_sec
+        env_short      = var.env_short
       })
     },
   ]
