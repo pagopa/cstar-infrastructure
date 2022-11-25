@@ -21,6 +21,9 @@
         <set-header name="Content-Type" exists-action="override">
             <value>application/json</value>
         </set-header>
+        <set-header name="organization-user-id" exists-action="override">
+            <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
+        </set-header>
         <set-body template="liquid">
         {
             "organizationName": "{{context.Variables["varOrgNameFromValidToken"]}}",
