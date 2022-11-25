@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "= 2.21.0"
     }
+    azapi = {
+      source  = "azure/azapi"
+      version = ">=0.1.1"
+    }
     null = {
       source  = "hashicorp/null"
       version = "= 3.1.1"
@@ -30,6 +34,10 @@ terraform {
 
 provider "azurerm" {
   features {}
+}
+
+provider "azapi" {
+  skip_provider_registration = true
 }
 
 data "azurerm_subscription" "current" {}

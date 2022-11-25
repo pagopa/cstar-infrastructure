@@ -49,12 +49,13 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
   }
 
   data = {
-    kafka_broker                                      = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
-    kafka_sasl_mechanism                              = "PLAIN"
-    kafka_security_protocol                           = "SASL_SSL"
-    idpay_transaction_consumer_group                  = "idpay-transaction-consumer-group"
-    idpay_transaction_wallet_consumer_group           = "idpay-transaction-wallet-consumer-group"
-    idpay_hpan_update_outcome_consumer_group          = "idpay-hpan-update-outcome-consumer-group"
+    kafka_broker                             = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism                     = "PLAIN"
+    kafka_security_protocol                  = "SASL_SSL"
+    idpay_transaction_consumer_group         = "idpay-transaction-consumer-group"
+    idpay_transaction_wallet_consumer_group  = "idpay-transaction-wallet-consumer-group"
+    idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
+
     idpay_transaction_topic                           = "idpay-transaction"
     idpay_reward_error_topic                          = "idpay-reward-error"
     idpay_hpan_update_topic                           = "idpay-hpan-update"
@@ -64,6 +65,7 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_transaction_userid_splitter_topic           = "idpay-transaction-user-id-splitter"
     idpay_reward_notification_response_consumer_group = "idpay-reward-notification-response-group"
     idpay_reward_notification_response_topic          = "idpay-reward-notification-response"
+    idpay_reward_notification_storage_events_topic    = "idpay-reward-notification-storage-events"
   }
 
 }
@@ -122,7 +124,7 @@ resource "kubernetes_config_map" "notification-email" {
   }
 
   data = {
-    mail_server_host = "smtp.mailosaur.net"
+    mail_server_host = "smtp.ethereal.email"
     mail_server_port = "587"
   }
 }
