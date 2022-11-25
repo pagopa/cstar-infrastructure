@@ -13,14 +13,26 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
-        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}?role="+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
+        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/notification/imports/{filename}/errors")" copy-unmatched-params="true" />
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
         <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <return-response>
+                    <set-body>@{
+                        var response = context.Response.Body.As<String>(preserveContent: true);
+                        return new JObject(
+                               new JProperty("data", response)
+                        ).ToString();
+                    }</set-body>
+                </return-response>
+            </when>
+        </choose>
     </outbound>
     <on-error>
         <base />

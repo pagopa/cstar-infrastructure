@@ -86,3 +86,6 @@ tls_cert_check_helm = {
   image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
 }
 
+# Storage
+storage_delete_retention_days = 5
+storage_enable_versioning     = true

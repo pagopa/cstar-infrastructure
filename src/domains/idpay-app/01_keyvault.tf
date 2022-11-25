@@ -45,6 +45,13 @@ resource "azurerm_key_vault_secret" "aks_apiserver_url" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
+resource "azurerm_key_vault_secret" "appinsights-instrumentation-key" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  name         = "appinsights-instrumentation-key"
+  value        = data.azurerm_application_insights.application_insights.connection_string
+  content_type = "text/plain"
+}
+
 resource "azurerm_key_vault_secret" "enrolled_pi_producer_connection_uri" {
   key_vault_id = data.azurerm_key_vault.kv.id
   name         = "${var.domain}-enrolled-pi-producer-connection-uri"
