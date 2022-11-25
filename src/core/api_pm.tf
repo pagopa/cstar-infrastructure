@@ -40,6 +40,35 @@ module "pm_admin_panel" {
   ]
 }
 
+data "azurerm_key_vault" "rtd_kv" {
+  name                = "${local.project}-rtd-kv"
+  resource_group_name = "${local.project}-rtd-sec-rg"
+}
+
+
+data "azurerm_key_vault_secret" "pm_np_wallet_basic_auth" {
+
+  count = var.enable.rtd.pm_wallet_ext_api ? 1 : 0
+
+  name         = "pm-np-wallet-basic-auth"
+  key_vault_id = data.azurerm_key_vault.rtd_kv.id
+}
+
+resource "azurerm_api_management_named_value" "pm_np_wallet_basic_auth" {
+  count = var.enable.rtd.pm_wallet_ext_api ? 1 : 0
+
+  name                = "pm-np-wallet-basic-auth"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "pm-np-wallet-basic-auth"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.pm_np_wallet_basic_auth[count.index].id
+  }
+
+}
+
 module "pm_wallet_ext" {
 
   count = var.enable.rtd.pm_wallet_ext_api ? 1 : 0
@@ -52,7 +81,7 @@ module "pm_wallet_ext" {
 
 
   description  = "Access payment instruments stored in PM"
-  display_name = "PM Wallet External Access"
+  display_name = "PM NP-Wallet External Access"
   path         = "pm/wallet-ext"
   protocols    = ["https"]
 
@@ -71,12 +100,10 @@ module "pm_wallet_ext" {
   api_operation_policies = [
     {
       operation_id = "walletv2",
-      xml_content = templatefile("./api/pm_wallet_ext/walletv2_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        PM-Timeout-Sec                       = var.pm_timeout_sec
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
-        env_short                            = var.env_short
-        CRUSCOTTO-Basic-Auth-Pwd             = data.azurerm_key_vault_secret.cruscotto-basic-auth-pwd.value
+      xml_content = templatefile("./api/pm_wallet_ext/walletv2_policy.xml", {
+        pm-backend-url = var.pm_backend_url,
+        PM-Timeout-Sec = var.pm_timeout_sec
+        env_short      = var.env_short
       })
     },
   ]
@@ -117,4 +144,26 @@ module "pm_api_product" {
   subscriptions_limit   = 50
 
   policy_xml = file("./api_product/pm_api/policy.xml")
+}
+
+data "azurerm_key_vault_secret" "pagopa_platform_api_key" {
+  count = var.enable.rtd.pm_integration ? 1 : 0
+
+  name         = "pagopa-platform-apim-api-key-primary"
+  key_vault_id = module.key_vault.id
+}
+
+resource "azurerm_api_management_named_value" "pagopa_platform_api_key" {
+  count = var.enable.rtd.pm_integration ? 1 : 0
+
+  name                = format("%s-pagopa-platform-api-key", var.env_short)
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "pagopa-platform-apim-api-key-primary"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_key[count.index].id
+  }
+
 }
