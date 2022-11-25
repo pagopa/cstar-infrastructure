@@ -63,6 +63,30 @@ resource "kubernetes_ingress_v1" "rtd_ingress" {
           }
           path = "/enrolledpaymentinstrumentmanager/(.*)"
         }
+
+        path {
+          backend {
+            service {
+              name = "rtd-ms-pieventprocessor"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/rtdmspieventprocessor/(.*)"
+        }
+
+        path {
+          backend {
+            service {
+              name = "rtdmsfilereporter"
+              port {
+                number = var.default_service_port
+              }
+            }
+          }
+          path = "/rtdmsfilereporter/(.*)"
+        }
       }
     }
   }

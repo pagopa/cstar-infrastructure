@@ -25,6 +25,7 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay-checkiban-eval-consumer-group                = "idpay-checkiban-eval-consumer-group"
     idpay-checkiban-outcome-consumer-group             = "idpay-checkiban-outcome-consumer-group"
     idpay-timeline-consumer-group                      = "idpay-timeline-consumer-group"
+    idpay-onboarding-notification-consumer-group       = "idpay-onboarding-notification-consumer-group"
     idpay-onboarding-outcome-onboarding-consumer-group = "idpay-onboarding-outcome-onboarding-consumer-group"
     idpay-onboarding-outcome-wallet-consumer-group     = "idpay-onboarding-outcome-wallet-consumer-group"
     idpay-onboarding-outcome-notify-consumer-group     = "idpay-onboarding-outcome-notify-consumer-group"
@@ -32,9 +33,11 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_notification_request_topic                   = "idpay-notification-request"
     idpay_onboarding_request_topic                     = "idpay-onboarding-request"
     idpay_onboarding_outcome_topic                     = "idpay-onboarding-outcome"
+    idpay_onboarding_notification_topic                = "idpay-onboarding-notification"
     idpay_checkiban_evaluation_topic                   = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic                      = "idpay-checkiban-outcome"
     idpay_timeline_topic                               = "idpay-timeline"
+    idpay-onboarding-ranking-request                   = "idpay-onboarding-ranking-request"
   }
 
 }
@@ -52,13 +55,17 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_transaction_consumer_group         = "idpay-transaction-consumer-group"
     idpay_transaction_wallet_consumer_group  = "idpay-transaction-wallet-consumer-group"
     idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
-    idpay_transaction_topic                  = "idpay-transaction"
-    idpay_reward_error_topic                 = "idpay-reward-error"
-    idpay_hpan_update_topic                  = "idpay-hpan-update"
-    idpay_hpan_update_outcome_topic          = "idpay-hpan-update-outcome"
-    idpay_rule_update_topic                  = "idpay-rule-update"
-    idpay_error_topic                        = "idpay-errors"
-    idpay_transaction_userid_splitter_topic  = "idpay-transaction-user-id-splitter"
+
+    idpay_transaction_topic                           = "idpay-transaction"
+    idpay_reward_error_topic                          = "idpay-reward-error"
+    idpay_hpan_update_topic                           = "idpay-hpan-update"
+    idpay_hpan_update_outcome_topic                   = "idpay-hpan-update-outcome"
+    idpay_rule_update_topic                           = "idpay-rule-update"
+    idpay_error_topic                                 = "idpay-errors"
+    idpay_transaction_userid_splitter_topic           = "idpay-transaction-user-id-splitter"
+    idpay_reward_notification_response_consumer_group = "idpay-reward-notification-response-group"
+    idpay_reward_notification_response_topic          = "idpay-reward-notification-response"
+    idpay_reward_notification_storage_events_topic    = "idpay-reward-notification-storage-events"
   }
 
 }
@@ -97,13 +104,14 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   }
 
   data = {
-    kafka_broker_rtd                              = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
-    rtd_enrolled_pi_topic                         = "rtd-enrolled-pi"
-    rtd_trx_topic                                 = "rtd-trx"
-    kafka_partition_count                         = data.azurerm_eventhub.enrolled_pi_hub.partition_count
-    kafka_partition_key_expression                = "headers.partitionKey"
-    rtd_revoked_pi_topic                          = "rtd-revoked-pi"
-    rtd_revoked_payment_instrument_consumer_group = "rtd-revoked-payment-instrument-consumer-group"
+    kafka_broker_rtd               = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    kafka_broker_rtd_pi            = "${local.product}-rtd-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    rtd_pi_from_app_topic          = "rtd-pi-from-app"
+    rtd_trx_topic                  = "rtd-trx"
+    kafka_partition_count          = data.azurerm_eventhub.enrolled_pi_hub.partition_count
+    kafka_partition_key_expression = "headers.partitionKey"
+    rtd_pi_to_app_topic            = "rtd-pi-to-app"
+    rtd_pi_to_app_consumer_group   = "rtd-pi-to-app-consumer-group"
   }
 
 }
@@ -116,7 +124,7 @@ resource "kubernetes_config_map" "notification-email" {
   }
 
   data = {
-    mail_server_host = "smtp.mailosaur.net"
+    mail_server_host = "smtp.ethereal.email"
     mail_server_port = "587"
   }
 }

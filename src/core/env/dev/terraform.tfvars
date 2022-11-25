@@ -815,7 +815,7 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "http://10.230.8.250/cstariobackendtest/pagopa-mock"
+pm_backend_url = "https://api.dev.platform.pagopa.it"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
@@ -856,7 +856,9 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
-    pm_wallet_ext_api                   = false
+    pm_wallet_ext_api                   = true
+    pm_integration                      = true
+
   }
   fa = {
     api = true

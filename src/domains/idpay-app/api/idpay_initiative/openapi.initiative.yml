@@ -237,6 +237,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/onboardings:
+    get:
+      tags:
+        - initiative-onboarding
+      summary: Returns the onbordings status
+      description: Returns the onbordings status
+      operationId: getOnboardingStatus
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: beneficiary
+          in: query
+          description: Fiscale code
+          required: false
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          description: Start date
+          required: false
+          schema:
+            type: string
+        - name: dateTo
+          in: query
+          description: End date
+          required: false
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: onboarding state
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /{initiativeId}:
     get:
       tags:
@@ -319,6 +405,74 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Initiative ID not found or already deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/logo:
+    put:
+      tags:
+        - initiative
+      summary: Upload and update Logo
+      description: Upload and update Logo
+      operationId: uploadAndUpdateLogo
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - logo
+              type: object
+              properties:
+                logo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
           content:
             application/json:
               schema:
@@ -1092,8 +1246,406 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/exports:
+    get:
+      tags:
+        - initiative-reward
+      summary: Return a pageable list of reward exports notification for a specific Initiative by using filters
+      operationId: getRewardNotificationExportsPaged
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: notificationDateFrom
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: notificationDateTo
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageRewardExportsDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/imports:
+    get:
+      tags:
+        - initiative-reward
+      summary: Return a pageable list of reward imports notification for a specific Initiative by using filters
+      operationId: getRewardNotificationImportsPaged
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: elabDateFrom
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date-time
+        - name: elabDateTo
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageRewardImportsDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/exports/{filename}:
+    get:
+      tags:
+        - initiative-reward
+      summary: Return the requested filename
+      operationId: getRewardFileDownload
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: filename
+          in: path
+          description: filename
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Created
+          content:
+           application/json:
+              schema:
+                $ref: '#/components/schemas/SasToken'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/import/{filename}:
+    put:
+      tags:
+        - initiative-reward
+      summary: Upload dispositive file
+      operationId: putDispFileUpload
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: filename
+          in: path
+          description: filename
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/import/{filename}/errors:
+    get:
+      tags:
+        - initiative-reward
+      summary: Get dispositive file errors
+      operationId: getDispFileErrors
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: filename
+          in: path
+          description: filename
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsvDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
+    SasToken:
+      type: object
+      properties:
+        sas:
+          type: string
     InitiativeAdditionalDTO:
       type: object
       properties:
@@ -1116,6 +1668,13 @@ components:
           type: string
         channels:
           $ref: '#/components/schemas/ChannelArrayDTO'
+        logoFileName:
+          type: string
+        logoURL:
+          type: string
+        logoUploadDate:
+          type: string
+          format: date-time
     InitiativeGeneralDTO:
       type: object
       properties:
@@ -1150,6 +1709,10 @@ components:
           description: Start date
           format: date
           example: '2022-01-30'
+        rankingEnabled:
+          type: boolean
+        descriptionMap:
+          $ref: '#/components/schemas/DescriptionMap'
     AutomatedCriteriaDTO:
       type: object
       properties:
@@ -1163,6 +1726,11 @@ components:
           type: string
         value:
           type: string
+        orderDirection:
+          type: string
+          enum:
+          - ASC
+          - DESC
     InitiativeDTO:
       type: object
       properties:
@@ -1202,6 +1770,15 @@ components:
           $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
         refundRule:
           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+    DescriptionLanguageMap:
+      type: object
+      properties:
+        language:
+          type: string
+        description:
+          type: string
+      items:
+        $ref: '#/components/schemas/DescriptionLanguageMap'
     InitiativeSummaryArrayDTO:
       type: array
       items:
@@ -1221,6 +1798,8 @@ components:
         updateDate:
           type: string
           format: date-time
+        rankingEnabled:
+          type: boolean
     ChannelArrayDTO:
       type: array
       items:
@@ -1420,6 +1999,19 @@ components:
           type: array
           items:
             type: string
+    LogoDTO:
+      type: object
+      properties:
+        logoFileName:
+          type: string
+          example: "logo-name.png"
+        logoURL:
+          type: string
+          example: "https://localhost:8080/logo/initiative/logo.png"
+        logoUploadDate:
+          type: string
+          description: date-time
+          example: "2022-11-18T17:16:08.8820821"
     RewardGroupDTO:
       type: object
       properties:
@@ -1474,6 +2066,7 @@ components:
           type: number
         toIncluded:
           type: boolean
+    
     TrxCountDTO:
       type: object
       properties:
@@ -1521,6 +2114,36 @@ components:
             - WEEKLY
             - MONTHLY
             - QUARTERLY
+            
+    OnboardingDTO:
+      type: object
+      properties:
+        content:
+            type: array
+            items:
+              $ref: '#/components/schemas/StatusOnboardingDTOS'
+        pageNo:
+          type:  integer
+          format: int32
+        pageSize:
+          type:  integer
+          format: int32
+        totalElements:
+          type:  integer
+          format: int32
+        totalPages:
+          type:  integer
+          format: int32
+    StatusOnboardingDTOS:
+      type: object
+      properties:
+        beneficiary:
+          type: string
+        beneficiaryState:
+          type: string
+        updateStatusDate:
+          type: string
+          format: date-time
     RefundAdditionalInfoDTO:
       required:
         - identificationCode
@@ -1538,6 +2161,160 @@ components:
           type:  integer
           format: int32
         accruedRewards:
+          type: string
+    PageRewardExportsDTO:
+      title: PageRewardExportsDTO
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RewardExportsDTO'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    PageRewardImportsDTO:
+      title: PageRewardImportsDTO
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RewardImportsDTO"
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+    DescriptionMap:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            it: Ciao!
+            en: Hello!
+            fr: Salut!
+    RewardExportsDTO:
+      title: RewardExportsDTO
+      required: [
+        "id",
+        "organizationId",
+        "initiativeId",
+        "initiativeName",
+        "filePath",
+        "status",
+        "notificationDate",
+        "percentageResulted",
+        "percentageResults",
+        "rewardsExported",
+        "rewardsNotified",
+        "rewardsResulted",
+        "rewardsResultedOk",
+        "rewardsResults"
+      ]
+      type: object
+      properties:
+        feedbackDate:
+          type: string
+          format: date-time
+        filePath:
+          type: string
+        id:
+          type: string
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        notificationDate:
+          type: string
+          format: date
+        organizationId:
+          type: string
+        percentageResulted:
+          type: string
+        percentageResultedOk:
+          type: string
+        percentageResults:
+          type: string
+        rewardsExported:
+          type: string
+        rewardsNotified:
+          type: integer
+          format: int64
+        rewardsResulted:
+          type: integer
+          format: int64
+        rewardsResultedOk:
+          type: integer
+          format: int64
+        rewardsResults:
+          type: string
+        status:
+          type: string
+    RewardImportsDTO:
+      title: RewardImportsDTO
+      type: object
+      properties:
+        contentLength:
+          type: integer
+          format: int32
+        eTag:
+          type: string
+        elabDate:
+          type: string
+          format: date-time
+        errorsSize:
+          type: integer
+          format: int32
+        exportIds:
+          type: array
+          items:
+            type: string
+        feedbackDate:
+          type: string
+          format: date-time
+        filePath:
+          type: string
+        initiativeId:
+          type: string
+        organizationId:
+          type: string
+        percentageResulted:
+          type: string
+        percentageResultedOk:
+          type: string
+        percentageResultedOkElab:
+          type: string
+        rewardsResulted:
+          type: integer
+          format: int64
+        rewardsResultedError:
+          type: integer
+          format: int64
+        rewardsResultedOk:
+          type: integer
+          format: int64
+        rewardsResultedOkError:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - COMPLETE
+          - ERROR
+          - IN_PROGRESS
+          - WARN
+        url:
+          type: string
+    CsvDTO:
+      title: CsvDTO
+      type: object
+      properties:
+        data: 
           type: string
   securitySchemes:
     Bearer:

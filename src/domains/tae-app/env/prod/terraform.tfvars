@@ -15,15 +15,6 @@ tags = {
   Application = "TAE"
 }
 
-lock_enable = true
-
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraform"
-  container_name       = "azureadstate"
-  key                  = "prod.terraform.tfstate"
-}
-
 ### External resources
 
 monitor_resource_group_name                 = "cstar-p-monitor-rg"
@@ -44,13 +35,17 @@ external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.prod.cstar"
 
 aggregates_ingestor_conf = {
-  enable = true
+  enable                               = true
+  copy_activity_retries                = 3
+  copy_activity_retry_interval_seconds = 1800
 }
 
 ack_ingestor_conf = {
-  interval  = 120
-  frequency = "Minute"
-  enable    = true
+  interval                     = 120
+  frequency                    = "Minute"
+  enable                       = true
+  sink_thoughput_cap           = 1000
+  sink_write_throughput_budget = 2000
 }
 
 dexp_tae_db_linkes_service = {
@@ -59,4 +54,12 @@ dexp_tae_db_linkes_service = {
 
 zendesk_action_enabled = {
   enable = true
+}
+
+cosmos_sink_throughput = {
+  cap = 10000
+}
+
+alerts_conf = {
+  max_days_just_into_ade_in = 3
 }

@@ -262,38 +262,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   }
 }
 
-resource "azurerm_monitor_metric_alert" "tae_azure_data_factory_pipelines_failures" {
-  count = var.env_short == "p" ? 1 : 0
-
-  name                = "${var.domain}-${var.env_short}-adf-pipelines-failures"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  scopes              = [data.azurerm_data_factory.datafactory.id]
-  description         = "Triggers whenever at least one pipeline fails #ACQ."
-  frequency           = "PT5M"
-  window_size         = "PT5M"
-  severity            = 1
-
-  criteria {
-    metric_namespace = "Microsoft.DataFactory/factories"
-    metric_name      = "PipelineFailedRuns"
-    aggregation      = "Total"
-    operator         = "GreaterThan"
-    threshold        = 0
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.send_to_operations[0].id
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.send_to_zendesk[0].id
-  }
-
-  tags = {
-    key = "Sender Monitoring"
-  }
-}
-
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_error" {
 
   count = var.env_short == "p" ? 1 : 0
@@ -397,6 +365,110 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one PUT request on /pagopastorage fails."
   display_name                     = "cstar-${var.env_short}-sender-fails-blob-upload-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upload_unauthorized" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-sender-fails-blob-upload-unauthorized"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AppRequests
+      | where ResultCode == 401
+      | where Name startswith "PUT /pagopastorage/"
+      | project TimeGenerated, Filename = substring(Url, 104, 44)
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one PUT request on /pagopastorage receive 401 response."
+  display_name                     = "cstar-${var.env_short}-sender-fails-blob-upload-unauthorized-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upload_service_unavailable" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-sender-fails-blob-upload-service-unavailable"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AppRequests
+      | where ResultCode == 503
+      | where Name startswith "PUT /pagopastorage/"
+      | project TimeGenerated, Filename = substring(Url, 104, 44)
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one PUT request on /pagopastorage receive 503 response."
+  display_name                     = "cstar-${var.env_short}-sender-fails-blob-upload-service-unavailable-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
@@ -695,6 +767,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
       | where OperationName == "ack_ingestor - Failed"
       | where status_s == "Failed"
       | where pipelineName_s == "ack_ingestor"
+      | where todynamic(Predecessors_s)[0]["InvokedByType"] != "Manual"
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -748,6 +821,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
       | where pipelineName_s == "aggregates_ingestor"
       | where OperationName == "aggregates_ingestor - Failed"
       | where status_s == "Failed"
+      | where todynamic(Predecessors_s)[0]["InvokedByType"] != "Manual"
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -763,6 +837,70 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one aggregates ingestor pipeline fails."
   display_name                     = "${var.domain}-${var.env_short}-adf-aggregates-ingestor-failures-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_ade_out" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "${var.domain}-${var.env_short}-file-not-created-in-ade-out"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      let blobsPastDaysIn = StorageBlobLogs
+      | where TimeGenerated between (ago(${var.alerts_conf.max_days_just_into_ade_in}d) .. ago(1d))
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName == 'PutBlock'
+      | where Uri startswith "https://cstar${var.env_short}sftp.blob.core.windows.net:443/ade/in/"
+      | project fileName = substring(Uri, 52,38)
+      | distinct fileName;
+      let blobsPastDaysOut = StorageBlobLogs
+      | where TimeGenerated >= ago(${var.alerts_conf.max_days_just_into_ade_in}d)
+      | where AccountName == "cstar${var.env_short}sftp"
+      | where OperationName in ("SftpCreate", "SftpWrite", "SftpCommit")
+      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/out/"
+      | project fileName = substring(Uri, 48,38)
+      | distinct fileName;
+      blobsPastDaysIn
+      | where fileName !in(blobsPastDaysOut)
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a file is not created in ade/out after ${var.alerts_conf.max_days_just_into_ade_in} days."
+  display_name                     = "${var.domain}-${var.env_short}-file-not-created-in-ade-out-#ACQ"
   enabled                          = true
 
   skip_query_validation = false

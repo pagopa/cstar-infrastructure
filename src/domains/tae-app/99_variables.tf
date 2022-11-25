@@ -55,26 +55,11 @@ variable "instance" {
   description = "One of beta, prod01, prod02"
 }
 
-variable "lock_enable" {
-  type        = bool
-  default     = false
-  description = "Apply locks to block accedentaly deletions."
-}
-
 variable "tags" {
   type = map(any)
   default = {
     CreatedBy = "Terraform"
   }
-}
-
-variable "terraform_remote_state_core" {
-  type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
-  })
 }
 
 ### External resources
@@ -130,23 +115,31 @@ variable "dns_zone_internal_prefix" {
 
 variable "aggregates_ingestor_conf" {
   type = object({
-    enable = bool
+    enable                               = bool
+    copy_activity_retries                = number
+    copy_activity_retry_interval_seconds = number
   })
   default = {
-    enable = false
+    enable                               = false
+    copy_activity_retries                = 3
+    copy_activity_retry_interval_seconds = 1800
   }
 }
 
 variable "ack_ingestor_conf" {
   type = object({
-    interval  = number
-    frequency = string
-    enable    = bool
+    interval                     = number
+    frequency                    = string
+    enable                       = bool
+    sink_thoughput_cap           = number
+    sink_write_throughput_budget = number
   })
   default = {
-    interval  = 15
-    frequency = "Minute"
-    enable    = false
+    interval                     = 15
+    frequency                    = "Minute"
+    enable                       = false
+    sink_thoughput_cap           = 500
+    sink_write_throughput_budget = 1000
   }
 }
 
@@ -161,18 +154,22 @@ variable "zendesk_action_enabled" {
 
 variable "bulk_delete_aggregates_conf" {
   type = object({
-    interval  = number
-    frequency = string
-    enable    = bool
-    hours     = number
-    minutes   = number
+    interval                     = number
+    frequency                    = string
+    enable                       = bool
+    hours                        = number
+    minutes                      = number
+    sink_thoughput_cap           = number
+    sink_write_throughput_budget = number
   })
   default = {
-    interval  = 1
-    frequency = "Day"
-    enable    = false
-    hours     = 3
-    minutes   = 0
+    interval                     = 1
+    frequency                    = "Day"
+    enable                       = false
+    hours                        = 3
+    minutes                      = 0
+    sink_thoughput_cap           = 500
+    sink_write_throughput_budget = 1000
   }
 }
 
@@ -180,4 +177,13 @@ variable "dexp_tae_db_linkes_service" {
   type = object({
     enable = bool
   })
+}
+
+variable "alerts_conf" {
+  type = object({
+    max_days_just_into_ade_in = number
+  })
+  default = {
+    max_days_just_into_ade_in = 3
+  }
 }
