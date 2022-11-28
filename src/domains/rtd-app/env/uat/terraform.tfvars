@@ -133,6 +133,28 @@ event_hub_hubs = [
         manage = false
       }
     ]
+  },
+  {
+    name       = "rtd-file-register-projector"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-file-reporter-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-file-register-projector-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-file-register-projector-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
   }
 ]
 
