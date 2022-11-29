@@ -653,19 +653,19 @@ fa_autoscaling_specs = {
     behaviors = [
       {
         scale_down = {
-          stabilization_window_seconds = 300
+          stabilization_window_seconds = 20
           select_policy                = "Min"
           policy = {
-            period_seconds = 120
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
         }
         scale_up = {
-          stabilization_window_seconds = 600
+          stabilization_window_seconds = 5
           select_policy                = "Max"
           policy = {
-            period_seconds = 600
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
@@ -695,19 +695,19 @@ fa_autoscaling_specs = {
     behaviors = [
       {
         scale_down = {
-          stabilization_window_seconds = 300
+          stabilization_window_seconds = 20
           select_policy                = "Min"
           policy = {
-            period_seconds = 120
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
         }
         scale_up = {
-          stabilization_window_seconds = 600
+          stabilization_window_seconds = 5
           select_policy                = "Max"
           policy = {
-            period_seconds = 600
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
@@ -737,19 +737,19 @@ fa_autoscaling_specs = {
     behaviors = [
       {
         scale_down = {
-          stabilization_window_seconds = 300
+          stabilization_window_seconds = 20
           select_policy                = "Min"
           policy = {
-            period_seconds = 120
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
         }
         scale_up = {
-          stabilization_window_seconds = 600
+          stabilization_window_seconds = 5
           select_policy                = "Max"
           policy = {
-            period_seconds = 600
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
@@ -779,19 +779,19 @@ fa_autoscaling_specs = {
     behaviors = [
       {
         scale_down = {
-          stabilization_window_seconds = 300
+          stabilization_window_seconds = 20
           select_policy                = "Min"
           policy = {
-            period_seconds = 120
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
         }
         scale_up = {
-          stabilization_window_seconds = 600
+          stabilization_window_seconds = 5
           select_policy                = "Max"
           policy = {
-            period_seconds = 600
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
@@ -821,19 +821,19 @@ fa_autoscaling_specs = {
     behaviors = [
       {
         scale_down = {
-          stabilization_window_seconds = 300
+          stabilization_window_seconds = 20
           select_policy                = "Min"
           policy = {
-            period_seconds = 120
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
         }
         scale_up = {
-          stabilization_window_seconds = 600
+          stabilization_window_seconds = 5
           select_policy                = "Max"
           policy = {
-            period_seconds = 600
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
@@ -863,19 +863,19 @@ fa_autoscaling_specs = {
     behaviors = [
       {
         scale_down = {
-          stabilization_window_seconds = 300
+          stabilization_window_seconds = 20
           select_policy                = "Min"
           policy = {
-            period_seconds = 120
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
         }
         scale_up = {
-          stabilization_window_seconds = 600
+          stabilization_window_seconds = 5
           select_policy                = "Max"
           policy = {
-            period_seconds = 600
+            period_seconds = 15
             type           = "Pods"
             value          = 1
           }
