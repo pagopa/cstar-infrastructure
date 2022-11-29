@@ -386,8 +386,8 @@ cosmos_mongo_db_params = {
 cosmos_mongo_db_transaction_params = {
   enable_serverless  = true
   enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
+  max_throughput     = 10000
+  throughput         = 2000
 }
 
 dexp_params = {
@@ -837,7 +837,7 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "https://10.48.20.119:444"
+pm_backend_url = "https://api.platform.pagopa.it"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
@@ -889,6 +889,7 @@ enable = {
     sender_auth                         = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = false
+    pm_integration                      = false
   }
   fa = {
     api = true

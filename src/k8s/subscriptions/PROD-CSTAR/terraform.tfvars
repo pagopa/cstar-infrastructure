@@ -93,28 +93,29 @@ configmaps_bpdmsenrollment = {
 
 # bpdmsnotificationmanager
 configmaps_bpdmsnotificationmanager = {
-  JAVA_TOOL_OPTIONS                                                = "-Xms256m -Xmx6g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                                    = "bpdmsnotificationmanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL                = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED           = "false"
-  BPD_AWARD_PERIOD_HOST                                            = "bpdmsawardperiod"
-  LOG_LEVEL_BPD_NOTIFICATION                                       = "INFO"
-  LOG_LEVEL_BPD_NOTIFICATION-MANAGER                               = "INFO"
-  NOT_MANAGER_DB_BATCH_SIZE                                        = "30000"
-  NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                         = "-"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_LOOP_PER_RUN         = "1"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXNOTIFYTRY         = "3"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXROW               = "2000"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_RESULT_LIST          = "ORDINE ESEGUITO,KO,PRESA IN CARICO RIGETTATO"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER            = "0 */5 * * * ?"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_UPDATE_NUMBER        = "1000"
-  NOTIFICATION_SERVICE_NOTIFY_WINNERS_MAXROW                       = "1000000"
-  NOTIFICATION_SERVICE_NOTIFY_WINNERS_SFTP_ENABLE                  = "true"
-  NOTIFICATION_SERVICE_NOTIFY_WINNERS_UPDATE_STATUS_ENABLE         = "true"
-  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY     = "15"
-  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER          = "0 00 12 * * ?"
-  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE         = "2022-06-06"
-  NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER           = "-" # Send tranfer order to Consap (end period)
+  JAVA_TOOL_OPTIONS                                            = "-Xms256m -Xmx6g -javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                                = "bpdmsnotificationmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL            = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED       = "false"
+  BPD_AWARD_PERIOD_HOST                                        = "bpdmsawardperiod"
+  LOG_LEVEL_BPD_NOTIFICATION                                   = "INFO"
+  LOG_LEVEL_BPD_NOTIFICATION-MANAGER                           = "INFO"
+  NOT_MANAGER_DB_BATCH_SIZE                                    = "30000"
+  NOTIFICATION_SERVICE_END_PERIOD_SCHEDULE                     = "-"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_LOOP_PER_RUN     = "1"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXNOTIFYTRY     = "3"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXROW           = "2000"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_RESULT_LIST      = "ORDINE ESEGUITO,KO,PRESA IN CARICO RIGETTATO"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER        = "0 */5 * * * ?"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_UPDATE_NUMBER    = "1000"
+  NOTIFICATION_SERVICE_NOTIFY_WINNERS_MAXROW                   = "1000000"
+  NOTIFICATION_SERVICE_NOTIFY_WINNERS_SFTP_ENABLE              = "true"
+  NOTIFICATION_SERVICE_NOTIFY_WINNERS_UPDATE_STATUS_ENABLE     = "true"
+  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY = "15"
+  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER      = "0 00 12 * * ?"
+  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE     = "2022-06-06"
+  NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER       = "-"
+  # Send tranfer order to Consap (end period)
   NOTIFICATION_SERVICE_UPDATE_BONIFICA_RECESSO_CITIZEN_SEARCH_DAYS = "2"
   NOTIFICATION_SERVICE_UPDATE_BONIFICA_RECESSO_SCHEDULE            = "-"
   NOTIFICATION_SERVICE_UPDATE_RANKING_MILESTONE_LIMIT              = "5000"
@@ -406,6 +407,15 @@ configmaps_rtdproducerenrolledpaymentinstrument = {
   KAFKA_PARTITION_COUNT          = 1
 }
 
+# rtd-ms-pi-event-processor
+configmaps_rtdpieventprocessor = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+  KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
+}
+
 autoscaling_specs = {
 
   # map key must be the name of a deployment
@@ -681,7 +691,10 @@ secrets_from_rtd_domain_kv = {
   secrets = [
     "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
     "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd"
+    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
+    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
+    "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
+    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"
   ]
 }
 

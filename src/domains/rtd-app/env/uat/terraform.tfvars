@@ -15,15 +15,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-lock_enable = true
-
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraformuat"
-  container_name       = "azurestate"
-  key                  = "terraform.tfstate"
-}
-
 ### External resources
 
 monitor_resource_group_name                 = "cstar-u-monitor-rg"
@@ -137,6 +128,28 @@ event_hub_hubs = [
       },
       {
         name   = "rtd-split-by-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-file-register-projector"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-file-reporter-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-file-register-projector-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-file-register-projector-producer-policy"
         listen = false
         send   = true
         manage = false

@@ -198,3 +198,14 @@ resource "kubernetes_config_map" "rtd-producer-enrolledpaymentinstrument" {
     KAFKA_PARTITION_COUNT = data.azurerm_eventhub.rtd-enrolled-pi.partition_count
   }, var.configmaps_rtdproducerenrolledpaymentinstrument)
 }
+
+resource "kubernetes_config_map" "rtd-ms-pi-event-processor" {
+  metadata {
+    name      = "rtd-ms-pi-event-processor"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = merge({
+    KAFKA_PARTITION_COUNT = 1
+  }, var.configmaps_rtdpieventprocessor)
+}

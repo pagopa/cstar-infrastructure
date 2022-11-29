@@ -15,13 +15,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraformdev"
-  container_name       = "azureadstate"
-  key                  = "dev.terraform.tfstate"
-}
-
 # # 🔐 key vault
 # key_vault_name    = "cstar-d-xyz"
 # key_vault_rg_name = "cstar-d-xyz"

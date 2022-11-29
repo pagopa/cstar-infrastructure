@@ -4,7 +4,7 @@ info:
   description: IDPAY Wallet IO
   version: '2.0'
 servers:
- - url: https://api-io.dev.cstar.pagopa.it/idpay/wallet
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/wallet
 paths:
   /:
     get:
@@ -12,6 +12,14 @@ paths:
         - wallet
       summary: Returns the list of active initiatives of a citizen
       operationId: getWallet
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Ok
@@ -25,11 +33,11 @@ paths:
                     initiativeName: string
                     status: NOT_REFUNDABLE_ONLY_IBAN
                     endDate: string
-                    available: 0.01
+                    amount: 0.01
                     accrued: 0.01
                     refunded: 0.01
                     iban: string
-                    nInstr: string
+                    nInstr: 0
         '401':
           description: Authentication failed
           content:
@@ -64,6 +72,13 @@ paths:
       summary: Returns the detail of an active initiative of a citizen
       operationId: getWalletDetail
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -82,11 +97,11 @@ paths:
                 initiativeName: string
                 status: NOT_REFUNDABLE_ONLY_IBAN
                 endDate: string
-                available: 0.01
+                amount: 0.01
                 accrued: 0.01
                 refunded: 0.01
                 iban: string
-                nInstr: string
+                nInstr: 0
         '401':
           description: Authentication failed
           content:
@@ -130,6 +145,13 @@ paths:
       summary: Association of an IBAN to an initiative
       operationId: enrollIban
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -211,6 +233,13 @@ paths:
       summary: Association of a payment instrument to an initiative
       operationId: enrollInstrument
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -289,6 +318,13 @@ paths:
       summary: Returns the list of payment instruments associated to the initiative by the citizen
       operationId: getInstrumentList
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -346,6 +382,13 @@ paths:
       summary: Delete a payment instrument from an initiative
       operationId: deleteInstrument
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -417,7 +460,7 @@ paths:
               example:
                 code: 0
                 message: string
-                
+
   /{initiativeId}/unsubscribe:
     delete:
       tags:
@@ -425,6 +468,13 @@ paths:
       summary: Unsubscribe to an initiative
       operationId: unsubscribe
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -490,7 +540,7 @@ paths:
               example:
                 code: 0
                 message: string
-  
+
   '/{initiativeId}/status':
     get:
       tags:
@@ -498,6 +548,13 @@ paths:
       summary: Returns the actual wallet status
       operationId: getWalletStatus
       parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
         - name: initiativeId
           in: path
           description: The initiative ID
@@ -558,89 +615,6 @@ paths:
               example:
                 code: 0
                 message: string
-  '/test/pmservice':
-    get:
-      summary: pm-mock-io
-      operationId: pm-mock-io
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              example:
-                data:
-                  - createDate: '2022-10-11 00:00:00'
-                    enableableFunctions:
-                      - pagoPA
-                    favourite: true
-                    idWallet: '19920'
-                    onboardingChannel: test_onboarding2
-                    updateDate: '2022-10-13 00:00:00'
-                    walletType: CARD
-                    info:
-                      blurredNumber: test_blurredNumber2
-                      brand: brand
-                      brandLogo: brandLogo2
-                      expireMonth: '12'
-                      expireYear: '2022'
-                      hashPan: test_hashPan2
-                      holder: test_holder
-                      htokenList:
-                        - token1
-                      issuerAbiCode: test_issuerAbiCode
-                      type: PP
-                  - createDate: '2022-10-11 00:00:00'
-                    enableableFunctions:
-                      - pagoPA
-                    favourite: true
-                    idWallet: '19921'
-                    onboardingChannel: test_onboarding
-                    updateDate: '2022-10-13 00:00:00'
-                    walletType: BANCOMAT
-                    info:
-                      blurredNumber: test_blurredNumber
-                      brand: brand
-                      brandLogo: brandLogo
-                      expireMonth: '12'
-                      expireYear: '2022'
-                      hashPan: test_hashPan
-                      holder: test_holder
-                      htokenList:
-                        - token1
-                      issuerAbiCode: test_issuerAbiCode
-                      type: PP
-                  - createDate: '2022-10-11 00:00:00'
-                    enableableFunctions:
-                      - pagoPA
-                    favourite: true
-                    idWallet: '19922'
-                    onboardingChannel: test_onboarding
-                    updateDate: '2022-10-13 00:00:00'
-                    walletType: SATISPAY
-                    info:
-                      uuid: test_uuid
-                      brandLogo: brandLogo
-                  - createDate: '2022-10-11 00:00:00'
-                    enableableFunctions:
-                      - pagoPA
-                    favourite: true
-                    idWallet: '19923'
-                    onboardingChannel: test_onboarding
-                    updateDate: '2022-10-13 00:00:00'
-                    walletType: BPAY
-                    info:
-                      bankName: test_bankName
-                      brandLogo: brandLogo
-                      numberObfuscated: test_numberObfuscated
-                      brand: brand
-                      expireMonth: '12'
-                      expireYear: '2022'
-                      uidHash: test_uidHash
-                      holder: test_holder
-                      htokenList:
-                        - token1
-                      issuerAbiCode: test_issuerAbiCode
-                      type: PP
 components:
   schemas:
     IbanPutDTO:
@@ -656,15 +630,6 @@ components:
         description:
           type: string
           description: further information about the iban
-    InstrumentPutDTO:
-      title: InstrumentPutDTO
-      type: object
-      required:
-        - hpan
-      properties:
-        hpan:
-          type: string
-          description: Payment instrument of the citizen
     WalletStatusDTO:
       title: WalletStatusDTO
       type: object
@@ -677,6 +642,7 @@ components:
             - NOT_REFUNDABLE_ONLY_INSTRUMENT
             - REFUNDABLE
             - NOT_REFUNDABLE
+            - UNSUBSCRIBED
           type: string
           description: actual status of the citizen wallet for an initiative
     WalletDTO:
@@ -719,6 +685,13 @@ components:
         brandLogo:
           type: string
           description: Card's brand as mastercard, visa, ecc.
+        status:
+          enum:
+            - ACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+          type: string
+          description: The status of the instrument
     InitiativeDTO:
       type: object
       required:
@@ -737,11 +710,12 @@ components:
             - NOT_REFUNDABLE_ONLY_INSTRUMENT
             - REFUNDABLE
             - NOT_REFUNDABLE
+            - UNSUBSCRIBED
           type: string
         endDate:
           type: string
           format: date
-        available:
+        amount:
           type: number
         accrued:
           type: number
@@ -750,7 +724,8 @@ components:
         iban:
           type: string
         nInstr:
-          type: string
+          type: integer
+          format: int32
     ErrorDTO:
       type: object
       required:
@@ -763,17 +738,11 @@ components:
         message:
           type: string
   securitySchemes:
-    apiKeyHeader:
-      type: apiKey
-      name: Ocp-Apim-Subscription-Key
-      in: header
-    apiKeyQuery:
-      type: apiKey
-      name: subscription-key
-      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
 security:
-  - apiKeyHeader: [ ]
-  - apiKeyQuery: [ ]
+  - bearerAuth: [ ]
 tags:
   - name: wallet
     description: ''

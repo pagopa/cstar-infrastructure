@@ -15,13 +15,27 @@
                       <set-method>GET</set-method>
                     %{ else ~}
                       <!--AppIO Produzione-->
-                      <set-url>https://app-backend.io.italia.it/bpd/api/v1/user</set-url>
+                      <set-url>https://api-app.io.pagopa.it/bpd/api/v1/user</set-url>
                       <set-method>GET</set-method>
                       <set-header name="Authorization" exists-action="override">
                           <value>@("Bearer " +(string)context.Variables["token"])</value>
                       </set-header>
                     %{ endif ~}
                 </send-request>
+                %{ if env_short == "u" ~}
+                <!-- Call to IO BE as a fallback only for UAT environment -->
+                <choose>
+                    <when condition="@(context.Variables["tokenstate"] == null || ((IResponse)context.Variables["tokenstate"]).StatusCode != 200)">
+                        <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
+                            <set-url>https://api-app.io.pagopa.it/bpd/api/v1/user</set-url>
+                            <set-method>GET</set-method>
+                            <set-header name="Authorization" exists-action="override">
+                                <value>@("Bearer " +(string)context.Variables["token"])</value>
+                            </set-header>
+                        </send-request>
+                    </when>
+                </choose>
+                %{ endif ~}
                 <choose>
                     <when condition="@(context.Variables["tokenstate"] == null)">
                         <return-response>

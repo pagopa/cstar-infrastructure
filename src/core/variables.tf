@@ -780,6 +780,7 @@ variable "enable" {
       sender_auth                         = bool
       hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
+      pm_integration                      = bool
     })
     fa = object({
       api = bool
@@ -810,6 +811,7 @@ variable "enable" {
       sender_auth                         = false
       hashed_pans_container               = false
       pm_wallet_ext_api                   = false
+      pm_integration                      = false
     }
     fa = {
       api = false
