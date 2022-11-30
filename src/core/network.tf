@@ -400,7 +400,7 @@ module "app_gw" {
           }
         ]
         response_header_configurations = []
-        url = null
+        url                            = null
       }]
     },
   ]
