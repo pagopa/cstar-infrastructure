@@ -29,9 +29,9 @@ resource "azurerm_storage_container" "idpay_logo_container" {
   container_access_type = "blob"
 }
 
-resource "azurerm_storage_container" "idpay_refund_container" {
+resource "azurerm_storage_container" "idpay_ranking_container" {
   name                  = "ranking"
-  storage_account_name  = module.idpay_refund_storage.name
+  storage_account_name  = module.idpay_initiative_storage.name
   container_access_type = "private"
 }
 
