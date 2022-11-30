@@ -837,7 +837,9 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "https://api.platform.pagopa.it"
+pm_backend_url      = "https://api.platform.pagopa.it"
+pagopa_platform_url = "https://api.platform.pagopa.it"
+
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
