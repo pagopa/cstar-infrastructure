@@ -370,7 +370,7 @@ module "app_gw" {
     broker = {
       listener              = "issuer_acquirer"
       backend               = "apim"
-      rewrite_rule_set_name = null
+      rewrite_rule_set_name = "rewrite-rule-set-broker-api"
     }
 
     portal = {
@@ -385,6 +385,25 @@ module "app_gw" {
       rewrite_rule_set_name = null
     }
   }
+
+  rewrite_rule_sets = [
+    {
+      name = "rewrite-rule-set-broker-api"
+      rewrite_rules = [{
+        name          = "mauth-headers"
+        rule_sequence = 100
+        condition     = null
+        request_header_configurations = [
+          {
+            header_name  = "X-Client-Certificate-Verification"
+            header_value = "{var_client_certificate_verification}"
+          }
+        ]
+        response_header_configurations = []
+        url = null
+      }]
+    },
+  ]
 
   # TLS
   identity_ids = [azurerm_user_assigned_identity.appgateway.id]
