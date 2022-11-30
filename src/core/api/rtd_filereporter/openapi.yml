@@ -18,7 +18,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileReportDTO'
+                $ref: '#/components/schemas/FileReport'
         '401':
           description: Authentication failed
         '429':
@@ -29,16 +29,16 @@ paths:
           description: Service unavailable
 components:
   schemas:
-    FileReportDTO:
-      title: FileReportDTO
+    FileReport:
+      title: FileReport
       type: object
       properties:
         filesRecentlyUploaded:
           type: array
           items:
-            $ref: '#/components/schemas/FileInformationDTO'
-    FileInformationDTO:
-        title: FileInformationDTO
+            $ref: '#/components/schemas/FileInformation'
+    FileInformation:
+        title: FileInformation
         type: object
         properties:
           name:
