@@ -237,92 +237,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/onboardings:
-    get:
-      tags:
-        - initiative-onboarding
-      summary: Returns the onbordings status
-      description: Returns the onbordings status
-      operationId: getOnboardingStatus
-      parameters:
-        - name: initiativeId
-          in: path
-          description: The initiative ID
-          required: true
-          schema:
-            type: string
-        - name: page
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: size
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: sort
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: beneficiary
-          in: query
-          description: Fiscale code
-          required: false
-          schema:
-            type: string
-        - name: dateFrom
-          in: query
-          description: Start date
-          required: false
-          schema:
-            type: string
-        - name: dateTo
-          in: query
-          description: End date
-          required: false
-          schema:
-            type: string
-        - name: state
-          in: query
-          description: onboarding state
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OnboardingDTO'
-        '401':
-          description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '500':
-          description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
   /{initiativeId}:
     get:
       tags:
@@ -497,7 +411,7 @@ paths:
       description: Save initiative and first subset of data 'service info'
       operationId: saveInitiativeServiceInfo
       requestBody:
-        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        description: First initiative info
         content:
           application/json:
             schema:
@@ -560,7 +474,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        description: First initiative info
         content:
           application/json:
             schema:
@@ -621,7 +535,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Unique identifier of the subscribed initiative, IBAN of the citizen
+        description: General information about Initiative
         content:
           application/json:
             schema:
@@ -863,6 +777,7 @@ paths:
           schema:
             type: string
       requestBody:
+        description: General information about Initiative
         content:
           application/json:
             schema:
@@ -1246,6 +1161,286 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/onboardings:
+    get:
+      tags:
+        - initiative-onboarding
+      summary: Returns the onboardings status
+      description: Returns the onboardings status
+      operationId: getOnboardingStatus
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: beneficiary
+          in: query
+          description: Fiscale code
+          required: false
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          description: Start date
+          required: false
+          schema:
+            type: string
+        - name: dateTo
+          in: query
+          description: End date
+          required: false
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: onboarding state
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/ranking/exports:
+    get:
+      tags:
+        - initiative-onboarding
+      summary: Return a pageable list of Citizen ranking status for a specific Intiative by using filters
+      description: Return a pageable list of Citizen ranking status for a specific Intiative by using filters
+      operationId: getInitiativeOnboardingRankingStatusPaged
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: beneficiary
+          in: query
+          description: Fiscale code
+          required: false
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: onboarding state
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOnboardingRankingsDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/ranking/exports/{filename}:
+    get:
+      tags:
+        - initiative-onboarding
+      summary: Return the requested filename containing the list of Citizen ranking status for a specific Intiative
+      description: Return the requested filename containing the list of Citizen ranking status for a specific Intiative
+      operationId: getRankingFileDownload
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: filename
+          in: path
+          description: filename
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Created
+          content:
+           application/json:
+              schema:
+                $ref: '#/components/schemas/SasToken'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/ranking/notified:
+    put:
+      tags:
+        - initiative-onboarding
+      summary: Notify Citizen ranking status for a specific Intiative
+      description: Notify Citizen ranking status for a specific Intiative
+      operationId: notifyCitizenRankings
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /{initiativeId}/reward/exports:
     get:
       tags:
@@ -1424,6 +1619,12 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '409':
+          description: Conflict
           content:
             application/json:
               schema:
@@ -2066,7 +2267,6 @@ components:
           type: number
         toIncluded:
           type: boolean
-    
     TrxCountDTO:
       type: object
       properties:
@@ -2114,7 +2314,6 @@ components:
             - WEEKLY
             - MONTHLY
             - QUARTERLY
-            
     OnboardingDTO:
       type: object
       properties:
@@ -2144,6 +2343,57 @@ components:
         updateStatusDate:
           type: string
           format: date-time
+    PageOnboardingRankingsDTO:
+      type: object
+      properties:
+        content:
+            type: array
+            items:
+              $ref: '#/components/schemas/OnboardingRankingsDTO'
+        pageNumber:
+          type:  integer
+          format: int32
+        pageSize:
+          type:  integer
+          format: int32
+        totalElements:
+          type:  integer
+          format: int32
+        totalPages:
+          type:  integer
+          format: int32
+        rankingStatus:
+          type: string
+        rankingPublishedTimeStamp:
+          type: string
+          format: date-time
+        rankingGeneratedTimeStamp:
+          type: string
+          format: date-time
+        totalEligibleOk:
+          type: integer
+          format: int64
+        totalEligibleKo:
+          type: integer
+          format: int64
+        rankingFilePath:
+          type: string
+    OnboardingRankingsDTO:
+      type: object
+      properties:
+        beneficiary:
+          type: string
+        criteriaConsensusTimeStamp:
+          type: string
+          format: date-time
+        rankingValue:
+          type: integer
+          format: int64
+        ranking:
+          type: integer
+          format: int64
+        beneficiaryRankingStatus:
+          type: string
     RefundAdditionalInfoDTO:
       required:
         - identificationCode
