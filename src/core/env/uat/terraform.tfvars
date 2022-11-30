@@ -863,6 +863,7 @@ enable = {
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     pm_integration                      = true
+    tkm_integration                     = false
   }
   fa = {
     api = true

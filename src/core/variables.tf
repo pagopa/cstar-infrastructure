@@ -781,6 +781,7 @@ variable "enable" {
       hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
       pm_integration                      = bool
+      tkm_integration                     = bool
     })
     fa = object({
       api = bool
@@ -812,6 +813,7 @@ variable "enable" {
       hashed_pans_container               = false
       pm_wallet_ext_api                   = false
       pm_integration                      = false
+      tkm_integration                     = false
     }
     fa = {
       api = false
@@ -849,4 +851,9 @@ locals {
   idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
   idpay_keyvault_name    = "${local.project}-idpay-kv"
 
+  #
+  # RTD
+  #
+  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
+  rtd_keyvault_name    = "${local.project}-rtd-kv"
 }

@@ -178,3 +178,11 @@ data "azurerm_key_vault_secret" "sec_storage_id" {
   name         = "sec-storage-id"
   key_vault_id = module.key_vault.id
 }
+
+#
+# RTD Domain KV
+#
+data "azurerm_key_vault" "rtd_domain_kv" {
+  name                = local.rtd_keyvault_name
+  resource_group_name = local.rtd_rg_keyvault_name
+}
