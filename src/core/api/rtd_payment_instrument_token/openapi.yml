@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: RTD Payment Instrument Manager API
+  description: ''
+  version: v3
+servers:
+  - url: https://${host}/rtd/payment-instrument-manager/
+paths:
+  /token-list/public-key:
+    get:
+      summary: Get public PGP key for acquirer files
+      operationId: getTokenListPublicPGPKey
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Error:
+      required:
+        - statusCode
+        - message
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: The code identifies the error
+          example: 401
+        message:
+          type: string
+          description: Error description
+          example: Access denied due to missing subscription key
+    Salt:
+      type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
