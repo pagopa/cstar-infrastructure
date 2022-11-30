@@ -285,6 +285,13 @@ module "rtd_payment_instrument_token_api" {
         pm-timeout-seconds      = var.pm_timeout_sec,
         pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
       })
+    },
+    {
+      operation_id = "uploadAcquirerTokenFile",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/upload-token-file-policy.xml", {
+        pm-backend-url          = var.pm_backend_url,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
     }
   ]
 

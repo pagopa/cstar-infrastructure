@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: RTD Payment Instrument Manager API
+  title: RTD Token Manager API
   description: ''
   version: v3
 servers:
@@ -27,8 +27,51 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /token-list:
+    post:
+      summary: Upload acquirer file
+      operationId: uploadAcquirerTokenFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenListUploadRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenListUploadResponse'
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
+    TokenListUploadRequest:
+      required:
+        - file
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to upload
+    TokenListUploadResponse:
+      required:
+        - filename
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Filename of the uploaded file
     Error:
       required:
         - statusCode
