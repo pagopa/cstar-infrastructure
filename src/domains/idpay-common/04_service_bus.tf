@@ -8,8 +8,8 @@ resource "azurerm_servicebus_namespace" "idpay-service-bus-ns" {
 }
 
 resource "azurerm_servicebus_namespace_authorization_rule" "idpay-service-bus-ns-manager" {
-  name     = "idpay-service-bus-ns-manager"
-  namespace_id  = azurerm_servicebus_namespace.idpay-service-bus-ns.id
+  name         = "idpay-service-bus-ns-manager"
+  namespace_id = azurerm_servicebus_namespace.idpay-service-bus-ns.id
 
   listen = true
   send   = true
