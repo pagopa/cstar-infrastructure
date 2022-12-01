@@ -313,6 +313,11 @@ variable "pm_backend_url" {
   description = "Payment manager backend url"
 }
 
+variable "pagopa_platform_url" {
+  type        = string
+  description = "PagoPA Platform APIM url"
+}
+
 variable "pm_timeout_sec" {
   type        = number
   description = "Payment manager timeout (sec)"
