@@ -13,6 +13,9 @@
 <policies>
   <inbound>
     <base />
+    <check-header name="X-Client-Certificate-Verification" failed-check-httpcode="401" failed-check-error-message="Not authorized" ignore-case="false">
+      <value>SUCCESS</value>
+    </check-header>
     <set-header name="x-user-id" exists-action="override">
       <value>@(context.User.Id)</value>
     </set-header>
