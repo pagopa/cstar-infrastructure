@@ -7,6 +7,24 @@ resource "azurerm_servicebus_namespace" "idpay-service-bus-ns" {
   tags = var.tags
 }
 
+resource "azurerm_servicebus_namespace_authorization_rule" "idpay-service-bus-ns-manager" {
+  name     = "idpay-service-bus-ns-manager"
+  namespace_id  = azurerm_servicebus_namespace.idpay-service-bus-ns.id
+
+  listen = true
+  send   = true
+  manage = true
+}
+
+resource "azurerm_key_vault_secret" "idpay-service-bus-ns-manager-sas-key" {
+
+  name         = "idpay-service-bus-ns-manager-sas-key"
+  value        = azurerm_servicebus_namespace_authorization_rule.idpay-service-bus-ns-manager.primary_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
+
 #QUEUE
 resource "azurerm_servicebus_queue" "idpay-onboarding-request" {
   name                                    = "idpay-onboarding-request"
