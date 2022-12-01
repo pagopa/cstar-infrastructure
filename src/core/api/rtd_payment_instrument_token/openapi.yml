@@ -53,8 +53,49 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /known-hashes/links:
+    get:
+      summary: Get temporary links to download known hpans and htokens
+      operationId: getKnownHashes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksResponse'
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
+    LinksResponse:
+      required:
+        - fileLinks
+      type: object
+      properties:
+        fileLinks:
+          type: array
+          items:
+            type: string
+          description: List of links needed to download file
+        numberOfFiles:
+          type: integer
+        availableUntil:
+          type: string
+          format: date-time
+          pattern: "dd/MM/yyyy HH:mm:ss"
+        generationDate:
+          type: string
+          format: date-time
+          pattern: "dd/MM/yyyy HH:mm:ss"
     TokenListUploadRequest:
       required:
         - file

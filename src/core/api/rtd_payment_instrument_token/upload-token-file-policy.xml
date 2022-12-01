@@ -20,7 +20,7 @@
     </set-header>
 
     <set-backend-service
-      base-url="@("${pm-backend-url}/tkm/tkmacquirermanager/v1")">
+      base-url="@("${pagopa-platform-url}/tkm/tkmacquirermanager/v1")">
     </set-backend-service>
   </inbound>
   <backend>
