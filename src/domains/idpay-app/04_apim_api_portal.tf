@@ -444,3 +444,17 @@ resource "azurerm_api_management_named_value" "refund_storage_access_key" {
   }
 
 }
+
+resource "azurerm_api_management_named_value" "initiative_storage_access_key" {
+
+  name                = format("%s-initiative-storage-access-key", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  display_name = "initiative-storage-access-key"
+  secret       = true
+  value_from_key_vault {
+    secret_id = azurerm_key_vault_secret.initiative_storage_access_key.id
+  }
+
+}
