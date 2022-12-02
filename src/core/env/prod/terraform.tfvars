@@ -837,7 +837,9 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "https://10.48.20.119:444"
+pm_backend_url      = "https://api.platform.pagopa.it"
+pagopa_platform_url = "https://api.platform.pagopa.it"
+
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
@@ -888,7 +890,9 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
-    pm_wallet_ext_api                   = false
+    pm_wallet_ext_api                   = true
+    pm_integration                      = true
+    tkm_integration                     = false
   }
   fa = {
     api = true

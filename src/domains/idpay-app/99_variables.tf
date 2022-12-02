@@ -60,26 +60,11 @@ variable "instance" {
   description = "One of beta, prod01, prod02"
 }
 
-variable "lock_enable" {
-  type        = bool
-  default     = false
-  description = "Apply locks to block accedentaly deletions."
-}
-
 variable "tags" {
   type = map(any)
   default = {
     CreatedBy = "Terraform"
   }
-}
-
-variable "terraform_remote_state_core" {
-  type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
-  })
 }
 
 variable "event_hub_port" {
@@ -214,3 +199,26 @@ variable "tls_cert_check_helm" {
   description = "tls cert helm chart configuration"
 }
 
+variable "storage_account_replication_type" {
+  type        = string
+  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
+  default     = "LRS"
+}
+
+variable "storage_delete_retention_days" {
+  type        = number
+  description = "Number of days to retain deleted files"
+  default     = 5
+}
+
+variable "storage_enable_versioning" {
+  type        = bool
+  description = "Enable versioning"
+  default     = false
+}
+
+variable "storage_advanced_threat_protection" {
+  type        = bool
+  description = "Enable threat advanced protection"
+  default     = false
+}

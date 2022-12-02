@@ -17,20 +17,17 @@ tags = {
   Application = "IdPay"
 }
 
-#
-# CIDRs
-#
-cidr_idpay_subnet_redis = ["10.1.139.0/24"]
-
-
-lock_enable = true
-
 terraform_remote_state_core = {
   resource_group_name  = "io-infra-rg"
   storage_account_name = "cstarinfrastterraform"
   container_name       = "azurermstate"
   key                  = "prod.terraform.tfstate"
 }
+
+#
+# CIDRs
+#
+cidr_idpay_subnet_redis = ["10.1.139.0/24"]
 
 rtd_keyvault = {
   name           = "cstar-p-rtd-kv"
@@ -104,7 +101,7 @@ eventhubs_idpay_00 = [
     name              = "idpay-onboarding-notification"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-onboarding-notification-consumer-group", "idpay-onboarding-workflow-consumer-group"]
+    consumers         = ["idpay-onboarding-notification-consumer-group"]
     keys = [
       {
         name   = "idpay-onboarding-notification-producer"
@@ -194,6 +191,26 @@ eventhubs_idpay_00 = [
       },
       {
         name   = "idpay-notification-request-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-onboarding-ranking-request"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-onboarding-ranking-request-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-onboarding-ranking-request-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-onboarding-ranking-request-consumer"
         listen = true
         send   = false
         manage = false
@@ -318,6 +335,46 @@ eventhubs_idpay_01 = [
       },
       {
         name   = "idpay-errors-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-reward-notification-storage-events"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-reward-notification-storage-group"]
+    keys = [
+      {
+        name   = "idpay-reward-notification-storage-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-reward-notification-storage-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-reward-notification-response"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-reward-notification-response-group"]
+    keys = [
+      {
+        name   = "idpay-reward-notification-response-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-reward-notification-response-consumer"
         listen = true
         send   = false
         manage = false

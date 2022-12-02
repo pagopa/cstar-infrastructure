@@ -47,7 +47,7 @@ module "rtd_api_product_internal" {
 # RTD API
 #
 
-## azureblob ## 
+## azureblob ##
 module "api_azureblob" {
   source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
   name                = format("%s-azureblob", var.env_short)
@@ -186,6 +186,125 @@ module "rtd_payment_instrument_manager_v2" {
   ]
 }
 
+## v3 ##
+module "rtd_payment_instrument_manager_v3" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+
+  # cause this api relies on new container, enable it when container is enabled
+  count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
+
+  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+  description         = ""
+  display_name        = "RTD Payment Instrument Manager API"
+  path                = "rtd/payment-instrument-manager"
+  protocols           = ["https", "http"]
+  service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
+  version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
+  api_version         = "v3"
+
+  depends_on = [module.rtd_payment_instrument_manager]
+
+  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "get-hash-salt",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
+        pm-backend-url                       = var.pm_backend_url,
+        rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
+        env_short                            = var.env_short
+        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+      })
+    },
+    {
+      operation_id = "get-hashed-pans",
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans-policy-rev3.xml.tpl", {
+        blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
+        blob-storage-container-prefix = azurerm_storage_container.cstar_hashed_pans_par[0].name
+      })
+    },
+  ]
+}
+
+## RTD Payment Manager Token API ##
+resource "azurerm_api_management_named_value" "pagopa_platform_api_tkm_key" {
+  count = var.enable.rtd.tkm_integration ? 1 : 0
+
+  name                = "pagopa-platform-api-key"
+  resource_group_name = azurerm_resource_group.rg_api.name
+  api_management_name = module.apim.name
+
+  display_name = "pagopa-platform-api-key"
+  secret       = true
+
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_key[count.index].id
+  }
+
+}
+
+module "rtd_payment_instrument_token_api" {
+  count  = var.enable.rtd.tkm_integration ? 1 : 0
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
+
+  name                = format("%s-payment-instrument-manager-token-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "API providing upload methods for tokens files"
+  display_name = "RTD Token Manager API"
+  path         = "rtd/token"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_payment_instrument_token/openapi.yml", {
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getTokenListPublicPGPKey",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/get-token-public-key-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pm-timeout-seconds      = var.pm_timeout_sec,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    },
+    {
+      operation_id = "uploadAcquirerTokenFile",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/upload-token-file-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    },
+    {
+      operation_id = "getKnownHashes",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/get-known-hashes-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pm-timeout-seconds      = var.pm_timeout_sec,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    }
+  ]
+
+  depends_on = [azurerm_api_management_named_value.pagopa_platform_api_tkm_key[0]]
+}
 
 ## RTD CSV Transaction API ##
 module "rtd_csv_transaction" {
@@ -541,7 +660,45 @@ module "rtd_sender_auth_put_api_key" {
   api_operation_policies = []
 }
 
-# 
+module "rtd_filereporter" {
+  count = var.enable.rtd.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+
+  name                = format("%s-rtd-filereporter", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = "RTD API to query file reporter"
+  display_name = "RTD API to query file reporter"
+  path         = "rtd/file-reporter"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  xml_content = file("./api/base_policy.xml")
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_filereporter/openapi.yml", {
+    host = "https://httpbin.org"
+  })
+
+  product_ids           = [module.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getFileReport"
+      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml.tpl", {
+        rtd-ingress-ip = var.reverse_proxy_ip
+      })
+    }
+  ]
+}
+
+#
 # SUBSCRIPTIONS FOR INTERNAL USERS
 #
 resource "random_password" "rtd_internal_sub_key" {

@@ -370,7 +370,7 @@ module "app_gw" {
     broker = {
       listener              = "issuer_acquirer"
       backend               = "apim"
-      rewrite_rule_set_name = null
+      rewrite_rule_set_name = "rewrite-rule-set-broker-api"
     }
 
     portal = {
@@ -386,16 +386,31 @@ module "app_gw" {
     }
   }
 
+  rewrite_rule_sets = [
+    {
+      name = "rewrite-rule-set-broker-api"
+      rewrite_rules = [{
+        name          = "mauth-headers"
+        rule_sequence = 100
+        condition     = null
+        request_header_configurations = [
+          {
+            header_name  = "X-Client-Certificate-Verification"
+            header_value = "{var_client_certificate_verification}"
+          }
+        ]
+        response_header_configurations = []
+        url                            = null
+      }]
+    },
+  ]
+
   # TLS
   identity_ids = [azurerm_user_assigned_identity.appgateway.id]
 
   # Scaling
   app_gateway_min_capacity = var.app_gateway_min_capacity
   app_gateway_max_capacity = var.app_gateway_max_capacity
-
-  # Logs
-  sec_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_workspace_id[0].value : null
-  sec_storage_id                 = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_storage_id[0].value : null
 
   alerts_enabled = var.app_gateway_alerts_enabled
 

@@ -6,7 +6,7 @@
         "policy": {
             "timeout": "7.00:00:00",
             "retry": 0,
-            "retryIntervalInSeconds": 30,
+            "retryIntervalInSeconds": ${copy_activity_retry_interval_seconds},
             "secureOutput": false,
             "secureInput": false
         },
@@ -209,7 +209,7 @@
         "type": "Copy",
         "dependsOn": [
             {
-                "activity": "SenderAggregatesToDatastore",
+                "activity": "AggregatesToLog",
                 "dependencyConditions": [
                     "Succeeded"
                 ]
@@ -217,8 +217,8 @@
         ],
         "policy": {
             "timeout": "7.00:00:00",
-            "retry": 0,
-            "retryIntervalInSeconds": 30,
+            "retry": ${copy_activity_retries},
+            "retryIntervalInSeconds": ${copy_activity_retry_interval_seconds},
             "secureOutput": false,
             "secureInput": false
         },
@@ -407,8 +407,8 @@
         ],
         "policy": {
             "timeout": "0.12:00:00",
-            "retry": 0,
-            "retryIntervalInSeconds": 30,
+            "retry": ${copy_activity_retries},
+            "retryIntervalInSeconds": ${copy_activity_retry_interval_seconds},
             "secureOutput": false,
             "secureInput": false
         },
@@ -416,7 +416,10 @@
         "typeProperties": {
             "source": {
                 "type": "CosmosDbSqlApiSource",
-                "query": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                "query": {
+                    "value": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                    "type": "Expression"
+                },
                 "preferredRegions": []
             },
             "sink": {
@@ -600,7 +603,7 @@
           "type": "Copy",
           "dependsOn": [
             {
-              "activity": "SenderAggregatesToDatastore",
+                "activity": "AggregatesToSftp",
               "dependencyConditions": [
                 "Succeeded"
               ]
@@ -608,8 +611,8 @@
           ],
           "policy": {
             "timeout": "0.12:00:00",
-            "retry": 0,
-            "retryIntervalInSeconds": 30,
+            "retry": ${copy_activity_retries},
+            "retryIntervalInSeconds": ${copy_activity_retry_interval_seconds},
             "secureOutput": false,
             "secureInput": false
           },

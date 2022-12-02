@@ -14,13 +14,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraform"
-  container_name       = "azurermstate"
-  key                  = "prod.terraform.tfstate"
-}
-
 ### Network
 
 cidr_subnet_aks = ["10.11.0.0/17"]

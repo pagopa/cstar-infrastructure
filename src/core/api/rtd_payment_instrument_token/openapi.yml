@@ -1,0 +1,143 @@
+openapi: 3.0.1
+info:
+  title: RTD Token Manager API
+  description: ''
+  version: v3
+servers:
+  - url: https://${host}/rtd/payment-instrument-manager/
+paths:
+  /token-list/public-key:
+    get:
+      summary: Get public PGP key for acquirer files
+      operationId: getTokenListPublicPGPKey
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /token-list:
+    post:
+      summary: Upload acquirer file
+      operationId: uploadAcquirerTokenFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenListUploadRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenListUploadResponse'
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /known-hashes/links:
+    get:
+      summary: Get temporary links to download known hpans and htokens
+      operationId: getKnownHashes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksResponse'
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    LinksResponse:
+      required:
+        - fileLinks
+      type: object
+      properties:
+        fileLinks:
+          type: array
+          items:
+            type: string
+          description: List of links needed to download file
+        numberOfFiles:
+          type: integer
+        availableUntil:
+          type: string
+          format: date-time
+          pattern: "dd/MM/yyyy HH:mm:ss"
+        generationDate:
+          type: string
+          format: date-time
+          pattern: "dd/MM/yyyy HH:mm:ss"
+    TokenListUploadRequest:
+      required:
+        - file
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to upload
+    TokenListUploadResponse:
+      required:
+        - filename
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Filename of the uploaded file
+    Error:
+      required:
+        - statusCode
+        - message
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: The code identifies the error
+          example: 401
+        message:
+          type: string
+          description: Error description
+          example: Access denied due to missing subscription key
+    Salt:
+      type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

@@ -6,7 +6,10 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   parameters = {
     file = "myFile"
   }
-  activities_json = file("pipelines/aggregatesIngestor.json")
+  activities_json = templatefile("pipelines/aggregatesIngestor.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+  })
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
@@ -52,7 +55,10 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
   parameters = {
     file = "myFile"
   }
-  activities_json = file("pipelines/aggregatesIngestorTesting.json")
+  activities_json = templatefile("pipelines/aggregatesIngestorTesting.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+  })
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
@@ -206,7 +212,8 @@ resource "azurerm_data_factory_data_flow" "bulk_delete_aggregates" {
   }
 
   script = templatefile("pipelines/bulkDeleteAggregates.dataflow", {
-    throughput-cap = var.bulk_delete_aggregates_conf.sink_thoughput_cap
+    throughput-cap          = var.bulk_delete_aggregates_conf.sink_thoughput_cap
+    write-throughput-budget = var.bulk_delete_aggregates_conf.sink_write_throughput_budget
   })
 }
 
@@ -302,8 +309,28 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
 
   log {
-    category       = null
-    category_group = "allLogs"
+    category       = "ActivityRuns"
+    category_group = null
+    enabled        = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category       = "PipelineRuns"
+    category_group = null
+    enabled        = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category       = "TriggerRuns"
+    category_group = null
     enabled        = true
     retention_policy {
       enabled = true

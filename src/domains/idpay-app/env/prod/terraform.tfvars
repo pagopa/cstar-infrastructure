@@ -15,15 +15,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-lock_enable = true
-
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "cstarinfrastterraform"
-  container_name       = "azurermstate"
-  key                  = "prod.terraform.tfstate"
-}
-
 ### External resources
 
 monitor_resource_group_name                 = "cstar-p-monitor-rg"
@@ -89,3 +80,9 @@ tls_cert_check_helm = {
   image_name    = "ghcr.io/pagopa/infra-ssl-check"
   image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
 }
+
+# Storage
+storage_account_replication_type   = "RAGZRS"
+storage_delete_retention_days      = 90
+storage_enable_versioning          = true
+storage_advanced_threat_protection = true
