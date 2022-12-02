@@ -14,14 +14,14 @@
   <inbound>
     <base />
     <set-variable name="pagoPaPlatformApiKey" value="{{${pagopa-platform-api-key}}}"/>
-    <send-request mode="new" response-variable-name="publicKeyResponse" timeout="${pm-timeout-seconds}" ignore-error="true">
-      <set-url>@("${pagopa-platform-url}/tkm/tkmacquirermanager/v1/token-list/public-key")</set-url>
+    <send-request mode="new" response-variable-name="binRangeResponse" timeout="${pm-timeout-seconds}" ignore-error="true">
+      <set-url>@("${pagopa-platform-url}/tkm/tkmacquirermanager/v1/bin-ranges/links")</set-url>
       <set-method>GET</set-method>
       <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
         <value>@(context.Variables.GetValueOrDefault<string>("pagoPaPlatformApiKey"))</value>
       </set-header>
     </send-request>
-    <return-response response-variable-name="publicKeyResponse" />
+    <return-response response-variable-name="binRangeResponse" />
   </inbound>
   <backend>
     <base />
