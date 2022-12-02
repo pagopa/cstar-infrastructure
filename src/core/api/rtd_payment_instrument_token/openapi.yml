@@ -4,8 +4,23 @@ info:
   description: ''
   version: v3
 servers:
-  - url: https://${host}/rtd/payment-instrument-manager/
+  - url: https://${host}/rtd/token/
 paths:
+  /bin-ranges/links:
+    get:
+      summary: Get Temporary link to download bin range details
+      operationId: getBinRangeLink
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinksResponse'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
   /token-list/public-key:
     get:
       summary: Get public PGP key for acquirer files
