@@ -2364,10 +2364,10 @@ components:
           format: int32
         rankingStatus:
           type: string
-        rankingPublishedTimeStamp:
+        rankingPublishedTimestamp:
           type: string
           format: date-time
-        rankingGeneratedTimeStamp:
+        rankingGeneratedTimestamp:
           type: string
           format: date-time
         totalEligibleOk:
@@ -2386,7 +2386,7 @@ components:
       properties:
         beneficiary:
           type: string
-        criteriaConsensusTimeStamp:
+        criteriaConsensusTimestamp:
           type: string
           format: date-time
         rankingValue:
