@@ -281,7 +281,30 @@ module "rtd_payment_instrument_token_api" {
     {
       operation_id = "getTokenListPublicPGPKey",
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-token-public-key-policy.xml", {
-        pm-backend-url          = var.pm_backend_url,
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pm-timeout-seconds      = var.pm_timeout_sec,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    },
+    {
+      operation_id = "uploadAcquirerTokenFile",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/upload-token-file-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    },
+    {
+      operation_id = "getKnownHashes",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/get-known-hashes-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pm-timeout-seconds      = var.pm_timeout_sec,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    },
+    {
+      operation_id = "getBinRangeLink",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/get-bin-range-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
         pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
       })

@@ -209,7 +209,7 @@
         "type": "Copy",
         "dependsOn": [
             {
-                "activity": "SenderAggregatesToDatastore",
+                "activity": "AggregatesToLog",
                 "dependencyConditions": [
                     "Succeeded"
                 ]
