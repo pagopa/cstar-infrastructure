@@ -126,3 +126,12 @@ variable "eventhub_rtd_namespace" {
     zone_redundant           = bool
   })
 }
+
+variable "terraform_remote_state_core" {
+  type = object({
+    resource_group_name  = string,
+    storage_account_name = string,
+    container_name       = string,
+    key                  = string
+  })
+}
