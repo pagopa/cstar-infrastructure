@@ -266,19 +266,15 @@ resource "azurerm_data_factory_pipeline" "delete_aggregates_by_timestamp_pipelin
   name            = "delete_aggregates_by_timestamp"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
-    start_ing = "0",
-    start_cleaning   = "",
-    ts_stop = "0",
-    schedule_time = "0",
-    coeff = 24
+    start_ing      = "0",
+    start_cleaning = "0",
+    schedule_time  = "0",
+    coeff          = 24
   }
 
   variables = {
-    start_ing = "0"
-    start_cleaning = "0"
-    ts_stop = "0"
-    schedule_time = "0"
-    coeff = 24
+    query  = ""
+    ts_min = ""
   }
 
   activities_json = file("pipelines/deleteAggregatesByTimestamp.json")

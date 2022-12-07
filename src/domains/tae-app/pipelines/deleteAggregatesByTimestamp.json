@@ -20,74 +20,14 @@
         }
       },
       {
-        "name": "Set trigger ts",
+        "name": "Set ts min",
         "type": "SetVariable",
         "dependsOn": [],
         "userProperties": [],
         "typeProperties": {
-          "variableName": "ts_trigger",
-          "value": {
-            "value": "@string(div(sub(ticks(pipeline().parameters.schedule_time), ticks('1970-01-01')),10000000))",
-            "type": "Expression"
-          }
-        }
-      },
-      {
-        "name": "Set ts min",
-        "type": "SetVariable",
-        "dependsOn": [
-          {
-            "activity": "Set start_cleaning",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ],
-        "userProperties": [],
-        "typeProperties": {
           "variableName": "ts_min",
           "value": {
-            "value": "@addSeconds(pipeline().parameters.start_ing, mul(sub(int(variables('ts_trigger')), int(variables('start_cleaning'))), pipeline().parameters.coeff))",
-            "type": "Expression"
-          }
-        }
-      },
-      {
-        "name": "Set start_ing",
-        "type": "SetVariable",
-        "dependsOn": [
-          {
-            "activity": "Set trigger ts",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ],
-        "userProperties": [],
-        "typeProperties": {
-          "variableName": "start_ing",
-          "value": {
-            "value": "@string(pipeline().parameters.start_ing)",
-            "type": "Expression"
-          }
-        }
-      },
-      {
-        "name": "Set start_cleaning",
-        "type": "SetVariable",
-        "dependsOn": [
-          {
-            "activity": "Set start_ing",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ],
-        "userProperties": [],
-        "typeProperties": {
-          "variableName": "start_cleaning",
-          "value": {
-            "value": "@string(pipeline().parameters.start_cleaning)",
+            "value": "@addSeconds(pipeline().parameters.start_ing, mul(sub(div(ticks(pipeline().parameters.schedule_time),10000000), div(ticks(pipeline().parameters.start_cleaning),10000000)), pipeline().parameters.coeff))",
             "type": "Expression"
           }
         }
