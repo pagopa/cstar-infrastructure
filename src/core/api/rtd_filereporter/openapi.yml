@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: REST API File Reporter for CSTAR
+  description: API to retrieve file reports from CSTAR
+  version: 0.0.1
+servers:
+  - url: ${host}
+paths:
+  /file-report:
+    get:
+      tags:
+        - reports
+      summary: Returns information of files sent in the past days
+      operationId: getFileReport
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileReport'
+        '401':
+          description: Authentication failed
+        '429':
+          description: Too many Request
+        '500':
+          description: Server error
+        '503':
+          description: Service unavailable
+components:
+  schemas:
+    FileReport:
+      title: FileReport
+      type: object
+      properties:
+        filesRecentlyUploaded:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInformation'
+    FileInformation:
+        title: FileInformation
+        type: object
+        properties:
+          name:
+            type: string
+            description: Name of the encrypted file sent
+            example: "ADE.12345.TRNLOG.20220130.140805.001.01.csv.pgp"
+          size:
+            type: number
+            format: int64
+            description: Size of the encrypted file sent
+            example: 2048
+          transmissionDate:
+            type: string
+            description: Date and time in ISO 8601 of latest status transition
+            format: date
+            example: "2022-01-30T14:08Z"
+          status:
+            type: string
+            description: Current status of the file sent
+            enum:
+              - RECEIVED_BY_PAGOPA
+              - VALIDATED_BY_PAGOPA
+              - SENT_TO_AGENZIA_DELLE_ENTRATE
+            example: "RECEIVED_BY_PAGOPA"
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: []
+  - apiKeyQuery: []

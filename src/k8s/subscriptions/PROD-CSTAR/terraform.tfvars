@@ -692,7 +692,9 @@ secrets_from_rtd_domain_kv = {
     "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
     "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
     "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd"
+    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
+    "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
+    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"
   ]
 }
 
@@ -701,7 +703,7 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
-    ingestor                            = false
+    ingestor                            = true
     file_register                       = true
     enrolled_payment_instrument         = true
     mongodb_storage                     = true

@@ -296,8 +296,28 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
 
   log {
-    category       = null
-    category_group = "allLogs"
+    category       = "ActivityRuns"
+    category_group = null
+    enabled        = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category       = "PipelineRuns"
+    category_group = null
+    enabled        = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category       = "TriggerRuns"
+    category_group = null
     enabled        = true
     retention_policy {
       enabled = true

@@ -11,25 +11,30 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-  <inbound>
-    <base />
-    <check-header name="X-Client-Certificate-Verification" failed-check-httpcode="401" failed-check-error-message="Not authorized" ignore-case="false">
-      <value>SUCCESS</value>
-    </check-header>
-    <set-header name="x-user-id" exists-action="override">
-      <value>@(context.User.Id)</value>
-    </set-header>
-    <set-header name="x-apim-request-id" exists-action="override">
-      <value>@(context.RequestId.ToString())</value>
-    </set-header>
-  </inbound>
-  <backend>
-    <base />
-  </backend>
-  <outbound>
-    <base />
-  </outbound>
-  <on-error>
-    <base />
-  </on-error>
+    <inbound>
+        <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
+        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/notification/imports/{filename}/errors")" copy-unmatched-params="true" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <return-response>
+                    <set-body>@{
+                        var response = context.Response.Body.As<String>(preserveContent: true);
+                        return new JObject(
+                               new JProperty("data", response)
+                        ).ToString();
+                    }</set-body>
+                </return-response>
+            </when>
+        </choose>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
 </policies>

@@ -17,7 +17,7 @@
       "type": "integer"
     },
     "totalAmount": {
-      "type": "integer"
+      "type": "long"
     },
     "currency": {
       "type": "integer"
