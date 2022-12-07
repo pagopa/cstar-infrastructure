@@ -96,7 +96,7 @@
                     },
                     {
                         "source": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "ordinal": "6"
                         },
                         "sink": {
@@ -310,7 +310,7 @@
                             "path": "$['totalAmount']"
                         },
                         "sink": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "ordinal": 7
                         }
                     },
@@ -487,7 +487,7 @@
                             "path": "$['totalAmount']"
                         },
                         "sink": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "name": "totalAmount"
                         }
                     },
