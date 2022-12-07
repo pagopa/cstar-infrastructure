@@ -41,6 +41,8 @@
             },
             "sink": {
                 "type": "CosmosDbSqlApiSink",
+                "writeBatchSize": 1000,
+                "maxConcurrentConnections": 2,
                 "writeBehavior": "insert"
             },
             "enableStaging": false,
