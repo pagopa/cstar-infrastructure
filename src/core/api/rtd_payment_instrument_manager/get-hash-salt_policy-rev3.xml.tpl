@@ -27,11 +27,12 @@
                         <set-body>FAKE_SALT</set-body>
                     </return-response>
                 %{ else ~}
+                    <set-variable name="pagopaPlatformKey" value="{{${pagopa-platform-api-key-name}}}"/>
                     <send-request mode="new" response-variable-name="saltResponse" timeout="5" ignore-error="true">
-                      <set-url>@("${pm-backend-url}//payment-manager/auth-rtd/v1/static-contents/wallets/hashing/actions/evaluate")</set-url>
+                      <set-url>@("${pm-backend-url}//payment-manager/auth-rtd/v1/static-contents/wallets/hashing")</set-url>
                       <set-method>GET</set-method>
                       <set-header name="Authorization" exists-action="override">
-                          <value>{{pagopa-platform-api-key}}</value>
+                        <value>@(context.Variables.GetValueOrDefault<string>("pagopaPlatformKey"))</value>
                       </set-header>
                     </send-request>
                 %{ endif ~}
@@ -44,8 +45,8 @@
     <outbound>
         <base />
         <choose>
-              <when condition="@(context.Variables["saltResponse"].StatusCode >= 200 &&  context.Variables["saltResponse"].StatusCode < 300)">
-                <set-variable name="salt" value="@((string)ccontext.Variables["saltResponse"].Body.As<JObject>()["salt"])" />
+              <when condition="@(((IResponse)context.Variables["saltResponse"]).StatusCode >= 200 &&  ((IResponse)context.Variables["saltResponse"]).StatusCode < 300)">
+                <set-variable name="salt" value="@((string)((IResponse)context.Variables["saltResponse"]).Body.As<JObject>()["salt"])" />
                 <!-- Store result in cache -->
                 <cache-store-value key="salt" value="@((string)context.Variables["salt"])" duration="86400" />
                 <set-body>@((string)context.Variables["salt"])</set-body>
