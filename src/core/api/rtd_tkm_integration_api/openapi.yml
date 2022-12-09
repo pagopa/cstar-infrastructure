@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: RTD-TKM Integration API
+  description: Rest APIs to be used by integrate RTD with TKM. The APIs are designed for internal use.
+  version: 1.0.0
+servers:
+  - url: https://${host}
+paths:
+  /card/:
+    get:
+      summary: Get instrument par/token info
+      operationId: getInstrumentInfo
+      parameters:
+        - in: header
+          name: If-Match
+          description: Payment instrument hpan
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentInstrumentUpdateResponse'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    PaymentInstrumentUpdateResponse:
+      type: object
+      required:
+        - hpan
+      properties:
+        hpan:
+          type: string
+        par:
+          type: string
+        htokens:
+          type: array
+          items:
+            type: string
