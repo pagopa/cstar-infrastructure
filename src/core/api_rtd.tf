@@ -218,11 +218,11 @@ module "rtd_payment_instrument_manager_v3" {
   api_operation_policies = [
     {
       operation_id = "get-hash-salt",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy-rev3.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
         env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d" || var.env_short == "p"
       })
     },
     {
