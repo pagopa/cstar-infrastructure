@@ -10,5 +10,6 @@ resource "kubernetes_config_map" "rtdsenderauth" {
   data = merge({
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdsenderauth"
+    MONGODB_NAME                  = "rtd"
   }, var.configmaps_rtdsenderauth)
 }
