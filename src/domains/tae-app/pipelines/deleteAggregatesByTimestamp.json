@@ -1,0 +1,115 @@
+[
+      {
+        "name": "Set query",
+        "type": "SetVariable",
+        "dependsOn": [
+          {
+            "activity": "Set ts min",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+          "variableName": "query",
+          "value": {
+            "value": "@concat('SELECT c.id, c.terminalId, 10 as ttl FROM c WHERE c.transmissionDate = SUBSTRING(\"', variables('ts_min'),'\", 0, 19)')",
+            "type": "Expression"
+          }
+        }
+      },
+      {
+        "name": "Set ts min",
+        "type": "SetVariable",
+        "dependsOn": [],
+        "userProperties": [],
+        "typeProperties": {
+          "variableName": "ts_min",
+          "value": {
+            "value": "@addSeconds(pipeline().parameters.start_ing, mul(sub(div(ticks(pipeline().parameters.schedule_time),10000000), div(ticks(pipeline().parameters.start_cleaning),10000000)), pipeline().parameters.coeff))",
+            "type": "Expression"
+          }
+        }
+      },
+      {
+        "name": "Delete",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Set query",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "CosmosDbSqlApiSource",
+            "query": {
+              "value": "@variables('query')",
+              "type": "Expression"
+            },
+            "preferredRegions": [],
+            "detectDatetime": false
+          },
+          "sink": {
+            "type": "CosmosDbSqlApiSink",
+            "writeBatchSize": 1000,
+            "writeBehavior": "upsert",
+            "disableMetricsCollection": false
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "path": "$['id']"
+                },
+                "sink": {
+                  "path": "id"
+                }
+              },
+              {
+                "source": {
+                  "path": "$['terminalId']"
+                },
+                "sink": {
+                  "path": "terminalId"
+                }
+              },
+              {
+                "source": {
+                  "path": "$['ttl']"
+                },
+                "sink": {
+                  "path": "ttl"
+                }
+              }
+            ],
+            "collectionReference": ""
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "Aggregate",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "Aggregate",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ]
