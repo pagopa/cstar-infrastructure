@@ -12,15 +12,30 @@
     },
     "userProperties": [],
     "typeProperties": {
-      "dataflow": {
+      "dataFlow": {
+        "datasetParameters" : {
+          "aggregates" : {},
+          "aggregatesWithAck" : {}
+        },
         "referenceName": "bulkDeleteAggregates",
-        "type": "DataFlowReference"
+            "type": "DataFlowReference",
+            "parameters": {
+              "timestamp_start": {
+                "value": "@pipeline().parameters.timestamp_start",
+                "type": "Expression"
+              },
+              "timestamp_end": {
+                "value": "@pipeline().parameters.timestamp_end",
+                "type": "Expression"
+              }
+            }
       },
       "compute": {
         "coreCount": 8,
         "computeType": "General"
       },
-      "traceLevel": "Fine"
+      "traceLevel": "Fine",
+      "staging" : {}
     }
   }
 ]

@@ -41,6 +41,8 @@
             },
             "sink": {
                 "type": "CosmosDbSqlApiSink",
+                "writeBatchSize": 1000,
+                "maxConcurrentConnections": 2,
                 "writeBehavior": "insert"
             },
             "enableStaging": false,
@@ -94,7 +96,7 @@
                     },
                     {
                         "source": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "ordinal": "6"
                         },
                         "sink": {
@@ -308,7 +310,7 @@
                             "path": "$['totalAmount']"
                         },
                         "sink": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "ordinal": 7
                         }
                     },
@@ -485,7 +487,7 @@
                             "path": "$['totalAmount']"
                         },
                         "sink": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "name": "totalAmount"
                         }
                     },
