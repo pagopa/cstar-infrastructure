@@ -204,7 +204,7 @@ module "rtd_payment_instrument_manager_v3" {
   version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v3"
 
-  depends_on = [module.rtd_payment_instrument_manager]
+  #depends_on = [module.rtd_payment_instrument_manager]
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
@@ -221,7 +221,7 @@ module "rtd_payment_instrument_manager_v3" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        mock_response                        = var.env_short == "d" || var.env_short == "p",
+        mock_response                        = var.env_short == "d",
         pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
       })
     },
