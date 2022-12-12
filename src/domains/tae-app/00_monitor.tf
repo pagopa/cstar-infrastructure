@@ -92,7 +92,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   location            = data.azurerm_resource_group.monitor_rg.location
 
   evaluation_frequency = "P1D"
-  window_duration      = "P1D"
+  window_duration      = "P2D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
   severity             = 0
   criteria {
@@ -901,6 +901,58 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_a
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever a file is not created in ade/out after ${var.alerts_conf.max_days_just_into_ade_in} days."
   display_name                     = "${var.domain}-${var.env_short}-file-not-created-in-ade-out-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_on_fileregister" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-file-register-file-already-present"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtdfileregister"
+      | where SeverityLevel == 2
+      | where Message startswith "File already present"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one input file has the same name of a previously received event in file register."
+  display_name                     = "cstar-${var.env_short}-file-register-file-already-present-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
