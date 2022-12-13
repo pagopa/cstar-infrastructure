@@ -12,13 +12,13 @@ paths:
       operationId: getInstrumentInfo
       parameters:
         - in: header
-          name: If-Match
+          name: hpan
           description: Payment instrument hpan
           schema:
             type: string
           required: true
       responses:
-        '201':
+        '200':
           description: Success
           content:
             application/json:
@@ -44,7 +44,4 @@ components:
         htokens:
           type: array
           items:
-            type: object
-            properties:
-              htoken: 
-                type: string
+            type: string
