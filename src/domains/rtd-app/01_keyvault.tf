@@ -15,3 +15,10 @@ resource "azurerm_key_vault_secret" "aks_apiserver_url" {
 
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+
+resource "azurerm_key_vault_secret" "appinsights-instrumentation-key" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  name         = "appinsights-instrumentation-key"
+  value        = "InstrumentationKey=${data.azurerm_application_insights.application_insights.instrumentation_key}"
+  content_type = "text/plain"
+}
