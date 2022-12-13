@@ -6,7 +6,7 @@ info:
 servers:
   - url: https://${host}
 paths:
-  /card/:
+  /cards/:
     get:
       summary: Get instrument par/token info
       operationId: getInstrumentInfo
@@ -44,4 +44,7 @@ components:
         htokens:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              htoken: 
+                type: string
