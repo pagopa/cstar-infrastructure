@@ -27,21 +27,25 @@
                         <set-body>FAKE_SALT</set-body>
                     </return-response>
                 %{ else ~}
-                    <set-backend-service base-url="${pm-backend-url}/pp-restapi-rtd/v1" />
-                    <rewrite-uri template="/static-contents/wallets/hashing" />
-                    <authentication-certificate thumbprint="${rtd-pm-client-certificate-thumbprint}" />
+                    <set-variable name="pagopaPlatformKey" value="{{${pagopa-platform-api-key-name}}}"/>
+                    <send-request mode="new" response-variable-name="saltResponse" timeout="5" ignore-error="true">
+                      <set-url>@("${pm-backend-url}/payment-manager/auth-rtd/v1/static-contents/wallets/hashing")</set-url>
+                      <set-method>GET</set-method>
+                      <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                        <value>@(context.Variables.GetValueOrDefault<string>("pagopaPlatformKey"))</value>
+                      </set-header>
+                    </send-request>
                 %{ endif ~}
             </otherwise>
         </choose>
     </inbound>
     <backend>
-        <base />
     </backend>
     <outbound>
         <base />
         <choose>
-            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
-                <set-variable name="salt" value="@((string)context.Response.Body.As<JObject>()["salt"])" />
+              <when condition="@(((IResponse)context.Variables["saltResponse"]).StatusCode >= 200 &&  ((IResponse)context.Variables["saltResponse"]).StatusCode < 300)">
+                <set-variable name="salt" value="@((string)((IResponse)context.Variables["saltResponse"]).Body.As<JObject>()["salt"])" />
                 <!-- Store result in cache -->
                 <cache-store-value key="salt" value="@((string)context.Variables["salt"])" duration="86400" />
                 <set-body>@((string)context.Variables["salt"])</set-body>
