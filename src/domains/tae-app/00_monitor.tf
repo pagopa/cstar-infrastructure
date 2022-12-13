@@ -936,7 +936,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_
     query                   = <<-QUERY
       AppTraces
       | where AppRoleName == "rtdfileregister"
-      | where SeverityLevel == 2
+      | where SeverityLevel == 3
       | where Message startswith "File already present"
       QUERY
     time_aggregation_method = "Count"
