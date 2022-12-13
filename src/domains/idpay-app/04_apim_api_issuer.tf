@@ -140,46 +140,40 @@ module "idpay_wallet_issuer" {
     }
   ]
 }
-/*
+
 ## IDPAY Timeline IO API ##
-module "idpay_timeline_io" {
+module "idpay_timeline_issuer" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
 
-  name                = "${var.env_short}-idpay-timeline"
+  name                = "${var.env_short}-idpay-issuer-timeline"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
-  description  = "IDPAY Timeline IO"
-  display_name = "IDPAY Timeline IO API"
-  path         = "idpay/timeline"
-  protocols    = ["https", "http"]
+  description  = "IDPAY Timeline Issuer"
+  display_name = "IDPAY Timeline Issuer API"
+  path         = "idpay/hb/timeline"
+  protocols    = ["https"]
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/idpay_timeline/openapi.timeline.yml.tpl", {})
+  content_value  = templatefile("./api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids = [module.idpay_api_io_product.product_id]
+  product_ids = [module.idpay_api_issuer_product.product_id]
 
   api_operation_policies = [
     {
-      operation_id = "getTimeline"
-      xml_content = templatefile("./api/idpay_timeline/get-timeline-policy.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "getTimelineDetail"
-      xml_content = templatefile("./api/idpay_timeline/get-timeline-detail-policy.xml.tpl", {
+      operation_id = "getTimelineRefund"
+      xml_content = templatefile("./api/idpay_issuer_timeline/get-timeline-refund-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
   ]
-
 }
 
+/*
 ## IDPAY IBAN Wallet IO API ##
 module "idpay_iban_io" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
