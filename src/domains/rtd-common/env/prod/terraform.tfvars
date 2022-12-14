@@ -36,3 +36,11 @@ eventhub_rtd_namespace = {
   maximum_throughput_units = 5
   zone_redundant           = true
 }
+
+### Eventhub Keyvault migration
+terraform_remote_state_core = {
+  resource_group_name  = "io-infra-rg"
+  storage_account_name = "cstarinfrastterraform"
+  container_name       = "azurermstate"
+  key                  = "prod.terraform.tfstate"
+}

@@ -190,3 +190,10 @@ output "event_hub_keys" {
   description = "Map of hubs with keys => primary_key / secondary_key mapping."
   sensitive   = true
 }
+
+# Mongo db
+output "mongo_db_primary_connection_string" {
+  value       = module.cosmosdb_account_mongodb[0].connection_strings[0]
+  description = "Primary mongodb connection string"
+  sensitive   = true
+}

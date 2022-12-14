@@ -27,7 +27,7 @@ source(output(
 		posType as string,
 		senderCode as string,
 		terminalId as string,
-		totalAmount as integer,
+		totalAmount as long,
 		transmissionDate as string,
 		vat as string
 	),
@@ -116,7 +116,7 @@ projectOnlyOneID sink(allowSchemaDrift: true,
 		sourceFileName as string,
 		status as integer,
 		terminalId as string,
-		totalAmount as integer,
+		totalAmount as long,
 		transmissionDate as string,
 		vat as string
 	),

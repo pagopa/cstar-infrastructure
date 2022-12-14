@@ -41,6 +41,8 @@
             },
             "sink": {
                 "type": "CosmosDbSqlApiSink",
+                "writeBatchSize": 1000,
+                "maxConcurrentConnections": 2,
                 "writeBehavior": "insert"
             },
             "enableStaging": false,
@@ -94,7 +96,7 @@
                     },
                     {
                         "source": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "ordinal": "6"
                         },
                         "sink": {
@@ -209,7 +211,7 @@
         "type": "Copy",
         "dependsOn": [
             {
-                "activity": "SenderAggregatesToDatastore",
+                "activity": "AggregatesToLog",
                 "dependencyConditions": [
                     "Succeeded"
                 ]
@@ -308,7 +310,7 @@
                             "path": "$['totalAmount']"
                         },
                         "sink": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "ordinal": 7
                         }
                     },
@@ -416,7 +418,10 @@
         "typeProperties": {
             "source": {
                 "type": "CosmosDbSqlApiSource",
-                "query": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                "query": {
+                    "value": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                    "type": "Expression"
+                },
                 "preferredRegions": []
             },
             "sink": {
@@ -485,7 +490,7 @@
                             "path": "$['totalAmount']"
                         },
                         "sink": {
-                            "type": "Int32",
+                            "type": "Int64",
                             "name": "totalAmount"
                         }
                     },
@@ -600,7 +605,7 @@
           "type": "Copy",
           "dependsOn": [
             {
-              "activity": "SenderAggregatesToDatastore",
+                "activity": "AggregatesToSftp",
               "dependencyConditions": [
                 "Succeeded"
               ]
@@ -700,7 +705,7 @@
                               "path": "$['totalAmount']"
                           },
                           "sink": {
-                              "type": "Int32",
+                              "type": "Int64",
                               "ordinal": 7
                           }
                       },
