@@ -37,9 +37,16 @@ external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.dev.cstar"
 
 #
-# Enable components
+# Features flags
 #
 enable = {
+  blob_storage_event_grid_integration = true
+  internal_api                        = true
+  csv_transaction_apis                = true
+  ingestor                            = true
+  file_register                       = true
+  enrolled_payment_instrument         = true
+  mongodb_storage                     = true
 }
 
 #
@@ -156,3 +163,11 @@ event_hub_hubs = [
     ]
   }
 ]
+
+#
+# Config maps
+#
+configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
