@@ -13,8 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpay/ranking" />
-        <rewrite-uri template="@("/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/notified")" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayranking" />
+        <rewrite-uri template="@("/idpay/ranking/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/notified")" />
     </inbound>
     <backend>
         <base />
