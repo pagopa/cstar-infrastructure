@@ -120,8 +120,8 @@ module "rtd_payment_instrument_manager" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d" || var.env_short == "p"
+        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[0].display_name
       })
     },
     {
@@ -170,8 +170,8 @@ module "rtd_payment_instrument_manager_v2" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d" || var.env_short == "p"
+        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
       })
     },
     {
@@ -204,7 +204,7 @@ module "rtd_payment_instrument_manager_v3" {
   version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v3"
 
-  depends_on = [module.rtd_payment_instrument_manager]
+  #depends_on = [module.rtd_payment_instrument_manager]
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
@@ -221,8 +221,8 @@ module "rtd_payment_instrument_manager_v3" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d",
+        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
       })
     },
     {
@@ -296,6 +296,14 @@ module "rtd_payment_instrument_token_api" {
     {
       operation_id = "getKnownHashes",
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-known-hashes-policy.xml", {
+        pagopa-platform-url     = var.pagopa_platform_url,
+        pm-timeout-seconds      = var.pm_timeout_sec,
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+      })
+    },
+    {
+      operation_id = "getBinRangeLink",
+      xml_content = templatefile("./api/rtd_payment_instrument_token/get-bin-range-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
         pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
