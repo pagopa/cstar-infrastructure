@@ -477,6 +477,7 @@ module "rtd_senderadeack_filename_list" {
   })
 
   xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
+    rtd-ingress    = local.ingress_load_balancer_hostname_https
     rtd-ingress-ip = var.reverse_proxy_ip
   })
 
