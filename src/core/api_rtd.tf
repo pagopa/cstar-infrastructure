@@ -75,7 +75,7 @@ module "api_azureblob" {
     {
       operation_id = "putblob",
       xml_content = templatefile("./api/azureblob/azureblob_authorizative_policy.xml", {
-        rtd-ingress-ip = var.reverse_proxy_ip
+        rtd-ingress = local.ingress_load_balancer_hostname_https
       })
     }
   ]
@@ -654,7 +654,7 @@ module "rtd_sender_auth_put_api_key" {
   path         = "rtd/sender-auth"
   protocols    = ["https"]
 
-  service_url = format("http://%s/rtdmssenderauth", var.reverse_proxy_ip)
+  service_url = format("%s/rtdmssenderauth", local.ingress_load_balancer_hostname_https)
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
