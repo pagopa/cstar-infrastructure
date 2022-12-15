@@ -107,6 +107,11 @@ module "pm_wallet_ext" {
       })
     },
   ]
+
+  depends_on = [
+    # Named Value is referenced in policy, so TF can't detect it as a dependency
+    azurerm_api_management_named_value.pm_np_wallet_basic_auth
+  ]
 }
 
 module "wisp_api_product" {
