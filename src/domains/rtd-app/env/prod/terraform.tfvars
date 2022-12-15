@@ -37,11 +37,17 @@ dns_zone_internal_prefix = "internal.cstar"
 external_domain          = "pagopa.it"
 
 #
-# Enable components
+# Features flags
 #
 enable = {
+  blob_storage_event_grid_integration = false
+  internal_api                        = false
+  csv_transaction_apis                = false
+  ingestor                            = false
+  file_register                       = false
+  enrolled_payment_instrument         = false
+  mongodb_storage                     = false
 }
-
 #
 # Hashpan generation pipeline related variables
 #
@@ -156,3 +162,9 @@ event_hub_hubs = [
     ]
   }
 ]
+
+## Config maps
+configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}

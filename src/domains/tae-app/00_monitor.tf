@@ -227,7 +227,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
       | where ClientType != "Browser"
       | where AppRoleName == "rtdsenderauth"
       | where OperationName == "GET /sender-code"
-      | where ResultCode == 404
+      | where ResultCode == 401
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0

@@ -141,7 +141,7 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
     NOTIFICATION_SERVICE_END_PERIOD_LIMIT                             = 2000
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY      = "15"
     NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER           = "-" # Send transfer orders to Consap (cron giornaliero)
-    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2021-12-30"
+    NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE          = "2023-12-31"
     NOT_MANAGER_DB_MIN_IDLE                                           = 1
     POSTGRES_SCHEMA                                                   = "bpd_citizen"
     },
