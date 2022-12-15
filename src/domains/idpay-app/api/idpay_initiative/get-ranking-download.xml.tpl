@@ -105,7 +105,7 @@
             </set-header>
             <set-body>@{
                 return new JObject(
-                    new JProperty("sas", string.Format("{0}/{1}/{2}/export/{3}?{4}",
+                    new JProperty("sas", string.Format("{0}/{1}/{2}/{3}?{4}",
                     "https://${initiative-storage-account-name}.blob.core.windows.net/ranking",
                     ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", ""),
                     context.Request.MatchedParameters["initiativeId"],
