@@ -919,3 +919,55 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_a
     key = "Sender Monitoring"
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sender_ade_ack_list" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "tae-${var.env_short}-failed-get-sender-ade-ack-list"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where url_s has "file-register/sender-ade-ack"
+      | where isRequestSuccess_b == "false"
+      | project TimeGenerated, backendResponseCode_d, apimSubscriptionId_s, todynamic(errors_s)[0]["message"]
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one request done to GET sender AdE ACK list fails."
+  display_name                     = "tae-${var.env_short}-failed-get-sender-ade-ack-list-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
