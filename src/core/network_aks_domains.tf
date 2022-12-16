@@ -14,10 +14,11 @@ module "vnet_aks" {
 
   source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.16.0"
 
-  name                = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg_vnet_aks[each.key].name
-  address_space       = each.value["vnet_cidr"]
+  name                 = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
+  location             = var.location
+  resource_group_name  = azurerm_resource_group.rg_vnet_aks[each.key].name
+  address_space        = each.value["vnet_cidr"]
+  ddos_protection_plan = var.ddos_protection_plan
 
   tags = var.tags
 }
