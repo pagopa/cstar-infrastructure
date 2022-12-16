@@ -25,6 +25,10 @@ module "idpay_api_io_product" {
   })
 
   groups = ["developers"]
+
+  depends_on = [
+    azurerm_api_management_named_value.pdv_api_key
+  ]
 }
 
 data "azurerm_key_vault_secret" "pdv_api_key" {
