@@ -260,6 +260,27 @@ module "idpay_initiative_portal" {
       })
     },
     {
+      operation_id = "getInitiativeOnboardingRankingStatusPaged"
+
+      xml_content = templatefile("./api/idpay_initiative/get-ranking.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getRankingFileDownload"
+
+      xml_content = templatefile("./api/idpay_initiative/get-ranking-download.xml.tpl", {
+        initiative-storage-account-name = module.idpay_initiative_storage.name
+      })
+    },
+    {
+      operation_id = "notifyCitizenRankings"
+
+      xml_content = templatefile("./api/idpay_initiative/put-ranking-notify.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
       operation_id = "getRewardFileDownload"
 
       xml_content = templatefile("./api/idpay_initiative/get-reward-download.xml.tpl", {
@@ -420,6 +441,20 @@ resource "azurerm_api_management_named_value" "refund_storage_access_key" {
   secret       = true
   value_from_key_vault {
     secret_id = azurerm_key_vault_secret.refund_storage_access_key.id
+  }
+
+}
+
+resource "azurerm_api_management_named_value" "initiative_storage_access_key" {
+
+  name                = format("%s-initiative-storage-access-key", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  display_name = "initiative-storage-access-key"
+  secret       = true
+  value_from_key_vault {
+    secret_id = azurerm_key_vault_secret.initiative_storage_access_key.id
   }
 
 }
