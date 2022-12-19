@@ -38,6 +38,7 @@
 | [azurerm_key_vault_secret.event_hub_keys_on_idpay_kv](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay-onboarding-request-processor-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay-onboarding-request-producer-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.idpay-service-bus-ns-manager-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay_redis_00_primary_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay_redis_00_primary_connection_url](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay_web_storage_access_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
@@ -50,6 +51,7 @@
 | [azurerm_resource_group.msg_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.sec_rg_idpay](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
 | [azurerm_servicebus_namespace.idpay-service-bus-ns](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/servicebus_namespace) | resource |
+| [azurerm_servicebus_namespace_authorization_rule.idpay-service-bus-ns-manager](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/servicebus_namespace_authorization_rule) | resource |
 | [azurerm_servicebus_queue.idpay-onboarding-request](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/servicebus_queue) | resource |
 | [azurerm_servicebus_queue_authorization_rule.idpay-onboarding-request-processor](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/servicebus_queue_authorization_rule) | resource |
 | [azurerm_servicebus_queue_authorization_rule.idpay-onboarding-request-producer](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/servicebus_queue_authorization_rule) | resource |

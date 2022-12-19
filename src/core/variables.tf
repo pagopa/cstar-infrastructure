@@ -34,6 +34,14 @@ variable "cidr_vnet" {
   description = "Virtual network address space."
 }
 
+variable "ddos_protection_plan" {
+  type = object({
+    id     = string
+    enable = bool
+  })
+  default = null
+}
+
 variable "cidr_subnet_storage_account" {
   type        = list(string)
   description = "Storage account network address space."

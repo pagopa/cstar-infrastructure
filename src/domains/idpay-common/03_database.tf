@@ -373,6 +373,10 @@ locals {
           unique = false
         },
         {
+          keys   = ["initiativeId", "rank"]
+          unique = false
+        },
+        {
           keys   = ["organizationId"]
           unique = false
         },
@@ -380,6 +384,18 @@ locals {
           keys   = ["userId"]
           unique = false
         }
+      ]
+    },
+    {
+      name = "onboarding_ranking_rule"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["rankingEndDate"]
+          unique = false
+        },
       ]
     },
   ]
