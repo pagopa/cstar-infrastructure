@@ -13,14 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
-        <set-body>@{
-            var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
-            requestToBeModified.Add(new JProperty("channel", context.Variables["senderCode"]));
-            return requestToBeModified.ToString();
-            }
-        </set-body>
-        <rewrite-uri template="@("idpay/onboarding/initiative/"+ (string)context.Variables["tokenPDV"])" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaypaymentinstrument" />
+        <rewrite-uri template="@("idpay/instrument/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/" + (string)context.Variables["channel"])" />
     </inbound>
     <backend>
         <base />

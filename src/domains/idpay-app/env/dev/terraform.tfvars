@@ -63,6 +63,7 @@ pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
 # PM
 #
 pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"
+pm_backend_url      = "https://api.dev.platform.pagopa.it"
 
 #
 # Check IBAN
@@ -89,3 +90,8 @@ tls_cert_check_helm = {
 # Storage
 storage_delete_retention_days = 5
 storage_enable_versioning     = true
+
+#
+# RTD reverse proxy
+#
+reverse_proxy_rtd = "10.1.0.250"

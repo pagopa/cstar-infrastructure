@@ -13,19 +13,28 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
-        <set-body>@{
-            var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
-            requestToBeModified.Add(new JProperty("channel", context.Variables["senderCode"]));
-            return requestToBeModified.ToString();
-            }
-        </set-body>
-        <rewrite-uri template="@("idpay/onboarding/initiative/"+ (string)context.Variables["tokenPDV"])" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
+        <cache-lookup-value key="idpay-initiativelist-issuer" variable-name="initiativeListResponse"  />
+        <choose>
+            <!-- If API Management find it in the cache, make a request for it and store it -->
+            <when condition="@(context.Variables.ContainsKey("initiativeListResponse"))">
+                <return-response response-variable-name="initiativeListResponse" />
+            </when>
+            <otherwise>
+                <rewrite-uri template="@("/idpay/initiatives")" copy-unmatched-params="true" />
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <!-- Store result in cache -->
+                <cache-store-value key="idpay-initiativelist-issuer" value="@(context.Response)" duration="86400"  />
+            </when>
+        </choose>
         <base />
     </outbound>
     <on-error>
