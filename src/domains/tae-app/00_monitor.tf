@@ -959,7 +959,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+#      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
