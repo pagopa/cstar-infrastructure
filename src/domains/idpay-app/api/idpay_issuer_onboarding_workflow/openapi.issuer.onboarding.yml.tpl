@@ -25,7 +25,7 @@ paths:
           description: Get successful
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: '#/components/schemas/InitiativeListDTO'
         '400':
           description: Bad request
@@ -307,7 +307,7 @@ components:
     OnboardingPutDTO:
       title: OnboardingPutDTO
       type: object
-      required: 
+      required:
        - initiativeId
       properties:
         initiativeId:
@@ -332,7 +332,7 @@ components:
         initiativeId:
           type: string
           description: Unique identifier of the subscribed initiative
-        InitiativeName:
+        initiativeName:
           type: string
           description: Name of the subscribed initiative
         organizationName:
@@ -376,7 +376,7 @@ components:
     descriptionMapDto:
       title: O
       type: object
-      required: 
+      required:
        - type
        - contact
       properties:
