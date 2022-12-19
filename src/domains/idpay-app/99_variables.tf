@@ -242,3 +242,14 @@ variable "reverse_proxy_rtd" {
   default     = "127.0.0.1"
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
+
+# p7m self-signed certificate
+variable "enable_p7m_self_sign" {
+  type    = bool
+  default = true
+}
+
+variable "p7m_cert_validity_hours" {
+  type    = number
+  default = 87600 # 10 year
+}
