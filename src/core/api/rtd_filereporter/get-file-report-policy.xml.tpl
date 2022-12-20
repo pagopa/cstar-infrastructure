@@ -8,7 +8,7 @@
         />
 
         <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
-          <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+          <set-url>@("${rtd-ingress}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
           <set-method>GET</set-method>
         </send-request>
 
