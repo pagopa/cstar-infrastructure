@@ -832,7 +832,9 @@ k8s_ip_filter_range = {
 }
 
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip = "10.1.0.250"
+reverse_proxy_ip               = "10.1.0.250"
+ingress_load_balancer_ip       = "10.11.100.250"
+ingress_load_balancer_hostname = "uat01.rtd.internal.uat.cstar.pagopa.it"
 
 app_gateway_sku_name                    = "Standard_v2"
 app_gateway_sku_tier                    = "Standard_v2"
