@@ -26,6 +26,10 @@
         </when>
       </choose>
 
+      <set-header name="If-None-Match" exists-action="override">
+        <value>*</value>
+      </set-header>
+
     </inbound>
     <backend>
         <base />
