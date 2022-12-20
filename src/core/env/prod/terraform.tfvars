@@ -859,7 +859,9 @@ redis_sku_name = "Premium"
 redis_family   = "P"
 
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip = "10.1.0.250"
+reverse_proxy_ip               = "10.1.0.250"
+ingress_load_balancer_ip       = "10.11.100.250"
+ingress_load_balancer_hostname = "prod01.rtd.internal.cstar.pagopa.it"
 
 app_gateway_sku_name                    = "WAF_v2"
 app_gateway_sku_tier                    = "WAF_v2"
