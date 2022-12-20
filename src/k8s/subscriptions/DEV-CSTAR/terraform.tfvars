@@ -222,6 +222,7 @@ configmaps_bpdmswinningtransaction = {
 configmaps_rtdpaymentinstrumentmanager = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpaymentinstrumentmanager"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   POSTGRES_POOLSIZE                                      = "2"
   POSTGRES_SHOW_SQL                                      = "true"
@@ -349,10 +350,12 @@ configmaps_rtddecrypter = {
 }
 
 configmaps_rtdfileregister = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
 configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
@@ -360,6 +363,7 @@ configmaps_rtdsenderauth = {
 configmaps_rtdenrolledpaymentinstrument = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
@@ -371,6 +375,7 @@ configmaps_rtdproducerenrolledpaymentinstrument = {
 configmaps_rtdpieventprocessor = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
 }
