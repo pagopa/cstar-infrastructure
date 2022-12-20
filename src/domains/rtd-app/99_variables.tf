@@ -219,7 +219,27 @@ variable "enable" {
 }
 
 ## Config Maps
+variable "configmap_rtdsplitbypiconsumer" {
+  type = object({
+    KAFKA_RTD_SPLIT_PARTITION_COUNT = number
+  })
+  default = {
+    KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+  }
+}
+
+#
+# RTD Sender Auth
+#
 variable "configmaps_rtdsenderauth" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Payment Instrument Event Processor
+#
+variable "configmaps_rtdpieventprocessor" {
   type    = map(string)
   default = {}
 }
