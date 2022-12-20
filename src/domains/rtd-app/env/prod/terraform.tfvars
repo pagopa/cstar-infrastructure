@@ -163,8 +163,20 @@ event_hub_hubs = [
   }
 ]
 
-## Config maps
+#
+# Config maps
+#
+configmap_rtdsplitbypiconsumer = {
+  KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+}
+
 configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdpieventprocessor = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
