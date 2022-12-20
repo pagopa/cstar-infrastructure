@@ -11,7 +11,7 @@
 
       <!-- authorization request -->
       <send-request mode="new" response-variable-name="authorization" timeout="60" ignore-error="true">
-        <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/authorize/" + (string)context.Variables["senderCode"])</set-url>
+        <set-url>@("${rtd-ingress}/rtdmssenderauth/authorize/" + (string)context.Variables["senderCode"])</set-url>
         <set-method>GET</set-method>
         <set-header name="internal-id" exists-action="override">
           <value>@((string)context.Variables["keyHash"])</value>
@@ -25,6 +25,10 @@
           </return-response>
         </when>
       </choose>
+
+      <set-header name="If-None-Match" exists-action="override">
+        <value>*</value>
+      </set-header>
 
     </inbound>
     <backend>

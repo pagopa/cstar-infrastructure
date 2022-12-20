@@ -64,7 +64,7 @@ resource "azurerm_api_management_named_value" "pm_np_wallet_basic_auth" {
   display_name = "pm-np-wallet-basic-auth"
   secret       = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.pm_np_wallet_basic_auth[count.index].id
+    secret_id = data.azurerm_key_vault_secret.pm_np_wallet_basic_auth[count.index].versionless_id
   }
 
 }
