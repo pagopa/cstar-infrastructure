@@ -45,7 +45,7 @@ resource "azurerm_api_management_named_value" "pdv_api_key" {
   display_name = "pdv-api-key"
   secret       = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.pdv_api_key.id
+    secret_id = data.azurerm_key_vault_secret.pdv_api_key.versionless_id
   }
 
 }
