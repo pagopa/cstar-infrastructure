@@ -12,7 +12,7 @@
       <set-variable name="senderCode" value="@((string)context.Variables["containerName"])"/>
 
       <send-request mode="new" response-variable-name="authorization" timeout="60" ignore-error="true">
-          <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/authorize/" + (string)context.Variables["senderCode"])</set-url>
+          <set-url>@("${rtd-ingress}/rtdmssenderauth/authorize/" + (string)context.Variables["senderCode"])</set-url>
           <set-method>GET</set-method>
           <set-header name="internal-id" exists-action="override">
               <value>@((string)context.Variables["keyHash"])</value>

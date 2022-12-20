@@ -28,6 +28,7 @@ module "rtd_senderack_download_file" {
 
   xml_content = templatefile("./api/rtd_senderack_download_file/azureblob_policy.xml", {
     rtd-ingress-ip = var.reverse_proxy_ip
+    rtd-ingress    = local.ingress_load_balancer_hostname_https
   })
 
   product_ids = [module.rtd_api_product.product_id]
