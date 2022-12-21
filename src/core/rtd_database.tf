@@ -135,6 +135,10 @@ resource "azurerm_cosmosdb_mongo_collection" "file_register" {
   }
 
   index {
+    keys = ["status"]
+  }
+
+  index {
     keys   = ["_id"]
     unique = true
   }
