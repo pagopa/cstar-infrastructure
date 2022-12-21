@@ -53,11 +53,6 @@
                                     new JProperty("issuerAbiCode", context.Variables["issuerAbiCode"])))).ToString();
                         }
                    </set-body>
-                   <!--
-                    %{ if env_short != "d" ~}
-                    <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-                    %{ endif ~}
-                    -->
                 </send-request>
                 <choose>
                     <when condition="@(context.Variables["pmResponse"] == null)">
@@ -67,14 +62,14 @@
                     </when>
                     <!-- Check active property in response -->
                     <when condition="@(((IResponse)context.Variables["pmResponse"]).StatusCode == 201)">
-                        <set-variable name="hpan" value="@(((IResponse)context.Variables["pmResponse"]).Body.As<JObject>())" />
+                        <set-variable name="pmResponseBody" value="@(((IResponse)context.Variables["pmResponse"]).Body.As<JObject>())" />
                         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
                         <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/instruments")" />
                         <set-body>@{
                             return new JObject(
-                                new JProperty("hpan", ((JObject)context.Variables["pmResponse"])["hashCode"]),
-                                new JProperty("brandLogo", ((JObject)context.Variables["pmResponse"])["brandLogo"]),
-                                new JProperty("maskedPan", ((JObject)context.Variables["pmResponse"])["maskedPan"]),
+                                new JProperty("hpan", ((JObject)context.Variables["pmResponseBody"])["hashCode"]),
+                                new JProperty("brandLogo", ((JObject)context.Variables["pmResponseBody"])["brandLogo"]),
+                                new JProperty("maskedPan", ((JObject)context.Variables["pmResponseBody"])["maskedPan"]),
                                 new JProperty("channel", (string)context.Variables["senderCode"])
                             ).ToString();                           
                         }
