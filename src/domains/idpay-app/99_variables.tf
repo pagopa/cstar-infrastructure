@@ -242,3 +242,17 @@ variable "reverse_proxy_rtd" {
   default     = "127.0.0.1"
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
+
+#
+# SMTP Server
+#
+variable "mail_server_host" {
+  type        = string
+  description = "SMTP server hostname"
+}
+
+variable "mail_server_port" {
+  type        = string
+  default     = "587"
+  description = "SMTP server port"
+}
