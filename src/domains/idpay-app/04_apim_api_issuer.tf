@@ -24,6 +24,11 @@ module "idpay_api_issuer_product" {
     pdv_tokenizer_url = var.pdv_tokenizer_url
   })
 
+  groups = ["developers"]
+
+  depends_on = [
+    azurerm_api_management_named_value.pdv_api_key
+  ]
 }
 
 #
