@@ -410,7 +410,7 @@ components:
             - ACCEPTED_TC
             - ON_EVALUATION
             - ONBOARDING_KO
-            - ELEGIBILE_KO
+            - ELIGIBILE_KO
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
