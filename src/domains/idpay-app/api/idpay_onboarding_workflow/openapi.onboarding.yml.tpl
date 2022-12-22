@@ -542,7 +542,6 @@ components:
       type: object
       required:
         - initiativeId
-        - description
       properties:
         initiativeId:
           type: string
