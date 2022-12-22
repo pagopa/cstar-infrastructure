@@ -255,4 +255,15 @@ variable "mail_server_port" {
   type        = string
   default     = "587"
   description = "SMTP server port"
+
+# p7m self-signed certificate
+variable "enable_p7m_self_sign" {
+  type    = bool
+  default = true
+}
+
+variable "p7m_cert_validity_hours" {
+  type    = number
+  default = 87600 # 10 year
+
 }
