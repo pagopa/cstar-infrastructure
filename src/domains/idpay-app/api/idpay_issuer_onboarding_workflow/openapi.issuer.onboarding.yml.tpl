@@ -20,6 +20,13 @@ paths:
             example: it-IT
             default: it-IT
           required: true
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Get successful
