@@ -23,7 +23,20 @@ resource "kubernetes_config_map" "rtd-split-by-pi-producer" {
   data = merge({
     KAFKA_RTD_SPLIT_TOPIC  = "rtd-split-by-pi"
     KAFKA_RTD_SPLIT_BROKER = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
-  }, var.configmap_rtdsplitbypiconsumer)
+  }, var.configmap_rtdsplitbypiproducer)
+}
+
+resource "kubernetes_config_map" "rtd-split-by-pi-consumer" {
+  metadata {
+    name      = "rtd-split-by-pi-consumer"
+    namespace = var.domain
+  }
+
+  data = {
+    KAFKA_RTD_SPLIT_TOPIC          = "rtd-split-by-pi"
+    KAFKA_RTD_SPLIT_CONSUMER_GROUP = "rtd-split-by-pi-consumer-group"
+    KAFKA_RTD_SPLIT_BROKER         = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+  }
 }
 
 resource "kubernetes_config_map" "rtd-tkm-write-update-consumer" {
@@ -38,6 +51,19 @@ resource "kubernetes_config_map" "rtd-tkm-write-update-consumer" {
     KAFKA_TOPIC_TKM_BROKER         = format("%s-evh-ns.servicebus.windows.net:9093", local.product)
   }
 }
+
+resource "kubernetes_config_map" "rtd-pi-to-app-producer" {
+  metadata {
+    name      = "rtd-pi-to-app-producer"
+    namespace = var.domain
+  }
+
+  data = merge({
+    KAFKA_RTD_PI_TO_APP        = "rtd-pi-to-app"
+    KAFKA_RTD_PI_TO_APP_BROKER = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+  }, var.configmap_rtdpitoappproducer)
+}
+
 
 #
 # Microservices config maps
@@ -76,3 +102,19 @@ resource "kubernetes_config_map" "rtdpieventprocessor" {
   }, var.configmaps_rtdpieventprocessor)
 }
 
+#
+# RTD Enrolled Payment Instrument
+#
+resource "kubernetes_config_map" "rtdenrolledpaymentinstrument" {
+  metadata {
+    name      = "rtd-enrolled-payment-instrument"
+    namespace = var.domain
+  }
+
+  data = merge({
+    MONGODB_NAME            = "rtd"
+    BASEURL_BPD_DELETE_CARD = var.env_short == "p" ? "http://${var.ingress_load_balancer_ip}/bpdmspaymentinstrument/bpd/payment-instruments" : "" # a fake will be created
+    },
+    var.configmaps_rtdenrolledpaymentinstrument
+  )
+}
