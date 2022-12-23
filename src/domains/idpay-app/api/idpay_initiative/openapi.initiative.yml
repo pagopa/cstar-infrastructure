@@ -111,6 +111,12 @@ paths:
                   field: City
                   operator: EQ
                   checked: false
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /config/transaction/rule:
     get:
       tags:

@@ -128,7 +128,6 @@ module "idpay_wallet_issuer" {
         env_short                            = var.env_short
         pm-timeout-sec                       = var.pm_timeout_sec
         pm-backend-url                       = var.pm_backend_url
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
       })
     },
     {
@@ -218,11 +217,3 @@ module "idpay_iban_io" {
 
 }
 */
-
-#
-# Key Values secret
-#
-data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
-  name         = "BPD-PM-client-certificate-thumbprint"
-  key_vault_id = data.azurerm_key_vault.kv_cstar.id
-}

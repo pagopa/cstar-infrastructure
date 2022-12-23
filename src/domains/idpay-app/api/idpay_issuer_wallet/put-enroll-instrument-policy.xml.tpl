@@ -32,10 +32,13 @@
                     </otherwise>
                 </choose>
                 <send-request mode="new" response-variable-name="pmResponse" timeout="${pm-timeout-sec}" ignore-error="true">
-                    <set-url>@("${pm-backend-url}/payment-manager/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
+                    <set-url>@("${pm-backend-url}/payment-manager/auth-rtd/v1/wallets/np-wallets")</set-url>
                     <set-method>POST</set-method>
                     <set-header name="Content-Type" exists-action="override">
                         <value>application/json</value>
+                    </set-header>
+                    <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                        <value>{{pagopa-platform-apim-api-key-primary}}</value>
                     </set-header>
                     <set-body>@{
                         return new JObject(
@@ -78,6 +81,10 @@
                     <otherwise>
                         <return-response>
                             <set-status code="@(((IResponse)context.Variables["pmResponse"]).StatusCode)" reason="ErrorPM" />
+                            <set-header name="Content-Type" exists-action="override">
+                                <value>application/json</value>
+                            </set-header>
+                            <set-body>@(((IResponse)context.Variables["pmResponse"]).Body.As<JObject>().ToString())</set-body>
                         </return-response>
                     </otherwise>
                 </choose>
