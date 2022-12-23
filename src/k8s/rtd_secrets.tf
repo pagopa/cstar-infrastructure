@@ -215,7 +215,6 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
 }
 
 resource "kubernetes_secret" "pagopa_platform_api_key" {
-  count = 1
   metadata {
     name      = "pagopa-platform-api-key"
     namespace = kubernetes_namespace.rtd.metadata[0].name
