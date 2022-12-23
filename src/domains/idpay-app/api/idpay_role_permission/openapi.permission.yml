@@ -30,27 +30,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
   /consent:
     post:
       parameters:
@@ -79,18 +76,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
     get:
       tags:
         - Consent
@@ -109,18 +106,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-              example:
-                code: 0
-                message: string
 components:
   schemas:
     UserPermissionDTO:
