@@ -166,4 +166,14 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_collection" {
     unique = true
   }
 
+  autoscale_settings {
+    max_throughput = 4000 # overridden via azure portal
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
+
 }
