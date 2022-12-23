@@ -124,10 +124,10 @@ module "idpay_wallet_issuer" {
     {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_issuer_wallet/put-enroll-instrument-policy.xml.tpl", {
-        ingress_load_balancer_hostname       = var.ingress_load_balancer_hostname
-        env_short                            = var.env_short
-        pm-timeout-sec                       = var.pm_timeout_sec
-        pm-backend-url                       = var.pm_backend_url
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+        pm-timeout-sec                 = var.pm_timeout_sec
+        pm-backend-url                 = var.pm_backend_url
       })
     },
     {
