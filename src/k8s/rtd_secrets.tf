@@ -214,6 +214,16 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "pagopa_platform_api_key" {
+  metadata {
+    name      = "pagopa-platform-api-key"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    API_KEY = module.key_vault_domain_rtd_secrets_query.values["pagopa-platform-apim-api-key-primary"].value
+  }
+}
 
 resource "kubernetes_secret" "rtd-revoke-pi-events-producer" {
   count = var.enable.rtd.enrolled_payment_instrument ? 1 : 0
