@@ -40,12 +40,12 @@ external_domain          = "pagopa.it"
 # Features flags
 #
 enable = {
-  blob_storage_event_grid_integration = false
-  internal_api                        = false
+  blob_storage_event_grid_integration = true
+  internal_api                        = true
   csv_transaction_apis                = false
-  ingestor                            = false
+  ingestor                            = true
   file_register                       = false
-  enrolled_payment_instrument         = false
+  enrolled_payment_instrument         = true
   mongodb_storage                     = false
 }
 #
