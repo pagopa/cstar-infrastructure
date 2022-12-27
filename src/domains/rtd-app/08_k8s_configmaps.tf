@@ -10,7 +10,7 @@ resource "kubernetes_config_map" "rtd-blob-storage-events-consumer" {
 
   data = {
     KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
-    KAFKA_BROKER                    = format("%s-evh-ns.servicebus.windows.net:9093", local.product)
+    KAFKA_BROKER                    = "${local.product}-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -73,7 +73,7 @@ resource "kubernetes_config_map" "rtd-tkm-write-update-consumer" {
   data = {
     KAFKA_TOPIC_TKM                = "tkm-write-update-token"
     KAFKA_TOPIC_TKM_CONSUMER_GROUP = "rtd-pim-consumer-group"
-    KAFKA_TOPIC_TKM_BROKER         = format("%s-evh-ns.servicebus.windows.net:9093", local.product)
+    KAFKA_TOPIC_TKM_BROKER         = "${local.product}-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -157,6 +157,6 @@ resource "kubernetes_config_map" "rtdingestor" {
 
   data = {
     JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
-    CSV_INGESTOR_HOST = replace(format("apim.internal.%s.cstar.pagopa.it", var.env_short), "..", ".")
+    CSV_INGESTOR_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
   }
 }
