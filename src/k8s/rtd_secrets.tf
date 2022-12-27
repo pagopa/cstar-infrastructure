@@ -214,14 +214,14 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
   type = "Opaque"
 }
 
-resource "kubernetes_secret" "pagopa_platform_api_key" {
+resource "kubernetes_secret" "pagopa_platform_api_key_tkm" {
   metadata {
-    name      = "pagopa-platform-api-key"
+    name      = "pagopa-platform-api-key-tkm"
     namespace = kubernetes_namespace.rtd.metadata[0].name
   }
 
   data = {
-    API_KEY = module.key_vault_domain_rtd_secrets_query.values["pagopa-platform-apim-api-key-primary"].value
+    API_KEY = module.key_vault_domain_rtd_secrets_query.values["pagopa-platform-apim-api-key-primary-tkm"].value
   }
 }
 
