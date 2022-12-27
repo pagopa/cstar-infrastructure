@@ -89,6 +89,17 @@ resource "kubernetes_config_map" "rtd-pi-to-app-producer" {
   }, var.configmap_rtdpitoappproducer)
 }
 
+resource "kubernetes_config_map" "rtd-file-register-projector-producer" {
+  metadata {
+    name      = "rtd-file-register-projector-producer"
+    namespace = var.domain
+  }
+
+  data = {
+    KAFKA_RTD_PROJECTOR_TOPIC  = "rtd-file-register-projector"
+    KAFKA_RTD_PROJECTOR_BROKER = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+  }
+}
 
 #
 # Microservices config maps
@@ -159,4 +170,22 @@ resource "kubernetes_config_map" "rtdingestor" {
     JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
     CSV_INGESTOR_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
   }
+}
+
+#
+# RTD File Register
+#
+resource "kubernetes_config_map" "rtdfileregister" {
+  count = var.enable.blob_storage_event_grid_integration ? 1 : 0
+
+  metadata {
+    name      = "rtd-fileregister"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdfileregister"
+    },
+  var.configmaps_rtdfileregister)
 }
