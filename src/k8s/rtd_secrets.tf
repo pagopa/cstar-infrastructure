@@ -215,6 +215,7 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
 }
 
 resource "kubernetes_secret" "pagopa_platform_api_key_tkm" {
+  count = contains(var.secrets_from_rtd_domain_kv.secrets, "pagopa-platform-apim-api-key-primary-tkm") ? 1 : 0
   metadata {
     name      = "pagopa-platform-api-key-tkm"
     namespace = kubernetes_namespace.rtd.metadata[0].name
