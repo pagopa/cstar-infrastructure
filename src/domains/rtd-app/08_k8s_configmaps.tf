@@ -1,6 +1,31 @@
 #
 # Common kubernetes configmaps. e.g. related to kafka queue
 #
+resource "kubernetes_config_map" "rtd-blob-storage-events-consumer" {
+  count = var.enable.blob_storage_event_grid_integration ? 1 : 0
+  metadata {
+    name      = "rtd-blob-storage-events"
+    namespace = var.domain
+  }
+
+  data = {
+    KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
+    KAFKA_BROKER                    = "${local.product}-evh-ns.servicebus.windows.net:9093"
+  }
+}
+
+resource "kubernetes_secret" "rtd-trx-producer" {
+  count = var.enable.ingestor ? 1 : 0
+  metadata {
+    name      = "rtd-trx-producer"
+    namespace = var.domain
+  }
+
+  data = {
+    KAFKA_TOPIC_RTD_TRX = "rtd-trx"
+  }
+}
+
 resource "kubernetes_config_map" "rtd-pi-from-app-consumer" {
   metadata {
     name      = "rtd-pi-from-app-consumer"
@@ -48,7 +73,7 @@ resource "kubernetes_config_map" "rtd-tkm-write-update-consumer" {
   data = {
     KAFKA_TOPIC_TKM                = "tkm-write-update-token"
     KAFKA_TOPIC_TKM_CONSUMER_GROUP = "rtd-pim-consumer-group"
-    KAFKA_TOPIC_TKM_BROKER         = format("%s-evh-ns.servicebus.windows.net:9093", local.product)
+    KAFKA_TOPIC_TKM_BROKER         = "${local.product}-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -117,4 +142,21 @@ resource "kubernetes_config_map" "rtdenrolledpaymentinstrument" {
     },
     var.configmaps_rtdenrolledpaymentinstrument
   )
+}
+
+#
+# RTD Ingestor
+#
+resource "kubernetes_config_map" "rtdingestor" {
+  count = var.enable.ingestor ? 1 : 0
+
+  metadata {
+    name      = "rtdingestor"
+    namespace = var.domain
+  }
+
+  data = {
+    JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_INGESTOR_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+  }
 }
