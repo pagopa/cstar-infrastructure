@@ -192,5 +192,5 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  BASEURL_TOKEN_FINDER                                   = null
+  BASEURL_TOKEN_FINDER                                   = ""
 }
