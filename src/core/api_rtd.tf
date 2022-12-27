@@ -236,20 +236,26 @@ module "rtd_payment_instrument_manager_v3" {
 }
 
 ## RTD Payment Manager Token API ##
-resource "azurerm_api_management_named_value" "pagopa_platform_api_tkm_key" {
+data "azurerm_key_vault_secret" "pagopa_platform_api_tkm_key" {
   count = var.enable.rtd.tkm_integration ? 1 : 0
 
-  name                = "pagopa-platform-api-key"
+  name         = "pagopa-platform-apim-api-key-primary-tkm"
+  key_vault_id = data.azurerm_key_vault.rtd_domain_kv.id
+}
+
+resource "azurerm_api_management_named_value" "pagopa_platform_api_primary_key_tkm" {
+  count = var.enable.rtd.tkm_integration ? 1 : 0
+
+  name                = "pagopa-platform-apim-api-key-primary-tkm"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
 
-  display_name = "pagopa-platform-api-key"
+  display_name = "pagopa-platform-apim-api-key-primary-tkm"
   secret       = true
 
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_key[count.index].id
+    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_tkm_key[count.index].id
   }
-
 }
 
 module "rtd_payment_instrument_token_api" {
@@ -283,14 +289,14 @@ module "rtd_payment_instrument_token_api" {
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-token-public-key-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     },
     {
       operation_id = "uploadAcquirerTokenFile",
       xml_content = templatefile("./api/rtd_payment_instrument_token/upload-token-file-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     },
     {
@@ -298,7 +304,7 @@ module "rtd_payment_instrument_token_api" {
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-known-hashes-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     },
     {
@@ -306,12 +312,12 @@ module "rtd_payment_instrument_token_api" {
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-bin-range-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     }
   ]
 
-  depends_on = [azurerm_api_management_named_value.pagopa_platform_api_tkm_key[0]]
+  depends_on = [azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[0]]
 }
 
 ## RTD CSV Transaction API ##
