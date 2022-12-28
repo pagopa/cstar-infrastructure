@@ -390,6 +390,7 @@
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | AKS load balancer internal ip. | `string` | n/a | yes |
 | <a name="input_internal_private_domain"></a> [internal\_private\_domain](#input\_internal\_private\_domain) | n/a | `string` | `"internal.cstar.pagopa.it"` | no |
 | <a name="input_k8s_ip_filter_range"></a> [k8s\_ip\_filter\_range](#input\_k8s\_ip\_filter\_range) | n/a | <pre>object({<br>    from = string<br>    to   = string<br>  })</pre> | n/a | yes |
+| <a name="input_k8s_ip_filter_range_aks"></a> [k8s\_ip\_filter\_range\_aks](#input\_k8s\_ip\_filter\_range\_aks) | n/a | <pre>object({<br>    from = string<br>    to   = string<br>  })</pre> | n/a | yes |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | n/a | `string` | `null` | no |
 | <a name="input_law_daily_quota_gb"></a> [law\_daily\_quota\_gb](#input\_law\_daily\_quota\_gb) | The workspace daily quota for ingestion in GB. | `number` | `-1` | no |
 | <a name="input_law_retention_in_days"></a> [law\_retention\_in\_days](#input\_law\_retention\_in\_days) | The workspace data retention in days | `number` | `30` | no |
