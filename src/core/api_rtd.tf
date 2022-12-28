@@ -483,8 +483,7 @@ module "rtd_senderadeack_filename_list" {
   })
 
   xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
-    rtd-ingress    = local.ingress_load_balancer_hostname_https
-    rtd-ingress-ip = var.reverse_proxy_ip
+    rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
   product_ids           = [module.rtd_api_product.product_id]
@@ -516,7 +515,7 @@ module "rtd_senderack_correct_download_ack" {
   subscription_required = true
 
   xml_content = templatefile("./api/rtd_senderack_correct_download_ack/policy.xml", {
-    rtd-ingress-ip = var.reverse_proxy_ip
+    rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
   product_ids = [module.rtd_api_product.product_id]
