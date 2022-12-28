@@ -14,7 +14,7 @@ resource "kubernetes_config_map" "rtd-blob-storage-events-consumer" {
   }
 }
 
-resource "kubernetes_secret" "rtd-trx-producer" {
+resource "kubernetes_config_map" "rtd-trx-producer" {
   count = var.enable.ingestor ? 1 : 0
   metadata {
     name      = "rtd-trx-producer"
