@@ -101,6 +101,18 @@ resource "kubernetes_config_map" "rtd-file-register-projector-producer" {
   }
 }
 
+resource "kubernetes_secret" "rtd-file-register-projector-consumer" {
+  metadata {
+    name      = "rtd-file-register-projector-consumer"
+    namespace = var.domain
+  }
+
+  data = {
+    KAFKA_RTD_PROJECTOR_TOPIC  = "rtd-file-register-projector"
+    KAFKA_RTD_PROJECTOR_BROKER = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+  }
+}
+
 #
 # Microservices config maps
 #
