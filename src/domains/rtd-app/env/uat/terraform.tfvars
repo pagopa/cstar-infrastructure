@@ -194,3 +194,8 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   BASEURL_TOKEN_FINDER                                   = ""
 }
+
+configmaps_rtdfileregister = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}

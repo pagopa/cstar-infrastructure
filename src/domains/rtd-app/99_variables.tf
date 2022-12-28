@@ -260,3 +260,11 @@ variable "configmaps_rtdenrolledpaymentinstrument" {
   type    = map(string)
   default = {}
 }
+
+#
+# RTD File Register
+#
+variable "configmaps_rtdfileregister" {
+  type    = map(string)
+  default = {}
+}
