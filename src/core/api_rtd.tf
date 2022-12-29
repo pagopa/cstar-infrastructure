@@ -708,8 +708,7 @@ module "rtd_filereporter" {
     {
       operation_id = "getFileReport"
       xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml.tpl", {
-        rtd-ingress    = local.ingress_load_balancer_hostname_https
-        rtd-ingress-ip = var.reverse_proxy_ip
+        rtd-ingress = local.ingress_load_balancer_hostname_https
       })
     }
   ]
