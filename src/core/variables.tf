@@ -357,6 +357,7 @@ variable "k8s_ip_filter_range" {
 }
 
 variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
   type = object({
     from = string
     to   = string
