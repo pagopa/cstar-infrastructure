@@ -200,6 +200,8 @@ configmaps_rtdfileregister = {
 }
 
 configmaps_rtddecrypter = {
-  ENABLE_CHUNK_UPLOAD     = true
-  SPLITTER_LINE_THRESHOLD = 2000000
+  ENABLE_CHUNK_UPLOAD                                    = true
+  SPLITTER_LINE_THRESHOLD                                = 2000000
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
