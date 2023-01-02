@@ -51,6 +51,7 @@
 | [kubernetes_config_map.rtd-split-by-pi-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-tkm-write-update-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdenrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdfileregister](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdingestor](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
@@ -97,6 +98,7 @@
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
 | <a name="input_configmap_rtdpitoappproducer"></a> [configmap\_rtdpitoappproducer](#input\_configmap\_rtdpitoappproducer) | n/a | <pre>object({<br>    KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = number<br>  })</pre> | <pre>{<br>  "KAFKA_RTD_PI_TO_APP_PARTITION_COUNT": 1<br>}</pre> | no |
 | <a name="input_configmap_rtdsplitbypiproducer"></a> [configmap\_rtdsplitbypiproducer](#input\_configmap\_rtdsplitbypiproducer) | # Config Maps | <pre>object({<br>    KAFKA_RTD_SPLIT_PARTITION_COUNT = number<br>  })</pre> | <pre>{<br>  "KAFKA_RTD_SPLIT_PARTITION_COUNT": 1<br>}</pre> | no |
+| <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | RTD Decrypter | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | RTD Enrolled Payment Instrument | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdfileregister"></a> [configmaps\_rtdfileregister](#input\_configmaps\_rtdfileregister) | RTD File Register | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdpieventprocessor"></a> [configmaps\_rtdpieventprocessor](#input\_configmaps\_rtdpieventprocessor) | RTD Payment Instrument Event Processor | `map(string)` | `{}` | no |
