@@ -1006,7 +1006,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one input file has the same name of a previously received event in file register."
   display_name                     = "cstar-${var.env_short}-file-register-file-already-present-#ACQ"
-  enabled                          = true
+  enabled                          = false
 
   skip_query_validation = false
   action {
