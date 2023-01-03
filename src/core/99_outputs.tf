@@ -197,3 +197,10 @@ output "mongo_db_primary_connection_string" {
   description = "Primary mongodb connection string"
   sensitive   = true
 }
+
+# APIM internal subscription key
+output "rtd_internal_api_product_subscription_key" {
+  value       = azurerm_key_vault_secret.rtd_internal_api_product_subscription_key[0].value
+  description = "Subscription key for internal microservices"
+  sensitive   = true
+}
