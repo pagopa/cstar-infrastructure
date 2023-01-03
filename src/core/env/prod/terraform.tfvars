@@ -855,6 +855,11 @@ k8s_ip_filter_range = {
   to   = "10.1.127.254"
 }
 
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}
+
 redis_sku_name = "Premium"
 redis_family   = "P"
 

@@ -829,6 +829,11 @@ k8s_ip_filter_range = {
   to   = "10.1.127.254"
 }
 
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}
+
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 reverse_proxy_ip               = "10.1.0.250"
 ingress_load_balancer_ip       = "10.11.100.250"
