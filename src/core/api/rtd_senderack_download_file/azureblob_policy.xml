@@ -45,7 +45,7 @@
     <outbound>
       <base />
       <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
-        <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/file-status")</set-url>
+        <set-url>@("${rtd-ingress}/rtdmsfileregister/file-status")</set-url>
         <set-method>PUT</set-method>
         <set-header name="Content-Type" exists-action="override">
           <value>application/json</value>
