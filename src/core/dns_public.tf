@@ -123,3 +123,13 @@ resource "azurerm_dns_a_record" "dns-a-managementcstar" {
   records             = [azurerm_public_ip.apigateway_public_ip.ip_address]
   tags                = var.tags
 }
+
+
+# welfare.pagopa.it
+resource "azurerm_dns_zone" "welfare" {
+  count               = var.env_short == "p" ? 1 : 0
+  name                = "welfare"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+
+  tags = var.tags
+}
