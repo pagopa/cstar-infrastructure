@@ -40,12 +40,12 @@ external_domain          = "pagopa.it"
 # Features flags
 #
 enable = {
-  blob_storage_event_grid_integration = false
-  internal_api                        = false
+  blob_storage_event_grid_integration = true
+  internal_api                        = true
   csv_transaction_apis                = false
-  ingestor                            = false
+  ingestor                            = true
   file_register                       = false
-  enrolled_payment_instrument         = false
+  enrolled_payment_instrument         = true
   mongodb_storage                     = false
 }
 #
@@ -166,8 +166,12 @@ event_hub_hubs = [
 #
 # Config maps
 #
-configmap_rtdsplitbypiconsumer = {
+configmap_rtdsplitbypiproducer = {
   KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+}
+
+configmap_rtdpitoappproducer = {
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
 }
 
 configmaps_rtdsenderauth = {
@@ -177,6 +181,19 @@ configmaps_rtdsenderauth = {
 
 configmaps_rtdpieventprocessor = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdenrolledpaymentinstrument = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+  BASEURL_TOKEN_FINDER                                   = ""
+}
+
+configmaps_rtdfileregister = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }

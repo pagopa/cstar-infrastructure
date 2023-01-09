@@ -20,6 +20,7 @@
     -->
     <ip-filter action="allow">
       <address-range from="${k8s-cluster-ip-range-from}" to="${k8s-cluster-ip-range-to}" />
+      <address-range from="${k8s-cluster-aks-ip-range-from}" to="${k8s-cluster-aks-ip-range-to}"/>
     </ip-filter>
 
     <set-header name="x-user-id" exists-action="override">
