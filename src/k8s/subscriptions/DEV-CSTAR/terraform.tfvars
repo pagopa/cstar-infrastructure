@@ -365,6 +365,7 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+  BASEURL_TOKEN_FINDER                                   = "https://api.dev.platform.pagopa.it/tkm/tkmcardmanager/v1/"
 }
 
 configmaps_rtdproducerenrolledpaymentinstrument = {
@@ -501,7 +502,9 @@ secrets_from_rtd_domain_kv = {
     "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
     "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
     "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"
+    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
+    "pagopa-platform-apim-api-key-primary",
+    "pagopa-platform-apim-api-key-primary-tkm"
   ]
 }
 

@@ -38,8 +38,10 @@ module "rtd_api_product_internal" {
   subscriptions_limit = 5
 
   policy_xml = templatefile("./api_product/rtd_api_internal/policy.xml.tpl", {
-    k8s-cluster-ip-range-from = var.k8s_ip_filter_range.from
-    k8s-cluster-ip-range-to   = var.k8s_ip_filter_range.to
+    k8s-cluster-ip-range-from     = var.k8s_ip_filter_range.from
+    k8s-cluster-ip-range-to       = var.k8s_ip_filter_range.to
+    k8s-cluster-aks-ip-range-from = var.k8s_ip_filter_range_aks.from
+    k8s-cluster-aks-ip-range-to   = var.k8s_ip_filter_range_aks.to
   })
 }
 
@@ -75,7 +77,7 @@ module "api_azureblob" {
     {
       operation_id = "putblob",
       xml_content = templatefile("./api/azureblob/azureblob_authorizative_policy.xml", {
-        rtd-ingress-ip = var.reverse_proxy_ip
+        rtd-ingress = local.ingress_load_balancer_hostname_https
       })
     }
   ]
@@ -120,8 +122,8 @@ module "rtd_payment_instrument_manager" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d" || var.env_short == "p"
+        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[0].display_name
       })
     },
     {
@@ -170,8 +172,8 @@ module "rtd_payment_instrument_manager_v2" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d" || var.env_short == "p"
+        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
       })
     },
     {
@@ -204,7 +206,7 @@ module "rtd_payment_instrument_manager_v3" {
   version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v3"
 
-  depends_on = [module.rtd_payment_instrument_manager]
+  #depends_on = [module.rtd_payment_instrument_manager]
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
@@ -221,8 +223,8 @@ module "rtd_payment_instrument_manager_v3" {
       xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        env_short                            = var.env_short
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+        mock_response                        = var.env_short == "d",
+        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
       })
     },
     {
@@ -236,20 +238,26 @@ module "rtd_payment_instrument_manager_v3" {
 }
 
 ## RTD Payment Manager Token API ##
-resource "azurerm_api_management_named_value" "pagopa_platform_api_tkm_key" {
+data "azurerm_key_vault_secret" "pagopa_platform_api_tkm_key" {
   count = var.enable.rtd.tkm_integration ? 1 : 0
 
-  name                = "pagopa-platform-api-key"
+  name         = "pagopa-platform-apim-api-key-primary-tkm"
+  key_vault_id = data.azurerm_key_vault.rtd_domain_kv.id
+}
+
+resource "azurerm_api_management_named_value" "pagopa_platform_api_primary_key_tkm" {
+  count = var.enable.rtd.tkm_integration ? 1 : 0
+
+  name                = "pagopa-platform-apim-api-key-primary-tkm"
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
 
-  display_name = "pagopa-platform-api-key"
+  display_name = "pagopa-platform-apim-api-key-primary-tkm"
   secret       = true
 
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_key[count.index].id
+    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_tkm_key[count.index].id
   }
-
 }
 
 module "rtd_payment_instrument_token_api" {
@@ -283,14 +291,14 @@ module "rtd_payment_instrument_token_api" {
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-token-public-key-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     },
     {
       operation_id = "uploadAcquirerTokenFile",
       xml_content = templatefile("./api/rtd_payment_instrument_token/upload-token-file-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     },
     {
@@ -298,7 +306,7 @@ module "rtd_payment_instrument_token_api" {
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-known-hashes-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     },
     {
@@ -306,12 +314,12 @@ module "rtd_payment_instrument_token_api" {
       xml_content = templatefile("./api/rtd_payment_instrument_token/get-bin-range-policy.xml", {
         pagopa-platform-url     = var.pagopa_platform_url,
         pm-timeout-seconds      = var.pm_timeout_sec,
-        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_tkm_key[count.index].name
+        pagopa-platform-api-key = azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[count.index].name
       })
     }
   ]
 
-  depends_on = [azurerm_api_management_named_value.pagopa_platform_api_tkm_key[0]]
+  depends_on = [azurerm_api_management_named_value.pagopa_platform_api_primary_key_tkm[0]]
 }
 
 ## RTD CSV Transaction API ##
@@ -477,7 +485,7 @@ module "rtd_senderadeack_filename_list" {
   })
 
   xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
-    rtd-ingress-ip = var.reverse_proxy_ip
+    rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
   product_ids           = [module.rtd_api_product.product_id]
@@ -509,7 +517,7 @@ module "rtd_senderack_correct_download_ack" {
   subscription_required = true
 
   xml_content = templatefile("./api/rtd_senderack_correct_download_ack/policy.xml", {
-    rtd-ingress-ip = var.reverse_proxy_ip
+    rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
   product_ids = [module.rtd_api_product.product_id]
@@ -654,7 +662,7 @@ module "rtd_sender_auth_put_api_key" {
   path         = "rtd/sender-auth"
   protocols    = ["https"]
 
-  service_url = format("http://%s/rtdmssenderauth", var.reverse_proxy_ip)
+  service_url = format("%s/rtdmssenderauth", local.ingress_load_balancer_hostname_https)
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
@@ -700,7 +708,7 @@ module "rtd_filereporter" {
     {
       operation_id = "getFileReport"
       xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml.tpl", {
-        rtd-ingress-ip = var.reverse_proxy_ip
+        rtd-ingress = local.ingress_load_balancer_hostname_https
       })
     }
   ]

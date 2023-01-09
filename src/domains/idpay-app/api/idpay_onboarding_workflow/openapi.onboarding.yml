@@ -413,7 +413,8 @@ components:
             - ON_EVALUATION
             - ONBOARDING_KO
             - ONBOARDING_OK
-            - INACTIVE
+            - UNSUBSCRIBED
+            - INVITED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:

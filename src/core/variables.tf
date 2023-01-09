@@ -34,6 +34,14 @@ variable "cidr_vnet" {
   description = "Virtual network address space."
 }
 
+variable "ddos_protection_plan" {
+  type = object({
+    id     = string
+    enable = bool
+  })
+  default = null
+}
+
 variable "cidr_subnet_storage_account" {
   type        = list(string)
   description = "Storage account network address space."
@@ -205,6 +213,16 @@ variable "reverse_proxy_ip" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "ingress_load_balancer_ip" {
+  type        = string
+  description = "AKS load balancer internal ip."
+}
+
+variable "ingress_load_balancer_hostname" {
+  type        = string
+  description = "AKS load balancer internal hostname."
+}
+
 variable "aks_num_outbound_ips" {
   type        = number
   default     = 1
@@ -332,6 +350,14 @@ variable "pm_ip_filter_range" {
 }
 
 variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
+variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
   type = object({
     from = string
     to   = string
@@ -861,4 +887,7 @@ locals {
   #
   rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
   rtd_keyvault_name    = "${local.project}-rtd-kv"
+
+  # Temporary fallback to old ingress over non-dev environments
+  ingress_load_balancer_hostname_https = var.env_short == "d" || var.env_short == "u" ? "https://${var.ingress_load_balancer_hostname}" : "http://${var.reverse_proxy_ip}"
 }

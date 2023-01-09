@@ -36,11 +36,26 @@
 | [azurerm_eventhub_consumer_group.event_hub_rtd_consumer_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/eventhub_consumer_group) | resource |
 | [azurerm_key_vault_access_policy.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.appinsights-instrumentation-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_rtd_jaas_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/2.5.1/docs/resources/release) | resource |
+| [kubernetes_config_map.rtd-blob-storage-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-file-register-projector-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-file-register-projector-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-pi-from-app-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-pi-to-app-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-split-by-pi-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-split-by-pi-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-tkm-write-update-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdenrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdfileregister](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdingestor](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdpieventprocessor](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdsenderauth](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_namespace.domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/namespace) | resource |
 | [kubernetes_namespace.system_domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/namespace) | resource |
 | [kubernetes_role_binding.deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/role_binding) | resource |
@@ -80,9 +95,16 @@
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
+| <a name="input_configmap_rtdpitoappproducer"></a> [configmap\_rtdpitoappproducer](#input\_configmap\_rtdpitoappproducer) | n/a | <pre>object({<br>    KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = number<br>  })</pre> | <pre>{<br>  "KAFKA_RTD_PI_TO_APP_PARTITION_COUNT": 1<br>}</pre> | no |
+| <a name="input_configmap_rtdsplitbypiproducer"></a> [configmap\_rtdsplitbypiproducer](#input\_configmap\_rtdsplitbypiproducer) | # Config Maps | <pre>object({<br>    KAFKA_RTD_SPLIT_PARTITION_COUNT = number<br>  })</pre> | <pre>{<br>  "KAFKA_RTD_SPLIT_PARTITION_COUNT": 1<br>}</pre> | no |
+| <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | RTD Enrolled Payment Instrument | `map(string)` | `{}` | no |
+| <a name="input_configmaps_rtdfileregister"></a> [configmaps\_rtdfileregister](#input\_configmaps\_rtdfileregister) | RTD File Register | `map(string)` | `{}` | no |
+| <a name="input_configmaps_rtdpieventprocessor"></a> [configmaps\_rtdpieventprocessor](#input\_configmaps\_rtdpieventprocessor) | RTD Payment Instrument Event Processor | `map(string)` | `{}` | no |
+| <a name="input_configmaps_rtdsenderauth"></a> [configmaps\_rtdsenderauth](#input\_configmaps\_rtdsenderauth) | RTD Sender Auth | `map(string)` | `{}` | no |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `"cstar"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
+| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    blob_storage_event_grid_integration = bool<br>    internal_api                        = bool<br>    csv_transaction_apis                = bool<br>    ingestor                            = bool<br>    file_register                       = bool<br>    enrolled_payment_instrument         = bool<br>    mongodb_storage                     = bool<br>  })</pre> | <pre>{<br>  "blob_storage_event_grid_integration": false,<br>  "csv_transaction_apis": false,<br>  "enrolled_payment_instrument": false,<br>  "file_register": false,<br>  "ingestor": false,<br>  "internal_api": false,<br>  "mongodb_storage": false<br>}</pre> | no |
 | <a name="input_enable_hpan_par_pipeline_periodic_trigger"></a> [enable\_hpan\_par\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_par\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan par pipeline | `bool` | `false` | no |
 | <a name="input_enable_hpan_pipeline_periodic_trigger"></a> [enable\_hpan\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan pipeline | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |

@@ -195,3 +195,76 @@ variable "event_hub_hubs" {
     })
   )
 }
+
+variable "enable" {
+  type = object({
+    blob_storage_event_grid_integration = bool
+    internal_api                        = bool
+    csv_transaction_apis                = bool
+    ingestor                            = bool
+    file_register                       = bool
+    enrolled_payment_instrument         = bool
+    mongodb_storage                     = bool
+  })
+  description = "Feature flags"
+  default = {
+    blob_storage_event_grid_integration = false
+    internal_api                        = false
+    csv_transaction_apis                = false
+    ingestor                            = false
+    file_register                       = false
+    enrolled_payment_instrument         = false
+    mongodb_storage                     = false
+  }
+}
+
+## Config Maps
+variable "configmap_rtdsplitbypiproducer" {
+  type = object({
+    KAFKA_RTD_SPLIT_PARTITION_COUNT = number
+  })
+  default = {
+    KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+  }
+}
+
+variable "configmap_rtdpitoappproducer" {
+  type = object({
+    KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = number
+  })
+  default = {
+    KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
+  }
+}
+
+#
+# RTD Sender Auth
+#
+variable "configmaps_rtdsenderauth" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Payment Instrument Event Processor
+#
+variable "configmaps_rtdpieventprocessor" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Enrolled Payment Instrument
+#
+variable "configmaps_rtdenrolledpaymentinstrument" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD File Register
+#
+variable "configmaps_rtdfileregister" {
+  type    = map(string)
+  default = {}
+}

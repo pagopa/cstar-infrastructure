@@ -8,14 +8,14 @@
     />
 
     <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
-      <set-url>@("http://${rtd-ingress-ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+      <set-url>@("${rtd-ingress}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
       <set-method>GET</set-method>
     </send-request>
 
     <choose>
       <when condition="@(((IResponse)context.Variables["senderCode"]).StatusCode == 200)">
       <!-- join sender codes using "," to obtain sendercode1,sendercode,etc... -->
-        <set-backend-service base-url="http://${rtd-ingress-ip}/rtdmsfileregister" />
+        <set-backend-service base-url="${rtd-ingress}/rtdmsfileregister" />
         <set-query-parameter name="senders" exists-action="override">
           <value>@(string.Join(",", ((IResponse)context.Variables["senderCode"]).Body.As<JArray>()))</value>
         </set-query-parameter>
