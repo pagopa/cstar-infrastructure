@@ -6,11 +6,12 @@ resource "azurerm_resource_group" "rg_vnet" {
 }
 
 module "vnet" {
-  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.7"
-  name                = format("%s-vnet", local.project)
-  location            = azurerm_resource_group.rg_vnet.location
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  address_space       = var.cidr_vnet
+  source               = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.7"
+  name                 = format("%s-vnet", local.project)
+  location             = azurerm_resource_group.rg_vnet.location
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  address_space        = var.cidr_vnet
+  ddos_protection_plan = var.ddos_protection_plan
 
   tags = var.tags
 
@@ -112,11 +113,12 @@ module "appgateway-snet" {
 
 # vnet integration
 module "vnet_integration" {
-  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.26"
-  name                = format("%s-integration-vnet", local.project)
-  location            = azurerm_resource_group.rg_vnet.location
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  address_space       = var.cidr_integration_vnet
+  source               = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v1.0.26"
+  name                 = format("%s-integration-vnet", local.project)
+  location             = azurerm_resource_group.rg_vnet.location
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  address_space        = var.cidr_integration_vnet
+  ddos_protection_plan = var.ddos_protection_plan
 
   tags = var.tags
 }
@@ -370,7 +372,7 @@ module "app_gw" {
     broker = {
       listener              = "issuer_acquirer"
       backend               = "apim"
-      rewrite_rule_set_name = null
+      rewrite_rule_set_name = "rewrite-rule-set-broker-api"
     }
 
     portal = {
@@ -385,6 +387,25 @@ module "app_gw" {
       rewrite_rule_set_name = null
     }
   }
+
+  rewrite_rule_sets = [
+    {
+      name = "rewrite-rule-set-broker-api"
+      rewrite_rules = [{
+        name          = "mauth-headers"
+        rule_sequence = 100
+        condition     = null
+        request_header_configurations = [
+          {
+            header_name  = "X-Client-Certificate-Verification"
+            header_value = "{var_client_certificate_verification}"
+          }
+        ]
+        response_header_configurations = []
+        url                            = null
+      }]
+    },
+  ]
 
   # TLS
   identity_ids = [azurerm_user_assigned_identity.appgateway.id]

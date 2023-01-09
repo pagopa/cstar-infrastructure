@@ -106,14 +106,14 @@ configmaps_bpdmsnotificationmanager = {
   NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXNOTIFYTRY     = "3"
   NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_MAXROW           = "2000"
   NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_RESULT_LIST      = "ORDINE ESEGUITO,KO,PRESA IN CARICO RIGETTATO"
-  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER        = "0 */5 * * * ?"
+  NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_SCHEDULER        = "-"
   NOTIFICATION_SERVICE_NOTIFY_PAYMENT_WINNERS_UPDATE_NUMBER    = "1000"
   NOTIFICATION_SERVICE_NOTIFY_WINNERS_MAXROW                   = "1000000"
   NOTIFICATION_SERVICE_NOTIFY_WINNERS_SFTP_ENABLE              = "true"
   NOTIFICATION_SERVICE_NOTIFY_WINNERS_UPDATE_STATUS_ENABLE     = "true"
   NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_DAYS_FREQUENCY = "15"
-  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER      = "0 00 12 * * ?"
-  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE     = "2022-06-06"
+  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_SCHEDULER      = "-"
+  NOTIFICATION_SERVICE_SEND_WINNERS_TWICE_WEEKS_START_DATE     = "2023-12-31"
   NOTIFICATION_SERVICE_UPDATE_AND_SEND_WINNERS_SCHEDULER       = "-"
   # Send tranfer order to Consap (end period)
   NOTIFICATION_SERVICE_UPDATE_BONIFICA_RECESSO_CITIZEN_SEARCH_DAYS = "2"
@@ -385,7 +385,7 @@ configmaps_rtddecrypter = {
 }
 
 configmaps_rtdfileregister = {
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
@@ -398,7 +398,7 @@ configmaps_rtdsenderauth = {
 configmaps_rtdenrolledpaymentinstrument = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx4g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
@@ -411,7 +411,7 @@ configmaps_rtdproducerenrolledpaymentinstrument = {
 configmaps_rtdpieventprocessor = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
 }
@@ -694,7 +694,8 @@ secrets_from_rtd_domain_kv = {
     "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
     "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
     "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"
+    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
+    "pagopa-platform-apim-api-key-primary"
   ]
 }
 
@@ -703,7 +704,7 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
-    ingestor                            = false
+    ingestor                            = true
     file_register                       = true
     enrolled_payment_instrument         = true
     mongodb_storage                     = true

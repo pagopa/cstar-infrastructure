@@ -14,6 +14,12 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
+        <set-body>@{
+            var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
+            requestToBeModified.Add(new JProperty("channel", context.Variables["senderCode"]));
+            return requestToBeModified.ToString();
+            }
+        </set-body>
         <rewrite-uri template="@("idpay/onboarding/initiative/"+ (string)context.Variables["tokenPDV"])" />
     </inbound>
     <backend>

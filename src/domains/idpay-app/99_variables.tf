@@ -187,6 +187,17 @@ variable "pm_service_base_url" {
   description = "PM Service uri. Endpoint to retrieve Payment Instruments information."
 }
 
+variable "pm_backend_url" {
+  type        = string
+  description = "Payment manager backend url (enrollment)"
+}
+
+variable "pm_timeout_sec" {
+  type        = number
+  description = "Payment manager timeout (sec)"
+  default     = 5
+}
+
 #
 # Tls Checker
 #
@@ -221,4 +232,24 @@ variable "storage_advanced_threat_protection" {
   type        = bool
   description = "Enable threat advanced protection"
   default     = false
+}
+
+#
+# RTD reverse proxy
+#
+variable "reverse_proxy_rtd" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+
+# p7m self-signed certificate
+variable "enable_p7m_self_sign" {
+  type    = bool
+  default = true
+}
+
+variable "p7m_cert_validity_hours" {
+  type    = number
+  default = 87600 # 10 year
 }

@@ -18,6 +18,10 @@ cstar_support_email            = "cstar@assistenza.pagopa.it"
 apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
 
+ddos_protection_plan = {
+  id     = "/subscriptions/0da48c97-355f-4050-a520-f11a18b8be90/resourceGroups/sec-p-ddos/providers/Microsoft.Network/ddosProtectionPlans/sec-p-ddos-protection"
+  enable = true
+}
 
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=35.df9ccf000
 cidr_vnet = ["10.1.0.0/16"]
@@ -837,7 +841,9 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "https://api.platform.pagopa.it"
+pm_backend_url      = "https://api.platform.pagopa.it"
+pagopa_platform_url = "https://api.platform.pagopa.it"
+
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
@@ -849,11 +855,18 @@ k8s_ip_filter_range = {
   to   = "10.1.127.254"
 }
 
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}
+
 redis_sku_name = "Premium"
 redis_family   = "P"
 
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip = "10.1.0.250"
+reverse_proxy_ip               = "10.1.0.250"
+ingress_load_balancer_ip       = "10.11.100.250"
+ingress_load_balancer_hostname = "prod01.rtd.internal.cstar.pagopa.it"
 
 app_gateway_sku_name                    = "WAF_v2"
 app_gateway_sku_tier                    = "WAF_v2"
@@ -888,8 +901,9 @@ enable = {
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
-    pm_wallet_ext_api                   = false
-    pm_integration                      = false
+    pm_wallet_ext_api                   = true
+    pm_integration                      = true
+    tkm_integration                     = false
   }
   fa = {
     api = true

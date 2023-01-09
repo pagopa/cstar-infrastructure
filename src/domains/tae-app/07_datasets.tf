@@ -44,7 +44,7 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
     },
     "columnDelimiter": ";",
     "encodingName": "UTF-8"
-  }     
+  }
   JSON
 
   description = "Source Aggregates sent by Acquirer"
@@ -78,7 +78,7 @@ resource "azurerm_data_factory_custom_dataset" "source_aggregate" {
     },
     {
       "name": "totalAmount",
-      "type": "Int32"
+      "type": "Int64"
     },
     {
       "name": "currency",
@@ -137,7 +137,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
     "compressionCodec": "gzip",
     "encodingName": "UTF-8",
     "quoteChar": ""
-  }     
+  }
   JSON
 
   description = "Destination Aggregates for ADE"
@@ -175,7 +175,7 @@ resource "azurerm_data_factory_custom_dataset" "destination_aggregate" {
     },
     {
       "name": "totalAmount",
-      "type": "Int32"
+      "type": "Int64"
     },
     {
       "name": "currency",
@@ -273,7 +273,7 @@ resource "azurerm_data_factory_custom_dataset" "integration_aggregates" {
     },
     {
       "name": "totalAmount",
-      "type": "Int32"
+      "type": "Int64"
     },
     {
       "name": "currency",
@@ -327,7 +327,7 @@ resource "azurerm_data_factory_custom_dataset" "source_ack" {
     "columnDelimiter": ";",
     "encodingName": "UTF-8",
     "quoteChar": ""
-  }     
+  }
   JSON
 
   description = "ACKs sent by ADE"
@@ -422,7 +422,7 @@ resource "azurerm_data_factory_custom_dataset" "wrong_fiscal_codes" {
     "encodingName": "UTF-8",
     "escapeChar": "\\",
     "quoteChar": ""
-  }     
+  }
   JSON
 
   description = "Wrong Fiscal Codes to be returned to Senders"
@@ -461,7 +461,7 @@ resource "azurerm_data_factory_custom_dataset" "aggregates_log" {
   type_properties_json = <<JSON
   {
     "table": "Aggregates"
-  }     
+  }
   JSON
 
   description = "Log of Aggregates received from Senders"
@@ -495,7 +495,7 @@ resource "azurerm_data_factory_custom_dataset" "aggregates_log" {
     },
     {
       "name": "totalAmount",
-      "type": "int"
+      "type": "long"
     },
     {
       "name": "currency",
@@ -556,7 +556,7 @@ resource "azurerm_data_factory_custom_dataset" "ack_log" {
   type_properties_json = <<JSON
   {
     "table": "Acks"
-  }     
+  }
   JSON
 
   description = "Log of Acks received from ADE"

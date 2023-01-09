@@ -1,5 +1,7 @@
 <policies>
     <inbound>
+        <!-- Fix sender code for IO API -->
+        <set-variable name="senderCode" value="APP_IO" />
         <!-- Extract Token from Authorization header parameter -->
         <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param").Split(' ').Last())" />
          <!-- The variable present in cache is the pii of the user obtaind with PDV  /-->
@@ -60,7 +62,7 @@
                                     <set-url>${pdv_tokenizer_url}/tokens</set-url>
                                     <set-method>PUT</set-method>
                                     <set-header name="x-api-key" exists-action="override">
-                                        <value>${pdv_api_key}</value>
+                                        <value>{{pdv-api-key}}</value>
                                     </set-header>
                                     <set-body>@{
                                             return new JObject(

@@ -22,15 +22,32 @@ module "idpay_api_io_product" {
     reverse_proxy_be_io = var.reverse_proxy_be_io
     appio_timeout_sec   = var.appio_timeout_sec
     pdv_tokenizer_url   = var.pdv_tokenizer_url
-    pdv_api_key         = data.azurerm_key_vault_secret.pdv_api_key.value
   })
 
   groups = ["developers"]
+
+  depends_on = [
+    azurerm_api_management_named_value.pdv_api_key
+  ]
 }
 
 data "azurerm_key_vault_secret" "pdv_api_key" {
   name         = "pdv-api-key"
   key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+resource "azurerm_api_management_named_value" "pdv_api_key" {
+
+  name                = format("%s-pdv-api-key", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  display_name = "pdv-api-key"
+  secret       = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.pdv_api_key.versionless_id
+  }
+
 }
 
 #

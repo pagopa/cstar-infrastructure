@@ -1,33 +1,32 @@
 <policies>
   <inbound>
     <base/>
-    <return-response>
-          <set-status code="200" reason="Files Report"/>
-          <set-header name="Content-Type" exists-action="override">
-            <value>application/json</value>
-          </set-header>
-          <set-body>@{
-            return new JObject(
-              new JProperty("filesRecentlyUploaded",
-                new JArray(
-                  new JObject(
-                    new JProperty("name", "ADE.12345.TRNLOG.20220129.130704.001.01.csv.pgp"),
-                    new JProperty("size", 2048),
-                    new JProperty("transmissionDate", "2022-01-29T13:08Z"),
-                    new JProperty("status", "RECEIVED_BY_PAGOPA")
-                  ),
-                  new JObject(
-                    new JProperty("name", "ADE.12345.TRNLOG.20220130.140805.001.01.csv.pgp"),
-                    new JProperty("size", 2049),
-                    new JProperty("transmissionDate", "2022-01-30T14:08Z"),
-                    new JProperty("status", "RECEIVED_BY_PAGOPA")
-                  )
-                )
-              )
-            ).ToString();
-            }
-          </set-body>
-        </return-response>
+    <set-variable name="keyHash" value="@{
+                        System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
+                        return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
+        }"
+        />
+
+        <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
+          <set-url>@("${rtd-ingress}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+          <set-method>GET</set-method>
+        </send-request>
+
+        <choose>
+          <when condition="@(((IResponse)context.Variables["senderCode"]).StatusCode == 200)">
+          <!-- join sender codes using "," to obtain sendercode1,sendercode,etc... -->
+            <set-backend-service base-url="${rtd-ingress}/rtdmsfilereporter" />
+            <set-query-parameter name="senderCodes" exists-action="override">
+              <value>@(string.Join(",", ((IResponse)context.Variables["senderCode"]).Body.As<JArray>()))</value>
+            </set-query-parameter>
+          </when>
+          <otherwise>
+            <return-response>
+              <set-status code="@(((IResponse)context.Variables["senderCode"]).StatusCode)" reason="@(((IResponse)context.Variables["senderCode"]).StatusReason)" />
+              <set-body />
+            </return-response>
+          </otherwise>
+        </choose>
   </inbound>
   <backend>
     <base/>

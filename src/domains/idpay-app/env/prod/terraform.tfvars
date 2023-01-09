@@ -60,6 +60,12 @@ eventhub_pim = {
 pdv_tokenizer_url = "https://api.tokenizer.pdv.pagopa.it/tokenizer/v1"
 
 #
+# PM
+#
+pm_service_base_url = "https://api-io.cstar.pagopa.it"
+pm_backend_url      = "https://api.platform.pagopa.it"
+
+#
 # Check IBAN
 #
 checkiban_base_url = "https://bankingservices.pagopa.it"
@@ -86,3 +92,8 @@ storage_account_replication_type   = "RAGZRS"
 storage_delete_retention_days      = 90
 storage_enable_versioning          = true
 storage_advanced_threat_protection = true
+
+#
+# RTD reverse proxy
+#
+reverse_proxy_rtd = "10.1.0.250"

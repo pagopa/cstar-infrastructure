@@ -86,6 +86,17 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_co
   index {
     keys = ["enabledApps"]
   }
+
+  index {
+    keys = ["hashPanChildren"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
+
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
@@ -131,6 +142,14 @@ resource "azurerm_cosmosdb_mongo_collection" "file_register" {
   }
 
   index {
+    keys = ["type"]
+  }
+
+  index {
+    keys = ["status"]
+  }
+
+  index {
     keys   = ["_id"]
     unique = true
   }
@@ -164,6 +183,16 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_collection" {
   index {
     keys   = ["senderCode"]
     unique = true
+  }
+
+  autoscale_settings {
+    max_throughput = 4000 # overridden via azure portal
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
   }
 
 }

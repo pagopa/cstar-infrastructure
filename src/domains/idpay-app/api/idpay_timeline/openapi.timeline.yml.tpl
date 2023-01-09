@@ -173,14 +173,17 @@ components:
         operationList:
           type: array
           items:
-            oneOf:
-              - $ref: '#/components/schemas/TransactionOperationDTO'
-              - $ref: '#/components/schemas/InstrumentOperationDTO'
-              - $ref: '#/components/schemas/RejectedInstrumentOperationDTO'
-              - $ref: '#/components/schemas/IbanOperationDTO'
-              - $ref: '#/components/schemas/OnboardingOperationDTO'
-              - $ref: '#/components/schemas/RefundOperationDTO'
+            $ref: '#/components/schemas/OperationListDTO'
           description: the list of transactions and operations of an initiative of a citizen
+    OperationListDTO:
+      description: Complex type for items in the operation list
+      oneOf:
+        - $ref: '#/components/schemas/TransactionOperationDTO'
+        - $ref: '#/components/schemas/InstrumentOperationDTO'
+        - $ref: '#/components/schemas/RejectedInstrumentOperationDTO'
+        - $ref: '#/components/schemas/IbanOperationDTO'
+        - $ref: '#/components/schemas/OnboardingOperationDTO'
+        - $ref: '#/components/schemas/RefundOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:

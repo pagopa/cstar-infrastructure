@@ -37,11 +37,17 @@ dns_zone_internal_prefix = "internal.cstar"
 external_domain          = "pagopa.it"
 
 #
-# Enable components
+# Features flags
 #
 enable = {
+  blob_storage_event_grid_integration = true
+  internal_api                        = true
+  csv_transaction_apis                = false
+  ingestor                            = true
+  file_register                       = false
+  enrolled_payment_instrument         = true
+  mongodb_storage                     = false
 }
-
 #
 # Hashpan generation pipeline related variables
 #
@@ -156,3 +162,38 @@ event_hub_hubs = [
     ]
   }
 ]
+
+#
+# Config maps
+#
+configmap_rtdsplitbypiproducer = {
+  KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+}
+
+configmap_rtdpitoappproducer = {
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
+}
+
+configmaps_rtdsenderauth = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdpieventprocessor = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdenrolledpaymentinstrument = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+  BASEURL_TOKEN_FINDER                                   = ""
+}
+
+configmaps_rtdfileregister = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}

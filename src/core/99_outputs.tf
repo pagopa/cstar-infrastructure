@@ -190,3 +190,23 @@ output "event_hub_keys" {
   description = "Map of hubs with keys => primary_key / secondary_key mapping."
   sensitive   = true
 }
+
+# Mongo db
+output "mongo_db_primary_connection_string" {
+  value       = module.cosmosdb_account_mongodb[0].connection_strings[0]
+  description = "Primary mongodb connection string"
+  sensitive   = true
+}
+
+# APIM internal subscription key
+output "rtd_internal_api_product_subscription_key" {
+  value       = azurerm_key_vault_secret.rtd_internal_api_product_subscription_key[0].value
+  description = "Subscription key for internal microservices"
+  sensitive   = true
+}
+
+
+# Public dns zone welfare
+output "dns_zone_welfare_name_servers" {
+  value = try(azurerm_dns_zone.welfare[0].name_servers, null)
+}

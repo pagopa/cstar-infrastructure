@@ -817,7 +817,9 @@ eventhubs_fa = [
 
 external_domain = "pagopa.it"
 
-pm_backend_url = "https://api.uat.platform.pagopa.it"
+pm_backend_url      = "https://api.uat.platform.pagopa.it"
+pagopa_platform_url = "https://api.uat.platform.pagopa.it"
+
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
@@ -829,8 +831,15 @@ k8s_ip_filter_range = {
   to   = "10.1.127.254"
 }
 
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}
+
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip = "10.1.0.250"
+reverse_proxy_ip               = "10.1.0.250"
+ingress_load_balancer_ip       = "10.11.100.250"
+ingress_load_balancer_hostname = "uat01.rtd.internal.uat.cstar.pagopa.it"
 
 app_gateway_sku_name                    = "Standard_v2"
 app_gateway_sku_tier                    = "Standard_v2"
@@ -863,6 +872,7 @@ enable = {
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     pm_integration                      = true
+    tkm_integration                     = false
   }
   fa = {
     api = true

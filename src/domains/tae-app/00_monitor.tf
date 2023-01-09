@@ -46,7 +46,8 @@ resource "azurerm_kusto_script" "create_tables" {
 
   script_content                     = file("scripts/create_tables.dexp")
   continue_on_errors_enabled         = true
-  force_an_update_when_value_changed = "v7" # change this version to re-execute the script
+  force_an_update_when_value_changed = "v7"
+  # change this version to re-execute the script
 }
 
 ## Alarms
@@ -92,7 +93,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   location            = data.azurerm_resource_group.monitor_rg.location
 
   evaluation_frequency = "P1D"
-  window_duration      = "P1D"
+  window_duration      = "P2D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
   severity             = 0
   criteria {
@@ -227,7 +228,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
       | where ClientType != "Browser"
       | where AppRoleName == "rtdsenderauth"
       | where OperationName == "GET /sender-code"
-      | where ResultCode == 404
+      | where ResultCode == 401
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -348,8 +349,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
-      | where httpStatus_d != 201
-      | project requestUri_s
+      | where httpStatus_d !in (201, 409)
+      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47), Container = substring(requestUri_s, 15, 61)
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -901,6 +902,217 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_a
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever a file is not created in ade/out after ${var.alerts_conf.max_days_just_into_ade_in} days."
   display_name                     = "${var.domain}-${var.env_short}-file-not-created-in-ade-out-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sas_token_endpoint" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-failed-obtain-sas-token"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where url_s startswith "https://api.cstar.pagopa.it/rtd/csv-transaction"
+      | where url_s endswith "/sas"
+      | where isRequestSuccess_b == "false"
+      | project TimeGenerated, responseCode_d, apimSubscriptionId_s, url_s
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a request to obtain SAS token for either RTD or TAE fails."
+  display_name                     = "cstar-${var.env_short}-failed-obtain-sas-token-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_on_fileregister" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-file-register-file-already-present"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtdfileregister"
+      | where SeverityLevel == 3
+      | where Message startswith "File already present"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one input file has the same name of a previously received event in file register."
+  display_name                     = "cstar-${var.env_short}-file-register-file-already-present-#ACQ"
+  enabled                          = false
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sender_ade_ack_list" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "tae-${var.env_short}-failed-get-sender-ade-ack-list"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where url_s has "file-register/sender-ade-ack"
+      | where isRequestSuccess_b == "false"
+      | project TimeGenerated, backendResponseCode_d, apimSubscriptionId_s, todynamic(errors_s)[0]["message"]
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one request done to GET sender AdE ACK list fails."
+  display_name                     = "tae-${var.env_short}-failed-get-sender-ade-ack-list-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_present_on_storage_account" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-pgp-file-already-present-on-storage-account"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where userAgent_s startswith "BatchService/"
+      | where requestUri_s startswith "/pagopastorage/"
+      | where httpMethod_s == "PUT"
+      | where httpStatus_d == 409
+      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47)
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one file upload request returns a 409 to the sender. This happens when the pgp file being uploaded has the same name as one already present"
+  display_name                     = "cstar-${var.env_short}-pgp-file-already-present-on-storage-account-#ACQ"
   enabled                          = true
 
   skip_query_validation = false

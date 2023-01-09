@@ -380,7 +380,7 @@ configmaps_rtddecrypter = {
 }
 
 configmaps_rtdfileregister = {
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
@@ -393,7 +393,7 @@ configmaps_rtdsenderauth = {
 configmaps_rtdenrolledpaymentinstrument = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
@@ -406,7 +406,7 @@ configmaps_rtdproducerenrolledpaymentinstrument = {
 configmaps_rtdpieventprocessor = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
 }
@@ -950,7 +950,8 @@ secrets_from_rtd_domain_kv = {
     "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
     "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
     "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd"
+    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
+    "pagopa-platform-apim-api-key-primary"
   ]
 }
 
@@ -959,7 +960,7 @@ enable = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
     csv_transaction_apis                = true
-    ingestor                            = false
+    ingestor                            = true
     file_register                       = false
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
