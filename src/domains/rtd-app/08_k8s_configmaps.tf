@@ -214,12 +214,11 @@ resource "kubernetes_config_map" "rtddecrypter" {
   }
 
   data = merge({
-    JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
-    APPLICATIONINSIGHTS_ROLE_NAME    = "rtddecrypter"
-    CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
-    CSV_TRANSACTION_DECRYPT_HOST     = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
-    SPLITTER_LINE_THRESHOLD          = 2000000,
-    ENABLE_CHUNK_UPLOAD              = true,
-    CONSUMER_TIMEOUT_MS              = 7200000 # 2h
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtddecrypter"
+    CSV_TRANSACTION_DECRYPT_HOST  = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    SPLITTER_LINE_THRESHOLD       = 2000000,
+    ENABLE_CHUNK_UPLOAD           = true,
+    CONSUMER_TIMEOUT_MS           = 7200000 # 2h
   }, var.configmaps_rtddecrypter)
 }
