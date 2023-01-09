@@ -415,6 +415,7 @@ components:
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
+            - ELIGIBLE
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
