@@ -1,10 +1,11 @@
 # general
-prefix         = "cstar"
-env_short      = "p"
-env            = "prod"
-domain         = "prod01"
-location       = "westeurope"
-location_short = "weu"
+prefix          = "cstar"
+env_short       = "p"
+env             = "prod"
+domain          = "prod01"
+location        = "westeurope"
+location_string = "West Europe"
+location_short  = "weu"
 
 tags = {
   CreatedBy   = "Terraform"

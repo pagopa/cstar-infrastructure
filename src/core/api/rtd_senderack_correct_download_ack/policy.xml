@@ -4,7 +4,7 @@
     <set-variable name="fileName" value="@(context.Request.MatchedParameters["fileName"])" />
 
     <send-request mode="new" response-variable-name="explicitAckResponse" timeout="60" ignore-error="true">
-      <set-url>@("http://${rtd-ingress-ip}/rtdmsfileregister/sender-ade-ack?filename="+(string)context.Variables["fileName"])</set-url>
+      <set-url>@("${rtd-ingress}/rtdmsfileregister/sender-ade-ack?filename="+(string)context.Variables["fileName"])</set-url>
       <set-method>PUT</set-method>
     </send-request>
 

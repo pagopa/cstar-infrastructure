@@ -167,10 +167,13 @@ event_hub_hubs = [
 #
 # Config maps
 #
-configmap_rtdsplitbypiconsumer = {
+configmap_rtdsplitbypiproducer = {
   KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
 }
 
+configmap_rtdpitoappproducer = {
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
+}
 
 configmaps_rtdsenderauth = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
@@ -179,6 +182,19 @@ configmaps_rtdsenderauth = {
 
 configmaps_rtdpieventprocessor = {
   JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdenrolledpaymentinstrument = {
+  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdenrolledpaymentinstrument"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+  BASEURL_TOKEN_FINDER                                   = "https://api.dev.platform.pagopa.it/tkm/tkmcardmanager/v1/"
+}
+
+configmaps_rtdfileregister = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }

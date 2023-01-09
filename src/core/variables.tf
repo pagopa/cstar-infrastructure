@@ -356,6 +356,14 @@ variable "k8s_ip_filter_range" {
   })
 }
 
+variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
 variable "cstar_support_email" {
   type        = string
   description = "Email for CSTAR support, read by the CSTAR team and Operations team"
@@ -881,5 +889,5 @@ locals {
   rtd_keyvault_name    = "${local.project}-rtd-kv"
 
   # Temporary fallback to old ingress over non-dev environments
-  ingress_load_balancer_hostname_https = var.env_short == "d" ? "https://${var.ingress_load_balancer_hostname}" : "http://${var.reverse_proxy_ip}"
+  ingress_load_balancer_hostname_https = var.env_short == "d" || var.env_short == "u" ? "https://${var.ingress_load_balancer_hostname}" : "http://${var.reverse_proxy_ip}"
 }
