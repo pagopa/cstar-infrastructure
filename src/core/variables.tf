@@ -356,6 +356,14 @@ variable "k8s_ip_filter_range" {
   })
 }
 
+variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
 variable "cstar_support_email" {
   type        = string
   description = "Email for CSTAR support, read by the CSTAR team and Operations team"
