@@ -86,6 +86,17 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_co
   index {
     keys = ["enabledApps"]
   }
+
+  index {
+    keys = ["hashPanChildren"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
+
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
