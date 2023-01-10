@@ -62,6 +62,21 @@ variable "terraform_remote_state_core" {
   })
 }
 
+variable "dns_default_ttl_sec" {
+  type        = number
+  description = "TTL record dns (sec)"
+  default     = 3600
+}
+
+variable "ns_dns_records" {
+  type = list(object({
+    name    = string
+    records = list(string)
+  }))
+  description = "ns records to delegate the dns zone into the subscription/env."
+  default     = []
+}
+
 
 variable "tags" {
   type = map(any)
