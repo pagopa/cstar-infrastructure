@@ -131,6 +131,12 @@ variable "dns_zone_prefix" {
   description = "The dns subdomain."
 }
 
+variable "dns_zone_welfare_prefix" {
+  type        = string
+  default     = null
+  description = "Public DNS zone name wellfare."
+}
+
 variable "external_domain" {
   type        = string
   default     = null
