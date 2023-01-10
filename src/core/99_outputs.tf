@@ -212,9 +212,9 @@ output "rtd_internal_api_product_subscription_key" {
 
 # Public dns zone welfare
 output "dns_zone_welfare_name_servers" {
-  value = try(azurerm_dns_zone.welfare[0].name_servers, null)
+  value = azurerm_dns_zone.welfare.name_servers
 }
 
 output "dns_zone_welfare_name" {
-  value = try(azurerm_dns_zone.welfare[0].name, null)
+  value = azurerm_dns_zone.welfare.name
 }

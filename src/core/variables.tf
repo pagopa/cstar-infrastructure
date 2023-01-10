@@ -132,8 +132,8 @@ variable "dns_zone_prefix" {
 }
 
 variable "dns_zone_welfare_prefix" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "Public DNS zone name wellfare."
 }
 

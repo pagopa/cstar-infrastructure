@@ -129,5 +129,5 @@ resource "azurerm_dns_a_record" "dns-a-managementcstar" {
 resource "azurerm_dns_zone" "welfare" {
   name                = join(".", [var.dns_zone_welfare_prefix, var.external_domain])
   resource_group_name = azurerm_resource_group.rg_vnet.name
-  tags = var.tags
+  tags                = var.tags
 }

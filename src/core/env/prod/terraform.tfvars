@@ -357,7 +357,7 @@ pgres_flex_params = {
 
 }
 
-dns_zone_prefix = "cstar"
+dns_zone_prefix         = "cstar"
 dns_zone_welfare_prefix = "welfare"
 
 cosmos_mongo_db_params = {
