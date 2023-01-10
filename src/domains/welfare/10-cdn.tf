@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_welfare" {
 module "selfcare_welfare_cdn" {
   source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v4.0.0"
 
-  name                = "welfare-selfcare"
+  name                = format("welfare-selfcare-%s", var.env_short)
   prefix              = var.prefix
   resource_group_name = azurerm_resource_group.rg_welfare.name
   location            = var.location
