@@ -450,6 +450,7 @@
 | <a name="output_container_registry_admin_password"></a> [container\_registry\_admin\_password](#output\_container\_registry\_admin\_password) | n/a |
 | <a name="output_container_registry_admin_username"></a> [container\_registry\_admin\_username](#output\_container\_registry\_admin\_username) | n/a |
 | <a name="output_container_registry_login_server"></a> [container\_registry\_login\_server](#output\_container\_registry\_login\_server) | # Container registry ## |
+| <a name="output_dns_zone_welfare_name"></a> [dns\_zone\_welfare\_name](#output\_dns\_zone\_welfare\_name) | n/a |
 | <a name="output_dns_zone_welfare_name_servers"></a> [dns\_zone\_welfare\_name\_servers](#output\_dns\_zone\_welfare\_name\_servers) | Public dns zone welfare |
 | <a name="output_event_hub_keys"></a> [event\_hub\_keys](#output\_event\_hub\_keys) | Map of hubs with keys => primary\_key / secondary\_key mapping. |
 | <a name="output_event_hub_keys_ids"></a> [event\_hub\_keys\_ids](#output\_event\_hub\_keys\_ids) | List of event hub key ids. |
@@ -470,3 +471,4 @@
 | <a name="output_rtd_internal_api_product_subscription_key"></a> [rtd\_internal\_api\_product\_subscription\_key](#output\_rtd\_internal\_api\_product\_subscription\_key) | Subscription key for internal microservices |
 | <a name="output_vnet_address_space"></a> [vnet\_address\_space](#output\_vnet\_address\_space) | n/a |
 | <a name="output_vnet_name"></a> [vnet\_name](#output\_vnet\_name) | n/a |
+| <a name="output_vnet_name_rg"></a> [vnet\_name\_rg](#output\_vnet\_name\_rg) | n/a |

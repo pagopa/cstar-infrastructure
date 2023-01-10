@@ -2,6 +2,10 @@ output "vnet_name" {
   value = module.vnet.name
 }
 
+output "vnet_name_rg" {
+  value = module.vnet.resource_group_name
+}
+
 output "vnet_address_space" {
   value = module.vnet.address_space
 }
@@ -209,4 +213,8 @@ output "rtd_internal_api_product_subscription_key" {
 # Public dns zone welfare
 output "dns_zone_welfare_name_servers" {
   value = try(azurerm_dns_zone.welfare[0].name_servers, null)
+}
+
+output "dns_zone_welfare_name" {
+  value = try(azurerm_dns_zone.welfare[0].name, null)
 }
