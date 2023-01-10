@@ -127,9 +127,7 @@ resource "azurerm_dns_a_record" "dns-a-managementcstar" {
 
 # welfare.pagopa.it
 resource "azurerm_dns_zone" "welfare" {
-  count               = var.env_short == "p" ? 1 : 0
-  name                = "welfare.pagopa.it"
+  name                = join(".", [var.dns_zone_welfare_prefix, var.external_domain])
   resource_group_name = azurerm_resource_group.rg_vnet.name
-
   tags = var.tags
 }
