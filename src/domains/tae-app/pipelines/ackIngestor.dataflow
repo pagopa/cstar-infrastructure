@@ -61,7 +61,7 @@ deleteAggregatesWithAck select(mapColumn(
 		terminalId
 	),
 	skipDuplicateMapInputs: true,
-	skipDuplicateMapOutputs: true) ~> projectOnlyIdAndttl
+	skipDuplicateMapOutputs: true) ~> projectOnlyIdTtlTerminal
 sourceAck derive(ackPipelineRun = $RunID) ~> addPipelineRunId
 joinAcksWithAggregatesOnId derive(ttl = 10) ~> addttl
 addPipelineRunId sink(allowSchemaDrift: true,
@@ -84,7 +84,7 @@ addPipelineRunId sink(allowSchemaDrift: true,
 		fileName = ackFileName,
 		pipelineRun = ackPipelineRun
 	)) ~> acksLog
-projectOnlyIdAndttl sink(allowSchemaDrift: true,
+projectOnlyIdTtlTerminal sink(allowSchemaDrift: true,
 	validateSchema: true,
 	input(
 		accountingDate as string,
