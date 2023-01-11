@@ -19,7 +19,7 @@ fi
 
 az account set -s "${env}-cstar"
 
-if echo "init plan apply refresh import output state taint destroy" | grep -w "$action" > /dev/null; then
+if echo "init plan apply refresh import output state taint destroy console" | grep -w "$action" > /dev/null; then
   if [ "$action" = "init" ]; then
     terraform "$action" -backend-config="./env/$env/backend.tfvars" $other
   elif [ "$action" = "output" ] || [ "$action" = "state" ] || [ "$action" = "taint" ]; then
