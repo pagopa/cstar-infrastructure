@@ -52,6 +52,7 @@ module "apim" {
   xml_content = templatefile("./api/base_policy.tpl", {
     portal-domain         = local.portal_domain
     management-api-domain = local.management_domain
+    cors-global-only      = var.env_short == "p" # if true only global policy will check cors, otherwise other cors policy can be defined. (UAT for FA POC)
     apim-name             = format("%s-apim", local.project)
   })
 
