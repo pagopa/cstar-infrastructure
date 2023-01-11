@@ -321,6 +321,77 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
     }
   }
 
+  log {
+    category = "SSISIntegrationRuntimeLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SSISPackageEventMessageContext"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SSISPackageEventMessages"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SSISPackageExecutableStatistics"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SSISPackageExecutionComponentPhases"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SSISPackageExecutionDataStatistics"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SandboxActivityRuns"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "SandboxPipelineRuns"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
 
   metric {
     category = "AllMetrics"
