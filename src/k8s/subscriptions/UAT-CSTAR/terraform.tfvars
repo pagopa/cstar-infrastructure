@@ -749,9 +749,3 @@ enable = {
     api = true
   }
 }
-
-eventhub_enrolled_pi = {
-  name                = "rtd-enrolled-pi"
-  namespace_name      = "cstar-u-evh-ns"
-  resource_group_name = "cstar-u-msg-rg"
-}

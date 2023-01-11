@@ -45,15 +45,6 @@ enable = {
   }
 }
 
-# Enrolled payment instrument event hub
-eventhub_pim = {
-  enrolled_pi_eventhub  = "rtd-enrolled-pi"
-  revoked_pi_eventhub   = "rtd-revoked-pi"
-  namespace_enrolled_pi = "cstar-u-evh-ns"
-  namespace_revoked_pi  = "cstar-u-evh-ns"
-  resource_group_name   = "cstar-u-msg-rg"
-}
-
 #
 # PDV
 #
