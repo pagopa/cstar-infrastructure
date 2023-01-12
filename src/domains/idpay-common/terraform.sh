@@ -24,7 +24,7 @@ source "./env/$env/backend.ini"
 
 az account set -s "${subscription}"
 
-if echo "init plan apply refresh import output state taint destroy" | grep -w "$action" > /dev/null; then
+if echo "init plan apply refresh import output state taint destroy console" | grep -w "$action" > /dev/null; then
   if [ "$action" = "init" ]; then
     echo "🧭 terraform INIT in env: ${env}"
     terraform "$action" -reconfigure -backend-config="./env/$env/backend.tfvars" $other
