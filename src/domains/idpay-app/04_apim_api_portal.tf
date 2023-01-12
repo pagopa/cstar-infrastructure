@@ -398,6 +398,10 @@ module "idpay_notification_email_api" {
     }
   ]
 
+  depends_on = [
+    azurerm_api_management_named_value.selc_external_api_key
+  ]
+
 }
 
 #
@@ -414,7 +418,7 @@ resource "azurerm_api_management_named_value" "selc_external_api_key" {
   display_name = "selc-external-api-key"
   secret       = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.selc_external_api_key_secret.id
+    secret_id = data.azurerm_key_vault_secret.selc_external_api_key_secret.versionless_id
   }
 
 }
