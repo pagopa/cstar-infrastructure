@@ -230,7 +230,7 @@ resource "kubernetes_config_map" "rtdfilereporter" {
   count = var.enable.file_reporter ? 1 : 0
 
   metadata {
-    name      = "rtdfilereporter"
+    name      = "rtd-filereporter"
     namespace = var.domain
   }
 
