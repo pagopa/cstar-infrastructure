@@ -389,3 +389,24 @@ enable = {
     eventhub_idpay_00 = true
   }
 }
+
+
+# welfare ns_records
+ns_dns_records_welfare = [
+  {
+    name = "dev"
+    records = [
+      "ns1-01.azure-dns.com",
+      "ns2-01.azure-dns.net",
+      "ns3-01.azure-dns.org",
+    "ns4-01.azure-dns.info", ]
+  },
+  {
+    name = "uat"
+    records = [
+      "ns1-05.azure-dns.com",
+      "ns2-05.azure-dns.net",
+      "ns3-05.azure-dns.org",
+    "ns4-05.azure-dns.info", ]
+  },
+]
