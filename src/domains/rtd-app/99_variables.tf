@@ -205,6 +205,7 @@ variable "enable" {
     file_register                       = bool
     enrolled_payment_instrument         = bool
     mongodb_storage                     = bool
+    file_reporter                       = bool
   })
   description = "Feature flags"
   default = {
@@ -215,6 +216,7 @@ variable "enable" {
     file_register                       = false
     enrolled_payment_instrument         = false
     mongodb_storage                     = false
+    file_reporter                       = false
   }
 }
 
