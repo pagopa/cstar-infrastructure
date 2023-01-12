@@ -226,7 +226,7 @@ resource "kubernetes_config_map" "rtddecrypter" {
 #
 # RTD File Reporter
 #
-resource "kubernetes_config_map" "rtddecrypter" {
+resource "kubernetes_config_map" "rtdfilereporter" {
   count = var.enable.file_reporter ? 1 : 0
 
   metadata {
