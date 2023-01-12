@@ -126,6 +126,21 @@ variable "dns_zone_prefix" {
   description = "The dns subdomain."
 }
 
+variable "ns_dns_records_welfare" {
+  type = list(object({
+    name    = string
+    records = list(string)
+  }))
+  description = "ns records to delegate the dns zone into the subscription/env."
+  default     = []
+}
+
+variable "dns_default_ttl_sec" {
+  type        = number
+  description = "Dns records ttl value."
+  default     = 3600
+}
+
 #CDN
 variable "robots_indexed_paths" {
   type        = list(string)
