@@ -278,3 +278,11 @@ variable "configmaps_rtddecrypter" {
   type    = map(string)
   default = {}
 }
+
+#
+# RTD File Reporter
+#
+variable "configmaps_rtdfilereporter" {
+  type    = map(string)
+  default = {}
+}
