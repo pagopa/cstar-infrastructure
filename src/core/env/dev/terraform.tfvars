@@ -359,6 +359,8 @@ pgres_flex_params = {
 
 ## DNS
 dns_zone_prefix         = "dev.cstar"
+dns_zone_welfare_prefix = "dev.welfare"
+
 internal_private_domain = "internal.dev.cstar.pagopa.it"
 dns_storage_account_tkm = {
   name = "u89blobtestaccount"

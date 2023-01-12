@@ -201,3 +201,24 @@ resource "kubernetes_config_map" "rtdfileregister" {
     },
   var.configmaps_rtdfileregister)
 }
+
+#
+# RTD Decrypter
+#
+resource "kubernetes_config_map" "rtddecrypter" {
+  count = var.enable.blob_storage_event_grid_integration ? 1 : 0
+
+  metadata {
+    name      = "rtddecrypter"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtddecrypter"
+    CSV_TRANSACTION_DECRYPT_HOST  = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    SPLITTER_LINE_THRESHOLD       = 2000000,
+    ENABLE_CHUNK_UPLOAD           = true,
+    CONSUMER_TIMEOUT_MS           = 7200000 # 2h
+  }, var.configmaps_rtddecrypter)
+}
