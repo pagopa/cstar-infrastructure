@@ -41,7 +41,7 @@ aggregates_ingestor_conf = {
 }
 
 ack_ingestor_conf = {
-  interval                     = 15
+  interval                     = 120
   frequency                    = "Minute"
   enable                       = true
   sink_thoughput_cap           = 500
