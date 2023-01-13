@@ -16,7 +16,7 @@ module "idpay_api_portal_product" {
   subscription_required = false
   approval_required     = false
 
-  subscriptions_limit = 50
+  subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/portal_api/policy_portal.xml.tpl", {
     jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name,
@@ -398,6 +398,10 @@ module "idpay_notification_email_api" {
     }
   ]
 
+  depends_on = [
+    azurerm_api_management_named_value.selc_external_api_key
+  ]
+
 }
 
 #
@@ -414,7 +418,7 @@ resource "azurerm_api_management_named_value" "selc_external_api_key" {
   display_name = "selc-external-api-key"
   secret       = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.selc_external_api_key_secret.id
+    secret_id = data.azurerm_key_vault_secret.selc_external_api_key_secret.versionless_id
   }
 
 }
