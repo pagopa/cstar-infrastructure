@@ -133,12 +133,8 @@ components:
       required:
         - iban
         - checkIbanStatus
-        - holderBank
         - description
         - channel
-        - bicCode
-        - queueDate
-        - checkIbanResponseDate
       properties:
         iban:
           type: string
@@ -150,13 +146,6 @@ components:
           type: string
         channel:
           type: string
-        bicCode:
-          type: string
-        queueDate:
-          type: string
-        checkIbanResponseDate:
-          type: string
-          format: date-time
     IbanListDTO:
       type: object
       required:
