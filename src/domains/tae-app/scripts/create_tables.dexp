@@ -2,7 +2,7 @@
     transmissionDate: datetime, accountingDate: datetime, numTrx: int, 
     totalAmount: long, currency: string, acquirerId: string, merchantId: string,
     terminalId: string, fiscalCode: string, vat: string, posType: string, 
-    fileName: string, pipelineRun: string, timestamp: datetime, totalAmount32: int)
+    fileName: string, pipelineRun: string, timestamp: datetime, valid: boolean)
 
 .create-merge table Acks(id: string, status: int, errorCode: string, fileName: string,
     pipelineRun: string)
