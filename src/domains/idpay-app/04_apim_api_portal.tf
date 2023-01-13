@@ -16,7 +16,7 @@ module "idpay_api_portal_product" {
   subscription_required = false
   approval_required     = false
 
-  subscriptions_limit = 50
+  subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/portal_api/policy_portal.xml.tpl", {
     jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.name,
