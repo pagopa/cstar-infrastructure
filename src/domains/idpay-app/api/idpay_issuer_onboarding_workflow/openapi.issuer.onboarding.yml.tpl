@@ -20,6 +20,13 @@ paths:
             example: it-IT
             default: it-IT
           required: true
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Get successful
@@ -395,6 +402,7 @@ components:
             - ONBOARDING_KO
             - ONBOARDING_OK
             - UNSUBSCRIBED
+            - ELIGIBILE_KO
             - INVITED
           type: string
           description: actual status of the citizen onboarding for an initiative
