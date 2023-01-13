@@ -57,26 +57,11 @@ addFileName select(mapColumn(
 projectSenderAdeAck filter(and(notEquals(status, 0), notEquals(status, 2))) ~> selectByStatusNotOk
 deleteAggregatesWithAck select(mapColumn(
 		id = sourceAck@id,
-		status,
-		errorCode,
-		accountingDate,
-		acquirerId,
-		currency,
-		fileName,
-		fiscalCode,
-		merchantId,
-		numTrx,
-		operationType,
-		posType,
-		senderCode,
-		terminalId,
-		totalAmount,
-		transmissionDate,
-		vat,
-		ttl
+		ttl,
+		terminalId
 	),
 	skipDuplicateMapInputs: true,
-	skipDuplicateMapOutputs: true) ~> projectOnlyOneID
+	skipDuplicateMapOutputs: true) ~> projectOnlyIdTtlTerminal
 sourceAck derive(ackPipelineRun = $RunID) ~> addPipelineRunId
 joinAcksWithAggregatesOnId derive(ttl = 10) ~> addttl
 addPipelineRunId sink(allowSchemaDrift: true,
@@ -99,7 +84,7 @@ addPipelineRunId sink(allowSchemaDrift: true,
 		fileName = ackFileName,
 		pipelineRun = ackPipelineRun
 	)) ~> acksLog
-projectOnlyOneID sink(allowSchemaDrift: true,
+projectOnlyIdTtlTerminal sink(allowSchemaDrift: true,
 	validateSchema: true,
 	input(
 		accountingDate as string,
@@ -133,23 +118,8 @@ projectOnlyOneID sink(allowSchemaDrift: true,
 	saveOrder: 2,
 	mapColumn(
 		id,
-		status,
-		errorCode,
-		accountingDate,
-		acquirerId,
-		currency,
-		fiscalCode,
-		merchantId,
-		numTrx,
-		operationType,
-		posType,
-		senderCode,
-		terminalId,
-		totalAmount,
-		transmissionDate,
-		vat,
-		fileName,
-		ttl
+		ttl,
+		terminalId
 	)) ~> aggregatesWithAck
 selectByStatusNotOk sink(allowSchemaDrift: false,
 	validateSchema: true,
