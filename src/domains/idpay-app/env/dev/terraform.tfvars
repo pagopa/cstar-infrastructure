@@ -95,3 +95,8 @@ storage_enable_versioning     = true
 # RTD reverse proxy
 #
 reverse_proxy_rtd = "10.1.0.250"
+
+#
+# SMTP Server
+#
+mail_server_host = "smtp.ethereal.email"

@@ -356,6 +356,8 @@ pgres_flex_params = {
 
 ## DNS
 dns_zone_prefix         = "uat.cstar"
+dns_zone_welfare_prefix = "uat.welfare"
+
 internal_private_domain = "internal.uat.cstar.pagopa.it"
 dns_storage_account_tkm = {
   name = "tkmstorageblobuatpci"

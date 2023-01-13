@@ -91,8 +91,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OnboardingPutDTO'
-            example:
-              initiativeId: string
       responses:
         '204':
           description: Acceptance successful
@@ -412,8 +410,10 @@ components:
             - ACCEPTED_TC
             - ON_EVALUATION
             - ONBOARDING_KO
+            - ELIGIBILE_KO
             - ONBOARDING_OK
-            - INACTIVE
+            - UNSUBSCRIBED
+            - INVITED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:

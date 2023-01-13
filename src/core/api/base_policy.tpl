@@ -1,6 +1,6 @@
 <policies>
     <inbound>
-        <cors allow-credentials="true">
+        <cors allow-credentials="true" terminate-unmatched-request="${cors-global-only}">
             <allowed-origins>
                 <origin>https://${portal-domain}</origin>
                 <origin>https://${management-api-domain}</origin>
