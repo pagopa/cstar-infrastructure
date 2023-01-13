@@ -287,9 +287,10 @@ resource "azurerm_data_factory_pipeline" "delete_aggregates_by_timestamp_pipelin
 resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_settings" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
-  name                       = "acquirer-aggregate-diagnostic-settings"
-  target_resource_id         = data.azurerm_data_factory.datafactory.id
-  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
+  name                           = "acquirer-aggregate-diagnostic-settings"
+  target_resource_id             = data.azurerm_data_factory.datafactory.id
+  log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.log_analytics.id
+  log_analytics_destination_type = "AzureDiagnostics"
 
   log {
     category       = "ActivityRuns"
