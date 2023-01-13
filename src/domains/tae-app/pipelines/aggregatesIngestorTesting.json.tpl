@@ -36,7 +36,8 @@
                     "enablePartitionDiscovery": false
                 },
                 "formatSettings": {
-                    "type": "DelimitedTextReadSettings"
+                    "type": "DelimitedTextReadSettings",
+                    "compressionProperties": null
                 }
             },
             "sink": {
