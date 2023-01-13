@@ -656,3 +656,47 @@ module "fa_api_product" {
     env_short = var.env_short
   })
 }
+
+
+module "fa_api_proxy" {
+  count  = var.env_short == "d" ? 0 : 1
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+
+  name                = format("%s-proxy-api", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+
+  description  = "FA Proxing API"
+  display_name = "FA Proxing API"
+  path         = "fa/proxy"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_proxy/openapi.yml", {
+    host = "https://httpbin.org"
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.fa_proxy_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "getIoSession"
+      xml_content = templatefile("./api/fa_proxy/get_session_policy.xml", {
+        io-backend = var.env_short == "p" ? "https://app-backend.io.italia.it/api/v1" : "http://${var.reverse_proxy_ip}/cstariobackendtest"
+      })
+    },
+    {
+      operation_id = "getWallet",
+      xml_content = templatefile("./api/fa_proxy/get_wallet_policy.xml", {
+        apim-pago-platform = var.pagopa_platform_url
+      })
+    }
+  ]
+}
