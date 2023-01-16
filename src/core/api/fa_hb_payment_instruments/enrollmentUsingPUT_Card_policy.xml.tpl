@@ -16,7 +16,7 @@
             <when condition="@(context.Request.Body != null && context.Request.Body.As<JObject>(preserveContent: true)["fiscalCode"] != null)">
                 <set-variable name="taxCode" value="@(context.Request.Body.As<JObject>(preserveContent: true)["fiscalCode"])" />
                 <set-variable name="channel" value="@(context.Request.Body.As<JObject>(preserveContent: true)["channel"])" />
-                <set-variable name="expireMonth" value="@(context.Request.Body.As<JObject>(preserveContent: true)["exprireMonth"])" />
+                <set-variable name="expireMonth" value="@(context.Request.Body.As<JObject>(preserveContent: true)["expireMonth"])" />
                 <set-variable name="expireYear" value="@(context.Request.Body.As<JObject>(preserveContent: true)["expireYear"])" />
                 <set-variable name="type" value="@(context.Request.Body.As<JObject>(preserveContent: true)["type"])" />
                 <set-variable name="holder" value="@(context.Request.Body.As<JObject>(preserveContent: true)["holder"])" />
@@ -32,9 +32,13 @@
                         <set-variable name="walletType" value="Card" />
                     </otherwise>
                 </choose>
-                <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
-                    <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
+      <set-variable name="pagopaPlatformKey" value="{{${pagopa-platform-api-key-name}}}"/>
+      <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
+                    <set-url>@("${pm-backend-url}/payment-manager/auth-rtd/v1/wallets/np-wallets")</set-url>
                     <set-method>POST</set-method>
+                    <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                      <value>@(context.Variables.GetValueOrDefault<string>("pagopaPlatformKey"))</value>
+                    </set-header>
                     <set-header name="Content-Type" exists-action="override">
                         <value>application/json</value>
                     </set-header>
@@ -53,9 +57,6 @@
                                         new JProperty("brand", context.Variables["brand"]),
                                         new JProperty("issuerAbiCode", context.Variables["issuerAbiCode"])))).ToString();
                    }</set-body>
-                    %{ if env_short != "d" ~}
-<authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-%{ endif ~}
                 </send-request>
                 <choose>
                     <when condition="@(context.Variables["hpan"] == null)">

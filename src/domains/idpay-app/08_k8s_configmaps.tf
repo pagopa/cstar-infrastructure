@@ -125,7 +125,7 @@ resource "kubernetes_config_map" "notification-email" {
   }
 
   data = {
-    mail_server_host = "smtp.ethereal.email"
-    mail_server_port = "587"
+    mail_server_host = var.mail_server_host
+    mail_server_port = var.mail_server_port
   }
 }
