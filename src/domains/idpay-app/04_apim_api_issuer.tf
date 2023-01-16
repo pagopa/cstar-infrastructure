@@ -24,6 +24,11 @@ module "idpay_api_issuer_product" {
     pdv_tokenizer_url = var.pdv_tokenizer_url
   })
 
+  groups = ["developers"]
+
+  depends_on = [
+    azurerm_api_management_named_value.pdv_api_key
+  ]
 }
 
 #
@@ -119,11 +124,10 @@ module "idpay_wallet_issuer" {
     {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_issuer_wallet/put-enroll-instrument-policy.xml.tpl", {
-        ingress_load_balancer_hostname       = var.ingress_load_balancer_hostname
-        env_short                            = var.env_short
-        pm-timeout-sec                       = var.pm_timeout_sec
-        pm-backend-url                       = var.pm_backend_url
-        bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+        pm-timeout-sec                 = var.pm_timeout_sec
+        pm-backend-url                 = var.pm_backend_url
       })
     },
     {
@@ -213,11 +217,3 @@ module "idpay_iban_io" {
 
 }
 */
-
-#
-# Key Values secret
-#
-data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
-  name         = "BPD-PM-client-certificate-thumbprint"
-  key_vault_id = data.azurerm_key_vault.kv_cstar.id
-}

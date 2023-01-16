@@ -21,9 +21,13 @@
                 <set-variable name="description" value="@(context.Request.Body.As<JObject>(preserveContent: true)["description"])" />
                 <set-variable name="additionalInfo" value="@(context.Request.Body.As<JObject>(preserveContent: true)["additionalInfo"])" />
                 <set-variable name="additionalInfo2" value="@(context.Request.Body.As<JObject>(preserveContent: true)["additionalInfo2"])" />
+                <set-variable name="pagopaPlatformKey" value="{{${pagopa-platform-api-key-name}}}"/>
                 <send-request mode="new" response-variable-name="hpan" timeout="${pm-timeout-sec}" ignore-error="true">
-                    <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/wallets/np-wallets")</set-url>
+                    <set-url>@("${pm-backend-url}/payment-manager/auth-rtd/v1/wallets/np-wallets")</set-url>
                     <set-method>POST</set-method>
+                    <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                      <value>@(context.Variables.GetValueOrDefault<string>("pagopaPlatformKey"))</value>
+                    </set-header>
                     <set-header name="Content-Type" exists-action="override">
                         <value>application/json</value>
                     </set-header>
@@ -41,9 +45,6 @@
                                        new JProperty("additionalInfo2",context.Variables["additionalInfo2"])
                                        ))).ToString();
                    }</set-body>
-                    %{ if env_short != "d" ~}
-<authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-%{ endif ~}
                 </send-request>
                 <choose>
                     <when condition="@(context.Variables["hpan"] == null)">

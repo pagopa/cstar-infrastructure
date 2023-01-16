@@ -7,12 +7,13 @@
                 <cache-lookup-value key="saltPM" variable-name="salt" caching-type="internal" />
                 <choose>
                     <when condition="@(!context.Variables.ContainsKey("salt"))">
+                        <set-variable name="pagopaPlatformKey" value="{{${pagopa-platform-api-key-name}}}"/>
                         <send-request mode="new" response-variable-name="saltPMResponse" timeout="${pm-timeout-sec}" ignore-error="true">
-                            <set-url>@("${pm-backend-url}/pp-restapi-rtd/v1/static-contents/wallets/hashing")</set-url>
+                            <set-url>@("${pm-backend-url}/payment-manager/auth-rtd/v1/static-contents/wallets/hashing")</set-url>
                             <set-method>GET</set-method>
-                            %{ if env_short != "d" ~}
-                            <authentication-certificate thumbprint="${bpd-pm-client-certificate-thumbprint}" />
-                            %{ endif ~}
+                            <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+                              <value>@(context.Variables.GetValueOrDefault<string>("pagopaPlatformKey"))</value>
+                            </set-header>
                         </send-request>
                         <choose>
                             <when condition="@(((IResponse)context.Variables["saltPMResponse"]).StatusCode != 200)">
@@ -31,10 +32,10 @@
                     System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
                     byte[] hashByte = hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes((string)context.Request.Url.Query.GetValueOrDefault("id","")+(string)context.Variables["salt"]));
 
-                    StringBuilder builder = new StringBuilder();  
-                    for (int i = 0; i < hashByte.Length; i++)  
-                    {  
-                        builder.Append(hashByte[i].ToString("x2"));  
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < hashByte.Length; i++)
+                    {
+                        builder.Append(hashByte[i].ToString("x2"));
                     }
                     return builder.ToString();
                 }" />
