@@ -398,6 +398,22 @@ locals {
         },
       ]
     },
+    {
+      name = "group_user_whitelist"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["groupId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+      ]
+    },
   ]
 }
 
