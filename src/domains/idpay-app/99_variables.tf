@@ -243,6 +243,20 @@ variable "reverse_proxy_rtd" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+#
+# SMTP Server
+#
+variable "mail_server_host" {
+  type        = string
+  description = "SMTP server hostname"
+}
+
+variable "mail_server_port" {
+  type        = string
+  default     = "587"
+  description = "SMTP server port"
+}
+
 # p7m self-signed certificate
 variable "enable_p7m_self_sign" {
   type    = bool
@@ -252,4 +266,5 @@ variable "enable_p7m_self_sign" {
 variable "p7m_cert_validity_hours" {
   type    = number
   default = 87600 # 10 year
+
 }

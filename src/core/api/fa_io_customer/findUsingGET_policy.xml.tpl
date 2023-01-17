@@ -33,7 +33,7 @@
         <choose>
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
                 <!-- Store result in cache -->
-                <cache-store-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" value="@(context.Response)" duration="86400"  />
+                <cache-store-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" value="@(context.Response)" duration="1"  />
             </when>
         </choose>
         <base />

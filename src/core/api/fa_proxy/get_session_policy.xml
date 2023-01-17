@@ -11,18 +11,25 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-    <inbound>
-        <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaypaymentinstrument" />
-        <rewrite-uri template="@("idpay/instrument/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/" + (string)context.Variables["senderCode"])" />
-    </inbound>
-    <backend>
-        <base />
-    </backend>
-    <outbound>
-        <base />
-    </outbound>
-    <on-error>
-        <base />
-    </on-error>
+  <inbound>
+    <base />
+    <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param").Split(' ').Last())" />
+    <send-request mode="new" response-variable-name="sessions" timeout="5" ignore-error="true">
+      <set-url>${io-backend}/session</set-url>
+      <set-method>GET</set-method>
+      <set-header name="Authorization" exists-action="override">
+        <value>@("Bearer " +(string)context.Variables["token"])</value>
+      </set-header>
+    </send-request>
+    <return-response response-variable-name="sessions" />
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
 </policies>
