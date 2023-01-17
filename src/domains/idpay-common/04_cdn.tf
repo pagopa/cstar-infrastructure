@@ -253,7 +253,7 @@ module "selfcare_welfare_cdn" {
   resource_group_name = azurerm_resource_group.rg_welfare.name
   location            = var.location
 
-  hostname              = "selfcare"
+  hostname              = format("selfcare.%s", data.terraform_remote_state.core.outputs.dns_zone_welfare_name)
   https_rewrite_enabled = true
   lock_enabled          = false
 
