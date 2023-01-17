@@ -179,8 +179,9 @@ resource "kubernetes_config_map" "rtdingestor" {
   }
 
   data = {
-    JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
-    CSV_INGESTOR_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    JAVA_TOOL_OPTIONS       = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_INGESTOR_HOST       = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    KAFKA_TOPIC_RTD_DLQ_TRX = "rtd-dlq-trx"
   }
 }
 
