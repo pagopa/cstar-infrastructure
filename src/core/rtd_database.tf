@@ -122,6 +122,16 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
     keys = ["senderCodes"]
   }
 
+  autoscale_settings {
+    max_throughput = 4000 # overridden via azure portal
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
+
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "file_register" {
