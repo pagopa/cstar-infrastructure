@@ -76,6 +76,9 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
     })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTPTesting.json.tpl",{
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedOnIntContainer.json.tpl",{
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
     })}]"
 
   depends_on = [
