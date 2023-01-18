@@ -3,7 +3,7 @@
     "type": "Copy",
     "dependsOn": [
         {
-            "activity": "SenderAggregatesToDatastore",
+            "activity": "Set rowsCopiedToCosmos",
             "dependencyConditions": [
                 "Succeeded"
             ]
