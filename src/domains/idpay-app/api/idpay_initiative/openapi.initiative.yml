@@ -1770,6 +1770,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
           content:
@@ -1947,8 +1953,6 @@ components:
           type: string
         organizationId:
           type: string
-        pdndToken:
-          type: string
         creationDate:
           type: string
           description: Creation Date
@@ -1959,8 +1963,6 @@ components:
           format: date-time
         status:
           type: string
-        pdndCheck:
-          type: boolean
         autocertificationCheck:
           type: boolean
         beneficiaryRanking:
@@ -2046,6 +2048,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AutomatedCriteriaDTO'
+        apiKeyClientId:
+          type: string
+        apiKeyClientAssertion:
+          type: string
     SelfCriteriaBoolDTO:
       type: object
       properties:
