@@ -9,22 +9,23 @@ info:
     IDPAY Timeline IO
 
     IDPAY Wallet IO
-  version: '1.0'
+
+  version: "1.0"
 servers:
-  - url: 'https://api-io.dev.cstar.pagopa.it/idpay'
+  - url: "https://api-io.dev.cstar.pagopa.it/idpay"
 security:
   - bearerAuth: []
 tags:
   - name: iban
-    description: ''
+    description: ""
   - name: onboarding
-    description: ''
+    description: ""
   - name: timeline
-    description: ''
+    description: ""
   - name: wallet
-    description: ''
+    description: ""
 paths:
-  '/iban/{iban}':
+  "/iban/{iban}":
     get:
       tags:
         - iban
@@ -47,45 +48,45 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IbanDTO'
-        '401':
+                $ref: "#/components/schemas/IbanDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -104,49 +105,49 @@ paths:
             default: it-IT
           required: true
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IbanListDTO'
-        '401':
+                $ref: "#/components/schemas/IbanListDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/onboarding/service/{serviceId}':
+  "/onboarding/service/{serviceId}":
     get:
       tags:
         - onboarding
@@ -167,45 +168,45 @@ paths:
             default: it-IT
           required: true
       responses:
-        '200':
+        "200":
           description: Get successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeDto'
-        '400':
+                $ref: "#/components/schemas/InitiativeDto"
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
@@ -229,54 +230,54 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OnboardingPutDTO'
+              $ref: "#/components/schemas/OnboardingPutDTO"
       responses:
-        '204':
+        "204":
           description: Acceptance successful
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
@@ -300,71 +301,71 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OnboardingPutDTO'
+              $ref: "#/components/schemas/OnboardingPutDTO"
             example:
               initiativeId: string
       responses:
-        '200':
+        "200":
           description: Check successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RequiredCriteriaDTO'
-        '202':
+                $ref: "#/components/schemas/RequiredCriteriaDTO"
+        "202":
           description: Accepted - Request Taken Over
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '403':
+        "403":
           description: This enrolment is ended or suspended
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
@@ -390,58 +391,58 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsentPutDTO'
+              $ref: "#/components/schemas/ConsentPutDTO"
       responses:
-        '202':
+        "202":
           description: Accepted - Request Taken Over
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-  '/onboarding/{initiativeId}/status':
+  "/onboarding/{initiativeId}/status":
     get:
       tags:
         - onboarding
@@ -462,51 +463,51 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Check successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OnboardingStatusDTO'
+                $ref: "#/components/schemas/OnboardingStatusDTO"
               example:
                 status: ACCEPTED_TC
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: "#/components/schemas/ErrorDto"
               example:
                 code: 0
                 message: string
-  '/timeline/{initiativeId}':
+  "/timeline/{initiativeId}":
     get:
       tags:
         - timeline
@@ -540,53 +541,53 @@ paths:
             type: integer
         - name: size
           in: query
-          description: 'Number of items, default 3 - max 10'
+          description: "Number of items, default 3 - max 10"
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimelineDTO'
-        '401':
+                $ref: "#/components/schemas/TimelineDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/timeline/{initiativeId}/{operationId}':
+  "/timeline/{initiativeId}/{operationId}":
     get:
       tags:
         - timeline
@@ -613,50 +614,50 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/TransactionDetailDTO'
-                  - $ref: '#/components/schemas/InstrumentOperationDTO'
-                  - $ref: '#/components/schemas/IbanOperationDTO'
-                  - $ref: '#/components/schemas/OnboardingOperationDTO'
-                  - $ref: '#/components/schemas/RefundOperationDTO'
-        '401':
+                  - $ref: "#/components/schemas/TransactionDetailDTO"
+                  - $ref: "#/components/schemas/InstrumentOperationDTO"
+                  - $ref: "#/components/schemas/IbanOperationDTO"
+                  - $ref: "#/components/schemas/OnboardingOperationDTO"
+                  - $ref: "#/components/schemas/RefundOperationDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -675,40 +676,40 @@ paths:
             default: it-IT
           required: true
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WalletDTO'
-        '401':
+                $ref: "#/components/schemas/WalletDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}':
+  "/wallet/{initiativeId}":
     get:
       tags:
         - wallet
@@ -729,49 +730,49 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeDTO'
-        '401':
+                $ref: "#/components/schemas/InitiativeDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/iban':
+  "/wallet/{initiativeId}/iban":
     put:
       tags:
         - wallet
@@ -792,74 +793,74 @@ paths:
           schema:
             type: string
       requestBody:
-        description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
+        description: "Unique identifier of the subscribed initiative, IBAN of the citizen"
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IbanPutDTO'
+              $ref: "#/components/schemas/IbanPutDTO"
             example:
               iban: string
               description: string
       responses:
-        '200':
+        "200":
           description: Enrollment OK
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/instruments/{idWallet}':
+  "/wallet/{initiativeId}/instruments/{idWallet}":
     put:
       tags:
         - wallet
@@ -886,65 +887,65 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Enrollment OK
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/instruments':
+  "/wallet/{initiativeId}/instruments":
     get:
       tags:
         - wallet
@@ -967,49 +968,49 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InstrumentListDTO'
-        '401':
+                $ref: "#/components/schemas/InstrumentListDTO"
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/instruments/{instrumentId}':
+  "/wallet/{initiativeId}/instruments/{instrumentId}":
     delete:
       tags:
         - wallet
@@ -1031,70 +1032,70 @@ paths:
             type: string
         - name: instrumentId
           in: path
-          description: 'A unique id, internally detached, which identifies a payment method'
+          description: "A unique id, internally detached, which identifies a payment method"
           required: true
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Delete OK
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/unsubscribe':
+  "/wallet/{initiativeId}/unsubscribe":
     delete:
       tags:
         - wallet
@@ -1115,65 +1116,65 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Unsubscribe OK
           content:
             application/json: {}
-        '400':
+        "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/status':
+  "/wallet/{initiativeId}/status":
     get:
       tags:
         - wallet
@@ -1194,56 +1195,56 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Check successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WalletStatusDTO'
+                $ref: "#/components/schemas/WalletStatusDTO"
               example:
                 status: NOT_REFUNDABLE_ONLY_IBAN
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '401':
+        "401":
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '404':
+        "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '429':
+        "429":
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
-        '500':
+        "500":
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -1286,7 +1287,7 @@ components:
         ibanList:
           type: array
           items:
-            $ref: '#/components/schemas/IbanDTO'
+            $ref: "#/components/schemas/IbanDTO"
           description: The list of iban of a citizen
     ErrorDTO:
       type: object
@@ -1316,12 +1317,12 @@ components:
         selfDeclarationList:
           type: array
           items:
-            $ref: '#/components/schemas/SelfConsentDTO'
+            $ref: "#/components/schemas/SelfConsentDTO"
           description: The list of accepted self-declared criteria
     SelfConsentDTO:
       oneOf:
-        - $ref: '#/components/schemas/SelfConsentBoolDTO'
-        - $ref: '#/components/schemas/SelfConsentMultiDTO'
+        - $ref: "#/components/schemas/SelfConsentBoolDTO"
+        - $ref: "#/components/schemas/SelfConsentMultiDTO"
     OnboardingPutDTO:
       title: OnboardingPutDTO
       type: object
@@ -1357,17 +1358,17 @@ components:
         pdndCriteria:
           type: array
           items:
-            $ref: '#/components/schemas/PDNDCriteriaDTO'
+            $ref: "#/components/schemas/PDNDCriteriaDTO"
           description: The list of control made with PDND platform
         selfDeclarationList:
           type: array
           items:
-            $ref: '#/components/schemas/SelfDeclarationDTO'
+            $ref: "#/components/schemas/SelfDeclarationDTO"
           description: The list of required self-declared criteria
     SelfDeclarationDTO:
       oneOf:
-        - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
-        - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
+        - $ref: "#/components/schemas/SelfDeclarationBoolDTO"
+        - $ref: "#/components/schemas/SelfDeclarationMultiDTO"
     PDNDCriteriaDTO:
       type: object
       required:
@@ -1496,19 +1497,19 @@ components:
         operationList:
           type: array
           items:
-            $ref: '#/components/schemas/OperationListDTO'
+            $ref: "#/components/schemas/OperationListDTO"
           description: >-
             the list of transactions and operations of an initiative of a
             citizen
     OperationListDTO:
       description: Complex type for items in the operation list
       oneOf:
-        - $ref: '#/components/schemas/TransactionOperationDTO'
-        - $ref: '#/components/schemas/InstrumentOperationDTO'
-        - $ref: '#/components/schemas/RejectedInstrumentOperationDTO'
-        - $ref: '#/components/schemas/IbanOperationDTO'
-        - $ref: '#/components/schemas/OnboardingOperationDTO'
-        - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: "#/components/schemas/TransactionOperationDTO"
+        - $ref: "#/components/schemas/InstrumentOperationDTO"
+        - $ref: "#/components/schemas/RejectedInstrumentOperationDTO"
+        - $ref: "#/components/schemas/IbanOperationDTO"
+        - $ref: "#/components/schemas/OnboardingOperationDTO"
+        - $ref: "#/components/schemas/RefundOperationDTO"
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -1732,7 +1733,7 @@ components:
         initiativeList:
           type: array
           items:
-            $ref: '#/components/schemas/InitiativeDTO'
+            $ref: "#/components/schemas/InitiativeDTO"
           description: The list of active initiatives of a citizen
     InstrumentListDTO:
       type: object
@@ -1742,7 +1743,7 @@ components:
         instrumentList:
           type: array
           items:
-            $ref: '#/components/schemas/InstrumentDTO'
+            $ref: "#/components/schemas/InstrumentDTO"
           description: >-
             The list of payment instruments associated to the initiative by the
             citizen
@@ -1765,7 +1766,7 @@ components:
           type: string
         brandLogo:
           type: string
-          description: 'Card''s brand as mastercard, visa, ecc.'
+          description: "Card's brand as mastercard, visa, ecc."
         status:
           enum:
             - ACTIVE
