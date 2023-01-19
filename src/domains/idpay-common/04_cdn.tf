@@ -244,15 +244,16 @@ resource "azurerm_resource_group" "rg_welfare" {
   tags     = var.tags
 }
 
+
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v4.0.0"
+  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v4.2.1"
 
   name                = format("welfare-selfcare-%s", var.env_short)
   prefix              = var.prefix
   resource_group_name = azurerm_resource_group.rg_welfare.name
   location            = var.location
 
-  hostname              = "selfcare"
+  hostname              = format("selfcare.%s", data.terraform_remote_state.core.outputs.dns_zone_welfare_name)
   https_rewrite_enabled = true
   lock_enabled          = false
 
@@ -261,6 +262,10 @@ module "selfcare_welfare_cdn" {
 
   dns_zone_name                = data.terraform_remote_state.core.outputs.dns_zone_welfare_name
   dns_zone_resource_group_name = data.terraform_remote_state.core.outputs.vnet_name_rg
+
+  keyvault_resource_group_name = module.key_vault_idpay.resource_group_name
+  keyvault_subscription_id     = data.azurerm_subscription.current.subscription_id
+  keyvault_vault_name          = module.key_vault_idpay.name
 
   querystring_caching_behaviour = "BypassCaching"
 

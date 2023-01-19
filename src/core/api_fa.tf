@@ -510,11 +510,12 @@ module "fa_io_merchant_original" {
 
   service_url = format("http://%s/famsmerchant/fa/merchant", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/fa_io_merchant/swagger.json.tpl", {
+  content_format = "openapi"
+  content_value = templatefile("./api/fa_io_merchant/swagger.yaml", {
     host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
   })
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = var.env_short != "d" ? file("./api/fa_io_customer/bypass_cors_policy.xml") : file("./api/base_policy.xml")
 
   product_ids           = var.env_short == "d" ? [module.app_io_product.product_id, module.fa_api_product.product_id] : [module.app_io_product.product_id]
   subscription_required = true
@@ -523,6 +524,12 @@ module "fa_io_merchant_original" {
     {
       operation_id = "onboardingMerchantByIOUsingPut"
       xml_content = templatefile("./api/fa_io_merchant/onboardingMerchantByIOUsingPut_policy.xml.tpl", {
+        reverse-proxy-ip = var.reverse_proxy_ip
+      })
+    },
+    {
+      operation_id = "getMerchantByShopId"
+      xml_content = templatefile("./api/fa_io_merchant/getMerchantDetails.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     }
