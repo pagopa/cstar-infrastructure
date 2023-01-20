@@ -117,11 +117,7 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/TransactionDetailDTO'
-                  - $ref: '#/components/schemas/InstrumentOperationDTO'
-                  - $ref: '#/components/schemas/IbanOperationDTO'
-                  - $ref: '#/components/schemas/OnboardingOperationDTO'
-                  - $ref: '#/components/schemas/RefundOperationDTO'
+                  - $ref: '#/components/schemas/OperationDTO'
         '401':
           description: Authentication failed
           content:
@@ -160,6 +156,13 @@ paths:
                 message: string
 components:
   schemas:
+    OperationDTO:
+      oneOf:
+        - $ref: '#/components/schemas/TransactionDetailDTO'
+        - $ref: '#/components/schemas/InstrumentOperationDTO'
+        - $ref: '#/components/schemas/IbanOperationDTO'
+        - $ref: '#/components/schemas/OnboardingOperationDTO'
+        - $ref: '#/components/schemas/RefundOperationDTO'
     TimelineDTO:
       type: object
       required:
