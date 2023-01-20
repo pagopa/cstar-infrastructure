@@ -20,6 +20,14 @@ resource "azurerm_data_factory" "data_factory" {
   tags = var.tags
 }
 
+resource "azurerm_data_factory_integration_runtime_azure" "autoresolve" {
+  name                    = "AutoResolveIntegrationRuntime"
+  resource_group_name     = azurerm_resource_group.data_factory_rg.name 
+  data_factory_id         = azurerm_data_factory.data_factory.id
+  location                = "AutoResolve"
+  virtual_network_enabled = true
+}
+
 resource "azurerm_private_endpoint" "data_factory_pe" {
 
   name                = format("%s-pe", azurerm_data_factory.data_factory.name)
