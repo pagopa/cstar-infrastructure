@@ -7,7 +7,7 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
     file = "myFile"
   }
   variables = {
-    rowsCopiedToCosmos  = ""
+    rowsCopiedToCosmos = ""
   }
   activities_json = templatefile("pipelines/aggregatesIngestor.json.tpl", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
@@ -59,7 +59,7 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
     file = "myFile"
   }
   variables = {
-    rowsCopiedToCosmos  = ""
+    rowsCopiedToCosmos = ""
   }
   activities_json = templatefile("pipelines/aggregatesIngestorTesting.json.tpl", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
