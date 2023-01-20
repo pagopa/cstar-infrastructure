@@ -116,8 +116,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/OperationDTO'
+                $ref: '#/components/schemas/OperationDTO'
         '401':
           description: Authentication failed
           content:
