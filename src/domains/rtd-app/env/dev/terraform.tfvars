@@ -207,7 +207,7 @@ configmaps_rtddecrypter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
-configmaps_rtdfilereport = {
+configmaps_rtdfilereporter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
