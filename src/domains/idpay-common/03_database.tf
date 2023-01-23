@@ -409,14 +409,17 @@ locals {
           unique = false
         },
         {
-          keys   = ["userId"]
-          unique = false
-        },
-        {
           keys   = ["initiativeId"]
           unique = false
         },
       ]
+    },
+    {
+      name = "custom_sequence"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+      }]
     },
   ]
 }
