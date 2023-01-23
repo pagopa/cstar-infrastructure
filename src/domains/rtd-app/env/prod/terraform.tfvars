@@ -47,7 +47,7 @@ enable = {
   file_register                       = false
   enrolled_payment_instrument         = true
   mongodb_storage                     = false
-  file_reporter                       = false
+  file_reporter                       = true
 }
 #
 # Hashpan generation pipeline related variables
