@@ -101,6 +101,7 @@
 | <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | RTD Decrypter | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | RTD Enrolled Payment Instrument | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdfileregister"></a> [configmaps\_rtdfileregister](#input\_configmaps\_rtdfileregister) | RTD File Register | `map(string)` | `{}` | no |
+| <a name="input_configmaps_rtdingestor"></a> [configmaps\_rtdingestor](#input\_configmaps\_rtdingestor) | RTD Ingestor | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdpieventprocessor"></a> [configmaps\_rtdpieventprocessor](#input\_configmaps\_rtdpieventprocessor) | RTD Payment Instrument Event Processor | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdsenderauth"></a> [configmaps\_rtdsenderauth](#input\_configmaps\_rtdsenderauth) | RTD Sender Auth | `map(string)` | `{}` | no |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |

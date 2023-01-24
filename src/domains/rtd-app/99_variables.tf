@@ -262,6 +262,14 @@ variable "configmaps_rtdenrolledpaymentinstrument" {
 }
 
 #
+# RTD Ingestor
+#
+variable "configmaps_rtdingestor" {
+  type    = map(string)
+  default = {}
+}
+
+#
 # RTD File Register
 #
 variable "configmaps_rtdfileregister" {
