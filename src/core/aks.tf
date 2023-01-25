@@ -5,28 +5,43 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.0.10"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v4.3.0"
 
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
   resource_group_name        = azurerm_resource_group.rg_aks.name
-  availability_zones         = var.aks_availability_zones
+  //availability_zones         = var.aks_availability_zones
   kubernetes_version         = var.kubernetes_version
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  vm_size             = var.aks_vm_size
-  node_count          = var.aks_node_count
-  enable_auto_scaling = var.aks_enable_auto_scaling
-  min_count           = var.aks_min_node_count
-  max_count           = var.aks_max_node_count
+  // Please note the user pool is disabled so all the following settings are ignored
+  user_node_pool_enabled = false
+  user_node_pool_name = ""
+  user_node_pool_os_disk_size_gb = 1
+  user_node_pool_node_count_min=0
+  user_node_pool_node_count_max=0
+  user_node_pool_vm_size=""
+
+  // Default node pool is controlled as system node pool
+  system_node_pool_os_disk_size_gb = 128
+  system_node_pool_max_pods = var.env_short == "d" ? 100 : 30
+  system_node_pool_name = "default"
+  system_node_pool_enable_host_encryption=false
+  system_node_pool_only_critical_addons_enabled=false
+  system_node_pool_os_disk_type="Managed"
+  system_node_pool_vm_size             = var.aks_vm_size
+  system_node_pool_node_count_min           = var.aks_min_node_count
+  system_node_pool_node_count_max          = var.aks_max_node_count
+
   sku_tier            = var.aks_sku_tier
-  max_pods            = var.env_short == "d" ? 100 : 30
 
   private_cluster_enabled = true
 
   rbac_enabled        = true
   aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
+  addon_azure_policy_enabled = var.env_short != "p"? false : true
+  addon_azure_pod_identity_enabled=false
 
   vnet_id        = module.vnet.id
   vnet_subnet_id = module.k8s_snet.id
@@ -40,7 +55,6 @@ module "aks" {
     service_cidr       = "10.2.0.0/16"
   }
 
-  metric_alerts = var.aks_metric_alerts
   action = [
     {
       action_group_id    = azurerm_monitor_action_group.slack.id

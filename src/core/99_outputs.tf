@@ -33,14 +33,14 @@ output "aks_private_fqdn" {
   value = module.aks.private_fqdn
 }
 
-output "aks_client_certificate" {
-  value = module.aks.client_certificate
-}
+# output "aks_client_certificate" {
+#   value = module.aks.client_certificate
+# }
 
-output "aks_kube_config" {
-  value     = module.aks.kube_config
-  sensitive = true
-}
+# output "aks_kube_config" {
+#   value     = module.aks.kube_config
+#   sensitive = true
+# }
 
 output "aks_outbound_ips" {
   value = azurerm_public_ip.aks_outbound.*.ip_address
