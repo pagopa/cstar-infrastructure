@@ -255,18 +255,20 @@ resource "null_resource" "upload_tc_pdf" {
 # Storage account to store backups: mainly api management
 module "backupstorage" {
   count  = var.env_short == "p" ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
 
-  name                     = replace(format("%s-backupstorage", local.project), "-", "")
-  account_kind             = "BlobStorage"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  access_tier              = "Cool"
-  enable_versioning        = true
-  versioning_name          = "versioning"
-  resource_group_name      = azurerm_resource_group.rg_storage.name
-  location                 = var.location
-  allow_blob_public_access = false
+  name                          = replace(format("%s-backupstorage", local.project), "-", "")
+  account_kind                  = "BlobStorage"
+  account_tier                  = "Standard"
+  account_replication_type      = "GRS"
+  access_tier                   = "Cool"
+  enable_versioning             = true
+  versioning_name               = "versioning"
+  resource_group_name           = azurerm_resource_group.rg_storage.name
+  location                      = var.location
+  allow_blob_public_access      = false
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   tags = var.tags
 }

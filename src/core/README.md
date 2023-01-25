@@ -505,7 +505,7 @@
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent | v1.0.57 |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.3 |
-| <a name="module_backupstorage"></a> [backupstorage](#module\_backupstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v2.1.26 |
+| <a name="module_backupstorage"></a> [backupstorage](#module\_backupstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v4.3.0 |
 | <a name="module_batch_api_product"></a> [batch\_api\_product](#module\_batch\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
 | <a name="module_bpd_api_product"></a> [bpd\_api\_product](#module\_bpd\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
 | <a name="module_bpd_io_award_period_original"></a> [bpd\_io\_award\_period\_original](#module\_bpd\_io\_award\_period\_original) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.0.23 |
