@@ -518,7 +518,7 @@
 | <a name="module_container_registry_common"></a> [container\_registry\_common](#module\_container\_registry\_common) | git::https://github.com/pagopa/azurerm.git//container_registry | v2.16.0 |
 | <a name="module_cosmos_mongodb_snet"></a> [cosmos\_mongodb\_snet](#module\_cosmos\_mongodb\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.1.14 |
 | <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/azurerm.git//cosmosdb_account | v2.15.1 |
-| <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v2.1.26 |
+| <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v4.3.0 |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.18.10 |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub | v1.0.70 |
@@ -572,7 +572,7 @@
 | <a name="module_rtd_senderack_correct_download_ack"></a> [rtd\_senderack\_correct\_download\_ack](#module\_rtd\_senderack\_correct\_download\_ack) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.3 |
 | <a name="module_rtd_senderack_download_file"></a> [rtd\_senderack\_download\_file](#module\_rtd\_senderack\_download\_file) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.18.3 |
 | <a name="module_rtd_senderadeack_filename_list"></a> [rtd\_senderadeack\_filename\_list](#module\_rtd\_senderadeack\_filename\_list) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.16.0 |
-| <a name="module_sftp"></a> [sftp](#module\_sftp) | git::https://github.com/pagopa/azurerm.git//storage_account | v2.18.0 |
+| <a name="module_sftp"></a> [sftp](#module\_sftp) | git::https://github.com/pagopa/azurerm.git//storage_account | v4.3.0 |
 | <a name="module_storage_account_snet"></a> [storage\_account\_snet](#module\_storage\_account\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.1.13 |
 | <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network | v1.0.7 |
 | <a name="module_vnet_aks"></a> [vnet\_aks](#module\_vnet\_aks) | git::https://github.com/pagopa/azurerm.git//virtual_network | v2.16.0 |

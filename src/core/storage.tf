@@ -33,28 +33,19 @@ resource "azurerm_storage_container" "psql_state" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
 
-  name                     = replace(format("%s-blobstorage", local.project), "-", "")
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  access_tier              = "Hot"
-  enable_versioning        = false
-  resource_group_name      = azurerm_resource_group.rg_storage.name
-  location                 = var.location
-  allow_blob_public_access = false
-
-  # Must be added is a subsequent PR, since it inhibits terraform access to containers state
-
-  # network_rules = {
-
-  #   default_action             = "Deny"
-  #   bypass                     = ["Metrics", "AzureServices"]
-  #   ip_rules                   = []
-  #   virtual_network_subnet_ids = [module.apim_snet.id]
-  # }
-
+  name                          = replace(format("%s-blobstorage", local.project), "-", "")
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  access_tier                   = "Hot"
+  enable_versioning             = false
+  resource_group_name           = azurerm_resource_group.rg_storage.name
+  location                      = var.location
+  allow_blob_public_access      = false
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   tags = var.tags
 }
