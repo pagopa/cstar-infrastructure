@@ -99,7 +99,8 @@
         "enablePartitionDiscovery": false
       },
       "formatSettings": {
-        "type": "BinaryReadSettings"
+        "type": "BinaryReadSettings",
+        "compressionProperties": null
       }
     }
   },
@@ -144,7 +145,8 @@
                 "deleteFilesAfterCompletion": false
               },
               "formatSettings": {
-                "type": "BinaryReadSettings"
+                "type": "BinaryReadSettings",
+                "compressionProperties": null
               }
             },
             "sink": {
