@@ -395,7 +395,7 @@ module "app_gw" {
       rewrite_rules = [{
         name          = "mauth-headers"
         rule_sequence = 100
-        conditions     = []
+        conditions    = []
         request_header_configurations = [
           {
             header_name  = "X-Client-Certificate-Verification"
@@ -733,7 +733,7 @@ module "app_gw_maz" {
       rewrite_rules = [{
         name          = "mauth-headers"
         rule_sequence = 100
-        conditions     = []
+        conditions    = []
         request_header_configurations = [
           {
             header_name  = "X-Client-Certificate-Verification"
