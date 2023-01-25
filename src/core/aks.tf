@@ -5,13 +5,13 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v4.3.0"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v4.3.1"
 
   name                = format("%s-aks", local.project)
   location            = azurerm_resource_group.rg_aks.location
   dns_prefix          = format("%s-aks", local.project)
   resource_group_name = azurerm_resource_group.rg_aks.name
-  //availability_zones         = var.aks_availability_zones
+
   kubernetes_version         = var.kubernetes_version
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
@@ -33,6 +33,7 @@ module "aks" {
   system_node_pool_vm_size                      = var.aks_vm_size
   system_node_pool_node_count_min               = var.aks_min_node_count
   system_node_pool_node_count_max               = var.aks_max_node_count
+  system_node_pool_availability_zones           = var.aks_availability_zones
 
   sku_tier = var.aks_sku_tier
 
@@ -40,7 +41,7 @@ module "aks" {
 
   rbac_enabled                     = true
   aad_admin_group_ids              = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
-  addon_azure_policy_enabled       = var.env_short != "p" ? false : true
+  addon_azure_policy_enabled       = var.env_short != "d" ? true : false
   addon_azure_pod_identity_enabled = false
 
   vnet_id        = module.vnet.id
