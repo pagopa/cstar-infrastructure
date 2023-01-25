@@ -95,6 +95,10 @@ output "app_gateway_public_ip" {
   value = azurerm_public_ip.apigateway_public_ip.ip_address
 }
 
+output "app_gateway_maz_public_ip" {
+  value = azurerm_public_ip.appgateway_public_ip.ip_addresses
+}
+
 output "app_gateway_fqdn" {
   value = azurerm_public_ip.apigateway_public_ip.fqdn
 }
