@@ -76,7 +76,7 @@ event_hub_hubs = [
   {
     name       = "rtd-pi-to-app"
     retention  = 7
-    partitions = 1
+    partitions = 8
     consumers = [
       "rtd-pi-to-app-consumer-group"
     ]
@@ -98,7 +98,7 @@ event_hub_hubs = [
   {
     name       = "rtd-pi-from-app"
     retention  = 7
-    partitions = 1
+    partitions = 8
     consumers = [
       "rtd-pi-from-app-consumer-group"
     ]
@@ -120,7 +120,7 @@ event_hub_hubs = [
   {
     name       = "rtd-split-by-pi"
     retention  = 7
-    partitions = 1
+    partitions = 8
     consumers = [
       "rtd-split-by-pi-consumer-group"
     ]
