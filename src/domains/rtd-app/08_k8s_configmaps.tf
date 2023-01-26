@@ -223,3 +223,20 @@ resource "kubernetes_config_map" "rtddecrypter" {
     CONSUMER_TIMEOUT_MS           = 7200000 # 2h
   }, var.configmaps_rtddecrypter)
 }
+
+#
+# RTD File Reporter
+#
+resource "kubernetes_config_map" "rtdfilereporter" {
+  count = var.enable.file_reporter ? 1 : 0
+
+  metadata {
+    name      = "rtd-filereporter"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdfilereporter"
+  }, var.configmaps_rtdfilereporter)
+}
