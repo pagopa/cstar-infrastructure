@@ -167,11 +167,11 @@ event_hub_hubs = [
 # Config maps
 #
 configmap_rtdsplitbypiproducer = {
-  KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+  KAFKA_RTD_SPLIT_PARTITION_COUNT = 8
 }
 
 configmap_rtdpitoappproducer = {
-  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 8
 }
 
 configmaps_rtdsenderauth = {

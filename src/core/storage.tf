@@ -4,20 +4,22 @@ resource "azurerm_resource_group" "rg_storage" {
   tags     = var.tags
 }
 
-## Storage account to save psql terraform state
+# Storage account to save psql terraform state
 module "psql_storage_account_terraform_state" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.1"
 
   name            = replace(format("%s-sapsqlinfra", local.project), "-", "")
   versioning_name = format("%s-sa-psqlinfra-versioning", local.project)
 
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  access_tier              = "Hot"
-  enable_versioning        = true
-  resource_group_name      = azurerm_resource_group.db_rg.name
-  location                 = var.location
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = "GRS"
+  access_tier                   = "Hot"
+  enable_versioning             = true
+  resource_group_name           = azurerm_resource_group.db_rg.name
+  location                      = var.location
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   tags = var.tags
 }
@@ -186,18 +188,20 @@ resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
 
 ## Storage account to save logs
 module "operations_logs" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.1"
 
   name                = replace(format("%s-sa-ops-logs", local.project), "-", "")
   versioning_name     = format("%s-sa-ops-versioning", local.project)
   resource_group_name = azurerm_resource_group.rg_storage.name
   location            = var.location
 
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  access_tier              = "Hot"
-  enable_versioning        = true
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = "GRS"
+  access_tier                   = "Hot"
+  enable_versioning             = true
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   lock_enabled = true
   lock_name    = "storage-logs"
