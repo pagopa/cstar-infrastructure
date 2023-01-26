@@ -10,16 +10,6 @@ output "vnet_address_space" {
   value = module.vnet.address_space
 }
 
-## nat gateway.
-/*
-output "nat_gateway_public_ip_address" {
-  value = module.nat_gateway.public_ip_address
-}
-
-output "nat_gateway_public_ip_fqdn" {
-  value = module.nat_gateway.public_ip_fqdn
-}
-*/
 
 output "aks_cluster_name" {
   value = module.aks.name
@@ -31,15 +21,6 @@ output "aks_fqdn" {
 
 output "aks_private_fqdn" {
   value = module.aks.private_fqdn
-}
-
-output "aks_client_certificate" {
-  value = module.aks.client_certificate
-}
-
-output "aks_kube_config" {
-  value     = module.aks.kube_config
-  sensitive = true
 }
 
 output "aks_outbound_ips" {
