@@ -4,20 +4,22 @@ resource "azurerm_resource_group" "rg_storage" {
   tags     = var.tags
 }
 
-## Storage account to save psql terraform state
+# Storage account to save psql terraform state
 module "psql_storage_account_terraform_state" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.5"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.1"
 
   name            = replace(format("%s-sapsqlinfra", local.project), "-", "")
   versioning_name = format("%s-sa-psqlinfra-versioning", local.project)
 
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  access_tier              = "Hot"
-  enable_versioning        = true
-  resource_group_name      = azurerm_resource_group.db_rg.name
-  location                 = var.location
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = "GRS"
+  access_tier                   = "Hot"
+  enable_versioning             = true
+  resource_group_name           = azurerm_resource_group.db_rg.name
+  location                      = var.location
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   tags = var.tags
 }
@@ -33,28 +35,19 @@ resource "azurerm_storage_container" "psql_state" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
 
-  name                     = replace(format("%s-blobstorage", local.project), "-", "")
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  access_tier              = "Hot"
-  enable_versioning        = false
-  resource_group_name      = azurerm_resource_group.rg_storage.name
-  location                 = var.location
-  allow_blob_public_access = false
-
-  # Must be added is a subsequent PR, since it inhibits terraform access to containers state
-
-  # network_rules = {
-
-  #   default_action             = "Deny"
-  #   bypass                     = ["Metrics", "AzureServices"]
-  #   ip_rules                   = []
-  #   virtual_network_subnet_ids = [module.apim_snet.id]
-  # }
-
+  name                          = replace(format("%s-blobstorage", local.project), "-", "")
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  access_tier                   = "Hot"
+  enable_versioning             = false
+  resource_group_name           = azurerm_resource_group.rg_storage.name
+  location                      = var.location
+  allow_blob_public_access      = false
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   tags = var.tags
 }
@@ -195,18 +188,20 @@ resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
 
 ## Storage account to save logs
 module "operations_logs" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v1.0.7"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.1"
 
   name                = replace(format("%s-sa-ops-logs", local.project), "-", "")
   versioning_name     = format("%s-sa-ops-versioning", local.project)
   resource_group_name = azurerm_resource_group.rg_storage.name
   location            = var.location
 
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  access_tier              = "Hot"
-  enable_versioning        = true
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = "GRS"
+  access_tier                   = "Hot"
+  enable_versioning             = true
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   lock_enabled = true
   lock_name    = "storage-logs"
@@ -264,18 +259,20 @@ resource "null_resource" "upload_tc_pdf" {
 # Storage account to store backups: mainly api management
 module "backupstorage" {
   count  = var.env_short == "p" ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.1.26"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
 
-  name                     = replace(format("%s-backupstorage", local.project), "-", "")
-  account_kind             = "BlobStorage"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  access_tier              = "Cool"
-  enable_versioning        = true
-  versioning_name          = "versioning"
-  resource_group_name      = azurerm_resource_group.rg_storage.name
-  location                 = var.location
-  allow_blob_public_access = false
+  name                          = replace(format("%s-backupstorage", local.project), "-", "")
+  account_kind                  = "BlobStorage"
+  account_tier                  = "Standard"
+  account_replication_type      = "GRS"
+  access_tier                   = "Cool"
+  enable_versioning             = true
+  versioning_name               = "versioning"
+  resource_group_name           = azurerm_resource_group.rg_storage.name
+  location                      = var.location
+  allow_blob_public_access      = false
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   tags = var.tags
 }
