@@ -96,7 +96,7 @@ output "app_gateway_public_ip" {
 }
 
 output "app_gateway_maz_public_ip" {
-  value = azurerm_public_ip.appgateway_public_ip.ip_addresses
+  value = azurerm_public_ip.appgateway_public_ip.ip_address
 }
 
 output "app_gateway_fqdn" {
