@@ -47,6 +47,7 @@ enable = {
   file_register                       = false
   enrolled_payment_instrument         = true
   mongodb_storage                     = false
+  file_reporter                       = true
 }
 #
 # Hashpan generation pipeline related variables
@@ -206,6 +207,11 @@ configmaps_rtdfileregister = {
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD                                    = true
   SPLITTER_LINE_THRESHOLD                                = 2000000
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdfilereporter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
