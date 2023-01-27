@@ -231,6 +231,51 @@ resource "azurerm_monitor_diagnostic_setting" "appgw_diagnostic_settings" {
   }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "appgw_maz_diagnostic_settings" {
+  # this resource should exists only in prod
+  count = var.env_short == "p" ? 1 : 0
+
+  name                       = "appgw-diagnostic-settings"
+  target_resource_id         = module.app_gw_maz.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+
+  log {
+    category = "ApplicationGatewayAccessLog"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayPerformanceLog"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  log {
+    category = "ApplicationGatewayFirewallLog"
+    enabled  = true
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+    retention_policy {
+      enabled = false
+    }
+  }
+}
+
 resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   count = var.dexp_params.enabled ? 1 : 0
 
