@@ -25,7 +25,7 @@ module "snet_aks" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v4.3.1"
 
   count = var.aks_enabled ? 1 : 0
 
