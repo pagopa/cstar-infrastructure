@@ -54,8 +54,8 @@ resource "azurerm_api_management_api_operation" "idpay_mock_notificator_messages
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock notificator messages"
   method              = "POST"
-  url_template        = "/messages"
-  description         = "Endpoint for mock notificator api"
+  url_template        = "/api/v1/messages"
+  description         = "Endpoint for mock notificator messages api"
 }
 
 resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_messages_policy" {
@@ -71,6 +71,36 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_m
 
 }
 
+## IDPAY Mock Notificator (profiles) ##
+resource "azurerm_api_management_api_operation" "idpay_mock_notificator_profiles" {
+  operation_id        = "idpay_mock_notificator_profiles"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock notificator profiles"
+  method              = "GET"
+  url_template        = "/api/v1/profiles/{fiscal_code}"
+  description         = "Endpoint for mock notificator profiles api"
+  template_parameter {
+    name     = "fiscal_code"
+    type     = "string"
+    required = true
+  }
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_profiles_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_notificator_profiles.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_notificator_profiles.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_notificator_profiles.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_notificator_profiles.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_notificator_profiles.xml.tpl", {
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_notificator_profiles]
+
+}
+
 ## IDPAY MOCK BE IO - create service ##
 resource "azurerm_api_management_api_operation" "idpay_mock_create_service" {
   operation_id        = "idpay_mock_create_service"
@@ -79,7 +109,7 @@ resource "azurerm_api_management_api_operation" "idpay_mock_create_service" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock BE IO create services"
   method              = "POST"
-  url_template        = "/services"
+  url_template        = "/api/v1/services"
   description         = "Endpoint for mock BE IO create services api"
 }
 
@@ -104,7 +134,7 @@ resource "azurerm_api_management_api_operation" "idpay_mock_upload_service_logo"
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock BE IO upload services logo"
   method              = "POST"
-  url_template        = "/services/{serviceId}/logo"
+  url_template        = "/api/v1/services/{serviceId}/logo"
   description         = "Endpoint for mock BE IO upload service logo"
   template_parameter {
     name     = "serviceId"
