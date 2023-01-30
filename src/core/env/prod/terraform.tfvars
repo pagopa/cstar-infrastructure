@@ -880,7 +880,7 @@ app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-cstar-pagopa-it"
 app_gateway_min_capacity                = 1
 app_gateway_max_capacity                = 10
-app_gateway_public_ip_availability_zone = 3
+app_gateway_public_ip_availability_zone = "Zone-Redundant"
 
 lock_enable = true
 

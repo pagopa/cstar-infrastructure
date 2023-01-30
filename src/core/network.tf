@@ -530,6 +530,7 @@ resource "azurerm_public_ip" "appgateway_public_ip" {
   allocation_method   = "Static"
   availability_zone   = var.app_gateway_public_ip_availability_zone
 
+
   tags = var.tags
 }
 
