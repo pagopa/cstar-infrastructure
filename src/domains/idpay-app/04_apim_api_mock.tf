@@ -155,3 +155,33 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_upload_servic
   depends_on = [azurerm_api_management_api_operation.idpay_mock_upload_service_logo]
 
 }
+
+## IDPAY ONE TRUST ##
+resource "azurerm_api_management_api_operation" "idpay_mock_tos_version" {
+  operation_id        = "idpay_mock_tos_version"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock TOS Version"
+  method              = "GET"
+  url_template        = "/api/privacynotice/v2/privacynotices/{id}"
+  description         = "Endpoint for mock One Trust privacy version"
+  template_parameter {
+    name     = "id"
+    type     = "string"
+    required = true
+  }
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_tos_version_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_tos_version.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_tos_version.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_tos_version.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_tos_version.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_tos_version.xml.tpl", {
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_tos_version]
+
+}
