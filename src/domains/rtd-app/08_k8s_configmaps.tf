@@ -183,6 +183,7 @@ resource "kubernetes_config_map" "rtdingestor" {
     CSV_INGESTOR_HOST       = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
     KAFKA_TOPIC_RTD_DLQ_TRX = "rtd-dlq-trx"
     MONGODB_NAME            = "rtd"
+    KAFKA_BROKER_DLQ        = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 

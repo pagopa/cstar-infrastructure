@@ -168,7 +168,7 @@ event_hub_hubs = [
     retention  = 1
     partitions = 1
     consumers = [
-      "rtd-ingestor-consumer-group"
+      "rtd-ingestor-dlq-consumer-group"
     ]
     policies = [
       {
