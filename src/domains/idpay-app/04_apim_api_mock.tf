@@ -67,6 +67,61 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_m
   xml_content = templatefile("./api/idpay_mock_api/mock_notificator_messages.xml.tpl", {
   })
 
-  depends_on = [azurerm_api_management_api_operation_policy.idpay_token_exchange_policy_test]
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_notificator_messages]
+
+}
+
+## IDPAY MOCK BE IO - create service ##
+resource "azurerm_api_management_api_operation" "idpay_mock_create_service" {
+  operation_id        = "idpay_mock_create_service"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock BE IO create services"
+  method              = "POST"
+  url_template        = "/services"
+  description         = "Endpoint for mock BE IO create services api"
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_create_service_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_create_service.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_create_service.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_create_service.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_create_service.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_create_service.xml.tpl", {
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_create_service]
+
+}
+
+## IDPAY MOCK BE IO - upload service logo ##
+resource "azurerm_api_management_api_operation" "idpay_mock_upload_service_logo" {
+  operation_id        = "idpay_mock_upload_service_logo"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock BE IO upload services logo"
+  method              = "POST"
+  url_template        = "/services/{serviceId}/logo"
+  description         = "Endpoint for mock BE IO upload service logo"
+  template_parameter {
+    name     = "serviceId"
+    type     = "string"
+    required = true
+  }
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_upload_service_logo_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_upload_service_logo.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_upload_service_logo.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_upload_service_logo.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_upload_service_logo.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_upload_service_logo.xml.tpl", {
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_upload_service_logo]
 
 }
