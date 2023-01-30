@@ -398,6 +398,29 @@ locals {
         },
       ]
     },
+    {
+      name = "group_user_whitelist"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["groupId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+      ]
+    },
+    {
+      name = "custom_sequence"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+      }]
+    },
   ]
 }
 
