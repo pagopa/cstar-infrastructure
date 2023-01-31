@@ -6,6 +6,8 @@ provider "registry.terraform.io/hashicorp/azuread" {
   constraints = "1.6.0"
   hashes = [
     "h1:+8Cs8ACb9DnDF8lw8pPLlsGxw+QW5fyjG6H6kszCavU=",
+    "h1:BlO53mX+Y2W//YqlCKvoxzofegFQk636XlKtmZYH0PY=",
+    "h1:Ohi1uFtzAzciSxDtq+/lAHOlYdYZ7IcweHLcG65W0AY=",
     "h1:Tu8H3ZM6Gx++5LIL72CowjRxbCOgUyn6swm0aSvCPE8=",
     "zh:0db70045a464d325fdb3d71809f0467844c3e2fcf1349e568bc51ad5035c99d9",
     "zh:3629f1d7b4eba48d744b24c7cf7fe878d5ef5910a36b525507bd3d588010ccec",
@@ -26,6 +28,8 @@ provider "registry.terraform.io/hashicorp/azurerm" {
   constraints = "2.70.0"
   hashes = [
     "h1:DKWFjv0qSCA3MXHOUpLDnLD6jsXEFDv00pGz6mZ6178=",
+    "h1:V0C4biZUaxcsk597p8N4jYIh68P7PJ+j0Oukuv0JgWI=",
+    "h1:r+6wd0+u3ObPMbXG862oimb5JhTXG3G4ShRJMdSYcGA=",
     "h1:vE6CEhJwcbpENvQgoT2cdsm0nbKQ/PqMEW93wUjBvFI=",
     "zh:0a6d23a9831e00015ed61670264ddd9b1821b6933d8e11ba14cbb92c59f52bd3",
     "zh:1289692c8c06ddb4e55f0b0e92455118ce9d474131864e55307e851316685738",
@@ -46,7 +50,9 @@ provider "registry.terraform.io/hashicorp/helm" {
   constraints = "~> 2.2.0"
   hashes = [
     "h1:XgyX0QyHPW3rZ3xJZPsXPfRPsTnhTz1/QnJ8W6Wr/RM=",
+    "h1:lFm6HwNEXgXT50K1jE7wnNaBLHTAt04KE5tjWQcJOMg=",
     "h1:liBgOoOXhA2A1DbL0oaifyNnoGOyHxMG4+xD1Kl58XA=",
+    "h1:rxDS2QQuG/M9aRSKlvW2oHsp5eGAoB1J9KZthCOVbeQ=",
     "zh:01341dd1e9cc7e7f6999e11e7473bcdca2dd72dd27f91beed1f4fb599a15dfba",
     "zh:20e86c9eccd3a81ef5ac243af31b61fc4d2d679437384bd0870e92fa1b3ed6c9",
     "zh:22a71127c5dbea4f62edb5bcf00b5c163de04aa19d45a7a1f621f973ffd09d20",
@@ -66,7 +72,9 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
   constraints = "~> 2.11.0"
   hashes = [
     "h1:T65SZhN/tQgsAsHe/G5PCgpjofi+aTKPZ+nZg6WOJpc=",
+    "h1:d5NamuGihJgxmtSq07kSZblnJuekkjdFdRLTDeGb0us=",
     "h1:lSh/Q5vX73hHL80TtGn2Vrv1UYLzlIRjC+xaCijY4ew=",
+    "h1:pJiAJwZKUaoAJ4x+3ONJkwEVkjrwGROCGFgj7noPO58=",
     "zh:143a19dd0ea3b07fc5e3d9231f3c2d01f92894385c98a67327de74c76c715843",
     "zh:1fc757d209e09c3cf7848e4274daa32408c07743698fbed10ee52a4a479b62b6",
     "zh:22dfebd0685749c51a8f765d51a1090a259778960ac1cd4f32021a325b2b9b72",

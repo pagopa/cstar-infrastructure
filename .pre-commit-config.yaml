@@ -18,7 +18,7 @@ repos:
   #       exclude_types: [sql, txt]
   ## terraform
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.71.0
+    rev: v1.77.0
     hooks:
       - id: terraform_fmt
       - id: terraform_docs
