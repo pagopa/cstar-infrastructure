@@ -50,6 +50,7 @@ module "aks" {
   ### K8s node configuration
   system_node_pool_node_labels = var.aks_system_node_pool.node_labels
   system_node_pool_tags        = var.aks_system_node_pool.node_tags
+  system_node_pool_availability_zones        = var.aks_system_node_pool.zones
 
   #
   # 👤 User node pool
@@ -62,6 +63,7 @@ module "aks" {
   user_node_pool_os_disk_size_gb = var.aks_user_node_pool.os_disk_size_gb
   user_node_pool_node_count_min  = var.aks_user_node_pool.node_count_min
   user_node_pool_node_count_max  = var.aks_user_node_pool.node_count_max
+  user_node_pool_availability_zones  = var.aks_user_node_pool.zones
   ### K8s node configuration
   user_node_pool_node_labels = var.aks_user_node_pool.node_labels
   user_node_pool_node_taints = var.aks_user_node_pool.node_taints
