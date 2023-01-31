@@ -7,17 +7,19 @@ resource "azurerm_resource_group" "sftp" {
 }
 
 module "sftp" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
 
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
   location            = azurerm_resource_group.sftp.location
 
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = var.sftp_account_replication_type
-  access_tier              = "Hot"
-  is_hns_enabled           = true
+  account_kind                  = "StorageV2"
+  account_tier                  = "Standard"
+  account_replication_type      = var.sftp_account_replication_type
+  access_tier                   = "Hot"
+  is_hns_enabled                = true
+  advanced_threat_protection    = true
+  enable_low_availability_alert = false
 
   network_rules = {
     default_action             = var.sftp_disable_network_rules ? "Allow" : "Deny"

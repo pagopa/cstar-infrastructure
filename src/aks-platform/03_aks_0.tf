@@ -7,14 +7,14 @@ resource "azurerm_resource_group" "rg_aks" {
 
 # k8s cluster subnet
 module "snet_aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.15.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v4.1.9"
   name   = "${local.project}-aks-snet"
 
   resource_group_name  = data.azurerm_resource_group.vnet_aks_rg.name
   virtual_network_name = data.azurerm_virtual_network.vnet_aks.name
 
-  address_prefixes                               = var.cidr_subnet_aks
-  enforce_private_link_endpoint_network_policies = var.aks_private_cluster_enabled
+  address_prefixes                          = var.cidr_subnet_aks
+  private_endpoint_network_policies_enabled = var.aks_private_cluster_enabled
 
   service_endpoints = [
     "Microsoft.Web",
@@ -25,7 +25,7 @@ module "snet_aks" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v4.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v4.1.9"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -48,8 +48,9 @@ module "aks" {
   system_node_pool_node_count_min  = var.aks_system_node_pool.node_count_min
   system_node_pool_node_count_max  = var.aks_system_node_pool.node_count_max
   ### K8s node configuration
-  system_node_pool_node_labels = var.aks_system_node_pool.node_labels
-  system_node_pool_tags        = var.aks_system_node_pool.node_tags
+  system_node_pool_node_labels        = var.aks_system_node_pool.node_labels
+  system_node_pool_tags               = var.aks_system_node_pool.node_tags
+  system_node_pool_availability_zones = var.aks_system_node_pool.zones
 
   #
   # 👤 User node pool
@@ -57,11 +58,12 @@ module "aks" {
   user_node_pool_enabled = var.aks_user_node_pool.enabled
   user_node_pool_name    = var.aks_user_node_pool.name
   ### vm configuration
-  user_node_pool_vm_size         = var.aks_user_node_pool.vm_size
-  user_node_pool_os_disk_type    = var.aks_user_node_pool.os_disk_type
-  user_node_pool_os_disk_size_gb = var.aks_user_node_pool.os_disk_size_gb
-  user_node_pool_node_count_min  = var.aks_user_node_pool.node_count_min
-  user_node_pool_node_count_max  = var.aks_user_node_pool.node_count_max
+  user_node_pool_vm_size            = var.aks_user_node_pool.vm_size
+  user_node_pool_os_disk_type       = var.aks_user_node_pool.os_disk_type
+  user_node_pool_os_disk_size_gb    = var.aks_user_node_pool.os_disk_size_gb
+  user_node_pool_node_count_min     = var.aks_user_node_pool.node_count_min
+  user_node_pool_node_count_max     = var.aks_user_node_pool.node_count_max
+  user_node_pool_availability_zones = var.aks_user_node_pool.zones
   ### K8s node configuration
   user_node_pool_node_labels = var.aks_user_node_pool.node_labels
   user_node_pool_node_taints = var.aks_user_node_pool.node_taints
