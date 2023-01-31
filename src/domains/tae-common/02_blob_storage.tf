@@ -18,7 +18,7 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
   target_resource_id         = format("%s/blobServices/default", data.azurerm_storage_account.acquirer_sa.id)
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
   # storage_account_id             = var.sec_storage_id
-  log_analytics_destination_type = "Dedicated"
+  # log_analytics_destination_type = "Dedicated"
 
   log {
     category = "StorageRead"
@@ -59,6 +59,16 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
       enabled = false
     }
   }
+
+  metric {
+    category = "Capacity"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "log_sftp_sa" {
@@ -67,7 +77,7 @@ resource "azurerm_monitor_diagnostic_setting" "log_sftp_sa" {
   target_resource_id         = "${data.azurerm_storage_account.sftp_sa.id}/blobServices/default"
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
   # storage_account_id             = var.sec_storage_id
-  log_analytics_destination_type = "Dedicated"
+  # log_analytics_destination_type = "Dedicated"
 
   log {
     category = "StorageRead"
@@ -101,6 +111,16 @@ resource "azurerm_monitor_diagnostic_setting" "log_sftp_sa" {
 
   metric {
     category = "Transaction"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  metric {
+    category = "Capacity"
     enabled  = false
 
     retention_policy {
