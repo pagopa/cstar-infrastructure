@@ -28,7 +28,7 @@ array=(
 )
 
 function rm_terraform {
-    find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -iname ".terraform-version" \) -print0 | xargs -0 rm -rf
+    find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -iname ".terraform-version" ! -iname ".terraform.lock.hcl" \) -print0 | xargs -0 rm -rf
 }
 
 echo "[INFO] 🪚  Delete all .terraform folders"
@@ -42,6 +42,7 @@ for index in "${array[@]}" ; do
         echo "$FOLDER - $COMMAND"
         echo "🔬 folder: $(pwd) in under terraform: $ACTION action"
         sh terraform.sh "$ACTION" "$COMMAND" &
+
 
         pids+=($!)
     popd
