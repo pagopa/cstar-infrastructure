@@ -21,6 +21,7 @@ module "idpay_api_io_product" {
     env_short           = var.env_short
     reverse_proxy_be_io = var.reverse_proxy_be_io
     appio_timeout_sec   = var.appio_timeout_sec
+    pdv_timeout_sec     = var.pdv_timeout_sec
     pdv_tokenizer_url   = var.pdv_tokenizer_url
   })
 
