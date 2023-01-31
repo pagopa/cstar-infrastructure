@@ -58,7 +58,7 @@
                                 </return-response>
                             </when>
                             <otherwise>
-                                <send-request mode="new" response-variable-name="responsePDV" timeout="${appio_timeout_sec}" ignore-error="true">
+                                <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
                                     <set-url>${pdv_tokenizer_url}/tokens</set-url>
                                     <set-method>PUT</set-method>
                                     <set-header name="x-api-key" exists-action="override">
@@ -74,7 +74,7 @@
                                 <choose>
                                     <when condition="@(context.Variables["responsePDV"] == null)">
                                         <return-response>
-                                            <set-status code="504" reason="PDV Timeout" />
+                                            <set-status code="408" reason="PDV Timeout" />
                                         </return-response>
                                     </when>
                                     <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
