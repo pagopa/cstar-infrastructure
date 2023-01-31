@@ -398,6 +398,12 @@ variable "app_gateway_alerts_enabled" {
   default     = true
 }
 
+variable "app_gateway_public_ip_availability_zone" {
+  type        = string
+  default     = null
+  description = "Number of az to allocate the public ip."
+}
+
 variable "enable_custom_dns" {
   type        = bool
   default     = false
