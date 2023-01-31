@@ -61,8 +61,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/PortalConsentDTO"
-        '204':
-          description: No Content
         '400':
           description: Bad Request
           content:
@@ -71,12 +69,6 @@ paths:
                 "$ref": "#/components/schemas/ErrorDTO"
         '401':
           description: Authentication Failed
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ErrorDTO"
-        '404':
-          description: Not Found
           content:
             application/json:
               schema:
@@ -115,12 +107,6 @@ paths:
                 "$ref": "#/components/schemas/ErrorDTO"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ErrorDTO"
-        '404':
-          description: Not Found
           content:
             application/json:
               schema:
@@ -164,6 +150,8 @@ components:
       properties:
         versionId:
           type: string
+        firstAcceptance:
+          type: boolean
     ErrorDTO:
       type: object
       properties:
