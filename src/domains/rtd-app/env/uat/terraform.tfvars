@@ -218,6 +218,11 @@ configmaps_rtdenrolledpaymentinstrument = {
   BASEURL_TOKEN_FINDER                                   = ""
 }
 
+configmaps_rtdingestor = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
 configmaps_rtdfileregister = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
