@@ -9,10 +9,19 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   variables = {
     rowsCopiedToCosmos = ""
   }
-  activities_json = templatefile("pipelines/aggregatesIngestor.json.tpl", {
+  activities_json = "[${templatefile("pipelines/copy-activities/senderAggregatesToDatastore.json.tpl", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-  })
+    })},${file("pipelines/copy-activities/setRowsCopiedToCosmos.json.tpl")},${templatefile("pipelines/copy-activities/aggregatesToLog.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToLog.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTP.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+  })}]"
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,
@@ -61,10 +70,22 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
   variables = {
     rowsCopiedToCosmos = ""
   }
-  activities_json = templatefile("pipelines/aggregatesIngestorTesting.json.tpl", {
+  activities_json = "[${templatefile("pipelines/copy-activities/senderAggregatesToDatastore.json.tpl", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-  })
+    })},${file("pipelines/copy-activities/setRowsCopiedToCosmos.json.tpl")},${templatefile("pipelines/copy-activities/aggregatesToLog.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToLog.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTPTesting.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedOnIntContainer.json.tpl", {
+    copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
+    copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
+  })}]"
 
   depends_on = [
     azurerm_data_factory_custom_dataset.destination_aggregate,

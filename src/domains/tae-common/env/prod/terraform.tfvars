@@ -47,7 +47,7 @@ cosmos_db_aggregates_params = {
 dexp_db = {
   enable             = true
   hot_cache_period   = "P15D"
-  soft_delete_period = "P10Y"
+  soft_delete_period = "P3650D"
 }
 
 ### External resources
