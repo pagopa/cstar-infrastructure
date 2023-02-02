@@ -65,6 +65,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_m
   operation_id        = azurerm_api_management_api_operation.idpay_mock_notificator_messages.operation_id
 
   xml_content = templatefile("./api/idpay_mock_api/mock_notificator_messages.xml.tpl", {
+    env = var.env
   })
 
   depends_on = [azurerm_api_management_api_operation.idpay_mock_notificator_messages]
@@ -120,6 +121,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_create_servic
   operation_id        = azurerm_api_management_api_operation.idpay_mock_create_service.operation_id
 
   xml_content = templatefile("./api/idpay_mock_api/mock_create_service.xml.tpl", {
+    env = var.env
   })
 
   depends_on = [azurerm_api_management_api_operation.idpay_mock_create_service]

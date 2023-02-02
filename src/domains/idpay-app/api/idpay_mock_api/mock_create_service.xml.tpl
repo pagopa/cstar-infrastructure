@@ -24,9 +24,9 @@
             string primaryKey = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
             string secondaryKey = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
             return new JObject(
-                    new JProperty("service_id", serviceId),
-                    new JProperty("primary_key", primaryKey),
-                    new JProperty("secondary_key", secondaryKey)
+                    new JProperty("service_id", "MOCK"+"${env}"+serviceId),
+                    new JProperty("primary_key", "MOCK"+"${env}"+primaryKey),
+                    new JProperty("secondary_key", "MOCK"+"${env}"+secondaryKey)
             ).ToString();
           }</set-body>
         </return-response>

@@ -22,7 +22,7 @@
             Random random = new Random();
             string notificatorId = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
             return new JObject(
-                    new JProperty("id", notificatorId)
+                    new JProperty("id", "MOCK"+"${env}"+notificatorId)
             ).ToString();
           }</set-body>
         </return-response>
