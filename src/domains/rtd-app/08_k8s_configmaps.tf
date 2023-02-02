@@ -178,11 +178,13 @@ resource "kubernetes_config_map" "rtdingestor" {
     namespace = var.domain
   }
 
-  data = {
-    JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
-    CSV_INGESTOR_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
-    MONGODB_NAME      = "rtd"
-  }
+  data = merge({
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdingestor"
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_INGESTOR_HOST             = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    MONGODB_NAME                  = "rtd"
+    },
+  var.configmaps_rtdingestor)
 }
 
 #
