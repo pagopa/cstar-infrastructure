@@ -404,8 +404,8 @@ configmaps_rtdenrolledpaymentinstrument = {
 }
 
 configmaps_rtdproducerenrolledpaymentinstrument = {
-  KAFKA_PARTITION_KEY_EXPRESSION = "headers.partitionKey"
-  KAFKA_PARTITION_COUNT          = 1
+  KAFKA_PARTITION_KEY_EXPRESSION      = "headers.partitionKey"
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 8
 }
 
 # rtd-ms-pi-event-processor
@@ -414,7 +414,7 @@ configmaps_rtdpieventprocessor = {
   APPLICATIONINSIGHTS_ROLE_NAME                          = "rtdpieventprocessor"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
+  KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 8
 }
 
 autoscaling_specs = {

@@ -32,9 +32,7 @@
             </set-header>
         </when>
         <otherwise>
-            <return-response>
-                <set-status code="400" reason="Bad Request" />
-                <set-body />
+            <return-response response-variable-name="authorization">
             </return-response>
         </otherwise>
       </choose>
