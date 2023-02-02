@@ -337,6 +337,8 @@ components:
           format: date
         amount:
           type: number
+        accrued:
+          type: number
     TransactionOperationDTO:
       type: object
       required:
@@ -363,6 +365,8 @@ components:
         maskedPan:
           type: string
         amount:
+          type: number
+        accrued:
           type: number
         circuitType:
           type: string
