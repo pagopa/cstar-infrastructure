@@ -12,9 +12,28 @@
 -->
 <policies>
     <inbound>
-        <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission" />
-        <rewrite-uri template="@("/idpay/consent?userId=" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
+        <return-response>
+            <set-status code="200" reason="OK" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>@{
+            return new JObject(
+                    new JProperty("createdDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")),
+                    new JProperty("id", "mock-id"),
+                    new JProperty("lastPublishedDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")),
+                    new JProperty("organizationId", "mock-organizationId"),
+                    new JProperty("responsibleUserId", "mock-responsibleUserId"),
+                    new JProperty("version", new JObject(
+                            new JProperty("id", "mock-version-id"),
+                            new JProperty("name", "IdPay Privacy Policy"),
+                            new JProperty("publishedDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")),
+                            new JProperty("status", "ACTIVE"),
+                            new JProperty("version", 1)
+                    ))
+            ).ToString();
+          }</set-body>
+        </return-response>
     </inbound>
     <backend>
         <base />

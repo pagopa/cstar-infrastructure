@@ -162,7 +162,8 @@ resource "azurerm_api_management_api_operation_policy" "idpay_token_exchange_pol
   operation_id        = azurerm_api_management_api_operation.idpay_token_exchange_test[0].operation_id
 
   xml_content = templatefile("./api/idpay_token_exchange/jwt_token_test.xml.tpl", {
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
+    ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+    jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
   })
 
 }

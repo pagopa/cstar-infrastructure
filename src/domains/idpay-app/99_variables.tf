@@ -158,6 +158,11 @@ variable "eventhub_pim" {
   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 }
 
+variable "io_backend_base_url" {
+  type        = string
+  description = "BE IO backend url"
+}
+
 variable "pdv_tokenizer_url" {
   type        = string
   default     = "127.0.0.1"

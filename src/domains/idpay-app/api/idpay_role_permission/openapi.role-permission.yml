@@ -29,95 +29,100 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
-  /consent:
-    post:
-      parameters:
-        - in: header
-          name: Accept-Language
-          required : true
-          schema:
-            type: string
+                $ref: '#/components/schemas/ErrorDTO'
+  "/consent":
+    get:
       tags:
-        - Consent
-      summary: Save user consent
-      operationId: saveConsent
+      - PortalConsent
+      summary: Retrieve portal consent (ToS)
+      operationId: getPortalConsent
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PortalConsentDTO"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorDTO"
+        '401':
+          description: Authentication Failed
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorDTO"
+        '429':
+          description: Too Many Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorDTO"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorDTO"
+    post:
+      tags:
+      - PortalConsent
+      summary: Save portal consent
+      operationId: savePortalConsent
       requestBody:
-        description: 'Array of accepted consent'
-        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsentItemArrayDTO'
-      responses:
-        '204':
-          description: No Content - Consent Submit successful
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDto'
-        '401':
-          description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDto'
-        '500':
-          description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDto'
-    get:
-      tags:
-        - Consent
-      summary: Retrive user consent
-      operationId: retrieveConsent
+              "$ref": "#/components/schemas/PortalConsentDTO"
+        required: true
       responses:
         '200':
-          description: Retriee consent successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConsentDTO'
+          description: Ok
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                "$ref": "#/components/schemas/ErrorDTO"
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                "$ref": "#/components/schemas/ErrorDTO"
+        '429':
+          description: Too Many Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorDTO"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                "$ref": "#/components/schemas/ErrorDTO"
 components:
   schemas:
     UserPermissionDTO:
@@ -140,39 +145,14 @@ components:
           type: string
         mode:
           type: string
-    ConsentDTO:
+    PortalConsentDTO:
       type: object
       properties:
-        accepted:
+        versionId:
+          type: string
+        firstAcceptance:
           type: boolean
-          description: flag to indicate if permits are accepted or not
-        changed:
-          type: boolean
-          description: flag to indicate a change from previously accepted permits
-        consents: 
-            $ref : '#/components/schemas/ConsentItemArrayDTO'
-    ConsentItemDTO:
-      type: object
-      required:
-          - label
-          - sha
-      properties:
-        label: 
-          type: string
-          enum: 
-           - privacy
-           - tc
-        sha:
-          type: string
-        url:
-          type: string
-    ConsentItemArrayDTO:
-      type: array
-      minItems: 1
-      items:  
-        $ref : '#/components/schemas/ConsentItemDTO'
-      description: List of consent
-    ErrorDto:
+    ErrorDTO:
       type: object
       properties:
         code:
@@ -180,17 +160,12 @@ components:
         message:
           type: string
   securitySchemes:
-    apiKeyHeader:
+    Bearer:
       type: apiKey
-      name: Ocp-Apim-Subscription-Key
+      name: Authorization
       in: header
-    apiKeyQuery:
-      type: apiKey
-      name: subscription-key
-      in: query
 security:
-  - apiKeyHeader: [ ]
-  - apiKeyQuery: [ ]
+  - Bearer: []
 tags:
   - name: UserPermission
     description: ''
