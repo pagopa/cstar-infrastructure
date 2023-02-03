@@ -205,6 +205,7 @@ variable "enable" {
     file_register                       = bool
     enrolled_payment_instrument         = bool
     mongodb_storage                     = bool
+    file_reporter                       = bool
   })
   description = "Feature flags"
   default = {
@@ -215,6 +216,7 @@ variable "enable" {
     file_register                       = false
     enrolled_payment_instrument         = false
     mongodb_storage                     = false
+    file_reporter                       = false
   }
 }
 
@@ -262,6 +264,14 @@ variable "configmaps_rtdenrolledpaymentinstrument" {
 }
 
 #
+# RTD Ingestor
+#
+variable "configmaps_rtdingestor" {
+  type    = map(string)
+  default = {}
+}
+
+#
 # RTD File Register
 #
 variable "configmaps_rtdfileregister" {
@@ -273,6 +283,14 @@ variable "configmaps_rtdfileregister" {
 # RTD Decrypter
 #
 variable "configmaps_rtddecrypter" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD File Reporter
+#
+variable "configmaps_rtdfilereporter" {
   type    = map(string)
   default = {}
 }

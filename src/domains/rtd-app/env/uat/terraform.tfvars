@@ -47,6 +47,7 @@ enable = {
   file_register                       = true
   enrolled_payment_instrument         = true
   mongodb_storage                     = true
+  file_reporter                       = true
 }
 
 #
@@ -78,7 +79,7 @@ event_hub_hubs = [
   {
     name       = "rtd-pi-to-app"
     retention  = 1
-    partitions = 1
+    partitions = 8
     consumers = [
       "rtd-pi-to-app-consumer-group"
     ]
@@ -100,7 +101,7 @@ event_hub_hubs = [
   {
     name       = "rtd-pi-from-app"
     retention  = 1
-    partitions = 1
+    partitions = 8
     consumers = [
       "rtd-pi-from-app-consumer-group"
     ]
@@ -122,7 +123,7 @@ event_hub_hubs = [
   {
     name       = "rtd-split-by-pi"
     retention  = 1
-    partitions = 1
+    partitions = 8
     consumers = [
       "rtd-split-by-pi-consumer-group"
     ]
@@ -162,6 +163,28 @@ event_hub_hubs = [
         manage = false
       }
     ]
+  },
+  {
+    name       = "rtd-dlq-trx"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-ingestor-dlq-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-dlq-trx-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-dlq-trx-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
   }
 ]
 
@@ -169,11 +192,11 @@ event_hub_hubs = [
 # Config maps
 #
 configmap_rtdsplitbypiproducer = {
-  KAFKA_RTD_SPLIT_PARTITION_COUNT = 1
+  KAFKA_RTD_SPLIT_PARTITION_COUNT = 8
 }
 
 configmap_rtdpitoappproducer = {
-  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 8
 }
 
 configmaps_rtdsenderauth = {
@@ -195,6 +218,11 @@ configmaps_rtdenrolledpaymentinstrument = {
   BASEURL_TOKEN_FINDER                                   = ""
 }
 
+configmaps_rtdingestor = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
 configmaps_rtdfileregister = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
@@ -203,6 +231,11 @@ configmaps_rtdfileregister = {
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD                                    = true
   SPLITTER_LINE_THRESHOLD                                = 2000000
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdfilereporter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
