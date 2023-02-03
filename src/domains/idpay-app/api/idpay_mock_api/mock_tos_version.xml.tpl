@@ -19,15 +19,15 @@
             </set-header>
             <set-body>@{
             return new JObject(
-                    new JProperty("createdDate", System.DateTime.Now),
+                    new JProperty("createdDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")),
                     new JProperty("id", "mock-id"),
-                    new JProperty("lastPublishedDate", System.DateTime.Now),
+                    new JProperty("lastPublishedDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")),
                     new JProperty("organizationId", "mock-organizationId"),
                     new JProperty("responsibleUserId", "mock-responsibleUserId"),
                     new JProperty("version", new JObject(
                             new JProperty("id", "mock-version-id"),
                             new JProperty("name", "IdPay Privacy Policy"),
-                            new JProperty("publishedDate", System.DateTime.Now),
+                            new JProperty("publishedDate", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")),
                             new JProperty("status", "ACTIVE"),
                             new JProperty("version", 1)
                     ))
