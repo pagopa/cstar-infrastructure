@@ -50,6 +50,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  '/organizations':
+    get:
+      tags:
+        - organizations
+      summary: Returns list of Organizations for at least one initiative by each visible to the PagoPA operator
+      operationId: getListOfOrganization
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationListDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /summary:
     get:
       tags:
@@ -2007,6 +2044,17 @@ components:
           format: date-time
         rankingEnabled:
           type: boolean
+    OrganizationListDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationDTO'
+    OrganizationDTO:
+      type: object
+      properties:
+        organizationId:
+          type: string
+        organizationName:
+          type: string
     ChannelArrayDTO:
       type: array
       items:
