@@ -58,7 +58,7 @@ eventhub_pim = {
 # PDV
 #
 pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
-
+pdv_timeout_sec   = 5
 #
 # PM
 #

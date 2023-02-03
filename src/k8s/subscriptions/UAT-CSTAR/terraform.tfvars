@@ -398,8 +398,8 @@ configmaps_rtdenrolledpaymentinstrument = {
 }
 
 configmaps_rtdproducerenrolledpaymentinstrument = {
-  KAFKA_PARTITION_KEY_EXPRESSION = "headers.partitionKey"
-  KAFKA_PARTITION_COUNT          = 1
+  KAFKA_PARTITION_KEY_EXPRESSION      = "headers.partitionKey"
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
 }
 
 # rtd-ms-pi-event-processor
@@ -731,7 +731,8 @@ secrets_from_rtd_domain_kv = {
     "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
     "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
     "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
-    "pagopa-platform-apim-api-key-primary"
+    "pagopa-platform-apim-api-key-primary",
+    "pagopa-platform-apim-api-key-primary-tkm"
   ]
 }
 
