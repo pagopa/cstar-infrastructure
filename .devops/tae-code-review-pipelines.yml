@@ -5,8 +5,8 @@ pr:
       - main
   paths:
     include:
-      - 'src/domains/rtd-app'
-      - 'src/domains/rtd-common'
+      - 'src/domains/tae-app'
+      - 'src/domains/tae-common'
     exclude:
       - '**/*.lock.hcl'
       - '**/*.md'
@@ -59,7 +59,7 @@ stages:
     pool:
       name: cstar-dev-linux
     jobs:
-      - job: terraform_plan_rtd_common
+      - job: terraform_plan_tae_common
         strategy:
           parallel: 1
         timeoutInMinutes: $[variables.TIME_OUT]
@@ -67,13 +67,13 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan rtd-common
+          # 2. Run terraform plan tae-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-common'
+              WORKINGDIR: 'src/domains/tae-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-      - job: terraform_plan_rtd_app
+      - job: terraform_plan_tae_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
           parallel: 1
@@ -81,11 +81,11 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan rtd-app
+          # Run terraform plan tae-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-app'
+              WORKINGDIR: 'src/domains/tae-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
