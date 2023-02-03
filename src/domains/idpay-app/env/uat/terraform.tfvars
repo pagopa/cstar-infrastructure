@@ -76,6 +76,11 @@ checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
 selc_base_url = "https://api.uat.selfcare.pagopa.it"
 
 #
+# BE IO API
+#
+io_backend_base_url = "https://api-io.uat.cstar.pagopa.it/idpay/mock"
+
+#
 # TLS Checker
 #
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
