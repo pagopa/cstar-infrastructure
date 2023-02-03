@@ -27,10 +27,6 @@ parameters:
 
 variables:
   TIME_OUT: 10
-  DEV01_AKS_APISERVER_URL: '$(TF_DEV01_AKS_APISERVER_URL)'
-  DEV01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_CACRT)'
-  DEV01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_TOKEN)'
-  AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
 
 pool:
   vmImage: 'ubuntu-20.04'
@@ -51,9 +47,9 @@ stages:
       name: cstar-dev-linux
     jobs:
       #
-      # rtd_common
+      # tae_common
       #
-      - job: tf_plan_rtd_common
+      - job: tf_plan_tae_common
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
@@ -63,18 +59,18 @@ stages:
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-common'
+              WORKINGDIR: 'src/domains/tae-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
           # 3. Run terraform apply
           - template: templates/terraform-apply/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-common'
+              WORKINGDIR: 'src/domains/tae-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
       #
-      # rtd_app
+      # tae_app
       #
-      - job: tf_plan_rtd_app
+      - job: tf_plan_tae_app
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
           - checkout: self
@@ -84,22 +80,14 @@ stages:
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-app'
+              WORKINGDIR: 'src/domains/tae-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
           # 3. Run terraform apply
           - template: templates/terraform-apply/template.yaml@terraform
             parameters:
               ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/rtd-app'
+              WORKINGDIR: 'src/domains/tae-app'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
   # - stage: UAT
   #   dependsOn: []
