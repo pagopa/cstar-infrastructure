@@ -100,6 +100,13 @@ module "idpay_initiative_portal" {
 
   api_operation_policies = [
     {
+      operation_id = "getListOfOrganization"
+
+      xml_content = templatefile("./api/idpay_initiative/get-organization-list.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
       operation_id = "getInitativeSummary"
 
       xml_content = templatefile("./api/idpay_initiative/get-initiative-summary.xml.tpl", {
@@ -310,6 +317,30 @@ module "idpay_initiative_portal" {
     }
   ]
 
+}
+
+
+##API used for generate IdPay Product Token test
+resource "azurerm_api_management_api_operation" "idpay_portal_token" {
+  operation_id        = "idpay_portal_token"
+  api_name            = module.idpay_initiative_portal.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Token"
+  method              = "POST"
+  url_template        = "/token"
+  description         = "Endpoint which create IdPay token"
+}
+resource "azurerm_api_management_api_operation_policy" "idpay_portal_token_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_portal_token.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_portal_token.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_portal_token.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_portal_token.operation_id
+
+  xml_content = templatefile("./api/idpay_initiative/idpay_portal_token/jwt_idpay_portal_token.xml.tpl", {
+    ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+    jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
+  })
 }
 
 
