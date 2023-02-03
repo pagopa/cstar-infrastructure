@@ -88,7 +88,7 @@ resource "kubernetes_config_map" "rest-client" {
     checkiban_base_url            = var.checkiban_base_url
     checkiban_url                 = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url          = var.pdv_tokenizer_url
-    io_backend_base_url           = "https://api.io.italia.it"
+    io_backend_base_url           = var.io_backend_base_url
     io_backend_message_url        = "/api/v1/messages"
     io_backend_profile_url        = "/api/v1/profiles"
     io_backend_service_url        = "/api/v1/services"
