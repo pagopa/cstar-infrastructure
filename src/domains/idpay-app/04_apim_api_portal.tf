@@ -45,7 +45,7 @@ module "idpay_permission_portal" {
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_role_permission/openapi.permission.yml")
+  content_value  = file("./api/idpay_role_permission/openapi.role-permission.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -60,13 +60,13 @@ module "idpay_permission_portal" {
       })
     },
     {
-      operation_id = "saveConsent"
+      operation_id = "savePortalConsent"
       xml_content = templatefile("./api/idpay_role_permission/consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "retrieveConsent"
+      operation_id = "getPortalConsent"
       xml_content = templatefile("./api/idpay_role_permission/consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
