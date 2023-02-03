@@ -163,6 +163,28 @@ event_hub_hubs = [
         manage = false
       }
     ]
+  },
+  {
+    name       = "rtd-dlq-trx"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "rtd-ingestor-dlq-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "rtd-dlq-trx-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-dlq-trx-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
   }
 ]
 
@@ -194,6 +216,11 @@ configmaps_rtdenrolledpaymentinstrument = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
   BASEURL_TOKEN_FINDER                                   = ""
+}
+
+configmaps_rtdingestor = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
 
 configmaps_rtdfileregister = {
