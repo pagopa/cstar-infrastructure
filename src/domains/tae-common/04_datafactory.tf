@@ -64,10 +64,10 @@ resource "azurerm_private_dns_a_record" "data_factory_a_record" {
 resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   for_each = tomap(
     {
-      (data.azurerm_storage_account.acquirer_sa.id)   = ["blob", "cstardblobstorage.blob.core.windows.net"],
-      (data.azurerm_storage_account.sftp_sa.id)       = ["blob", "cstardsftp.blob.core.windows.net"],
-      (module.cosmosdb_account.id)                    = ["SQL", "cstar-d-weu-tae-cosmos-db-account.documents.azure.com"],
-      (data.azurerm_kusto_cluster.dexp_cluster[0].id) = ["cluster", "cstarddataexplorer.westeurope.kusto.windows.net"]
+      (data.azurerm_storage_account.acquirer_sa.id)   = ["blob", format("cstar%sblobstorage.blob.core.windows.net", var.env_short)],
+      (data.azurerm_storage_account.sftp_sa.id)       = ["blob", format("cstar%ssftp.blob.core.windows.net", var.env_short)],
+      (module.cosmosdb_account.id)                    = ["SQL", format("cstar-%s-weu-tae-cosmos-db-account.documents.azure.com", var.env_short)],
+      (data.azurerm_kusto_cluster.dexp_cluster[0].id) = ["cluster", format("cstar%sdataexplorer.westeurope.kusto.windows.net", var.env_short)]
     }
   )
   name               = replace(format("%s-%s-mng-private-endpoint", azurerm_data_factory.data_factory.name, substr(sha256(each.key), 0, 3)), "-", "_")
