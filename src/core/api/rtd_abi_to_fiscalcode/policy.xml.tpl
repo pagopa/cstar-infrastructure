@@ -13,7 +13,8 @@
           new JProperty("SUMUP", "IE9813461A"),
           new JProperty("ICARD", "BG175325806"),
           new JProperty("TPAY1", "09771701001"),
-          new JProperty("AMAZN", "97898850157")
+          new JProperty("AMAZN", "97898850157"),
+          new JProperty("EURON", "DE182769455")
         ).ToString();
         }
       </set-body>
