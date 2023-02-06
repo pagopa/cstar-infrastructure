@@ -437,7 +437,7 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
 
-  name                = format("%s-rtd-fake-abi-to-fiscal-code", var.env_short)
+  name                = "${var.env_short}-rtd-fake-abi-to-fiscal-code"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
