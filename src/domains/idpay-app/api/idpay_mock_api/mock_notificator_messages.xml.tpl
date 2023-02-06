@@ -12,9 +12,20 @@
 -->
 <policies>
     <inbound>
-        <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission" />
-        <rewrite-uri template="@("/idpay/consent?userId=" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
+        <return-response>
+            <set-status code="201" reason="Created" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>@{
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            string notificatorId = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
+            return new JObject(
+                    new JProperty("id", "MOCK"+"${env}"+notificatorId)
+            ).ToString();
+          }</set-body>
+        </return-response>
     </inbound>
     <backend>
         <base />
