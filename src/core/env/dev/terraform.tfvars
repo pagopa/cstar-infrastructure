@@ -621,7 +621,7 @@ eventhubs = [
   },
   {
     name              = "rtd-platform-events"
-    partitions        = 1
+    partitions        = 4
     message_retention = 1
     consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
     keys = [
