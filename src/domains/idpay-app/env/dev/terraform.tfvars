@@ -67,6 +67,10 @@ checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
 #
 selc_base_url = "https://api.dev.selfcare.pagopa.it"
 
+#
+# BE IO API
+#
+io_backend_base_url = "https://api-io.dev.cstar.pagopa.it/idpay/mock"
 
 #
 # TLS Checker

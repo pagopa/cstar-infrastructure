@@ -45,7 +45,7 @@ module "idpay_permission_portal" {
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_role_permission/openapi.permission.yml")
+  content_value  = file("./api/idpay_role_permission/openapi.role-permission.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -60,13 +60,13 @@ module "idpay_permission_portal" {
       })
     },
     {
-      operation_id = "saveConsent"
+      operation_id = "savePortalConsent"
       xml_content = templatefile("./api/idpay_role_permission/consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "retrieveConsent"
+      operation_id = "getPortalConsent"
       xml_content = templatefile("./api/idpay_role_permission/consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
@@ -99,6 +99,13 @@ module "idpay_initiative_portal" {
   subscription_required = false
 
   api_operation_policies = [
+    {
+      operation_id = "getListOfOrganization"
+
+      xml_content = templatefile("./api/idpay_initiative/get-organization-list.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
     {
       operation_id = "getInitativeSummary"
 
@@ -310,6 +317,30 @@ module "idpay_initiative_portal" {
     }
   ]
 
+}
+
+
+##API used for generate IdPay Product Token test
+resource "azurerm_api_management_api_operation" "idpay_portal_token" {
+  operation_id        = "idpay_portal_token"
+  api_name            = module.idpay_initiative_portal.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Token"
+  method              = "POST"
+  url_template        = "/token"
+  description         = "Endpoint which create IdPay token"
+}
+resource "azurerm_api_management_api_operation_policy" "idpay_portal_token_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_portal_token.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_portal_token.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_portal_token.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_portal_token.operation_id
+
+  xml_content = templatefile("./api/idpay_initiative/idpay_portal_token/jwt_idpay_portal_token.xml.tpl", {
+    ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+    jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
+  })
 }
 
 
