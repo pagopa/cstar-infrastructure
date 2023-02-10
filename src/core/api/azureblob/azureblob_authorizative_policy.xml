@@ -26,6 +26,23 @@
         </when>
       </choose>
 
+    <set-variable name="allowedSize" value="${pgp-put-limit-bytes}" />
+    <set-variable name="bodySize" value="@(context.Request.Headers["Content-Length"][0])" />
+
+    <choose>
+      <when condition="@(int.Parse(context.Variables.GetValueOrDefault<string>("bodySize")) > 0 && int.Parse(context.Variables.GetValueOrDefault<string>("bodySize")) < (int)context.Variables["allowedSize"])">
+          <!--PASS-->
+      </when>
+      <otherwise>
+        <return-response>
+          <set-status code="413" reason="Payload Too Large" />
+          <set-body>
+            Maximum allowed size for the PUT requests is @((string)context.Variables["allowedSize"]) bytes. This request has size of @(context.Variables.GetValueOrDefault<string>("bodySize")) bytes
+          </set-body>
+        </return-response>
+      </otherwise>
+    </choose>
+
       <set-header name="If-None-Match" exists-action="override">
         <value>*</value>
       </set-header>
