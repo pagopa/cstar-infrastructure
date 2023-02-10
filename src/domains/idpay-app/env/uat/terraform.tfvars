@@ -69,7 +69,7 @@ selc_base_url = "https://api.uat.selfcare.pagopa.it"
 #
 # BE IO API
 #
-io_backend_base_url = "https://api-io.uat.cstar.pagopa.it/idpay/mock"
+io_backend_base_url = "https://api.io.italia.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
 
 #
 # TLS Checker
