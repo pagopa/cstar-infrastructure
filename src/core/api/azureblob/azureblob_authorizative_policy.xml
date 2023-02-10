@@ -26,6 +26,15 @@
         </when>
       </choose>
 
+      <choose>
+        <when condition="@(context.Request.Headers.ContainsKey("Transfer-Encoding") && String.Equals(context.Request.Headers["Transfer-Encoding"][0], "chunked", StringComparison.OrdinalIgnoreCase))">
+          <return-response>
+            <set-status code="400" reason="Bad Request" />
+            <set-body>The "Transfer-Encoding" header is not supported by this API</set-body>
+          </return-response>
+        </when>
+      </choose>
+
       <set-header name="If-None-Match" exists-action="override">
         <value>*</value>
       </set-header>
