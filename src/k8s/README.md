@@ -261,7 +261,6 @@ pre-commit run -a
 | [azuread_group.adgroup_security](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_technical_project_managers](https://registry.terraform.io/providers/hashicorp/azuread/1.6.0/docs/data-sources/group) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/client_config) | data source |
-| [azurerm_eventhub.rtd-enrolled-pi](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/eventhub) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.70.0/docs/data-sources/subscription) | data source |
 | [kubernetes_secret.azure_devops_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/secret) | data source |
 
@@ -308,7 +307,6 @@ pre-commit run -a
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_event_hub_port"></a> [event\_hub\_port](#input\_event\_hub\_port) | n/a | `number` | `9093` | no |
-| <a name="input_eventhub_enrolled_pi"></a> [eventhub\_enrolled\_pi](#input\_eventhub\_enrolled\_pi) | n/a | <pre>object({<br>    name                = string,<br>    namespace_name      = string,<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
 | <a name="input_fa_autoscaling_specs"></a> [fa\_autoscaling\_specs](#input\_fa\_autoscaling\_specs) | n/a | <pre>map(object({<br>    min_replicas = number<br>    max_replicas = number<br>    metrics = list(object({<br>      type = string<br>      resource = object({<br>        name = string<br>        target = object({<br>          type                = string<br>          average_utilization = number<br>        })<br>      })<br>    }))<br>    }<br>  ))</pre> | `{}` | no |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_ingress_replica_count"></a> [ingress\_replica\_count](#input\_ingress\_replica\_count) | n/a | `string` | n/a | yes |
