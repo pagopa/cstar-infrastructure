@@ -336,11 +336,3 @@ variable "enable" {
     }
   }
 }
-
-variable "eventhub_enrolled_pi" {
-  type = object({
-    name                = string,
-    namespace_name      = string,
-    resource_group_name = string
-  })
-}

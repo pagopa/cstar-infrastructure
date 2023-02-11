@@ -155,9 +155,10 @@ resource "azurerm_monitor_diagnostic_setting" "activity_log" {
 resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
-  name                       = "apim-diagnostic-settings"
-  target_resource_id         = module.apim.id
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+  name                           = "apim-diagnostic-settings"
+  target_resource_id             = module.apim.id
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics_workspace.id
+  log_analytics_destination_type = "AzureDiagnostics"
 
   log {
     category = "GatewayLogs"
@@ -168,6 +169,14 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
     }
   }
 
+  log {
+    category = "WebSocketConnectionLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
 
   metric {
     category = "AllMetrics"
@@ -178,11 +187,12 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   }
 }
 
-resource "azurerm_monitor_diagnostic_setting" "appgw_diagnostic_settings" {
-  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+resource "azurerm_monitor_diagnostic_setting" "appgw_maz_diagnostic_settings" {
+  # this resource should exists only in prod
+  count = var.env_short == "p" ? 1 : 0
 
-  name                       = "appgw-diagnostic-settings"
-  target_resource_id         = module.app_gw.id
+  name                       = "appgw-maz-diagnostic-settings"
+  target_resource_id         = module.app_gw_maz.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
   log {

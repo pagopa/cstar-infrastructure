@@ -369,8 +369,8 @@ configmaps_rtdenrolledpaymentinstrument = {
 }
 
 configmaps_rtdproducerenrolledpaymentinstrument = {
-  KAFKA_PARTITION_KEY_EXPRESSION = "headers.partitionKey"
-  KAFKA_PARTITION_COUNT          = 1
+  KAFKA_PARTITION_KEY_EXPRESSION      = "headers.partitionKey"
+  KAFKA_RTD_PI_TO_APP_PARTITION_COUNT = 1
 }
 
 configmaps_rtdpieventprocessor = {
@@ -488,9 +488,7 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
-  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key",
-  "evh-tkm-write-update-token-tkm-write-update-token-sub-key",
-  "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"
+  "evh-tkm-write-update-token-tkm-write-update-token-sub-key"
 ]
 
 secrets_from_rtd_domain_kv = {
@@ -521,10 +519,4 @@ enable = {
   fa = {
     api = true
   }
-}
-
-eventhub_enrolled_pi = {
-  name                = "rtd-enrolled-pi"
-  namespace_name      = "cstar-d-evh-ns"
-  resource_group_name = "cstar-d-msg-rg"
 }

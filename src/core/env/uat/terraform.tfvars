@@ -644,46 +644,6 @@ eventhubs = [
     ]
   },
   {
-    name              = "rtd-enrolled-pi"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-enrolled-pi-consumer-policy"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        name   = "rtd-enrolled-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "rtd-revoked-pi"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-revoked-pi-consumer-policy"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-revoked-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "tkm-write-update-token"
     partitions        = 1
     message_retention = 1
@@ -874,7 +834,7 @@ enable = {
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     pm_integration                      = true
-    tkm_integration                     = false
+    tkm_integration                     = true
   }
   fa = {
     api = true

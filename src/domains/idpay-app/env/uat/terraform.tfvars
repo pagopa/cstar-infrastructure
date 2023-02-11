@@ -45,20 +45,11 @@ enable = {
   }
 }
 
-# Enrolled payment instrument event hub
-eventhub_pim = {
-  enrolled_pi_eventhub  = "rtd-enrolled-pi"
-  revoked_pi_eventhub   = "rtd-revoked-pi"
-  namespace_enrolled_pi = "cstar-u-evh-ns"
-  namespace_revoked_pi  = "cstar-u-evh-ns"
-  resource_group_name   = "cstar-u-msg-rg"
-}
-
 #
 # PDV
 #
 pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
-
+pdv_timeout_sec   = 5
 #
 # PM
 #
@@ -74,6 +65,11 @@ checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
 # SelfCare API
 #
 selc_base_url = "https://api.uat.selfcare.pagopa.it"
+
+#
+# BE IO API
+#
+io_backend_base_url = "https://api.io.italia.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
 
 #
 # TLS Checker

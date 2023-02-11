@@ -21,3 +21,11 @@ resource "azurerm_storage_container" "tmp_container" {
   storage_account_name  = module.cstarblobstorage.name
   container_access_type = "private"
 }
+
+# Container for sender integration
+resource "azurerm_storage_container" "sender_integration_container" {
+  count                 = var.enable.tae.api && var.enable.tae.blob_containers && (var.env_short != "p") ? 1 : 0
+  name                  = "ade-integration-aggregates"
+  storage_account_name  = module.cstarblobstorage.name
+  container_access_type = "private"
+}

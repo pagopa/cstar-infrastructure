@@ -1,0 +1,1826 @@
+openapi: 3.0.3
+info:
+  title: IDPAY Iban IO API
+  description: |-
+    IDPAY IBAN IO
+
+    IDPAY Onboarding Workflow IO
+
+    IDPAY Timeline IO
+
+    IDPAY Wallet IO
+
+  version: "1.0"
+servers:
+  - url: "https://api-io.dev.cstar.pagopa.it/idpay"
+security:
+  - bearerAuth: []
+tags:
+  - name: iban
+    description: ""
+  - name: onboarding
+    description: ""
+  - name: timeline
+    description: ""
+  - name: wallet
+    description: ""
+paths:
+  "/iban/{iban}":
+    get:
+      tags:
+        - iban
+      summary: >-
+        Returns the detail of the IBAN associated to the initiative by the
+        citizen
+      operationId: getIban
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: iban
+          in: path
+          description: The citizen iban
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IbanDTO"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  /iban/:
+    get:
+      tags:
+        - iban
+      summary: Returns the list of iban associated to the citizen
+      operationId: getIbanList
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IbanListDTO"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/onboarding/service/{serviceId}":
+    get:
+      tags:
+        - onboarding
+      summary: Retrieves the initiative ID starting from the corresponding service ID
+      operationId: getInitiativeData
+      parameters:
+        - name: serviceId
+          in: path
+          description: The service ID
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        "200":
+          description: Get successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeDto"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+  /onboarding/:
+    put:
+      tags:
+        - onboarding
+      summary: Acceptance of Terms & Conditions
+      operationId: onboardingCitizen
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: Id of the initiative
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnboardingPutDTO"
+      responses:
+        "204":
+          description: Acceptance successful
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+  /onboarding/initiative:
+    put:
+      tags:
+        - onboarding
+      summary: Check the initiative prerequisites
+      operationId: checkPrerequisites
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: Id of the iniziative
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnboardingPutDTO"
+            example:
+              initiativeId: string
+      responses:
+        "200":
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequiredCriteriaDTO"
+        "202":
+          description: Accepted - Request Taken Over
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "403":
+          description: This enrolment is ended or suspended
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+  /onboarding/consent:
+    put:
+      tags:
+        - onboarding
+      summary: Save the consensus of both PDND and self-declaration
+      operationId: consentOnboarding
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: >-
+          Unique identifier of the subscribed initiative, flag for PDND
+          acceptation and the list of accepted self-declared criteria
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConsentPutDTO"
+      responses:
+        "202":
+          description: Accepted - Request Taken Over
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+  "/onboarding/{initiativeId}/status":
+    get:
+      tags:
+        - onboarding
+      summary: Returns the actual onboarding status
+      operationId: onboardingStatus
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OnboardingStatusDTO"
+              example:
+                status: ACCEPTED_TC
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+              example:
+                code: 0
+                message: string
+  "/timeline/{initiativeId}":
+    get:
+      tags:
+        - timeline
+      summary: >-
+        Returns the list of transactions and operations of an initiative of a
+        citizen sorted by date (newest->oldest)
+      operationId: getTimeline
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: operationType
+          in: query
+          description: Operation type filter
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: The number of the page
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: "Number of items, default 3 - max 10"
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimelineDTO"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/timeline/{initiativeId}/{operationId}":
+    get:
+      tags:
+        - timeline
+      summary: Returns the detail of a transaction
+      operationId: getTimelineDetail
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: operationId
+          in: path
+          description: The operation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationDTO'
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  /wallet/:
+    get:
+      tags:
+        - wallet
+      summary: Returns the list of active initiatives of a citizen
+      operationId: getWallet
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletDTO"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}":
+    get:
+      tags:
+        - wallet
+      summary: Returns the detail of an active initiative of a citizen
+      operationId: getWalletDetail
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeDTO"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}/iban":
+    put:
+      tags:
+        - wallet
+      summary: Association of an IBAN to an initiative
+      operationId: enrollIban
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: "Unique identifier of the subscribed initiative, IBAN of the citizen"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IbanPutDTO"
+            example:
+              iban: string
+              description: string
+      responses:
+        "200":
+          description: Enrollment OK
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}/instruments/{idWallet}":
+    put:
+      tags:
+        - wallet
+      summary: Association of a payment instrument to an initiative
+      operationId: enrollInstrument
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: idWallet
+          in: path
+          description: A unique id that identifies a payment method
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Enrollment OK
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}/instruments":
+    get:
+      tags:
+        - wallet
+      summary: >-
+        Returns the list of payment instruments associated to the initiative by
+        the citizen
+      operationId: getInstrumentList
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstrumentListDTO"
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}/instruments/{instrumentId}":
+    delete:
+      tags:
+        - wallet
+      summary: Delete a payment instrument from an initiative
+      operationId: deleteInstrument
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: instrumentId
+          in: path
+          description: "A unique id, internally detached, which identifies a payment method"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete OK
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}/unsubscribe":
+    delete:
+      tags:
+        - wallet
+      summary: Unsubscribe to an initiative
+      operationId: unsubscribe
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Unsubscribe OK
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+  "/wallet/{initiativeId}/status":
+    get:
+      tags:
+        - wallet
+      summary: Returns the actual wallet status
+      operationId: getWalletStatus
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletStatusDTO"
+              example:
+                status: NOT_REFUNDABLE_ONLY_IBAN
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "401":
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "404":
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "429":
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+        "500":
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+              example:
+                code: 0
+                message: string
+components:
+  schemas:
+    IbanDTO:
+      type: object
+      required:
+        - iban
+        - checkIbanStatus
+        - holderBank
+        - description
+        - channel
+        - bicCode
+        - queueDate
+        - checkIbanResponseDate
+      properties:
+        iban:
+          type: string
+        checkIbanStatus:
+          type: string
+        holderBank:
+          type: string
+        description:
+          type: string
+        channel:
+          type: string
+        bicCode:
+          type: string
+        queueDate:
+          type: string
+        checkIbanResponseDate:
+          type: string
+          format: date-time
+    IbanListDTO:
+      type: object
+      required:
+        - ibanList
+      properties:
+        ibanList:
+          type: array
+          items:
+            $ref: "#/components/schemas/IbanDTO"
+          description: The list of iban of a citizen
+    ErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ConsentPutDTO:
+      title: ConsentPutDTO
+      type: object
+      required:
+        - initiativeId
+        - pdndAccept
+        - selfDeclarationList
+      properties:
+        initiativeId:
+          type: string
+          description: Unique identifier of the subscribed initiative
+        pdndAccept:
+          type: boolean
+          description: Flag for PDND acceptation
+        selfDeclarationList:
+          type: array
+          items:
+            $ref: "#/components/schemas/SelfConsentDTO"
+          description: The list of accepted self-declared criteria
+    SelfConsentDTO:
+      oneOf:
+        - $ref: "#/components/schemas/SelfConsentBoolDTO"
+        - $ref: "#/components/schemas/SelfConsentMultiDTO"
+    OnboardingPutDTO:
+      title: OnboardingPutDTO
+      type: object
+      required:
+        - initiativeId
+      properties:
+        initiativeId:
+          type: string
+          description: Unique identifier of the subscribed initiative
+    OnboardingStatusDTO:
+      title: OnboardingStatusDTO
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          enum:
+            - ACCEPTED_TC
+            - ON_EVALUATION
+            - ONBOARDING_KO
+            - ELIGIBILE_KO
+            - ONBOARDING_OK
+            - UNSUBSCRIBED
+            - INVITED
+          type: string
+          description: actual status of the citizen onboarding for an initiative
+    RequiredCriteriaDTO:
+      type: object
+      required:
+        - pdndCriteria
+        - selfDeclarationList
+      properties:
+        pdndCriteria:
+          type: array
+          items:
+            $ref: "#/components/schemas/PDNDCriteriaDTO"
+          description: The list of control made with PDND platform
+        selfDeclarationList:
+          type: array
+          items:
+            $ref: "#/components/schemas/SelfDeclarationDTO"
+          description: The list of required self-declared criteria
+    SelfDeclarationDTO:
+      oneOf:
+        - $ref: "#/components/schemas/SelfDeclarationBoolDTO"
+        - $ref: "#/components/schemas/SelfDeclarationMultiDTO"
+    PDNDCriteriaDTO:
+      type: object
+      required:
+        - code
+        - description
+        - value
+        - authority
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        value:
+          type: string
+          description: >-
+            The expected value for the criteria. It is used in conjunction with
+            the operator to define a range or an equality over that criteria.
+        value2:
+          type: string
+          description: >-
+            In situations where the operator expects two values (e.g BETWEEN)
+            this field is populated
+        operator:
+          type: string
+          description: Represents the relation between the criteria and the value field
+        authority:
+          type: string
+    SelfDeclarationBoolDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - boolean
+        code:
+          type: string
+        description:
+          type: string
+        value:
+          type: boolean
+    SelfDeclarationMultiDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - multi
+        code:
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+    SelfConsentBoolDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - accepted
+      properties:
+        _type:
+          type: string
+          enum:
+            - boolean
+        code:
+          type: string
+        accepted:
+          type: boolean
+    SelfConsentMultiDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - multi
+        code:
+          type: string
+        value:
+          type: string
+    ErrorDto:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    InitiativeDto:
+      type: object
+      required:
+        - initiativeId
+      properties:
+        initiativeId:
+          type: string
+        description:
+          type: string
+    OperationDTO:
+      oneOf:
+        - $ref: '#/components/schemas/TransactionDetailDTO'
+        - $ref: '#/components/schemas/InstrumentOperationDTO'
+        - $ref: '#/components/schemas/IbanOperationDTO'
+        - $ref: '#/components/schemas/OnboardingOperationDTO'
+        - $ref: '#/components/schemas/RefundOperationDTO'
+    TimelineDTO:
+      type: object
+      required:
+        - lastUpdate
+        - operationList
+      properties:
+        lastUpdate:
+          type: string
+          description: date of the last update
+          format: date-time
+        operationList:
+          type: array
+          items:
+            $ref: "#/components/schemas/OperationListDTO"
+          description: >-
+            the list of transactions and operations of an initiative of a
+            citizen
+    OperationListDTO:
+      description: Complex type for items in the operation list
+      oneOf:
+        - $ref: "#/components/schemas/TransactionOperationDTO"
+        - $ref: "#/components/schemas/InstrumentOperationDTO"
+        - $ref: "#/components/schemas/RejectedInstrumentOperationDTO"
+        - $ref: "#/components/schemas/IbanOperationDTO"
+        - $ref: "#/components/schemas/OnboardingOperationDTO"
+        - $ref: "#/components/schemas/RefundOperationDTO"
+    RejectedInstrumentOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - REJECTED_ADD_INSTRUMENT
+            - REJECTED_DELETE_INSTRUMENT
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        instrumentId:
+          type: string
+        maskedPan:
+          type: string
+        channel:
+          type: string
+    TransactionDetailDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - amount
+        - accrued
+        - circuitType
+        - idTrxIssuer
+        - idTrxAcquirer
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - TRANSACTION
+            - REVERSAL
+          type: string
+        brandLogo:
+          type: string
+        maskedPan:
+          type: string
+        amount:
+          type: number
+        accrued:
+          type: number
+        operationDate:
+          type: string
+          format: date-time
+        circuitType:
+          type: string
+          description: >-
+            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
+            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
+            09->Satispay, 10->PrivateCircuit
+        idTrxIssuer:
+          type: string
+        idTrxAcquirer:
+          type: string
+    InstrumentOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ADD_INSTRUMENT
+            - DELETE_INSTRUMENT
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        maskedPan:
+          type: string
+        channel:
+          type: string
+    IbanOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - iban
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ADD_IBAN
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        iban:
+          type: string
+        channel:
+          type: string
+    OnboardingOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ONBOARDING
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    RefundOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - amount
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - PAID_REFUND
+            - REJECTED_REFUND
+          type: string
+        operationDate:
+          type: string
+          format: date
+        amount:
+          type: number
+        accrued:
+          type: number
+    TransactionOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - amount
+        - circuitType
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - TRANSACTION
+            - REVERSAL
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        maskedPan:
+          type: string
+        amount:
+          type: number
+        accrued:
+          type: number
+        circuitType:
+          type: string
+          description: >-
+            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
+            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
+            09->Satispay, 10->PrivateCircuit
+    IbanPutDTO:
+      title: IbanPutDTO
+      type: object
+      required:
+        - iban
+        - description
+      properties:
+        iban:
+          type: string
+          description: IBAN of the citizen
+        description:
+          type: string
+          description: further information about the iban
+    WalletStatusDTO:
+      title: WalletStatusDTO
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          enum:
+            - NOT_REFUNDABLE_ONLY_IBAN
+            - NOT_REFUNDABLE_ONLY_INSTRUMENT
+            - REFUNDABLE
+            - NOT_REFUNDABLE
+            - UNSUBSCRIBED
+          type: string
+          description: actual status of the citizen wallet for an initiative
+    WalletDTO:
+      type: object
+      required:
+        - initiativeList
+      properties:
+        initiativeList:
+          type: array
+          items:
+            $ref: "#/components/schemas/InitiativeDTO"
+          description: The list of active initiatives of a citizen
+    InstrumentListDTO:
+      type: object
+      required:
+        - instrumentList
+      properties:
+        instrumentList:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstrumentDTO"
+          description: >-
+            The list of payment instruments associated to the initiative by the
+            citizen
+    InstrumentDTO:
+      title: InstrumentDTO
+      type: object
+      required:
+        - instrumentId
+      properties:
+        idWallet:
+          type: string
+          description: Wallet's id provided by the Payment manager
+        instrumentId:
+          type: string
+          description: Payment instrument id
+        maskedPan:
+          type: string
+          description: Masked Pan
+        channel:
+          type: string
+        brandLogo:
+          type: string
+          description: "Card's brand as mastercard, visa, ecc."
+        status:
+          enum:
+            - ACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+          type: string
+          description: The status of the instrument
+        activationDate:
+          type: string
+          format: date-time
+    InitiativeDTO:
+      type: object
+      required:
+        - initiativeId
+        - status
+        - endDate
+        - nInstr
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        status:
+          enum:
+            - NOT_REFUNDABLE_ONLY_IBAN
+            - NOT_REFUNDABLE_ONLY_INSTRUMENT
+            - REFUNDABLE
+            - NOT_REFUNDABLE
+            - UNSUBSCRIBED
+          type: string
+        endDate:
+          type: string
+          format: date
+        amount:
+          type: number
+        accrued:
+          type: number
+        refunded:
+          type: number
+        lastCounterUpdate:
+          type: string
+          format: date-time
+        iban:
+          type: string
+        nInstr:
+          type: integer
+          format: int32
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

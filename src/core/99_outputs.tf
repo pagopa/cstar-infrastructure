@@ -10,16 +10,6 @@ output "vnet_address_space" {
   value = module.vnet.address_space
 }
 
-## nat gateway.
-/*
-output "nat_gateway_public_ip_address" {
-  value = module.nat_gateway.public_ip_address
-}
-
-output "nat_gateway_public_ip_fqdn" {
-  value = module.nat_gateway.public_ip_fqdn
-}
-*/
 
 output "aks_cluster_name" {
   value = module.aks.name
@@ -31,15 +21,6 @@ output "aks_fqdn" {
 
 output "aks_private_fqdn" {
   value = module.aks.private_fqdn
-}
-
-output "aks_client_certificate" {
-  value = module.aks.client_certificate
-}
-
-output "aks_kube_config" {
-  value     = module.aks.kube_config
-  sensitive = true
 }
 
 output "aks_outbound_ips" {
@@ -90,14 +71,10 @@ output "apim_gateway_hostname" {
   value = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
 }
 
-## Application gateway.
-output "app_gateway_public_ip" {
-  value = azurerm_public_ip.apigateway_public_ip.ip_address
+output "app_gateway_maz_public_ip" {
+  value = azurerm_public_ip.appgateway_public_ip.ip_address
 }
 
-output "app_gateway_fqdn" {
-  value = azurerm_public_ip.apigateway_public_ip.fqdn
-}
 
 output "api_fqdn" {
   value = azurerm_dns_a_record.dns_a_appgw_api.fqdn

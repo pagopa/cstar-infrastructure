@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission" />
-        <rewrite-uri template="@("/idpay/authorization/user/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", "")+"/consent")" />
+        <rewrite-uri template="@("/idpay/consent?userId=" + ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
     </inbound>
     <backend>
         <base />

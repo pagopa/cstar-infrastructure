@@ -178,10 +178,16 @@ resource "kubernetes_config_map" "rtdingestor" {
     namespace = var.domain
   }
 
-  data = {
-    JAVA_TOOL_OPTIONS = "-javaagent:/app/applicationinsights-agent.jar"
-    CSV_INGESTOR_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
-  }
+
+  data = merge({
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdingestor"
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    CSV_INGESTOR_HOST             = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    KAFKA_TOPIC_RTD_DLQ_TRX       = "rtd-dlq-trx"
+    MONGODB_NAME                  = "rtd"
+    KAFKA_BROKER_DLQ              = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    },
+  var.configmaps_rtdingestor)
 }
 
 #
@@ -219,6 +225,23 @@ resource "kubernetes_config_map" "rtddecrypter" {
     CSV_TRANSACTION_DECRYPT_HOST  = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
     SPLITTER_LINE_THRESHOLD       = 2000000,
     ENABLE_CHUNK_UPLOAD           = true,
-    CONSUMER_TIMEOUT_MS           = 7200000 # 2h
+    CONSUMER_TIMEOUT_MS           = 600000 # 10m
   }, var.configmaps_rtddecrypter)
+}
+
+#
+# RTD File Reporter
+#
+resource "kubernetes_config_map" "rtdfilereporter" {
+  count = var.enable.file_reporter ? 1 : 0
+
+  metadata {
+    name      = "rtd-filereporter"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdfilereporter"
+  }, var.configmaps_rtdfilereporter)
 }

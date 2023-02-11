@@ -183,25 +183,28 @@ module "vnet_peering" {
   target_use_remote_gateways       = false # needed by vnet peering with SIA
 }
 
+
 ## Application gateway public ip ##
-resource "azurerm_public_ip" "apigateway_public_ip" {
-  name                = format("%s-appgateway-pip", local.project)
+resource "azurerm_public_ip" "appgateway_public_ip" {
+  name                = format("%s-appgateway-maz-pip", local.project)
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
   sku                 = "Standard"
   allocation_method   = "Static"
+  availability_zone   = var.app_gateway_public_ip_availability_zone
+
 
   tags = var.tags
 }
 
-## Application gateway ##
-# Application gateway: Multilistener configuration
-module "app_gw" {
-  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.0.23"
+
+# new application gateway multi az
+module "app_gw_maz" {
+  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v4.3.0"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
-  name                = format("%s-app-gw", local.project)
+  name                = format("%s-app-gw-maz", local.project)
 
   # SKU
   sku_name = var.app_gateway_sku_name
@@ -218,7 +221,8 @@ module "app_gw" {
 
   # Networking
   subnet_id    = module.appgateway-snet.id
-  public_ip_id = azurerm_public_ip.apigateway_public_ip.id
+  public_ip_id = azurerm_public_ip.appgateway_public_ip.id
+  zones        = [1, 2, 3]
 
   # Configure backends
   backends = {
@@ -394,7 +398,7 @@ module "app_gw" {
       rewrite_rules = [{
         name          = "mauth-headers"
         rule_sequence = 100
-        condition     = null
+        conditions    = []
         request_header_configurations = [
           {
             header_name  = "X-Client-Certificate-Verification"
@@ -518,6 +522,7 @@ module "app_gw" {
 
   tags = var.tags
 }
+
 
 resource "azurerm_public_ip" "aks_outbound" {
   count = var.aks_num_outbound_ips

@@ -665,26 +665,6 @@ eventhubs = [
     ]
   },
   {
-    name              = "rtd-enrolled-pi"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-enrolled-pi-consumer-policy"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        name   = "rtd-enrolled-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "tkm-write-update-token"
     partitions        = 1
     message_retention = 1
@@ -818,27 +798,7 @@ eventhubs_fa = [
         manage = false
       }
     ]
-  },
-  { // to be removed from here, temporary allocated here due to limit of 10 queue in rtd namespace
-    name              = "rtd-revoked-pi"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-revoked-pi-consumer-policy"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-revoked-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
+  }
 ]
 
 external_domain = "pagopa.it"
@@ -880,6 +840,7 @@ app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-cstar-pagopa-it"
 app_gateway_min_capacity                = 1
 app_gateway_max_capacity                = 10
+app_gateway_public_ip_availability_zone = "Zone-Redundant"
 
 lock_enable = true
 

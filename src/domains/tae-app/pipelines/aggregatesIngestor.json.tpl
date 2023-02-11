@@ -208,11 +208,11 @@
         ]
     },
     {
-        "name": "AggregatesToSftp",
+        "name": "AggregatesToLog",
         "type": "Copy",
         "dependsOn": [
             {
-                "activity": "AggregatesToLog",
+                "activity": "Set rowsCopiedToCosmos",
                 "dependencyConditions": [
                     "Succeeded"
                 ]
@@ -236,15 +236,265 @@
                 "preferredRegions": []
             },
             "sink": {
-                "type": "DelimitedTextSink",
-                "storeSettings": {
-                    "type": "AzureBlobStorageWriteSettings"
-                },
-                "formatSettings": {
-                    "type": "DelimitedTextWriteSettings",
-                    "quoteAllText": true,
-                    "fileExtension": ".txt"
+                        "type": "AzureDataExplorerSink"
+            },
+            "enableStaging": false,
+            "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                    {
+                        "source": {
+                            "path": "$['id']"
+                        },
+                        "sink": {
+                                    "name": "id",
+                                    "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['senderCode']"
+                        },
+                        "sink": {
+                                    "name": "senderCode",
+                                    "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['operationType']"
+                        },
+                        "sink": {
+                                    "name": "operationType",
+                                    "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['transmissionDate']"
+                        },
+                        "sink": {
+                                    "name": "transmissionDate",
+                                    "type": "DateTime"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['accountingDate']"
+                        },
+                        "sink": {
+                            "name": "accountingDate",
+                            "type": "DateTime"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['numTrx']"
+                        },
+                        "sink": {
+                            "name": "numTrx",
+                            "type": "Int32"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['totalAmount']"
+                        },
+                        "sink": {
+                            "name": "totalAmount",
+                            "type": "Int64"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['currency']"
+                        },
+                        "sink": {
+                            "name": "currency",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['acquirerId']"
+                        },
+                        "sink": {
+                            "name": "acquirerId",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['merchantId']"
+                        },
+                        "sink": {
+                            "name": "merchantId",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['terminalId']"
+                        },
+                        "sink": {
+                            "name": "terminalId",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['fiscalCode']"
+                        },
+                        "sink": {
+                            "name": "fiscalCode",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['vat']"
+                        },
+                        "sink": {
+                            "name": "vat",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['posType']"
+                        },
+                        "sink": {
+                            "name": "posType",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['sourceFileName']"
+                        },
+                        "sink": {
+                            "name": "fileName",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['ingestPipelineRun']"
+                        },
+                        "sink": {
+                            "name": "pipelineRun",
+                            "type": "String"
+                        }
+                    },
+                    {
+                        "source": {
+                            "path": "$['_ts']"
+                        },
+                        "sink": {
+                            "name": "timestamp",
+                            "type": "Int32"
+                        }
+                    }
+                ]
+            }
+        },
+        "inputs": [
+            {
+                "referenceName": "Aggregate",
+                "type": "DatasetReference"
+            }
+        ],
+        "outputs": [
+            {
+                "referenceName": "AggregatesLog",
+                "type": "DatasetReference"
+            }
+        ]
+    },
+    {
+        "name": "Set rowsCopiedToCosmos",
+        "type": "SetVariable",
+        "dependsOn": [
+            {
+                "activity": "SenderAggregatesToDatastore",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+                "userProperties": [],
+                "typeProperties": {
+                    "variableName": "rowsCopiedToCosmos",
+                    "value": {
+                        "value": "@string(activity('SenderAggregatesToDatastore').output.rowsCopied)",
+                        "type": "Expression"
+                    }
                 }
+            },
+            {
+                "name": "If rowsCopiedToCosmos equals rowsCopiedToLog",
+                "type": "IfCondition",
+                "dependsOn": [
+                    {
+                        "activity": "AggregatesToLog",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "expression": {
+                        "value": "@equals(variables('rowsCopiedToCosmos'),string(activity('AggregatesToLog').output.rowsCopied))",
+                        "type": "Expression"
+                    },
+                    "ifFalseActivities": [
+                        {
+                            "name": "Fail rowsCopiedToCosmos equals rowsCopiedToLog",
+                            "type": "Fail",
+                            "dependsOn": [],
+                            "userProperties": [],
+                            "typeProperties": {
+                                "message": {
+                                    "value": "@concat('rowsCopiedToCosmos (',variables('rowsCopiedToCosmos'),') not equal to rowsCopiedToLog (',string(activity('AggregatesToLog').output.rowsCopied),')')",
+                                    "type": "Expression"
+                                },
+                                "errorCode": "412"
+                            }
+                        }
+                    ],
+                    "ifTrueActivities": [
+                        {
+                            "name": "AggregatesToSftp",
+                            "type": "Copy",
+                            "dependsOn": [],
+        "policy": {
+            "timeout": "0.12:00:00",
+            "retry": ${copy_activity_retries},
+            "retryIntervalInSeconds": ${copy_activity_retry_interval_seconds},
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "source": {
+                "type": "CosmosDbSqlApiSource",
+                                    "query": {
+                                        "value": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
+                                        "type": "Expression"
+                                    },
+                "preferredRegions": []
+            },
+            "sink": {
+                                    "type": "DelimitedTextSink",
+                                    "storeSettings": {
+                                        "type": "AzureBlobStorageWriteSettings"
+                                    },
+                                    "formatSettings": {
+                                        "type": "DelimitedTextWriteSettings",
+                                        "quoteAllText": true,
+                                        "fileExtension": ".txt"
+                                    }
             },
             "enableStaging": false,
             "translator": {
@@ -395,207 +645,43 @@
                     "file": "@{pipeline().parameters.file}.gz"
                 }
             }
-        ]
-    },
-    {
-        "name": "AggregatesToLog",
-        "type": "Copy",
-        "dependsOn": [
+                            ]
+                        }
+                    ]
+                }
+            },
             {
-                "activity": "SenderAggregatesToDatastore",
-                "dependencyConditions": [
-                    "Succeeded"
-                ]
-            }
-        ],
-        "policy": {
-            "timeout": "0.12:00:00",
-            "retry": ${copy_activity_retries},
-            "retryIntervalInSeconds": ${copy_activity_retry_interval_seconds},
-            "secureOutput": false,
-            "secureInput": false
-        },
-        "userProperties": [],
-        "typeProperties": {
-            "source": {
-                "type": "CosmosDbSqlApiSource",
-                "query": "SELECT * FROM c WHERE c.sourceFileName = \"@{pipeline().parameters.file}\"",
-                "preferredRegions": []
-            },
-            "sink": {
-                "type": "AzureDataExplorerSink"
-            },
-            "enableStaging": false,
-            "translator": {
-                "type": "TabularTranslator",
-                "mappings": [
+                "name": "If rowsCopiedToCosmos equals rowsCopiedToSFTP",
+                "type": "IfCondition",
+                "dependsOn": [
                     {
-                        "source": {
-                            "path": "$['id']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "id"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['senderCode']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "senderCode"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['operationType']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "operationType"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['transmissionDate']"
-                        },
-                        "sink": {
-                            "type": "DateTime",
-                            "name": "transmissionDate"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['accountingDate']"
-                        },
-                        "sink": {
-                            "type": "DateTime",
-                            "name": "accountingDate"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['numTrx']"
-                        },
-                        "sink": {
-                            "type": "Int32",
-                            "name": "numTrx"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['totalAmount']"
-                        },
-                        "sink": {
-                            "type": "Int64",
-                            "name": "totalAmount"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['currency']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "currency"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['acquirerId']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "acquirerId"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['merchantId']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "merchantId"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['terminalId']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "terminalId"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['fiscalCode']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "fiscalCode"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['vat']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "vat"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['posType']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "posType"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['sourceFileName']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "fileName"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['ingestPipelineRun']"
-                        },
-                        "sink": {
-                            "type": "String",
-                            "name": "pipelineRun"
-                        }
-                    },
-                    {
-                        "source": {
-                            "path": "$['_ts']"
-                        },
-                        "sink": {
-                            "type": "Int32",
-                            "name": "timestamp"
-                        }
+                        "activity": "If rowsCopiedToCosmos equals rowsCopiedToLog",
+                        "dependencyConditions": [
+                            "Succeeded"
+        ]
                     }
-                ]
-            }
-        },
-        "inputs": [
-            {
-                "referenceName": "Aggregate",
-                "type": "DatasetReference"
-            }
-        ],
-        "outputs": [
-            {
-                "referenceName": "AggregatesLog",
-                "type": "DatasetReference"
-            }
-        ]
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "expression": {
+                        "value": "@equals(variables('rowsCopiedToCosmos'),string(activity('AggregatesToSftp').output.rowsCopied))",
+                        "type": "Expression"
+                    },
+                    "ifFalseActivities": [
+                        {
+                            "name": "Fail rowsCopiedToCosmos equals rowsCopiedToSFTP",
+                            "type": "Fail",
+                            "dependsOn": [],
+                            "userProperties": [],
+                            "typeProperties": {
+                                "message": {
+                                    "value": "@concat('rowsCopiedToCosmos (',variables('rowsCopiedToCosmos'),') not equal to rowsCopiedToLog (',string(activity('AggregatesToSftp').output.rowsCopied),')')",
+                                    "type": "Expression"
+                                },
+                                "errorCode": "412"
+                            }
+                        }
+                    ]
+                }
     }
 ]
