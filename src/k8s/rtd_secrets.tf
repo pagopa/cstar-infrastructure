@@ -202,8 +202,8 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
   }
 
   data = {
-    KAFKA_TOPIC_EVENTS = "rtd-enrolled-pi"
-    KAFKA_BROKER       = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_TOPIC_EVENTS                          = "rtd-enrolled-pi"
+    KAFKA_BROKER                                = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
     KAFKA_SASL_JAAS_CONFIG_CONSUMER_ENROLLED_PI = ""
   }
   type = "Opaque"
