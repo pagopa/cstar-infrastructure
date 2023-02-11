@@ -147,16 +147,16 @@ variable "reverse_proxy_be_io" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
-variable "eventhub_pim" {
-  type = object({
-    enrolled_pi_eventhub  = string,
-    revoked_pi_eventhub   = string,
-    resource_group_name   = string,
-    namespace_enrolled_pi = string
-    namespace_revoked_pi  = string
-  })
-  description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
-}
+# variable "eventhub_pim" {
+#   type = object({
+#     enrolled_pi_eventhub  = string,
+#     revoked_pi_eventhub   = string,
+#     resource_group_name   = string,
+#     namespace_enrolled_pi = string
+#     namespace_revoked_pi  = string
+#   })
+#   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
+# }
 
 variable "io_backend_base_url" {
   type        = string
