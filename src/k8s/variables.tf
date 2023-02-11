@@ -267,6 +267,26 @@ variable "fa_autoscaling_specs" {
         })
       })
     }))
+    behaviors = list(object({
+      scale_down = object({
+        stabilization_window_seconds = number
+        select_policy                = string
+        policy = object({
+          period_seconds = number
+          type           = string
+          value          = number
+        })
+      })
+      scale_up = object({
+        stabilization_window_seconds = number
+        select_policy                = string
+        policy = object({
+          period_seconds = number
+          type           = string
+          value          = number
+        })
+      })
+    }))
     }
   ))
   default = {}
