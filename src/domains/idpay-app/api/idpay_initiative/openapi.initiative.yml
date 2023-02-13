@@ -325,6 +325,360 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  '/{initiativeId}/beneficiary/{iban}':
+    get:
+      tags:
+        - beneficiary
+      summary: Returns the detail of the IBAN associated to the initiative by the citizen
+      operationId: getIban
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: iban
+          in: path
+          description: The citizen iban
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: The initiative id
+          required: true
+          schema:
+            type: string        
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IbanDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+                
+  '/{initiativeId}/beneficiary/timeline':
+    get:
+      tags:
+        - beneficiary
+      summary: Returns the list of transactions and operations of an initiative of a citizen sorted by date (newest->oldest)
+      operationId: getTimeline
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: operationType
+          in: query
+          description: Operation type filter
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          description: Start date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: dateTo
+          in: query
+          description: End date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          description: The number of the page
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: 'Number of items, default 3 - max 10'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+                
+  '/{initiativeId}/beneficiary/timeline/{operationId}':
+    get:
+      tags:
+        - beneficiary
+      summary: Returns the detail of a transaction
+      operationId: getTimelineDetail
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: operationId
+          in: path
+          description: The operation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  '/{initiativeId}/beneficiary/wallet':
+    get:
+      tags:
+        - beneficiary
+      summary: Returns the detail of an active initiative of a citizen
+      operationId: getWalletDetail
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  '/{initiativeId}/beneficiary/instruments':
+    get:
+      tags:
+        - beneficiary
+      summary: Returns the list of payment instruments associated to the initiative by the citizen
+      operationId: getInstrumentList
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentListDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+                
     delete:
       tags:
         - initiative
@@ -397,7 +751,7 @@ paths:
           multipart/form-data:
             schema:
               required:
-              - logo
+                - logo
               type: object
               properties:
                 logo:
@@ -1390,7 +1744,7 @@ paths:
         '201':
           description: Created
           content:
-           application/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/SasToken'
         '400':
@@ -1709,7 +2063,7 @@ paths:
         '201':
           description: Created
           content:
-           application/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/SasToken'
         '400':
@@ -1774,7 +2128,7 @@ paths:
           multipart/form-data:
             schema:
               required:
-              - file
+                - file
               type: object
               properties:
                 file:
@@ -1843,7 +2197,7 @@ paths:
       responses:
         '200':
           description: OK
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CsvDTO'
@@ -1973,8 +2327,8 @@ components:
         orderDirection:
           type: string
           enum:
-          - ASC
-          - DESC
+            - ASC
+            - DESC
     InitiativeDTO:
       type: object
       properties:
@@ -1983,8 +2337,6 @@ components:
         initiativeName:
           type: string
         organizationId:
-          type: string
-        pdndToken:
           type: string
         creationDate:
           type: string
@@ -1996,8 +2348,6 @@ components:
           format: date-time
         status:
           type: string
-        pdndCheck:
-          type: boolean
         autocertificationCheck:
           type: boolean
         beneficiaryRanking:
@@ -2094,6 +2444,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AutomatedCriteriaDTO'
+        apiKeyClientId:
+          type: string
+        apiKeyClientAssertion:
+          type: string
     SelfCriteriaBoolDTO:
       type: object
       properties:
@@ -2238,12 +2592,12 @@ components:
       properties:
         startTime:
           type: string
-          description: "hours:minutes:seconds.nano"
-          example: "00:16:00.000"
+          description: 'hours:minutes:seconds.nano'
+          example: '00:16:00.000'
         endTime:
           type: string
-          description: "hours:minutes:seconds.nano"
-          example: "02:00:00.000"
+          description: 'hours:minutes:seconds.nano'
+          example: '02:00:00.000'
     MccFilterDTO:
       type: object
       properties:
@@ -2259,14 +2613,14 @@ components:
       properties:
         logoFileName:
           type: string
-          example: "logo-name.png"
+          example: 'logo-name.png'
         logoURL:
           type: string
-          example: "https://localhost:8080/logo/initiative/logo.png"
+          example: 'https://localhost:8080/logo/initiative/logo.png'
         logoUploadDate:
           type: string
           description: date-time
-          example: "2022-11-18T17:16:08.8820821"
+          example: '2022-11-18T17:16:08.8820821'
     RewardGroupDTO:
       type: object
       properties:
@@ -2372,20 +2726,20 @@ components:
       type: object
       properties:
         content:
-            type: array
-            items:
-              $ref: '#/components/schemas/StatusOnboardingDTOS'
+          type: array
+          items:
+            $ref: '#/components/schemas/StatusOnboardingDTOS'
         pageNo:
-          type:  integer
+          type: integer
           format: int32
         pageSize:
-          type:  integer
+          type: integer
           format: int32
         totalElements:
-          type:  integer
+          type: integer
           format: int32
         totalPages:
-          type:  integer
+          type: integer
           format: int32
     StatusOnboardingDTOS:
       type: object
@@ -2401,20 +2755,20 @@ components:
       type: object
       properties:
         content:
-            type: array
-            items:
-              $ref: '#/components/schemas/OnboardingRankingsDTO'
+          type: array
+          items:
+            $ref: '#/components/schemas/OnboardingRankingsDTO'
         pageNumber:
-          type:  integer
+          type: integer
           format: int32
         pageSize:
-          type:  integer
+          type: integer
           format: int32
         totalElements:
-          type:  integer
+          type: integer
           format: int32
         totalPages:
-          type:  integer
+          type: integer
           format: int32
         rankingStatus:
           type: string
@@ -2465,7 +2819,7 @@ components:
           type: string
           format: date-time
         onboardedCitizenCount:
-          type:  integer
+          type: integer
           format: int32
         accruedRewards:
           type: string
@@ -2490,7 +2844,7 @@ components:
         content:
           type: array
           items:
-            "$ref": "#/components/schemas/RewardImportsDTO"
+            '$ref': '#/components/schemas/RewardImportsDTO'
         totalElements:
           type: integer
           format: int64
@@ -2498,31 +2852,32 @@ components:
           type: integer
           format: int32
     DescriptionMap:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            it: Ciao!
-            en: Hello!
-            fr: Salut!
+      type: object
+      additionalProperties:
+        type: string
+      example:
+        it: Ciao!
+        en: Hello!
+        fr: Salut!
     RewardExportsDTO:
       title: RewardExportsDTO
-      required: [
-        "id",
-        "organizationId",
-        "initiativeId",
-        "initiativeName",
-        "filePath",
-        "status",
-        "notificationDate",
-        "percentageResulted",
-        "percentageResults",
-        "rewardsExported",
-        "rewardsNotified",
-        "rewardsResulted",
-        "rewardsResultedOk",
-        "rewardsResults"
-      ]
+      required:
+        [
+          'id',
+          'organizationId',
+          'initiativeId',
+          'initiativeName',
+          'filePath',
+          'status',
+          'notificationDate',
+          'percentageResulted',
+          'percentageResults',
+          'rewardsExported',
+          'rewardsNotified',
+          'rewardsResulted',
+          'rewardsResultedOk',
+          'rewardsResults',
+        ]
       type: object
       properties:
         feedbackDate:
@@ -2611,17 +2966,354 @@ components:
         status:
           type: string
           enum:
-          - COMPLETE
-          - ERROR
-          - IN_PROGRESS
-          - WARN
+            - COMPLETE
+            - ERROR
+            - IN_PROGRESS
+            - WARN
         url:
           type: string
+    IbanDTO:
+      type: object
+      required:
+        - iban
+        - checkIbanStatus
+        - holderBank
+        - description
+        - channel
+        - bicCode
+        - queueDate
+        - checkIbanResponseDate
+      properties:
+        iban:
+          type: string
+        checkIbanStatus:
+          type: string
+        holderBank:
+          type: string
+        description:
+          type: string
+        channel:
+          type: string
+        bicCode:
+          type: string
+        queueDate:
+          type: string
+        checkIbanResponseDate:
+          type: string
+          format: date-time
+    WalletDTO:
+      type: object
+      required:
+        - initiativeId
+        - status
+        - endDate
+        - nInstr
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        status:
+          enum:
+            - NOT_REFUNDABLE_ONLY_IBAN
+            - NOT_REFUNDABLE_ONLY_INSTRUMENT
+            - REFUNDABLE
+            - NOT_REFUNDABLE
+            - UNSUBSCRIBED
+          type: string
+        endDate:
+          type: string
+          format: date
+        amount:
+          type: number
+        accrued:
+          type: number
+        refunded:
+          type: number
+        lastCounterUpdate:
+          type: string
+          format: date-time
+        iban:
+          type: string
+        nInstr:
+          type: integer
+          format: int32
+    InstrumentListDTO:
+      type: object
+      required:
+        - instrumentList
+      properties:
+        instrumentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDTO'
+          description: The list of payment instruments associated to the initiative by the citizen
+    InstrumentDTO:
+      title: InstrumentDTO
+      type: object
+      required:
+        - instrumentId
+      properties:
+        idWallet:
+          type: string
+          description: Wallet's id provided by the Payment manager
+        instrumentId:
+          type: string
+          description: Payment instrument id
+        maskedPan:
+          type: string
+          description: Masked Pan
+        channel:
+          type: string
+        brandLogo:
+          type: string
+          description: Card's brand as mastercard, visa, ecc.
+        status:
+          enum:
+            - ACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+          type: string
+          description: The status of the instrument
+        activationDate:
+          type: string
+          format: date-time
+    OperationDTO:
+      oneOf:
+        - $ref: '#/components/schemas/TransactionDetailDTO'
+        - $ref: '#/components/schemas/InstrumentOperationDTO'
+        - $ref: '#/components/schemas/IbanOperationDTO'
+        - $ref: '#/components/schemas/OnboardingOperationDTO'
+        - $ref: '#/components/schemas/RefundOperationDTO'
+    TimelineDTO:
+      type: object
+      required:
+        - lastUpdate
+        - operationList
+      properties:
+        lastUpdate:
+          type: string
+          description: date of the last update
+          format: date-time
+        operationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationListDTO'
+          description: the list of transactions and operations of an initiative of a citizen
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+    OperationListDTO:
+      description: Complex type for items in the operation list
+      oneOf:
+        - $ref: '#/components/schemas/TransactionOperationDTO'
+        - $ref: '#/components/schemas/InstrumentOperationDTO'
+        - $ref: '#/components/schemas/RejectedInstrumentOperationDTO'
+        - $ref: '#/components/schemas/IbanOperationDTO'
+        - $ref: '#/components/schemas/OnboardingOperationDTO'
+        - $ref: '#/components/schemas/RefundOperationDTO'
+    RejectedInstrumentOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - REJECTED_ADD_INSTRUMENT
+            - REJECTED_DELETE_INSTRUMENT
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        instrumentId:
+          type: string
+        maskedPan:
+          type: string
+        channel:
+          type: string
+    TransactionDetailDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - amount
+        - accrued
+        - circuitType
+        - idTrxIssuer
+        - idTrxAcquirer
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - TRANSACTION
+            - REVERSAL
+          type: string
+        brandLogo:
+          type: string
+        maskedPan:
+          type: string
+        amount:
+          type: number
+        accrued:
+          type: number
+        operationDate:
+          type: string
+          format: date-time
+        circuitType:
+          type: string
+          description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+        idTrxIssuer:
+          type: string
+        idTrxAcquirer:
+          type: string
+    InstrumentOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ADD_INSTRUMENT
+            - DELETE_INSTRUMENT
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        maskedPan:
+          type: string
+        channel:
+          type: string
+    IbanOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - iban
+        - channel
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ADD_IBAN
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        iban:
+          type: string
+        channel:
+          type: string
+    OnboardingOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - ONBOARDING
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    RefundOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - eventId
+        - operationDate
+        - amount
+      properties:
+        operationId:
+          type: string
+        eventId:
+          type: string
+        operationType:
+          enum:
+            - PAID_REFUND
+            - REJECTED_REFUND
+          type: string
+        operationDate:
+          type: string
+          format: date
+        amount:
+          type: number
+        accrued:
+          type: number
+    TransactionOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+        - brandLogo
+        - maskedPan
+        - amount
+        - circuitType
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - TRANSACTION
+            - REVERSAL
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        brandLogo:
+          type: string
+        maskedPan:
+          type: string
+        amount:
+          type: number
+        accrued:
+          type: number
+        circuitType:
+          type: string
+          description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
     CsvDTO:
       title: CsvDTO
       type: object
       properties:
-        data: 
+        data:
           type: string
   securitySchemes:
     Bearer:
