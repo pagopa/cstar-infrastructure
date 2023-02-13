@@ -77,7 +77,7 @@ module "api_azureblob" {
     {
       operation_id = "putblob",
       xml_content = templatefile("./api/azureblob/azureblob_authorizative_policy.xml", {
-        rtd-ingress = local.ingress_load_balancer_hostname_https,
+        rtd-ingress         = local.ingress_load_balancer_hostname_https,
         pgp-put-limit-bytes = var.pgp_put_limit_bytes
       })
     }
