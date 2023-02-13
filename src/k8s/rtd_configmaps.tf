@@ -181,13 +181,6 @@ resource "kubernetes_config_map" "rtd-enrolledpaymentinstrument" {
   )
 }
 
-# Get event hub to take partition count
-data "azurerm_eventhub" "rtd-enrolled-pi" {
-  name                = var.eventhub_enrolled_pi.name
-  resource_group_name = var.eventhub_enrolled_pi.resource_group_name
-  namespace_name      = var.eventhub_enrolled_pi.namespace_name
-}
-
 resource "kubernetes_config_map" "rtd-producer-enrolledpaymentinstrument" {
   metadata {
     name      = "rtd-producer-enrolledpaymentinstrument"
@@ -195,7 +188,7 @@ resource "kubernetes_config_map" "rtd-producer-enrolledpaymentinstrument" {
   }
 
   data = merge({
-    KAFKA_PARTITION_COUNT = data.azurerm_eventhub.rtd-enrolled-pi.partition_count
+    KAFKA_PARTITION_COUNT = 1
   }, var.configmaps_rtdproducerenrolledpaymentinstrument)
 }
 

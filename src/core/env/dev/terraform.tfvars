@@ -371,7 +371,7 @@ dns_storage_account_tkm = {
 cosmos_mongo_db_params = {
   enabled      = true
   kind         = "MongoDB"
-  capabilities = ["EnableMongo"]
+  capabilities = ["EnableMongo", "DisableRateLimitingResponses"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "BoundedStaleness"
@@ -622,7 +622,7 @@ eventhubs = [
   },
   {
     name              = "rtd-platform-events"
-    partitions        = 1
+    partitions        = 4
     message_retention = 1
     consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
     keys = [
@@ -669,46 +669,6 @@ eventhubs = [
         send   = false
         manage = false
       },
-    ]
-  },
-  {
-    name              = "rtd-enrolled-pi"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-enrolled-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-enrolled-pi-consumer-policy"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        name   = "rtd-enrolled-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "rtd-revoked-pi"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["rtd-revoked-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-revoked-pi-consumer-policy"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-revoked-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
     ]
   }
 ]

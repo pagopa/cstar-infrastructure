@@ -482,6 +482,28 @@ fa_autoscaling_specs = {
         }
       }
     ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 300
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 120
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 600
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 600
+            type           = "Pods"
+            value          = 1
+          }
+        }
+      }
+    ]
   }
   famsenrollment = {
 
@@ -498,6 +520,28 @@ fa_autoscaling_specs = {
           target = {
             type                = "Utilization"
             average_utilization = 80
+          }
+        }
+      }
+    ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 300
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 120
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 600
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 600
+            type           = "Pods"
+            value          = 1
           }
         }
       }
@@ -522,6 +566,28 @@ fa_autoscaling_specs = {
         }
       }
     ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 300
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 120
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 600
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 600
+            type           = "Pods"
+            value          = 1
+          }
+        }
+      }
+    ]
   }
   famsinvoicemanager = {
 
@@ -538,6 +604,28 @@ fa_autoscaling_specs = {
           target = {
             type                = "Utilization"
             average_utilization = 85
+          }
+        }
+      }
+    ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 300
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 120
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 600
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 600
+            type           = "Pods"
+            value          = 1
           }
         }
       }
@@ -562,6 +650,28 @@ fa_autoscaling_specs = {
         }
       }
     ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 20
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 5
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+      }
+    ]
   }
   famsmerchant = {
 
@@ -578,6 +688,28 @@ fa_autoscaling_specs = {
           target = {
             type                = "Utilization"
             average_utilization = 80
+          }
+        }
+      }
+    ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 20
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 5
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
           }
         }
       }
@@ -602,6 +734,28 @@ fa_autoscaling_specs = {
         }
       }
     ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 20
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 5
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+      }
+    ]
   }
   famsonboardingmerchant = {
 
@@ -618,6 +772,28 @@ fa_autoscaling_specs = {
           target = {
             type                = "Utilization"
             average_utilization = 80
+          }
+        }
+      }
+    ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 20
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 5
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
           }
         }
       }
@@ -642,6 +818,28 @@ fa_autoscaling_specs = {
         }
       }
     ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 20
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 5
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+      }
+    ]
   }
   famstransactionerrormanager = {
 
@@ -658,6 +856,28 @@ fa_autoscaling_specs = {
           target = {
             type                = "Utilization"
             average_utilization = 85
+          }
+        }
+      }
+    ]
+    behaviors = [
+      {
+        scale_down = {
+          stabilization_window_seconds = 20
+          select_policy                = "Min"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
+          }
+        }
+        scale_up = {
+          stabilization_window_seconds = 5
+          select_policy                = "Max"
+          policy = {
+            period_seconds = 15
+            type           = "Pods"
+            value          = 1
           }
         }
       }
@@ -716,9 +936,7 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
-  "evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key",
   "evh-tkm-write-update-token-tkm-write-update-token-sub-key",
-  "evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"
 ]
 
 secrets_from_rtd_domain_kv = {
@@ -749,10 +967,4 @@ enable = {
   fa = {
     api = true
   }
-}
-
-eventhub_enrolled_pi = {
-  name                = "rtd-enrolled-pi"
-  namespace_name      = "cstar-u-evh-ns"
-  resource_group_name = "cstar-u-msg-rg"
 }
