@@ -5,33 +5,33 @@ resource "azurerm_resource_group" "rg_storage" {
 }
 
 # Storage account to save psql terraform state
-module "psql_storage_account_terraform_state" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.1"
+# module "psql_storage_account_terraform_state" {
+#   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.1"
 
-  name            = replace(format("%s-sapsqlinfra", local.project), "-", "")
-  versioning_name = format("%s-sa-psqlinfra-versioning", local.project)
+#   name            = replace(format("%s-sapsqlinfra", local.project), "-", "")
+#   versioning_name = format("%s-sa-psqlinfra-versioning", local.project)
 
-  account_kind                  = "StorageV2"
-  account_tier                  = "Standard"
-  account_replication_type      = "GRS"
-  access_tier                   = "Hot"
-  enable_versioning             = true
-  resource_group_name           = azurerm_resource_group.db_rg.name
-  location                      = var.location
-  advanced_threat_protection    = true
-  enable_low_availability_alert = false
+#   account_kind                  = "StorageV2"
+#   account_tier                  = "Standard"
+#   account_replication_type      = "GRS"
+#   access_tier                   = "Hot"
+#   enable_versioning             = true
+#   resource_group_name           = azurerm_resource_group.db_rg.name
+#   location                      = var.location
+#   advanced_threat_protection    = true
+#   enable_low_availability_alert = false
 
-  tags = var.tags
-}
+#   tags = var.tags
+# }
 
 # Container to stare the status file
-resource "azurerm_storage_container" "psql_state" {
-  depends_on = [module.psql_storage_account_terraform_state]
+# resource "azurerm_storage_container" "psql_state" {
+#   depends_on = [module.psql_storage_account_terraform_state]
 
-  name                  = format("%s-psql-state", var.prefix)
-  storage_account_name  = module.psql_storage_account_terraform_state.name
-  container_access_type = "private"
-}
+#   name                  = format("%s-psql-state", var.prefix)
+#   storage_account_name  = module.psql_storage_account_terraform_state.name
+#   container_access_type = "private"
+# }
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
