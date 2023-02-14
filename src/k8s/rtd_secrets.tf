@@ -202,14 +202,9 @@ resource "kubernetes_secret" "rtd-enrolled-pi-events-consumer" {
   }
 
   data = {
-    KAFKA_TOPIC_EVENTS = "rtd-enrolled-pi"
-    KAFKA_BROKER       = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
-    KAFKA_SASL_JAAS_CONFIG_CONSUMER_ENROLLED_PI = format(
-      local.jaas_config_template_rtd,
-      "rtd-enrolled-pi",
-      "rtd-enrolled-pi-consumer-policy",
-      module.key_vault_secrets_query.values["evh-rtd-enrolled-pi-rtd-enrolled-pi-consumer-policy-key"].value
-    )
+    KAFKA_TOPIC_EVENTS                          = "rtd-enrolled-pi"
+    KAFKA_BROKER                                = format("%s-evh-ns.servicebus.windows.net:9093", local.project)
+    KAFKA_SASL_JAAS_CONFIG_CONSUMER_ENROLLED_PI = ""
   }
   type = "Opaque"
 }
@@ -240,14 +235,7 @@ resource "kubernetes_secret" "rtd-revoke-pi-events-producer" {
     KAFKA_BROKER_REVOKE = format("%s.servicebus.windows.net:9093",
       var.env_short == "p" ? "${local.project}-evh-ns-fa-01" : "${local.project}-evh-ns",
     )
-    KAFKA_SASL_JAAS_CONFIG_RTD_REVOKED = format(
-      var.env_short == "p" ? local.jaas_config_template_fa : local.jaas_config_template_rtd,
-      "rtd-revoked-pi",
-      "rtd-revoked-pi-producer-policy",
-      var.env_short == "p" ?
-      module.key_vault_secrets_query.values["evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key-fa-01"].value :
-      module.key_vault_secrets_query.values["evh-rtd-revoked-pi-rtd-revoked-pi-producer-policy-key"].value
-    )
+    KAFKA_SASL_JAAS_CONFIG_RTD_REVOKED = ""
   }
 }
 

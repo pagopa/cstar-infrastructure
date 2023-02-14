@@ -62,10 +62,10 @@ resource "kubernetes_config_map" "rtddecrypter" {
     JAVA_TOOL_OPTIONS                = "-javaagent:/app/applicationinsights-agent.jar"
     APPLICATIONINSIGHTS_ROLE_NAME    = "rtddecrypter"
     CSV_TRANSACTION_PRIVATE_KEY_PATH = "/home/certs/private.key"
-    CSV_TRANSACTION_DECRYPT_HOST     = replace(format("apim.internal.%s.cstar.pagopa.it", local.environment_name), "..", ".")
+    CSV_TRANSACTION_DECRYPT_HOST     = replace("apim.internal.${local.environment_name}.cstar.pagopa.it", "..", ".")
     SPLITTER_LINE_THRESHOLD          = 2000000,
     ENABLE_CHUNK_UPLOAD              = true,
-    CONSUMER_TIMEOUT_MS              = 7200000 # 2h
+    CONSUMER_TIMEOUT_MS              = 600000 # 10m
     },
   var.configmaps_rtddecrypter)
 }
@@ -181,13 +181,6 @@ resource "kubernetes_config_map" "rtd-enrolledpaymentinstrument" {
   )
 }
 
-# Get event hub to take partition count
-data "azurerm_eventhub" "rtd-enrolled-pi" {
-  name                = var.eventhub_enrolled_pi.name
-  resource_group_name = var.eventhub_enrolled_pi.resource_group_name
-  namespace_name      = var.eventhub_enrolled_pi.namespace_name
-}
-
 resource "kubernetes_config_map" "rtd-producer-enrolledpaymentinstrument" {
   metadata {
     name      = "rtd-producer-enrolledpaymentinstrument"
@@ -195,7 +188,7 @@ resource "kubernetes_config_map" "rtd-producer-enrolledpaymentinstrument" {
   }
 
   data = merge({
-    KAFKA_PARTITION_COUNT = data.azurerm_eventhub.rtd-enrolled-pi.partition_count
+    KAFKA_PARTITION_COUNT = 1
   }, var.configmaps_rtdproducerenrolledpaymentinstrument)
 }
 
