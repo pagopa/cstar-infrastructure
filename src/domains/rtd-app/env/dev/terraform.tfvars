@@ -191,6 +191,7 @@ event_hub_hubs = [
     retention  = 1
     partitions = 1
     consumers = [
+      "migration-pi-consumer-group"
     ]
     policies = [
       {
@@ -201,6 +202,28 @@ event_hub_hubs = [
       },
       {
         name   = "migration-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "migration-wallet"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "migration-wallet-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "migration-wallet-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "migration-wallet-producer-policy"
         listen = false
         send   = true
         manage = false
