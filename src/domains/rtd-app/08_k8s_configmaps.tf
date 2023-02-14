@@ -178,7 +178,6 @@ resource "kubernetes_config_map" "rtdingestor" {
     namespace = var.domain
   }
 
-
   data = merge({
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdingestor"
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
@@ -244,4 +243,24 @@ resource "kubernetes_config_map" "rtdfilereporter" {
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdfilereporter"
   }, var.configmaps_rtdfilereporter)
+}
+
+#
+# RTD Payment Instrument
+#
+resource "kubernetes_config_map" "rtdpaymentinstrument" {
+  count = var.enable.payment_instrument ? 1 : 0
+
+  metadata {
+    name      = "rtd-payment-instrument"
+    namespace = var.domain
+  }
+
+  data = merge({
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdpaymentinstrument"
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    KAFKA_TOPIC_RTD_PI            = "migration-pi"
+    KAFKA_BROKER_PI               = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    },
+  var.configmaps_rtdpaymentinstrument)
 }
