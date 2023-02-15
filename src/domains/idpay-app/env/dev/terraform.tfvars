@@ -25,6 +25,7 @@ log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 
 aks_name                = "cstar-d-weu-dev01-aks"
 aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
+aks_vmss_name           = "aks-cstdev01usr-34190646-vmss"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "dev01.idpay.internal.dev.cstar.pagopa.it"

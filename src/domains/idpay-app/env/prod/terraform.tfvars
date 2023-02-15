@@ -25,6 +25,7 @@ log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
 
 aks_name                = "cstar-p-weu-prod01-aks"
 aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
+aks_vmss_name           = "TBD"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "prod01.idpay.internal.cstar.pagopa.it"

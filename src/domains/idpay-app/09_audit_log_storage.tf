@@ -11,8 +11,6 @@ locals {
   resource_group_name = data.azurerm_application_insights.application_insights.resource_group_name
   audit_dce_id        = "/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionEndpoints/${local.audit_dce_name}"
   audit_dcr_id        = "/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}"
-  #dcra_resource       = "/subscriptions/${local.subscription_id}/resourceGroups/MC_${var.aks_resource_group_name}_${var.aks_name}_${var.location}/providers/Microsoft.Compute/virtualMachineScaleSets"
-  dcra_resource   = "/subscriptions/${local.subscription_id}/resourcegroups/${local.resource_group_name}/providers/Microsoft.ContainerService/managedClusters/${var.aks_name}"
   az_rest_api_dcr = "https://management.azure.com/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}?api-version=2021-09-01-preview"
 }
 
@@ -74,8 +72,7 @@ resource "azurerm_log_analytics_data_export_rule" "idpay_audit_analytics_export_
   depends_on              = [module.idpay_audit_storage, azurerm_log_analytics_linked_storage_account.idpay_audit_analytics_linked_storage]
 }
 
-# Data Collection Rule
-
+# Data Collection Endpoint
 resource "null_resource" "idpay_audit_dce" {
   provisioner "local-exec" {
     command = <<EOC
@@ -84,6 +81,7 @@ resource "null_resource" "idpay_audit_dce" {
   }
 }
 
+# Data Collection Rule 
 resource "local_file" "idpay_audit_dcr_file_tmp" {
   filename = ".terraform/tmp/idpay-audit-dcr.json"
 
@@ -94,12 +92,10 @@ resource "local_file" "idpay_audit_dcr_file_tmp" {
   })
   depends_on = [null_resource.idpay_audit_dce]
 }
-/*
+
 resource "null_resource" "idpay_audit_dcr" {
   provisioner "local-exec" {
-    command = <<EOC
-      az monitor data-collection rule create --name ${local.audit_dcr_name} --resource-group ${data.azurerm_application_insights.application_insights.resource_group_name} --location ${var.location} --rule-file ${local_file.idpay_audit_dcr_file_tmp.filename}
-      EOC
+    command = "az rest --url ${local.az_rest_api_dcr} --method PUT --body @${local_file.idpay_audit_dcr_file_tmp.filename}"
   }
 
   triggers = {
@@ -107,27 +103,20 @@ resource "null_resource" "idpay_audit_dcr" {
   }
   depends_on = [local_file.idpay_audit_dcr_file_tmp]
 }
-*/
-#      {"location":"westeurope","properties":{"dataCollectionEndpointId":"${local.audit_dce_id}","streamDeclarations":{"Custom-IdPayAuditLog_CL":{"columns":[{"name":"TimeGenerated","type":"datetime"},{"name":"RawData","type":"string"}]}},"dataSources":{"logFiles":[{"name":"IdPayAuditLog_CL","streams":["Custom-IdPayAuditLog_CL"],"filePatterns":["/var/log/containers/*"],"format":"text","settings":{"text":{"recordStartTimestampFormat":\"ISO\u00208601\"}}}]},"destinations":{"logAnalytics":[{"workspaceResourceId":"${local.log_analytics_workspace_id}","name":"${local.log_analytics_workspace_name}"}]},"dataFlows":[{"streams":["Custom-IdPayAuditLog_CL"],"destinations":["${local.log_analytics_workspace_name}"],"transformKql":"source\u0020|\u0020extend\u0020Log=RawData\u0020|\u0020where\u0020Log\u0020contains\u0020\"CEF:\"","outputStream":"Custom-IdPayAuditLog_CL"}]}}
 
-resource "null_resource" "idpay_audit_dcr" {
-  provisioner "local-exec" {
-    command = "az rest --url https://management.azure.com/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}?api-version=2021-09-01-preview --method PUT --body @${local_file.idpay_audit_dcr_file_tmp.filename}"
-  }
-
-  triggers = {
-    data = md5(local_file.idpay_audit_dcr_file_tmp.content)
-  }
-  depends_on = [local_file.idpay_audit_dcr_file_tmp]
+# Data Collection Rule Association
+data "azurerm_virtual_machine_scale_set" "idpay_audit_resource_vmss" {
+  name                = var.aks_vmss_name
+  resource_group_name = "MC_${var.aks_resource_group_name}_${var.aks_name}_${var.location}"
 }
 
 resource "null_resource" "idpay_audit_dcra" {
   provisioner "local-exec" {
     command = <<EOC
-      az monitor data-collection rule association create --subscription ${local.subscription_id} --name ${local.audit_dcra_name} --resource ${local.dcra_resource} --rule-id ${local.audit_dcr_id}
+      az monitor data-collection rule association create --subscription ${local.subscription_id} --name ${local.audit_dcra_name} --resource ${data.azurerm_virtual_machine_scale_set.idpay_audit_resource_vmss.id} --rule-id ${local.audit_dcr_id}
       EOC
   }
-  depends_on = [null_resource.idpay_audit_dcr]
+  depends_on = [null_resource.idpay_audit_dcr, data.azurerm_virtual_machine_scale_set.idpay_audit_resource_vmss]
 }
 
 # Audit Log Table
