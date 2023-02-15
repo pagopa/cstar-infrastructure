@@ -79,13 +79,13 @@ resource "azurerm_log_analytics_data_export_rule" "idpay_audit_analytics_export_
 resource "null_resource" "idpay_audit_dce" {
   provisioner "local-exec" {
     command = <<EOC
-      az monitor data-collection endpoint create --name ${local.audit_dce_name} --resource-group ${data.azurerm_application_insights.application_insights.resource_group_name} --location ${var.location} --public-network-access Enabled 
+      az monitor data-collection endpoint create --name ${local.audit_dce_name} --resource-group ${data.azurerm_application_insights.application_insights.resource_group_name} --location ${var.location} --public-network-access Enabled
       EOC
   }
 }
 
 resource "local_file" "idpay_audit_dcr_file_tmp" {
-  filename = "idpay-audit-dcr.json"
+  filename = ".terraform/tmp/idpay-audit-dcr.json"
 
   content = templatefile("./dcr/idpay-audit-dcr.json.tpl", {
     log_analytics_workspace_id   = data.azurerm_log_analytics_workspace.log_analytics.id
@@ -98,7 +98,7 @@ resource "local_file" "idpay_audit_dcr_file_tmp" {
 resource "null_resource" "idpay_audit_dcr" {
   provisioner "local-exec" {
     command = <<EOC
-      az monitor data-collection rule create --name ${local.audit_dcr_name} --resource-group ${data.azurerm_application_insights.application_insights.resource_group_name} --location ${var.location} --rule-file ${local_file.idpay_audit_dcr_file_tmp.filename} 
+      az monitor data-collection rule create --name ${local.audit_dcr_name} --resource-group ${data.azurerm_application_insights.application_insights.resource_group_name} --location ${var.location} --rule-file ${local_file.idpay_audit_dcr_file_tmp.filename}
       EOC
   }
 
@@ -112,9 +112,7 @@ resource "null_resource" "idpay_audit_dcr" {
 
 resource "null_resource" "idpay_audit_dcr" {
   provisioner "local-exec" {
-    command = <<EOC
-      az rest --url https://management.azure.com/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}?api-version=2021-09-01-preview --method PUT --headers "Content-Type=application/json" --body @${local_file.idpay_audit_dcr_file_tmp.filename} 
-      EOC
+    command = "az rest --url https://management.azure.com/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}?api-version=2021-09-01-preview --method PUT --body @${local_file.idpay_audit_dcr_file_tmp.filename}"
   }
 
   triggers = {
