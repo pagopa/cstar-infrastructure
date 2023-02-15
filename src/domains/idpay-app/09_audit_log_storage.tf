@@ -4,14 +4,14 @@
 locals {
   log_analytics_workspace_id   = data.azurerm_log_analytics_workspace.log_analytics.id
   log_analytics_workspace_name = data.azurerm_log_analytics_workspace.log_analytics.name
-  audit_dce_name      = "${var.domain}${var.env_short}-audit-dce"
-  audit_dcr_name      = "${var.domain}${var.env_short}-audit-dcr"
-  audit_dcra_name     = "${var.domain}${var.env_short}-audit-dcra"
-  subscription_id     = data.azurerm_subscription.current.subscription_id
-  resource_group_name = data.azurerm_application_insights.application_insights.resource_group_name
-  audit_dce_id        = "/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionEndpoints/${local.audit_dce_name}"
-  audit_dcr_id        = "/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}"
-  az_rest_api_dcr = "https://management.azure.com/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}?api-version=2021-09-01-preview"
+  audit_dce_name               = "${var.domain}${var.env_short}-audit-dce"
+  audit_dcr_name               = "${var.domain}${var.env_short}-audit-dcr"
+  audit_dcra_name              = "${var.domain}${var.env_short}-audit-dcra"
+  subscription_id              = data.azurerm_subscription.current.subscription_id
+  resource_group_name          = data.azurerm_application_insights.application_insights.resource_group_name
+  audit_dce_id                 = "/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionEndpoints/${local.audit_dce_name}"
+  audit_dcr_id                 = "/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}"
+  az_rest_api_dcr              = "https://management.azure.com/subscriptions/${local.subscription_id}/resourceGroups/${local.resource_group_name}/providers/Microsoft.Insights/dataCollectionRules/${local.audit_dcr_name}?api-version=2021-09-01-preview"
 }
 
 #
@@ -36,23 +36,40 @@ module "idpay_audit_storage" {
   tags = var.tags
 }
 
-/*
+
+# Set legal hold on container created by azure monitor with the data exporter (the name is fixed and definid by the exporter)
+/*data "azurerm_storage_container" "idpay_logo_container" {
+  name                  = "am-idpayauditlog-cl"
+  storage_account_name  = module.idpay_audit_storage.name
+  depends_on = [module.idpay_audit_storage, azurerm_log_analytics_data_export_rule.idpay_audit_analytics_export_rule]
+}
+*/
+resource "null_resource" "idpay_audit_lh" {
+  provisioner "local-exec" {
+    command = <<EOC
+      az storage container legal-hold set --account-name ${module.idpay_audit_storage.name} --container-name am-idpayauditlog-cl --tags idpayauditlog --allow-protected-append-writes-all true 
+      EOC
+  }
+  depends_on = [module.idpay_audit_storage, azurerm_log_analytics_data_export_rule.idpay_audit_analytics_export_rule]
+}
+
+#am-idpayauditlog-cl
 # For some reason the immutable policy must be treated as an existing resource
-resource "azapi_update_resource" "idpay_audit_policy" {
-  type      = "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies@2021-08-01"
+resource "azapi_update_resource" "idpay_audit_legal_hold" {
+  type      = "Microsoft.Storage/storageAccounts@2022-09-01"
   name      = "default"
-  parent_id = module.idpay_audit_storage.resource_manager_id
+  parent_id = module.idpay_audit_storage.id
 
   body = jsonencode({
     properties = {
-      allowProtectedAppendWrites            = true
+      allowProtectedAppendWrites = true
       # allowProtectedAppendWritesAll       = null
     }
   })
 
   depends_on = [module.idpay_audit_storage]
 }
-*/
+
 
 resource "azurerm_log_analytics_linked_storage_account" "idpay_audit_analytics_linked_storage" {
   data_source_type      = "customlogs"
