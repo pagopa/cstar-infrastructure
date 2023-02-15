@@ -38,12 +38,6 @@ module "idpay_audit_storage" {
 
 
 # Set legal hold on container created by azure monitor with the data exporter (the name is fixed and definid by the exporter)
-/*data "azurerm_storage_container" "idpay_logo_container" {
-  name                  = "am-idpayauditlog-cl"
-  storage_account_name  = module.idpay_audit_storage.name
-  depends_on = [module.idpay_audit_storage, azurerm_log_analytics_data_export_rule.idpay_audit_analytics_export_rule]
-}
-*/
 resource "null_resource" "idpay_audit_lh" {
   provisioner "local-exec" {
     command = <<EOC
@@ -51,23 +45,6 @@ resource "null_resource" "idpay_audit_lh" {
       EOC
   }
   depends_on = [module.idpay_audit_storage, azurerm_log_analytics_data_export_rule.idpay_audit_analytics_export_rule]
-}
-
-#am-idpayauditlog-cl
-# For some reason the immutable policy must be treated as an existing resource
-resource "azapi_update_resource" "idpay_audit_legal_hold" {
-  type      = "Microsoft.Storage/storageAccounts@2022-09-01"
-  name      = "default"
-  parent_id = module.idpay_audit_storage.id
-
-  body = jsonencode({
-    properties = {
-      allowProtectedAppendWrites = true
-      # allowProtectedAppendWritesAll       = null
-    }
-  })
-
-  depends_on = [module.idpay_audit_storage]
 }
 
 
