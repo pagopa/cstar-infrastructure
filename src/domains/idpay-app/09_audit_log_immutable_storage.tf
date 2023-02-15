@@ -7,18 +7,18 @@ module "idpay_audit_log_immutable_storage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
 
   #Required
-  name                              = replace("${var.domain}${var.env_short}-audit-log-imm-storage", "-", "")
-  location                          = var.location
-  resource_group_name               = azurerm_resource_group.rg_refund_storage.name
-  account_tier                      = "Standard"
-  account_replication_type          = var.storage_account_replication_type #Default LRS
-          
+  name                     = replace("${var.domain}${var.env_short}-audit-log-imm-storage", "-", "")
+  location                 = var.location
+  resource_group_name      = azurerm_resource_group.rg_refund_storage.name
+  account_tier             = "Standard"
+  account_replication_type = var.storage_account_replication_type #Default LRS
+
   #Optional       
-  account_kind                      = "StorageV2"
-  access_tier                       = "Hot"
-  versioning_name                   = "${var.domain}${var.env_short}-audit-log-imm-storage-versioning"
-  enable_versioning                 = var.storage_enable_versioning
-  advanced_threat_protection        = var.storage_advanced_threat_protection
+  account_kind               = "StorageV2"
+  access_tier                = "Hot"
+  versioning_name            = "${var.domain}${var.env_short}-audit-log-imm-storage-versioning"
+  enable_versioning          = var.storage_enable_versioning
+  advanced_threat_protection = var.storage_advanced_threat_protection
   # infrastructure_encryption_enabled = true
 
   tags = var.tags
@@ -31,11 +31,11 @@ resource "azurerm_storage_container" "idpay_audit_log_immutable_container" {
 }
 
 resource "azurerm_storage_encryption_scope" "idpay_audit_log_immutable_storage_encryption_scope" {
-  name                                = "microsoftmanaged"
-  storage_account_id                  = module.idpay_audit_log_immutable_storage.id
-  source                              = "Microsoft.Storage"
+  name               = "microsoftmanaged"
+  storage_account_id = module.idpay_audit_log_immutable_storage.id
+  source             = "Microsoft.Storage"
   #Optional
-  infrastructure_encryption_required  = true
+  infrastructure_encryption_required = true
 }
 
 # storage access key
@@ -70,9 +70,9 @@ resource "azurerm_storage_encryption_scope" "idpay_audit_log_immutable_storage_e
 
 resource "azapi_update_resource" "idpay_audit_log_immutable_container_immutability_policy" {
   type      = "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies@2022-05-01"
-  name = replace("${var.domain}${var.env_short}-audit-log-imm-storage", "-", "")
+  name      = replace("${var.domain}${var.env_short}-audit-log-imm-storage", "-", "")
   parent_id = azurerm_storage_container.idpay_audit_log_immutable_container.id
-          
+
   body = jsonencode({
     properties = {
       # encryption = {
@@ -89,10 +89,10 @@ resource "azapi_update_resource" "idpay_audit_log_immutable_container_immutabili
       #     }
       #   }
       # }
-      allowProtectedAppendWrites            = true
+      allowProtectedAppendWrites = true
       # allowProtectedAppendWritesAll         = null
       immutabilityPeriodSinceCreationInDays = 300
-      state = "Unlocked" #Unlocked state allows increase and decrease of immutability retention time
+      state                                 = "Unlocked" #Unlocked state allows increase and decrease of immutability retention time
     }
   })
   # response_export_values = ["*"]
