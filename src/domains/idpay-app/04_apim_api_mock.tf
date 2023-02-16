@@ -128,6 +128,32 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_create_servic
 
 }
 
+## IDPAY MOCK BE IO - update service ##
+resource "azurerm_api_management_api_operation" "idpay_mock_update_service" {
+  operation_id        = "idpay_mock_update_service"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock BE IO update services"
+  method              = "PUT"
+  url_template        = "/api/v1/services/{serviceId}"
+  description         = "Endpoint for mock BE IO update services api"
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_update_service_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_update_service.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_update_service.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_update_service.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_update_service.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_update_service.xml.tpl", {
+    env = var.env
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_update_service]
+
+}
+
 ## IDPAY MOCK BE IO - upload service logo ##
 resource "azurerm_api_management_api_operation" "idpay_mock_upload_service_logo" {
   operation_id        = "idpay_mock_upload_service_logo"
