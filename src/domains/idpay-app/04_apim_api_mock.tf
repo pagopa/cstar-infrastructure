@@ -138,6 +138,11 @@ resource "azurerm_api_management_api_operation" "idpay_mock_update_service" {
   method              = "PUT"
   url_template        = "/api/v1/services/{serviceId}"
   description         = "Endpoint for mock BE IO update services api"
+  template_parameter {
+    name     = "serviceId"
+    type     = "string"
+    required = true
+  }
 }
 
 resource "azurerm_api_management_api_operation_policy" "idpay_mock_update_service_policy" {
