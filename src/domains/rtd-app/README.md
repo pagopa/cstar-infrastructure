@@ -53,6 +53,7 @@
 | [kubernetes_config_map.rtd-trx-producer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtddecrypter](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdenrolledpaymentinstrument](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtdexporter](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdfileregister](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdfilereporter](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtdingestor](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
@@ -101,6 +102,7 @@
 | <a name="input_configmap_rtdsplitbypiproducer"></a> [configmap\_rtdsplitbypiproducer](#input\_configmap\_rtdsplitbypiproducer) | # Config Maps | <pre>object({<br>    KAFKA_RTD_SPLIT_PARTITION_COUNT = number<br>  })</pre> | <pre>{<br>  "KAFKA_RTD_SPLIT_PARTITION_COUNT": 1<br>}</pre> | no |
 | <a name="input_configmaps_rtddecrypter"></a> [configmaps\_rtddecrypter](#input\_configmaps\_rtddecrypter) | RTD Decrypter | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdenrolledpaymentinstrument"></a> [configmaps\_rtdenrolledpaymentinstrument](#input\_configmaps\_rtdenrolledpaymentinstrument) | RTD Enrolled Payment Instrument | `map(string)` | `{}` | no |
+| <a name="input_configmaps_rtdexporter"></a> [configmaps\_rtdexporter](#input\_configmaps\_rtdexporter) | RTD Exporter | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdfileregister"></a> [configmaps\_rtdfileregister](#input\_configmaps\_rtdfileregister) | RTD File Register | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdfilereporter"></a> [configmaps\_rtdfilereporter](#input\_configmaps\_rtdfilereporter) | RTD File Reporter | `map(string)` | `{}` | no |
 | <a name="input_configmaps_rtdingestor"></a> [configmaps\_rtdingestor](#input\_configmaps\_rtdingestor) | RTD Ingestor | `map(string)` | `{}` | no |

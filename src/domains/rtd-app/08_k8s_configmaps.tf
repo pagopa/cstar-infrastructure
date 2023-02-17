@@ -245,3 +245,22 @@ resource "kubernetes_config_map" "rtdfilereporter" {
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdfilereporter"
   }, var.configmaps_rtdfilereporter)
 }
+
+#
+# RTD Exporter
+#
+resource "kubernetes_config_map" "rtdexporter" {
+  count = 1
+  metadata {
+    name      = "rtd-exporter"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdexporter"
+    MONGODB_NAME                  = "rtd"
+    CRON_EXPRESSION_BATCH         = "-"
+    READ_CHUNK_SIZE               = 10000
+  }, var.configmaps_rtdexporter)
+}

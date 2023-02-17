@@ -294,3 +294,11 @@ variable "configmaps_rtdfilereporter" {
   type    = map(string)
   default = {}
 }
+
+#
+# RTD Exporter
+#
+variable "configmaps_rtdexporter" {
+  type    = map(string)
+  default = {}
+}
