@@ -99,7 +99,11 @@ variable "aks_name" {
 variable "aks_resource_group_name" {
   type        = string
   description = "AKS cluster resource name"
+}
 
+variable "aks_vmss_name" {
+  type        = string
+  description = "AKS nodepool scale set name"
 }
 
 variable "k8s_kube_config_path_prefix" {
