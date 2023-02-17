@@ -32,13 +32,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeDto'
+                $ref: '#/components/schemas/InitiativeInfoDTO'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -65,7 +65,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -101,7 +101,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -110,7 +110,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -119,7 +119,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -128,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -137,7 +137,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -180,7 +180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -189,7 +189,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -198,7 +198,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -207,7 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -216,7 +216,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -225,7 +225,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -260,7 +260,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -269,7 +269,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -278,7 +278,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -287,7 +287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -296,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -334,7 +334,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -343,7 +343,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -352,7 +352,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -361,7 +361,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -527,7 +527,7 @@ components:
           type: string
         value:
           type: string
-    ErrorDto:
+    ErrorDTO:
       type: object
       required:
         - code
@@ -538,7 +538,7 @@ components:
           format: int32
         message:
           type: string
-    InitiativeDto:
+    InitiativeInfoDTO:
       type: object
       required:
         - initiativeId
