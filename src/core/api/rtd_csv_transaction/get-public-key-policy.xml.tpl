@@ -13,6 +13,25 @@
 <policies>
     <inbound>
         <base />
+
+        <!-- add deprecation check on batch service version -->
+        <set-variable name="userAgentHeader" value="@(context.Request.Headers.GetValueOrDefault("User-Agent",""))"/>
+        <choose>
+            <when condition="@(context.Variables.GetValueOrDefault<string>("userAgentHeader").StartsWith("BatchService"))">
+                <set-variable name="batchServiceVersion" value="@( Int32.Parse(context.Variables.GetValueOrDefault<string>("userAgentHeader").Split('/').Last().Replace(".", "")) )"/>
+                <choose>
+                    <when condition="@(context.Variables.GetValueOrDefault<Int32>("batchServiceVersion") < 125 ||
+                        (context.Variables.GetValueOrDefault<Int32>("batchServiceVersion") == 125 && DateTime.UtcNow > new DateTime(2023, 4, 15) )
+                        )">
+                        <return-response>
+                            <set-status code="403" reason="Batch Service version is deprecated" />
+                            <set-body>Batch Service current version is deprecated, please update to latest version!</set-body>
+                        </return-response>
+                    </when>
+                </choose>
+            </when>
+        </choose>
+
         <set-variable name="publicKey" value="${public-key-asc}" />
         <return-response>
             <set-header name="Content-Type" exists-action="override">
