@@ -193,6 +193,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -208,6 +209,8 @@ components:
           format: date-time
         brandLogo:
           type: string
+        brand:
+          type: string
         instrumentId:
           type: string
         maskedPan:
@@ -221,6 +224,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
         - accrued
@@ -236,6 +240,8 @@ components:
             - REVERSAL
           type: string
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -260,6 +266,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -274,6 +281,8 @@ components:
           type: string
           format: date-time
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -346,6 +355,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
         - circuitType
@@ -361,6 +371,8 @@ components:
           type: string
           format: date-time
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
