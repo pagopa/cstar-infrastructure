@@ -48,6 +48,8 @@ enable = {
   enrolled_payment_instrument         = true
   mongodb_storage                     = false
   file_reporter                       = true
+  payment_instrument                  = false
+  exporter                            = false
 }
 #
 # Hashpan generation pipeline related variables
@@ -234,6 +236,11 @@ configmaps_rtddecrypter = {
 }
 
 configmaps_rtdfilereporter = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdexporter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
