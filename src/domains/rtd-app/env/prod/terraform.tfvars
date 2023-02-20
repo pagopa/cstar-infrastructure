@@ -48,6 +48,7 @@ enable = {
   enrolled_payment_instrument         = true
   mongodb_storage                     = false
   file_reporter                       = true
+  exporter                            = false
 }
 #
 # Hashpan generation pipeline related variables

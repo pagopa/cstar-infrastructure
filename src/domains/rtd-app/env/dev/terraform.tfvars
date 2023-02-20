@@ -49,6 +49,7 @@ enable = {
   mongodb_storage                     = true
   file_reporter                       = true
   payment_instrument                  = true
+  exporter                            = true
 }
 
 #

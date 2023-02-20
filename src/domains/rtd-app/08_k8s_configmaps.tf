@@ -269,7 +269,7 @@ resource "kubernetes_config_map" "rtdpaymentinstrument" {
 # RTD Exporter
 #
 resource "kubernetes_config_map" "rtdexporter" {
-  count = 1
+  count = var.enable.exporter ? 1 : 0
   metadata {
     name      = "rtd-exporter"
     namespace = var.domain
@@ -281,5 +281,8 @@ resource "kubernetes_config_map" "rtdexporter" {
     MONGODB_NAME                  = "rtd"
     CRON_EXPRESSION_BATCH         = "-"
     READ_CHUNK_SIZE               = 10000
+    API_BLOB_BASE_URL             = replace("https://apim.internal.${var.env}.cstar.pagopa.it/storage", ".prod.", ".")
+    API_BLOB_CONTAINER_NAME       = "cstar-hashed-pans"
+    API_BLOB_CARD_FILENAME        = "hashedPansNew.zip"
   }, var.configmaps_rtdexporter)
 }
