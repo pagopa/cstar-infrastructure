@@ -230,7 +230,7 @@ resource "null_resource" "upload_tc_pdf" {
 # Storage account to store backups: mainly api management
 module "backupstorage" {
   count  = var.env_short == "p" ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.2"
 
   name                          = replace(format("%s-backupstorage", local.project), "-", "")
   account_kind                  = "BlobStorage"
@@ -244,6 +244,7 @@ module "backupstorage" {
   allow_blob_public_access      = false
   advanced_threat_protection    = true
   enable_low_availability_alert = false
+  blob_properties_delete_retention_policy_days = 90
 
   tags = var.tags
 }
