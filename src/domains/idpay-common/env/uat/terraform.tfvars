@@ -36,7 +36,7 @@ rtd_keyvault = {
 
 cosmos_mongo_db_params = {
   enabled      = true
-  capabilities = ["EnableMongo", "EnableServerless"]
+  capabilities = ["EnableMongo", "EnableServerless", "DisableRateLimitingResponses"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "Strong"

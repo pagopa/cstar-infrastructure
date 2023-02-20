@@ -48,6 +48,7 @@ enable = {
   enrolled_payment_instrument         = true
   mongodb_storage                     = true
   file_reporter                       = true
+  payment_instrument                  = true
 }
 
 #
@@ -184,6 +185,28 @@ event_hub_hubs = [
         manage = false
       }
     ]
+  },
+  {
+    name       = "migration-pi"
+    retention  = 1
+    partitions = 1
+    consumers = [
+      "migration-pi-consumer-group"
+    ]
+    policies = [
+      {
+        name   = "migration-pi-consumer-policy"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "migration-pi-producer-policy"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
   }
 ]
 
@@ -235,6 +258,12 @@ configmaps_rtddecrypter = {
 }
 
 configmaps_rtdfilereporter = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+
+configmaps_rtdpaymentinstrument = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
