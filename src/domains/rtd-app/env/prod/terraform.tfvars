@@ -48,6 +48,7 @@ enable = {
   enrolled_payment_instrument         = true
   mongodb_storage                     = false
   file_reporter                       = true
+  payment_instrument                  = false
   exporter                            = false
 }
 #
