@@ -167,6 +167,10 @@ components:
       required:
         - lastUpdate
         - operationList
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
       properties:
         lastUpdate:
           type: string
@@ -177,6 +181,18 @@ components:
           items:
             $ref: '#/components/schemas/OperationListDTO'
           description: the list of transactions and operations of an initiative of a citizen
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
     OperationListDTO:
       description: Complex type for items in the operation list
       oneOf:
