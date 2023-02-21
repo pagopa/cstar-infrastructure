@@ -5,7 +5,7 @@
         <!-- Extract Token from Authorization header parameter -->
         <set-variable name="token" value="@(context.Request.Headers.GetValueOrDefault("Authorization","scheme param").Split(' ').Last())" />
          <!-- The variable present in cache is the pii of the user obtaind with PDV  /-->
-        <cache-lookup-value key="@((string)context.Variables["token"])" variable-name="tokenPDV"  />
+        <cache-lookup-value key="@((string)context.Variables["token"]+"-idpay")" variable-name="tokenPDV"  />
         <set-variable name="bypassCacheStorage" value="false" />
         <choose>
             <!-- If API Management doesn’t find it in the cache, make a request for it and store it -->
@@ -90,7 +90,7 @@
                                 <choose>
                                     <when condition="@("true".Equals((string)context.Variables["bypassCacheStorage"]))">
                                         <!-- Store result in cache -->
-                                        <cache-store-value key="@((string)context.Variables["token"])" value="@((string)context.Variables["tokenPDV"])" duration="3600"  />
+                                        <cache-store-value key="@((string)context.Variables["token"]+"-idpay")" value="@((string)context.Variables["tokenPDV"])" duration="3600"  />
                                     </when>
                                 </choose>
                             </otherwise>
