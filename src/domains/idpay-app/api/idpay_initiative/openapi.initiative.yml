@@ -349,7 +349,7 @@ paths:
           description: The initiative id
           required: true
           schema:
-            type: string        
+            type: string
       responses:
         '200':
           description: Ok
@@ -393,7 +393,6 @@ paths:
               example:
                 code: 0
                 message: string
-                
   '/{initiativeId}/beneficiary/timeline':
     get:
       tags:
@@ -485,7 +484,6 @@ paths:
               example:
                 code: 0
                 message: string
-                
   '/{initiativeId}/beneficiary/timeline/{operationId}':
     get:
       tags:
@@ -678,7 +676,7 @@ paths:
               example:
                 code: 0
                 message: string
-                
+
     delete:
       tags:
         - initiative
@@ -2237,12 +2235,365 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/exports/{exportId}/summary:
+    get:
+      tags:
+        - initiative-reward
+      summary: get the export summary data
+      operationId: getExportSummary
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: exportId
+          in: path
+          description: exportId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/ExportSummaryDTO'
+              example:
+                createDate: 2018-10-13
+                status: EXPORTED
+                successPercentage: '20'
+                totalAmount: 100
+                totalRefundedAmount: 10
+                totalRefunds: 20
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/exports/{exportId}/refunds:
+    get:
+      tags:
+        - initiative-reward
+      summary: get the refunds list in pages
+      operationId: getExportRefundsListPaged
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: exportId
+          in: path
+          description: exportId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cro
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/ExportListDTO'
+              example:
+                content:
+                  - id: '1234'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_OK
+                  - id: '5678'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_OK
+                  - id: '9101'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_OK
+                  - id: '1121'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_OK
+                  - id: '3141'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_KO
+                  - id: '5161'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_KO
+                  - id: '7181'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: COMPLETED_KO
+                  - id: '9200'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: EXPORTED
+                  - id: '1222'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: EXPORTED
+                  - id: '3242'
+                    iban: IT60X0542811101000000123456
+                    amount: 10
+                    status: EXPORTED
+                pageNo: 0
+                pageSize: 10
+                totalElements: 10
+                totalPages: 1
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/exports/{exportId}/refunds/{eventId}:
+    get:
+      tags:
+        - initiative-reward
+      summary: get the refund detail
+      operationId: getRefundDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: exportId
+          in: path
+          description: exportId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: eventId
+          in: path
+          description: eventId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/RefundDetailDTO'
+              example:
+                amount: 10
+                creationDate: 2018-10-13T00:00:00.000Z
+                endDate: 2018-10-13
+                fiscalCode: RSSMRA94C31F205K
+                iban: IT60X0542811101000000123456
+                notificationDate: 2018-10-13T00:00:00.000Z
+                refundType: Ordinario
+                sendDate: 2018-10-13T00:00:00.000Z
+                startDate: 2018-10-13
+                status: COMPLETED_OK
+                cro: 12345678901
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /token:
+    post:
+      tags:
+        - 'token'
+      summary: Get jwt token for pagopa_admin user role with the choosen organizationId
+      description: Get jwt token for pagopa_admin user role with the choosen organizationId
+      operationId: getPagoPaAdminToken
+      parameters:
+        - name: organization-id
+          in: header
+          schema:
+            type: string
+            example: organization-id
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortalToken'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     SasToken:
       type: object
       properties:
         sas:
+          type: string
+    PortalToken:
+      type: object
+      properties:
+        token:
           type: string
     InitiativeAdditionalDTO:
       type: object
@@ -2977,11 +3328,8 @@ components:
       required:
         - iban
         - checkIbanStatus
-        - holderBank
         - description
         - channel
-        - bicCode
-        - queueDate
         - checkIbanResponseDate
       properties:
         iban:
@@ -2993,10 +3341,6 @@ components:
         description:
           type: string
         channel:
-          type: string
-        bicCode:
-          type: string
-        queueDate:
           type: string
         checkIbanResponseDate:
           type: string
@@ -3053,6 +3397,9 @@ components:
       type: object
       required:
         - instrumentId
+        - status
+        - activationDate
+        - channel
       properties:
         idWallet:
           type: string
@@ -3315,6 +3662,84 @@ components:
       properties:
         data:
           type: string
+    ExportSummaryDTO:
+      title: ExportSummaryDTO
+      type: object
+      properties:
+        createDate:
+          type: string
+          format: date
+        totalAmount:
+          type: number
+        totalRefundedAmount:
+          type: number
+        totalRefunds:
+          type: integer
+          format: int64
+        successPercentage:
+          type: string
+        status:
+          type: string
+    ExportListDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExportDetailDTO'
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+    ExportDetailDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        iban:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string
+    RefundDetailDTO:
+      type: object
+      properties:
+        fiscalCode:
+          type: string
+        iban:
+          type: string
+        amount:
+          type: number
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status:
+          type: string
+        refundType:
+          type: string
+        cro:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        sendDate:
+          type: string
+          format: date-time
+        notificationDate:
+          type: string
+          format: date-time
   securitySchemes:
     Bearer:
       type: apiKey
