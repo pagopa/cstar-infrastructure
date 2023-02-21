@@ -1131,3 +1131,55 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
     key = "Sender Monitoring"
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_service_version" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-deprecated-batch-service-version"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where url_s == "https://api.cstar.pagopa.it/rtd/csv-transaction/publickey"
+      | where responseCode_d == 403
+      | project TimeGenerated, apimSubscriptionId_s
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one request to get public key request returns a 403 to the sender. This happens when the Batch Service version used to do the request is considered deprecated."
+  display_name                     = "cstar-${var.env_short}-deprecated-batch-service-version-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
