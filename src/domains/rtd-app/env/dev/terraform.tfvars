@@ -49,6 +49,7 @@ enable = {
   mongodb_storage                     = true
   file_reporter                       = true
   payment_instrument                  = true
+  exporter                            = true
 }
 
 #
@@ -264,6 +265,11 @@ configmaps_rtdfilereporter = {
 
 
 configmaps_rtdpaymentinstrument = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdexporter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }

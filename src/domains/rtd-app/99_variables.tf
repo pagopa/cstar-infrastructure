@@ -207,6 +207,7 @@ variable "enable" {
     mongodb_storage                     = bool
     file_reporter                       = bool
     payment_instrument                  = bool
+    exporter                            = bool
   })
   description = "Feature flags"
   default = {
@@ -219,6 +220,7 @@ variable "enable" {
     mongodb_storage                     = false
     file_reporter                       = false
     payment_instrument                  = false
+    exporter                            = false
   }
 }
 
@@ -301,6 +303,14 @@ variable "configmaps_rtdfilereporter" {
 # RTD Payment Instrument
 #
 variable "configmaps_rtdpaymentinstrument" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Exporter
+#
+variable "configmaps_rtdexporter" {
   type    = map(string)
   default = {}
 }

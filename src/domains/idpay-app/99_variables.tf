@@ -162,6 +162,11 @@ variable "reverse_proxy_be_io" {
 #   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 # }
 
+variable "one_trust_privacynotice_base_url" {
+  type        = string
+  description = "OneTrust PrivacyNotice Base Url"
+}
+
 variable "io_backend_base_url" {
   type        = string
   description = "BE IO backend url"

@@ -685,6 +685,8 @@ components:
         brandLogo:
           type: string
           description: Card's brand as mastercard, visa, ecc.
+        brand:
+          type: string
         status:
           enum:
             - ACTIVE
