@@ -50,6 +50,7 @@ enable = {
   file_reporter                       = true
   payment_instrument                  = false
   exporter                            = false
+  alternative_gateway                 = false
 }
 #
 # Hashpan generation pipeline related variables

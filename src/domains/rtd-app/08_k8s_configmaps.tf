@@ -286,3 +286,19 @@ resource "kubernetes_config_map" "rtdexporter" {
     API_BLOB_CARD_FILENAME        = "hashedPansNew.zip"
   }, var.configmaps_rtdexporter)
 }
+
+#
+# RTD Alternative Gateway
+#
+resource "kubernetes_config_map" "rtdalternativegateway" {
+  count = var.enable.alternative_gateway ? 1 : 0
+  metadata {
+    name      = "rtd-alternative-gateway"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdalternativegateway"
+  }, var.configmaps_rtdalternativegateway)
+}
