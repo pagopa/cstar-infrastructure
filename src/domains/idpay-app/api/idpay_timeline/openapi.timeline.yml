@@ -209,6 +209,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -239,6 +240,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
         - accrued
@@ -280,6 +282,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -368,8 +371,10 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
+        - accrued
         - circuitType
       properties:
         operationId:
