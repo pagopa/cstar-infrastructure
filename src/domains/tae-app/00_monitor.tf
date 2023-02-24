@@ -282,18 +282,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_e
       | where AccountName == "cstar${var.env_short}sftp"
       | where OperationName == "SftpCreate"
       | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
-      let wrote = StorageBlobLogs
-      | where TimeGenerated > ago(5m)
-      | where AccountName == "cstar${var.env_short}sftp"
-      | where OperationName == "SftpWrite"
-      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
       let committed = StorageBlobLogs
       | where TimeGenerated > ago(5m)
       | where AccountName == "cstar${var.env_short}sftp"
       | where OperationName == "SftpCommit"
       | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
       created
-      | join kind=inner wrote on Uri
       | join kind=inner committed on Uri
       | project Uri
       QUERY

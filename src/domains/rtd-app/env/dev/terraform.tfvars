@@ -50,6 +50,7 @@ enable = {
   file_reporter                       = true
   payment_instrument                  = true
   exporter                            = true
+  alternative_gateway                 = true
 }
 
 #
@@ -270,6 +271,11 @@ configmaps_rtdpaymentinstrument = {
 }
 
 configmaps_rtdexporter = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+configmaps_rtdalternativegateway = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }

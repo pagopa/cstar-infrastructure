@@ -88,3 +88,24 @@ resource "azurerm_role_assignment" "adf_data_contributor_role_on_sftp" {
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_data_factory.data_factory.identity[0].principal_id
 }
+
+resource "azurerm_role_definition" "adf_pipeline_run_role" {
+  name        = format("%s-df-run-pipeline-role", local.project)
+  scope       = azurerm_data_factory.data_factory.id
+  description = "ADF RunPipeline Role created via Terraform"
+
+  permissions {
+    actions     = ["Microsoft.DataFactory/factories/pipelines/createrun/action"]
+    not_actions = []
+  }
+
+  assignable_scopes = [
+    azurerm_data_factory.data_factory.id # automatically added, I put it here for clarity
+  ]
+}
+
+resource "azurerm_role_assignment" "adf_pipeline_run_to_ops" {
+  scope                = azurerm_data_factory.data_factory.id
+  role_definition_name = azurerm_role_definition.adf_pipeline_run_role.name
+  principal_id         = data.azuread_group.adgroup_operations.id
+}
