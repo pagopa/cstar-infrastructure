@@ -381,8 +381,8 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-refund-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec = var.pdv_timeout_sec
-        pdv_tokenizer_url = var.pdv_tokenizer_url
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     //PORTAL TOKEN
