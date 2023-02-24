@@ -375,6 +375,11 @@ variable "cstar_support_email" {
   description = "Email for CSTAR support, read by the CSTAR team and Operations team"
 }
 
+variable "pgp_put_limit_bytes" {
+  type    = number
+  default = 10737418240 # 10GB
+}
+
 ## Application gateway
 variable "app_gateway_sku_name" {
   type        = string
@@ -880,7 +885,10 @@ variable "enable" {
 locals {
   project            = "${var.prefix}-${var.env_short}"
   aks_network_prefix = local.project
-  aks_network_indexs = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
+  aks_network_indexs = {
+    for n in var.aks_networks :
+    index(var.aks_networks.*.domain_name, n.domain_name) => n
+  }
 
   #
   # Platform
