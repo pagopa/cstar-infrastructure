@@ -862,6 +862,7 @@ enable = {
     file_register                       = true
     batch_service_api                   = true
     enrolled_payment_instrument         = true
+    payment_instrument                  = false
     mongodb_storage                     = true
     sender_auth                         = true
     hashed_pans_container               = true
