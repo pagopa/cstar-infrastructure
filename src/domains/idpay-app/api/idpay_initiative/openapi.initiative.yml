@@ -2473,13 +2473,12 @@ paths:
                 '$ref': '#/components/schemas/RefundDetailDTO'
               example:
                 amount: 10
-                creationDate: 2022-12-13
                 endDate: 2022-10-15
                 fiscalCode: RSSMRA94C31F205K
                 iban: IT60X0542811101000000123456
-                notificationDate: 2022-12-13
+                userNotificationDate: 2022-12-13
                 refundType: ORDINARY
-                sendDate: 2022-12-13
+                transferDate: 2022-12-13
                 startDate: 2022-10-14
                 status: COMPLETED_OK
                 cro: '12345678901'
@@ -3724,13 +3723,10 @@ components:
           type: string
         cro:
           type: string
-        creationDate:
+        transferDate:
           type: string
           format: date
-        sendDate:
-          type: string
-          format: date
-        notificationDate:
+        userNotificationDate:
           type: string
           format: date
   securitySchemes:
