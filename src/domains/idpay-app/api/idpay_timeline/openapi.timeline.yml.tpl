@@ -349,6 +349,7 @@ components:
         - operationType
         - operationDate
         - amount
+        - accrued
       properties:
         operationId:
           type: string
@@ -374,6 +375,7 @@ components:
         - brand
         - maskedPan
         - amount
+        - accrued
         - circuitType
       properties:
         operationId:
