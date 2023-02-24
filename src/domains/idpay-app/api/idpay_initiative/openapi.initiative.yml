@@ -2443,7 +2443,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/reward/exports/{exportId}/refunds/{eventId}:
+  /{initiativeId}/reward/exports/event/{eventId}:
     get:
       tags:
         - initiative-reward
@@ -2453,13 +2453,6 @@ paths:
         - name: initiativeId
           in: path
           description: initiativeId
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: exportId
-          in: path
-          description: exportId
           required: true
           style: simple
           schema:
@@ -2480,16 +2473,16 @@ paths:
                 '$ref': '#/components/schemas/RefundDetailDTO'
               example:
                 amount: 10
-                creationDate: 2018-10-13T00:00:00.000Z
-                endDate: 2018-10-13
+                creationDate: 2022-12-13
+                endDate: 2022-10-15
                 fiscalCode: RSSMRA94C31F205K
                 iban: IT60X0542811101000000123456
-                notificationDate: 2018-10-13T00:00:00.000Z
-                refundType: Ordinario
-                sendDate: 2018-10-13T00:00:00.000Z
-                startDate: 2018-10-13
+                notificationDate: 2022-12-13
+                refundType: ORDINARY
+                sendDate: 2022-12-13
+                startDate: 2022-10-14
                 status: COMPLETED_OK
-                cro: 12345678901
+                cro: '12345678901'
         '400':
           description: Bad request
           content:
@@ -3733,13 +3726,13 @@ components:
           type: string
         creationDate:
           type: string
-          format: date-time
+          format: date
         sendDate:
           type: string
-          format: date-time
+          format: date
         notificationDate:
           type: string
-          format: date-time
+          format: date
   securitySchemes:
     Bearer:
       type: apiKey
