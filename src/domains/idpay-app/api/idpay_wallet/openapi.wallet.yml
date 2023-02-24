@@ -786,14 +786,11 @@ components:
       type: object
       required:
         - idWallet
-        - idInstrument
         - maskedPan
         - brand
         - initiativeList
       properties:
         idWallet:
-          type: string
-        idInstrument:
           type: string
         maskedPan:
           type: string
@@ -803,17 +800,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InitiativesStatusDTO'
-          description: The list of the initiatives status related to a payment instrument
+          description: The list of the payment instrument status with respect to the initiative
     InitiativesStatusDTO:
       type: object
       required:
         - initiativeId
         - status
+        - instrumentId
       properties:
         initiativeId:
           type: string
-        status:
+        idInstrument:
           type: string
+        status:
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+            - ENROLLMENT_FAILED
     ErrorDTO:
       type: object
       required:

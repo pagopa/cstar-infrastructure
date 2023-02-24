@@ -1885,14 +1885,11 @@ components:
       type: object
       required:
         - idWallet
-        - idInstrument
         - maskedPan
         - brand
         - initiativeList
       properties:
         idWallet:
-          type: string
-        idInstrument:
           type: string
         maskedPan:
           type: string
@@ -1907,12 +1904,20 @@ components:
       type: object
       required:
         - initiativeId
+        - idInstrument
         - status
       properties:
         initiativeId:
           type: string
-        status:
+        idInstrument:
           type: string
+        status:
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+            - ENROLLMENT_FAILED
     PrerequisitesErrorDTO:
       type: object
       required:
