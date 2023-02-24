@@ -615,6 +615,60 @@ paths:
               example:
                 code: 0
                 message: string
+  '/instrument/{idWallet}/initiatives':
+    get:
+      tags:
+        - wallet
+      summary: Returns the initiatives list associated to a payment instrument
+      operationId: getInitiativesWithInstrument
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: idWallet
+          in: path
+          description: The ID Wallet
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativesWithInstrumentDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
 components:
   schemas:
     IbanPutDTO:
@@ -728,6 +782,38 @@ components:
         nInstr:
           type: integer
           format: int32
+    InitiativesWithInstrumentDTO:
+      type: object
+      required:
+        - idWallet
+        - idInstrument
+        - maskedPan
+        - brand
+        - initiativeList
+      properties:
+        idWallet:
+          type: string
+        idInstrument:
+          type: string
+        maskedPan:
+          type: string
+        brand:
+          type: string
+        initiativeList:
+          type: array
+          items:
+            $ref: '#/components/schemas/InitiativesStatusDTO'
+          description: The list of the initiatives status related to a payment instrument
+    InitiativesStatusDTO:
+      type: object
+      required:
+        - initiativeId
+        - status
+      properties:
+        initiativeId:
+          type: string
+        status:
+          type: string
     ErrorDTO:
       type: object
       required:
