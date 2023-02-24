@@ -827,6 +827,7 @@ enable = {
     batch_service_api                   = true
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
+    payment_instrument                  = true
     sender_auth                         = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true

@@ -206,3 +206,31 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_collection" {
   }
 
 }
+
+resource "azurerm_cosmosdb_mongo_collection" "rtd_payment_instrument_collection" {
+
+  count = var.enable.rtd.payment_instrument ? 1 : 0
+
+  account_name        = module.cosmosdb_account_mongodb[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg.name
+
+  name = "payment_instrument"
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+
+  index {
+    keys   = ["paymentInstrumentId"]
+    unique = true
+  }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
+
+}
