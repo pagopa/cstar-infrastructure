@@ -825,6 +825,7 @@ variable "enable" {
       batch_service_api                   = bool
       enrolled_payment_instrument         = bool
       mongodb_storage                     = bool
+      payment_instrument                  = bool
       sender_auth                         = bool
       hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
@@ -857,6 +858,7 @@ variable "enable" {
       batch_service_api                   = false
       enrolled_payment_instrument         = false
       mongodb_storage                     = false
+      payment_instrument                  = false
       sender_auth                         = false
       hashed_pans_container               = false
       pm_wallet_ext_api                   = false
