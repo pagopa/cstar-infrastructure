@@ -34,7 +34,13 @@
                 "responses": {
                     "200": {
                         "description": null
-                    }
+                    },
+                     "400": {
+                         "description": "Content-Length is 0"
+                     },
+                     "413": {
+                         "description": "Content-Length exceeds ${pgp-put-limit-bytes}"
+                     }
                 }
             },
             "delete": {
