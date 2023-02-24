@@ -346,7 +346,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
     query                   = <<-QUERY
       AzureDiagnostics
       | where TimeGenerated > ago(5m)
-      | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d !in (201, 400, 409)
@@ -1093,7 +1092,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
-      | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d == 409
