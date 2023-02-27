@@ -805,14 +805,18 @@ components:
       type: object
       required:
         - initiativeId
+        - initiativeName
+        - idInstrument
         - status
-        - instrumentId
       properties:
         initiativeId:
+          type: string
+        initiativeName:
           type: string
         idInstrument:
           type: string
         status:
+          type: string
           enum:
             - ACTIVE
             - INACTIVE
