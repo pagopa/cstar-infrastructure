@@ -73,6 +73,11 @@ selc_base_url = "https://api.uat.selfcare.pagopa.it"
 io_backend_base_url = "https://api.io.italia.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
 
 #
+# ONE TRUST API
+#
+one_trust_privacynotice_base_url = "https://app-de.onetrust.com/api/privacynotice/v2"
+
+#
 # TLS Checker
 #
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases

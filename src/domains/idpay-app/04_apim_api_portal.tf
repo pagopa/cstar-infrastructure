@@ -314,6 +314,55 @@ module "idpay_initiative_portal" {
       xml_content = templatefile("./api/idpay_initiative/get-disp-errors.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    //BENEFICIARY DETAIL
+    {
+      operation_id = "getIban"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-iban.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    }
+    ,
+    {
+      operation_id = "getTimeline"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    }
+    ,
+    {
+      operation_id = "getTimelineDetail"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline-detail.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    }
+    ,
+    {
+      operation_id = "getWalletDetail"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-wallet.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "getInstrumentList"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-instruments.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
     }
   ]
 

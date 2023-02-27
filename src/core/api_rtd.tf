@@ -65,7 +65,8 @@ module "api_azureblob" {
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host                = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    pgp-put-limit-bytes = var.pgp_put_limit_bytes
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -77,7 +78,8 @@ module "api_azureblob" {
     {
       operation_id = "putblob",
       xml_content = templatefile("./api/azureblob/azureblob_authorizative_policy.xml", {
-        rtd-ingress = local.ingress_load_balancer_hostname_https
+        rtd-ingress         = local.ingress_load_balancer_hostname_https,
+        pgp-put-limit-bytes = var.pgp_put_limit_bytes
       })
     }
   ]
@@ -421,7 +423,8 @@ module "rtd_blob_internal" {
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/internal.openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name,
+
   })
 
   subscription_required = true

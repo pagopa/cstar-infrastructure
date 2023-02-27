@@ -56,10 +56,10 @@
                                         var email = idpayValidatedToken.Claims.GetValueOrDefault("email", "");
                                         JObject organization = JObject.Parse(idpayValidatedToken.Claims.GetValueOrDefault("organization", "{}"));
                                         var org_id = organizationId;
-                                        var org_vat = idpayValidatedToken.Claims.GetValueOrDefault("orgVAT", "");
+                                        var org_vat = idpayValidatedToken.Claims.GetValueOrDefault("org_vat", "");
                                         var org_name = organizationName;        
-                                        var org_party_role = idpayValidatedToken.Claims.GetValueOrDefault("orgPartyRole", "");
-                                        var org_role = idpayValidatedToken.Claims.GetValueOrDefault("orgRole", "");
+                                        var org_party_role = idpayValidatedToken.Claims.GetValueOrDefault("org_party_role", "");
+                                        var org_role = idpayValidatedToken.Claims.GetValueOrDefault("org_role", "");
                                         var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
                                         new {
                                         iat,
