@@ -47,6 +47,9 @@ Target:
 - [ ] Api Tests
 - [ ] Load Tests
 
+<!-- Provide screenshot or link to test results-->
+[Link to test results](https://pagopa.atlassian.net/browse/RTD-XXXX)
+
 <!-- Any other information that is important to this PR such as screenshots of how the component looks before and after the change. -->
 
 ---
