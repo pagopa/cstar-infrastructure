@@ -428,4 +428,49 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
       enabled = false
     }
   }
+
+  log {
+    category = "AirflowDagProcessingLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowSchedulerLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowTaskLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowWebLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowWorkerLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
 }
