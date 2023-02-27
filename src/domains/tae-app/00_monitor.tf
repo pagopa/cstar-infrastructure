@@ -340,10 +340,9 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
     query                   = <<-QUERY
       AzureDiagnostics
       | where TimeGenerated > ago(5m)
-      | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
-      | where httpStatus_d !in (201, 413, 409)
+      | where httpStatus_d !in (201, 400, 409, 413)
       | project TimeGenerated, Filename = substring(requestUri_s, 77, 47), Container = substring(requestUri_s, 15, 61)
       QUERY
     time_aggregation_method = "Count"
@@ -1087,7 +1086,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
-      | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d == 409
@@ -1107,6 +1105,59 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever at least one file upload request returns a 409 to the sender. This happens when the pgp file being uploaded has the same name as one already present"
   display_name                     = "cstar-${var.env_short}-pgp-file-already-present-on-storage-account-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_no_content_length" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-upload-pgp-with-no-content-length"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where requestUri_s startswith "/pagopastorage/"
+      | where httpMethod_s == "PUT"
+      | where httpStatus_d == 400
+      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47)
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one pgp file upload request has content length 0."
+  display_name                     = "cstar-${var.env_short}-upload-pgp-with-no-content-length-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
