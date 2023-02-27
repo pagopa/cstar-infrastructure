@@ -848,3 +848,5 @@ enable = {
     eventhub_idpay = true
   }
 }
+
+batch_service_last_supported_version = "1.2.5"

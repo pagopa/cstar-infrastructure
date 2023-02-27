@@ -884,3 +884,6 @@ enable = {
     eventhub_idpay = true
   }
 }
+
+# semantic versioning: version format is "major.minor.patch"
+batch_service_last_supported_version = "1.2.5"
