@@ -1276,3 +1276,4 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
       key2 = "value2"
     }
   }
+}
