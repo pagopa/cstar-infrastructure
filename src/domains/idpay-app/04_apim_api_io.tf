@@ -18,11 +18,15 @@ module "idpay_api_io_product" {
   subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/app_io/policy_io.xml.tpl", {
-    env_short           = var.env_short
-    reverse_proxy_be_io = var.reverse_proxy_be_io
-    appio_timeout_sec   = var.appio_timeout_sec
-    pdv_timeout_sec     = var.pdv_timeout_sec
-    pdv_tokenizer_url   = var.pdv_tokenizer_url
+    env_short              = var.env_short
+    reverse_proxy_be_io    = var.reverse_proxy_be_io
+    appio_timeout_sec      = var.appio_timeout_sec
+    pdv_timeout_sec        = var.pdv_timeout_sec
+    pdv_tokenizer_url      = var.pdv_tokenizer_url
+    pdv_retry_count        = var.pdv_retry_count
+    pdv_retry_interval     = var.pdv_retry_interval
+    pdv_retry_max_interval = var.pdv_retry_max_interval
+    pdv_retry_delta        = var.pdv_retry_delta
   })
 
   groups = ["developers"]
