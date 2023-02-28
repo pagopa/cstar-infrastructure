@@ -27,7 +27,28 @@
 - [ ] Yes
 - [ ] No
 
+#### Has This Been Tested?
+
+- [ ] Yes
+- [ ] No
+
 ### Other information
+Target: 
+```
+
+```
+
+#### How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, tests ran to see how -->
+<!--- your change affects other areas of the code, etc. -->
+- [ ] Unit Test Suite
+- [ ] Integration Test Suite
+- [ ] Api Tests
+- [ ] Load Tests
+
+<!-- Provide screenshot or link to test results-->
+[Link to test results](https://pagopa.atlassian.net/browse/RTD-XXXX)
 
 <!-- Any other information that is important to this PR such as screenshots of how the component looks before and after the change. -->
 
