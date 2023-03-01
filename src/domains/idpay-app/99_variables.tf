@@ -99,7 +99,11 @@ variable "aks_name" {
 variable "aks_resource_group_name" {
   type        = string
   description = "AKS cluster resource name"
+}
 
+variable "aks_vmss_name" {
+  type        = string
+  description = "AKS nodepool scale set name"
 }
 
 variable "k8s_kube_config_path_prefix" {
@@ -157,6 +161,11 @@ variable "reverse_proxy_be_io" {
 #   })
 #   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 # }
+
+variable "one_trust_privacynotice_base_url" {
+  type        = string
+  description = "OneTrust PrivacyNotice Base Url"
+}
 
 variable "io_backend_base_url" {
   type        = string

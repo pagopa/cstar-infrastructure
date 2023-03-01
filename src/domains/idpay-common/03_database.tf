@@ -311,6 +311,14 @@ locals {
         {
           keys   = ["notificationDate"]
           unique = false
+        },
+        {
+          keys   = ["status"]
+          unique = false
+        },
+        {
+          keys   = ["cro"]
+          unique = false
         }
       ]
     },

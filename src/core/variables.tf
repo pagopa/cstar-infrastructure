@@ -375,6 +375,11 @@ variable "cstar_support_email" {
   description = "Email for CSTAR support, read by the CSTAR team and Operations team"
 }
 
+variable "pgp_put_limit_bytes" {
+  type    = number
+  default = 10737418240 # 10GB
+}
+
 ## Application gateway
 variable "app_gateway_sku_name" {
   type        = string
@@ -820,6 +825,7 @@ variable "enable" {
       batch_service_api                   = bool
       enrolled_payment_instrument         = bool
       mongodb_storage                     = bool
+      payment_instrument                  = bool
       sender_auth                         = bool
       hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
@@ -852,6 +858,7 @@ variable "enable" {
       batch_service_api                   = false
       enrolled_payment_instrument         = false
       mongodb_storage                     = false
+      payment_instrument                  = false
       sender_auth                         = false
       hashed_pans_container               = false
       pm_wallet_ext_api                   = false
@@ -876,11 +883,19 @@ variable "enable" {
   }
 }
 
+variable "batch_service_last_supported_version" {
+  type        = string
+  description = "batch service last version supported by backend"
+  default     = "0.0.1"
+}
 
 locals {
   project            = "${var.prefix}-${var.env_short}"
   aks_network_prefix = local.project
-  aks_network_indexs = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
+  aks_network_indexs = {
+    for n in var.aks_networks :
+    index(var.aks_networks.*.domain_name, n.domain_name) => n
+  }
 
   #
   # Platform

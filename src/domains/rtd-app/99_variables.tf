@@ -206,6 +206,9 @@ variable "enable" {
     enrolled_payment_instrument         = bool
     mongodb_storage                     = bool
     file_reporter                       = bool
+    payment_instrument                  = bool
+    exporter                            = bool
+    alternative_gateway                 = bool
   })
   description = "Feature flags"
   default = {
@@ -217,6 +220,9 @@ variable "enable" {
     enrolled_payment_instrument         = false
     mongodb_storage                     = false
     file_reporter                       = false
+    payment_instrument                  = false
+    exporter                            = false
+    alternative_gateway                 = false
   }
 }
 
@@ -291,6 +297,30 @@ variable "configmaps_rtddecrypter" {
 # RTD File Reporter
 #
 variable "configmaps_rtdfilereporter" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Payment Instrument
+#
+variable "configmaps_rtdpaymentinstrument" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Exporter
+#
+variable "configmaps_rtdexporter" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Alternative Gateway
+#
+variable "configmaps_rtdalternativegateway" {
   type    = map(string)
   default = {}
 }
