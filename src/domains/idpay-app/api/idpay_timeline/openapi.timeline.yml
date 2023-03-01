@@ -167,6 +167,10 @@ components:
       required:
         - lastUpdate
         - operationList
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
       properties:
         lastUpdate:
           type: string
@@ -177,6 +181,18 @@ components:
           items:
             $ref: '#/components/schemas/OperationListDTO'
           description: the list of transactions and operations of an initiative of a citizen
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
     OperationListDTO:
       description: Complex type for items in the operation list
       oneOf:
@@ -193,6 +209,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -208,6 +225,8 @@ components:
           format: date-time
         brandLogo:
           type: string
+        brand:
+          type: string
         instrumentId:
           type: string
         maskedPan:
@@ -221,6 +240,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
         - accrued
@@ -236,6 +256,8 @@ components:
             - REVERSAL
           type: string
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -260,6 +282,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -274,6 +297,8 @@ components:
           type: string
           format: date-time
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -324,6 +349,7 @@ components:
         - operationType
         - operationDate
         - amount
+        - accrued
       properties:
         operationId:
           type: string
@@ -346,8 +372,10 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
+        - accrued
         - circuitType
       properties:
         operationId:
@@ -361,6 +389,8 @@ components:
           type: string
           format: date-time
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string

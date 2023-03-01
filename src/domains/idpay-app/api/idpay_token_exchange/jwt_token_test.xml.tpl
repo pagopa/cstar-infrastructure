@@ -16,7 +16,7 @@
         <base />
         <choose>
             <!-- Check if header exists, which means the request comes from an operator of PagoPA organization -->
-            <when condition="@(context.Request.Headers.ContainsKey("organization-id") && (((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", "").Equals("pagopa_admin")))">
+            <when condition="@(context.Request.Headers.ContainsKey("organization-id") && (((string)context.Request.Body.As<JObject>(preserveContent: true)["orgRole"]).Equals("pagopa_admin")))">
                 <set-variable name="organizationIdHeader" value="@(context.Request.Headers.GetValueOrDefault("organization-id",""))" />
                 <choose>
                     <!-- If header not present than HTTP Status 400 -->
@@ -58,7 +58,7 @@
                                         var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
                                         var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
                                         var org_id = organizationId;
-                                        //var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"]; 
+                                        var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"]; 
                                         var org_name = organizationName;
                                         var org_party_role = context.Request.Body.As<JObject>(preserveContent: true)["orgPartyRole"];
                                         var org_role = context.Request.Body.As<JObject>(preserveContent: true)["orgRole"];
@@ -73,6 +73,7 @@
                                         family_name,
                                         email,
                                         org_id,
+                                        org_vat,
                                         org_name,
                                         org_party_role,
                                         org_role
