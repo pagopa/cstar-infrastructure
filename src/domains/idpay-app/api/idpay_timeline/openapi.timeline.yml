@@ -349,6 +349,7 @@ components:
         - operationType
         - operationDate
         - amount
+        - accrued
       properties:
         operationId:
           type: string

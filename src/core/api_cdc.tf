@@ -87,6 +87,50 @@ resource "azurerm_api_management_certificate" "cdc_cert_jwt" {
   key_vault_secret_id = data.azurerm_key_vault_certificate.jwt_signing_cert[count.index].versionless_secret_id
 }
 
+resource "azurerm_key_vault_certificate" "cdc_sign_certificate" {
+  count        = var.enable.cdc.api ? 1 : 0
+  name         = "cdc-sign-jwt"
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    x509_certificate_properties {
+      key_usage          = ["digitalSignature", "keyEncipherment"]
+      subject            = "E=cstar@pagopa.it, CN=cstar.pagopa.it, OU=Cstar, O=PagoPA SpA, L=Rome, S=Lazio, C=IT"
+      validity_in_months = 12
+    }
+
+    issuer_parameters {
+      name = "self"
+    }
+    key_properties {
+      exportable = true
+      key_type   = "RSA"
+      key_size   = 2048
+      reuse_key  = false
+    }
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    lifetime_action {
+      action {
+        action_type = "EmailContacts"
+      }
+      trigger {
+        lifetime_percentage = 80
+      }
+    }
+  }
+}
+
+resource "azurerm_api_management_certificate" "cdc_sign_certificate_jwt" {
+  count               = var.enable.cdc.api ? 1 : 0
+  name                = "cdc-sign-jwt"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  key_vault_secret_id = azurerm_key_vault_certificate.cdc_sign_certificate[count.index].versionless_secret_id
+}
 
 module "cdc_api_product" {
   count = var.enable.cdc.api ? 1 : 0
@@ -114,7 +158,6 @@ module "cdc_api_product" {
     azurerm_api_management_named_value.cdc_sogei_api_key,
     azurerm_api_management_named_value.cdc_sogei_client_id
   ]
-
 }
 
 module "api_cdc_sogei" {
@@ -137,7 +180,7 @@ module "api_cdc_sogei" {
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint,
+    jwt_cert_signing_thumbprint = var.env_short == "u" ? azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint : azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
 
@@ -152,7 +195,8 @@ module "api_cdc_sogei" {
     azurerm_api_management_named_value.cdc_sogei_api_key,
     azurerm_api_management_named_value.cdc_sogei_client_id,
     azurerm_api_management_named_value.cdc_sogei_jwt_aud,
-    azurerm_api_management_certificate.cdc_cert_jwt
+    azurerm_api_management_certificate.cdc_cert_jwt,
+    azurerm_api_management_certificate.cdc_sign_certificate_jwt
   ]
 
 }
@@ -177,7 +221,7 @@ module "api_cdc_io" {
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
+    jwt_cert_signing_thumbprint = var.env_short == "u" ? azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint : azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
     env_short                   = var.env_short
   })
 
@@ -197,7 +241,8 @@ module "api_cdc_io" {
     azurerm_api_management_named_value.cdc_sogei_api_key,
     azurerm_api_management_named_value.cdc_sogei_client_id,
     azurerm_api_management_named_value.cdc_sogei_jwt_aud,
-    azurerm_api_management_certificate.cdc_cert_jwt
+    azurerm_api_management_certificate.cdc_cert_jwt,
+    azurerm_api_management_certificate.cdc_sign_certificate_jwt
   ]
 
 }
