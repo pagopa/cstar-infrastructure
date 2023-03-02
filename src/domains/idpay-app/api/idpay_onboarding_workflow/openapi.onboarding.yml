@@ -544,7 +544,7 @@ components:
       required:
         - code
         - message
-        - required
+        - details
       properties:
         code:
           type: integer
