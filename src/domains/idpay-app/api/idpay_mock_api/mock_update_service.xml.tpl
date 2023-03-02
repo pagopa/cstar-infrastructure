@@ -17,18 +17,8 @@
             <set-header name="Content-Type" exists-action="override">
                 <value>application/json</value>
             </set-header>
-            <set-body>@{
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            Random random = new Random();
-            string serviceId = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
-            string primaryKey = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
-            string secondaryKey = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
-            return new JObject(
-                    new JProperty("service_id", "MOCK"+"${env}"+serviceId),
-                    new JProperty("service_id", "MOCK"+"${env}"+serviceId),
-                    new JProperty("service_id", "MOCK"+"${env}"+serviceId)
-            ).ToString();
-          }</set-body>
+            <set-body>
+            </set-body>
         </return-response>
     </inbound>
     <backend>

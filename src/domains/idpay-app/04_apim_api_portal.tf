@@ -383,6 +383,10 @@ module "idpay_initiative_portal" {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
+        pdv_retry_count                = var.pdv_retry_count
+        pdv_retry_interval             = var.pdv_retry_interval
+        pdv_retry_max_interval         = var.pdv_retry_max_interval
+        pdv_retry_delta                = var.pdv_retry_delta
       })
     },
     //PORTAL TOKEN
