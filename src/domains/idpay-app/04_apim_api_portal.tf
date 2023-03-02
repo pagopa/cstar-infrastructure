@@ -324,8 +324,7 @@ module "idpay_initiative_portal" {
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
-    }
-    ,
+    },
     {
       operation_id = "getTimeline"
 
@@ -334,8 +333,7 @@ module "idpay_initiative_portal" {
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
-    }
-    ,
+    },
     {
       operation_id = "getTimelineDetail"
 
@@ -344,8 +342,7 @@ module "idpay_initiative_portal" {
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
-    }
-    ,
+    },
     {
       operation_id = "getWalletDetail"
 
@@ -363,12 +360,45 @@ module "idpay_initiative_portal" {
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
+    },
+    //REFUND DETAIL
+    {
+      operation_id = "getExportSummary"
+
+      xml_content = templatefile("./api/idpay_initiative/get-refund-export-summary.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getExportRefundsListPaged"
+
+      xml_content = templatefile("./api/idpay_initiative/get-refund-list.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getRefundDetail"
+
+      xml_content = templatefile("./api/idpay_initiative/get-refund-detail.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    //PORTAL TOKEN
+    {
+      operation_id = "getPagoPaAdminToken"
+
+      xml_content = templatefile("./api/idpay_initiative/idpay_portal_token/jwt_idpay_portal_token.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+        jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
+      })
     }
   ]
 
 }
 
-
+/*
 ##API used for generate IdPay Product Token test
 resource "azurerm_api_management_api_operation" "idpay_portal_token" {
   operation_id        = "idpay_portal_token"
@@ -391,7 +421,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_portal_token_polic
     jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
   })
 }
-
+*/
 
 ## IDPAY Welfare Portal Group API ##
 module "idpay_group_portal" {
