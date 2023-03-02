@@ -22,7 +22,11 @@
     <outbound>
         <choose>
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
-                <retry condition="@((context.Variables["responsePDV"] == null) || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))" count="3" interval="5" max-interval="15" delta="1" first-fast-retry="false">
+                <retry condition="@((context.Variables["responsePDV"] == null)  || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))"
+                                       count="${pdv_retry_count}" interval="${pdv_retry_interval}"
+                                       max-interval="${pdv_retry_max_interval}"
+                                       delta="${pdv_retry_delta}"
+                                       first-fast-retry="false">
                     <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
                     <set-url>@("${pdv_tokenizer_url}/tokens/"+context.Response.Body.As<JObject>(preserveContent: true)["userId"]+"/pii")</set-url>
                     <set-method>GET</set-method>

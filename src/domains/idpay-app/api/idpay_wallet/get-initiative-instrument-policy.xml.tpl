@@ -12,14 +12,9 @@
 -->
 <policies>
     <inbound>
-        <return-response>
-            <set-status code="200" reason="OK" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>
-            </set-body>
-        </return-response>
+        <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
+        <rewrite-uri template="@("idpay/wallet/instrument/{idWallet}/"+ (string)context.Variables["tokenPDV"] + "/initiatives")" />
     </inbound>
     <backend>
         <base />
