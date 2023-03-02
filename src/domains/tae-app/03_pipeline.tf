@@ -203,7 +203,7 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   script = templatefile("pipelines/ackIngestor.dataflow", {
-    throughput-cap = var.ack_ingestor_conf.sink_thoughput_cap
+    throughput-cap     = var.ack_ingestor_conf.sink_thoughput_cap
     status_2_condition = var.ack_ingestor_conf.status_2_condition
   })
 }
