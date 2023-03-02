@@ -170,6 +170,10 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   transformation {
+    name = "addPipelineRunId"
+  }
+
+  transformation {
     name = "deleteAggregatesWithAck"
   }
 
@@ -190,16 +194,12 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   transformation {
-    name = "projectOnlyIdTtlTerminal"
+    name = "projectOnlyOneID"
   }
 
   transformation {
-    name = "addPipelineRunId"
-  }
-
-  transformation {
-    description = "Adds ttl column"
     name        = "addttl"
+    description = "Adds ttl column"
   }
 
   script = templatefile("pipelines/ackIngestor.dataflow", {
