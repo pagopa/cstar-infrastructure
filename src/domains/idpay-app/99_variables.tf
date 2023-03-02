@@ -184,6 +184,30 @@ variable "pdv_timeout_sec" {
   default     = 15
 }
 
+variable "pdv_retry_count" {
+  type        = number
+  description = "PDV max retry number"
+  default     = 3
+}
+
+variable "pdv_retry_interval" {
+  type        = number
+  description = "PDV interval between each retry"
+  default     = 5
+}
+
+variable "pdv_retry_max_interval" {
+  type        = number
+  description = "PDV max interval between each retry"
+  default     = 15
+}
+
+variable "pdv_retry_delta" {
+  type        = number
+  description = "PDV delta"
+  default     = 1
+}
+
 variable "checkiban_base_url" {
   type        = string
   default     = "127.0.0.1"

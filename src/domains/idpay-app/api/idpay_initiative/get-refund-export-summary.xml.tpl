@@ -12,14 +12,9 @@
 -->
 <policies>
     <inbound>
-        <return-response>
-            <set-status code="200" reason="OK" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>
-            </set-body>
-        </return-response>
+        <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
+        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/notification/exports/{exportId}")" />
     </inbound>
     <backend>
         <base />
