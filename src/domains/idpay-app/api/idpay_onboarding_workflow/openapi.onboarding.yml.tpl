@@ -114,6 +114,16 @@ paths:
               example:
                 code: 0
                 message: string
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+              example:
+                code: 0
+                message: string
+                details: GENERIC_ERROR
         '404':
           description: The requested ID was not found
           content:
@@ -194,7 +204,7 @@ paths:
                 code: 0
                 message: string
         '403':
-          description: This enrolment is ended or suspended
+          description: This onboarding is forbidden
           content:
             application/json:
               schema:
@@ -202,6 +212,7 @@ paths:
               example:
                 code: 0
                 message: string
+                details: GENERIC_ERROR
         '404':
           description: The requested ID was not found
           content:
@@ -273,6 +284,16 @@ paths:
               example:
                 code: 0
                 message: string
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+              example:
+                code: 0
+                message: string
+                details: GENERIC_ERROR
         '404':
           description: The requested ID was not found
           content:
@@ -552,6 +573,7 @@ components:
         message:
           type: string
         details:
+          type: string
           enum:
             - INITIATIVE_NOT_STARTED
             - INITIATIVE_END

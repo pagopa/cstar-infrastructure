@@ -806,7 +806,6 @@ components:
       required:
         - initiativeId
         - initiativeName
-        - idInstrument
         - status
       properties:
         initiativeId:
