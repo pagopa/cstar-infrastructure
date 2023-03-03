@@ -349,7 +349,6 @@ components:
         - operationType
         - operationDate
         - amount
-        - accrued
       properties:
         operationId:
           type: string
@@ -362,8 +361,6 @@ components:
           type: string
           format: date
         amount:
-          type: number
-        accrued:
           type: number
     TransactionOperationDTO:
       type: object

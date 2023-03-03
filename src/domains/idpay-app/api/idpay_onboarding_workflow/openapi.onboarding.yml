@@ -198,7 +198,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
               example:
                 code: 0
                 message: string
@@ -539,6 +539,25 @@ components:
           format: int32
         message:
           type: string
+    PrerequisitesErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+        - details
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          enum:
+            - INITIATIVE_NOT_STARTED
+            - INITIATIVE_END
+            - BUDGET_TERMINATED
+            - INITIATIVE_SUSPENDED
+            - GENERIC_ERROR
     InitiativeInfoDTO:
       type: object
       required:
