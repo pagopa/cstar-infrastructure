@@ -32,13 +32,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeDto'
+                $ref: '#/components/schemas/InitiativeInfoDTO'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -65,7 +65,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -101,7 +101,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -110,16 +110,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+              example:
+                code: 0
+                message: string
+                details: GENERIC_ERROR
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -128,7 +138,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -137,7 +147,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -180,7 +190,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -189,25 +199,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
         '403':
-          description: This enrolment is ended or suspended
+          description: This onboarding is forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
               example:
                 code: 0
                 message: string
+                details: GENERIC_ERROR
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -216,7 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -225,7 +236,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -260,7 +271,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -269,16 +280,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+              example:
+                code: 0
+                message: string
+                details: GENERIC_ERROR
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -287,7 +308,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -296,7 +317,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -334,7 +355,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -343,7 +364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -352,7 +373,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -361,7 +382,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDto'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
                 message: string
@@ -528,7 +549,7 @@ components:
           type: string
         value:
           type: string
-    ErrorDto:
+    ErrorDTO:
       type: object
       required:
         - code
@@ -539,7 +560,27 @@ components:
           format: int32
         message:
           type: string
-    InitiativeDto:
+    PrerequisitesErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+        - details
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+          enum:
+            - INITIATIVE_NOT_STARTED
+            - INITIATIVE_END
+            - BUDGET_TERMINATED
+            - INITIATIVE_SUSPENDED
+            - GENERIC_ERROR
+    InitiativeInfoDTO:
       type: object
       required:
         - initiativeId

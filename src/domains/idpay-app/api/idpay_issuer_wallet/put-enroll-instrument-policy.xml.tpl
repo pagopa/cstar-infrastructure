@@ -72,9 +72,10 @@
                             return new JObject(
                                 new JProperty("hpan", ((JObject)context.Variables["pmResponseBody"])["hashCode"]),
                                 new JProperty("brandLogo", ((JObject)context.Variables["pmResponseBody"])["brandLogo"]),
+                                new JProperty("brand", ((JObject)context.Variables["pmResponseBody"])["brand"]),
                                 new JProperty("maskedPan", ((JObject)context.Variables["pmResponseBody"])["maskedPan"]),
                                 new JProperty("channel", (string)context.Variables["senderCode"])
-                            ).ToString();                           
+                            ).ToString();
                         }
                         </set-body>
                     </when>

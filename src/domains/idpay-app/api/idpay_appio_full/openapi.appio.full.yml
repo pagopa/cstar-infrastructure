@@ -173,13 +173,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InitiativeDto"
+                $ref: "#/components/schemas/InitiativeInfoDTO"
         "400":
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -188,7 +188,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -197,7 +197,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -206,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -241,7 +241,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -250,16 +250,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+              example:
+                code: 0
+                message: string
+                details: GENERIC_ERROR
         "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -268,7 +278,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -277,7 +287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -320,7 +330,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -329,25 +339,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
         "403":
-          description: This enrolment is ended or suspended
+          description: This onboarding is forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/PrerequisitesErrorDTO"
               example:
                 code: 0
                 message: string
+                details: GENERIC_ERROR
         "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -356,7 +367,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -365,7 +376,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -402,7 +413,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -411,16 +422,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+              example:
+                code: 0
+                message: string
+                details: GENERIC_ERROR
         "404":
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -429,7 +450,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -438,7 +459,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -476,7 +497,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -485,7 +506,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -494,7 +515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -503,7 +524,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDto"
+                $ref: "#/components/schemas/ErrorDTO"
               example:
                 code: 0
                 message: string
@@ -1243,6 +1264,60 @@ paths:
               example:
                 code: 0
                 message: string
+  '/wallet/instrument/{idWallet}/initiatives':
+    get:
+      tags:
+        - wallet
+      summary: Returns the initiatives list associated to a payment instrument
+      operationId: getInitiativesWithInstrument
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: idWallet
+          in: path
+          description: The ID Wallet
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativesWithInstrumentDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
 components:
   schemas:
     IbanDTO:
@@ -1250,12 +1325,8 @@ components:
       required:
         - iban
         - checkIbanStatus
-        - holderBank
         - description
         - channel
-        - bicCode
-        - queueDate
-        - checkIbanResponseDate
       properties:
         iban:
           type: string
@@ -1267,13 +1338,6 @@ components:
           type: string
         channel:
           type: string
-        bicCode:
-          type: string
-        queueDate:
-          type: string
-        checkIbanResponseDate:
-          type: string
-          format: date-time
     IbanListDTO:
       type: object
       required:
@@ -1342,6 +1406,7 @@ components:
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
+            - ELIGIBLE
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
@@ -1459,18 +1524,7 @@ components:
           type: string
         value:
           type: string
-    ErrorDto:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-    InitiativeDto:
+    InitiativeInfoDTO:
       type: object
       required:
         - initiativeId
@@ -1491,6 +1545,10 @@ components:
       required:
         - lastUpdate
         - operationList
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
       properties:
         lastUpdate:
           type: string
@@ -1499,10 +1557,20 @@ components:
         operationList:
           type: array
           items:
-            $ref: "#/components/schemas/OperationListDTO"
-          description: >-
-            the list of transactions and operations of an initiative of a
-            citizen
+            $ref: '#/components/schemas/OperationListDTO'
+          description: the list of transactions and operations of an initiative of a citizen
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
     OperationListDTO:
       description: Complex type for items in the operation list
       oneOf:
@@ -1519,6 +1587,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -1534,6 +1603,8 @@ components:
           format: date-time
         brandLogo:
           type: string
+        brand:
+          type: string
         instrumentId:
           type: string
         maskedPan:
@@ -1547,6 +1618,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
         - accrued
@@ -1562,6 +1634,8 @@ components:
             - REVERSAL
           type: string
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -1589,6 +1663,7 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - channel
       properties:
@@ -1603,6 +1678,8 @@ components:
           type: string
           format: date-time
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -1666,8 +1743,6 @@ components:
           format: date
         amount:
           type: number
-        accrued:
-          type: number
     TransactionOperationDTO:
       type: object
       required:
@@ -1675,8 +1750,10 @@ components:
         - operationType
         - operationDate
         - brandLogo
+        - brand
         - maskedPan
         - amount
+        - accrued
         - circuitType
       properties:
         operationId:
@@ -1690,6 +1767,8 @@ components:
           type: string
           format: date-time
         brandLogo:
+          type: string
+        brand:
           type: string
         maskedPan:
           type: string
@@ -1773,6 +1852,8 @@ components:
         brandLogo:
           type: string
           description: "Card's brand as mastercard, visa, ecc."
+        brand:
+          type: string
         status:
           enum:
             - ACTIVE
@@ -1820,6 +1901,66 @@ components:
         nInstr:
           type: integer
           format: int32
+    InitiativesWithInstrumentDTO:
+      type: object
+      required:
+        - idWallet
+        - maskedPan
+        - brand
+        - initiativeList
+      properties:
+        idWallet:
+          type: string
+        maskedPan:
+          type: string
+        brand:
+          type: string
+        initiativeList:
+          type: array
+          items:
+            $ref: '#/components/schemas/InitiativesStatusDTO'
+          description: The list of the initiatives status related to a payment instrument
+    InitiativesStatusDTO:
+      type: object
+      required:
+        - initiativeId
+        - initiativeName
+        - status
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        idInstrument:
+          type: string
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+            - ENROLLMENT_FAILED
+    PrerequisitesErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+        - details
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+          enum:
+            - INITIATIVE_NOT_STARTED
+            - INITIATIVE_END
+            - BUDGET_TERMINATED
+            - INITIATIVE_SUSPENDED
+            - GENERIC_ERROR
   securitySchemes:
     bearerAuth:
       type: http

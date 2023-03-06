@@ -25,6 +25,7 @@ log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
 
 aks_name                = "cstar-p-weu-prod01-aks"
 aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
+aks_vmss_name           = "aks-cstprod01usr-18685956-vmss"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "prod01.idpay.internal.cstar.pagopa.it"
@@ -71,6 +72,11 @@ selc_base_url = "https://api.selfcare.pagopa.it"
 # BE IO API
 #
 io_backend_base_url = "https://api-io.cstar.pagopa.it/idpay/mock" # "https://api.io.italia.it"
+
+#
+# ONE TRUST API
+#
+one_trust_privacynotice_base_url = "https://app-de.onetrust.com/api/privacynotice/v2"
 
 #
 # TLS Checker
