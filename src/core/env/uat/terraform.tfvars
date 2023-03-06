@@ -15,6 +15,7 @@ tags = {
 
 apim_notification_sender_email = "info@pagopa.it"
 cstar_support_email            = "cstar@assistenza.pagopa.it"
+pgp_put_limit_bytes            = 524288000 # 500MB
 apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Developer_1"
 
@@ -831,6 +832,7 @@ enable = {
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
     sender_auth                         = true
+    payment_instrument                  = false
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     pm_integration                      = true
@@ -852,3 +854,5 @@ enable = {
     eventhub_idpay = true
   }
 }
+
+batch_service_last_supported_version = "1.2.5"

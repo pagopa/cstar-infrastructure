@@ -46,6 +46,7 @@ ack_ingestor_conf = {
   enable                       = false
   sink_thoughput_cap           = 500
   sink_write_throughput_budget = 1000
+  status_2_condition           = "true()"
 }
 
 dexp_tae_db_linkes_service = {

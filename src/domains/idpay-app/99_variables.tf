@@ -99,7 +99,11 @@ variable "aks_name" {
 variable "aks_resource_group_name" {
   type        = string
   description = "AKS cluster resource name"
+}
 
+variable "aks_vmss_name" {
+  type        = string
+  description = "AKS nodepool scale set name"
 }
 
 variable "k8s_kube_config_path_prefix" {
@@ -158,6 +162,11 @@ variable "reverse_proxy_be_io" {
 #   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
 # }
 
+variable "one_trust_privacynotice_base_url" {
+  type        = string
+  description = "OneTrust PrivacyNotice Base Url"
+}
+
 variable "io_backend_base_url" {
   type        = string
   description = "BE IO backend url"
@@ -173,6 +182,30 @@ variable "pdv_timeout_sec" {
   type        = number
   description = "PDV timeout (sec)"
   default     = 15
+}
+
+variable "pdv_retry_count" {
+  type        = number
+  description = "PDV max retry number"
+  default     = 3
+}
+
+variable "pdv_retry_interval" {
+  type        = number
+  description = "PDV interval between each retry"
+  default     = 5
+}
+
+variable "pdv_retry_max_interval" {
+  type        = number
+  description = "PDV max interval between each retry"
+  default     = 15
+}
+
+variable "pdv_retry_delta" {
+  type        = number
+  description = "PDV delta"
+  default     = 1
 }
 
 variable "checkiban_base_url" {
