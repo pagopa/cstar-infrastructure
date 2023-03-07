@@ -26,7 +26,7 @@ resource "azurerm_application_insights_workbook" "workbook_onboarding_workflow" 
 }
 */
 
-resource "azapi_resource" "workbook_onboarding_workflow" {
+resource "azapi_resource" "idpay_workbook" {
   for_each = {
     for index, workbook in local.workbooks :
     workbook.name => workbook
