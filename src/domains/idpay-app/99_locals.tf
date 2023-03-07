@@ -19,6 +19,7 @@ locals {
 
   apim_rg_name                  = "cstar-${var.env_short}-api-rg"
   apim_name                     = "cstar-${var.env_short}-apim"
+  apim_logger_id                = "${data.azurerm_api_management.apim_core.id}/loggers/${local.apim_name}-logger"
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
   # DOMAINS
