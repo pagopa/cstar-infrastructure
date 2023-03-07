@@ -44,3 +44,47 @@ terraform_remote_state_core = {
   container_name       = "azurestate"
   key                  = "terraform.tfstate"
 }
+
+##Database
+cosmos_mongo_db_params = {
+  enabled      = true
+  kind         = "MongoDB"
+  capabilities = ["EnableMongo"]
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = "4.0"
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = false
+
+  private_endpoint_enabled      = true
+  public_network_access_enabled = true
+  additional_geo_locations      = []
+  # additional_geo_locations = [{
+  #   location          = "northeurope"
+  #   failover_priority = 1
+  #   zone_redundant    = false
+  # }]
+
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+}
+
+cosmos_mongo_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
+}
+
+enable = {
+  file_register               = true
+  enrolled_payment_instrument = true
+  mongodb_storage             = true
+  payment_instrument          = true
+  sender_auth                 = true
+}
