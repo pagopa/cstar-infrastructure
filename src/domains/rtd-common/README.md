@@ -82,7 +82,7 @@
 | <a name="input_cosmos_mongo_db_transaction_params"></a> [cosmos\_mongo\_db\_transaction\_params](#input\_cosmos\_mongo\_db\_transaction\_params) | n/a | <pre>object({<br>    enable_serverless  = bool<br>    enable_autoscaling = bool<br>    throughput         = number<br>    max_throughput     = number<br>  })</pre> | n/a | yes |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `"cstar"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_enable"></a> [enable](#input\_enable) | n/a | <pre>object({<br>    file_register               = bool<br>    enrolled_payment_instrument = bool<br>    mongodb_storage             = bool<br>    payment_instrument          = bool<br>    sender_auth                 = bool<br>  })</pre> | n/a | yes |
+| <a name="input_enable"></a> [enable](#input\_enable) | n/a | <pre>object({<br>    file_register               = bool<br>    enrolled_payment_instrument = bool<br>    mongodb_storage             = bool<br>    file_reporter               = bool<br>    sender_auth                 = bool<br>  })</pre> | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_eventhub_rtd_namespace"></a> [eventhub\_rtd\_namespace](#input\_eventhub\_rtd\_namespace) | ## Eventhub | <pre>object({<br>    sku                      = string<br>    capacity                 = number<br>    maximum_throughput_units = number<br>    auto_inflate_enabled     = bool<br>    zone_redundant           = bool<br>  })</pre> | n/a | yes |

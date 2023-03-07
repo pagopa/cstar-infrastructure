@@ -4,7 +4,7 @@ data "azurerm_cosmosdb_account" "cosmosdb_account" {
 }
 resource "azurerm_resource_group" "db_rg" {
 
-  count = var.env_short == "u" ? 1 : 0
+  count = var.enable.mongodb_storage ? 1 : 0
 
   name     = "${local.product}-${var.domain}-db-rg"
   location = var.location
@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "db_rg" {
 
 resource "azurerm_key_vault_secret" "mongo_db_rtd_connection_uri" {
 
-  count = var.env_short == "u" ? 1 : 0
+  count = var.enable.mongodb_storage ? 1 : 0
 
   name         = "mongo-db-rtd-connection-uri"
   value        = module.cosmosdb_account_mongodb[count.index].connection_strings[0]
@@ -23,7 +23,7 @@ resource "azurerm_key_vault_secret" "mongo_db_rtd_connection_uri" {
 
 module "cosmosdb_account_mongodb" {
 
-  count = var.env_short == "u" ? 1 : 0
+  count = var.enable.mongodb_storage ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
@@ -57,7 +57,7 @@ module "cosmosdb_account_mongodb" {
 
 resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
 
-  count = var.env == "uat" ? 1 : 0
+  count = var.enable.mongodb_storage ? 1 : 0
 
   name                = "rtd"
   resource_group_name = azurerm_resource_group.db_rg[count.index].name
@@ -76,7 +76,7 @@ resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
 
 resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_collection" {
 
-  count = var.env == "uat" ? 1 : 0
+  count = var.enable.enrolled_payment_instrument ? 1 : 0
 
   account_name        = module.cosmosdb_account_mongodb[count.index].name
   database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
@@ -112,7 +112,7 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_co
 
 resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
 
-  count = var.env == "uat" ? 1 : 0
+  count = var.enable.sender_auth ? 1 : 0
 
   name                = "senderauth"
   resource_group_name = azurerm_resource_group.db_rg[count.index].name
@@ -147,7 +147,7 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
 
 resource "azurerm_cosmosdb_mongo_collection" "file_register" {
 
-  count = var.env == "uat" ? 1 : 0
+  count = var.enable.file_register ? 1 : 0
 
   name                = "fileregister"
   resource_group_name = azurerm_resource_group.db_rg[count.index].name
@@ -189,7 +189,7 @@ resource "azurerm_cosmosdb_mongo_collection" "file_register" {
 
 resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_collection" {
 
-  count = var.env == "uat" ? 1 : 0
+  count = var.enable.file_reporter ? 1 : 0
 
   name                = "filereports"
   account_name        = module.cosmosdb_account_mongodb[count.index].name

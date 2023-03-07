@@ -84,9 +84,9 @@ cosmos_mongo_db_transaction_params = {
 }
 
 enable = {
-  file_register               = true
-  enrolled_payment_instrument = true
-  mongodb_storage             = true
-  payment_instrument          = true
-  sender_auth                 = true
+  file_register               = false
+  enrolled_payment_instrument = false
+  mongodb_storage             = false
+  file_reporter               = false
+  sender_auth                 = false
 }
