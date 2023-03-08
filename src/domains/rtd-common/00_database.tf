@@ -2,11 +2,12 @@ data "azurerm_cosmosdb_account" "cosmosdb_account" {
   name                = "${local.product}-cosmos-mongo-db-account"
   resource_group_name = "${local.product}-db-rg"
 }
-resource "azurerm_resource_group" "db_rg" {
+
+resource "azurerm_resource_group" "db_rg_common" {
 
   count = var.enable.mongodb_storage ? 1 : 0
 
-  name     = "${local.product}-${var.domain}-db-rg"
+  name     = "${local.project}-db-common-rg"
   location = var.location
 
   tags = var.tags
@@ -27,9 +28,9 @@ module "cosmosdb_account_mongodb" {
 
   source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
 
-  name                 = format("%s-cosmos-mongo-db-account", local.project)
-  location             = azurerm_resource_group.db_rg[count.index].location
-  resource_group_name  = azurerm_resource_group.db_rg[count.index].name
+  name                 = "${local.project}-cosmos-db-account"
+  location             = azurerm_resource_group.db_rg_common[count.index].location
+  resource_group_name  = azurerm_resource_group.db_rg_common[count.index].name
   offer_type           = var.cosmos_mongo_db_params.offer_type
   kind                 = var.cosmos_mongo_db_params.kind
   capabilities         = var.cosmos_mongo_db_params.capabilities
@@ -45,7 +46,7 @@ module "cosmosdb_account_mongodb" {
   ip_range = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26,0.0.0.0"
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
-  main_geo_location_location       = azurerm_resource_group.db_rg[count.index].location
+  main_geo_location_location       = azurerm_resource_group.db_rg_common[count.index].location
   main_geo_location_zone_redundant = var.cosmos_mongo_db_params.main_geo_location_zone_redundant
   additional_geo_locations         = var.cosmos_mongo_db_params.additional_geo_locations
 
@@ -55,12 +56,12 @@ module "cosmosdb_account_mongodb" {
 }
 
 
-resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
+resource "azurerm_cosmosdb_mongo_database" "rtd_db_common" {
 
   count = var.enable.mongodb_storage ? 1 : 0
 
   name                = "rtd"
-  resource_group_name = azurerm_resource_group.db_rg[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg_common[count.index].name
   account_name        = module.cosmosdb_account_mongodb[count.index].name
 
   throughput = var.cosmos_mongo_db_transaction_params.enable_autoscaling || var.cosmos_mongo_db_transaction_params.enable_serverless ? null : var.cosmos_mongo_db_transaction_params.throughput
@@ -74,13 +75,13 @@ resource "azurerm_cosmosdb_mongo_database" "rtd_db" {
 }
 
 
-resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_collection" {
+resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_common" {
 
   count = var.enable.enrolled_payment_instrument ? 1 : 0
 
   account_name        = module.cosmosdb_account_mongodb[count.index].name
-  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
-  resource_group_name = azurerm_resource_group.db_rg[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db_common[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg_common[count.index].name
 
   name = "enrolled_payment_instrument"
 
@@ -95,11 +96,13 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_co
   }
 
   index {
-    keys = ["enabledApps"]
+    keys   = ["enabledApps"]
+    unique = false
   }
 
   index {
-    keys = ["hashPanChildren"]
+    keys   = ["hashPanChildren"]
+    unique = false
   }
 
   lifecycle {
@@ -110,14 +113,14 @@ resource "azurerm_cosmosdb_mongo_collection" "rtd_enrolled_payment_instrument_co
 
 }
 
-resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
+resource "azurerm_cosmosdb_mongo_collection" "sender_auth_common" {
 
   count = var.enable.sender_auth ? 1 : 0
 
   name                = "senderauth"
-  resource_group_name = azurerm_resource_group.db_rg[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg_common[count.index].name
   account_name        = module.cosmosdb_account_mongodb[count.index].name
-  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db_common[count.index].name
 
   index {
     keys   = ["_id"]
@@ -130,7 +133,8 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
   }
 
   index {
-    keys = ["senderCodes"]
+    keys   = ["senderCodes"]
+    unique = false
   }
 
   autoscale_settings {
@@ -145,29 +149,33 @@ resource "azurerm_cosmosdb_mongo_collection" "sender_auth" {
 
 }
 
-resource "azurerm_cosmosdb_mongo_collection" "file_register" {
+resource "azurerm_cosmosdb_mongo_collection" "file_register_common" {
 
   count = var.enable.file_register ? 1 : 0
 
   name                = "fileregister"
-  resource_group_name = azurerm_resource_group.db_rg[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg_common[count.index].name
   account_name        = module.cosmosdb_account_mongodb[count.index].name
-  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db_common[count.index].name
 
   index {
-    keys = ["name"]
+    keys   = ["name"]
+    unique = false
   }
 
   index {
-    keys = ["sender"]
+    keys   = ["sender"]
+    unique = false
   }
 
   index {
-    keys = ["type"]
+    keys   = ["type"]
+    unique = false
   }
 
   index {
-    keys = ["status"]
+    keys   = ["status"]
+    unique = false
   }
 
   index {
@@ -187,14 +195,14 @@ resource "azurerm_cosmosdb_mongo_collection" "file_register" {
 
 }
 
-resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_collection" {
+resource "azurerm_cosmosdb_mongo_collection" "rtd_file_reporter_common" {
 
   count = var.enable.file_reporter ? 1 : 0
 
   name                = "filereports"
   account_name        = module.cosmosdb_account_mongodb[count.index].name
-  database_name       = azurerm_cosmosdb_mongo_database.rtd_db[count.index].name
-  resource_group_name = azurerm_resource_group.db_rg[count.index].name
+  database_name       = azurerm_cosmosdb_mongo_database.rtd_db_common[count.index].name
+  resource_group_name = azurerm_resource_group.db_rg_common[count.index].name
 
   index {
     keys   = ["_id"]

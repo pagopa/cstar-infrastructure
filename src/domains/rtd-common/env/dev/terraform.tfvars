@@ -46,7 +46,6 @@ terraform_remote_state_core = {
 }
 
 #Database
-
 cosmos_mongo_db_params = {
   enabled      = true
   kind         = "MongoDB"
