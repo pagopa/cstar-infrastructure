@@ -1,6 +1,8 @@
 locals {
   idpay_apim_api_diagnostics = [
-    module.idpay_onboarding_workflow_issuer.name
+    module.idpay_onboarding_workflow_issuer.name,
+    module.idpay_wallet_issuer.name,
+    module.idpay_timeline_issuer.name
   ]
 }
 
