@@ -400,7 +400,8 @@ resource "azurerm_api_management_api_diagnostic" "rtd_csv_transaction_diagnostic
   frontend_request {
     body_bytes = 8192
     headers_to_log = [
-      "User-Agent"
+      "User-Agent",
+      "X-Client-Certificate-End-Date"
     ]
   }
 }
