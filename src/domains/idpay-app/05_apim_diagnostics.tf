@@ -9,6 +9,7 @@ locals {
     module.idpay_iban_io.name,
     module.idpay_initiative_portal.name,
     module.idpay_group_portal.name,
+    module.idpay_permission_portal.name,
     module.idpay_notification_email_api.name
   ]
 }
