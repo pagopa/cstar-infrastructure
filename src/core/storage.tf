@@ -233,7 +233,7 @@ module "backupstorage" {
   source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
 
   name                          = replace(format("%s-backupstorage", local.project), "-", "")
-  account_kind                  = "BlobStorage"
+  account_kind                  = "StorageV2"
   account_tier                  = "Standard"
   account_replication_type      = "GRS"
   access_tier                   = "Cool"
