@@ -6,7 +6,10 @@ locals {
     module.idpay_onboarding_workflow_io.name,
     module.idpay_wallet_io.name,
     module.idpay_timeline_io.name,
-    module.idpay_iban_io.name
+    module.idpay_iban_io.name,
+    module.idpay_initiative_portal.name,
+    module.idpay_group_portal.name,
+    module.idpay_notification_email_api.name
   ]
 }
 
