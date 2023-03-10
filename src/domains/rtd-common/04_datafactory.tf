@@ -65,5 +65,11 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   data_factory_id    = azurerm_data_factory.data_factory.id
   target_resource_id = each.key
   subresource_name   = each.value
+
+  lifecycle {
+    ignore_changes = [
+      fqdns
+    ]
+  }
 }
 
