@@ -203,7 +203,8 @@ resource "azurerm_data_factory_data_flow" "ack_joinupdate" {
   }
 
   script = templatefile("pipelines/ackIngestor.dataflow", {
-    throughput-cap = var.ack_ingestor_conf.sink_thoughput_cap
+    throughput-cap     = var.ack_ingestor_conf.sink_thoughput_cap
+    status_2_condition = var.ack_ingestor_conf.status_2_condition
   })
 }
 
@@ -425,6 +426,51 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
     category = "AllMetrics"
     enabled  = false
     retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowDagProcessingLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowSchedulerLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowTaskLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowWebLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AirflowWorkerLogs"
+    enabled  = false
+    retention_policy {
+      days    = 0
       enabled = false
     }
   }
