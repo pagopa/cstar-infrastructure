@@ -57,13 +57,14 @@ resource "azurerm_private_dns_a_record" "data_factory_a_record" {
 resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   for_each = tomap(
     {
-      (data.azurerm_storage_account.blobstorage_account.id) = "blob",
-      (data.azurerm_cosmosdb_account.cosmosdb_account.id)   = "MongoDB"
+      (data.azurerm_storage_account.blobstorage_account.id) = ["blob", "cstar${var.env_short}blobstorage.blob.core.windows.net"]
+      (data.azurerm_cosmosdb_account.cosmosdb_account.id)   = ["MongoDB", "cstar-${var.env_short}-cosmos-mongo-db-account.mongo.cosmos.azure.com"]
     }
   )
   name               = replace(format("%s-%s-mng-private-endpoint", azurerm_data_factory.data_factory.name, substr(sha256(each.key), 0, 3)), "-", "_")
   data_factory_id    = azurerm_data_factory.data_factory.id
   target_resource_id = each.key
-  subresource_name   = each.value
+  subresource_name   = each.value[0]
+  fqdns            = [each.value[1]]
 }
 
