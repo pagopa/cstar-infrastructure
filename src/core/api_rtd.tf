@@ -406,6 +406,29 @@ resource "azurerm_api_management_api_diagnostic" "rtd_csv_transaction_diagnostic
   }
 }
 
+resource "azurerm_api_management_api_diagnostic" "blob_storage_api_diagnostic" {
+  count = var.enable.rtd.csv_transaction_apis ? 1 : 0
+
+  identifier               = "applicationinsights"
+  resource_group_name      = azurerm_resource_group.rg_api.name
+  api_management_name      = module.apim.name
+  api_name                 = format("%s-azureblob", var.env_short)
+  api_management_logger_id = module.apim.logger_id
+
+  sampling_percentage       = 100.0
+  always_log_errors         = true
+  log_client_ip             = true
+  verbosity                 = "information"
+  http_correlation_protocol = "W3C"
+
+  frontend_request {
+    body_bytes = 0
+    headers_to_log = [
+      "Content-Length"
+    ]
+  }
+}
+
 ## RTD CSV Transaction Decrypted API ##
 module "rtd_blob_internal" {
   count  = var.enable.rtd.internal_api ? 1 : 0
