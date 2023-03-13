@@ -342,8 +342,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       | where TimeGenerated > ago(5m)
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
-      | where httpStatus_d !in (201, 400, 409, 413)
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47), Container = substring(requestUri_s, 15, 61)
+      | where httpStatus_d !in (201, 400, 409, 413, 503)
+      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47), Container = substring(requestUri_s, 15, 61),  httpStatus_d
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0

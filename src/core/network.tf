@@ -403,6 +403,10 @@ module "app_gw_maz" {
           {
             header_name  = "X-Client-Certificate-Verification"
             header_value = "{var_client_certificate_verification}"
+          },
+          {
+            header_name  = "X-Client-Certificate-End-Date"
+            header_value = "{var_client_certificate_end_date}"
           }
         ]
         response_header_configurations = []
