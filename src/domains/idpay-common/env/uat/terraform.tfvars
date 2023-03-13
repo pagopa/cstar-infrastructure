@@ -223,7 +223,7 @@ eventhubs_idpay_00 = [
 eventhubs_idpay_01 = [
   {
     name              = "idpay-transaction"
-    partitions        = 3
+    partitions        = 16
     message_retention = 1
     consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group"]
     keys = [
@@ -303,7 +303,7 @@ eventhubs_idpay_01 = [
   },
   {
     name              = "idpay-transaction-user-id-splitter"
-    partitions        = 3
+    partitions        = 16
     message_retention = 1
     consumers         = ["idpay-reward-calculator-consumer-group"]
     keys = [
