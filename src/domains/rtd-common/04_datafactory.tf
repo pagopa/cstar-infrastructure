@@ -75,3 +75,8 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   subresource_name   = each.value
 }
 
+resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
+  scope                = data.azurerm_storage_account.blobstorage_account.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_data_factory.data_factory.identity[0].principal_id
+}
