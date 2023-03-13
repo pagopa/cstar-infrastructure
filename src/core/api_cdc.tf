@@ -180,7 +180,7 @@ module "api_cdc_sogei" {
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = var.env_short == "u" ? azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint : azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint,
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
 
@@ -221,7 +221,7 @@ module "api_cdc_io" {
   })
 
   xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = var.env_short == "u" ? azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint : azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
 
