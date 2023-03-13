@@ -3,6 +3,14 @@ locals {
     {
       name     = "Onboarding Workflow",
       filePath = "${path.module}/workbooks/OnboardingWorkflow.json.tpl"
+    },
+    {
+      name     = "SistemaBeneficiario",
+      filePath = "${path.module}/workbooks/SistemaBeneficiario.json.tpl"
+    },
+    {
+      name     = "SistemaPortaleEnti",
+      filePath = "${path.module}/workbooks/SistemaPortaleEnti.json.tpl"
     }
   ]
 }
