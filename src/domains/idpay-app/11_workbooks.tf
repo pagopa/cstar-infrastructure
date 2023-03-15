@@ -69,22 +69,3 @@ resource "azapi_resource" "idpay_workbook" {
     { "hidden-title" : each.value.name }
   )
 }
-
-/* cannot use azurerm_application_insights_workbook with plugin 2.99, creating through azapi_resource.workbook_onboarding_workflow instead
-resource "azurerm_application_insights_workbook" "workbook_onboarding_workflow" {
-  name                = "Onboarding Workflow"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  location            = data.azurerm_resource_group.monitor_rg.location
-  display_name        = "Onboarding Workflow"
-  data_json = templatefile("${path.module}/workbooks/OnboardingWorkflow.json.tpl",
-    {
-      subscription_id = data.azurerm_subscription.current.subscription_id
-      prefix          = "${var.prefix}-${var.env_short}"
-      env             = var.env
-      env_short       = var.env_short
-      location_short  = var.location_short
-    })
-
-  tags = var.tags
-}
-*/
