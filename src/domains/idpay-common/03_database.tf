@@ -106,6 +106,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["notificationStatus"]
+          unique = false
         }
       ]
     },
