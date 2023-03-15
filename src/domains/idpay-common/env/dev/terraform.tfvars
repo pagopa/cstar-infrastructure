@@ -407,3 +407,10 @@ enable = {
     eventhub_idpay_00 = true
   }
 }
+
+### AKS VNet
+aks_vnet = {
+  name           = "cstar-d-weu-dev01-vnet"
+  resource_group = "cstar-d-weu-dev01-vnet-rg"
+  subnet         = "cstar-d-weu-dev01-aks-snet"
+}

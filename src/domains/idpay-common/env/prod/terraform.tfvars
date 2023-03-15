@@ -410,3 +410,10 @@ ns_dns_records_welfare = [
     "ns4-05.azure-dns.info", ]
   },
 ]
+
+### AKS VNet
+aks_vnet = {
+  name           = "cstar-p-weu-prod01-vnet"
+  resource_group = "cstar-p-weu-prod01-vnet-rg"
+  subnet         = "cstar-p-weu-prod01-aks-snet"
+}
