@@ -69,14 +69,6 @@ resource "azapi_resource" "idpay_workbook" {
     { "hidden-title" : each.value.name }
   )
 }
-locals {
-  workbooks = [
-    {
-      name     = "Onboarding Workflow",
-      filePath = "${path.module}/workbooks/OnboardingWorkflow.json.tpl"
-    }
-  ]
-}
 
 /* cannot use azurerm_application_insights_workbook with plugin 2.99, creating through azapi_resource.workbook_onboarding_workflow instead
 resource "azurerm_application_insights_workbook" "workbook_onboarding_workflow" {
