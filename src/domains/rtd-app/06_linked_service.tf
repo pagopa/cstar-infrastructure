@@ -14,8 +14,8 @@ resource "azurerm_data_factory_linked_service_cosmosdb_mongoapi" "cosmos_linked_
 
   database = "rtd"
 
-  connection_string = data.azurerm_key_vault_secret.mongodb_connection_uri.value
-
+  connection_string              = data.azurerm_key_vault_secret.mongodb_connection_uri.value
+  server_version_is_32_or_higher = true
 }
 
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "storage_account_linked_service" {
@@ -23,8 +23,13 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "storage_accou
   name            = "${local.product}-sa-linked-service"
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
-  connection_string    = data.azurerm_storage_account.blobstorage_account.primary_blob_connection_string
+  service_endpoint     = data.azurerm_storage_account.blobstorage_account.primary_blob_endpoint
   use_managed_identity = true
 
-  storage_kind = "BlobStorage"
+  # cause is not supported in version 2.99 of azurerm,
+  # changes are actually ignored
+  storage_kind = "StorageV2"
+  lifecycle {
+    ignore_changes = [storage_kind]
+  }
 }
