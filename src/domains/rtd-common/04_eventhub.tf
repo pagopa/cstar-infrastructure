@@ -18,13 +18,13 @@ resource "azurerm_eventhub_namespace" "event_hub_rtd_namespace" {
     default_action = "Deny"
     # list of subnet where eventhub is reachable
     virtual_network_rule {
+      subnet_id = data.azurerm_subnet.eventhub_snet.id
+    }
+    virtual_network_rule {
       subnet_id = data.azurerm_subnet.aks_domain_subnet.id
     }
     virtual_network_rule {
       subnet_id = data.azurerm_subnet.aks_old_subnet.id
-    }
-    virtual_network_rule {
-      subnet_id = data.azurerm_subnet.eventhub_snet.id
     }
     virtual_network_rule {
       subnet_id = data.azurerm_subnet.private_endpoint_snet.id
