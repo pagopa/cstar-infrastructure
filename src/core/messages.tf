@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v2.18.7"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=fix-eventhub-network-ruleset"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -38,6 +38,7 @@ module "event_hub" {
   network_rulesets = var.env_short == "d" ? [
     {
       default_action = "Deny"
+      trusted_network_access_enabled = false
       virtual_network_rule = flatten([
         [
           {
@@ -65,6 +66,13 @@ module "event_hub" {
         ]
       ])
       ip_rule = []
+    },
+    {
+      default_action = null
+      trusted_network_access_enabled = null
+      virtual_network_rule = null
+      ip_rule = null
+      trusted_service_access_enabled = true
     }
   ] : []
 
