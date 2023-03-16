@@ -11,6 +11,26 @@ locals {
     {
       name     = "SistemaPortaleEnti",
       filePath = "${path.module}/workbooks/SistemaPortaleEnti.json.tpl"
+    },
+    {
+      name     = "EnrollmentIBAN",
+      filePath = "${path.module}/workbooks/EnrollmentIBAN.json.tpl"
+    },
+    {
+      name     = "EnrollmentInstrumentFlowIssuer",
+      filePath = "${path.module}/workbooks/EnrollmentInstrumentFlowIssuer.json.tpl"
+    },
+    {
+      name     = "PerformanceRewardNotificationExport",
+      filePath = "${path.module}/workbooks/PerformanceRewardNotificationExport.json.tpl"
+    },
+    {
+      name     = "PerformanceRewardNotificationImport",
+      filePath = "${path.module}/workbooks/PerformanceRewardNotificationImport.json.tpl"
+    },
+    {
+      name     = "PerformanceTrx",
+      filePath = "${path.module}/workbooks/PerformanceTrx.json.tpl"
     }
   ]
 }
