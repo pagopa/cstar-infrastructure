@@ -1289,7 +1289,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-ex
   evaluation_frequency = "P1D"
   window_duration      = "P2D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 2
   criteria {
     query                   = <<-QUERY
       AppRequests
@@ -1299,7 +1299,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-ex
       | extend dateFormattedProperly = strcat(dateSplitted[1], ' ', dateSplitted[0], ' ', dateSplitted[3], ' ', dateSplitted[2], ' ',dateSplitted[4])
       | extend certificateEndDate = todatetime(dateFormattedProperly)
       | extend daysLeftBeforeExpire = datetime_diff('day', certificateEndDate, now())
-      | where daysLeftBeforeExpire == 60
+      | where daysLeftBeforeExpire == 60 or daysLeftBeforeExpire == 30
       | summarize arg_max(LastRequestTimestamp=TimeGenerated, CertificateEndDate=Properties['Request-X-Client-Certificate-End-Date']) by SubscriptionId = tostring(Properties['Subscription Name'])
       QUERY
     time_aggregation_method = "Count"
@@ -1314,7 +1314,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-ex
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever a client certificate is going to expire in 60 days."
+  description                      = "Triggers whenever a client certificate is going to expire in 60 or 30 days."
   display_name                     = "cstar-${var.env_short}-client-certificate-expiry-date-#ACQ"
   enabled                          = true
 
