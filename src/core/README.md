@@ -524,7 +524,7 @@
 | <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/azurerm.git//storage_account | v4.3.0 |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.18.10 |
-| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub | v2.18.7 |
+| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/azurerm.git//eventhub | fix-eventhub-network-ruleset |
 | <a name="module_event_hub_fa_01"></a> [event\_hub\_fa\_01](#module\_event\_hub\_fa\_01) | git::https://github.com/pagopa/azurerm.git//eventhub | v1.0.70 |
 | <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.7 |
 | <a name="module_fa_api_product"></a> [fa\_api\_product](#module\_fa\_api\_product) | git::https://github.com/pagopa/azurerm.git//api_management_product | v1.0.16 |
