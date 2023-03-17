@@ -78,11 +78,14 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
   delivery_identity {
     type = "SystemAssigned"
   }
+
+  depends_on = [
+    azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events
+  ]
 }
 
 # Assign role to event grid topic to publish over rtd-platform-events
 resource "azurerm_role_assignment" "event_grid_sender_role_sftp_on_rtd_platform_events" {
-  count                = var.env_short == "d" ? 1 : 0
   role_definition_name = "Azure Event Hubs Data Sender"
   principal_id         = azurerm_eventgrid_system_topic.sftp.identity[0].principal_id
   scope                = data.azurerm_eventhub.rtd_platform_eventhub.id

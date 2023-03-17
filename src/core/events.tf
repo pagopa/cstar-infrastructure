@@ -34,13 +34,13 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "storage_subscripti
   }
 
   depends_on = [
-    azurerm_eventgrid_system_topic.storage_topic
+    azurerm_role_assignment.event_grid_sender_role_on_rtd_platform_events
   ]
 }
 
 # Assign role to event grid topic to publish over rtd-platform-events
 resource "azurerm_role_assignment" "event_grid_sender_role_on_rtd_platform_events" {
-  count                = var.enable_blob_storage_event_grid_integration && var.env_short == "d" ? 1 : 0
+  count                = var.enable_blob_storage_event_grid_integration ? 1 : 0
   role_definition_name = "Azure Event Hubs Data Sender"
   principal_id         = azurerm_eventgrid_system_topic.storage_topic[count.index].identity[0].principal_id
   scope                = data.azurerm_eventhub.rtd_platform_eventhub.id
