@@ -33,8 +33,7 @@ module "cosmosdb_account_mongodb" {
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   allowed_virtual_network_subnet_ids = [
-    data.azurerm_subnet.aks_domain_subnet.id,
-    data.azurerm_subnet.private_endpoint_snet.id
+    data.azurerm_subnet.aks_domain_subnet.id
   ]
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
