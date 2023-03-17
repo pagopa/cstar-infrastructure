@@ -78,7 +78,7 @@ variable "rtd_keyvault" {
   })
 }
 
-variable "cosmos_mongo_db_params" {
+variable "cosmos_mongo_account_params" {
   type = object({
     enabled        = bool
     capabilities   = list(string)
@@ -104,12 +104,10 @@ variable "cosmos_mongo_db_params" {
   })
 }
 
-variable "cosmos_mongo_db_transaction_params" {
+variable "cosmos_mongo_db_idpay_params" {
   type = object({
-    enable_serverless  = bool
-    enable_autoscaling = bool
-    throughput         = number
-    max_throughput     = number
+    throughput     = number
+    max_throughput = number
   })
 }
 
