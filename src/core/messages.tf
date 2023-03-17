@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.70"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=fix-eventhub-network-ruleset"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -34,6 +34,40 @@ module "event_hub" {
       webhook_properties = null
     }
   ]
+
+  network_rulesets = var.env_short == "d" ? [
+    {
+      default_action                 = "Deny"
+      trusted_service_access_enabled = true
+      virtual_network_rule = flatten([
+        [
+          {
+            subnet_id                                       = module.eventhub_snet.id
+            ignore_missing_virtual_network_service_endpoint = false
+          },
+          {
+            subnet_id                                       = module.adf_snet[0].id
+            ignore_missing_virtual_network_service_endpoint = false
+          },
+          {
+            subnet_id                                       = module.k8s_snet.id
+            ignore_missing_virtual_network_service_endpoint = false
+          },
+          {
+            subnet_id                                       = module.private_endpoint_snet[0].id
+            ignore_missing_virtual_network_service_endpoint = false
+          },
+        ],
+        [
+          for snet in data.azurerm_subnet.aks_domain_subnet : {
+            subnet_id                                       = snet.id
+            ignore_missing_virtual_network_service_endpoint = false
+          }
+        ]
+      ])
+      ip_rule = []
+    }
+  ] : []
 
   tags = var.tags
 }
@@ -62,8 +96,10 @@ module "event_hub_fa_01" {
   maximum_throughput_units = var.ehns_maximum_throughput_units
   zone_redundant           = var.ehns_zone_redundant
 
-  virtual_network_ids = [module.vnet_integration.id, module.vnet.id]
-  subnet_id           = module.eventhub_snet.id
+  virtual_network_ids = [
+    module.vnet_integration.id, module.vnet.id
+  ]
+  subnet_id = module.eventhub_snet.id
 
   private_dns_zones              = module.event_hub.private_dns_zone
   private_dns_zone_record_A_name = "eventhubfa01"
