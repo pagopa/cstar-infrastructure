@@ -1278,11 +1278,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
   }
 }
 
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-expiry-date" {
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-close-to-expiry-date" {
 
   count = var.env_short == "p" ? 1 : 0
 
-  name                = "cstar-${var.env_short}-client-certificate-expiry-date"
+  name                = "cstar-${var.env_short}-client-certificate-close-to-expiry-date"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
   location            = data.azurerm_resource_group.monitor_rg.location
 
@@ -1315,7 +1315,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-ex
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers whenever a client certificate is going to expire in 60 or 30 days."
-  display_name                     = "cstar-${var.env_short}-client-certificate-expiry-date-#ACQ"
+  display_name                     = "cstar-${var.env_short}-client-certificate-close-to-expiry-date-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
