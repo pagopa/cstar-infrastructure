@@ -60,6 +60,10 @@ resource "azurerm_eventgrid_system_topic" "sftp" {
   location               = azurerm_resource_group.sftp.location
   source_arm_resource_id = module.sftp.id
   topic_type             = "Microsoft.Storage.StorageAccounts"
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
@@ -70,7 +74,23 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
   subject_filter {
     subject_begins_with = "/blobServices/default/containers/ade/blobs/"
   }
+
+  delivery_identity {
+    type = "SystemAssigned"
+  }
+
+  depends_on = [
+    azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events
+  ]
 }
+
+# Assign role to event grid topic to publish over rtd-platform-events
+resource "azurerm_role_assignment" "event_grid_sender_role_sftp_on_rtd_platform_events" {
+  role_definition_name = "Azure Event Hubs Data Sender"
+  principal_id         = azurerm_eventgrid_system_topic.sftp.identity[0].principal_id
+  scope                = data.azurerm_eventhub.rtd_platform_eventhub.id
+}
+
 
 resource "azurerm_storage_container" "ade" {
   name                  = "ade"
@@ -105,3 +125,4 @@ resource "azurerm_role_assignment" "sftp_data_contributor_role" {
     module.sftp
   ]
 }
+

@@ -366,9 +366,10 @@ dns_storage_account_tkm = {
 }
 
 cosmos_mongo_db_params = {
-  enabled      = true
-  kind         = "MongoDB"
-  capabilities = ["EnableMongo"]
+  enabled = true
+  kind    = "MongoDB"
+  # Enable Mongo API and Server Side Retry
+  capabilities = ["EnableMongo", "DisableRateLimitingResponses"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "BoundedStaleness"
