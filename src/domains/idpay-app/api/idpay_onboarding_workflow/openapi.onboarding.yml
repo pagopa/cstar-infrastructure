@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeInfoDTO'
+                $ref: '#/components/schemas/InitiativeDataDTO'
         '400':
           description: Bad request
           content:
@@ -580,14 +580,33 @@ components:
             - BUDGET_TERMINATED
             - INITIATIVE_SUSPENDED
             - GENERIC_ERROR
-    InitiativeInfoDTO:
+    InitiativeDataDTO:
       type: object
       required:
         - initiativeId
+        - initiativeName
+        - description
+        - organizationId
+        - organizationName
+        - tcLink
+        - privacyLink
+        - logoURL
       properties:
         initiativeId:
           type: string
+        initiativeName:
+          type: string
         description:
+          type: string
+        organizationId:
+          type: string
+        organizationName:
+          type: string
+        tcLink:
+          type: string
+        privacyLink:
+          type: string
+        logoURL:
           type: string
   securitySchemes:
     bearerAuth:
