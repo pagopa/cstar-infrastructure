@@ -879,7 +879,15 @@ components:
           type: string
         description:
           type: string
+        ruleDescription:
+          type: string
         endDate:
+          type: string
+          format: date
+        rankingStartDate:
+          type: string
+          format: date
+        rankingEndDate:
           type: string
           format: date
         rewardRule:
@@ -890,8 +898,11 @@ components:
           type: string
         tcLink:
           type: string
-        logoFileName:
+        logoURL:
           type: string
+        updateDate:
+          type: string
+          format: date-time
     InitiativeRefundRuleDTO:
       type: object
       properties:
@@ -899,8 +910,6 @@ components:
           $ref: '#/components/schemas/AccumulatedAmountDTO'
         timeParameter:
           $ref: '#/components/schemas/TimeParameterDTO'
-        additionalInfo:
-          $ref: '#/components/schemas/RefundAdditionalInfoDTO'
     AccumulatedAmountDTO:
       required:
         - accumulatedType
