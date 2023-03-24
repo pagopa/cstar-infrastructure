@@ -735,6 +735,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
           description: actual status of the citizen wallet for an initiative
     WalletDTO:
@@ -805,6 +806,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
         endDate:
           type: string
