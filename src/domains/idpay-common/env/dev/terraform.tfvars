@@ -48,9 +48,9 @@ cosmos_mongo_account_params = {
   enable_free_tier                 = false
 
   additional_geo_locations          = []
-  private_endpoint_enabled          = false
+  private_endpoint_enabled          = true
   public_network_access_enabled     = true
-  is_virtual_network_filter_enabled = false
+  is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
 
@@ -404,4 +404,11 @@ enable = {
   idpay = {
     eventhub_idpay_00 = true
   }
+}
+
+### AKS VNet
+aks_vnet = {
+  name           = "cstar-d-weu-dev01-vnet"
+  resource_group = "cstar-d-weu-dev01-vnet-rg"
+  subnet         = "cstar-d-weu-dev01-aks-snet"
 }

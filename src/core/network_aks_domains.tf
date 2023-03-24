@@ -23,6 +23,15 @@ module "vnet_aks" {
   tags = var.tags
 }
 
+# Retrieve AKS domain subnet
+data "azurerm_subnet" "aks_domain_subnet" {
+  for_each = { for n in var.aks_networks : n.domain_name => n }
+
+  name                 = "${local.aks_network_prefix}-${var.location_short}-${each.key}-aks-snet"
+  resource_group_name  = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet-rg"
+  virtual_network_name = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
+}
+
 #
 #  AKS public IP
 #

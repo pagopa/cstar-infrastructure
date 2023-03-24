@@ -48,9 +48,9 @@ cosmos_mongo_account_params = {
   enable_free_tier                 = false
 
   additional_geo_locations          = []
-  private_endpoint_enabled          = false
+  private_endpoint_enabled          = true
   public_network_access_enabled     = true
-  is_virtual_network_filter_enabled = false
+  is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = false
 
@@ -408,3 +408,10 @@ ns_dns_records_welfare = [
     "ns4-05.azure-dns.info", ]
   },
 ]
+
+### AKS VNet
+aks_vnet = {
+  name           = "cstar-p-weu-prod01-vnet"
+  resource_group = "cstar-p-weu-prod01-vnet-rg"
+  subnet         = "cstar-p-weu-prod01-aks-snet"
+}

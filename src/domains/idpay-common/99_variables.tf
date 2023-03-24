@@ -314,3 +314,11 @@ variable "enable" {
     }
   }
 }
+
+variable "aks_vnet" {
+  type = object({
+    name           = string
+    resource_group = string
+    subnet         = string
+  })
+}
