@@ -436,6 +436,7 @@ components:
             - UNSUBSCRIBED
             - INVITED
             - ELIGIBLE
+            - SUSPENDED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
