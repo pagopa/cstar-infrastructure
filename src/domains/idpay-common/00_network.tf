@@ -15,6 +15,12 @@ data "azurerm_subnet" "private_endpoint_snet" {
   resource_group_name  = local.vnet_core_resource_group_name
 }
 
+data "azurerm_subnet" "aks_domain_subnet" {
+  name                 = var.aks_vnet.subnet
+  virtual_network_name = var.aks_vnet.name
+  resource_group_name  = var.aks_vnet.resource_group
+}
+
 ## Eventhub subnet
 data "azurerm_subnet" "eventhub_snet" {
   name                 = format("%s-%s-eventhub-snet", var.prefix, var.env_short)

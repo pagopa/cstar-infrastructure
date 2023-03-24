@@ -1277,3 +1277,58 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
     }
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-close-to-expiry-date" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-client-certificate-close-to-expiry-date"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P2D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 2
+  criteria {
+    query                   = <<-QUERY
+      AppRequests
+      | where Url has "rtd/csv-transaction/publickey"
+      | extend normalizedDateString = replace_string(tostring(Properties["Request-X-Client-Certificate-End-Date"]), '  ', ' ')
+      | extend dateSplitted = split(normalizedDateString, ' ')
+      | extend dateFormattedProperly = strcat(dateSplitted[1], ' ', dateSplitted[0], ' ', dateSplitted[3], ' ', dateSplitted[2], ' ',dateSplitted[4])
+      | extend certificateEndDate = todatetime(dateFormattedProperly)
+      | extend daysLeftBeforeExpire = datetime_diff('day', certificateEndDate, now())
+      | where daysLeftBeforeExpire == 60 or daysLeftBeforeExpire == 30
+      | summarize arg_max(LastRequestTimestamp=TimeGenerated, CertificateEndDate=Properties['Request-X-Client-Certificate-End-Date']) by SubscriptionId = tostring(Properties['Subscription Name'])
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a client certificate is going to expire in 60 or 30 days."
+  display_name                     = "cstar-${var.env_short}-client-certificate-close-to-expiry-date-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+}
+

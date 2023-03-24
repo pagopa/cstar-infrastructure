@@ -20,6 +20,14 @@ resource "azurerm_data_factory" "data_factory" {
   tags = var.tags
 }
 
+resource "azurerm_data_factory_integration_runtime_azure" "autoresolve" {
+  name                    = "AutoResolveIntegrationRuntime"
+  resource_group_name     = azurerm_resource_group.data_factory_rg.name
+  data_factory_id         = azurerm_data_factory.data_factory.id
+  location                = "AutoResolve"
+  virtual_network_enabled = true
+}
+
 resource "azurerm_private_endpoint" "data_factory_pe" {
 
   name                = format("%s-pe", azurerm_data_factory.data_factory.name)
@@ -73,3 +81,8 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   }
 }
 
+resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
+  scope                = data.azurerm_storage_account.blobstorage_account.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_data_factory.data_factory.identity[0].principal_id
+}
