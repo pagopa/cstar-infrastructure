@@ -431,7 +431,7 @@ components:
             - ACCEPTED_TC
             - ON_EVALUATION
             - ONBOARDING_KO
-            - ELIGIBILE_KO
+            - ELIGIBLE_KO
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
