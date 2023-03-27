@@ -3777,7 +3777,7 @@ components:
       required:
         - status
       properties:
-        status:
+        beneficiaryState:
           enum:
             - ACCEPTED_TC
             - ON_EVALUATION
