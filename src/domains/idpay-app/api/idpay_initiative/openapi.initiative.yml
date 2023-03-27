@@ -3165,9 +3165,10 @@ components:
             - INVITED
             - ACCEPTED_TC
             - ON_EVALUATION
-            - ONBOARDING_OK
             - ONBOARDING_KO
             - ELIGIBLE_KO
+            - ONBOARDING_OK
+            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED
@@ -3777,16 +3778,17 @@ components:
       required:
         - status
       properties:
-        beneficiaryState:
+        status:
           enum:
+            - INVITED
             - ACCEPTED_TC
             - ON_EVALUATION
             - ONBOARDING_KO
-            - ELIGIBILE_KO
+            - ELIGIBLE_KO
             - ONBOARDING_OK
-            - UNSUBSCRIBED
-            - INVITED
             - ELIGIBLE
+            - INACTIVE
+            - UNSUBSCRIBED
             - SUSPENDED
           type: string
           description: actual status of the citizen onboarding for an initiative
