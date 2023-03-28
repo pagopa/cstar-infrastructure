@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=fix-eventhub-network-ruleset"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v4.13.2"
   name                     = format("%s-evh-ns", local.project)
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
