@@ -1,6 +1,6 @@
 ## pm-admin-panel ##
 module "pm_admin_panel" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-pm-admin-panel", var.env_short)
   api_management_name = module.apim.name
@@ -16,7 +16,7 @@ module "pm_admin_panel" {
 
   content_format = "openapi"
   content_value = templatefile("./api/pm_admin_panel/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -73,7 +73,7 @@ module "pm_wallet_ext" {
 
   count = var.enable.rtd.pm_wallet_ext_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.19.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-pm-wallet-ext", var.env_short)
   api_management_name = module.apim.name
@@ -89,7 +89,7 @@ module "pm_wallet_ext" {
 
   content_format = "openapi"
   content_value = templatefile("./api/pm_wallet_ext/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -115,7 +115,7 @@ module "pm_wallet_ext" {
 }
 
 module "wisp_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "wisp-api-product"
   display_name = "WISP_API_Product"
@@ -134,7 +134,7 @@ module "wisp_api_product" {
 }
 
 module "pm_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "pm-api-product"
   display_name = "PM_API_PRODUCT"

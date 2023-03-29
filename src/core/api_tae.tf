@@ -6,7 +6,7 @@ locals {
 
 module "rtd_senderack_download_file" {
   count  = var.enable.tae.api ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.3"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-senderack-download", var.env_short)
   api_management_name = module.apim.name

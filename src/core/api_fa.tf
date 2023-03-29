@@ -12,7 +12,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_customers" {
 #Original#
 module "fa_io_customers_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-io-customer-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -27,7 +27,7 @@ module "fa_io_customers_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_customer/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   # bypass global cors policy on UAT environment
@@ -69,7 +69,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
 #Original#
 module "fa_hb_customers_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-hb-customer-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -84,7 +84,7 @@ module "fa_hb_customers_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_hb_customer/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -125,7 +125,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
 #Original#
 module "fa_io_payment_instruments_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-io-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -140,7 +140,7 @@ module "fa_io_payment_instruments_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_payment_instruments/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = var.env_short != "d" ? file("./api/fa_io_payment_instruments/bypass_cors_policy.xml") : file("./api/base_policy.xml")
@@ -196,7 +196,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
 #Original#
 module "fa_hb_payment_instruments_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -211,7 +211,7 @@ module "fa_hb_payment_instruments_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_hb_payment_instruments/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -330,7 +330,7 @@ resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
 #Original#
 module "fa_register_transactions_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-register-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -345,7 +345,7 @@ module "fa_register_transactions_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_register_transaction/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -394,7 +394,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
 #Original#
 module "fa_io_transactions_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-io-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -409,7 +409,7 @@ module "fa_io_transactions_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_transaction/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = var.env_short != "d" ? file("./api/fa_io_transaction/bypass_cors_policy.xml") : file("./api/base_policy.xml")
@@ -440,7 +440,7 @@ resource "azurerm_api_management_api_version_set" "fa_mock" {
 #Original#
 module "fa_mock_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-mock-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -454,7 +454,7 @@ module "fa_mock_original" {
   service_url = format("http://%s/cstariobackendtest/fa/mock/poc", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/fa_mock/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -497,7 +497,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
 #Original#
 module "fa_io_merchant_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-io-merchant-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -512,7 +512,7 @@ module "fa_io_merchant_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_merchant/swagger.yaml", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = var.env_short != "d" ? file("./api/fa_io_customer/bypass_cors_policy.xml") : file("./api/base_policy.xml")
@@ -549,7 +549,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
 #Original#
 module "fa_ext_merchant_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-ext-merchant-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -563,7 +563,7 @@ module "fa_ext_merchant_original" {
   service_url = format("http://%s/famsmerchant/fa/merchant", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/fa_ext_merchant/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -612,7 +612,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
 #Original#
 module "fa_ext_provider_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-fa-ext-provider-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -626,7 +626,7 @@ module "fa_ext_provider_original" {
   service_url = format("http://%s/famsinvoiceprovider/fa/provider", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/fa_ext_provider/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -646,7 +646,7 @@ module "fa_ext_provider_original" {
 
 
 module "fa_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "fa-api-product"
   display_name = "FA_API_PRODUCT"
@@ -667,7 +667,7 @@ module "fa_api_product" {
 
 module "fa_api_proxy" {
   count  = var.env_short == "d" ? 0 : 1
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-proxy-api", var.env_short)
   api_management_name = module.apim.name

@@ -2,7 +2,7 @@ module "cosmosdb_account_mongodb" {
 
   count = var.enable.rtd.mongodb_storage ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v3.15.0"
 
   name                 = format("%s-cosmos-mongo-db-account", local.project)
   location             = azurerm_resource_group.db_rg.location
@@ -13,6 +13,8 @@ module "cosmosdb_account_mongodb" {
   mongo_server_version = var.cosmos_mongo_db_params.server_version
   enable_free_tier     = var.cosmos_mongo_db_params.enable_free_tier
 
+  // work around to comply with current module interface
+  domain                            = ""
   public_network_access_enabled     = var.cosmos_mongo_db_params.public_network_access_enabled
   private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
   subnet_id                         = module.private_endpoint_snet[count.index].id

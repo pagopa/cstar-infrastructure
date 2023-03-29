@@ -135,7 +135,7 @@ resource "azurerm_api_management_certificate" "cdc_sign_certificate_jwt" {
 module "cdc_api_product" {
   count = var.enable.cdc.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.12.5"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "cdc-api-product"
   display_name = "CDC_API_Product"
@@ -162,7 +162,7 @@ module "cdc_api_product" {
 
 module "api_cdc_sogei" {
   count               = var.enable.cdc.api ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.12.5"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-cdc-sogei", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -203,7 +203,7 @@ module "api_cdc_sogei" {
 
 module "api_cdc_io" {
   count               = var.enable.cdc.api ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.12.5"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-cdc-io", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name

@@ -64,11 +64,11 @@ output "apim_public_ip_addresses" {
 }
 
 output "apim_gateway_url" {
-  value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name)
+  value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name)
 }
 
 output "apim_gateway_hostname" {
-  value = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  value = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
 }
 
 output "app_gateway_maz_public_ip" {

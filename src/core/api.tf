@@ -21,7 +21,7 @@ locals {
 
 module "apim" {
 
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v2.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v3.11.0"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = format("%s-apim", local.project)
@@ -66,7 +66,7 @@ module "apim" {
 resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   api_management_id = module.apim.id
 
-  proxy {
+  gateway {
     host_name = local.api_domain
     key_vault_id = replace(
       data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
@@ -75,7 +75,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
     )
   }
 
-  proxy {
+  gateway {
     host_name    = trimsuffix(azurerm_private_dns_a_record.private_dns_a_record_api.fqdn, ".")
     key_vault_id = azurerm_key_vault_certificate.apim_internal_custom_domain_cert.versionless_secret_id
   }
@@ -115,7 +115,7 @@ resource "azurerm_api_management_notification_recipient_email" "email_assistenza
 
 ## monitor ##
 module "monitor" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.9.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-monitor", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -129,7 +129,7 @@ module "monitor" {
 
   content_format = "openapi"
   content_value = templatefile("./api/monitor/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -146,7 +146,7 @@ module "monitor" {
 
 ## BPD Info Privacy ##
 module "api_bdp_info_privacy" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-bpd-info-privacy", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -163,7 +163,7 @@ module "api_bdp_info_privacy" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
@@ -180,7 +180,7 @@ module "api_bdp_info_privacy" {
 }
 
 module "api_bpd-io_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-bpd-io-payment-instrument-api", var.env_short)
   api_management_name = module.apim.name
@@ -194,7 +194,7 @@ module "api_bpd-io_payment_instrument" {
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_payment_instrument/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/bpd_io_payment_instrument/policy.xml")
@@ -217,7 +217,7 @@ module "api_bpd-io_payment_instrument" {
 }
 
 module "api_bpd_pm_payment_instrument" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-bpd-pm-payment-instrument", var.env_short)
   api_management_name = module.apim.name
@@ -232,7 +232,7 @@ module "api_bpd_pm_payment_instrument" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_pm_payment_instrument/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -242,7 +242,7 @@ module "api_bpd_pm_payment_instrument" {
 }
 
 module "api_bpd_io_backend_test" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-bpd-io-backend-test-api", var.env_short)
   api_management_name = module.apim.name
@@ -256,7 +256,7 @@ module "api_bpd_io_backend_test" {
   service_url = format("http://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_backend_test/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -274,7 +274,7 @@ module "api_bpd_io_backend_test" {
 }
 
 module "api_bpd_tc" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-bpd-tc-api", var.env_short)
   api_management_name = module.apim.name
@@ -292,7 +292,7 @@ module "api_bpd_tc" {
 
 
   content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
@@ -312,7 +312,7 @@ module "api_bpd_tc" {
 }
 
 module "api_fa_tc" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
 
   name                = format("%s-fa-tc-api", var.env_short)
   api_management_name = module.apim.name
@@ -330,7 +330,7 @@ module "api_fa_tc" {
 
 
   content_value = templatefile("./api/fa_tc/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
@@ -351,7 +351,7 @@ module "api_fa_tc" {
 
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-rtd-payment-instrument-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -365,7 +365,7 @@ module "rtd_payment_instrument" {
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_payment_instrument/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -387,7 +387,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
 
 ### original ###
 module "bpd_io_award_period_original" {
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                 = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name  = module.apim.name
   resource_group_name  = azurerm_resource_group.rg_api.name
@@ -403,7 +403,7 @@ module "bpd_io_award_period_original" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_award_period/original/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -423,7 +423,7 @@ module "bpd_io_award_period_original" {
 
 ### v2 ###
 module "bpd_io_award_period_v2" {
-  source               = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.0.23"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                 = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name  = module.apim.name
   resource_group_name  = azurerm_resource_group.rg_api.name
@@ -441,7 +441,7 @@ module "bpd_io_award_period_v2" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_io_award_period/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -470,7 +470,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_citizen" {
 
 ### original ###
 module "bpd_io_citizen_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -484,7 +484,7 @@ module "bpd_io_citizen_original" {
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_citizen/original/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -522,7 +522,7 @@ module "bpd_io_citizen_original" {
 
 ### v2 ###
 module "bpd_io_citizen_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -538,7 +538,7 @@ module "bpd_io_citizen_v2" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_io_citizen/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -589,7 +589,7 @@ resource "azurerm_api_management_api_version_set" "bpd_io_winning_transactions" 
 
 ### original ###
 module "bpd_io_winning_transactions_original" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-bpd-io-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -603,7 +603,7 @@ module "bpd_io_winning_transactions_original" {
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_winning_transactions/original/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
@@ -623,7 +623,7 @@ module "bpd_io_winning_transactions_original" {
 
 ### v2 ###
 module "bpd_io_winning_transactions_v2" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
   name                = format("%s-bpd-io-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -639,7 +639,7 @@ module "bpd_io_winning_transactions_v2" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_io_winning_transactions/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
@@ -668,7 +668,7 @@ module "bpd_io_winning_transactions_v2" {
 ##############
 
 module "app_io_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "app-io-product"
   display_name = "APP_IO_PRODUCT"
@@ -689,7 +689,7 @@ module "app_io_product" {
 }
 
 module "batch_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "batch-api-product"
   display_name = "BATCH_API_PRODUCT"
@@ -706,7 +706,7 @@ module "batch_api_product" {
 }
 
 module "bpd_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "bpd-api-product"
   display_name = "BPD_API_PRODUCT"
@@ -723,7 +723,7 @@ module "bpd_api_product" {
 }
 
 module "issuer_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "issuer-api-product"
   display_name = "Issuer_API_Product"
@@ -742,7 +742,7 @@ module "issuer_api_product" {
 }
 
 module "fa_proxy_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
 
   product_id   = "fa-proxy-product"
   display_name = "FA_PROXY_PRODUCT"
