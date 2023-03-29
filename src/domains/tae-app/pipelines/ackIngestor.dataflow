@@ -54,7 +54,7 @@ addFileName select(mapColumn(
 	),
 	skipDuplicateMapInputs: true,
 	skipDuplicateMapOutputs: true) ~> projectSenderAdeAck
-projectSenderAdeAck filter(and(notEquals(status, 0), ${status_2_condition})) ~> selectByStatusNotOk
+projectSenderAdeAck filter(notEquals(status, 0)) ~> selectByStatusNotOk
 deleteAggregatesWithAck select(mapColumn(
 		id = sourceAck@id,
 		ttl,
