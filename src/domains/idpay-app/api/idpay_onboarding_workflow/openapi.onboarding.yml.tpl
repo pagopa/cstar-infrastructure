@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InitiativeInfoDTO'
+                $ref: '#/components/schemas/InitiativeDataDTO'
         '400':
           description: Bad request
           content:
@@ -431,11 +431,12 @@ components:
             - ACCEPTED_TC
             - ON_EVALUATION
             - ONBOARDING_KO
-            - ELIGIBILE_KO
+            - ELIGIBLE_KO
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
             - ELIGIBLE
+            - SUSPENDED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
@@ -580,14 +581,33 @@ components:
             - BUDGET_TERMINATED
             - INITIATIVE_SUSPENDED
             - GENERIC_ERROR
-    InitiativeInfoDTO:
+    InitiativeDataDTO:
       type: object
       required:
         - initiativeId
+        - initiativeName
+        - description
+        - organizationId
+        - organizationName
+        - tcLink
+        - privacyLink
+        - logoURL
       properties:
         initiativeId:
           type: string
+        initiativeName:
+          type: string
         description:
+          type: string
+        organizationId:
+          type: string
+        organizationName:
+          type: string
+        tcLink:
+          type: string
+        privacyLink:
+          type: string
+        logoURL:
           type: string
   securitySchemes:
     bearerAuth:

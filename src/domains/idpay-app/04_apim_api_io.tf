@@ -147,6 +147,12 @@ module "idpay_wallet_io" {
       })
     },
     {
+      operation_id = "getInitiativeBeneficiaryDetail"
+      xml_content = templatefile("./api/idpay_wallet/get-initiative-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
       operation_id = "getWalletDetail"
       xml_content = templatefile("./api/idpay_wallet/get-wallet-detail-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
