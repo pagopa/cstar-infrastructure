@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "rg_storage" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
   name                            = replace(format("%s-blobstorage", local.project), "-", "")
   account_kind                    = "StorageV2"
@@ -19,8 +19,8 @@ module "cstarblobstorage" {
   allow_nested_items_to_be_public = false
   advanced_threat_protection      = true
   enable_low_availability_alert   = false
-
-  tags = var.tags
+  public_network_access_enabled   = false
+  tags                            = var.tags
 }
 
 resource "azurerm_role_assignment" "data_contributor_role" {
@@ -159,7 +159,7 @@ resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
 
 ## Storage account to save logs
 module "operations_logs" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
   name                = replace(format("%s-sa-ops-logs", local.project), "-", "")
   resource_group_name = azurerm_resource_group.rg_storage.name
@@ -172,8 +172,8 @@ module "operations_logs" {
   blob_versioning_enabled       = true
   advanced_threat_protection    = true
   enable_low_availability_alert = false
-
-  tags = var.tags
+  public_network_access_enabled = false
+  tags                          = var.tags
 }
 
 ###########################
@@ -223,7 +223,7 @@ resource "null_resource" "upload_tc_pdf" {
 # Storage account to store backups: mainly api management
 module "backupstorage" {
   count  = var.env_short == "p" ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
   name                            = replace(format("%s-backupstorage", local.project), "-", "")
   account_kind                    = "StorageV2"
@@ -236,8 +236,8 @@ module "backupstorage" {
   allow_nested_items_to_be_public = false
   advanced_threat_protection      = true
   enable_low_availability_alert   = false
-
-  tags = var.tags
+  public_network_access_enabled   = false
+  tags                            = var.tags
 }
 
 resource "azurerm_storage_container" "apim_backup" {

@@ -27,7 +27,7 @@ data "azurerm_key_vault_secret" "pgres_flex_admin_pwd" {
 
 #tfsec:ignore:azure-database-no-public-access
 module "postgresql" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v3.15.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v6.2.1"
   name                = format("%s-postgresql", local.project)
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name
@@ -114,7 +114,7 @@ module "postgres_flexible_server" {
 
   count = var.pgres_flex_params.enabled ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v3.15.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v6.2.1"
   name                = format("%s-flexible-postgresql", local.project)
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name

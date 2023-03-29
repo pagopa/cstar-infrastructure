@@ -12,7 +12,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_customers" {
 #Original#
 module "fa_io_customers_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-io-customer-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -69,7 +69,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_customers" {
 #Original#
 module "fa_hb_customers_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-hb-customer-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -125,7 +125,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_payment_instruments" {
 #Original#
 module "fa_io_payment_instruments_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-io-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -196,7 +196,7 @@ resource "azurerm_api_management_api_version_set" "fa_hb_payment_instruments" {
 #Original#
 module "fa_hb_payment_instruments_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-hb-payment-instruments-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -330,7 +330,7 @@ resource "azurerm_api_management_api_version_set" "fa_register_transactions" {
 #Original#
 module "fa_register_transactions_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-register-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -394,7 +394,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_transactions" {
 #Original#
 module "fa_io_transactions_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-io-transaction-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -440,7 +440,7 @@ resource "azurerm_api_management_api_version_set" "fa_mock" {
 #Original#
 module "fa_mock_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-mock-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -497,7 +497,7 @@ resource "azurerm_api_management_api_version_set" "fa_io_merchant" {
 #Original#
 module "fa_io_merchant_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-io-merchant-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -549,7 +549,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_merchant" {
 #Original#
 module "fa_ext_merchant_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-ext-merchant-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -612,7 +612,7 @@ resource "azurerm_api_management_api_version_set" "fa_ext_provider" {
 #Original#
 module "fa_ext_provider_original" {
   count               = var.enable_api_fa ? 1 : 0
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-fa-ext-provider-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -646,7 +646,7 @@ module "fa_ext_provider_original" {
 
 
 module "fa_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.11.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
   product_id   = "fa-api-product"
   display_name = "FA_API_PRODUCT"
@@ -667,7 +667,7 @@ module "fa_api_product" {
 
 module "fa_api_proxy" {
   count  = var.env_short == "d" ? 0 : 1
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.11.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-proxy-api", var.env_short)
   api_management_name = module.apim.name

@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "sftp" {
 }
 
 module "sftp" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
@@ -20,6 +20,7 @@ module "sftp" {
   is_hns_enabled                = true
   advanced_threat_protection    = true
   enable_low_availability_alert = false
+  public_network_access_enabled = false
 
   network_rules = {
     default_action             = var.sftp_disable_network_rules ? "Allow" : "Deny"

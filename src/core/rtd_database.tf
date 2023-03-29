@@ -2,7 +2,7 @@ module "cosmosdb_account_mongodb" {
 
   count = var.enable.rtd.mongodb_storage ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v3.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.2.1"
 
   name                 = format("%s-cosmos-mongo-db-account", local.project)
   location             = azurerm_resource_group.db_rg.location

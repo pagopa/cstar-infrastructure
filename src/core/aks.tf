@@ -75,7 +75,7 @@ module "aks" {
 }
 
 module "acr" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v3.15.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v6.2.1"
   name                = replace(format("%s-acr", local.project), "-", "")
   resource_group_name = azurerm_resource_group.rg_aks.name
   location            = azurerm_resource_group.rg_aks.location
