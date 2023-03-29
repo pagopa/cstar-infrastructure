@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v3.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v6.2.1"
 
   name                = format("%s-aks", local.project)
   location            = azurerm_resource_group.rg_aks.location
@@ -33,7 +33,7 @@ module "aks" {
   system_node_pool_vm_size                      = var.aks_vm_size
   system_node_pool_node_count_min               = var.aks_min_node_count
   system_node_pool_node_count_max               = var.aks_max_node_count
-  //system_node_pool_availability_zones           = var.aks_availability_zones
+  system_node_pool_availability_zones           = var.aks_availability_zones
 
   sku_tier = var.aks_sku_tier
 
