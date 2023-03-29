@@ -353,6 +353,15 @@ module "idpay_initiative_portal" {
       })
     },
     {
+      operation_id = "getBeneficiaryOnboardingStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-status.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
       operation_id = "getInstrumentList"
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-instruments.xml.tpl", {
