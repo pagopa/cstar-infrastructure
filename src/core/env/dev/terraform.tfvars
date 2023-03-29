@@ -54,6 +54,7 @@ aks_networks = [
     vnet_cidr   = ["10.11.0.0/16"]
   }
 ]
+aks_availability_zones = []
 
 aks_enable_auto_scaling = true
 aks_min_node_count      = 1
