@@ -1642,6 +1642,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/onboarding/status:
+    get:
+      tags:
+        - initiative-onboarding
+      summary: Returns the actual onboarding status
+      operationId: getBeneficiaryOnboardingStatus
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingStatusDTO'
+              example:
+                status: ACCEPTED_TC
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
   /{initiativeId}/ranking/exports:
     get:
       tags:
@@ -1781,6 +1844,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+
   /{initiativeId}/ranking/notified:
     put:
       tags:
@@ -2904,10 +2968,16 @@ components:
     InitiativeRewardRuleDTO:
       required:
         - _type
+        - rewardValueType
       type: object
       properties:
         _type:
           type: string
+        rewardValueType:
+          type: string
+          enum:
+            - PERCENTAGE
+            - ABSOLUTE
       discriminator:
         propertyName: _type
     InitiativeTrxConditionsDTO:
@@ -3091,6 +3161,17 @@ components:
           type: string
         beneficiaryState:
           type: string
+          enum:
+            - INVITED
+            - ACCEPTED_TC
+            - ON_EVALUATION
+            - ONBOARDING_KO
+            - ELIGIBLE_KO
+            - ONBOARDING_OK
+            - ELIGIBLE
+            - INACTIVE
+            - UNSUBSCRIBED
+            - SUSPENDED
         updateStatusDate:
           type: string
           format: date-time
@@ -3356,6 +3437,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
         endDate:
           type: string
@@ -3427,7 +3509,6 @@ components:
     TimelineDTO:
       type: object
       required:
-        - lastUpdate
         - operationList
       properties:
         lastUpdate:
@@ -3691,16 +3772,36 @@ components:
         totalPages:
           type: integer
           format: int32
+    OnboardingStatusDTO:
+      title: OnboardingStatusDTO
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          enum:
+            - INVITED
+            - ACCEPTED_TC
+            - ON_EVALUATION
+            - ONBOARDING_KO
+            - ELIGIBLE_KO
+            - ONBOARDING_OK
+            - ELIGIBLE
+            - INACTIVE
+            - UNSUBSCRIBED
+            - SUSPENDED
+          type: string
+          description: actual status of the citizen onboarding for an initiative
     ExportDetailDTO:
       type: object
       properties:
-        id:
-          type: string
         iban:
           type: string
         amount:
           type: number
         status:
+          type: string
+        eventId:
           type: string
     RefundDetailDTO:
       type: object
