@@ -438,7 +438,7 @@ locals {
       }]
     },
     {
-      name = "suspended_users"
+      name = "rewards_suspended_users"
       indexes = [{
         keys   = ["_id"]
         unique = true
