@@ -162,6 +162,7 @@ components:
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/SuspendOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -202,6 +203,7 @@ components:
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/SuspendOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -398,6 +400,22 @@ components:
         circuitType:
           type: string
           description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+    SuspendOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
     ErrorDTO:
       type: object
       required:

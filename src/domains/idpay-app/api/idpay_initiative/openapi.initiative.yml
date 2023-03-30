@@ -1844,7 +1844,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-
   /{initiativeId}/ranking/notified:
     put:
       tags:
@@ -2084,6 +2083,64 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '409':
           description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/reward/suspend:
+    put:
+      tags:
+        - initiative-reward
+      summary: Suspend user to initiative
+      operationId: suspendUser
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
           content:
             application/json:
               schema:
@@ -3506,6 +3563,7 @@ components:
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/SuspendOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -3541,6 +3599,7 @@ components:
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/SuspendOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -3729,6 +3788,22 @@ components:
         circuitType:
           type: string
           description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+    SuspendOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
     CsvDTO:
       title: CsvDTO
       type: object
