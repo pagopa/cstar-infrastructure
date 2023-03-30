@@ -1598,6 +1598,7 @@ components:
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/SuspendOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -1638,6 +1639,7 @@ components:
         - $ref: "#/components/schemas/IbanOperationDTO"
         - $ref: "#/components/schemas/OnboardingOperationDTO"
         - $ref: "#/components/schemas/RefundOperationDTO"
+        - $ref: '#/components/schemas/SuspendOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -1801,6 +1803,22 @@ components:
           format: date
         amount:
           type: number
+    SuspendOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
     TransactionOperationDTO:
       type: object
       required:
