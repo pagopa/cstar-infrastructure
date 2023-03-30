@@ -65,7 +65,7 @@ module "api_azureblob" {
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/openapi.json.tpl", {
-    host                = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host                = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
     pgp-put-limit-bytes = var.pgp_put_limit_bytes
   })
 
@@ -110,7 +110,7 @@ module "rtd_payment_instrument_manager" {
   version_set_id = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -160,7 +160,7 @@ module "rtd_payment_instrument_manager_v2" {
   depends_on = [module.rtd_payment_instrument_manager]
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -211,7 +211,7 @@ module "rtd_payment_instrument_manager_v3" {
   #depends_on = [module.rtd_payment_instrument_manager]
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -279,7 +279,7 @@ module "rtd_payment_instrument_token_api" {
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_payment_instrument_token/openapi.yml", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -342,7 +342,7 @@ module "rtd_csv_transaction" {
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -447,7 +447,7 @@ module "rtd_blob_internal" {
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/internal.openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name,
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name,
 
   })
 

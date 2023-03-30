@@ -16,7 +16,7 @@ module "pm_admin_panel" {
 
   content_format = "openapi"
   content_value = templatefile("./api/pm_admin_panel/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -89,7 +89,7 @@ module "pm_wallet_ext" {
 
   content_format = "openapi"
   content_value = templatefile("./api/pm_wallet_ext/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")

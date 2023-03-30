@@ -27,7 +27,7 @@ module "fa_io_customers_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_customer/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   # bypass global cors policy on UAT environment
@@ -84,7 +84,7 @@ module "fa_hb_customers_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_hb_customer/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -140,7 +140,7 @@ module "fa_io_payment_instruments_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_payment_instruments/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = var.env_short != "d" ? file("./api/fa_io_payment_instruments/bypass_cors_policy.xml") : file("./api/base_policy.xml")
@@ -211,7 +211,7 @@ module "fa_hb_payment_instruments_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_hb_payment_instruments/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -345,7 +345,7 @@ module "fa_register_transactions_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_register_transaction/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -409,7 +409,7 @@ module "fa_io_transactions_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_transaction/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = var.env_short != "d" ? file("./api/fa_io_transaction/bypass_cors_policy.xml") : file("./api/base_policy.xml")
@@ -454,7 +454,7 @@ module "fa_mock_original" {
   service_url = format("http://%s/cstariobackendtest/fa/mock/poc", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/fa_mock/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -512,7 +512,7 @@ module "fa_io_merchant_original" {
 
   content_format = "openapi"
   content_value = templatefile("./api/fa_io_merchant/swagger.yaml", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = var.env_short != "d" ? file("./api/fa_io_customer/bypass_cors_policy.xml") : file("./api/base_policy.xml")
@@ -563,7 +563,7 @@ module "fa_ext_merchant_original" {
   service_url = format("http://%s/famsmerchant/fa/merchant", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/fa_ext_merchant/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -626,7 +626,7 @@ module "fa_ext_provider_original" {
   service_url = format("http://%s/famsinvoiceprovider/fa/provider", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/fa_ext_provider/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")

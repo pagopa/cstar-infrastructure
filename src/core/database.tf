@@ -139,6 +139,8 @@ module "postgres_flexible_server" {
   administrator_login    = data.azurerm_key_vault_secret.pgres_flex_admin_login.value
   administrator_password = data.azurerm_key_vault_secret.pgres_flex_admin_pwd.value
 
+  alerts_enabled = false
+
   sku_name                     = var.pgres_flex_params.sku_name
   db_version                   = var.pgres_flex_params.db_version
   storage_mb                   = var.pgres_flex_params.storage_mb

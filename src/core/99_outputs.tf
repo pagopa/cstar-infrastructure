@@ -63,13 +63,13 @@ output "apim_public_ip_addresses" {
   value = module.apim.public_ip_addresses
 }
 
-output "apim_gateway_url" {
-  value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name)
-}
+# output "apim_gateway_url" {
+#   value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name)
+# }
 
-output "apim_gateway_hostname" {
-  value = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-}
+# output "apim_gateway_hostname" {
+#   value = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+# }
 
 output "app_gateway_maz_public_ip" {
   value = azurerm_public_ip.appgateway_public_ip.ip_address

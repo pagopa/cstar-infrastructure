@@ -26,6 +26,10 @@ variable "env_short" {
   type = string
 }
 
+variable "env" {
+  type = string
+}
+
 #
 # Network
 #

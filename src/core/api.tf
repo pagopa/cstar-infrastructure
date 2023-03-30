@@ -132,7 +132,7 @@ module "monitor" {
 
   content_format = "openapi"
   content_value = templatefile("./api/monitor/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -166,7 +166,7 @@ module "api_bdp_info_privacy" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
@@ -197,7 +197,7 @@ module "api_bpd-io_payment_instrument" {
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_payment_instrument/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/bpd_io_payment_instrument/policy.xml")
@@ -235,7 +235,7 @@ module "api_bpd_pm_payment_instrument" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_pm_payment_instrument/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname # azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -259,7 +259,7 @@ module "api_bpd_io_backend_test" {
   service_url = format("http://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_backend_test/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -295,7 +295,7 @@ module "api_bpd_tc" {
 
 
   content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
@@ -333,7 +333,7 @@ module "api_fa_tc" {
 
 
   content_value = templatefile("./api/fa_tc/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
@@ -368,7 +368,7 @@ module "rtd_payment_instrument" {
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_payment_instrument/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -406,7 +406,7 @@ module "bpd_io_award_period_original" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_award_period/original/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -444,7 +444,7 @@ module "bpd_io_award_period_v2" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_io_award_period/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -487,7 +487,7 @@ module "bpd_io_citizen_original" {
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_citizen/original/swagger.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -541,7 +541,7 @@ module "bpd_io_citizen_v2" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_io_citizen/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -606,7 +606,7 @@ module "bpd_io_winning_transactions_original" {
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
   content_value = templatefile("./api/bpd_io_winning_transactions/original/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
@@ -642,7 +642,7 @@ module "bpd_io_winning_transactions_v2" {
 
   content_format = "openapi"
   content_value = templatefile("./api/bpd_io_winning_transactions/v2/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/bpd_io_winning_transactions/base_policy.xml")
