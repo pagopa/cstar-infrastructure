@@ -84,11 +84,12 @@ module "k8s_snet" {
 
 ## Subnet jumpbox
 module "jumpbox_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                 = format("%s-jumpbox-snet", local.project)
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
-  address_prefixes     = var.cidr_subnet_jumpbox
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  name                                      = format("%s-jumpbox-snet", local.project)
+  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = module.vnet.name
+  address_prefixes                          = var.cidr_subnet_jumpbox
+  private_endpoint_network_policies_enabled = true
 
 }
 
@@ -104,11 +105,12 @@ module "azdoa_snet" {
 
 # Subnet to host the application gateway
 module "appgateway-snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                 = format("%s-appgateway-snet", local.project)
-  address_prefixes     = var.cidr_subnet_appgateway
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  name                                      = format("%s-appgateway-snet", local.project)
+  address_prefixes                          = var.cidr_subnet_appgateway
+  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = module.vnet.name
+  private_endpoint_network_policies_enabled = true
 }
 
 # vnet integration
@@ -371,7 +373,7 @@ module "app_gw_maz" {
       listener              = "app_io"
       backend               = "apim"
       rewrite_rule_set_name = null
-      priority              = 1
+      priority              = 10
 
     }
 
@@ -379,14 +381,14 @@ module "app_gw_maz" {
       listener              = "issuer_acquirer"
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-broker-api"
-      priority              = 1
+      priority              = 30
 
     }
 
     portal = {
       listener              = "portal"
       backend               = "portal"
-      priority              = 1
+      priority              = 20
       rewrite_rule_set_name = null
     }
 
@@ -394,7 +396,7 @@ module "app_gw_maz" {
       listener              = "management"
       backend               = "management"
       rewrite_rule_set_name = null
-      priority              = 1
+      priority              = 40
 
     }
   }
