@@ -8,19 +8,20 @@ resource "azurerm_resource_group" "rg_storage" {
 module "cstarblobstorage" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
-  name                            = replace(format("%s-blobstorage", local.project), "-", "")
-  account_kind                    = "StorageV2"
-  account_tier                    = "Standard"
-  account_replication_type        = "LRS"
-  access_tier                     = "Hot"
-  blob_versioning_enabled         = false
-  resource_group_name             = azurerm_resource_group.rg_storage.name
-  location                        = var.location
-  allow_nested_items_to_be_public = false
-  advanced_threat_protection      = true
-  enable_low_availability_alert   = false
-  public_network_access_enabled   = false
-  tags                            = var.tags
+  name                             = replace(format("%s-blobstorage", local.project), "-", "")
+  account_kind                     = "StorageV2"
+  account_tier                     = "Standard"
+  account_replication_type         = "LRS"
+  access_tier                      = "Hot"
+  blob_versioning_enabled          = false
+  resource_group_name              = azurerm_resource_group.rg_storage.name
+  location                         = var.location
+  allow_nested_items_to_be_public  = false
+  advanced_threat_protection       = true
+  enable_low_availability_alert    = false
+  public_network_access_enabled    = true
+  cross_tenant_replication_enabled = false
+  tags                             = var.tags
 }
 
 resource "azurerm_role_assignment" "data_contributor_role" {
@@ -172,7 +173,7 @@ module "operations_logs" {
   blob_versioning_enabled       = true
   advanced_threat_protection    = true
   enable_low_availability_alert = false
-  public_network_access_enabled = false
+  public_network_access_enabled = true
   tags                          = var.tags
 }
 

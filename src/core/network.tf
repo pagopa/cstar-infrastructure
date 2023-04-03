@@ -25,7 +25,7 @@ module "db_snet" {
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
   service_endpoints                         = ["Microsoft.Sql"]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 }
 
 module "cosmos_mongodb_snet" {
@@ -37,7 +37,7 @@ module "cosmos_mongodb_snet" {
   virtual_network_name = module.vnet.name
   address_prefixes     = var.cidr_subnet_cosmos_mongodb
 
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
   service_endpoints                         = ["Microsoft.Web"]
 }
 
@@ -50,7 +50,7 @@ module "private_endpoint_snet" {
   virtual_network_name = module.vnet.name
   address_prefixes     = var.cidr_subnet_private_endpoint
 
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
   service_endpoints = [
     "Microsoft.Web", "Microsoft.AzureCosmosDB", "Microsoft.EventHub"
   ]
@@ -72,7 +72,7 @@ module "k8s_snet" {
   address_prefixes                          = var.cidr_subnet_k8s
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 
   service_endpoints = [
     "Microsoft.Web",
@@ -100,7 +100,7 @@ module "azdoa_snet" {
   address_prefixes                          = var.cidr_subnet_azdoa
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 }
 
 # Subnet to host the application gateway
@@ -135,7 +135,7 @@ module "apim_snet" {
 
   service_endpoints = ["Microsoft.Web", "Microsoft.Storage"]
 
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 }
 
 ## Eventhub subnet
@@ -146,7 +146,7 @@ module "eventhub_snet" {
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet_integration.name
   service_endpoints                         = ["Microsoft.EventHub"]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 }
 
 # Subnet for Azure Data Factory
@@ -160,7 +160,7 @@ module "adf_snet" {
   address_prefixes                          = var.cidr_subnet_adf
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 
   service_endpoints = [
     "Microsoft.AzureCosmosDB",
@@ -193,6 +193,7 @@ resource "azurerm_public_ip" "appgateway_public_ip" {
   location            = azurerm_resource_group.rg_vnet.location
   sku                 = "Standard"
   allocation_method   = "Static"
+
   // availability_zone   = var.app_gateway_public_ip_availability_zone
   zones = [1, 2, 3]
 
@@ -645,7 +646,7 @@ module "postgres_flexible_snet" {
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
   service_endpoints                         = ["Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 
   delegation = {
     name = "delegation"
@@ -666,7 +667,7 @@ module "storage_account_snet" {
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
   service_endpoints                         = ["Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 }
 
 resource "azurerm_private_endpoint" "blob_storage_pe" {

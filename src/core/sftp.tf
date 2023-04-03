@@ -20,7 +20,7 @@ module "sftp" {
   is_hns_enabled                = true
   advanced_threat_protection    = true
   enable_low_availability_alert = false
-  public_network_access_enabled = false
+  public_network_access_enabled = true
 
   network_rules = {
     default_action             = var.sftp_disable_network_rules ? "Allow" : "Deny"

@@ -253,6 +253,7 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
     }
   }
 
+  auto_stop_enabled             = false
   public_network_access_enabled = var.dexp_params.public_network_access_enabled
   double_encryption_enabled     = var.dexp_params.double_encryption_enabled
   engine                        = "V3"

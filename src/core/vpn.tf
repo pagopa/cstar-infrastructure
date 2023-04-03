@@ -59,7 +59,7 @@ module "dns_forwarder_snet" {
   address_prefixes                          = var.cidr_subnet_dnsforwarder
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
 
   delegation = {
     name = "delegation"
