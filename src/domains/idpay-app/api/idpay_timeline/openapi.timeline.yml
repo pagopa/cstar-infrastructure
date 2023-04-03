@@ -163,6 +163,7 @@ components:
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -204,6 +205,7 @@ components:
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -412,6 +414,22 @@ components:
         operationType:
           enum:
             - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    ReadmittedOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - READMITTED
           type: string
         operationDate:
           type: string
