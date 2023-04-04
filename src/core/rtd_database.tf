@@ -21,6 +21,8 @@ module "cosmosdb_account_mongodb" {
   private_dns_zone_ids              = [azurerm_private_dns_zone.cosmos_mongo[count.index].id]
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
+  enable_provisioned_throughput_exceeded_alert = false
+
   allowed_virtual_network_subnet_ids = [
     module.k8s_snet.id,
     module.adf_snet[count.index].id

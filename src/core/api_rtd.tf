@@ -788,7 +788,7 @@ resource "azurerm_api_management_subscription" "rtd_internal" {
   display_name        = "Internal Microservices"
   state               = "active"
   user_id             = azurerm_api_management_user.user_internal[count.index].id
-  allow_tracing       = var.env_short == "d" ? true : false
+  allow_tracing       = false
   primary_key         = random_password.rtd_internal_sub_key[count.index].result
 }
 
