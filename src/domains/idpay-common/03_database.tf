@@ -198,6 +198,14 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -388,6 +396,12 @@ locals {
           keys   = ["initiativeId", "rankingValue", "criteriaConsensusTimestamp"]
           unique = false
         },
+        # descending order not supported, index manually created
+        # https://pagopa.atlassian.net/browse/IDP-661
+        #        {
+        #          keys   = ["initiativeId", "rankingValue:-1", "criteriaConsensusTimestamp"]
+        #          unique = false
+        #        },
         {
           keys   = ["initiativeId", "rank"]
           unique = false
@@ -443,6 +457,20 @@ locals {
         keys   = ["_id"]
         unique = true
       }]
+    },
+    {
+      name = "transaction_in_progress"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }, {
+        keys   = ["transactionCode"]
+        unique = false
+        }, {
+        keys   = ["trxChargeDate"]
+        unique = false
+        }
+      ]
     },
   ]
 }
