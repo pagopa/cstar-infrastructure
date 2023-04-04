@@ -78,6 +78,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Ok
@@ -893,9 +900,9 @@ components:
           type: string
           format: date
         rewardRule:
-          $ref: '#/components/schemas/RewardValueDTO'
+           $ref: '#/components/schemas/RewardValueDTO'
         refundRule:
-          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
         privacyLink:
           type: string
         tcLink:
