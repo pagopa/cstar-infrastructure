@@ -591,7 +591,6 @@ components:
         - organizationName
         - tcLink
         - privacyLink
-        - logoURL
       properties:
         initiativeId:
           type: string
