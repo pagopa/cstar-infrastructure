@@ -464,7 +464,7 @@ locals {
         keys   = ["_id"]
         unique = true
         }, {
-        keys   = ["transactionCode"]
+        keys   = ["trxCode"]
         unique = false
         }, {
         keys   = ["trxChargeDate"]
