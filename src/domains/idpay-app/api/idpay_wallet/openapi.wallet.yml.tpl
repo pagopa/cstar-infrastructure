@@ -905,9 +905,9 @@ components:
           type: string
           format: date
         rewardRule:
-          $ref: '#/components/schemas/RewardValueDTO'
+           $ref: '#/components/schemas/RewardValueDTO'
         refundRule:
-          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
         privacyLink:
           type: string
         tcLink:
