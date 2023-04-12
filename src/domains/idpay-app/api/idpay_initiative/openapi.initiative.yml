@@ -2851,6 +2851,28 @@ components:
           enum:
             - ASC
             - DESC
+        typology:
+          type: array
+          items:
+            type: string
+            enum:
+              - Ordinario
+              - Minorenne
+              - Universitario
+              - SocioSanitario
+              - Dottorato
+              - Residenziale
+              - Corrente
+          example:
+            [
+              'Ordinario',
+              'Minorenne',
+              'Universitario',
+              'SocioSanitario',
+              'Dottorato',
+              'Residenziale',
+              'Corrente',
+            ]
     InitiativeDTO:
       type: object
       properties:
@@ -2880,6 +2902,11 @@ components:
           $ref: '#/components/schemas/InitiativeAdditionalDTO'
         beneficiaryRule:
           $ref: '#/components/schemas/InitiativeBeneficiaryRuleDTO'
+        initiativeRewardType:
+          type: string
+          enum:
+            - DISCOUNT
+            - REFUND
         rewardRule:
           $ref: '#/components/schemas/InitiativeRewardRuleDTO'
         trxRule:
@@ -3071,9 +3098,15 @@ components:
             $ref: '#/components/schemas/Interval'
     InitiativeRewardAndTrxRulesDTO:
       required:
+        - initiativeRewardType
         - rewardRule
       type: object
       properties:
+        initiativeRewardType:
+          type: string
+          enum:
+            - REFUND
+            - DISCOUNT
         rewardRule:
           oneOf:
             - $ref: '#/components/schemas/RewardGroupsDTO'

@@ -78,6 +78,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
       responses:
         '200':
           description: Ok
@@ -822,6 +829,11 @@ components:
         nInstr:
           type: integer
           format: int32
+        initiativeRewardType:
+          enum:
+            - DISCOUNT
+            - REFUND
+          type: string
     InitiativesWithInstrumentDTO:
       type: object
       required:
