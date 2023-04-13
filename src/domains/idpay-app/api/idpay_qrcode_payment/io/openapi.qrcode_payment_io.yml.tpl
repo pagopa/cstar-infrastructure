@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment CIT API
+  title: IDPAY Payment API
   description: IDPAY Payment CIT
   version: '1.0'
 servers:
@@ -25,8 +25,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentDTO'
-  /{trxCode}/relate-user:
+                $ref: '#/components/schemas/TransactionInProgress'
+        '403':
+          description: Transaction is associated to another user
+        '404':
+          description: Transaction does not exist
+  /qrCode/{trxCode}/relate-user:
     put:
       tags:
         - payment
@@ -45,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentDTO'
+                $ref: '#/components/schemas/TransactionResponse'
         '401':
           description: Token not validated correctly
           content:
@@ -57,20 +61,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentDTO'
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Transaction does not exist
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-  /{trxCode}/authorize:
+  /qrCode/{trxCode}/authorize:
     put:
       tags:
         - payment
@@ -91,11 +89,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
         '400':
-          description: Transaction is not REWARDED
+          description: Transaction is not IDENTIFIED or AUTHORIZE
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Transaction is associated to another user
           content:
@@ -110,20 +108,48 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
-    PaymentDTO:
+    TransactionInProgress:
       type: object
       properties:
         id:
           type: string
         trxCode:
           type: string
-        initiativeId:
+        idTrxAcquirer:
+          type: string
+        acquirerCode:
+          type: string
+        trxDate:
+          type: string
+          format: date-time
+        trxChargeDate:
+          type: string
+          format: date-time
+        authDate:
+          type: string
+          format: date-time
+        elaborationDateTime:
+          type: string
+          format: date-time
+        operationType:
+          type: string
+        operationTypeTranscoded:
+          type: string
+          enum: [CHARGE, REFUND]
+        idTrxIssuer:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        effectiveAmount:
+          type: number
+        amountCurrency:
+          type: string
+        mcc:
+          type: string
+        acquirerId:
           type: string
         merchantId:
           type: string
@@ -133,13 +159,47 @@ components:
           type: string
         vat:
           type: string
+        initiativeId:
+          type: string
+        reward:
+          type: string
+          items:
+            $ref: "#/components/schemas/Reward"
+        rejectionReasons:
+          type: array
+          items:
+            type: string
+          description: The list of rejection reasons
+        userId:
+          type: string
+        status:
+          type: string
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+        callbackUrl:
+          type: string
+    TransactionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        trxCode:
+          type: string
+        initiativeId:
+          type: string
+        senderCode:
+          type: string
+        merchantId:
+          type: string
         idTrxIssuer:
+          type: string
+        idTrxAcquire:
           type: string
         trxDate:
           type: string
           format: date-time
-        amount:
-          type: string
+        amountCents:
+          type: integer
+          format: int64
         amountCurrency:
           type: string
         mcc:
@@ -147,8 +207,6 @@ components:
         acquirerCode:
           type: string
         acquirerId:
-          type: string
-        idTrxAcquirer:
           type: string
     AuthPaymentResponseDTO:
       type: object
@@ -168,6 +226,42 @@ components:
           items:
             type: string
           description: The list of rejection reasons
+    Reward:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+        organizationId:
+          type: string
+        providedReward:
+          type: number
+        accruedReward:
+          type: number
+        capped:
+          type: boolean
+        dailyCapped:
+          type: boolean
+        monthlyCappedyearlyCappedweeklyCappedrefundcompleteRefund:
+          type: boolean
+        yearlyCappedweeklyCappedrefundcompleteRefund:
+          type: boolean
+        weeklyCappedrefundcompleteRefund:
+          type: boolean
+        refundcompleteRefund:
+          type: boolean
+        completeRefund:
+          type: boolean
+        counters:
+          type: string
+          items:
+            $ref: "#/components/schemas/RewardCounters"
+    RewardCounters:
+      type: object
+      properties:
+        exhaustedBudget:
+          type: boolean
+        initiativeBudget:
+          type: number
     Severity:
       type: string
       enum: [error, warning]

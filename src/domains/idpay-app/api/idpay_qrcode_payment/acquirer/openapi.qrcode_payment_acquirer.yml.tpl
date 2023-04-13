@@ -4,24 +4,56 @@ info:
   description: IDPAY Payment Merchant
   version: '1.0'
 servers:
-  - url: https://api-io.dev.cstar.pagopa.it/idpay/payment
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code/merchant
 paths:
-  '/qr-code/{initiativeId}/{trxCode}/confirm':
+  /:
+    post:
+      tags:
+        - payment
+      summary: Merchant create transaction
+      operationId: createTransaction
+      parameters:
+        - name: x-merchant-id
+          in: header
+          description: Merchant ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: General information about Transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionCreationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{transactionId}/confirm:
     put:
       tags:
         - payment
       summary: Merchant confirms the payment and the event is notified to IDPay
       operationId: confirmPaymentQRCode
       parameters:
-        - name: initiativeId
+        - name: transactionId
           in: path
-          description: The initiative ID
+          description: Transaction ID
           required: true
           schema:
             type: string
-        - name: trxCode
-          in: path
-          description: Transaction's temporary code
+        - name: x-merchant-id
+          in: header
+          description: Merchant ID
           required: true
           schema:
             type: string
@@ -31,49 +63,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentDTO'
+                $ref: '#/components/schemas/TransactionResponse'
         '400':
-          description: Transaction is not REWARDED
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
+          description: Transaction is not AUTHORIZED
         '403':
-          description: Transaction is associated to another user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
+          description: Merchant not allowed to operate on this transaction
         '404':
           description: Transaction does not exist
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '500':
           description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
-    PaymentDTO:
+    TransactionCreationRequest:
       type: object
       properties:
-        id:
-          type: string
-        trxCode:
-          type: string
         initiativeId:
-          type: string
-        merchantId:
           type: string
         senderCode:
           type: string
@@ -83,11 +89,14 @@ components:
           type: string
         idTrxIssuer:
           type: string
+        idTrxAcquire:
+          type: string
         trxDate:
           type: string
           format: date-time
-        amount:
-          type: string
+        amountCents:
+          type: integer
+          format: int64
         amountCurrency:
           type: string
         mcc:
@@ -96,22 +105,53 @@ components:
           type: string
         acquirerId:
           type: string
-        idTrxAcquirer:
+        callbackUrl:
           type: string
+    TransactionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        trxCode:
+          type: string
+        initiativeId:
+          type: string
+        senderCode:
+          type: string
+        merchantId:
+          type: string
+        idTrxIssuer:
+          type: string
+        idTrxAcquire:
+          type: string
+        trxDate:
+          type: string
+          format: date-time
+        amountCents:
+          type: integer
+          format: int64
+        amountCurrency:
+          type: string
+        mcc:
+          type: string
+        acquirerCode:
+          type: string
+        acquirerId:
+          type: string
+    Severity:
+      type: string
+      enum: [error, warning]
     ErrorDTO:
       type: object
       properties:
-        code:
+        severity:
+          type: string
+          items:
+            $ref: "#/components/schemas/Severity"
+        title:
           type: string
         message:
           type: string
-  securitySchemes:
-    Bearer:
-      type: apiKey
-      name: Authorization
-      in: header
-security:
-  - Bearer: []
 tags:
   - name: payment
     description: ''
