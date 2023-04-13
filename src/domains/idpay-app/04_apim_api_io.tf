@@ -306,7 +306,7 @@ module "idpay_qr_code_payment_io" {
   path         = "idpay/payment/qr-code"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl", {})
