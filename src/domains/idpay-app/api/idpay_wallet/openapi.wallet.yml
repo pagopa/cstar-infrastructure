@@ -829,6 +829,11 @@ components:
         nInstr:
           type: integer
           format: int32
+        initiativeRewardType:
+          enum:
+            - DISCOUNT
+            - REFUND
+          type: string
     InitiativesWithInstrumentDTO:
       type: object
       required:
