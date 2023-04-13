@@ -2856,22 +2856,22 @@ components:
           items:
             type: string
             enum:
-              - Ordinario
-              - Minorenne
-              - Universitario
-              - SocioSanitario
-              - Dottorato
-              - Residenziale
-              - Corrente
+              - ORDINARIO
+              - MINORENNE
+              - UNIVERSITARIO
+              - SOCIOSANITARIO
+              - DOTTORATO
+              - RESIDENZIALE
+              - CORRENTE
           example:
             [
-              'Ordinario',
-              'Minorenne',
-              'Universitario',
-              'SocioSanitario',
-              'Dottorato',
-              'Residenziale',
-              'Corrente',
+              'ORDINARIO',
+              'MINORENNE',
+              'UNIVERSITARIO',
+              'SOCIOSANITARIO',
+              'DOTTORATO',
+              'RESIDENZIALE',
+              'CORRENTE',
             ]
     InitiativeDTO:
       type: object
