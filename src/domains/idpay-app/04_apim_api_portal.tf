@@ -218,6 +218,24 @@ module "idpay_initiative_portal" {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
+    {
+      operation_id = "suspendUser"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "readmitUser"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
     //CONFIG
     {
       operation_id = "getBeneficiaryConfigRules"
@@ -347,6 +365,15 @@ module "idpay_initiative_portal" {
       operation_id = "getWalletDetail"
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-wallet.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "getBeneficiaryOnboardingStatus"
+
+      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url

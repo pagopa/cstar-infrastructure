@@ -65,6 +65,51 @@ paths:
               example:
                 code: 0
                 message: string
+  '/{initiativeId}/detail':
+    get:
+      tags:
+        - wallet
+      summary: Returns the detail of an initiative
+      operationId: getInitiativeBeneficiaryDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDetailDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   '/{initiativeId}':
     get:
       tags:
@@ -697,6 +742,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
           description: actual status of the citizen wallet for an initiative
     WalletDTO:
@@ -767,6 +813,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
         endDate:
           type: string
@@ -782,6 +829,11 @@ components:
         nInstr:
           type: integer
           format: int32
+        initiativeRewardType:
+          enum:
+            - DISCOUNT
+            - REFUND
+          type: string
     InitiativesWithInstrumentDTO:
       type: object
       required:
@@ -821,7 +873,6 @@ components:
             - INACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
-            - ENROLLMENT_FAILED
     ErrorDTO:
       type: object
       required:
@@ -832,6 +883,98 @@ components:
           type: integer
           format: int32
         message:
+          type: string
+    InitiativeDetailDTO:
+      type: object
+      properties:
+        initiativeName:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+        ruleDescription:
+          type: string
+        endDate:
+          type: string
+          format: date
+        rankingStartDate:
+          type: string
+          format: date
+        rankingEndDate:
+          type: string
+          format: date
+        rewardRule:
+           $ref: '#/components/schemas/RewardValueDTO'
+        refundRule:
+           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        privacyLink:
+          type: string
+        tcLink:
+          type: string
+        logoURL:
+          type: string
+        updateDate:
+          type: string
+          format: date-time
+    InitiativeRefundRuleDTO:
+      type: object
+      properties:
+        accumulatedAmount:
+          $ref: '#/components/schemas/AccumulatedAmountDTO'
+        timeParameter:
+          $ref: '#/components/schemas/TimeParameterDTO'
+    AccumulatedAmountDTO:
+      required:
+        - accumulatedType
+      type: object
+      properties:
+        accumulatedType:
+          type: string
+          enum:
+            - BUDGET_EXHAUSTED
+            - THRESHOLD_REACHED
+        refundThreshold:
+          type: number
+    TimeParameterDTO:
+      required:
+        - timeType
+      type: object
+      properties:
+        timeType:
+          type: string
+          enum:
+            - CLOSED
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - QUARTERLY
+    RewardValueDTO:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
+        - type: object
+          properties:
+            rewardValue:
+              maximum: 100
+              minimum: 0
+              type: number
+    InitiativeRewardRuleDTO:
+      required:
+        - rewardValueType
+      type: object
+      properties:
+        rewardValueType:
+          type: string
+          enum:
+            - PERCENTAGE
+            - ABSOLUTE
+    RefundAdditionalInfoDTO:
+      required:
+        - identificationCode
+      type: object
+      properties:
+        identificationCode:
           type: string
   securitySchemes:
     bearerAuth:
