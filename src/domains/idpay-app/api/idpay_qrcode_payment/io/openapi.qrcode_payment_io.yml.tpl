@@ -6,7 +6,7 @@ info:
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/payment
 paths:
-  /{transactionId}:
+  /transaction/{transactionId}:
     get:
       tags:
         - payment
