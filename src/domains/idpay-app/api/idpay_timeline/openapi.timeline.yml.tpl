@@ -161,8 +161,9 @@ components:
         - $ref: '#/components/schemas/InstrumentOperationDTO'
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
-        - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/RefundDetailDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -204,6 +205,7 @@ components:
         - $ref: '#/components/schemas/OnboardingOperationDTO'
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -349,10 +351,13 @@ components:
       required:
         - operationId
         - operationType
+        - eventId
         - operationDate
         - amount
       properties:
         operationId:
+          type: string
+        eventId:
           type: string
         operationType:
           enum:
@@ -412,6 +417,61 @@ components:
         operationType:
           enum:
             - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    RefundDetailDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - eventId
+        - operationDate
+        - amount
+      properties:
+        operationId:
+          type: string
+        operationType:
+          type: string
+        eventId:
+          type: string
+        iban:
+          type: string
+        operationDate:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string
+        refundType:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        transferDate:
+          type: string
+          format: date
+        userNotificationDate:
+          type: string
+          format: date
+        cro:
+          type: string
+    ReadmittedOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - READMITTED
           type: string
         operationDate:
           type: string
