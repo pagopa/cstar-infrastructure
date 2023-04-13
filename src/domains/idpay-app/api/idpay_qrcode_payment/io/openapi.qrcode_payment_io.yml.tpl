@@ -4,7 +4,7 @@ info:
   description: IDPAY Payment CIT
   version: '1.0'
 servers:
-  - url: https://api-io.dev.cstar.pagopa.it/idpay/payment
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code
 paths:
   /transaction/{transactionId}:
     get:
@@ -30,7 +30,7 @@ paths:
           description: Transaction is associated to another user
         '404':
           description: Transaction does not exist
-  /qrCode/{trxCode}/relate-user:
+  /{trxCode}/relate-user:
     put:
       tags:
         - payment
@@ -68,7 +68,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /qrCode/{trxCode}/authorize:
+  /{trxCode}/authorize:
     put:
       tags:
         - payment
