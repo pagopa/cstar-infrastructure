@@ -138,6 +138,9 @@ components:
           type: string
         acquirerId:
           type: string
+        status:
+          type: string
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
     Severity:
       type: string
       enum: [error, warning]

@@ -208,6 +208,9 @@ components:
           type: string
         acquirerId:
           type: string
+        status:
+          type: string
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
     AuthPaymentResponseDTO:
       type: object
       properties:
