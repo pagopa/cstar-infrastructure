@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionResponse'
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
         '401':
           description: Token not validated correctly
           content:
