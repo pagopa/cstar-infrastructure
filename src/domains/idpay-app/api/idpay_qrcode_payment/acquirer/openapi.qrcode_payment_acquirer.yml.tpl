@@ -12,13 +12,6 @@ paths:
         - payment
       summary: Merchant create transaction
       operationId: createTransaction
-      parameters:
-        - name: x-merchant-id
-          in: header
-          description: Merchant ID
-          required: true
-          schema:
-            type: string
       requestBody:
         description: General information about Transaction
         content:
@@ -48,12 +41,6 @@ paths:
         - name: transactionId
           in: path
           description: Transaction ID
-          required: true
-          schema:
-            type: string
-        - name: x-merchant-id
-          in: header
-          description: Merchant ID
           required: true
           schema:
             type: string
@@ -155,6 +142,14 @@ components:
           type: string
         message:
           type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: The API key can be obtained through the developer portal
+security:
+  - ApiKeyAuth: [ ]
 tags:
   - name: payment
     description: ''
