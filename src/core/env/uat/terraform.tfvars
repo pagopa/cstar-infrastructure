@@ -4,7 +4,7 @@ location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "u"
-env = "uat"
+env                 = "uat"
 
 tags = {
   CreatedBy   = "Terraform"
