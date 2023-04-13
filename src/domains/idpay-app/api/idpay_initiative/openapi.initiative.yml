@@ -2851,7 +2851,7 @@ components:
           enum:
             - ASC
             - DESC
-        typology:
+        iseeTypes:
           type: array
           items:
             type: string
