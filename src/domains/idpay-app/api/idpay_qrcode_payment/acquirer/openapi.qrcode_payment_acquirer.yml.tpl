@@ -1,46 +1,21 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment Merchant API
-  description: IDPAY Payment Merchant
+  title: IDPAY QR-Code Payment API
+  description: IDPAY QR-Code Payment CIT
   version: '1.0'
 servers:
-  - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code/merchant
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code
 paths:
-  /:
-    post:
-      tags:
-        - payment
-      summary: Merchant create transaction
-      operationId: createTransaction
-      requestBody:
-        description: General information about Transaction
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransactionCreationRequest'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '404':
-          description: Transaction not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-  /{transactionId}/confirm:
+  /{trxCode}/relate-user:
     put:
       tags:
         - payment
-      summary: Merchant confirms the payment and the event is notified to IDPay
-      operationId: confirmPaymentQRCode
+      summary: Pre Authorize payment
+      operationId: putPreAuthPayment
       parameters:
-        - name: transactionId
+        - name: trxCode
           in: path
-          description: Transaction ID
+          description: The transaction's code
           required: true
           schema:
             type: string
@@ -50,51 +25,68 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '400':
-          description: Transaction is not AUTHORIZED
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '401':
+          description: Token not validated correctly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '403':
-          description: Merchant not allowed to operate on this transaction
+          description: Transaction is associated to another user, or user hasn't joined the initiative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Transaction does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{trxCode}/authorize:
+    put:
+      tags:
+        - payment
+      summary: Authorize payment
+      operationId: putAuthPayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: The transaction's code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '400':
+          description: Transaction is not IDENTIFIED or AUTHORIZE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Transaction is associated to another user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Transaction does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
-        '500':
-          description: Server ERROR
 components:
   schemas:
-    TransactionCreationRequest:
-      type: object
-      properties:
-        initiativeId:
-          type: string
-        senderCode:
-          type: string
-        merchantFiscalCode:
-          type: string
-        vat:
-          type: string
-        idTrxIssuer:
-          type: string
-        idTrxAcquire:
-          type: string
-        trxDate:
-          type: string
-          format: date-time
-        amountCents:
-          type: integer
-          format: int64
-        amountCurrency:
-          type: string
-        mcc:
-          type: string
-        acquirerCode:
-          type: string
-        acquirerId:
-          type: string
-        callbackUrl:
-          type: string
-    TransactionResponse:
+    AuthPaymentResponseDTO:
       type: object
       properties:
         id:
@@ -103,31 +95,15 @@ components:
           type: string
         initiativeId:
           type: string
-        senderCode:
-          type: string
-        merchantId:
-          type: string
-        idTrxIssuer:
-          type: string
-        idTrxAcquire:
-          type: string
-        trxDate:
-          type: string
-          format: date-time
-        amountCents:
-          type: integer
-          format: int64
-        amountCurrency:
-          type: string
-        mcc:
-          type: string
-        acquirerCode:
-          type: string
-        acquirerId:
-          type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+        reward:
+          type: number
+        rejectionReasons:
+          type: array
+          items:
+            type: string
+          description: The list of rejection reasons
     Severity:
       type: string
       enum: [error, warning]
@@ -143,13 +119,12 @@ components:
         message:
           type: string
   securitySchemes:
-    ApiKeyAuth:
+    Bearer:
       type: apiKey
+      name: Authorization
       in: header
-      name: Ocp-Apim-Subscription-Key
-      description: The API key can be obtained through the developer portal
 security:
-  - ApiKeyAuth: [ ]
+  - Bearer: []
 tags:
   - name: payment
     description: ''
