@@ -48,8 +48,10 @@ module "postgresql" {
     enabled              = true
     virtual_network_id   = module.vnet.id
     subnet_id            = module.db_snet.id
-    private_dns_zone_ids = [azurerm_private_dns_zone.postgres.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.postgres_old.id]
   }
+
+  allowed_subnets = [module.db_snet.id]
 
   network_rules         = var.db_network_rules
   replica_network_rules = var.db_replica_network_rules

@@ -66,6 +66,22 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet" {
   virtual_network_id    = module.vnet.id
 }
 
+# Just for migration purposes, it will be removed
+resource "azurerm_private_dns_zone" "postgres_old" {
+  name                = "privatelink.postgres.database.azure.com"
+  resource_group_name = azurerm_resource_group.db_rg.name
+  tags                = var.tags
+}
+
+# Just for migration purposes, it will be removed
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet_old" {
+  name                  = "${local.project}-postgresql-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.db_rg.name
+  private_dns_zone_name = azurerm_private_dns_zone.postgres_old.name
+  virtual_network_id    = module.vnet.id
+  tags = var.tags
+}
+
 #
 # Private DNS Zone for Storage Accounts
 #
