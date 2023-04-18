@@ -12,6 +12,13 @@ paths:
         - payment
       summary: Merchant create transaction
       operationId: createTransaction
+      parameters:
+        - name: x-merchant-id
+          in: header
+          description: Merchant ID
+          required: true
+          schema:
+            type: string
       requestBody:
         description: General information about Transaction
         content:
@@ -44,6 +51,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-merchant-id
+          in: header
+          description: Merchant ID
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Ok
@@ -68,15 +81,11 @@ components:
       properties:
         initiativeId:
           type: string
-        senderCode:
-          type: string
         merchantFiscalCode:
           type: string
         vat:
           type: string
         idTrxIssuer:
-          type: string
-        idTrxAcquire:
           type: string
         trxDate:
           type: string
@@ -88,12 +97,6 @@ components:
           type: string
         mcc:
           type: string
-        acquirerCode:
-          type: string
-        acquirerId:
-          type: string
-        callbackUrl:
-          type: string
     TransactionResponse:
       type: object
       properties:
@@ -102,8 +105,6 @@ components:
         trxCode:
           type: string
         initiativeId:
-          type: string
-        senderCode:
           type: string
         merchantId:
           type: string
@@ -120,8 +121,6 @@ components:
         amountCurrency:
           type: string
         mcc:
-          type: string
-        acquirerCode:
           type: string
         acquirerId:
           type: string
