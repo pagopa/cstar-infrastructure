@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment API
+  title: IDPAY Payment CIT API
   description: IDPAY Payment CIT
   version: '1.0'
 servers:
