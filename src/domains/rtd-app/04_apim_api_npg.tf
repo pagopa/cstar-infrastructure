@@ -43,7 +43,7 @@ module "npg_payment_instrument" {
   service_url = "https://${var.ingress_load_balancer_hostname}/paymentinstrument"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/npg_payment_instrument/openapi.payment_instrument.yml.tpl", {})
+  content_value  = templatefile("./api/npg_payment_instrument/openapi.payment_instrument.yml", {})
 
   xml_content = file("./api/base_policy.xml")
 
