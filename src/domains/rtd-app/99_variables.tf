@@ -208,6 +208,7 @@ variable "enable" {
     payment_instrument                  = bool
     exporter                            = bool
     alternative_gateway                 = bool
+    api_payment_instrument              = bool
   })
   description = "Feature flags"
   default = {
@@ -222,6 +223,7 @@ variable "enable" {
     payment_instrument                  = false
     exporter                            = false
     alternative_gateway                 = false
+    api_payment_instrument              = false
   }
 }
 

@@ -51,6 +51,7 @@ enable = {
   payment_instrument                  = false
   exporter                            = false
   alternative_gateway                 = false
+  api_payment_instrument              = false
 }
 #
 # Hashpan generation pipeline related variables

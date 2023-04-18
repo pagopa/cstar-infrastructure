@@ -4,7 +4,7 @@
 module "npg_api_product" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.0.0"
 
-  count = var.env_short == "d" ? 1 : 0
+  count = var.enable.api_payment_instrument ? 1 : 0
 
   product_id   = "ngp_api_product"
   display_name = "NPG_API_PRODUCT"
@@ -28,7 +28,7 @@ module "npg_api_product" {
 module "npg_payment_instrument" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.0.0"
 
-  count = var.env_short == "d" ? 1 : 0
+  count = var.enable.api_payment_instrument ? 1 : 0
 
   name                = "${var.env_short}-npg-payment-instrument"
   api_management_name = data.azurerm_api_management.apim_core.name

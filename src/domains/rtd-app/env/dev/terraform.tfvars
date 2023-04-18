@@ -51,6 +51,7 @@ enable = {
   payment_instrument                  = true
   exporter                            = true
   alternative_gateway                 = true
+  api_payment_instrument              = true
 }
 
 #
