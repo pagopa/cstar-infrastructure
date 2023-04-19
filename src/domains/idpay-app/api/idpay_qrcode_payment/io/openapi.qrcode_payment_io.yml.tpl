@@ -162,9 +162,8 @@ components:
         initiativeId:
           type: string
         reward:
-          type: string
-          items:
-            $ref: "#/components/schemas/Reward"
+          type: integer
+          format: int64
         rejectionReasons:
           type: array
           items:
@@ -177,40 +176,6 @@ components:
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
         callbackUrl:
           type: string
-    TransactionResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        trxCode:
-          type: string
-        initiativeId:
-          type: string
-        senderCode:
-          type: string
-        merchantId:
-          type: string
-        idTrxIssuer:
-          type: string
-        idTrxAcquire:
-          type: string
-        trxDate:
-          type: string
-          format: date-time
-        amountCents:
-          type: integer
-          format: int64
-        amountCurrency:
-          type: string
-        mcc:
-          type: string
-        acquirerCode:
-          type: string
-        acquirerId:
-          type: string
-        status:
-          type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
     AuthPaymentResponseDTO:
       type: object
       properties:
@@ -222,49 +187,18 @@ components:
           type: string
         status:
           type: string
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
         reward:
-          type: number
+          type: integer
+          format: int64
         rejectionReasons:
           type: array
           items:
             type: string
           description: The list of rejection reasons
-    Reward:
-      type: object
-      properties:
-        initiativeId:
-          type: string
-        organizationId:
-          type: string
-        providedReward:
-          type: number
-        accruedReward:
-          type: number
-        capped:
-          type: boolean
-        dailyCapped:
-          type: boolean
-        monthlyCappedyearlyCappedweeklyCappedrefundcompleteRefund:
-          type: boolean
-        yearlyCappedweeklyCappedrefundcompleteRefund:
-          type: boolean
-        weeklyCappedrefundcompleteRefund:
-          type: boolean
-        refundcompleteRefund:
-          type: boolean
-        completeRefund:
-          type: boolean
-        counters:
-          type: string
-          items:
-            $ref: "#/components/schemas/RewardCounters"
-    RewardCounters:
-      type: object
-      properties:
-        exhaustedBudget:
-          type: boolean
-        initiativeBudget:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
     Severity:
       type: string
       enum: [error, warning]
