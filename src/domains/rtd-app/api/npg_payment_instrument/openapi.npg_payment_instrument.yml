@@ -38,53 +38,6 @@ paths:
         '400':
           description: Bad Request
 
-  /paymentInstrumentDelete/{paymentInstrumentId}:
-    delete:
-      tags:
-        - PaymentInstrument
-      summary: Called by wallet to delete a payment instrument 
-      description: Called by wallet to delete a payment instrument 
-      operationId: paymentInstrumentDelete
-      parameters:
-        - name: paymentInstrumentId 
-          in: path
-          description: The payment instrument ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '401':
-          description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '500':
-          description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     OperationResultRequest:
@@ -149,7 +102,6 @@ components:
         - type: string
           example: null
       
-    
     OperationAdditionalCardDataSchema:
       type: object
       description: Additional data related to data card. Only some information is reported here.
@@ -164,10 +116,4 @@ components:
           type: string
           example: "79e199c6bfb632f58ee2e6810aa39f7abcabc11ce66360d602ca61408171e230"
 
-    ErrorDTO:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
+    
