@@ -80,7 +80,9 @@ module "idpay_qr_code_payment_mock_merchant" {
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_qrcode_payment/acquirer/openapi.qrcode_payment_test_merchant.yml.tpl", {})
 
-  xml_content = file("./api/base_policy.xml")
+  xml_content = templatefile("./api/idpay_qrcode_payment/acquirer/mock_merchant_base_policy.xml", {
+    origins = local.origins.base
+  })
 
   product_ids = [module.idpay_api_merchant_mock_product[0].product_id]
 
