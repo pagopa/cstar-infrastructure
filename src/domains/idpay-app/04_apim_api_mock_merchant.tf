@@ -1,5 +1,5 @@
 data "azurerm_api_management_user" "idpay_apim_user_mocked_acquirer" {
-  count = var.idpay_mocked_merchant_enable != null ? 1 : 0
+  count = var.idpay_mocked_merchant_enable ? 1 : 0
 
   user_id             = var.idpay_mocked_acquirer_apim_user_id
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -7,7 +7,7 @@ data "azurerm_api_management_user" "idpay_apim_user_mocked_acquirer" {
 }
 
 resource "azurerm_api_management_subscription" "idpay_apim_subscription_mocked_acquirer" {
-  count = var.idpay_mocked_merchant_enable != null ? 1 : 0
+  count = var.idpay_mocked_merchant_enable ? 1 : 0
 
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
@@ -17,6 +17,8 @@ resource "azurerm_api_management_subscription" "idpay_apim_subscription_mocked_a
 }
 
 resource "azurerm_api_management_named_value" "idpay_apim_subscription_mocked_acquirer_key" {
+  count = var.idpay_mocked_merchant_enable ? 1 : 0
+
   name                = "mocked-acquirer-subscription-key"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
@@ -29,7 +31,7 @@ resource "azurerm_api_management_named_value" "idpay_apim_subscription_mocked_ac
 # IDPAY PRODUCTS
 #
 module "idpay_api_merchant_mock_product" {
-  count = var.idpay_mocked_merchant_enable != null ? 1 : 0
+  count = var.idpay_mocked_merchant_enable ? 1 : 0
 
   depends_on = [azurerm_api_management_named_value.idpay_apim_subscription_mocked_acquirer_key]
 
@@ -60,7 +62,7 @@ module "idpay_api_merchant_mock_product" {
 
 ## IDPAY QR-Code payment MOCK MERCHANT API ##
 module "idpay_qr_code_payment_mock_merchant" {
-  count = var.idpay_mocked_merchant_enable != null ? 1 : 0
+  count = var.idpay_mocked_merchant_enable ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
 

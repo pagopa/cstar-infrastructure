@@ -102,5 +102,5 @@ reverse_proxy_rtd = "10.1.0.250"
 #
 mail_server_host = "smtp.ethereal.email"
 
-idpay_mocked_merchant_enable       = false
+idpay_mocked_merchant_enable       = true
 idpay_mocked_acquirer_apim_user_id = "rtd-uat-acquirer-pagopa-it"

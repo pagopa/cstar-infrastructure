@@ -316,6 +316,7 @@ variable "p7m_cert_validity_hours" {
 variable "idpay_mocked_merchant_enable" {
   type        = bool
   description = "Enable mocked merchant APIs"
+  default     = false
 }
 
 variable "idpay_mocked_acquirer_apim_user_id" {
