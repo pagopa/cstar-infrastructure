@@ -39,7 +39,7 @@ paths:
           description: Bad Request
 
   /paymentInstrumentDelete/{paymentInstrumentId}:
-    get:
+    delete:
       tags:
         - PaymentInstrument
       summary: Called by wallet to delete a payment instrument 
