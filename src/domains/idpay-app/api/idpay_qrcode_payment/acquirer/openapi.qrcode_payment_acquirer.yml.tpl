@@ -78,6 +78,14 @@ components:
   schemas:
     TransactionCreationRequest:
       type: object
+      required:
+        - merchantFiscalCode
+        - vat
+        - idTrxIssuer
+        - initiativeId
+        - trxDate
+        - amountCents
+        - mcc
       properties:
         initiativeId:
           type: string
@@ -97,6 +105,17 @@ components:
           type: string
     TransactionResponse:
       type: object
+      required:
+       - id
+       - trxCode
+       - initiativeId
+       - merchantId
+       - idTrxIssuer
+       - trxDate
+       - amountCents
+       - mcc
+       - acquirerId
+       - status
       properties:
         id:
           type: string
@@ -129,17 +148,13 @@ components:
           type: string
         vat:
           type: string
-    Severity:
-      type: string
-      enum: [error, warning]
     ErrorDTO:
       type: object
+      required:
+       - code
+       - message
       properties:
-        severity:
-          type: string
-          items:
-            $ref: "#/components/schemas/Severity"
-        title:
+        code:
           type: string
         message:
           type: string

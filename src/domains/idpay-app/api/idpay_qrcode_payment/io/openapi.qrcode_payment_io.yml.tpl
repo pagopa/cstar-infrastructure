@@ -178,6 +178,14 @@ components:
           type: string
     AuthPaymentResponseDTO:
       type: object
+      required:
+       - id
+       - trxCode
+       - initiativeId
+       - status
+       - reward
+       - rejectionReasons
+       - amountCents
       properties:
         id:
           type: string
@@ -199,17 +207,13 @@ components:
         amountCents:
           type: integer
           format: int64
-    Severity:
-      type: string
-      enum: [error, warning]
     ErrorDTO:
       type: object
+      required:
+       - code
+       - message
       properties:
-        severity:
-          type: string
-          items:
-            $ref: "#/components/schemas/Severity"
-        title:
+        code:
           type: string
         message:
           type: string
