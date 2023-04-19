@@ -93,8 +93,6 @@ components:
         amountCents:
           type: integer
           format: int64
-        amountCurrency:
-          type: string
         mcc:
           type: string
     TransactionResponse:
