@@ -125,6 +125,10 @@ components:
         status:
           type: string
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+        merchantFiscalCode:
+          type: string
+        vat:
+          type: string
     Severity:
       type: string
       enum: [error, warning]
