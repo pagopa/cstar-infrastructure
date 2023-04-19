@@ -322,5 +322,5 @@ variable "idpay_mocked_merchant_enable" {
 variable "idpay_mocked_acquirer_apim_user_id" {
   type        = string
   description = "APIm user id of mocked acquirer"
-  default     = ""
+  default     = null
 }
