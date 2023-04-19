@@ -14,6 +14,8 @@ resource "azurerm_api_management_subscription" "idpay_apim_subscription_mocked_a
   user_id             = data.azurerm_api_management_user.idpay_apim_user_mocked_acquirer[0].id
   product_id          = module.idpay_api_acquirer_product.id
   display_name        = "Mocked Acquirer"
+  allow_tracing       = true
+  state               = "active"
 }
 
 resource "azurerm_api_management_named_value" "idpay_apim_subscription_mocked_acquirer_key" {
