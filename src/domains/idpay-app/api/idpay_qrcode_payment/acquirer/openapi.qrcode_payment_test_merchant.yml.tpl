@@ -108,6 +108,14 @@ components:
   schemas:
     TransactionCreationRequest:
       type: object
+      required:
+        - merchantFiscalCode
+        - vat
+        - idTrxIssuer
+        - initiativeId
+        - trxDate
+        - amountCents
+        - mcc
       properties:
         merchantFiscalCode:
           type: string
@@ -127,6 +135,17 @@ components:
           type: string
     TransactionResponse:
       type: object
+      required:
+       - id
+       - trxCode
+       - initiativeId
+       - merchantId
+       - idTrxIssuer
+       - trxDate
+       - amountCents
+       - mcc
+       - acquirerId
+       - status
       properties:
         id:
           type: string
@@ -153,6 +172,22 @@ components:
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
     SyncTrxStatus:
       type: object
+      required:
+       - id
+       - idTrxIssuer
+       - trxCode
+       - trxDate
+       - authDate
+       - operationType
+       - amountCents
+       - amountCurrency
+       - mcc
+       - acquirerId
+       - merchantId
+       - initiativeId
+       - rewardCents
+       - rejectionReasons
+       - status
       properties:
         id:
           type: string
@@ -195,6 +230,9 @@ components:
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
     ErrorDTO:
       type: object
+      required:
+       - title
+       - message
       properties:
         title:
           type: string
