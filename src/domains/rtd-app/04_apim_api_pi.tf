@@ -24,7 +24,7 @@ module "pi_api_product" {
 }
 
 
-## NPG Payment Instrument registrtion API ##
+## Payment Instrument registrtion API ##
 module "payment_instrument" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.0.0"
 
@@ -47,5 +47,5 @@ module "payment_instrument" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids = [module.npg_api_product[count.index].product_id]
+  product_ids = [module.pi_api_product[count.index].product_id]
 }
