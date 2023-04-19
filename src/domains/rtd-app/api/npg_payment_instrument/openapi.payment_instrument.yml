@@ -46,12 +46,12 @@ paths:
       description: Called by wallet to delete a payment instrument 
       operationId: paymentInstrumentDelete
       parameters:
-      - name: paymentInstrumentId
-        in: path
-        description: The payment instrument ID
-        required: true
-        schema:
-          type: string
+        - name: paymentInstrumentId 
+          in: path
+          description: The payment instrument ID
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successful operation
