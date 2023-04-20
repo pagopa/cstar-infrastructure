@@ -1238,8 +1238,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
   location            = data.azurerm_resource_group.monitor_rg.location
 
-  evaluation_frequency = "PT5M"
-  window_duration      = "PT5M"
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
   severity             = 0
   criteria {
