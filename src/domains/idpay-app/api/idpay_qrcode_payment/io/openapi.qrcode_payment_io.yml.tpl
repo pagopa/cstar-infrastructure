@@ -25,7 +25,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionInProgress'
+                $ref: '#/components/schemas/SyncTrxStatus'
         '403':
           description: Transaction is associated to another user
         '404':
@@ -110,41 +110,43 @@ paths:
           description: Too many Request
 components:
   schemas:
-    TransactionInProgress:
+    SyncTrxStatus:
       type: object
+      required:
+       - id
+       - idTrxIssuer
+       - trxCode
+       - trxDate
+       - authDate
+       - operationType
+       - amountCents
+       - amountCurrency
+       - mcc
+       - acquirerId
+       - merchantId
+       - initiativeId
+       - rewardCents
+       - rejectionReasons
+       - status
       properties:
         id:
           type: string
+        idTrxIssuer:
+          type: string
         trxCode:
           type: string
-        idTrxAcquirer:
-          type: string
-        acquirerCode:
-          type: string
         trxDate:
-          type: string
-          format: date-time
-        trxChargeDate:
           type: string
           format: date-time
         authDate:
           type: string
           format: date-time
-        elaborationDateTime:
-          type: string
-          format: date-time
         operationType:
           type: string
-        operationTypeTranscoded:
-          type: string
           enum: [CHARGE, REFUND]
-        idTrxIssuer:
-          type: string
         amountCents:
           type: integer
           format: int64
-        effectiveAmount:
-          type: number
         amountCurrency:
           type: string
         mcc:
@@ -153,15 +155,9 @@ components:
           type: string
         merchantId:
           type: string
-        senderCode:
-          type: string
-        merchantFiscalCode:
-          type: string
-        vat:
-          type: string
         initiativeId:
           type: string
-        reward:
+        rewardCents:
           type: integer
           format: int64
         rejectionReasons:
@@ -169,13 +165,9 @@ components:
           items:
             type: string
           description: The list of rejection reasons
-        userId:
-          type: string
         status:
           type: string
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
-        callbackUrl:
-          type: string
     AuthPaymentResponseDTO:
       type: object
       required:

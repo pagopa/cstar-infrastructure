@@ -79,7 +79,7 @@ paths:
       tags:
         - payment
       summary: Returns the detail of a transaction
-      operationId: getTransaction
+      operationId: getStatusTransaction
       parameters:
         - name: transactionId
           in: path
@@ -100,8 +100,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SyncTrxStatus'
-        '403':
-          description: Transaction is associated to another user
         '404':
           description: Transaction does not exist
 components:
