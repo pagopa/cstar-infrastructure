@@ -495,7 +495,6 @@ components:
             - LE
             - GT
             - GE
-            - IN
             - BTW_CLOSED
             - BTW_OPEN
         authority:
