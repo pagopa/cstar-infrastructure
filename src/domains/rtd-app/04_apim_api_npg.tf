@@ -37,7 +37,7 @@ module "npg_payment_instrument" {
   description  = "NPG Payment Instrument registrtion"
   display_name = "NPG Payment Instrument registrtion API"
 
-  path      = "npg/paymentinstrument"
+  path      = "npg/paymentinstruments"
   protocols = ["https"]
 
   service_url = "https://${var.ingress_load_balancer_hostname}/paymentinstruments"
