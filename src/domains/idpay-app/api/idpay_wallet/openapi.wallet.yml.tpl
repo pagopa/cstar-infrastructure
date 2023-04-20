@@ -38,6 +38,9 @@ paths:
                     refunded: 0.01
                     iban: string
                     nInstr: 0
+                    initiativeRewardType: REFUND
+                    logoURL: string
+                    organizationName: string
         '401':
           description: Authentication failed
           content:
@@ -147,6 +150,9 @@ paths:
                 refunded: 0.01
                 iban: string
                 nInstr: 0
+                initiativeRewardType: REFUND
+                logoURL: string
+                organizationName: string
         '401':
           description: Authentication failed
           content:
@@ -833,6 +839,10 @@ components:
           enum:
             - DISCOUNT
             - REFUND
+          type: string
+        logoURL:
+          type: string
+        organizationName:
           type: string
     InitiativesWithInstrumentDTO:
       type: object
