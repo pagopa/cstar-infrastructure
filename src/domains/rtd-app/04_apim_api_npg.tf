@@ -40,7 +40,7 @@ module "npg_payment_instrument" {
   path      = "npg/paymentinstrument"
   protocols = ["https"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/paymentinstrument"
+  service_url = "https://${var.ingress_load_balancer_hostname}/paymentinstruments"
 
   content_format = "openapi"
   content_value  = templatefile("./api/npg_payment_instrument/openapi.payment_instrument.yml.tpl", {})
