@@ -17,8 +17,8 @@
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity | v3.0.0 |
 | <a name="module_npg_api_product"></a> [npg\_api\_product](#module\_npg\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v3.0.0 |
 | <a name="module_npg_payment_instrument"></a> [npg\_payment\_instrument](#module\_npg\_payment\_instrument) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v3.0.0 |
-| <a name="module_payment_instrument"></a> [payment\_instrument](#module\_payment\_instrument) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v3.0.0 |
-| <a name="module_pi_api_product"></a> [pi\_api\_product](#module\_pi\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v3.0.0 |
+| <a name="module_payment_instruments_api_product"></a> [payment\_instruments\_api\_product](#module\_payment\_instruments\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v3.0.0 |
+| <a name="module_payment_instruments_interaction"></a> [payment\_instruments\_interaction](#module\_payment\_instruments\_interaction) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v3.0.0 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/azurerm.git//tls_checker | v2.19.0 |
 
 ## Resources
