@@ -2921,6 +2921,8 @@ components:
           $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
         refundRule:
           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        isLogoPresent:
+          type: boolean
     DescriptionLanguageMap:
       type: object
       properties:
