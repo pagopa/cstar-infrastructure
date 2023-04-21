@@ -472,6 +472,17 @@ locals {
         }
       ]
     },
+    {
+      name = "onboarding_families"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }, {
+        keys   = ["memberIds"]
+        unique = false
+        }
+      ]
+    },
   ]
 }
 
