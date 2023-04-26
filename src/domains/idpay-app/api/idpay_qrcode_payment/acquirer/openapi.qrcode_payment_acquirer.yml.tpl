@@ -173,7 +173,7 @@ components:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
         merchantFiscalCode:
           type: string
         vat:
@@ -185,7 +185,6 @@ components:
        - idTrxIssuer
        - trxCode
        - trxDate
-       - authDate
        - operationType
        - amountCents
        - amountCurrency
@@ -193,7 +192,6 @@ components:
        - acquirerId
        - merchantId
        - initiativeId
-       - rewardCents
        - rejectionReasons
        - status
       properties:
@@ -235,7 +233,7 @@ components:
           description: The list of rejection reasons
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
     ErrorDTO:
       type: object
       required:
