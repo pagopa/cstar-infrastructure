@@ -355,6 +355,14 @@ locals {
         {
           keys   = ["notificationDate"]
           unique = false
+        },
+        {
+          keys   = ["exportDate"]
+          unique = false
+        },
+        {
+          keys   = ["status"]
+          unique = false
         }
       ]
     },
