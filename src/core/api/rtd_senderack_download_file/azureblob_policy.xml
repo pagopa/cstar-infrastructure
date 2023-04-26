@@ -42,14 +42,6 @@
     </backend>
     <outbound>
       <base />
-      <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
-        <set-url>@("${rtd-ingress}/rtdmsfileregister/file-status")</set-url>
-        <set-method>PUT</set-method>
-        <set-header name="Content-Type" exists-action="override">
-          <value>application/json</value>
-        </set-header>
-        <set-body>@("{ \"name\": \""+context.Variables["senderAdeAckName"]+"\",\"status\":1,\"type\":6,\"application\":1}")</set-body>
-      </send-request>
     </outbound>
     <on-error>
         <base />
