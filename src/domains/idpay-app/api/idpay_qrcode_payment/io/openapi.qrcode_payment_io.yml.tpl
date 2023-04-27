@@ -175,7 +175,6 @@ components:
        - trxCode
        - initiativeId
        - status
-       - reward
        - rejectionReasons
        - amountCents
       properties:
