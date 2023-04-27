@@ -139,8 +139,10 @@ components:
        - initiativeId
        - merchantId
        - idTrxIssuer
+       - idTrxAcquire
        - trxDate
        - amountCents
+       - amountCurrency
        - mcc
        - acquirerId
        - status
