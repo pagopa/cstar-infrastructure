@@ -1485,6 +1485,10 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - ISEE
+            - BIRTHDATE
+            - RESIDENCE
         description:
           type: string
         value:
@@ -1500,8 +1504,20 @@ components:
         operator:
           type: string
           description: Represents the relation between the criteria and the value field
+          enum:
+            - EQ
+            - NOT_EQ
+            - LT
+            - LE
+            - GT
+            - GE
+            - BTW_CLOSED
+            - BTW_OPEN
         authority:
           type: string
+          enum:
+            - INPS
+            - AGID
     SelfDeclarationBoolDTO:
       type: object
       required:
@@ -1811,7 +1827,7 @@ components:
           type: string
         operationDate:
           type: string
-          format: date
+          format: date-time
         amount:
           type: number
     SuspendOperationDTO:
@@ -1842,6 +1858,9 @@ components:
         operationId:
           type: string
         operationType:
+          enum:
+            - PAID_REFUND
+            - REJECTED_REFUND
           type: string
         eventId:
           type: string
@@ -1849,6 +1868,7 @@ components:
           type: string
         operationDate:
           type: string
+          format: date-time
         amount:
           type: number
         status:
@@ -2049,6 +2069,10 @@ components:
           enum:
             - DISCOUNT
             - REFUND
+          type: string
+        logoURL:
+          type: string
+        organizationName:
           type: string
     InitiativesWithInstrumentDTO:
       type: object
