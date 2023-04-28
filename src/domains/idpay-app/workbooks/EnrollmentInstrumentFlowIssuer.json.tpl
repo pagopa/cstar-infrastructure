@@ -198,9 +198,9 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n        {\"value\": \“${env_short}-idpay-issuer-wallet;rev=1 - enrollInstrument\", \"selected\": true}\r\n\r\n]",
+            "jsonData": "[\r\n        {\"value\": \"${env_short}-idpay-issuer-wallet;rev=1 - enrollInstrument\", \"selected\": true}\r\n\r\n]",
             "value": [
-              “${env_short}-idpay-issuer-wallet;rev=1 - enrollInstrument"
+              "${env_short}-idpay-issuer-wallet;rev=1 - enrollInstrument"
             ]
           },
           {
