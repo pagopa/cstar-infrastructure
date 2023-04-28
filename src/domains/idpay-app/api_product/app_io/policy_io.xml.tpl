@@ -110,6 +110,9 @@
                 </choose>
             </when>
         </choose>
+        <set-header name="x-user-id" exists-action="override">
+          <value>@((string)context.Variables["tokenPDV"])</value>
+        </set-header>
         <base />
     </inbound>
     <backend>
