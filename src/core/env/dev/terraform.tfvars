@@ -22,6 +22,8 @@ apim_sku                       = "Developer_1"
 
 
 cidr_vnet = ["10.1.0.0/16"]
+cidr_pair_vnet = ["10.2.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.2.1.0/29"]
 
 cidr_subnet_k8s              = ["10.1.0.0/17"]
 cidr_subnet_appgateway       = ["10.1.128.0/24"]
