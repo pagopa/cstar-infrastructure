@@ -152,6 +152,9 @@ module "postgres_flexible_server" {
   geo_redundant_backup_enabled = var.pgres_flex_params.geo_redundant_backup_enabled
   create_mode                  = var.pgres_flex_params.create_mode
 
+  log_analytics_workspace_id   = azurerm_log_analytics_workspace.log_analytics_workspace.id
+
+
   tags = var.tags
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.postgres_vnet]
