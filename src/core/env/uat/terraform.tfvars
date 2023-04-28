@@ -856,4 +856,4 @@ enable = {
   }
 }
 
-batch_service_last_supported_version = "1.2.5"
+batch_service_last_supported_version = "1.3.2"

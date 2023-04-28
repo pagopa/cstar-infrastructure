@@ -292,3 +292,51 @@ module "idpay_iban_io" {
   ]
 
 }
+
+## IDPAY QR-Code payment IO API ##
+module "idpay_qr_code_payment_io" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-qr-code-payment-io"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY QR-CODE PAYMENT IO"
+  display_name = "IDPAY QR-CODE PAYMENT IO API"
+  path         = "idpay/payment/qr-code"
+  protocols    = ["https", "http"]
+
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code"
+
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl", {})
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.idpay_api_io_product.product_id]
+
+}
+
+## IDPAY Payment IO API ##
+module "idpay_payment_io" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-payment-io"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY PAYMENT IO"
+  display_name = "IDPAY PAYMENT IO API"
+  path         = "idpay/payment"
+  protocols    = ["https", "http"]
+
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment"
+
+  content_format = "openapi"
+  content_value  = templatefile("./api/idpay_payment/openapi.payment.yml.tpl", {})
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids = [module.idpay_api_io_product.product_id]
+
+}
