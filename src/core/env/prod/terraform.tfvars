@@ -43,12 +43,17 @@ cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
-
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
 cidr_integration_vnet = ["10.230.6.0/24"]
 cidr_subnet_apim      = ["10.230.6.0/26"]
 cidr_subnet_eventhub  = ["10.230.6.64/26"]
+
+#
+# Pair VNET
+#
+cidr_pair_vnet                = ["10.2.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.2.134.0/29"]
 
 #
 # ⛴ AKS Vnet

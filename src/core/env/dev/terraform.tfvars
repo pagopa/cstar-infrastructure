@@ -20,7 +20,9 @@ pgp_put_limit_bytes            = 524288000 # 500MB
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
-
+#
+# Core VNET
+#
 cidr_vnet = ["10.1.0.0/16"]
 
 cidr_subnet_k8s              = ["10.1.0.0/17"]
@@ -45,6 +47,12 @@ cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 cidr_integration_vnet = ["10.230.11.0/24"]
 cidr_subnet_apim      = ["10.230.11.0/26"]
 cidr_subnet_eventhub  = ["10.230.11.64/26"]
+
+#
+# Pair VNET
+#
+cidr_pair_vnet                = ["10.2.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.2.199.0/29"]
 
 #
 # ⛴ AKS Vnet

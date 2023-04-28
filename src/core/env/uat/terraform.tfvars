@@ -45,6 +45,12 @@ cidr_subnet_apim      = ["10.230.7.0/26"]
 cidr_subnet_eventhub  = ["10.230.7.64/26"]
 
 #
+# Pair VNET
+#
+cidr_pair_vnet                = ["10.2.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.2.133.0/29"]
+
+#
 # ⛴ AKS Vnet
 #
 aks_networks = [
