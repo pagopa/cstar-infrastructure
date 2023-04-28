@@ -1,6 +1,6 @@
 locals {
-  project            = "${var.prefix}-${var.env_short}"
-  project_pair       = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
+  project      = "${var.prefix}-${var.env_short}"
+  project_pair = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
 
   aks_network_prefix = local.project
   aks_network_indexs = {

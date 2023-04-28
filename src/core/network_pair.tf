@@ -31,8 +31,8 @@ module "vnet_peering_pair_vs_core" {
   target_resource_group_name       = azurerm_resource_group.rg_vnet.name
   target_virtual_network_name      = module.vnet.name
   target_remote_virtual_network_id = module.vnet.id
-  target_allow_gateway_transit        = true
-  target_use_remote_gateways          = false
+  target_allow_gateway_transit     = true
+  target_use_remote_gateways       = false
 }
 
 module "vnet_peering_pair_vs_integration" {
