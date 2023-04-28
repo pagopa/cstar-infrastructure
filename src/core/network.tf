@@ -5,6 +5,7 @@ resource "azurerm_resource_group" "rg_vnet" {
   tags = var.tags
 }
 
+# MAIN VNET
 module "vnet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
   name                 = format("%s-vnet", local.project)
@@ -14,7 +15,6 @@ module "vnet" {
   ddos_protection_plan = var.ddos_protection_plan
 
   tags = var.tags
-
 }
 
 ## Database subnet
