@@ -30,13 +30,23 @@ variable "env_short" {
 }
 
 variable "location" {
-  type    = string
-  default = "westeurope"
+  type        = string
+  description = "Location name complete"
+}
+
+variable "location_pair" {
+  type        = string
+  description = "Location pair name complete"
 }
 
 variable "location_short" {
   type        = string
-  description = "Location short like eg: weu, weu.."
+  description = "Location short like eg: weu, neu.."
+}
+
+variable "location_pair_short" {
+  type        = string
+  description = "Location short like eg: weu, neu.."
 }
 
 variable "location_string" {

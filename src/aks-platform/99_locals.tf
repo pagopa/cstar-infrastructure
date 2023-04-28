@@ -13,6 +13,9 @@ locals {
   vnet_integration_resource_group_name = "${local.product}-vnet-rg"
   vnet_integration_name                = "${local.product}-integration-vnet"
 
+  vnet_pair_resource_group_name = "${local.product}-${var.location_pair_short}-vnet-rg"
+  vnet_pair_name                = "${local.product}-${var.location_pair_short}-vnet"
+
   # ACR DOCKER
   docker_rg_name       = "${local.product}-container-registry-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-common-acr", "-", "")
