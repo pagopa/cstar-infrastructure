@@ -54,7 +54,7 @@ module "vpn" {
 # DNS Forwarder
 #
 module "dns_forwarder_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.3.1"
   name                                      = "${local.project}-dnsforwarder-snet"
   address_prefixes                          = var.cidr_subnet_dnsforwarder
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
@@ -70,13 +70,59 @@ module "dns_forwarder_snet" {
   }
 }
 
+resource "random_id" "dns_forwarder_hash" {
+  byte_length = 3
+}
+
 module "vpn_dns_forwarder" {
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.3.1"
 
-  name                = "${local.project}-vpn-dnsfrw"
+  name                = "${local.project}-${random_id.dns_forwarder_hash.hex}-vpn-dnsfrw"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   subnet_id           = module.dns_forwarder_snet.id
+  tags                = var.tags
+}
+
+
+# DNS FORWARDER FOR DISASTER RECOVERY
+
+#
+# DNS Forwarder
+#
+module "dns_forwarder_pair_subnet" {
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.3.1"
+  name                                      = "${local.project_pair}-dnsforwarder-snet"
+  address_prefixes                          = var.cidr_subnet_pair_dnsforwarder
+  resource_group_name                       = azurerm_resource_group.rg_pair_vnet.name
+  virtual_network_name                      = module.vnet_pair.name
+  private_endpoint_network_policies_enabled = false
+
+  delegation = {
+    name = "ACIDelegationService"
+    service_delegation = {
+      name    = "Microsoft.ContainerInstance/containerGroups"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+}
+
+output "subnet_pair_id" {
+value = module.dns_forwarder_pair_subnet.id
+}
+
+resource "random_id" "pair_dns_forwarder_hash" {
+  byte_length = 3
+}
+
+module "vpn_pair_dns_forwarder" {
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.3.1"
+
+  name                = "${local.project_pair}-${random_id.pair_dns_forwarder_hash.hex}-vpn-dnsfrw"
+  location            = var.location_pair
+  resource_group_name = azurerm_resource_group.rg_pair_vnet.name
+  subnet_id           = module.dns_forwarder_pair_subnet.id
   tags                = var.tags
 }
