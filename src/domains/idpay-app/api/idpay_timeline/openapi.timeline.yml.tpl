@@ -366,7 +366,7 @@ components:
           type: string
         operationDate:
           type: string
-          format: date
+          format: date-time
         amount:
           type: number
     TransactionOperationDTO:
@@ -433,6 +433,9 @@ components:
         operationId:
           type: string
         operationType:
+          enum:
+            - PAID_REFUND
+            - REJECTED_REFUND
           type: string
         eventId:
           type: string
@@ -440,6 +443,7 @@ components:
           type: string
         operationDate:
           type: string
+          format: date-time
         amount:
           type: number
         status:

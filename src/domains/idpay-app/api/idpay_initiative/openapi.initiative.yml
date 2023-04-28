@@ -2804,6 +2804,12 @@ components:
           enum:
             - PF
             - PG
+            - NF
+          type: string
+        familyUnitComposition:
+          enum:
+            - INPS
+            - ANPR
           type: string
         beneficiaryKnown:
           type: boolean
@@ -2882,6 +2888,8 @@ components:
           type: string
         organizationId:
           type: string
+        organizationName:
+          type: string
         creationDate:
           type: string
           description: Creation Date
@@ -2913,6 +2921,8 @@ components:
           $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
         refundRule:
           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        isLogoPresent:
+          type: boolean
     DescriptionLanguageMap:
       type: object
       properties:
