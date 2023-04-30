@@ -108,10 +108,6 @@ module "dns_forwarder_pair_subnet" {
   }
 }
 
-output "subnet_pair_id" {
-  value = module.dns_forwarder_pair_subnet.id
-}
-
 resource "random_id" "pair_dns_forwarder_hash" {
   byte_length = 3
 }
