@@ -51,8 +51,8 @@ cidr_subnet_eventhub  = ["10.230.11.64/26"]
 #
 # Pair VNET
 #
-cidr_pair_vnet                = ["10.2.0.0/16"]
-cidr_subnet_pair_dnsforwarder = ["10.2.199.0/29"]
+cidr_pair_vnet                = ["10.101.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.101.199.0/29"]
 
 #
 # ⛴ AKS Vnet
