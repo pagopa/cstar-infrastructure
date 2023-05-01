@@ -1,3 +1,33 @@
+locals {
+  project            = "${var.prefix}-${var.env_short}"
+  aks_network_prefix = local.project
+  aks_network_indexs = {
+    for n in var.aks_networks :
+    index(var.aks_networks.*.domain_name, n.domain_name) => n
+  }
+
+  #
+  # Platform
+  #
+  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "${local.project}-common-acr"
+
+  #
+  # IdPay
+  #
+  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
+  idpay_keyvault_name    = "${local.project}-idpay-kv"
+
+  #
+  # RTD
+  #
+  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
+  rtd_keyvault_name    = "${local.project}-rtd-kv"
+
+  # Temporary fallback to old ingress over non-dev environments
+  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+}
+
 variable "location" {
   type        = string
   description = "Primary location region (e.g. westeurope)"
@@ -889,32 +919,7 @@ variable "batch_service_last_supported_version" {
   default     = "0.0.1"
 }
 
-locals {
-  project            = "${var.prefix}-${var.env_short}"
-  aks_network_prefix = local.project
-  aks_network_indexs = {
-    for n in var.aks_networks :
-    index(var.aks_networks.*.domain_name, n.domain_name) => n
-  }
-
-  #
-  # Platform
-  #
-  rg_container_registry_common_name = "${local.project}-container-registry-rg"
-  container_registry_common_name    = "${local.project}-common-acr"
-
-  #
-  # IdPay
-  #
-  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
-  idpay_keyvault_name    = "${local.project}-idpay-kv"
-
-  #
-  # RTD
-  #
-  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
-  rtd_keyvault_name    = "${local.project}-rtd-kv"
-
-  # Temporary fallback to old ingress over non-dev environments
-  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+variable "cstarblobstorage_account_replication_type" {
+  type = string
+  description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
 }
