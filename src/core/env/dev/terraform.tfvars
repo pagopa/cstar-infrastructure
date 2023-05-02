@@ -862,3 +862,6 @@ enable = {
 }
 
 batch_service_last_supported_version = "1.2.5"
+
+# cstarblobstorage
+cstarblobstorage_account_replication_type = "RAGRS"
