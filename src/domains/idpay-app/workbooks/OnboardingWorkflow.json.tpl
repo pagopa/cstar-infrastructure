@@ -32,9 +32,6 @@
       "type": 9,
       "content": {
         "version": "KqlParameterItem/1.0",
-        "crossComponentResources": [
-          "/subscriptions/${subscription_id}/resourceGroups/${prefix}-monitor-rg/providers/Microsoft.Insights/components/${prefix}-appinsights"
-        ],
         "parameters": [
           {
             "id": "42e3cbc4-8a7f-4b7c-93a3-b832459ead7c",
@@ -63,8 +60,8 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 60000,
-              "endTime": "2023-03-06T10:42:00.000Z"
+              "durationMs": 780000,
+              "endTime": "2023-04-12T10:30:00.000Z"
             }
           },
           {
@@ -147,13 +144,10 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n   {\"label\": \"idpay-portal-welfare-backend-initiative\", \"value\": \"GET_INITIATIVE_DETAIL\",    \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"PUT_TC_CONSENT\", \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"GET_ONBOARDING_STATUS\", \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"CHECK_PREREQUISITES\", \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"SAVE_CONSENT\", \"selected\": true},\r\n   {\"label\": \"idpay-admissibility-assessor\", \"value\": \"ONBOARDING_REQUEST\", \"selected\": true},\r\n   {\"label\": \"idpay-reward-notification\", \"value\": \"REWARD_NOTIFICATION\", \"selected\": true},\r\n   {\"label\": \"idpay-wallet\", \"value\": \"CREATE_WALLET\", \"selected\": true},\r\n   {\"label\": \"idpay-notification-manager\", \"value\": \"NOTIFY\", \"selected\": true},\r\n   {\"label\": \"idpay-timeline\", \"value\": \"SAVE_OPERATION\", \"selected\": true}\r\n\r\n]",
+            "jsonData": "[\r\n   {\"label\": \"idpay-portal-welfare-backend-initiative\", \"value\": \"GET_INITIATIVE_ID_FROM_SERVICE_ID\",    \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"PUT_TC_CONSENT\", \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"GET_ONBOARDING_STATUS\", \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"CHECK_PREREQUISITES\", \"selected\": true},\r\n   {\"label\": \"idpay-onboarding-workflow\", \"value\": \"SAVE_CONSENT\", \"selected\": true},\r\n   {\"label\": \"idpay-admissibility-assessor\", \"value\": \"ONBOARDING_REQUEST\", \"selected\": true},\r\n   {\"label\": \"idpay-reward-notification\", \"value\": \"REWARD_NOTIFICATION\", \"selected\": true},\r\n   {\"label\": \"idpay-wallet\", \"value\": \"CREATE_WALLET\", \"selected\": true},\r\n   {\"label\": \"idpay-notification-manager\", \"value\": \"NOTIFY\", \"selected\": true},\r\n   {\"label\": \"idpay-timeline\", \"value\": \"SAVE_OPERATION\", \"selected\": true}\r\n\r\n]",
             "timeContext": {
               "durationMs": 86400000
-            },
-            "value": [
-              "value::all"
-            ]
+            }
           },
           {
             "id": "509368cc-acfe-43c2-8e98-3219118a845d",
@@ -170,10 +164,7 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n        {\"label\": \"Get inititiave data\", \"value\": \"{\\\"label\\\": \\\"Get inititiave data\\\", \\\"value\\\": \\\"GET_INITIATIVE_DETAIL\\\"}\", \"selected\": true},\r\n        {\"label\": \"Accept Terms and Conditions\", \"value\": \"{\\\"label\\\": \\\"Accept Terms and Conditions\\\", \\\"value\\\": \\\"PUT_TC_CONSENT\\\"}\", \"selected\": true},\r\n\t\t{\"label\": \"Check prerequisites\", \"value\": \"{\\\"label\\\": \\\"Check prerequisites\\\", \\\"value\\\": \\\"CHECK_PREREQUISITES\\\"}\", \"selected\": true},\r\n        {\"label\": \"Save consent\", \"value\": \"{\\\"label\\\": \\\"Save consent\\\", \\\"value\\\": \\\"SAVE_CONSENT\\\"}\", \"selected\": true},\r\n        {\"label\": \"Onboarding Status\", \"value\": \"{\\\"label\\\": \\\"Onboarding Status\\\", \\\"value\\\": \\\"GET_ONBOARDING_STATUS\\\"}\", \"selected\": true},\r\n        {\"label\": \"Send Onboarding request for evaluation\", \"value\": \"{\\\"label\\\": \\\"Send Onboarding request for evaluation\\\", \\\"value\\\": \\\"ONBOARDING_REQUEST\\\"}\", \"selected\": true},\r\n        {\"label\": \"Create Citizen's Wallet\", \"value\": \"{\\\"label\\\": \\\"Create Citizen's Wallet\\\", \\\"value\\\": \\\"CREATE_WALLET\\\"}\", \"selected\": true}\r\n]",
-            "value": [
-              "value::all"
-            ]
+            "jsonData": "[\r\n        {\"label\": \"Get inititiave data\", \"value\": \"{\\\"label\\\": \\\"Get inititiave data\\\", \\\"value\\\": \\\"GET_INITIATIVE_ID_FROM_SERVICE_ID\\\"}\", \"selected\": true},\r\n        {\"label\": \"Accept Terms and Conditions\", \"value\": \"{\\\"label\\\": \\\"Accept Terms and Conditions\\\", \\\"value\\\": \\\"PUT_TC_CONSENT\\\"}\", \"selected\": true},\r\n\t\t{\"label\": \"Check prerequisites\", \"value\": \"{\\\"label\\\": \\\"Check prerequisites\\\", \\\"value\\\": \\\"CHECK_PREREQUISITES\\\"}\", \"selected\": true},\r\n        {\"label\": \"Save consent\", \"value\": \"{\\\"label\\\": \\\"Save consent\\\", \\\"value\\\": \\\"SAVE_CONSENT\\\"}\", \"selected\": true},\r\n        {\"label\": \"Onboarding Status\", \"value\": \"{\\\"label\\\": \\\"Onboarding Status\\\", \\\"value\\\": \\\"GET_ONBOARDING_STATUS\\\"}\", \"selected\": true},\r\n        {\"label\": \"Send Onboarding request for evaluation\", \"value\": \"{\\\"label\\\": \\\"Send Onboarding request for evaluation\\\", \\\"value\\\": \\\"ONBOARDING_REQUEST\\\"}\", \"selected\": true},\r\n        {\"label\": \"Create Citizen's Wallet\", \"value\": \"{\\\"label\\\": \\\"Create Citizen's Wallet\\\", \\\"value\\\": \\\"CREATE_WALLET\\\"}\", \"selected\": true}\r\n]"
           },
           {
             "id": "c4825ba3-5603-4bd4-a2e4-e172c3aa12c5",
@@ -1145,8 +1136,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1190,8 +1181,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1259,8 +1250,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1308,8 +1299,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1458,8 +1449,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1556,8 +1547,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1656,8 +1647,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1701,8 +1692,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1746,8 +1737,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1794,8 +1785,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -1841,8 +1832,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2065,8 +2056,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2110,8 +2101,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2193,8 +2184,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2242,8 +2233,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2291,8 +2282,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2336,8 +2327,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2444,8 +2435,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2498,8 +2489,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2531,8 +2522,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2646,8 +2637,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {
@@ -2756,8 +2747,8 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 60000,
-                "endTime": "2023-03-06T10:42:00.000Z"
+                "durationMs": 780000,
+                "endTime": "2023-04-12T10:30:00.000Z"
               },
               "metrics": [
                 {

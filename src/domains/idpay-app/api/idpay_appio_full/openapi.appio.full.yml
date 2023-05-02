@@ -1485,6 +1485,10 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - ISEE
+            - BIRTHDATE
+            - RESIDENCE
         description:
           type: string
         value:
@@ -1500,8 +1504,20 @@ components:
         operator:
           type: string
           description: Represents the relation between the criteria and the value field
+          enum:
+            - EQ
+            - NOT_EQ
+            - LT
+            - LE
+            - GT
+            - GE
+            - BTW_CLOSED
+            - BTW_OPEN
         authority:
           type: string
+          enum:
+            - INPS
+            - AGID
     SelfDeclarationBoolDTO:
       type: object
       required:
@@ -1603,8 +1619,9 @@ components:
         - $ref: '#/components/schemas/InstrumentOperationDTO'
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
-        - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/RefundDetailDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -1646,6 +1663,7 @@ components:
         - $ref: "#/components/schemas/OnboardingOperationDTO"
         - $ref: "#/components/schemas/RefundOperationDTO"
         - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -1794,10 +1812,13 @@ components:
       required:
         - operationId
         - operationType
+        - eventId
         - operationDate
         - amount
       properties:
         operationId:
+          type: string
+        eventId:
           type: string
         operationType:
           enum:
@@ -1806,7 +1827,7 @@ components:
           type: string
         operationDate:
           type: string
-          format: date
+          format: date-time
         amount:
           type: number
     SuspendOperationDTO:
@@ -1821,6 +1842,65 @@ components:
         operationType:
           enum:
             - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    RefundDetailDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - eventId
+        - operationDate
+        - amount
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - PAID_REFUND
+            - REJECTED_REFUND
+          type: string
+        eventId:
+          type: string
+        iban:
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        amount:
+          type: number
+        status:
+          type: string
+        refundType:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        transferDate:
+          type: string
+          format: date
+        userNotificationDate:
+          type: string
+          format: date
+        cro:
+          type: string
+    ReadmittedOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - READMITTED
           type: string
         operationDate:
           type: string
@@ -1985,6 +2065,15 @@ components:
         nInstr:
           type: integer
           format: int32
+        initiativeRewardType:
+          enum:
+            - DISCOUNT
+            - REFUND
+          type: string
+        logoURL:
+          type: string
+        organizationName:
+          type: string
     InitiativesWithInstrumentDTO:
       type: object
       required:

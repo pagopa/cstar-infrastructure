@@ -469,19 +469,39 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - ISEE
+            - BIRTHDATE
+            - RESIDENCE
         description:
           type: string
         value:
           type: string
-          description: The expected value for the criteria. It is used in conjunction with the operator to define a range or an equality over that criteria.
+          description: >-
+            The expected value for the criteria. It is used in conjunction with
+            the operator to define a range or an equality over that criteria.
         value2:
           type: string
-          description: In situations where the operator expects two values (e.g BETWEEN) this field is populated
+          description: >-
+            In situations where the operator expects two values (e.g BETWEEN)
+            this field is populated
         operator:
           type: string
           description: Represents the relation between the criteria and the value field
+          enum:
+            - EQ
+            - NOT_EQ
+            - LT
+            - LE
+            - GT
+            - GE
+            - BTW_CLOSED
+            - BTW_OPEN
         authority:
           type: string
+          enum:
+            - INPS
+            - AGID
     SelfDeclarationBoolDTO:
       type: object
       required:
