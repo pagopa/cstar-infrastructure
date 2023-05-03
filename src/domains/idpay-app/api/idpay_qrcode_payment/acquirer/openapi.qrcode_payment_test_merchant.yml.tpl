@@ -146,6 +146,8 @@ components:
        - mcc
        - acquirerId
        - status
+       - splitPayment
+       - residualAmountCents
       properties:
         id:
           type: string
@@ -170,6 +172,11 @@ components:
         status:
           type: string
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+        splitPayment:
+          type: boolean
+        residualAmountCents:
+          type: integer
+          format: int64
     SyncTrxStatus:
       type: object
       required:

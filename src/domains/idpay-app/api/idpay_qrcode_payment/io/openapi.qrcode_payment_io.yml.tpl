@@ -177,8 +177,6 @@ components:
        - status
        - rejectionReasons
        - amountCents
-       - splitPayment
-       - residualAmountCents
       properties:
         id:
           type: string
@@ -198,11 +196,6 @@ components:
             type: string
           description: The list of rejection reasons
         amountCents:
-          type: integer
-          format: int64
-        splitPayment:
-          type: boolean
-        residualAmountCents:
           type: integer
           format: int64
     ErrorDTO:
