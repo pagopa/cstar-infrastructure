@@ -342,8 +342,13 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       | where TimeGenerated > ago(5m)
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
-      | where httpStatus_d !in (201, 400, 409, 413, 503)
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47), Container = substring(requestUri_s, 15, 61),  httpStatus_d
+      | where httpStatus_d !in (201, 400, 401, 409, 413, 503)
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -395,7 +400,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       AppRequests
       | where ResultCode == 401
       | where Name startswith "PUT /pagopastorage/"
-      | project TimeGenerated, Filename = substring(Url, 104, 44)
+      | project TimeGenerated,
+          Container = split(Url, '/')[4],
+          Filename = split(split(Url, '/')[5],'?')[0],
+          SAS_token = split(split(Url, '/')[5],'?')[1]
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -447,7 +456,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       AppRequests
       | where ResultCode == 503
       | where Name startswith "PUT /pagopastorage/"
-      | project TimeGenerated, Filename = substring(Url, 104, 44)
+      | project TimeGenerated,
+          Container = split(Url, '/')[4],
+          Filename = split(split(Url, '/')[5],'?')[0],
+          SAS_token = split(split(Url, '/')[5],'?')[1]
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -1089,7 +1102,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d == 409
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47)
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -1142,7 +1160,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_no_co
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d == 400
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47)
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -1195,7 +1218,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_conte
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d == 413
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47)
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
