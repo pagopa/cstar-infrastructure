@@ -17,7 +17,7 @@ locals {
   spa = [
     for i, spa in var.spa :
     {
-      name  = replace(format("SPA-%s", spa), "-", "")
+      name  = replace(replace(format("SPA-%s", spa), "-", ""), "/", "0")
       order = i + 3 // +3 required because the order start from 1: 1 is reserved for default application redirect; 2 is reserved for the https rewrite;
       conditions = [
         {
