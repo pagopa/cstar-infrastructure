@@ -23,7 +23,6 @@ module "payment_instruments_api_product" {
 
 }
 
-
 ## Payment Instrument registrtion API ##
 module "payment_instruments_interaction" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.0.0"
