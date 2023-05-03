@@ -2,7 +2,7 @@
 # New Payment Gateway PRODUCTS
 #
 module "payment_instruments_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v3.0.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.3.1"
 
   count = var.enable.api_payment_instrument ? 1 : 0
 
@@ -23,9 +23,9 @@ module "payment_instruments_api_product" {
 
 }
 
-## Payment Instrument registrtion API ##
+## Payment Instrument registration API ##
 module "payment_instruments_interaction" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.0.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.3.1"
 
   count = var.enable.api_payment_instrument ? 1 : 0
 
