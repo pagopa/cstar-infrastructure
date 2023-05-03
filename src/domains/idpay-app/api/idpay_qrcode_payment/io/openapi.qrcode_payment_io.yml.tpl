@@ -178,6 +178,7 @@ components:
        - rejectionReasons
        - amountCents
        - splitPayment
+       - residualAmountCents
       properties:
         id:
           type: string
@@ -200,6 +201,8 @@ components:
           type: integer
           format: int64
         splitPayment:
+          type: boolean
+        residualAmountCents:
           type: integer
           format: int64
     ErrorDTO:
