@@ -491,6 +491,25 @@ locals {
         }
       ]
     },
+    {
+      name = "mocked_families"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }, {
+        keys   = ["memberIds"]
+        unique = false
+        }
+      ]
+    },
+    {
+      name = "mocked_isee"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
   ]
 }
 
