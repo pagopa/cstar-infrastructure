@@ -676,7 +676,6 @@ paths:
               example:
                 code: 0
                 message: string
-
     delete:
       tags:
         - initiative
@@ -730,6 +729,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  '/{initiativeId}/beneficiary/family':
+    get:
+      tags:
+        - beneficiary
+      summary: Returns the family unit composition
+      operationId: getFamilyComposition
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyUnitCompositionDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+
   /{initiativeId}/logo:
     put:
       tags:
@@ -3322,6 +3375,7 @@ components:
           enum:
             - INVITED
             - ACCEPTED_TC
+            - DEMANDED
             - ON_EVALUATION
             - ONBOARDING_KO
             - ELIGIBLE_KO
@@ -3976,6 +4030,7 @@ components:
           enum:
             - INVITED
             - ACCEPTED_TC
+            - DEMANDED
             - ON_EVALUATION
             - ONBOARDING_KO
             - ELIGIBLE_KO
@@ -4024,6 +4079,44 @@ components:
         userNotificationDate:
           type: string
           format: date
+    FamilyUnitCompositionDTO:
+      type: object
+      required:
+        - usersList
+      properties:
+        usersList:
+          type: array
+          items:
+            $ref: '#/components/schemas/OnboardingDetailDTO'
+          description: The list of family unit composition details
+    OnboardingDetailDTO:
+      type: object
+      required:
+        - code
+        - message
+        - details
+      properties:
+        fiscalCode:
+          type: string
+        familyId:
+          type: string
+        onboardingDate:
+          type: string
+          format: date
+        status:
+          enum:
+            - INVITED
+            - ACCEPTED_TC
+            - DEMANDED
+            - ON_EVALUATION
+            - ONBOARDING_KO
+            - ELIGIBLE_KO
+            - ONBOARDING_OK
+            - ELIGIBLE
+            - INACTIVE
+            - UNSUBSCRIBED
+            - SUSPENDED
+          type: string
   securitySchemes:
     Bearer:
       type: apiKey
