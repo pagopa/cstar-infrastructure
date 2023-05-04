@@ -141,6 +141,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InitiativeDTO'
               example:
+                familyId: string
                 initiativeId: string
                 initiativeName: string
                 status: NOT_REFUNDABLE_ONLY_IBAN
@@ -808,6 +809,8 @@ components:
         - endDate
         - nInstr
       properties:
+        familyId:
+          type: string
         initiativeId:
           type: string
         initiativeName:
@@ -960,18 +963,9 @@ components:
             - MONTHLY
             - QUARTERLY
     RewardValueDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
-        - type: object
-          properties:
-            rewardValue:
-              maximum: 100
-              minimum: 0
-              type: number
-    InitiativeRewardRuleDTO:
       required:
         - rewardValueType
+        - rewardValue
       type: object
       properties:
         rewardValueType:
@@ -979,6 +973,8 @@ components:
           enum:
             - PERCENTAGE
             - ABSOLUTE
+        rewardValue:
+          type: number
     RefundAdditionalInfoDTO:
       required:
         - identificationCode

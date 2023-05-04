@@ -10,7 +10,7 @@ paths:
     get:
       tags:
         - onboarding
-      summary: Retrieves the initiative ID starting from the corresponding service ID
+      summary: Retrieves the initiative ID and related information starting from the corresponding service ID
       operationId: getInitiativeData
       parameters:
         - name: serviceId
@@ -435,6 +435,7 @@ components:
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
+            - DEMANDED
             - ELIGIBLE
             - SUSPENDED
           type: string
