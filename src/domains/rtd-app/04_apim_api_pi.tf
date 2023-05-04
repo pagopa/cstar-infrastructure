@@ -19,7 +19,7 @@ module "payment_instruments_api_product" {
 
   subscriptions_limit = 0
 
-  policy_xml = templatefile("./api_product/payment_instruments/policy.xml", {})
+  policy_xml = file("./api_product/payment_instruments/policy.xml")
 
 }
 
@@ -42,7 +42,7 @@ module "payment_instruments_interaction" {
   service_url = "https://${var.ingress_load_balancer_hostname}/paymentinstruments"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/payment_instruments/openapi.payment_instruments.yml", {})
+  content_value  = file("./api/payment_instruments/openapi.payment_instruments.yml")
 
   xml_content = file("./api/base_policy.xml")
 
