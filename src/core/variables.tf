@@ -920,6 +920,6 @@ variable "batch_service_last_supported_version" {
 }
 
 variable "cstarblobstorage_account_replication_type" {
-  type = string
+  type        = string
   description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
 }
