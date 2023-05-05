@@ -1,5 +1,5 @@
 module "tls_checker" {
-  source = "git::https://github.com/pagopa/azurerm.git//tls_checker?ref=v2.19.0"
+  source = "git::https://github.com/pagopa/azurerm.git//tls_checker?ref=version-unlocked"
 
   https_endpoint                             = local.domain_aks_hostname
   alert_name                                 = local.domain_aks_hostname
