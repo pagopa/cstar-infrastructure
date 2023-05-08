@@ -34,7 +34,7 @@
                                     </set-header>
                                 </return-response>
                             </when>
-                            <when condition="@(!(Regex.IsMatch(((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>(preserveContent: true)["fiscal_code"]), "^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})$") | Regex.IsMatch(((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>(preserveContent: true)["fiscal_code"]), "(^[0-9]{11})")))">
+                            <when condition="@(!(Regex.IsMatch(((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>(preserveContent: true)["fiscal_code"]), "^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})$") | Regex.IsMatch(((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>(preserveContent: true)["fiscal_code"]), "(^[0-9]{11})$")))">
                                 <return-response>
                                     <set-status code="400" reason="Bad Request" />
                                     <set-header name="Content-Type" exists-action="override">
