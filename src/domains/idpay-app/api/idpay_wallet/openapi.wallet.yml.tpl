@@ -915,9 +915,9 @@ components:
           type: string
           format: date
         rewardRule:
-           $ref: '#/components/schemas/RewardValueDTO'
+          $ref: '#/components/schemas/RewardValueDTO'
         refundRule:
-           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
         privacyLink:
           type: string
         tcLink:
@@ -960,18 +960,9 @@ components:
             - MONTHLY
             - QUARTERLY
     RewardValueDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
-        - type: object
-          properties:
-            rewardValue:
-              maximum: 100
-              minimum: 0
-              type: number
-    InitiativeRewardRuleDTO:
       required:
         - rewardValueType
+        - rewardValue
       type: object
       properties:
         rewardValueType:
@@ -979,6 +970,8 @@ components:
           enum:
             - PERCENTAGE
             - ABSOLUTE
+        rewardValue:
+          type: number
     RefundAdditionalInfoDTO:
       required:
         - identificationCode
