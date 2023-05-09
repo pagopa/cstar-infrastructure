@@ -76,7 +76,7 @@ resource "random_id" "dns_forwarder_hash" {
 
 module "vpn_dns_forwarder" {
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.4.1"
 
   name                = "${local.project}-${random_id.dns_forwarder_hash.hex}-vpn-dnsfrw"
   location            = var.location
@@ -114,7 +114,7 @@ resource "random_id" "pair_dns_forwarder_hash" {
 
 module "vpn_pair_dns_forwarder" {
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.4.1"
 
   name                = "${local.project_pair}-${random_id.pair_dns_forwarder_hash.hex}-vpn-dnsfrw"
   location            = var.location_pair
