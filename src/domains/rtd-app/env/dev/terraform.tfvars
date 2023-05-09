@@ -51,6 +51,8 @@ enable = {
   payment_instrument                  = true
   exporter                            = true
   alternative_gateway                 = true
+  tkm_integration                     = false
+  pm_integration                      = true
 }
 
 #
