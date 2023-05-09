@@ -30,7 +30,7 @@ module "rtd_senderack_download_file" {
     rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
-  product_ids = [module.rtd_api_product.product_id]
+  product_ids = [data.azurerm_api_management_product.rtd_api_product.product_id]
 
   api_operation_policies = []
 }

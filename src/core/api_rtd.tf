@@ -21,6 +21,13 @@ module "rtd_api_product" {
   policy_xml = file("./api_product/rtd_api/policy.xml")
 }
 
+data "azurerm_api_management_product" "rtd_api_product" {
+  product_id          = "rtd-api-product"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+}
+
+
 module "rtd_api_product_internal" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
@@ -71,7 +78,7 @@ module "api_azureblob" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -115,7 +122,7 @@ module "rtd_payment_instrument_manager" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -165,7 +172,7 @@ module "rtd_payment_instrument_manager_v2" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -216,7 +223,7 @@ module "rtd_payment_instrument_manager_v3" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -284,7 +291,7 @@ module "rtd_payment_instrument_token_api" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -347,7 +354,7 @@ module "rtd_csv_transaction" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -483,7 +490,7 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml.tpl", {})
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -516,7 +523,7 @@ module "rtd_senderadeack_filename_list" {
     rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -548,7 +555,7 @@ module "rtd_senderack_correct_download_ack" {
     rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
-  product_ids = [module.rtd_api_product.product_id]
+  product_ids = [data.azurerm_api_management_product.rtd_api_product.product_id]
 
   api_operation_policies = []
 }
@@ -577,7 +584,7 @@ module "rtd_sender_mauth_check" {
 
   xml_content = file("./api/rtd_sender_mauth_check/policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = false
 
   api_operation_policies = []
@@ -607,7 +614,7 @@ module "rtd_sender_api_key_check" {
 
   xml_content = file("./api/rtd_sender_api_key_check/policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -637,7 +644,7 @@ module "rtd_deposited_file_check" {
 
   xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -669,7 +676,7 @@ module "rtd_deposit_ade_ack" {
 
   xml_content = file("./api/rtd_deposit_ade_ack/azureblob_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -698,7 +705,7 @@ module "rtd_sender_auth_put_api_key" {
 
   xml_content = file("./api/rtd_sender_auth_put/policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -729,7 +736,7 @@ module "rtd_filereporter" {
     host = "https://httpbin.org"
   })
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [

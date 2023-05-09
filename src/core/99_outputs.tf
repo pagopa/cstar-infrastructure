@@ -195,3 +195,8 @@ output "dns_zone_welfare_name_servers" {
 output "dns_zone_welfare_name" {
   value = azurerm_dns_zone.welfare.name
 }
+
+# Api Product
+output "product_terms" {
+  value = data.azurerm_api_management_product.rtd_api_product.terms
+}

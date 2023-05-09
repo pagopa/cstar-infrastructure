@@ -15,6 +15,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity | v3.0.0 |
+| <a name="module_rtd_domain_api_product"></a> [rtd\_domain\_api\_product](#module\_rtd\_domain\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/azurerm.git//tls_checker | v2.19.0 |
 
 ## Resources
