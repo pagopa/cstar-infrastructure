@@ -226,7 +226,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/deleteUsingDELETE_BPAY_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
       })
     },
@@ -236,7 +236,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/findUsingGET_BPAY_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
       })
     },
@@ -246,7 +246,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Card_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
         reverse-proxy-ip             = var.reverse_proxy_ip
       })
@@ -257,7 +257,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_BPAY_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
         reverse-proxy-ip             = var.reverse_proxy_ip
       })
@@ -268,7 +268,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Other_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
         reverse-proxy-ip             = var.reverse_proxy_ip
       })
@@ -279,7 +279,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/enrollmentUsingPUT_Satispay_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
         reverse-proxy-ip             = var.reverse_proxy_ip
       })
@@ -290,7 +290,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/deleteUsingDELETE_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
       })
     },
@@ -310,7 +310,7 @@ module "fa_hb_payment_instruments_original" {
       xml_content = templatefile("./api/fa_hb_payment_instruments/findUsingGET_policy.xml.tpl", {
         pm-backend-url               = var.pm_backend_url,
         pm-timeout-sec               = var.pm_timeout_sec
-        pagopa-platform-api-key-name = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name = "pagopa-platform-apim-api-key-primary"
         env_short                    = var.env_short
       })
     },
