@@ -42,6 +42,7 @@ module "rtd_api_product_internal" {
   })
 }
 
+
 ## RTD Payment Manager API ##
 resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manager" {
   name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
