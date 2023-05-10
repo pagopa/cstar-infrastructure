@@ -29,6 +29,12 @@ aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "prod01.rtd.internal.cstar.pagopa.it"
 reverse_proxy_be_io            = "10.1.0.250"
+reverse_proxy_ip_old_k8s       = "10.1.0.250"
+
+#
+# External references
+#
+pagopa_platform_url = "https://api.platform.pagopa.it"
 
 #
 # Dns

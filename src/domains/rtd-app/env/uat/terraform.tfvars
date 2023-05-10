@@ -29,6 +29,12 @@ aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "uat01.rtd.internal.uat.cstar.pagopa.it"
 reverse_proxy_be_io            = "10.1.0.250"
+reverse_proxy_ip_old_k8s       = "10.1.0.250"
+
+#
+# External references
+#
+pagopa_platform_url = "https://api.uat.platform.pagopa.it"
 
 #
 # Dns

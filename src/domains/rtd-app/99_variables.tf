@@ -142,6 +142,18 @@ variable "reverse_proxy_be_io" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "reverse_proxy_ip_old_k8s" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+
+# External references
+variable "pagopa_platform_url" {
+  type        = string
+  description = "PagoPA Platform APIM url"
+}
+
 # Hashpan generation pipeline related variables
 variable "hpan_blob_storage_container_name" {
   type = object({
