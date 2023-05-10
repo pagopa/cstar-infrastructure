@@ -1,7 +1,6 @@
 #
 # Core
 #
-
 data "azurerm_resource_group" "vnet_core_rg" {
   name = local.vnet_core_resource_group_name
 }
@@ -33,6 +32,18 @@ data "azurerm_resource_group" "vnet_aks_rg" {
 data "azurerm_virtual_network" "vnet_aks" {
   name                = var.vnet_aks_name
   resource_group_name = data.azurerm_resource_group.vnet_aks_rg.name
+}
+
+#
+# Vnet pair
+#
+data "azurerm_resource_group" "vnet_pair_rg" {
+  name = local.vnet_pair_resource_group_name
+}
+
+data "azurerm_virtual_network" "vnet_pair" {
+  name                = local.vnet_pair_name
+  resource_group_name = data.azurerm_resource_group.vnet_pair_rg.name
 }
 
 #
