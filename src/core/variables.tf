@@ -400,21 +400,6 @@ variable "pm_ip_filter_range" {
     to   = string
   })
 }
-/* 
-variable "k8s_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
-variable "k8s_ip_filter_range_aks" {
-  description = "AKS IPs range to allow internal APIM usage"
-  type = object({
-    from = string
-    to   = string
-  })
-} */
 
 variable "cstar_support_email" {
   type        = string
