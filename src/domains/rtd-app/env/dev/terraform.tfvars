@@ -59,6 +59,7 @@ enable = {
   alternative_gateway                 = true
   tkm_integration                     = false
   pm_integration                      = true
+  hashed_pans_container               = true
 }
 
 #

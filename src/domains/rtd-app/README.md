@@ -15,12 +15,14 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity | v3.0.0 |
+| <a name="module_rtd_payment_instrument_manager_v2"></a> [rtd\_payment\_instrument\_manager\_v2](#module\_rtd\_payment\_instrument\_manager\_v2) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/azurerm.git//tls_checker | v2.19.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [azurerm_api_management_api_version_set.rtd_payment_instrument_manager](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_named_value.pagopa_platform_api_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_named_value) | resource |
 | [azurerm_data_factory_custom_dataset.binary_destination_dataset](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.binary_source_dataset](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_custom_dataset) | resource |
@@ -40,6 +42,7 @@
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_rtd_jaas_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_a_record) | resource |
+| [azurerm_storage_container.cstar_hashed_pans](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/2.5.1/docs/resources/release) | resource |
 | [kubernetes_config_map.rtd-blob-storage-events-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
 | [kubernetes_config_map.rtd-file-register-projector-consumer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
@@ -70,6 +73,7 @@
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_security](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azurerm_api_management.apim_core](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management) | data source |
+| [azurerm_api_management_product.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/client_config) | data source |
 | [azurerm_cosmosdb_account.cosmos_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/cosmosdb_account) | data source |
@@ -90,7 +94,9 @@
 | [azurerm_resource_group.apim_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.msg_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/resource_group) | data source |
+| [azurerm_resource_group.rg_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/resource_group) | data source |
 | [azurerm_storage_account.blobstorage_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/storage_account) | data source |
+| [azurerm_storage_account.cstarblobstorage](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/storage_account) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/subscription) | data source |
 | [kubernetes_secret.azure_devops_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/data-sources/secret) | data source |
 
@@ -116,7 +122,7 @@
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `"cstar"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    blob_storage_event_grid_integration = bool<br>    internal_api                        = bool<br>    csv_transaction_apis                = bool<br>    ingestor                            = bool<br>    file_register                       = bool<br>    enrolled_payment_instrument         = bool<br>    mongodb_storage                     = bool<br>    file_reporter                       = bool<br>    payment_instrument                  = bool<br>    exporter                            = bool<br>    alternative_gateway                 = bool<br>    tkm_integration                     = bool<br>    pm_integration                      = bool<br>  })</pre> | <pre>{<br>  "alternative_gateway": false,<br>  "blob_storage_event_grid_integration": false,<br>  "csv_transaction_apis": false,<br>  "enrolled_payment_instrument": false,<br>  "exporter": false,<br>  "file_register": false,<br>  "file_reporter": false,<br>  "ingestor": false,<br>  "internal_api": false,<br>  "mongodb_storage": false,<br>  "payment_instrument": false,<br>  "pm_integration": false,<br>  "tkm_integration": false<br>}</pre> | no |
+| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    blob_storage_event_grid_integration = bool<br>    internal_api                        = bool<br>    csv_transaction_apis                = bool<br>    ingestor                            = bool<br>    file_register                       = bool<br>    enrolled_payment_instrument         = bool<br>    mongodb_storage                     = bool<br>    file_reporter                       = bool<br>    payment_instrument                  = bool<br>    exporter                            = bool<br>    alternative_gateway                 = bool<br>    tkm_integration                     = bool<br>    pm_integration                      = bool<br>    hashed_pans_container               = bool<br>  })</pre> | <pre>{<br>  "alternative_gateway": false,<br>  "blob_storage_event_grid_integration": false,<br>  "csv_transaction_apis": false,<br>  "enrolled_payment_instrument": false,<br>  "exporter": false,<br>  "file_register": false,<br>  "file_reporter": false,<br>  "hashed_pans_container": false,<br>  "ingestor": false,<br>  "internal_api": false,<br>  "mongodb_storage": false,<br>  "payment_instrument": false,<br>  "pm_integration": false,<br>  "tkm_integration": false<br>}</pre> | no |
 | <a name="input_enable_hpan_par_pipeline_periodic_trigger"></a> [enable\_hpan\_par\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_par\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan par pipeline | `bool` | `false` | no |
 | <a name="input_enable_hpan_pipeline_periodic_trigger"></a> [enable\_hpan\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan pipeline | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |

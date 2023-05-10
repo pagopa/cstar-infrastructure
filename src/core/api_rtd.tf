@@ -139,63 +139,12 @@ module "rtd_payment_instrument_manager" {
   ]
 }
 
-## v2 ##
-module "rtd_payment_instrument_manager_v2" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  # cause this api relies on new container, enable it when container is enabled
-  count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
-
-  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  description         = ""
-  display_name        = "RTD Payment Instrument Manager API"
-  path                = "rtd/payment-instrument-manager"
-  protocols           = ["https", "http"]
-  service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
-  version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
-  api_version         = "v2"
-
-  depends_on = [module.rtd_payment_instrument_manager]
-
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "get-hash-salt",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
-        pagopa-platform-api-key-name         = "pagopa-platform-apim-api-key-primary"
-      })
-    },
-    {
-      operation_id = "get-hashed-pans",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans-policy-rev2.xml.tpl", {
-        blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
-        blob-storage-account-name     = module.cstarblobstorage.name,
-        blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
-        blob-storage-container-prefix = azurerm_storage_container.cstar_hashed_pans[0].name
-      })
-    },
-  ]
-}
-
 ## v3 ##
 module "rtd_payment_instrument_manager_v3" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   # cause this api relies on new container, enable it when container is enabled
-  count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
+  count = 1
 
   name                = "${var.env_short}-rtd-payment-instrument-manager-api"
   api_management_name = module.apim.name

@@ -222,6 +222,7 @@ variable "enable" {
     alternative_gateway                 = bool
     tkm_integration                     = bool
     pm_integration                      = bool
+    hashed_pans_container               = bool
   })
   description = "Feature flags"
   default = {
@@ -238,6 +239,7 @@ variable "enable" {
     alternative_gateway                 = false
     tkm_integration                     = false
     pm_integration                      = false
+    hashed_pans_container               = false
   }
 }
 
