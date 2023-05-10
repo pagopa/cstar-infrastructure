@@ -1,7 +1,7 @@
 #
 # RTD PRODUCTS
 #
-
+/* 
 module "rtd_api_product" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
@@ -19,7 +19,7 @@ module "rtd_api_product" {
   subscriptions_limit = 50
 
   policy_xml = file("./api_product/rtd_api/policy.xml")
-}
+} */
 
 data "azurerm_api_management_product" "rtd_api_product" {
   product_id          = "rtd-api-product"
@@ -27,7 +27,7 @@ data "azurerm_api_management_product" "rtd_api_product" {
   resource_group_name = azurerm_resource_group.rg_api.name
 }
 
-
+/* 
 module "rtd_api_product_internal" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
@@ -50,6 +50,12 @@ module "rtd_api_product_internal" {
     k8s-cluster-aks-ip-range-from = var.k8s_ip_filter_range_aks.from
     k8s-cluster-aks-ip-range-to   = var.k8s_ip_filter_range_aks.to
   })
+}
+ */
+data "azurerm_api_management_product" "rtd_api_product_internal" {
+  product_id          = "rtd-api-product-internal"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
 }
 
 #
@@ -462,7 +468,7 @@ module "rtd_blob_internal" {
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
 
-  product_ids = [module.rtd_api_product_internal.product_id]
+  product_ids = [data.azurerm_api_management_product.rtd_api_product_internal.product_id]
 
   api_operation_policies = []
 }
@@ -791,7 +797,7 @@ resource "azurerm_api_management_subscription" "rtd_internal" {
   count               = var.enable.rtd.internal_api ? 1 : 0
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  product_id          = module.rtd_api_product_internal.id
+  product_id          = data.azurerm_api_management_product.rtd_api_product_internal.id
   display_name        = "Internal Microservices"
   state               = "active"
   user_id             = azurerm_api_management_user.user_internal[count.index].id

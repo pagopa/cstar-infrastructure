@@ -400,7 +400,7 @@ variable "pm_ip_filter_range" {
     to   = string
   })
 }
-
+/* 
 variable "k8s_ip_filter_range" {
   type = object({
     from = string
@@ -414,7 +414,7 @@ variable "k8s_ip_filter_range_aks" {
     from = string
     to   = string
   })
-}
+} */
 
 variable "cstar_support_email" {
   type        = string
