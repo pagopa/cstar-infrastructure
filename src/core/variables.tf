@@ -1,5 +1,7 @@
 locals {
-  project            = "${var.prefix}-${var.env_short}"
+  project      = "${var.prefix}-${var.env_short}"
+  project_pair = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
+
   aks_network_prefix = local.project
   aks_network_indexs = {
     for n in var.aks_networks :
@@ -56,10 +58,19 @@ variable "env_short" {
   type = string
 }
 
+variable "env" {
+  type = string
+}
+
 #
 # Network
 #
 variable "cidr_vnet" {
+  type        = list(string)
+  description = "Virtual network address space."
+}
+
+variable "cidr_pair_vnet" {
   type        = list(string)
   description = "Virtual network address space."
 }
@@ -119,6 +130,11 @@ variable "cidr_subnet_vpn" {
 }
 
 variable "cidr_subnet_dnsforwarder" {
+  type        = list(string)
+  description = "DNS Forwarder network address space."
+}
+
+variable "cidr_subnet_pair_dnsforwarder" {
   type        = list(string)
   description = "DNS Forwarder network address space."
 }

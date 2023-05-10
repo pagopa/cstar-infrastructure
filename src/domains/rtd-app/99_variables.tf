@@ -208,6 +208,8 @@ variable "enable" {
     payment_instrument                  = bool
     exporter                            = bool
     alternative_gateway                 = bool
+    tkm_integration                     = bool
+    pm_integration                      = bool
   })
   description = "Feature flags"
   default = {
@@ -222,6 +224,8 @@ variable "enable" {
     payment_instrument                  = false
     exporter                            = false
     alternative_gateway                 = false
+    tkm_integration                     = false
+    pm_integration                      = false
   }
 }
 
