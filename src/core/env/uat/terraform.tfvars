@@ -4,6 +4,7 @@ location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "u"
+env                 = "uat"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -44,6 +45,12 @@ cidr_subnet_apim      = ["10.230.7.0/26"]
 cidr_subnet_eventhub  = ["10.230.7.64/26"]
 
 #
+# Pair VNET
+#
+cidr_pair_vnet                = ["10.101.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.101.133.0/29"]
+
+#
 # ⛴ AKS Vnet
 #
 aks_networks = [
@@ -52,6 +59,7 @@ aks_networks = [
     vnet_cidr   = ["10.11.0.0/16"]
   }
 ]
+aks_availability_zones = []
 
 aks_enable_auto_scaling = true
 aks_min_node_count      = 1
