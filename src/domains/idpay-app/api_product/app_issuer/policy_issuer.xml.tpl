@@ -30,10 +30,10 @@
                 </return-response>
             </when>
             <otherwise>
-                <set-variable name="senderCode" value="ISSUER_TEST" />
-                <!--
+            <set-variable name="senderCode" value="ISSUER_TEST" />
+            <!--
                 <send-request mode="new" response-variable-name="senderCode" timeout="60" ignore-error="true">
-                    <set-url>@("http://10.1.0.250/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
+                    <set-url>@("http://${rtd_ingress_ip}/rtdmssenderauth/sender-code?internalId="+(string)context.Variables["keyHash"])</set-url>
                     <set-method>GET</set-method>
                 </send-request>
                 <choose>
@@ -62,8 +62,8 @@
         <choose>
             <!-- If API Management doesn’t find it in the cache, make a request for it and store it -->
             <when condition="@(!context.Variables.ContainsKey("tokenPDV"))">
-                <send-request mode="new" response-variable-name="responsePDV" timeout="5" ignore-error="true">
-                    <set-url>https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1/tokens</set-url>
+                <send-request mode="new" response-variable-name="responsePDV" timeout="${appio_timeout_sec}" ignore-error="true">
+                    <set-url>${pdv_tokenizer_url}/tokens</set-url>
                     <set-method>PUT</set-method>
                     <set-header name="x-api-key" exists-action="override">
                         <value>{{pdv-api-key}}</value>
