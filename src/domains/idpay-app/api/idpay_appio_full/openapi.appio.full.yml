@@ -1453,6 +1453,7 @@ components:
             - INVITED
             - ELIGIBLE
             - SUSPENDED
+            - DEMANDED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
