@@ -281,3 +281,14 @@ configmaps_rtdalternativegateway = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
+
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}

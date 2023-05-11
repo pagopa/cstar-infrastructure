@@ -329,3 +329,19 @@ variable "configmaps_rtdalternativegateway" {
   type    = map(string)
   default = {}
 }
+
+
+variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
+variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
+  type = object({
+    from = string
+    to   = string
+  })
+}
