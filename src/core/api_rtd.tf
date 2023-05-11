@@ -55,12 +55,10 @@ module "api_azureblob" {
 }
 
 ## RTD Payment Instrument Manager API ##
-resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manager" {
+data "azurerm_api_management_api_version_set" "rtd_payment_instrument_manager" {
   name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
-  display_name        = "RTD Payment Instrument Manager API"
-  versioning_scheme   = "Segment"
 }
 
 # v1 #
@@ -76,7 +74,7 @@ module "rtd_payment_instrument_manager" {
   protocols           = ["https", "http"]
   service_url         = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
 
-  version_set_id = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
+  version_set_id = data.azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
@@ -123,7 +121,7 @@ module "rtd_payment_instrument_manager_v3" {
   path                = "rtd/payment-instrument-manager"
   protocols           = ["https", "http"]
   service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
-  version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
+  version_set_id      = data.azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v3"
 
   #depends_on = [module.rtd_payment_instrument_manager]
