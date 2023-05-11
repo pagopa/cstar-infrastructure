@@ -10,11 +10,34 @@
         <choose>
             <!-- If API Management doesn’t find it in the cache, make a request for it and store it -->
             <when condition="@(!context.Variables.ContainsKey("tokenPDV"))">
-                <send-request mode="new" response-variable-name="tokenstate" timeout="5" ignore-error="true">
-                    <!--MOCK-->
-                    <set-url>@("http://10.1.0.250/cstariobackendtest/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
-                    <set-method>GET</set-method>
+                <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
+                    %{ if env_short != "p" ~}
+                      <!--MOCK-->
+                      <set-url>@("http://${reverse_proxy_be_io}/cstariobackendtest/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
+                      <set-method>GET</set-method>
+                    %{ else ~}
+                      <!--AppIO Produzione-->
+                      <set-url>https://api-app.io.pagopa.it/bpd/api/v1/user</set-url>
+                      <set-method>GET</set-method>
+                      <set-header name="Authorization" exists-action="override">
+                          <value>@("Bearer " +(string)context.Variables["token"])</value>
+                      </set-header>
+                    %{ endif ~}
                 </send-request>
+                %{ if env_short == "u" ~}
+                <!-- Call to IO BE as a fallback only for UAT environment -->
+                <choose>
+                    <when condition="@(context.Variables["tokenstate"] == null || ((IResponse)context.Variables["tokenstate"]).StatusCode != 200)">
+                        <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
+                            <set-url>https://api-app.io.pagopa.it/bpd/api/v1/user</set-url>
+                            <set-method>GET</set-method>
+                            <set-header name="Authorization" exists-action="override">
+                                <value>@("Bearer " +(string)context.Variables["token"])</value>
+                            </set-header>
+                        </send-request>
+                    </when>
+                </choose>
+                %{ endif ~}
                 <choose>
                     <when condition="@(context.Variables["tokenstate"] == null)">
                         <return-response>
@@ -48,9 +71,13 @@
                             </when>
                             <otherwise>
                                 <set-variable name="pii" value="@((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>()["fiscal_code"])" />
-                                <retry condition="@((context.Variables["responsePDV"] == null)  || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))" count="3" interval="5" max-interval="15" delta="1" first-fast-retry="false">
-                                    <send-request mode="new" response-variable-name="responsePDV" timeout="15" ignore-error="true">
-                                        <set-url>https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1/tokens</set-url>
+                                <retry condition="@((context.Variables["responsePDV"] == null)  || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))"
+                                       count="${pdv_retry_count}" interval="${pdv_retry_interval}"
+                                       max-interval="${pdv_retry_max_interval}"
+                                       delta="${pdv_retry_delta}"
+                                       first-fast-retry="false">
+                                    <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
+                                        <set-url>${pdv_tokenizer_url}/tokens</set-url>
                                         <set-method>PUT</set-method>
                                         <set-header name="x-api-key" exists-action="override">
                                             <value>{{pdv-api-key}}</value>
