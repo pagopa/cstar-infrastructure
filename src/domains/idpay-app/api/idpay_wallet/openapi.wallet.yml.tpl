@@ -141,6 +141,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InitiativeDTO'
               example:
+                familyId: string
                 initiativeId: string
                 initiativeName: string
                 status: NOT_REFUNDABLE_ONLY_IBAN
@@ -808,6 +809,8 @@ components:
         - endDate
         - nInstr
       properties:
+        familyId:
+          type: string
         initiativeId:
           type: string
         initiativeName:
