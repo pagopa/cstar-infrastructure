@@ -28,4 +28,6 @@ locals {
 
   domain_aks_hostname = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
 
+  appgw_api_hostname    = "api%{if var.env_short == "p"}.%{else}.${var.env}.%{endif}cstar.pagopa.it"
+  appgw_api_io_hostname = "api-io%{if var.env_short == "p"}.%{else}.${var.env}.%{endif}cstar.pagopa.it"
 }
