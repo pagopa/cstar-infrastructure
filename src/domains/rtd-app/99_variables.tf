@@ -359,3 +359,9 @@ variable "k8s_ip_filter_range_aks" {
     to   = string
   })
 }
+
+variable "pm_backend_url" {
+  type        = string
+  description = "Payment manager backend url"
+}
+
