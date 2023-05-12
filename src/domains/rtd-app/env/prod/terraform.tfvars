@@ -265,3 +265,5 @@ k8s_ip_filter_range_aks = {
   from = "10.11.0.1"
   to   = "10.11.127.254"
 }
+
+pm_backend_url = "https://api.platform.pagopa.it"

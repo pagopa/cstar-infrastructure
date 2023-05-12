@@ -564,7 +564,6 @@
 | <a name="module_rtd_fake_abi_to_fiscal_code"></a> [rtd\_fake\_abi\_to\_fiscal\_code](#module\_rtd\_fake\_abi\_to\_fiscal\_code) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_filereporter"></a> [rtd\_filereporter](#module\_rtd\_filereporter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument_manager_v3"></a> [rtd\_payment\_instrument\_manager\_v3](#module\_rtd\_payment\_instrument\_manager\_v3) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument_token_api"></a> [rtd\_payment\_instrument\_token\_api](#module\_rtd\_payment\_instrument\_token\_api) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_sender_api_key_check"></a> [rtd\_sender\_api\_key\_check](#module\_rtd\_sender\_api\_key\_check) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |

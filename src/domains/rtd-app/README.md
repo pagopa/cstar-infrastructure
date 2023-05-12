@@ -19,6 +19,7 @@
 | <a name="module_payment_instruments_interaction"></a> [payment\_instruments\_interaction](#module\_payment\_instruments\_interaction) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.3.1 |
 | <a name="module_rtd_api_product"></a> [rtd\_api\_product](#module\_rtd\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_rtd_api_product_internal"></a> [rtd\_api\_product\_internal](#module\_rtd\_api\_product\_internal) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
+| <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument_manager_v2"></a> [rtd\_payment\_instrument\_manager\_v2](#module\_rtd\_payment\_instrument\_manager\_v2) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/azurerm.git//tls_checker | version-unlocked |
 
@@ -81,6 +82,7 @@
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/client_config) | data source |
 | [azurerm_cosmosdb_account.cosmos_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/cosmosdb_account) | data source |
 | [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/data_factory) | data source |
+| [azurerm_dns_a_record.dns_a_appgw_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/dns_a_record) | data source |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/dns_zone) | data source |
 | [azurerm_eventhub_namespace.event_hub_rtd](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventhub_namespace) | data source |
 | [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
@@ -146,6 +148,7 @@
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_pagopa_platform_url"></a> [pagopa\_platform\_url](#input\_pagopa\_platform\_url) | PagoPA Platform APIM url | `string` | n/a | yes |
+| <a name="input_pm_backend_url"></a> [pm\_backend\_url](#input\_pm\_backend\_url) | Payment manager backend url | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_reverse_proxy_be_io"></a> [reverse\_proxy\_be\_io](#input\_reverse\_proxy\_be\_io) | AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller. | `string` | `"127.0.0.1"` | no |
 | <a name="input_reverse_proxy_ip_old_k8s"></a> [reverse\_proxy\_ip\_old\_k8s](#input\_reverse\_proxy\_ip\_old\_k8s) | AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller. | `string` | `"127.0.0.1"` | no |
