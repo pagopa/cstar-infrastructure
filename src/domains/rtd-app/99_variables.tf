@@ -208,6 +208,7 @@ variable "enable" {
     payment_instrument                  = bool
     exporter                            = bool
     alternative_gateway                 = bool
+    api_payment_instrument              = bool
     tkm_integration                     = bool
     pm_integration                      = bool
   })
@@ -224,6 +225,7 @@ variable "enable" {
     payment_instrument                  = false
     exporter                            = false
     alternative_gateway                 = false
+    api_payment_instrument              = false
     tkm_integration                     = false
     pm_integration                      = false
   }
