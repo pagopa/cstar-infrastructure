@@ -2,47 +2,16 @@
 # RTD PRODUCTS
 #
 
-module "rtd_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
-
-  product_id   = "rtd-api-product"
-  display_name = "RTD_API_Product"
-  description  = "RTD_API_Product"
-
+data "azurerm_api_management_product" "rtd_api_product" {
+  product_id          = "rtd-api-product"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-
-  published             = true
-  subscription_required = true
-  approval_required     = true
-
-  subscriptions_limit = 50
-
-  policy_xml = file("./api_product/rtd_api/policy.xml")
 }
 
-module "rtd_api_product_internal" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.2.0"
-
-  product_id   = "rtd-api-product-internal"
-  display_name = "RTD_API_Product Internal"
-  description  = "RTD_API_Product Internal"
-
+data "azurerm_api_management_product" "rtd_api_product_internal" {
+  product_id          = "rtd-api-product-internal"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-
-  published             = true
-  subscription_required = true
-  approval_required     = true
-
-  subscriptions_limit = 5
-
-  policy_xml = templatefile("./api_product/rtd_api_internal/policy.xml.tpl", {
-    k8s-cluster-ip-range-from     = var.k8s_ip_filter_range.from
-    k8s-cluster-ip-range-to       = var.k8s_ip_filter_range.to
-    k8s-cluster-aks-ip-range-from = var.k8s_ip_filter_range_aks.from
-    k8s-cluster-aks-ip-range-to   = var.k8s_ip_filter_range_aks.to
-  })
 }
 
 #
@@ -51,7 +20,7 @@ module "rtd_api_product_internal" {
 
 ## azureblob ##
 module "api_azureblob" {
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-azureblob", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -65,13 +34,13 @@ module "api_azureblob" {
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/openapi.json.tpl", {
-    host                = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host                = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
     pgp-put-limit-bytes = var.pgp_put_limit_bytes
   })
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -86,116 +55,19 @@ module "api_azureblob" {
 }
 
 ## RTD Payment Instrument Manager API ##
-resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manager" {
+data "azurerm_api_management_api_version_set" "rtd_payment_instrument_manager" {
   name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
   resource_group_name = azurerm_resource_group.rg_api.name
   api_management_name = module.apim.name
-  display_name        = "RTD Payment Instrument Manager API"
-  versioning_scheme   = "Segment"
 }
 
-# v1 #
-module "rtd_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  description         = ""
-  display_name        = "RTD Payment Instrument Manager API"
-  path                = "rtd/payment-instrument-manager"
-  protocols           = ["https", "http"]
-  service_url         = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip)
-
-  version_set_id = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
-
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "get-hash-salt",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
-        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[0].display_name
-      })
-    },
-    {
-      operation_id = "get-hashed-pans",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans-policy.xml.tpl", {
-        # as-is due an application error in prod -->  to-be
-        # host = var.env_short == "p" ? "prod.cstar.pagopa.it" : trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-        host = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-      })
-    },
-  ]
-}
-
-## v2 ##
-module "rtd_payment_instrument_manager_v2" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
-
-  # cause this api relies on new container, enable it when container is enabled
-  count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
-
-  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-  description         = ""
-  display_name        = "RTD Payment Instrument Manager API"
-  path                = "rtd/payment-instrument-manager"
-  protocols           = ["https", "http"]
-  service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
-  version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
-  api_version         = "v2"
-
-  depends_on = [module.rtd_payment_instrument_manager]
-
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "get-hash-salt",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
-        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
-      })
-    },
-    {
-      operation_id = "get-hashed-pans",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans-policy-rev2.xml.tpl", {
-        blob-storage-access-key       = module.cstarblobstorage.primary_access_key,
-        blob-storage-account-name     = module.cstarblobstorage.name,
-        blob-storage-private-fqdn     = azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
-        blob-storage-container-prefix = azurerm_storage_container.cstar_hashed_pans[0].name
-      })
-    },
-  ]
-}
 
 ## v3 ##
 module "rtd_payment_instrument_manager_v3" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   # cause this api relies on new container, enable it when container is enabled
-  count = length(azurerm_storage_container.cstar_hashed_pans) > 0 ? 1 : 0
+  count = 1
 
   name                = "${var.env_short}-rtd-payment-instrument-manager-api"
   api_management_name = module.apim.name
@@ -205,18 +77,18 @@ module "rtd_payment_instrument_manager_v3" {
   path                = "rtd/payment-instrument-manager"
   protocols           = ["https", "http"]
   service_url         = "http://${var.reverse_proxy_ip}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
-  version_set_id      = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
+  version_set_id      = data.azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
   api_version         = "v3"
 
   #depends_on = [module.rtd_payment_instrument_manager]
 
   content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -226,7 +98,7 @@ module "rtd_payment_instrument_manager_v3" {
         pm-backend-url                       = var.pm_backend_url,
         rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
         mock_response                        = false
-        pagopa-platform-api-key-name         = azurerm_api_management_named_value.pagopa_platform_api_key[count.index].display_name
+        pagopa-platform-api-key-name         = "pagopa-platform-apim-api-key-primary"
       })
     },
     {
@@ -264,7 +136,7 @@ resource "azurerm_api_management_named_value" "pagopa_platform_api_primary_key_t
 
 module "rtd_payment_instrument_token_api" {
   count  = var.enable.rtd.tkm_integration ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-payment-instrument-manager-token-api", var.env_short)
   api_management_name = module.apim.name
@@ -279,12 +151,12 @@ module "rtd_payment_instrument_token_api" {
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_payment_instrument_token/openapi.yml", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -326,7 +198,7 @@ module "rtd_payment_instrument_token_api" {
 
 ## RTD CSV Transaction API ##
 module "rtd_csv_transaction" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.1.13"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   count               = var.enable.rtd.csv_transaction_apis ? 1 : 0
   name                = format("%s-rtd-csv-transaction-api", var.env_short)
@@ -342,12 +214,12 @@ module "rtd_csv_transaction" {
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -432,7 +304,7 @@ resource "azurerm_api_management_api_diagnostic" "blob_storage_api_diagnostic" {
 ## RTD CSV Transaction Decrypted API ##
 module "rtd_blob_internal" {
   count  = var.enable.rtd.internal_api ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-blob-internal", var.env_short)
   api_management_name = module.apim.name
@@ -447,7 +319,7 @@ module "rtd_blob_internal" {
 
   content_format = "openapi"
   content_value = templatefile("./api/azureblob/internal.openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name,
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name,
 
   })
 
@@ -455,7 +327,7 @@ module "rtd_blob_internal" {
 
   xml_content = file("./api/azureblob/azureblob_policy.xml")
 
-  product_ids = [module.rtd_api_product_internal.product_id]
+  product_ids = [data.azurerm_api_management_product.rtd_api_product_internal.product_id]
 
   api_operation_policies = []
 }
@@ -463,7 +335,7 @@ module "rtd_blob_internal" {
 module "rtd_fake_abi_to_fiscal_code" {
   count = var.enable.tae.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = "${var.env_short}-rtd-fake-abi-to-fiscal-code"
   api_management_name = module.apim.name
@@ -483,7 +355,7 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml.tpl", {})
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -492,7 +364,7 @@ module "rtd_fake_abi_to_fiscal_code" {
 module "rtd_senderadeack_filename_list" {
   count = var.enable.tae.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-senderack-filename-list", var.env_short)
   api_management_name = module.apim.name
@@ -516,7 +388,7 @@ module "rtd_senderadeack_filename_list" {
     rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -524,7 +396,7 @@ module "rtd_senderadeack_filename_list" {
 
 module "rtd_senderack_correct_download_ack" {
   count  = var.enable.tae.api ? 1 : 0
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.3"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-senderack-explicit-ack", var.env_short)
   api_management_name = module.apim.name
@@ -548,7 +420,7 @@ module "rtd_senderack_correct_download_ack" {
     rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
-  product_ids = [module.rtd_api_product.product_id]
+  product_ids = [data.azurerm_api_management_product.rtd_api_product.product_id]
 
   api_operation_policies = []
 }
@@ -557,7 +429,7 @@ module "rtd_sender_mauth_check" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-sender-mauth-check", var.env_short)
   api_management_name = module.apim.name
@@ -577,7 +449,7 @@ module "rtd_sender_mauth_check" {
 
   xml_content = file("./api/rtd_sender_mauth_check/policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = false
 
   api_operation_policies = []
@@ -587,7 +459,7 @@ module "rtd_sender_api_key_check" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-sender-api-key-check", var.env_short)
   api_management_name = module.apim.name
@@ -607,7 +479,7 @@ module "rtd_sender_api_key_check" {
 
   xml_content = file("./api/rtd_sender_api_key_check/policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -617,7 +489,7 @@ module "rtd_deposited_file_check" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-deposited-file-check", var.env_short)
   api_management_name = module.apim.name
@@ -637,7 +509,7 @@ module "rtd_deposited_file_check" {
 
   xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -647,7 +519,7 @@ module "rtd_deposit_ade_ack" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.4"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-deposit-ade-ack", var.env_short)
   api_management_name = module.apim.name
@@ -669,7 +541,7 @@ module "rtd_deposit_ade_ack" {
 
   xml_content = file("./api/rtd_deposit_ade_ack/azureblob_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -679,7 +551,7 @@ module "rtd_sender_auth_put_api_key" {
 
   count = var.enable.rtd.sender_auth ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.7"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-sender-auth-put", var.env_short)
   api_management_name = module.apim.name
@@ -698,7 +570,7 @@ module "rtd_sender_auth_put_api_key" {
 
   xml_content = file("./api/rtd_sender_auth_put/policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
@@ -707,7 +579,7 @@ module "rtd_sender_auth_put_api_key" {
 module "rtd_filereporter" {
   count = var.enable.rtd.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-rtd-filereporter", var.env_short)
   api_management_name = module.apim.name
@@ -729,7 +601,7 @@ module "rtd_filereporter" {
     host = "https://httpbin.org"
   })
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -784,11 +656,11 @@ resource "azurerm_api_management_subscription" "rtd_internal" {
   count               = var.enable.rtd.internal_api ? 1 : 0
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
-  product_id          = module.rtd_api_product_internal.id
+  product_id          = data.azurerm_api_management_product.rtd_api_product_internal.id
   display_name        = "Internal Microservices"
   state               = "active"
   user_id             = azurerm_api_management_user.user_internal[count.index].id
-  allow_tracing       = var.env_short == "d" ? true : false
+  allow_tracing       = false
   primary_key         = random_password.rtd_internal_sub_key[count.index].result
 }
 

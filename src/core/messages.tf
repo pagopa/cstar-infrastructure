@@ -7,15 +7,16 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v4.13.2"
-  name                     = format("%s-evh-ns", local.project)
-  location                 = var.location
-  resource_group_name      = azurerm_resource_group.msg_rg.name
-  auto_inflate_enabled     = var.ehns_auto_inflate_enabled
-  sku                      = var.ehns_sku_name
-  capacity                 = var.ehns_capacity
-  maximum_throughput_units = var.ehns_maximum_throughput_units
-  zone_redundant           = var.ehns_zone_redundant
+  source                        = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.2.1"
+  name                          = format("%s-evh-ns", local.project)
+  location                      = var.location
+  resource_group_name           = azurerm_resource_group.msg_rg.name
+  auto_inflate_enabled          = var.ehns_auto_inflate_enabled
+  sku                           = var.ehns_sku_name
+  capacity                      = var.ehns_capacity
+  maximum_throughput_units      = var.ehns_maximum_throughput_units
+  zone_redundant                = var.ehns_zone_redundant
+  public_network_access_enabled = true
 
   virtual_network_ids = [module.vnet_integration.id, module.vnet.id]
   subnet_id           = module.eventhub_snet.id
@@ -108,17 +109,18 @@ resource "azurerm_key_vault_secret" "event_hub_keys" {
 }
 
 module "event_hub_fa_01" {
-  source = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v1.0.70"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.2.1"
 
 
-  name                     = format("%s-evh-ns-fa-01", local.project)
-  location                 = var.location
-  resource_group_name      = azurerm_resource_group.msg_rg.name
-  auto_inflate_enabled     = var.ehns_auto_inflate_enabled
-  sku                      = var.ehns_sku_name
-  capacity                 = var.ehns_capacity
-  maximum_throughput_units = var.ehns_maximum_throughput_units
-  zone_redundant           = var.ehns_zone_redundant
+  name                          = format("%s-evh-ns-fa-01", local.project)
+  location                      = var.location
+  resource_group_name           = azurerm_resource_group.msg_rg.name
+  auto_inflate_enabled          = var.ehns_auto_inflate_enabled
+  sku                           = var.ehns_sku_name
+  capacity                      = var.ehns_capacity
+  maximum_throughput_units      = var.ehns_maximum_throughput_units
+  zone_redundant                = var.ehns_zone_redundant
+  public_network_access_enabled = true
 
   virtual_network_ids = [
     module.vnet_integration.id, module.vnet.id
