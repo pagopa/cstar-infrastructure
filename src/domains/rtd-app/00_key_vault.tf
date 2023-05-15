@@ -3,6 +3,11 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = "${local.product}-${var.domain}-sec-rg"
 }
 
+# old cstar-kv
+data "azurerm_key_vault" "key_vault" {
+  name                = "${local.product}-kv"
+  resource_group_name = "${local.product}-sec-rg"
+}
 
 resource "azurerm_key_vault_access_policy" "apim" {
   key_vault_id = data.azurerm_key_vault.kv.id
@@ -16,4 +21,9 @@ resource "azurerm_key_vault_access_policy" "apim" {
   secret_permissions = [
     "Get",
   ]
+}
+
+data "azurerm_key_vault_secret" "rtd_pm_client-certificate-thumbprint" {
+  name         = "RTD-PM-client-certificate-thumbprint"
+  key_vault_id = data.azurerm_key_vault.key_vault.id
 }

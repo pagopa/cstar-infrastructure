@@ -1,5 +1,7 @@
 locals {
-  project            = "${var.prefix}-${var.env_short}"
+  project      = "${var.prefix}-${var.env_short}"
+  project_pair = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
+
   aks_network_prefix = local.project
   aks_network_indexs = {
     for n in var.aks_networks :
@@ -56,10 +58,19 @@ variable "env_short" {
   type = string
 }
 
+variable "env" {
+  type = string
+}
+
 #
 # Network
 #
 variable "cidr_vnet" {
+  type        = list(string)
+  description = "Virtual network address space."
+}
+
+variable "cidr_pair_vnet" {
   type        = list(string)
   description = "Virtual network address space."
 }
@@ -119,6 +130,11 @@ variable "cidr_subnet_vpn" {
 }
 
 variable "cidr_subnet_dnsforwarder" {
+  type        = list(string)
+  description = "DNS Forwarder network address space."
+}
+
+variable "cidr_subnet_pair_dnsforwarder" {
   type        = list(string)
   description = "DNS Forwarder network address space."
 }
@@ -379,21 +395,6 @@ variable "pm_timeout_sec" {
 }
 
 variable "pm_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
-variable "k8s_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
-variable "k8s_ip_filter_range_aks" {
-  description = "AKS IPs range to allow internal APIM usage"
   type = object({
     from = string
     to   = string
@@ -920,6 +921,6 @@ variable "batch_service_last_supported_version" {
 }
 
 variable "cstarblobstorage_account_replication_type" {
-  type = string
+  type        = string
   description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
 }
