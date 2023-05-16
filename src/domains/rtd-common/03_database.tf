@@ -42,6 +42,7 @@ module "cosmosdb_account_mongodb" {
   tags = var.tags
 }
 
+# Create connection string secret to cstar kv
 resource "azurerm_key_vault_secret" "cstar_kv_mongo_db_connection_uri" {
   name         = "mongo-db-connection-uri"
   value        = module.cosmosdb_account_mongodb.connection_strings[0]
@@ -49,3 +50,10 @@ resource "azurerm_key_vault_secret" "cstar_kv_mongo_db_connection_uri" {
   content_type = ""
 }
 
+# Create connection string secret to domain kv
+resource "azurerm_key_vault_secret" "mongo_db_connection_uri" {
+  key_vault_id = module.key_vault_domain.id
+  name         = azurerm_key_vault_secret.cstar_kv_mongo_db_connection_uri.name
+  value        = azurerm_key_vault_secret.cstar_kv_mongo_db_connection_uri.value
+  content_type = azurerm_key_vault_secret.cstar_kv_mongo_db_connection_uri.content_type
+}

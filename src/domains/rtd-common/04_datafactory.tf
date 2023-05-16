@@ -65,9 +65,10 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   for_each = tomap(
     {
       (data.azurerm_storage_account.blobstorage_account.id) = "blob",
-      (data.azurerm_cosmosdb_account.cosmosdb_account.id)   = "MongoDB"
+      (module.cosmosdb_account_mongodb.id)                  = "MongoDB"
     }
   )
+
   name               = replace(format("%s-%s-mng-private-endpoint", azurerm_data_factory.data_factory.name, substr(sha256(each.key), 0, 3)), "-", "_")
   data_factory_id    = azurerm_data_factory.data_factory.id
   target_resource_id = each.key
