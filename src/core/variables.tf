@@ -1,3 +1,35 @@
+locals {
+  project      = "${var.prefix}-${var.env_short}"
+  project_pair = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
+
+  aks_network_prefix = local.project
+  aks_network_indexs = {
+    for n in var.aks_networks :
+    index(var.aks_networks.*.domain_name, n.domain_name) => n
+  }
+
+  #
+  # Platform
+  #
+  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "${local.project}-common-acr"
+
+  #
+  # IdPay
+  #
+  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
+  idpay_keyvault_name    = "${local.project}-idpay-kv"
+
+  #
+  # RTD
+  #
+  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
+  rtd_keyvault_name    = "${local.project}-rtd-kv"
+
+  # Temporary fallback to old ingress over non-dev environments
+  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+}
+
 variable "location" {
   type        = string
   description = "Primary location region (e.g. westeurope)"
@@ -26,10 +58,19 @@ variable "env_short" {
   type = string
 }
 
+variable "env" {
+  type = string
+}
+
 #
 # Network
 #
 variable "cidr_vnet" {
+  type        = list(string)
+  description = "Virtual network address space."
+}
+
+variable "cidr_pair_vnet" {
   type        = list(string)
   description = "Virtual network address space."
 }
@@ -89,6 +130,11 @@ variable "cidr_subnet_vpn" {
 }
 
 variable "cidr_subnet_dnsforwarder" {
+  type        = list(string)
+  description = "DNS Forwarder network address space."
+}
+
+variable "cidr_subnet_pair_dnsforwarder" {
   type        = list(string)
   description = "DNS Forwarder network address space."
 }
@@ -349,21 +395,6 @@ variable "pm_timeout_sec" {
 }
 
 variable "pm_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
-variable "k8s_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
-variable "k8s_ip_filter_range_aks" {
-  description = "AKS IPs range to allow internal APIM usage"
   type = object({
     from = string
     to   = string
@@ -889,32 +920,7 @@ variable "batch_service_last_supported_version" {
   default     = "0.0.1"
 }
 
-locals {
-  project            = "${var.prefix}-${var.env_short}"
-  aks_network_prefix = local.project
-  aks_network_indexs = {
-    for n in var.aks_networks :
-    index(var.aks_networks.*.domain_name, n.domain_name) => n
-  }
-
-  #
-  # Platform
-  #
-  rg_container_registry_common_name = "${local.project}-container-registry-rg"
-  container_registry_common_name    = "${local.project}-common-acr"
-
-  #
-  # IdPay
-  #
-  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
-  idpay_keyvault_name    = "${local.project}-idpay-kv"
-
-  #
-  # RTD
-  #
-  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
-  rtd_keyvault_name    = "${local.project}-rtd-kv"
-
-  # Temporary fallback to old ingress over non-dev environments
-  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+variable "cstarblobstorage_account_replication_type" {
+  type        = string
+  description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
 }

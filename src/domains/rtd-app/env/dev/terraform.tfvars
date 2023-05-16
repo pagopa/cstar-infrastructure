@@ -29,12 +29,18 @@ aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "dev01.rtd.internal.dev.cstar.pagopa.it"
 reverse_proxy_be_io            = "10.1.0.250"
+reverse_proxy_ip_old_k8s       = "10.1.0.250"
 
 #
 # Dns
 #
 external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.dev.cstar"
+
+#
+# External references
+#
+pagopa_platform_url = "https://api.dev.platform.pagopa.it"
 
 #
 # Features flags
@@ -51,14 +57,17 @@ enable = {
   payment_instrument                  = true
   exporter                            = true
   alternative_gateway                 = true
+  api_payment_instrument              = true
+  tkm_integration                     = false
+  pm_integration                      = true
+  hashed_pans_container               = true
 }
 
 #
 # Hashpan generation pipeline related variables
 #
 hpan_blob_storage_container_name = {
-  hpan     = "cstar-hashed-pans"
-  hpan_par = "cstar-hashed-pans-par"
+  hpan = "cstar-hashed-pans"
 }
 enable_hpan_pipeline_periodic_trigger     = false
 enable_hpan_par_pipeline_periodic_trigger = false
@@ -279,3 +288,17 @@ configmaps_rtdalternativegateway = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
+
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}
+
+pm_backend_url = "https://api.dev.platform.pagopa.it"
+

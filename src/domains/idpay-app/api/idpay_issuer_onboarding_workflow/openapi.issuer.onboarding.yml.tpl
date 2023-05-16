@@ -402,7 +402,7 @@ components:
             - ONBOARDING_KO
             - ONBOARDING_OK
             - UNSUBSCRIBED
-            - ELIGIBILE_KO
+            - ELIGIBLE_KO
             - INVITED
           type: string
           description: actual status of the citizen onboarding for an initiative

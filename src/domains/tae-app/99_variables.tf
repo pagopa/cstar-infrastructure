@@ -133,7 +133,6 @@ variable "ack_ingestor_conf" {
     enable                       = bool
     sink_thoughput_cap           = number
     sink_write_throughput_budget = number
-    status_2_condition           = string
   })
   default = {
     interval                     = 15
@@ -141,7 +140,6 @@ variable "ack_ingestor_conf" {
     enable                       = false
     sink_thoughput_cap           = 500
     sink_write_throughput_budget = 1000
-    status_2_condition           = "notEquals(status, 2))"
   }
 }
 

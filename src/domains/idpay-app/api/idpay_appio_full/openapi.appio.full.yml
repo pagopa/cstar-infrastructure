@@ -173,7 +173,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InitiativeInfoDTO"
+                $ref: "#/components/schemas/InitiativeDataDTO"
         "400":
           description: Bad request
           content:
@@ -725,6 +725,51 @@ paths:
               example:
                 code: 0
                 message: string
+  "/wallet/{initiativeId}/detail":
+    get:
+      tags:
+        - wallet
+      summary: Returns the detail of an initiative
+      operationId: getInitiativeBeneficiaryDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDetailDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   "/wallet/{initiativeId}":
     get:
       tags:
@@ -1402,11 +1447,13 @@ components:
             - ACCEPTED_TC
             - ON_EVALUATION
             - ONBOARDING_KO
-            - ELIGIBILE_KO
+            - ELIGIBLE_KO
             - ONBOARDING_OK
             - UNSUBSCRIBED
             - INVITED
             - ELIGIBLE
+            - SUSPENDED
+            - DEMANDED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
@@ -1439,6 +1486,10 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - ISEE
+            - BIRTHDATE
+            - RESIDENCE
         description:
           type: string
         value:
@@ -1454,8 +1505,20 @@ components:
         operator:
           type: string
           description: Represents the relation between the criteria and the value field
+          enum:
+            - EQ
+            - NOT_EQ
+            - LT
+            - LE
+            - GT
+            - GE
+            - BTW_CLOSED
+            - BTW_OPEN
         authority:
           type: string
+          enum:
+            - INPS
+            - AGID
     SelfDeclarationBoolDTO:
       type: object
       required:
@@ -1524,14 +1587,32 @@ components:
           type: string
         value:
           type: string
-    InitiativeInfoDTO:
+    InitiativeDataDTO:
       type: object
       required:
         - initiativeId
+        - initiativeName
+        - description
+        - organizationId
+        - organizationName
+        - tcLink
+        - privacyLink
       properties:
         initiativeId:
           type: string
+        initiativeName:
+          type: string
         description:
+          type: string
+        organizationId:
+          type: string
+        organizationName:
+          type: string
+        tcLink:
+          type: string
+        privacyLink:
+          type: string
+        logoURL:
           type: string
     OperationDTO:
       oneOf:
@@ -1539,7 +1620,9 @@ components:
         - $ref: '#/components/schemas/InstrumentOperationDTO'
         - $ref: '#/components/schemas/IbanOperationDTO'
         - $ref: '#/components/schemas/OnboardingOperationDTO'
-        - $ref: '#/components/schemas/RefundOperationDTO'
+        - $ref: '#/components/schemas/RefundDetailDTO'
+        - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -1580,6 +1663,8 @@ components:
         - $ref: "#/components/schemas/IbanOperationDTO"
         - $ref: "#/components/schemas/OnboardingOperationDTO"
         - $ref: "#/components/schemas/RefundOperationDTO"
+        - $ref: '#/components/schemas/SuspendOperationDTO'
+        - $ref: '#/components/schemas/ReadmittedOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -1625,6 +1710,7 @@ components:
         - circuitType
         - idTrxIssuer
         - idTrxAcquirer
+        - status
       properties:
         operationId:
           type: string
@@ -1655,6 +1741,8 @@ components:
         idTrxIssuer:
           type: string
         idTrxAcquirer:
+          type: string
+        status:
           type: string
     InstrumentOperationDTO:
       type: object
@@ -1728,6 +1816,46 @@ components:
       required:
         - operationId
         - operationType
+        - eventId
+        - operationDate
+        - amount
+      properties:
+        operationId:
+          type: string
+        eventId:
+          type: string
+        operationType:
+          enum:
+            - PAID_REFUND
+            - REJECTED_REFUND
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+        amount:
+          type: number
+    SuspendOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - SUSPENDED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
+    RefundDetailDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - eventId
         - operationDate
         - amount
       properties:
@@ -1738,11 +1866,49 @@ components:
             - PAID_REFUND
             - REJECTED_REFUND
           type: string
+        eventId:
+          type: string
+        iban:
+          type: string
         operationDate:
           type: string
-          format: date
+          format: date-time
         amount:
           type: number
+        status:
+          type: string
+        refundType:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        transferDate:
+          type: string
+          format: date
+        userNotificationDate:
+          type: string
+          format: date
+        cro:
+          type: string
+    ReadmittedOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+        operationType:
+          enum:
+            - READMITTED
+          type: string
+        operationDate:
+          type: string
+          format: date-time
     TransactionOperationDTO:
       type: object
       required:
@@ -1755,6 +1921,7 @@ components:
         - amount
         - accrued
         - circuitType
+        - status
       properties:
         operationId:
           type: string
@@ -1782,6 +1949,8 @@ components:
             00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
             05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
             09->Satispay, 10->PrivateCircuit
+        status:
+          type: string
     IbanPutDTO:
       title: IbanPutDTO
       type: object
@@ -1808,6 +1977,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
           description: actual status of the citizen wallet for an initiative
     WalletDTO:
@@ -1883,6 +2053,7 @@ components:
             - REFUNDABLE
             - NOT_REFUNDABLE
             - UNSUBSCRIBED
+            - SUSPENDED
           type: string
         endDate:
           type: string
@@ -1901,6 +2072,15 @@ components:
         nInstr:
           type: integer
           format: int32
+        initiativeRewardType:
+          enum:
+            - DISCOUNT
+            - REFUND
+          type: string
+        logoURL:
+          type: string
+        organizationName:
+          type: string
     InitiativesWithInstrumentDTO:
       type: object
       required:
@@ -1940,7 +2120,6 @@ components:
             - INACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
-            - ENROLLMENT_FAILED
     PrerequisitesErrorDTO:
       type: object
       required:
@@ -1961,6 +2140,91 @@ components:
             - BUDGET_TERMINATED
             - INITIATIVE_SUSPENDED
             - GENERIC_ERROR
+    InitiativeDetailDTO:
+      type: object
+      properties:
+        initiativeName:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+        ruleDescription:
+          type: string
+        endDate:
+          type: string
+          format: date
+        rankingStartDate:
+          type: string
+          format: date
+        rankingEndDate:
+          type: string
+          format: date
+        rewardRule:
+          $ref: '#/components/schemas/RewardValueDTO'
+        refundRule:
+          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        privacyLink:
+          type: string
+        tcLink:
+          type: string
+        logoURL:
+          type: string
+        updateDate:
+          type: string
+          format: date-time
+    InitiativeRefundRuleDTO:
+      type: object
+      properties:
+        accumulatedAmount:
+          $ref: '#/components/schemas/AccumulatedAmountDTO'
+        timeParameter:
+          $ref: '#/components/schemas/TimeParameterDTO'
+    AccumulatedAmountDTO:
+      required:
+        - accumulatedType
+      type: object
+      properties:
+        accumulatedType:
+          type: string
+          enum:
+            - BUDGET_EXHAUSTED
+            - THRESHOLD_REACHED
+        refundThreshold:
+          type: number
+    TimeParameterDTO:
+      required:
+        - timeType
+      type: object
+      properties:
+        timeType:
+          type: string
+          enum:
+            - CLOSED
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - QUARTERLY
+    RewardValueDTO:
+      required:
+        - rewardValueType
+        - rewardValue
+      type: object
+      properties:
+        rewardValueType:
+          type: string
+          enum:
+            - PERCENTAGE
+            - ABSOLUTE
+        rewardValue:
+          type: number
+    RefundAdditionalInfoDTO:
+      required:
+        - identificationCode
+      type: object
+      properties:
+        identificationCode:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

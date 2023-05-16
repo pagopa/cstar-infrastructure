@@ -312,3 +312,15 @@ variable "p7m_cert_validity_hours" {
   default = 87600 # 10 year
 
 }
+
+variable "idpay_mocked_merchant_enable" {
+  type        = bool
+  description = "Enable mocked merchant APIs"
+  default     = false
+}
+
+variable "idpay_mocked_acquirer_apim_user_id" {
+  type        = string
+  description = "APIm user id of mocked acquirer"
+  default     = null
+}

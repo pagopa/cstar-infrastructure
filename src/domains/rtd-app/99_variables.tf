@@ -142,11 +142,22 @@ variable "reverse_proxy_be_io" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "reverse_proxy_ip_old_k8s" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+
+# External references
+variable "pagopa_platform_url" {
+  type        = string
+  description = "PagoPA Platform APIM url"
+}
+
 # Hashpan generation pipeline related variables
 variable "hpan_blob_storage_container_name" {
   type = object({
-    hpan     = string
-    hpan_par = string
+    hpan = string
   })
   default     = null
   description = "The container name where hashpan file will be created by pipeline"
@@ -209,6 +220,10 @@ variable "enable" {
     payment_instrument                  = bool
     exporter                            = bool
     alternative_gateway                 = bool
+    api_payment_instrument              = bool
+    tkm_integration                     = bool
+    pm_integration                      = bool
+    hashed_pans_container               = bool
   })
   description = "Feature flags"
   default = {
@@ -223,6 +238,10 @@ variable "enable" {
     payment_instrument                  = false
     exporter                            = false
     alternative_gateway                 = false
+    api_payment_instrument              = false
+    tkm_integration                     = false
+    pm_integration                      = false
+    hashed_pans_container               = false
   }
 }
 
@@ -324,3 +343,25 @@ variable "configmaps_rtdalternativegateway" {
   type    = map(string)
   default = {}
 }
+
+
+variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
+variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
+variable "pm_backend_url" {
+  type        = string
+  description = "Payment manager backend url"
+}
+

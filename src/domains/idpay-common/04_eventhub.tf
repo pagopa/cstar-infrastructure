@@ -36,8 +36,11 @@ module "event_hub_idpay_00" {
   maximum_throughput_units = var.ehns_maximum_throughput_units
   zone_redundant           = var.ehns_zone_redundant
 
-  virtual_network_ids = [data.azurerm_virtual_network.vnet_integration.id, data.azurerm_virtual_network.vnet.id]
-  subnet_id           = data.azurerm_subnet.eventhub_snet.id
+  virtual_network_ids = [
+    data.azurerm_virtual_network.vnet_integration.id,
+    data.azurerm_virtual_network.vnet.id
+  ]
+  subnet_id = data.azurerm_subnet.eventhub_snet.id
 
   eventhubs = var.eventhubs_idpay_00
 
@@ -62,6 +65,29 @@ module "event_hub_idpay_00" {
   ]
 
   tags = var.tags
+}
+
+resource "azurerm_private_endpoint" "event_hub_idpay_00_private_endpoint" {
+  # disabled in PROD
+  count               = var.enable.idpay.eventhub_idpay_00 && var.env_short != "p" ? 1 : 0
+  name                = format("%s-evh-00-private-endpoint", local.project)
+  location            = var.location
+  resource_group_name = local.vnet_core_resource_group_name
+  subnet_id           = data.azurerm_subnet.private_endpoint_snet.id
+
+  private_dns_zone_group {
+    name = data.azurerm_private_dns_zone.ehub.name
+    private_dns_zone_ids = [
+      data.azurerm_private_dns_zone.ehub.id
+    ]
+  }
+
+  private_service_connection {
+    name                           = format("%s-evh-00-private-service-connection", local.project)
+    is_manual_connection           = false
+    private_connection_resource_id = module.event_hub_idpay_00[count.index].namespace_id
+    subresource_names              = ["namespace"]
+  }
 }
 
 #tfsec:ignore:AZU023
@@ -89,8 +115,11 @@ module "event_hub_idpay_01" {
   maximum_throughput_units = var.ehns_maximum_throughput_units
   zone_redundant           = var.ehns_zone_redundant
 
-  virtual_network_ids = [data.azurerm_virtual_network.vnet_integration.id, data.azurerm_virtual_network.vnet.id]
-  subnet_id           = data.azurerm_subnet.eventhub_snet.id
+  virtual_network_ids = [
+    data.azurerm_virtual_network.vnet_integration.id,
+    data.azurerm_virtual_network.vnet.id
+  ]
+  subnet_id = data.azurerm_subnet.eventhub_snet.id
 
   eventhubs = var.eventhubs_idpay_01
 
@@ -115,6 +144,29 @@ module "event_hub_idpay_01" {
   ]
 
   tags = var.tags
+}
+
+resource "azurerm_private_endpoint" "event_hub_idpay_01_private_endpoint" {
+  # disabled in PROD
+  count               = var.enable.idpay.eventhub_idpay_00 && var.env_short != "p" ? 1 : 0
+  name                = format("%s-evh-01-private-endpoint", local.project)
+  location            = var.location
+  resource_group_name = local.vnet_core_resource_group_name
+  subnet_id           = data.azurerm_subnet.private_endpoint_snet.id
+
+  private_dns_zone_group {
+    name = data.azurerm_private_dns_zone.ehub.name
+    private_dns_zone_ids = [
+      data.azurerm_private_dns_zone.ehub.id
+    ]
+  }
+
+  private_service_connection {
+    name                           = format("%s-evh-01-private-service-connection", local.project)
+    is_manual_connection           = false
+    private_connection_resource_id = module.event_hub_idpay_01[count.index].namespace_id
+    subresource_names              = ["namespace"]
+  }
 }
 
 #tfsec:ignore:AZU023

@@ -12,7 +12,7 @@ module "vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
 
   name                 = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
   location             = var.location
@@ -46,6 +46,8 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
   sku                 = "Standard"
   allocation_method   = "Static"
 
+  zones = [1, 2, 3]
+
   tags = var.tags
 }
 
@@ -54,7 +56,7 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
 #
 
 module "vnet_peering_core_2_aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
@@ -72,7 +74,7 @@ module "vnet_peering_core_2_aks" {
 }
 
 module "vnet_integration_peering_2_aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
@@ -87,6 +89,27 @@ module "vnet_integration_peering_2_aks" {
   target_virtual_network_name      = module.vnet_aks[each.key].name
   target_remote_virtual_network_id = module.vnet_aks[each.key].id
   target_use_remote_gateways       = false # needed by vpn gateway for enabling routing from vnet to vnet_integration
+}
+
+module "peering_vnet_pair_vs_aks" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.3.1"
+
+  for_each = { for n in var.aks_networks : n.domain_name => n }
+
+  location = var.location
+
+  source_resource_group_name       = azurerm_resource_group.rg_pair_vnet.name
+  source_virtual_network_name      = module.vnet_pair.name
+  source_remote_virtual_network_id = module.vnet_pair.id
+  source_allow_gateway_transit     = true # needed by vpn gateway for enabling routing from vnet to vnet_integration
+  source_allow_forwarded_traffic   = true
+
+  target_resource_group_name       = azurerm_resource_group.rg_vnet_aks[each.key].name
+  target_virtual_network_name      = module.vnet_aks[each.key].name
+  target_remote_virtual_network_id = module.vnet_aks[each.key].id
+  target_use_remote_gateways       = false # needed by vpn gateway for enabling routing from vnet to vnet_integration
+  target_allow_forwarded_traffic   = true
+
 }
 
 #
