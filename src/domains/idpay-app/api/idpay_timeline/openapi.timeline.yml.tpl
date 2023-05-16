@@ -251,6 +251,7 @@ components:
         - circuitType
         - idTrxIssuer
         - idTrxAcquirer
+        - status
       properties:
         operationId:
           type: string
@@ -278,6 +279,8 @@ components:
         idTrxIssuer:
           type: string
         idTrxAcquirer:
+          type: string
+        status:
           type: string
     InstrumentOperationDTO:
       type: object
@@ -381,6 +384,7 @@ components:
         - amount
         - accrued
         - circuitType
+        - status
       properties:
         operationId:
           type: string
@@ -405,6 +409,8 @@ components:
         circuitType:
           type: string
           description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+        status:
+          type: string
     SuspendOperationDTO:
       type: object
       required:

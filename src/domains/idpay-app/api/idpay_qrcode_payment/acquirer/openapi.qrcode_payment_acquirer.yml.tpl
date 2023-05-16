@@ -180,6 +180,11 @@ components:
           type: string
         vat:
           type: string
+        splitPayment:
+          type: boolean
+        residualAmountCents:
+          type: integer
+          format: int64
     SyncTrxStatus:
       type: object
       required:
