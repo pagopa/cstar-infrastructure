@@ -18,6 +18,11 @@ module "key_vault_domain" {
   tags = var.tags
 }
 
+data "azurerm_key_vault" "key_vault_cstar" {
+  name                = "${local.product}-kv"
+  resource_group_name = "${local.product}-sec-rg"
+}
+
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "ad_admin_group_policy" {
   key_vault_id = module.key_vault_domain.id
