@@ -369,39 +369,7 @@ dns_zone_prefix         = "cstar"
 dns_zone_welfare_prefix = "welfare"
 
 cosmos_mongo_db_params = {
-  enabled      = true
-  kind         = "MongoDB"
-  capabilities = ["EnableMongo"]
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "Strong"
-    max_interval_in_seconds = 5
-    max_staleness_prefix    = 100
-  }
-  server_version                   = "4.0"
-  main_geo_location_zone_redundant = true
-  enable_free_tier                 = false
-
-  private_endpoint_enabled      = true
-  public_network_access_enabled = true
-  additional_geo_locations = [
-    {
-      location          = "northeurope"
-      failover_priority = 1
-      zone_redundant    = true
-    }
-  ]
-
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = true
-}
-
-cosmos_mongo_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 10000
-  throughput         = 2000
+  enabled = true
 }
 
 dexp_params = {
