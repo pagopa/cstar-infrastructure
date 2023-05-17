@@ -138,6 +138,10 @@ locals {
         {
           keys   = ["initiativeId", "userId", "operationDate"]
           unique = false
+        },
+        {
+          keys   = ["eventId"]
+          unique = false
         }
       ]
     },

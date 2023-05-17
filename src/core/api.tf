@@ -314,44 +314,6 @@ module "api_bpd_tc" {
   ]
 }
 
-module "api_fa_tc" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-fa-tc-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  description  = "Api and Models"
-  display_name = "FA TC API"
-  path         = "fa/tc"
-  protocols    = ["https", "http"]
-
-  service_url = format("https://%s/%s",
-    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
-    azurerm_storage_container.fa_terms_and_conditions.name
-  )
-
-
-  content_value = templatefile("./api/fa_tc/swagger.json.tpl", {
-    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-  })
-
-  xml_content = file("./api/azureblob/azureblob_policy.xml")
-
-  product_ids = [module.fa_api_product.product_id]
-
-  api_operation_policies = [
-    {
-      operation_id = "getTermsAndConditionsUsingGET",
-      xml_content  = file("./api/fa_tc/get_terms_and_conditions_html.xml")
-    },
-    {
-      operation_id = "getTermsAndConditionsPDF",
-      xml_content  = file("./api/fa_tc/get_terms_and_conditions_pdf.xml")
-    },
-  ]
-}
-
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
   source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
