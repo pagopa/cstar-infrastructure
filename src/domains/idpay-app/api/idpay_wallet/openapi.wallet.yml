@@ -847,6 +847,12 @@ components:
           type: string
         organizationName:
           type: string
+        nTrx:
+          type: integer
+          format: int64
+        maxTrx:
+          type: integer
+          format: int64
     InitiativesWithInstrumentDTO:
       type: object
       required:
