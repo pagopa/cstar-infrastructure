@@ -520,7 +520,6 @@
 | <a name="module_cdc_api_product"></a> [cdc\_api\_product](#module\_cdc\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_container_registry_common"></a> [container\_registry\_common](#module\_container\_registry\_common) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v6.2.1 |
 | <a name="module_cosmos_mongodb_snet"></a> [cosmos\_mongodb\_snet](#module\_cosmos\_mongodb\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
-| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v6.2.1 |
 | <a name="module_cstarblobstorage"></a> [cstarblobstorage](#module\_cstarblobstorage) | git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account | v6.2.1 |
 | <a name="module_db_snet"></a> [db\_snet](#module\_db\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_dns_forwarder_pair_subnet"></a> [dns\_forwarder\_pair\_subnet](#module\_dns\_forwarder\_pair\_subnet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.3.1 |
@@ -658,7 +657,6 @@
 | [azurerm_key_vault_secret.cstar_blobstorage_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys_fa_01](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
-| [azurerm_key_vault_secret.mongo_db_connection_uri](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.rtd_internal_api_product_subscription_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_kusto_cluster.data_explorer_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/kusto_cluster) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/log_analytics_workspace) | resource |
@@ -755,6 +753,7 @@
 | [azurerm_api_management_product.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_api_management_product.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/client_config) | data source |
+| [azurerm_cosmosdb_account.cosmosdb_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/cosmosdb_account) | data source |
 | [azurerm_eventhub.rtd_platform_eventhub](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventhub) | data source |
 | [azurerm_key_vault.rtd_domain_kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.rtd_kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
@@ -939,7 +938,6 @@
 | <a name="output_event_hub_keys_ids"></a> [event\_hub\_keys\_ids](#output\_event\_hub\_keys\_ids) | List of event hub key ids. |
 | <a name="output_key_vault_name"></a> [key\_vault\_name](#output\_key\_vault\_name) | n/a |
 | <a name="output_key_vault_uri"></a> [key\_vault\_uri](#output\_key\_vault\_uri) | # key vault ## |
-| <a name="output_mongo_db_primary_connection_string"></a> [mongo\_db\_primary\_connection\_string](#output\_mongo\_db\_primary\_connection\_string) | Primary mongodb connection string |
 | <a name="output_pgres_flex_fqdn"></a> [pgres\_flex\_fqdn](#output\_pgres\_flex\_fqdn) | n/a |
 | <a name="output_pgres_flex_public_access_enabled"></a> [pgres\_flex\_public\_access\_enabled](#output\_pgres\_flex\_public\_access\_enabled) | n/a |
 | <a name="output_pm_backend_url"></a> [pm\_backend\_url](#output\_pm\_backend\_url) | n/a |
