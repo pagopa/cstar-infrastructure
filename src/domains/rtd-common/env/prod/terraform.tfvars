@@ -45,6 +45,11 @@ terraform_remote_state_core = {
   key                  = "prod.terraform.tfstate"
 }
 
+enable = {
+  enrolled_payment_instrument = true
+  payment_instrument          = true
+}
+
 ## Cosmos DB
 cosmos_mongo_db_params = {
   enabled      = true
@@ -73,4 +78,11 @@ cosmos_mongo_db_params = {
   is_virtual_network_filter_enabled = true
 
   backup_continuous_enabled = true
+}
+
+cosmos_mongo_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 10000
+  throughput         = 2000
 }
