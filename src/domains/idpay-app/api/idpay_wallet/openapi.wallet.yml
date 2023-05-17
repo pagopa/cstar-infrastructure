@@ -936,6 +936,8 @@ components:
         updateDate:
           type: string
           format: date-time
+        serviceId:
+          type: string
     InitiativeRefundRuleDTO:
       type: object
       properties:
