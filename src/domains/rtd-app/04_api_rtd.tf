@@ -17,8 +17,8 @@ resource "azurerm_api_management_product" "rtd_api_product" {
 resource "azurerm_api_management_product_policy" "rtd_api_product" {
 
   product_id          = azurerm_api_management_product.rtd_api_product.product_id
-  api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  api_management_name = azurerm_api_management_product.rtd_api_product.api_management_name
+  resource_group_name = azurerm_api_management_product.rtd_api_product.resource_group_name
 
   xml_content = file("./api_product/rtd_api/policy.xml")
 }
@@ -41,8 +41,8 @@ resource "azurerm_api_management_product" "rtd_api_product_internal" {
 resource "azurerm_api_management_product_policy" "rtd_api_product_internal" {
 
   product_id          = azurerm_api_management_product.rtd_api_product_internal.product_id
-  api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  api_management_name = azurerm_api_management_product.rtd_api_product_internal.api_management_name
+  resource_group_name = azurerm_api_management_product.rtd_api_product_internal.resource_group_name
 
   xml_content = templatefile("./api_product/rtd_api_internal/policy.xml.tpl", {
     k8s-cluster-ip-range-from     = var.k8s_ip_filter_range.from
