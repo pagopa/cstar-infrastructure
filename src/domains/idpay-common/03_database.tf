@@ -514,6 +514,14 @@ locals {
         }
       ]
     },
+    {
+      name = "merchant"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
   ]
 }
 
