@@ -500,7 +500,6 @@
 | <a name="module_api_bpd_tc"></a> [api\_bpd\_tc](#module\_api\_bpd\_tc) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_api_cdc_io"></a> [api\_cdc\_io](#module\_api\_cdc\_io) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_api_cdc_sogei"></a> [api\_cdc\_sogei](#module\_api\_cdc\_sogei) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_api_fa_tc"></a> [api\_fa\_tc](#module\_api\_fa\_tc) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management | v6.2.1 |
 | <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_app_gw_maz"></a> [app\_gw\_maz](#module\_app\_gw\_maz) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v6.2.1 |
@@ -527,19 +526,7 @@
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v6.2.1 |
 | <a name="module_event_hub_fa_01"></a> [event\_hub\_fa\_01](#module\_event\_hub\_fa\_01) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v6.2.1 |
 | <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
-| <a name="module_fa_api_product"></a> [fa\_api\_product](#module\_fa\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
-| <a name="module_fa_api_proxy"></a> [fa\_api\_proxy](#module\_fa\_api\_proxy) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_ext_merchant_original"></a> [fa\_ext\_merchant\_original](#module\_fa\_ext\_merchant\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_ext_provider_original"></a> [fa\_ext\_provider\_original](#module\_fa\_ext\_provider\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_hb_customers_original"></a> [fa\_hb\_customers\_original](#module\_fa\_hb\_customers\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_hb_payment_instruments_original"></a> [fa\_hb\_payment\_instruments\_original](#module\_fa\_hb\_payment\_instruments\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_io_customers_original"></a> [fa\_io\_customers\_original](#module\_fa\_io\_customers\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_io_merchant_original"></a> [fa\_io\_merchant\_original](#module\_fa\_io\_merchant\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_io_payment_instruments_original"></a> [fa\_io\_payment\_instruments\_original](#module\_fa\_io\_payment\_instruments\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_io_transactions_original"></a> [fa\_io\_transactions\_original](#module\_fa\_io\_transactions\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_fa_mock_original"></a> [fa\_mock\_original](#module\_fa\_mock\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_fa_proxy_product"></a> [fa\_proxy\_product](#module\_fa\_proxy\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
-| <a name="module_fa_register_transactions_original"></a> [fa\_register\_transactions\_original](#module\_fa\_register\_transactions\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_issuer_api_product"></a> [issuer\_api\_product](#module\_issuer\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_jumpbox_snet"></a> [jumpbox\_snet](#module\_jumpbox\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
@@ -597,16 +584,6 @@
 | [azurerm_api_management_api_version_set.bpd_io_award_period](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_api_version_set.bpd_io_citizen](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_api_version_set.bpd_io_winning_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_ext_merchant](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_ext_provider](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_hb_customers](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_hb_payment_instruments](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_io_customers](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_io_merchant](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_io_payment_instruments](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_io_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_mock](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
-| [azurerm_api_management_api_version_set.fa_register_transactions](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_certificate.cdc_cert_jwt](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_certificate) | resource |
 | [azurerm_api_management_certificate.cdc_sign_certificate_jwt](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_certificate) | resource |
 | [azurerm_api_management_custom_domain.api_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_custom_domain) | resource |
