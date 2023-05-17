@@ -4,6 +4,7 @@ location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "d"
+env                 = "dev"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -19,7 +20,9 @@ pgp_put_limit_bytes            = 524288000 # 500MB
 apim_publisher_name            = "PagoPA Centro Stella DEV"
 apim_sku                       = "Developer_1"
 
-
+#
+# Core VNET
+#
 cidr_vnet = ["10.1.0.0/16"]
 
 cidr_subnet_k8s              = ["10.1.0.0/17"]
@@ -46,6 +49,12 @@ cidr_subnet_apim      = ["10.230.11.0/26"]
 cidr_subnet_eventhub  = ["10.230.11.64/26"]
 
 #
+# Pair VNET
+#
+cidr_pair_vnet                = ["10.101.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.101.199.0/29"]
+
+#
 # ⛴ AKS Vnet
 #
 aks_networks = [
@@ -54,6 +63,7 @@ aks_networks = [
     vnet_cidr   = ["10.11.0.0/16"]
   }
 ]
+aks_availability_zones = []
 
 aks_enable_auto_scaling = true
 aks_min_node_count      = 1
@@ -786,16 +796,6 @@ pm_ip_filter_range = {
   to   = "10.230.1.255"
 }
 
-# See cidr_subnet_k8s
-k8s_ip_filter_range = {
-  from = "10.1.0.1"
-  to   = "10.1.127.254"
-}
-
-k8s_ip_filter_range_aks = {
-  from = "10.11.0.1"
-  to   = "10.11.127.254"
-}
 
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 reverse_proxy_ip               = "10.1.0.250"
@@ -851,7 +851,7 @@ enable = {
   }
 }
 
-batch_service_last_supported_version = "1.2.5"
+batch_service_last_supported_version = "1.3.2"
 
 # cstarblobstorage
 cstarblobstorage_account_replication_type = "RAGRS"

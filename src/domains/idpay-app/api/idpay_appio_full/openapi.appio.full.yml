@@ -1453,6 +1453,7 @@ components:
             - INVITED
             - ELIGIBLE
             - SUSPENDED
+            - DEMANDED
           type: string
           description: actual status of the citizen onboarding for an initiative
     RequiredCriteriaDTO:
@@ -1709,6 +1710,7 @@ components:
         - circuitType
         - idTrxIssuer
         - idTrxAcquirer
+        - status
       properties:
         operationId:
           type: string
@@ -1739,6 +1741,8 @@ components:
         idTrxIssuer:
           type: string
         idTrxAcquirer:
+          type: string
+        status:
           type: string
     InstrumentOperationDTO:
       type: object
@@ -1917,6 +1921,7 @@ components:
         - amount
         - accrued
         - circuitType
+        - status
       properties:
         operationId:
           type: string
@@ -1944,6 +1949,8 @@ components:
             00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
             05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
             09->Satispay, 10->PrivateCircuit
+        status:
+          type: string
     IbanPutDTO:
       title: IbanPutDTO
       type: object
@@ -2199,18 +2206,9 @@ components:
             - MONTHLY
             - QUARTERLY
     RewardValueDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
-        - type: object
-          properties:
-            rewardValue:
-              maximum: 100
-              minimum: 0
-              type: number
-    InitiativeRewardRuleDTO:
       required:
         - rewardValueType
+        - rewardValue
       type: object
       properties:
         rewardValueType:
@@ -2218,6 +2216,8 @@ components:
           enum:
             - PERCENTAGE
             - ABSOLUTE
+        rewardValue:
+          type: number
     RefundAdditionalInfoDTO:
       required:
         - identificationCode

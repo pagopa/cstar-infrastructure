@@ -23,6 +23,9 @@ resource "azurerm_eventhub" "event_hub_rtd_hub" {
   resource_group_name = data.azurerm_resource_group.msg_rg.name
 }
 
+#
+# Eventhub consumer groups
+#
 resource "azurerm_eventhub_consumer_group" "event_hub_rtd_consumer_group" {
   for_each = merge([for hub in var.event_hub_hubs : { for consumer in hub.consumers : hub.name => consumer }]...)
 

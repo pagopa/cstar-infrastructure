@@ -138,6 +138,10 @@ locals {
         {
           keys   = ["initiativeId", "userId", "operationDate"]
           unique = false
+        },
+        {
+          keys   = ["eventId"]
+          unique = false
         }
       ]
     },
@@ -488,6 +492,25 @@ locals {
         }, {
         keys   = ["memberIds"]
         unique = false
+        }
+      ]
+    },
+    {
+      name = "mocked_families"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }, {
+        keys   = ["memberIds"]
+        unique = false
+        }
+      ]
+    },
+    {
+      name = "mocked_isee"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
         }
       ]
     },

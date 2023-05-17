@@ -4,6 +4,7 @@ location_pair       = "northeurope"
 location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "p"
+env                 = "prod"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -42,12 +43,17 @@ cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
-
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
 cidr_integration_vnet = ["10.230.6.0/24"]
 cidr_subnet_apim      = ["10.230.6.0/26"]
 cidr_subnet_eventhub  = ["10.230.6.64/26"]
+
+#
+# Pair VNET
+#
+cidr_pair_vnet                = ["10.101.0.0/16"]
+cidr_subnet_pair_dnsforwarder = ["10.101.134.0/29"]
 
 #
 # ⛴ AKS Vnet
@@ -810,17 +816,6 @@ pagopa_platform_url = "https://api.platform.pagopa.it"
 pm_ip_filter_range = {
   from = "10.230.1.1"
   to   = "10.230.1.255"
-}
-
-# See cidr_subnet_k8s
-k8s_ip_filter_range = {
-  from = "10.1.0.1"
-  to   = "10.1.127.254"
-}
-
-k8s_ip_filter_range_aks = {
-  from = "10.11.0.1"
-  to   = "10.11.127.254"
 }
 
 redis_sku_name = "Premium"

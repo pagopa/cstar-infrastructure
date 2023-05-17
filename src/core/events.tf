@@ -2,9 +2,9 @@ data "azurerm_eventhub" "rtd_platform_eventhub" {
   name                = "rtd-platform-events"
   resource_group_name = azurerm_resource_group.msg_rg.name
   namespace_name      = format("%s-evh-ns", local.project) # should be returned by the module
-  depends_on = [
-    module.event_hub
-  ]
+  # depends_on = [
+  #   module.event_hub
+  # ]
 }
 
 resource "azurerm_eventgrid_system_topic" "storage_topic" {

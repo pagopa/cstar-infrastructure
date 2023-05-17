@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sec_rg_domain" {
 }
 
 module "key_vault_domain" {
-  source = "git::https://github.com/pagopa/azurerm.git//key_vault?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault?ref=v6.2.1"
 
   name                       = "${local.product}-${var.domain}-kv"
   location                   = azurerm_resource_group.sec_rg_domain.location
@@ -16,6 +16,11 @@ module "key_vault_domain" {
   sku_name                   = "premium"
 
   tags = var.tags
+}
+
+data "azurerm_key_vault" "key_vault_cstar" {
+  name                = "${local.product}-kv"
+  resource_group_name = "${local.product}-sec-rg"
 }
 
 ## ad group policy ##

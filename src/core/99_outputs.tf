@@ -63,13 +63,13 @@ output "apim_public_ip_addresses" {
   value = module.apim.public_ip_addresses
 }
 
-output "apim_gateway_url" {
-  value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name)
-}
+# output "apim_gateway_url" {
+#   value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name)
+# }
 
-output "apim_gateway_hostname" {
-  value = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
-}
+# output "apim_gateway_hostname" {
+#   value = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+# }
 
 output "app_gateway_maz_public_ip" {
   value = azurerm_public_ip.appgateway_public_ip.ip_address
@@ -169,13 +169,6 @@ output "event_hub_keys_ids" {
 output "event_hub_keys" {
   value       = module.event_hub.keys
   description = "Map of hubs with keys => primary_key / secondary_key mapping."
-  sensitive   = true
-}
-
-# Mongo db
-output "mongo_db_primary_connection_string" {
-  value       = module.cosmosdb_account_mongodb[0].connection_strings[0]
-  description = "Primary mongodb connection string"
   sensitive   = true
 }
 
