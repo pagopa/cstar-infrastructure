@@ -1,22 +1,28 @@
 ## RTD Payment Manager API ##
-module "rtd_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
+resource "azurerm_api_management_product" "rtd_api_product" {
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   product_id   = "rtd-api-product"
   display_name = "RTD_API_Product"
   description  = "RTD_API_Product"
 
+  subscription_required = true
+  subscriptions_limit   = 50
+  approval_required     = true
+  published             = true
+
+}
+
+resource "azurerm_api_management_product_policy" "rtd_api_product" {
+
+  product_id          = azurerm_api_management_product.rtd_api_product.product_id
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
-  published             = true
-  subscription_required = true
-  approval_required     = true
-
-  subscriptions_limit = 50
-
-  policy_xml = file("./api_product/rtd_api/policy.xml")
+  xml_content = file("./api_product/rtd_api/policy.xml")
 }
+
 
 module "rtd_api_product_internal" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
@@ -73,7 +79,7 @@ module "rtd_payment_instrument_manager" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -124,7 +130,7 @@ module "rtd_payment_instrument_manager_v2" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -175,7 +181,7 @@ module "rtd_payment_instrument_manager_v3" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.rtd_api_product.product_id]
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
