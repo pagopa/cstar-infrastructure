@@ -6,7 +6,7 @@ module "cosmosdb_account_mongodb" {
 
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.2.1"
 
-  name                 = format("%s-cosmos-mongo-db-account", local.product)
+  name                 = "${local.product}-cosmos-mongo-db-account"
   location             = data.azurerm_resource_group.db_rg.location
   resource_group_name  = data.azurerm_resource_group.db_rg.name
   offer_type           = var.cosmos_mongo_db_params.offer_type

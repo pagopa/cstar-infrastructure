@@ -47,12 +47,17 @@ cosmos_mongo_db_params = {
   main_geo_location_zone_redundant = false
   enable_free_tier                 = false
 
-  additional_geo_locations          = []
+  additional_geo_locations = [{
+    failover_priority = 1
+    location          = "northeurope"
+    zone_redundant    = false
+    }
+  ]
   private_endpoint_enabled          = true
   public_network_access_enabled     = true
   is_virtual_network_filter_enabled = true
 
-  backup_continuous_enabled = false
+  backup_continuous_enabled = true
 
 }
 
