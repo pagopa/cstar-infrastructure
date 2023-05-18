@@ -15,7 +15,6 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity | v6.3.1 |
-| <a name="module_payment_instruments_interaction"></a> [payment\_instruments\_interaction](#module\_payment\_instruments\_interaction) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.3.1 |
 | <a name="module_rtd_payment_instrument_manager"></a> [rtd\_payment\_instrument\_manager](#module\_rtd\_payment\_instrument\_manager) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument_manager_v2"></a> [rtd\_payment\_instrument\_manager\_v2](#module\_rtd\_payment\_instrument\_manager\_v2) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument_manager_v3"></a> [rtd\_payment\_instrument\_manager\_v3](#module\_rtd\_payment\_instrument\_manager\_v3) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
@@ -25,11 +24,14 @@
 
 | Name | Type |
 |------|------|
+| [azurerm_api_management_api.payment_instruments_interaction](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api) | resource |
+| [azurerm_api_management_api_policy.payment_instruments_interaction](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_policy) | resource |
 | [azurerm_api_management_api_version_set.rtd_payment_instrument_manager](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_api_version_set) | resource |
 | [azurerm_api_management_named_value.pagopa_platform_api_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_named_value) | resource |
 | [azurerm_api_management_product.payment_instruments_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product) | resource |
 | [azurerm_api_management_product.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product) | resource |
 | [azurerm_api_management_product.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product) | resource |
+| [azurerm_api_management_product_api.payment_instruments_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_api) | resource |
 | [azurerm_api_management_product_policy.payment_instruments_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
 | [azurerm_api_management_product_policy.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
 | [azurerm_api_management_product_policy.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
