@@ -136,6 +136,17 @@ variable "terraform_remote_state_core" {
   })
 }
 
+variable "enable" {
+  type = object({
+    enrolled_payment_instrument = bool
+    payment_instrument          = bool
+  })
+  default = {
+    enrolled_payment_instrument = false
+    payment_instrument          = false
+  }
+}
+
 # Cosmos DB
 variable "cosmos_mongo_db_params" {
   type = object({
@@ -161,5 +172,14 @@ variable "cosmos_mongo_db_params" {
     public_network_access_enabled     = bool
     is_virtual_network_filter_enabled = bool
     backup_continuous_enabled         = bool
+  })
+}
+
+variable "cosmos_mongo_db_transaction_params" {
+  type = object({
+    enable_serverless  = bool
+    enable_autoscaling = bool
+    throughput         = number
+    max_throughput     = number
   })
 }
