@@ -63,48 +63,74 @@ resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manage
 }
 
 # v1 #
-module "rtd_payment_instrument_manager" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
+resource "azurerm_api_management_api" "rtd_payment_instrument_manager" {
   name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
-  description         = ""
-  display_name        = "RTD Payment Instrument Manager API"
-  path                = "rtd/payment-instrument-manager"
-  protocols           = ["https", "http"]
-  service_url         = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip_old_k8s)
+
+  description  = ""
+  display_name = "RTD Payment Instrument Manager API"
+  path         = "rtd/payment-instrument-manager"
 
   version_set_id = azurerm_api_management_api_version_set.rtd_payment_instrument_manager.id
 
-  content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
-    host = local.appgw_api_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-  })
+  revision              = "1"
+  subscription_required = true
+  protocols             = ["https", "http"]
+
+  service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip_old_k8s)
+
+  import {
+    content_format = "swagger-json"
+    content_value = templatefile("./api/rtd_payment_instrument_manager/swagger.xml.tpl", {
+      host = local.appgw_api_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+    })
+  }
+
+}
+
+resource "azurerm_api_management_api_policy" "rtd_payment_instrument_manager" {
+  api_name            = azurerm_api_management_api.rtd_payment_instrument_manager.name
+  api_management_name = azurerm_api_management_api.rtd_payment_instrument_manager.api_management_name
+  resource_group_name = azurerm_api_management_api.rtd_payment_instrument_manager.resource_group_name
 
   xml_content = file("./api/base_policy.xml")
+}
 
-  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
 
-  api_operation_policies = [
-    {
-      operation_id = "get-hash-salt",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
-        pm-backend-url                       = var.pm_backend_url,
-        rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
-        mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
-        pagopa-platform-api-key-name         = "pagopa-platform-apim-api-key-primary"
-      })
-    },
-    {
-      operation_id = "get-hashed-pans",
-      xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans-policy.xml.tpl", {
-        # as-is due an application error in prod -->  to-be
-        # host = var.env_short == "p" ? "prod.cstar.pagopa.it" : trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-        host = trim(data.azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-      })
-    },
-  ]
+resource "azurerm_api_management_product_api" "rtd_payment_instrument_manager" {
+  product_id          = azurerm_api_management_product.rtd_api_product.product_id
+  api_name            = azurerm_api_management_api.rtd_payment_instrument_manager.name
+  api_management_name = azurerm_api_management_api.rtd_payment_instrument_manager.api_management_name
+  resource_group_name = azurerm_api_management_api.rtd_payment_instrument_manager.resource_group_name
+}
+
+resource "azurerm_api_management_api_operation_policy" "get_hash_salt_policy" {
+  api_name            = azurerm_api_management_api.rtd_payment_instrument_manager.name
+  api_management_name = azurerm_api_management_api.rtd_payment_instrument_manager.api_management_name
+  resource_group_name = azurerm_api_management_api.rtd_payment_instrument_manager.resource_group_name
+  operation_id        = "get-hash-salt"
+
+  xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hash-salt_policy.xml.tpl", {
+    pm-backend-url                       = var.pm_backend_url,
+    rtd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint.value
+    mock_response                        = var.env_short == "d" || var.env_short == "u" || var.env_short == "p"
+    pagopa-platform-api-key-name         = "pagopa-platform-apim-api-key-primary"
+  })
+}
+
+
+resource "azurerm_api_management_api_operation_policy" "get_hashed_pans_policy" {
+  api_name            = azurerm_api_management_api.rtd_payment_instrument_manager.name
+  api_management_name = azurerm_api_management_api.rtd_payment_instrument_manager.api_management_name
+  resource_group_name = azurerm_api_management_api.rtd_payment_instrument_manager.resource_group_name
+  operation_id        = "get-hashed-pans"
+
+  xml_content = templatefile("./api/rtd_payment_instrument_manager/get-hashed-pans-policy.xml.tpl", {
+    # as-is due an application error in prod -->  to-be
+    # host = var.env_short == "p" ? "prod.cstar.pagopa.it" : trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+    host = trim(data.azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+  })
 }
 
 # v2

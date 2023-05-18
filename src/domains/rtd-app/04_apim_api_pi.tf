@@ -64,7 +64,7 @@ resource "azurerm_api_management_api_policy" "payment_instruments_interaction" {
 }
 
 
-resource "azurerm_api_management_product_api" "payment_instruments_api_product" {
+resource "azurerm_api_management_product_api" "payment_instruments_interaction" {
   count = var.enable.api_payment_instrument ? 1 : 0
 
   product_id          = azurerm_api_management_product.payment_instruments_api_product[count.index].product_id
