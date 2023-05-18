@@ -515,10 +515,22 @@ locals {
       ]
     },
     {
+      name = "merchant_file"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+      }
+      ]
+    },
+    {
       name = "merchant"
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["fiscalCode","acquirerId"]
+          unique = true
         }
       ]
     },
