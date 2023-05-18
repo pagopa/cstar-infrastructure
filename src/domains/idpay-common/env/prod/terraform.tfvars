@@ -57,7 +57,7 @@ cosmos_mongo_db_params = {
   public_network_access_enabled     = true
   is_virtual_network_filter_enabled = true
 
-  backup_continuous_enabled = false
+  backup_continuous_enabled = true
 
 }
 
