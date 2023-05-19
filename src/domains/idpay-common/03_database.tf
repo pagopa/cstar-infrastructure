@@ -314,7 +314,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["userId"]
+          keys   = ["beneficiaryId"]
           unique = false
         },
         {
