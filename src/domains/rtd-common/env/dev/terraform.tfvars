@@ -44,3 +44,38 @@ terraform_remote_state_core = {
   container_name       = "azureadstate"
   key                  = "dev.terraform.tfstate"
 }
+
+enable = {
+  enrolled_payment_instrument = true
+  payment_instrument          = true
+}
+
+## Cosmos DB
+cosmos_mongo_db_params = {
+  enabled      = true
+  kind         = "MongoDB"
+  capabilities = ["EnableMongo", "DisableRateLimitingResponses"]
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = "4.0"
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = false
+
+  private_endpoint_enabled          = false
+  public_network_access_enabled     = true
+  additional_geo_locations          = []
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+}
+
+cosmos_mongo_db_transaction_params = {
+  enable_serverless  = true
+  enable_autoscaling = true
+  max_throughput     = 5000
+  throughput         = 1000
+}

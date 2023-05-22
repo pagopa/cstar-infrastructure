@@ -19,3 +19,11 @@ resource "azurerm_storage_container" "cstar_hashed_pans" {
   storage_account_name  = data.azurerm_storage_account.cstarblobstorage.name
   container_access_type = "private"
 }
+
+resource "azurerm_storage_container" "cstar_hashed_pans_par" {
+  count = var.enable.hashed_pans_container ? 1 : 0
+
+  name                  = "cstar-hashed-pans-par"
+  storage_account_name  = data.azurerm_storage_account.cstarblobstorage.name
+  container_access_type = "private"
+}
