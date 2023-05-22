@@ -1744,6 +1744,9 @@ components:
           type: string
         status:
           type: string
+          enum:
+            - AUTHORIZED
+            - REWARDED
     InstrumentOperationDTO:
       type: object
       required:
@@ -1951,6 +1954,9 @@ components:
             09->Satispay, 10->PrivateCircuit
         status:
           type: string
+          enum:
+            - AUTHORIZED
+            - REWARDED
     IbanPutDTO:
       title: IbanPutDTO
       type: object
