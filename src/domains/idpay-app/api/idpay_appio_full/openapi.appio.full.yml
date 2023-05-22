@@ -1747,6 +1747,12 @@ components:
           enum:
             - AUTHORIZED
             - REWARDED
+            - CANCELLED
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
     InstrumentOperationDTO:
       type: object
       required:
@@ -1957,6 +1963,12 @@ components:
           enum:
             - AUTHORIZED
             - REWARDED
+            - CANCELED
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
     IbanPutDTO:
       title: IbanPutDTO
       type: object

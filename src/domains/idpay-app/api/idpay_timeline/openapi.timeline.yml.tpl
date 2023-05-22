@@ -285,6 +285,12 @@ components:
           enum:
             - AUTHORIZED
             - REWARDED
+            - CANCELLED
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
     InstrumentOperationDTO:
       type: object
       required:
@@ -417,6 +423,12 @@ components:
           enum:
             - AUTHORIZED
             - REWARDED
+            - CANCELLED
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
     SuspendOperationDTO:
       type: object
       required:
