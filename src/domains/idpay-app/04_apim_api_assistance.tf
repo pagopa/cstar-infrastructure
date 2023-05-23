@@ -26,7 +26,7 @@ module "idpay_api_assistance_product" {
 # IDPAY API
 #
 
-## IDPAY Welfare Portal Initiative API ##
+## IDPAY Assistance API ##
 /*
 module "idpay_api_assistance" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
@@ -43,7 +43,7 @@ module "idpay_api_assistance" {
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_initiative/openapi.initiative.yml")
+  content_value  = file("./api/idpay_assistance/openapi.assistance.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -54,234 +54,77 @@ module "idpay_api_assistance" {
     {
       operation_id = "getListOfOrganization"
 
-      xml_content = templatefile("./api/idpay_initiative/get-organization-list.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-organization-list.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getInitativeSummary"
 
-      xml_content = templatefile("./api/idpay_initiative/get-initiative-summary.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-initiative-summary.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getInitiativeDetail"
 
-      xml_content = templatefile("./api/idpay_initiative/get-initiative-detail.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "saveInitiativeServiceInfo"
-
-      xml_content = templatefile("./api/idpay_initiative/post-initiative-info.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeServiceInfo"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-info.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeGeneralInfo"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-general.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeGeneralInfoDraft"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-general-draft.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeBeneficiary"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeBeneficiaryDraft"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-beneficiary-draft.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateTrxAndRewardRules"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-reward.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateTrxAndRewardRulesDraft"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-reward-draft.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeRefundRule"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-refund.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeRefundRuleDraft"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-refund-draft.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeApprovedStatus"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-approve.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativeToCheckStatus"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-reject.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "updateInitiativePublishedStatus"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-publish.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "logicallyDeleteInitiative"
-
-      xml_content = templatefile("./api/idpay_initiative/delete-initiative-general.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "suspendUser"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
-      })
-    },
-    {
-      operation_id = "readmitUser"
-
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
-      })
-    },
-    //CONFIG
-    {
-      operation_id = "getBeneficiaryConfigRules"
-
-      xml_content = templatefile("./api/idpay_initiative/simple-mock-policy.xml", {})
-    },
-    {
-      operation_id = "getTransactionConfigRules"
-
-      xml_content = templatefile("./api/idpay_initiative/get-config-transaction-rule.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-      })
-    },
-    {
-      operation_id = "getMccConfig"
-
-      xml_content = templatefile("./api/idpay_initiative/get-config-mcc.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-initiative-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "initiativeStatistics"
 
-      xml_content = templatefile("./api/idpay_initiative/get-initiative-statistics.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-initiative-statistics.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getRewardNotificationExportsPaged"
 
-      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications-exp.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-initiative-reward-notifications-exp.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getRewardNotificationImportsPaged"
 
-      xml_content = templatefile("./api/idpay_initiative/get-initiative-reward-notifications-imp.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-initiative-reward-notifications-imp.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getOnboardingStatus"
 
-      xml_content = templatefile("./api/idpay_initiative/get-onboarding-status.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getInitiativeOnboardingRankingStatusPaged"
 
-      xml_content = templatefile("./api/idpay_initiative/get-ranking.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-ranking.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getRankingFileDownload"
 
-      xml_content = templatefile("./api/idpay_initiative/get-ranking-download.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-ranking-download.xml.tpl", {
         initiative-storage-account-name = module.idpay_initiative_storage.name
-      })
-    },
-    {
-      operation_id = "notifyCitizenRankings"
-
-      xml_content = templatefile("./api/idpay_initiative/put-ranking-notify.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getRewardFileDownload"
 
-      xml_content = templatefile("./api/idpay_initiative/get-reward-download.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-reward-download.xml.tpl", {
         refund-storage-account-name = module.idpay_refund_storage.name
-      })
-    },
-    {
-      operation_id = "putDispFileUpload"
-
-      xml_content = templatefile("./api/idpay_initiative/put-disp-upload.xml.tpl", {
-        refund-storage-account-name = module.idpay_refund_storage.name
-      })
-    },
-    {
-      operation_id = "uploadAndUpdateLogo"
-
-      xml_content = templatefile("./api/idpay_initiative/put-logo-upload.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getDispFileErrors"
 
-      xml_content = templatefile("./api/idpay_initiative/get-disp-errors.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-disp-errors.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
@@ -289,7 +132,7 @@ module "idpay_api_assistance" {
     {
       operation_id = "getIban"
 
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-iban.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-iban.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -298,7 +141,7 @@ module "idpay_api_assistance" {
     {
       operation_id = "getTimeline"
 
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-timeline.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -307,7 +150,7 @@ module "idpay_api_assistance" {
     {
       operation_id = "getTimelineDetail"
 
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline-detail.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-timeline-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -316,7 +159,7 @@ module "idpay_api_assistance" {
     {
       operation_id = "getWalletDetail"
 
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-wallet.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-wallet.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -325,16 +168,7 @@ module "idpay_api_assistance" {
     {
       operation_id = "getBeneficiaryOnboardingStatus"
 
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-status.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
-      })
-    },
-    {
-      operation_id = "getFamilyComposition"
-
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-family-status.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -343,7 +177,7 @@ module "idpay_api_assistance" {
     {
       operation_id = "getInstrumentList"
 
-      xml_content = templatefile("./api/idpay_initiative/get-beneficiary-instruments.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-instruments.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -353,21 +187,21 @@ module "idpay_api_assistance" {
     {
       operation_id = "getExportSummary"
 
-      xml_content = templatefile("./api/idpay_initiative/get-refund-export-summary.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-refund-export-summary.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getExportRefundsListPaged"
 
-      xml_content = templatefile("./api/idpay_initiative/get-refund-list.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-refund-list.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "getRefundDetail"
 
-      xml_content = templatefile("./api/idpay_initiative/get-refund-detail.xml.tpl", {
+      xml_content = templatefile("./api/idpay_assistance/get-refund-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
@@ -375,15 +209,6 @@ module "idpay_api_assistance" {
         pdv_retry_interval             = var.pdv_retry_interval
         pdv_retry_max_interval         = var.pdv_retry_max_interval
         pdv_retry_delta                = var.pdv_retry_delta
-      })
-    },
-    //PORTAL TOKEN
-    {
-      operation_id = "getPagoPaAdminToken"
-
-      xml_content = templatefile("./api/idpay_initiative/idpay_portal_token/jwt_idpay_portal_token.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
-        jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
       })
     }
   ]
