@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaymerchant" />
-        <rewrite-uri template="@("idpay/merchant/{initiativeId})" />
+        <rewrite-uri template="@("idpay/merchant/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/merchants")" />
     </inbound>
     <backend>
         <base />

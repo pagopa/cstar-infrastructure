@@ -530,9 +530,16 @@ module "idpay_merchant_portal" {
 
   api_operation_policies = [
     {
-      operation_id = "getMerchantsOnboardingList"
+      operation_id = "getMerchantList"
 
       xml_content = templatefile("./api/idpay_merchant/get-merchant-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantDetail"
+
+      xml_content = templatefile("./api/idpay_merchant/get-merchant-detail-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },

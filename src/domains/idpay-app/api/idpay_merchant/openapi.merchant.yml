@@ -14,18 +14,18 @@ paths:
       description: "ENG: Upload CSV file containing a list of merchants <br> IT: Caricamento del file CSV conentente una lista di esercenti"
       operationId: uploadMerchantList
       parameters:
-      - name: initiativeId
-        in: path
-        description: The initiative ID
-        required: true
-        schema:
-          type: string
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           multipart/form-data:
             schema:
               required:
-              - file
+                - file
               type: object
               properties:
                 file:
@@ -80,13 +80,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}:
+  /initiative/{initiativeId}/merchants:
     get:
       tags:
-        - merchant-onboarding
+        - merchant-list
       summary: Returns the merchants list
       description: "ENG: Returns the merchants list <br> IT: Lista degli esercenti"
-      operationId: getMerchantsOnboardingList
+      operationId: getMerchantList
       parameters:
         - name: initiativeId
           in: path
@@ -123,7 +123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MerchantOnboardingDTO'
+                $ref: '#/components/schemas/MerchantListDTO'
         '401':
           description: Authentication failed
           content:
@@ -150,6 +150,8 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
   /initiatives:
     get:
+      tags:
+        - merchant-initiatives
       summary: Returns the list of initiatives of a specific merchant
       description: Returns the list of initiatives of a specific merchant
       operationId: getMerchantInitiativeList
@@ -181,6 +183,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{merchantId}/initiative/{initiativeId}:
+    get:
+      tags:
+        - merchant-detail
+      summary: Returns the merchants detail on initiative
+      description: "ENG: Returns the merchant detail on initiative <br> IT: Dettaglio dell' esercente sull'iniziativa"
+      operationId: getMerchantDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: merchantId
+          in: path
+          description: The merchant ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantDetailDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     MerchantUpdateDTO:
@@ -200,13 +253,13 @@ components:
           type: string
           format: date-time
           description: "ENG: Time and date of file elaboration <br>IT: Data e ora dell'elaborazione del file"
-    MerchantOnboardingDTO:
+    MerchantListDTO:
       type: object
       properties:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/MerchantOnboardingStatusDTO'
+            $ref: '#/components/schemas/MerchantDTO'
         pageNo:
           type: integer
           format: int32
@@ -223,7 +276,7 @@ components:
           type: integer
           format: int32
           description: "ENG: The total number of the pages <br> IT: Il numero totale delle pagine"
-    MerchantOnboardingStatusDTO:
+    MerchantDTO:
       type: object
       properties:
         merchantId:
@@ -268,6 +321,52 @@ components:
           type: string
         message:
           type: string
+    MerchantDetailDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+          description: "ENG: The ID of the initiative <br> IT: L'ID' dell'iniziativa"
+        businessName:
+          type: string
+          description: "ENG: The name of the merchant <br> IT: La ragione sociale dell'esercente"
+        legalOfficeAddress:
+          type: string
+          description: "ENG: The address of the legal office <br> IT: L'indirizzo della sede legale"
+        legalOfficeMunicipality:
+          type: string
+          description: "ENG: The municipality of the legal office <br> IT: Il comune della sede legale"
+        legalOfficeProvince:
+          type: string
+          description: "ENG: The province of the legal office <br> IT: La provincia della sede legale"
+        legalOfficeZipCode:
+          type: string
+          description: "ENG: The zipcode of the legal office <br> IT: Il CAP della sede legale"
+        certifiedEmail:
+          type: string
+          description: "ENG: The certified email address of the merchant <br> IT: L'indirizzo email PEC dell' esercente"
+        fiscalCode:
+          type: string
+          description: "ENG: The fiscal code/vat number of the merchant <br> IT: Il codice fiscale/partita iva dell'esercente"
+        vatNumber:
+          type: string
+          description: "ENG: The vat number of the merchant <br> IT: La partita iva dell'esercente"
+        status:
+          type: string
+          enum:
+            - UPLOADED
+          description: "ENG: One of the possible merchant onboarding status: <ul><li>UPLOADED:This is the initial status after the csv upload</li></ul>IT: Uno dei possibili stati dell'onboarding da parte dell'esercente: <ul><li>UPLOADED:Questo è lo stato iniziale dopo il caricamento del file csv</li></ul>"
+        iban:
+          type: string
+          description: "ENG: The iban of the merchant <br> IT: L'iban dell'esercente"
+        creationDate:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of the initiative creation <br> IT: La data ed ora della creazione dell'iniziativa"
+        updateDate:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of the last status update <br> IT: La data ed ora dell'ultimo aggiornamento dello stato"
   securitySchemes:
     Bearer:
       type: apiKey
