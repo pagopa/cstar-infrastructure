@@ -28,35 +28,48 @@
                 <header>*</header>
             </expose-headers>
         </cors>
+
         <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="outputToken">
             <openid-config url="${openid-config-url}" />
             <audiences>
-                <audience>idpay.welfare.pagopa.it</audience>
+                <audience>idpay.merchant.welfare.pagopa.it</audience>
             </audiences>
             <issuers>
                 <issuer>${selfcare-issuer}</issuer>
             </issuers>
         </validate-jwt>
+
+        <set-variable name="acquirerId" value="PAGOPA" />
+        <set-variable name="merchantFiscalCode" value="@{
+            Jwt selcToken = (Jwt)context.Variables["outputToken"];
+
+            JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
+            return organization["fiscal_code"];
+        }" />
+
+        <include-fragment fragment-id="idpay-merchant-id-retriever" />
+
         <set-variable name="idpayPortalToken" value="@{
                     Jwt selcToken = (Jwt)context.Variables["outputToken"];
                     var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                        new { 
-                            typ = "JWT", 
-                            alg = "RS256" 
+                        new {
+                            typ = "JWT",
+                            alg = "RS256"
                         }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                    
+
                     var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
                     var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
-                    var aud = "idpay.welfare.pagopa.it";
+                    var aud = "idpay.merchant.welfare.pagopa.it";
                     var iss = "https://api-io.dev.cstar.pagopa.it";
                     var uid = selcToken.Claims.GetValueOrDefault("uid", "");
+                    var merchantId = (String)context.Variables["merchantId"];
                     var name = selcToken.Claims.GetValueOrDefault("name", "");
                     var family_name = selcToken.Claims.GetValueOrDefault("family_name", "");
                     var email = selcToken.Claims.GetValueOrDefault("email", "");
                     JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
                     var org_id = organization["id"];
                     var org_vat = organization["fiscal_code"];
-                    var org_name = organization["name"];              
+                    var org_name = organization["name"];
                     var org_party_role = organization.Value<JArray>("roles").First().Value<string>("partyRole");
                     var org_role = organization.Value<JArray>("roles").First().Value<string>("role");
                     var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
@@ -69,6 +82,7 @@
                     name,
                     family_name,
                     email,
+                    merchantId,
                     org_id,
                     org_vat,
                     org_name,
@@ -83,10 +97,10 @@
                     {
                         var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                         return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                    }                    
+                    }
 
                     return message;
-                    
+
                 }" />
         <return-response>
             <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>

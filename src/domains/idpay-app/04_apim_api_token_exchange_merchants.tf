@@ -56,12 +56,12 @@ resource "azurerm_api_management_certificate" "idpay_merchants_token_exchange_ce
 }
 
 resource "azurerm_api_management_api" "idpay_merchants_token_exchange" {
-  name                = "${var.env_short}-idpay-merchants-token-exchange"
+  name                = "${var.env_short}-idpay-token-exchange-merchants"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   revision              = "1"
-  display_name          = "IDPAY Merchants Token Exchange"
+  display_name          = "IDPAY Token Exchange for Merchants Portal"
   path                  = "idpay/merchants"
   subscription_required = false
   #service_url           = ""
@@ -70,11 +70,11 @@ resource "azurerm_api_management_api" "idpay_merchants_token_exchange" {
 }
 
 resource "azurerm_api_management_api_operation" "idpay_merchants_token_exchange" {
-  operation_id        = "idpay-merchants-token-exchange"
+  operation_id        = "idpay-token-exchange-merchants"
   api_name            = azurerm_api_management_api.idpay_merchants_token_exchange.name
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
-  display_name        = "IDPAY Merchants Token Exchange"
+  display_name        = "IDPAY Token Exchange for Merchants Portal"
   method              = "POST"
   url_template        = "/token"
   description         = "Endpoint for selfcare token exchange towards merchants portal"
@@ -93,5 +93,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_merchants_token_ex
     idpay-portal-hostname       = local.idpay-portal-hostname,
     origins                     = local.origins.base
   })
+
+  depends_on = [azapi_resource.apim-merchant-id-retriever]
 
 }
