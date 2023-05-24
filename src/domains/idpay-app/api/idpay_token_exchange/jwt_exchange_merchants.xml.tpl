@@ -62,7 +62,8 @@
                     var aud = "idpay.merchant.welfare.pagopa.it";
                     var iss = "https://api-io.dev.cstar.pagopa.it";
                     var uid = selcToken.Claims.GetValueOrDefault("uid", "");
-                    var merchantId = (String)context.Variables["merchantId"];
+                    var acquirer_id = (String)context.Variables["acquirerId"];
+                    var merchant_id = (String)context.Variables["merchantId"];
                     var name = selcToken.Claims.GetValueOrDefault("name", "");
                     var family_name = selcToken.Claims.GetValueOrDefault("family_name", "");
                     var email = selcToken.Claims.GetValueOrDefault("email", "");
@@ -82,7 +83,8 @@
                     name,
                     family_name,
                     email,
-                    merchantId,
+                    acquirer_id,
+                    merchant_id,
                     org_id,
                     org_vat,
                     org_name,
