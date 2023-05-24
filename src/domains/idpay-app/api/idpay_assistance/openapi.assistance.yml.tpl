@@ -9,8 +9,8 @@ paths:
   '/organizations':
     get:
       tags:
-        - organizations
-      summary: Returns list of Organizations for at least one initiative by each visible to the PagoPA operator
+       - organizations
+      summary: "ENG: Returns list of Organizations for at least one initiative by each visible to the PagoPA operator - IT: Mostra una lista di enti con almeno un'iniziativa ciascuno visibili all'operatore PagoPA"
       operationId: getListOfOrganization
       responses:
         '200':
@@ -47,8 +47,8 @@ paths:
     get:
       tags:
         - initiative
-      summary: Returns the list of initiatives names for a specific organization
-      description: Returns the list of initiatives names for a specific organization
+      summary: "ENG: Returns the list of initiatives names for a specific organization - IT: Mostra una lista di iniziative per uno specifico ente"
+      description: "ENG: Returns the list of initiatives names for a specific organization - IT: Mostra una lista di iniziative per uno specifico ente"
       operationId: getInitativeSummary
       responses:
         '200':
@@ -80,12 +80,12 @@ paths:
     get:
       tags:
         - initiative
-      summary: Return of onboard users and the budget spent (accrued bonus)
+      summary: "ENG: Return the number of onboarded users and the budget spent (accrued bonus) - IT: Mostra il numero di utenti onboardati ed il budget speso (bonus maturato)"
       operationId: initiativeStatistics
       parameters:
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -130,13 +130,13 @@ paths:
     get:
       tags:
         - initiative
-      summary: Returns the detail of an active initiative
-      description: Returns the detail of an active initiative
+      summary: "ENG: Returns the detail of an active initiative - IT: Mostra il dettaglio di un'iniziativa attiva"
+      description: "ENG: Returns the detail of an active initiative - IT: Mostra il dettaglio di un'iniziativa attiva"
       operationId: getInitiativeDetail
       parameters:
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -175,7 +175,7 @@ paths:
     get:
       tags:
         - beneficiary
-      summary: Returns the detail of the IBAN associated to the initiative by the citizen
+      summary: "ENG: Returns the detail of the IBAN associated to the initiative by the citizen - IT: Mostra il dettaglio dell'IBAN associato all'iniziativa dal cittadino"
       operationId: getIban
       parameters:
         - name: Fiscal-Code
@@ -192,7 +192,7 @@ paths:
             type: string
         - name: initiativeId
           in: path
-          description: The initiative id
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -243,7 +243,7 @@ paths:
     get:
       tags:
         - beneficiary
-      summary: Returns the list of transactions and operations of an initiative of a citizen sorted by date (newest->oldest)
+      summary: "ENG: Returns the list of transactions and operations of a citizen on initiative sorted by date (newest->oldest) - IT: Mostra una lista di transazioni ed operazioni di un cittadino su un iniziativa ordinate per data"
       operationId: getTimeline
       parameters:
         - name: Fiscal-Code
@@ -254,7 +254,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -334,7 +334,7 @@ paths:
     get:
       tags:
         - beneficiary
-      summary: Returns the detail of a transaction
+      summary: "ENG: Returns the detail of a transaction - IT: Mostra il dettaglio di una transazione"
       operationId: getTimelineDetail
       parameters:
         - name: Fiscal-Code
@@ -345,7 +345,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -402,7 +402,7 @@ paths:
     get:
       tags:
         - beneficiary
-      summary: Returns the detail of an active initiative of a citizen
+      summary: "ENG: Returns the wallet detail of a citizen on an active initiative - IT: Mostra il dettaglio del portafoglio del cittadino su un iniziativa attiva"
       operationId: getWalletDetail
       parameters:
         - name: Fiscal-Code
@@ -413,7 +413,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -464,7 +464,7 @@ paths:
     get:
       tags:
         - beneficiary
-      summary: Returns the list of payment instruments associated to the initiative by the citizen
+      summary: "ENG: Returns the list of payment instruments associated to the initiative by the citizen - IT: Lista degli strumenti di pagamento associati dal cittadino sull'iniziativa"
       operationId: getInstrumentList
       parameters:
         - name: Fiscal-Code
@@ -475,7 +475,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -522,18 +522,17 @@ paths:
               example:
                 code: 0
                 message: string
-
   /{initiativeId}/onboardings:
     get:
       tags:
         - initiative-onboarding
-      summary: Returns the onboardings status
-      description: Returns the onboardings status
+      summary: "ENG: Returns the onboardings status - IT: Mostra gli stati dell'onboarding"
+      description: "ENG: Returns the onboardings status - IT: Mostra gli stati dell'onboarding"
       operationId: getOnboardingStatus
       parameters:
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -556,7 +555,7 @@ paths:
             type: string
         - name: beneficiary
           in: query
-          description: Fiscale code
+          description: "ENG: The fiscal code - IT: Il codice fiscale"
           required: false
           schema:
             type: string
@@ -613,7 +612,7 @@ paths:
     get:
       tags:
         - initiative-onboarding
-      summary: Returns the actual onboarding status
+      summary: "ENG: Returns the actual onboarding status - IT: Mostra lo stato attuale dell'onboarding"
       operationId: getBeneficiaryOnboardingStatus
       parameters:
         - name: Fiscal-Code
@@ -623,7 +622,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -676,13 +675,13 @@ paths:
     get:
       tags:
         - initiative-onboarding
-      summary: Return a pageable list of Citizen ranking status for a specific Intiative by using filters
-      description: Return a pageable list of Citizen ranking status for a specific Intiative by using filters
+      summary: "ENG: Return a pageable list of Citizen ranking status for a specific Intiative by using filters - IT: Mostra una lista paginata dello stato dei cittadini in graduatoria utilizzando dei filtri"
+      description: "ENG: Return a pageable list of Citizen ranking status for a specific Intiative by using filters - IT: Mostra una lista paginata dello stato dei cittadini in graduatoria utilizzando dei filtri"
       operationId: getInitiativeOnboardingRankingStatusPaged
       parameters:
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           schema:
             type: string
@@ -705,7 +704,7 @@ paths:
             type: string
         - name: beneficiary
           in: query
-          description: Fiscale code
+          description: "ENG: The fiscal code - IT: Il codice fiscale"
           required: false
           schema:
             type: string
@@ -750,8 +749,8 @@ paths:
     get:
       tags:
         - initiative-onboarding
-      summary: Return the requested filename containing the list of Citizen ranking status for a specific Intiative
-      description: Return the requested filename containing the list of Citizen ranking status for a specific Intiative
+      summary: "ENG: Return the requested filename containing the list of Citizen ranking status for a specific Intiative - IT: Restitusce un file contenente la lista degli stati dei cittadini in graduatoria per una specifica iniziativa"
+      description: "ENG: Return the requested filename containing the list of Citizen ranking status for a specific Intiative - IT: Restitusce un file contenente la lista degli stati dei cittadini in graduatoria per una specifica iniziativa"
       operationId: getRankingFileDownload
       parameters:
         - name: initiativeId
@@ -811,12 +810,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-
   /{initiativeId}/reward/exports:
     get:
       tags:
         - initiative-reward
-      summary: Return a pageable list of reward exports notification for a specific Initiative by using filters
+      summary: "ENG: Return a pageable list of reward exports notification for a specific Initiative by using filters - IT: Mostra una lista paginata di file di rimborsi per la specifica iniziativa usando dei filtri"
       operationId: getRewardNotificationExportsPaged
       parameters:
         - name: initiativeId
@@ -913,7 +911,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: Return a pageable list of reward imports notification for a specific Initiative by using filters
+      summary: "ENG: Return a pageable list of reward imports notification for a specific Initiative by using filters - IT: Mostra una lista paginata di file di esiti su una specifica iniziativa utilizzando dei filtri"
       operationId: getRewardNotificationImportsPaged
       parameters:
         - name: initiativeId
@@ -1017,7 +1015,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: Return the requested filename
+      summary: "ENG: Return the requested filename - IT: Restituisce il file richiesto"
       operationId: getRewardFileDownload
       parameters:
         - name: initiativeId
@@ -1082,7 +1080,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: Get dispositive file errors
+      summary: "ENG: Get dispositive file errors - IT: Mostra il file degli errori"
       operationId: getDispFileErrors
       parameters:
         - name: initiativeId
@@ -1146,7 +1144,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: get the export summary data
+      summary: "ENG: Get the export summary data - IT: Mostra un resoconto del file di rimborso"
       operationId: getExportSummary
       parameters:
         - name: initiativeId
@@ -1217,7 +1215,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: get the refunds list in pages
+      summary: "ENG: Get the refunds list in pages - IT: Mostra la lista dei rimborsi paginata"
       operationId: getExportRefundsListPaged
       parameters:
         - name: initiativeId
@@ -1354,7 +1352,7 @@ paths:
     get:
       tags:
         - initiative-reward
-      summary: get the refund detail
+      summary: "ENG: Return the refund detail - IT: Mostra i dettagli del rimborso"
       operationId: getRefundDetail
       parameters:
         - name: initiativeId
@@ -1432,82 +1430,93 @@ components:
       properties:
         sas:
           type: string
-    PortalToken:
-      type: object
-      properties:
-        token:
-          type: string
     InitiativeAdditionalDTO:
       type: object
       properties:
         serviceIO:
           type: boolean
+          description: "ENG: Indicates that the initiative is on IO - IT: Indica che l'iniziativa viene erogata su IO"
         serviceId:
           type: string
+          description: "ENG: The ID of the service - IT: L'ID del servizio"
         serviceName:
           type: string
+          description: "ENG: The name of the service - IT: Il nome del servizio"
         serviceScope:
           enum:
             - LOCAL
             - NATIONAL
           type: string
+          description: "ENG: The service scope of the initiative - IT: L'area di competenza dell'iniziativa"
         description:
           type: string
+          description: "ENG: The description of the service - IT: La descrizione del servizio"
         privacyLink:
           type: string
+          description: "ENG: Privacy policy link - IT: Link informativa privacy"
         tcLink:
           type: string
+          description: "ENG: T&C clauses link - IT: Link termini e condizioni d'uso"
         channels:
           $ref: '#/components/schemas/ChannelArrayDTO'
         logoFileName:
           type: string
+          description: "ENG: The file name of the logo - IT: Il nome file del logo"
         logoURL:
           type: string
+          description: "ENG: The URL logo related to the initiative  - IT: L'URL del logo relativo all'iniziativa"
         logoUploadDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of logo's upload  - IT: Data-ora dell'inserimento del logo"
     InitiativeGeneralDTO:
       type: object
       properties:
         budget:
           type: number
+          description: "ENG: The budget for the initiative - IT: Il budget per l'iniziativa"
         beneficiaryType:
           enum:
             - PF
             - PG
             - NF
           type: string
+          description: "ENG: The type of beneficiary able on this initiative - IT: Il tipo di beneficiario abilitato per questa iniziativa"
         familyUnitComposition:
           enum:
             - INPS
             - ANPR
           type: string
+          description: "ENG: Family unit composition provided by: INPS: Family unit composition on ISEE, ANPR: Registry family status,  - IT: Composizione del nucleo familiare fornita da: INPS: Nucleo familiare su ISEE, ANPR: Stato di famiglia anagrafica"
         beneficiaryKnown:
           type: boolean
+          description: "ENG: Indicates if a list of fiscal code is uploaded or not - IT: Indica se verrà caricata una lista di codifi fiscali conosciuti oppure no"
         beneficiaryBudget:
           type: number
+          description: "ENG: The budget for single beneficiary - IT: Budget per singolo beneficiario"
         startDate:
           type: string
-          description: Start date
+          description: "ENG: Start date of the initiative - IT: Data di inizio dell'iniziativa"
           format: date
           example: '2022-01-30'
         endDate:
           type: string
-          description: Start date
+          description: "ENG: End date of the initiative - IT: Data di fine dell'iniziativa"
           format: date
           example: '2022-01-30'
         rankingStartDate:
           type: string
-          description: Start date
+          description: "ENG: Start date of the expenditure related to the initiative - IT: Data di inizio spesa relativa all'iniziativa"
           format: date
           example: '2022-01-30'
         rankingEndDate:
           type: string
-          description: Start date
+          description: "ENG: End date of the expenditure related to the initiative - IT: Data di fine spesa relativa all'iniziativa"
           format: date
           example: '2022-01-30'
         rankingEnabled:
           type: boolean
+          description: "ENG: Indicates if the initiative type is with ranking or not - IT: Indica se il tipo di iniziativa è con graduatoria oppure no"
         descriptionMap:
           $ref: '#/components/schemas/DescriptionMap'
     AutomatedCriteriaDTO:
@@ -1515,19 +1524,25 @@ components:
       properties:
         authority:
           type: string
+          description: "ENG: The organization that provide the information - IT: L'ente che fornisce l'informazione"
         code:
           type: string
+          description: "ENG: The code that identify the criteria - IT: Il codice che identifica il criterio"
         field:
           type: string
+          description: "ENG: The field that determines onboarding (ex. ISEE) - IT: Il campo che determina l'onboarding (es.ISEE)"
         operator:
           type: string
+          description: "ENG: Determines how to take the value: GT: Greater than value, LT: Less than value, EQ: Equal, NOT_EQ: Not equal, GE: Greater equal, LE: Less equal, BTW_OPEN: Between,  - IT: Determina in che modo considerare il valore: GT: Maggiore di value, LT: Minore di value, EQ: Uguale, NOT_EQ: Diverso, GE: Maggiore o uguale, LE: Minore o uguale, BTW_OPEN: Compreso tra"
         value:
           type: string
+          description: "ENG: The field's value - IT: Il valore del campo che determina l'onboarding"
         orderDirection:
           type: string
           enum:
             - ASC
             - DESC
+          description: "ENG: One of the possible order direction for the initiative criteria: ASC: Ascendent, DESC: Descendent,  - IT: Uno dei possibili ordinamenti dei criteri dell'iniziativa: ASC: Ascendente, DESC: Discendente"
         iseeTypes:
           type: array
           items:
@@ -1550,31 +1565,38 @@ components:
               'RESIDENZIALE',
               'CORRENTE',
             ]
+          description: "ENG: The possibile ISEE types for the initiative criteria: ORDINARIO, MINORENNE, UNIVERSITARIO, SOCIONANITARIO, DOTTORATO, RESIDENZIALE, CORRENTE,  - IT: Le possibili tipologie di ISEE per i criteri dell'iniziativa: ORDINARIO, MINORENNE, UNIVERSITARIO, SOCIONANITARIO, DOTTORATO, RESIDENZIALE, CORRENTE"
     InitiativeDTO:
       type: object
       properties:
         initiativeId:
           type: string
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
         initiativeName:
           type: string
+          description: "ENG: The name of the initiative - IT: Il nome dell'iniziativa"
         organizationId:
           type: string
+          description: "ENG: The ID of the organization - IT: L'ID dell'ente"
         organizationName:
           type: string
+          description: "ENG: The name of the organization - IT: Il nome dell'ente"
         creationDate:
           type: string
-          description: Creation Date
           format: date-time
+          description: "ENG: The date of the initiative creation - IT: La data di creazione dell'iniziativa"
         updateDate:
           type: string
-          description: Update Date
           format: date-time
+          description: "ENG: The date of the initiative update - IT: La data di aggiornamento dell'iniziativa"
         status:
           type: string
+          description: "ENG: One of the possible status of the initiative: DRAFT, IN_REVISION, APPROVED, PUBLISHED, CLOSED:,  - IT: Uno dei possibili stati in cui si trova l'iniziativa: DRAFT: In bozza, IN_REVISION: In revisione all'ente, APPROVED: Approvata dall'admin, PUBLISHED: Pubblicata dall'ente (in corso), CLOSED: Conclusa"
         autocertificationCheck:
           type: boolean
         beneficiaryRanking:
           type: boolean
+          description: "ENG: The citizen position on ranking - IT: La posizione in graduatoria del cittadino"
         general:
           $ref: '#/components/schemas/InitiativeGeneralDTO'
         additionalInfo:
@@ -1586,6 +1608,7 @@ components:
           enum:
             - DISCOUNT
             - REFUND
+          description: "ENG: One of the possible reward type of the initiative: REFUND, DISCOUNT,  - IT: Una delle possibili tipologie di iniziativa: REFUND: A rimborso, DISCOUNT: A sconto"
         rewardRule:
           $ref: '#/components/schemas/InitiativeRewardRuleDTO'
         trxRule:
@@ -1594,6 +1617,7 @@ components:
           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
         isLogoPresent:
           type: boolean
+          description: "ENG: Indicates if the logo is present or not - IT: Indica se il logo è presente o meno"
     DescriptionLanguageMap:
       type: object
       properties:
@@ -1612,18 +1636,24 @@ components:
       properties:
         initiativeId:
           type: string
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
         initiativeName:
           type: string
+          description: "ENG: The name of the initiative - IT: Il nome dell'iniziativa"
         status:
           type: string
+          description: "ENG: One of the possible status of the initiative: DRAFT, IN_REVISION, APPROVED, PUBLISHED, CLOSED:,  - IT: Uno dei possibili stati in cui si trova l'iniziativa: DRAFT: In bozza, IN_REVISION: In revisione all'ente, APPROVED: Approvata dall'admin, PUBLISHED: Pubblicata dall'ente (in corso), CLOSED: Conclusa"
         creationDate:
           type: string
           format: date-time
+          description: "ENG: The date of the initiative creation - IT: La data di creazione dell'iniziativa"
         updateDate:
           type: string
           format: date-time
+          description: "ENG: The date of the initiative update - IT: La data di aggiornamento dell'iniziativa"
         rankingEnabled:
           type: boolean
+          description: "ENG: Indicates if the initiative type is with ranking or not - IT: Indica se il tipo di iniziativa è con graduatoria oppure no"
     OrganizationListDTO:
       type: array
       items:
@@ -1633,8 +1663,10 @@ components:
       properties:
         organizationId:
           type: string
+          description: "ENG: The ID of the organization - IT: L'ID dell'ente"
         organizationName:
           type: string
+          description: "ENG: The name of the organization - IT: Il nome dell'ente"
     ChannelArrayDTO:
       type: array
       items:
@@ -1648,8 +1680,10 @@ components:
             - email
             - mobile
           type: string
+          description: "ENG: One of the possible assistance contact type: web, email, mobile,  - IT: Una delle possibili tipologie di contatto per l'assistenza: web, email, mobile"
         contact:
           type: string
+          description: "ENG: The assistance contact - IT: Il contatto di assistenza"
     ErrorDTO:
       type: object
       properties:
@@ -1676,8 +1710,10 @@ components:
             $ref: '#/components/schemas/AutomatedCriteriaDTO'
         apiKeyClientId:
           type: string
+          description: "ENG: The api key of client id - IT: L'api key del client id"
         apiKeyClientAssertion:
           type: string
+          description: "ENG: The api key of client assertion - IT: L'api key del client assertion"
     SelfCriteriaBoolDTO:
       type: object
       properties:
@@ -1685,12 +1721,16 @@ components:
           enum:
             - boolean
           type: string
+          description: "ENG: The single choice - IT: Scelta singola"
         description:
           type: string
+          description: "ENG: The description's criteria - IT: La descrizione dei criteri"
         value:
           type: boolean
+          description: "ENG: A value always true - IT: Un valore sempre true"
         code:
           type: string
+          description: "ENG: The index,as string, of citeria - IT: L'indice,come stringa, dei criteri"
     SelfCriteriaMultiDTO:
       title: SelfCriteriaMultiDTO
       type: object
@@ -1699,8 +1739,10 @@ components:
           enum:
             - multi
           type: string
+          description: "ENG: The multiple choice - IT: Scelta multipla"
         description:
           type: string
+          description: "ENG: The description's criteria - IT: La descrizione dei criteri"
         value:
           type: array
           items:
@@ -1709,54 +1751,10 @@ components:
             - value1
             - value2
             - value3
+          description: "ENG: The possible value condition - IT: Le possibili condizioni per aderire"
         code:
           type: string
-    ConfigBeneficiaryRuleArrayDTO:
-      type: array
-      items:
-        $ref: '#/components/schemas/ConfigBeneficiaryRuleDTO'
-    ConfigBeneficiaryRuleDTO:
-      title: ConfigBeneficiaryRuleDTO
-      type: object
-      properties:
-        code:
-          type: string
-        authority:
-          type: string
-        field:
-          type: string
-        operator:
-          type: string
-        checked:
-          type: boolean
-    ConfigTrxRuleArrayDTO:
-      type: array
-      items:
-        $ref: '#/components/schemas/ConfigTrxRuleDTO'
-    ConfigTrxRuleDTO:
-      title: ConfigTrxRuleDTO
-      type: object
-      properties:
-        code:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        checked:
-          type: boolean
-    ConfigMccArrayDTO:
-      type: array
-      items:
-        $ref: '#/components/schemas/ConfigMccDTO'
-    ConfigMccDTO:
-      title: ConfigMccDTO
-      type: object
-      properties:
-        code:
-          type: string
-        description:
-          type: string
+          description: "ENG: The index,as string, of citeria - IT: L'indice,come stringa, dei criteri"
     DayConfig:
       type: object
       properties:
@@ -1773,27 +1771,11 @@ components:
               - FRIDAY
               - SATURDAY
               - SUNDAY
+            description: "ENG: The day of the transaction: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY,  - IT: Il giorno della transazione: LUNEDÍ, MARTEDÍ, MERCOLEDÍ, GIOVEDÍ, VENERDÍ, SABATO, DOMENICA"
         intervals:
           type: array
           items:
             $ref: '#/components/schemas/Interval'
-    InitiativeRewardAndTrxRulesDTO:
-      required:
-        - initiativeRewardType
-        - rewardRule
-      type: object
-      properties:
-        initiativeRewardType:
-          type: string
-          enum:
-            - REFUND
-            - DISCOUNT
-        rewardRule:
-          oneOf:
-            - $ref: '#/components/schemas/RewardGroupsDTO'
-            - $ref: '#/components/schemas/RewardValueDTO'
-        trxRule:
-          $ref: '#/components/schemas/InitiativeTrxConditionsDTO'
     InitiativeRewardRuleDTO:
       required:
         - _type
@@ -1802,11 +1784,13 @@ components:
       properties:
         _type:
           type: string
+          description: "ENG: Return a default string: rewardValue - IT: Restituisce una stringa di default: rewardValue"
         rewardValueType:
           type: string
           enum:
             - PERCENTAGE
             - ABSOLUTE
+          description: "ENG: One of the possible reward value type: PERCENTAGE: A percentage amount is rewarded, ABSOLUTE: An absolute amount is rewarded,  - IT: Una delle possibili regole per premiare l'importo: PERCENTAGE: Viene riconosciuta una percentuale, ABSOLUTE: Viene riconosciuto un importo fisso"
       discriminator:
         propertyName: _type
     InitiativeTrxConditionsDTO:
@@ -1834,56 +1818,24 @@ components:
       properties:
         startTime:
           type: string
-          description: 'hours:minutes:seconds.nano'
+          description: "ENG: The start time (hours:minutes:seconds.nano) to do transactions - IT: L'orario di inizio (ore:minuti:secondi.nano) per eseguire le transazioni"
           example: '00:16:00.000'
         endTime:
           type: string
-          description: 'hours:minutes:seconds.nano'
+          description: "ENG: The end time (hours:minutes:seconds.nano) to do transactions - IT: L'orario di fine (ore:minuti:secondi.nano) per eseguire le transazioni"
           example: '02:00:00.000'
     MccFilterDTO:
       type: object
       properties:
         allowedList:
           type: boolean
+          description: "ENG: Merchant category code filter exist or not - IT: Indica se il filtro sul codice categoria dell'esercente esiste o no"
         values:
           uniqueItems: true
           type: array
           items:
             type: string
-    LogoDTO:
-      type: object
-      properties:
-        logoFileName:
-          type: string
-          example: 'logo-name.png'
-        logoURL:
-          type: string
-          example: 'https://localhost:8080/logo/initiative/logo.png'
-        logoUploadDate:
-          type: string
-          description: date-time
-          example: '2022-11-18T17:16:08.8820821'
-    RewardGroupDTO:
-      type: object
-      properties:
-        from:
-          type: number
-        to:
-          type: number
-        rewardValue:
-          maximum: 100
-          minimum: 0
-          type: number
-    RewardGroupsDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
-        - type: object
-          properties:
-            rewardGroups:
-              type: array
-              items:
-                $ref: '#/components/schemas/RewardGroupDTO'
+            description: "ENG: The values of merchant category code - IT: I valori dei codici categoria dell'esercente"
     RewardLimitsDTO:
       type: object
       properties:
@@ -1894,27 +1846,21 @@ components:
             - WEEKLY
             - MONTHLY
             - YEARLY
+          description: "ENG: The frequency to receive a reward - IT: La cadenza temporale per ricevere il premio"
         rewardLimit:
           type: number
-    RewardValueDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/InitiativeRewardRuleDTO'
-        - type: object
-          properties:
-            rewardValue:
-              maximum: 100
-              minimum: 0
-              type: number
+          description: "ENG: The max value rewardable - IT: Il valore massimo premiabile"
     ThresholdDTO:
       type: object
       properties:
         from:
           type: number
+          description: "ENG: Min spending threshold - IT: Soglia minima di spesa"
         fromIncluded:
           type: boolean
         to:
           type: number
+          description: "ENG: Max spending threshold - IT: Soglia massima di spesa"
         toIncluded:
           type: boolean
     TrxCountDTO:
@@ -1923,11 +1869,13 @@ components:
         from:
           type: integer
           format: int64
+          description: "ENG: Min number of transaction to do - IT: Numero minimo di transazioni per poter ricevere il rimborso"
         fromIncluded:
           type: boolean
         to:
           type: integer
           format: int64
+          description: "ENG: Max number of transaction rewardable - IT: Numero massimo di transazioni su cui verrà calcolata la percentuale di rimborso"
         toIncluded:
           type: boolean
     InitiativeRefundRuleDTO:
@@ -1949,8 +1897,10 @@ components:
           enum:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
+          description: "ENG: One of the possible accumulated type to do refund: BUDGET_EXHAUSTED, THRESHOLD_REACHED,  - IT: Una delle possibili tipologie di importo per erogare il rimborso: BUDGET_EXHAUSTED: Al raggiungimento dell'importo massimo, THRESHOLD_REACHED: Al raggiungimento di un certo importo"
         refundThreshold:
           type: number
+          description: "ENG: The threshold to reach - IT: La soglia da raggiungere"
     TimeParameterDTO:
       required:
         - timeType
@@ -1964,6 +1914,7 @@ components:
             - WEEKLY
             - MONTHLY
             - QUARTERLY
+          description: "ENG: The frequency to do refund. The possible value is one of these: CLOSED, DAILY, WEEKLY, MONTHLY, QUARTERLY,  - IT: La cadenza temporale per erogare il rimborso. Il valore possibile è uno di questi: CLOSED: Ad iniziativa conclusa, DAILY: Ogni giorno, WEEKLY: Ogni settimana, MONTHLY: Ogni mese, QUARTERLY: Ogni tre mesi"
     OnboardingDTO:
       type: object
       properties:
@@ -1974,20 +1925,25 @@ components:
         pageNo:
           type: integer
           format: int32
+          description: "ENG: The number of the page - IT: Il numero della pagina"
         pageSize:
           type: integer
           format: int32
+          description: "ENG: The element size for page - IT: Il numero di elementi per pagina"
         totalElements:
           type: integer
           format: int32
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
     StatusOnboardingDTOS:
       type: object
       properties:
         beneficiary:
           type: string
+          description: "ENG: The name of beneficiary - IT: Il nome del beneficiario"
         beneficiaryState:
           type: string
           enum:
@@ -2002,9 +1958,11 @@ components:
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED
+          description: "ENG: The onboarding's status of beneficiary - IT: Lo stato dell'onboarding del beneficiario"
         updateStatusDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the status update - IT: La data-ora dell'aggiornamento dello stato"
     PageOnboardingRankingsDTO:
       type: object
       properties:
@@ -2015,50 +1973,66 @@ components:
         pageNumber:
           type: integer
           format: int32
+          description: "ENG: The number of the page - IT: Il numero della pagina"
         pageSize:
           type: integer
           format: int32
+          description: "ENG: The element size for page - IT: Il numero di elementi per pagina"
         totalElements:
           type: integer
           format: int32
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
         rankingStatus:
           type: string
+          description: "ENG: The ranking status - IT: Lo stato della graduatoria"
         rankingPublishedTimestamp:
           type: string
           format: date-time
+          description: "ENG: The date-time of the ranking pubblication - IT: La data-ora della pubblicazione della graduatoria"
         rankingGeneratedTimestamp:
           type: string
           format: date-time
+          description: "ENG: The date-time of the ranking generation - IT: La data-ora della generazione della graduatoria"
         totalEligibleOk:
           type: integer
           format: int64
+          description: "ENG: The number of citizen eligible and included in the ranking - IT: Il numero di cittadini che soddisfano i requisiti e rientrano nella graduatoria"
         totalEligibleKo:
           type: integer
           format: int64
+          description: "ENG: The number of citizen eligible but not included in the ranking - IT: Il numero di cittadini che soddisfano i requisiti ma non rientrano nella graduatoria"
         totalOnboardingKo:
           type: integer
           format: int64
+          description: "ENG: The number of citizen not eligible for the ranking - IT: Il numero di cittadini che non soddisfano i requisiti"
         rankingFilePath:
           type: string
+          description: "ENG: The file path where the ranking is stored - IT: Il path del file dove si trova la graduatoria"
     OnboardingRankingsDTO:
       type: object
       properties:
         beneficiary:
           type: string
+          description: "ENG: The citizen - IT: Il cittadino"
         criteriaConsensusTimestamp:
           type: string
           format: date-time
+          description: "ENG: The date-time of acceptance criteria - IT: La data-ora di accettazione dei criteri"
         rankingValue:
           type: integer
           format: int64
+          description: "ENG: The value that determines the ranking position - IT: Il valore che determina la posizione in graduatoria"
         ranking:
           type: integer
           format: int64
+          description: "ENG: The ranking position - IT: La posizione in graduatoria"
         beneficiaryRankingStatus:
           type: string
+          description: "ENG: One of the possible beneficiary ranking status: ELIGIBLE_OK: Citizen eligible and included in the ranking, ELIGIBLE_KO: Citizen eligible but not included in the ranking, ONBOARDING_KO: Citizen not eligible for the ranking,  IT: Uno dei possibili stati del cittadino in graduatoria: ELIGIBLE_OK: Cittadini che soddisfano i requisiti e rientrano nella graduatoria, ELIGIBLE_KO: Cittadini che soddisfano i requisiti ma non rientrano nella graduatoria, ONBOARDING_KO: Cittadini che non soddisfano i requisiti"
     RefundAdditionalInfoDTO:
       required:
         - identificationCode
@@ -2066,17 +2040,21 @@ components:
       properties:
         identificationCode:
           type: string
+          description: "ENG: The identification code - IT: Il codice identificativo"
     InitiativeStatisticsDTO:
       type: object
       properties:
         lastUpdatedDateTime:
           type: string
           format: date-time
+          description: "ENG: The last date-time of statistics update - IT: L'ultima data-ora dell'aggiornamento delle statistiche"
         onboardedCitizenCount:
           type: integer
           format: int32
+          description: "ENG: The counter of onboarded citizen - IT: Il contatore dei cittadini onboardati"
         accruedRewards:
           type: string
+          description: "ENG: The total budget spent (accrued bonus) - IT: Il budget totale speso (bonus maturato)"
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
       type: object
@@ -2088,9 +2066,11 @@ components:
         totalElements:
           type: integer
           format: int64
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
     PageRewardImportsDTO:
       title: PageRewardImportsDTO
       type: object
@@ -2102,11 +2082,14 @@ components:
         totalElements:
           type: integer
           format: int64
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
     DescriptionMap:
       type: object
+      description: "ENG: Description of the initiative rules - IT: Descrizione aggiuntiva delle regole dell'iniziativa"
       additionalProperties:
         type: string
       example:
@@ -2137,40 +2120,56 @@ components:
         feedbackDate:
           type: string
           format: date-time
+          description: "ENG: Date-time of the file's upload - IT: Data-ora di caricamento del file"
         filePath:
           type: string
+          description: "ENG: The file path - IT: Il file path"
         id:
           type: string
+          description: "ENG: The ID of the export file - IT: L'ID del file di rimborsi"
         initiativeId:
           type: string
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
         initiativeName:
           type: string
+          description: "ENG: The name of the initiative - IT: Il nome dell'iniziativa"
         notificationDate:
           type: string
           format: date
+          description: "ENG: The date oh the notification - IT: La data di notifica"
         organizationId:
           type: string
+          description: "ENG: The ID of the organization - IT: L'ID dell'ente"
         percentageResulted:
           type: string
+          description: "ENG: The percentage of rewardsResulted compared to rewardNotified, expressed as an integer in cents  - IT: La percentuale del numero dei rimborsi che hanno un esito comparato con quelli notificati, espressa in centesimi"
         percentageResultedOk:
           type: string
+          description: "ENG: The percentage of rewardsResultedOk compared to rewardNotified, expressed as an integer in cents  - IT: La percentuale del numero dei rimborsi che hanno un esito positivo comparato con quelli notificati, espressa in centesimi"
         percentageResults:
           type: string
+          description: "ENG: The percentage of rewardsResultsCents compared to rewardsExportedCents - IT: La percentuale del totale dei rimborsi con esito positivo in centesimi comparata con il totale dei rimborsi notificati"
         rewardsExported:
           type: string
+          description: "ENG: Total of notified rewards in euro - IT: Il totale dei rimborsi notificati in euro"
         rewardsNotified:
           type: integer
           format: int64
+          description: "ENG: Number of notified rewards - IT: Il numero di rimborsi notificati"
         rewardsResulted:
           type: integer
           format: int64
+          description: "ENG: The number of outcome's rewards - IT: Il numero di rimborsi con un esito"
         rewardsResultedOk:
           type: integer
           format: int64
+          description: "ENG: The number of successfull rewards - IT: Il numero di rimborsi con esito positivo"
         rewardsResults:
           type: string
+          description: "ENG: Total successful rewards in euro - IT: Il totale dei rimborsi con esito positivo in euro"
         status:
           type: string
+          description: "ENG: The status of the export file - IT: Lo stato del file dei rimborsi"
     RewardImportsDTO:
       title: RewardImportsDTO
       type: object
@@ -2178,45 +2177,61 @@ components:
         contentLength:
           type: integer
           format: int32
+          description: "ENG: ContentLenght of the file's upload event - IT: ContentLength dell’evento di caricamento del file"
         eTag:
           type: string
+          description: "ENG: Etag of the file's upload event - IT: Etag dell’evento di caricamento del file"
         elabDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the file elaboration - IT: La data-ora dell'elaborazione del file"
         errorsSize:
           type: integer
           format: int32
+          description: "ENG: The size of the error list during the file's elaboration - IT: La grandezza della lista di errori di elaborazione del file"
         exportIds:
           type: array
           items:
             type: string
+            description: "ENG: The export files list that the import file refers - IT: La lista di file di rimborsi a cui il file di esiti fa riferimento"
         feedbackDate:
           type: string
           format: date-time
+          description: "ENG: Date-time of the file's upload - IT: Data-ora di caricamento del file"
         filePath:
           type: string
+          description: "ENG: The file path - IT: Il file path"
         initiativeId:
           type: string
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
         organizationId:
           type: string
+          description: "ENG: The ID of the organization - IT: L'ID dell'ente"
         percentageResulted:
           type: string
+          description: "ENG: The percentage of rewardsResulted compared to rewardNotified. - IT: La percentuale del numero dei rimborsi che hanno un esito comparato con quelli notificati."
         percentageResultedOk:
           type: string
+          description: "ENG: The number of successfull rewards - IT: Il numero di rimborsi con esito positivo"
         percentageResultedOkElab:
           type: string
+          description: "ENG: The number of successfull and correctly processed rewards compared to the correctly processed rewards, expressed as an integer in cents  - IT: Percentuale del numero di feedback ricevuti con esito positivo e processati correttamente rispetto al totale di feedback processati correttamente, espresso come un intero in centesimi"
         rewardsResulted:
           type: integer
           format: int64
+          description: "ENG: The number of outcome's rewards - IT: Il numero di rimborsi con un esito"
         rewardsResultedError:
           type: integer
           format: int64
+          description: "ENG: The number of outcome's rewards with an error - IT: Numero di record del file il cui processamento ha comportato un errore"
         rewardsResultedOk:
           type: integer
           format: int64
+          description: "ENG: The number of successfull rewards - IT: Il numero di rimborsi con esito positivo"
         rewardsResultedOkError:
           type: integer
           format: int64
+          description: "ENG: The number of successfull rewards with an error - IT: Numero di mandate con esito positivo andate in errore"
         status:
           type: string
           enum:
@@ -2224,8 +2239,10 @@ components:
             - ERROR
             - IN_PROGRESS
             - WARN
+          description: "ENG: One of the possible status: IN PROGRESS, WARN: If the elaboration of at least one of the record is an error, ERROR, COMPLETE,  - IT: Uno dei possibili stati: IN PROGRESS: Se in fase di elaborazione, WARN: Se l’elaborazione di almeno un record si è risolta con un errore, ERROR: Se l’intero file non è stato elaborato a causa di un errore, COMPLETE: Se l’elaborazione è stata completata con successo"
         url:
           type: string
+          description: "ENG: Url of the file in the blob - IT: Url verso il file nel blob"
     IbanDTO:
       type: object
       required:
@@ -2237,17 +2254,23 @@ components:
       properties:
         iban:
           type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         checkIbanStatus:
           type: string
+          description: "ENG: Check of the IBAN status- IT: Check dello stato dell'IBAN"
         holderBank:
           type: string
+          description: "ENG: The name of the holder bank - IT: Il nome della banca titolare"
         description:
           type: string
+          description: "ENG: The account description - IT: La descrizione del conto"
         channel:
           type: string
+          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
         checkIbanResponseDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of check iban - IT: La data-ora del check iban"
     WalletDTO:
       type: object
       required:
@@ -2258,8 +2281,10 @@ components:
       properties:
         initiativeId:
           type: string
+          description: "ENG: The Id of the initiative - IT: L'ID dell'iniziativa"
         initiativeName:
           type: string
+          description: "ENG: The name of the initiative - IT: Il nome dell'iniziativa"
         status:
           enum:
             - NOT_REFUNDABLE_ONLY_IBAN
@@ -2269,23 +2294,31 @@ components:
             - UNSUBSCRIBED
             - SUSPENDED
           type: string
+          description: "ENG: Actual status of the citizen wallet for an initiative:-NOT_REFUNDABLE: the beneficiary has neither IBAN nor Payment Instrument associated to the initiative, NOT_REFUNDABLE_ONLY_IBAN: the beneficiary has an IBAN, but no Payment Instrument associated to the initiative, NOT_REFUNDABLE_ONLY_INSTRUMENT: the beneficiary has at least one Payment Instrument, but no IBAN associated to the initiative, REFUNDABLE: the beneficiary has both IBAN and Payment Instrument associated to the initiative, SUSPENDED: the beneficiary has been suspended from the initiative, UNSUBSCRIBED: the beneficiary is unsubribed from the initiative,  - IT: Stato attuale del portafoglio di un cittadino su una iniziativa:-NOT_REFUNDABLE: Il beneficiario non ha IBAN né Strumenti di Pagamento associati all’iniziativa, NOT_REFUNDABLE_ONLY_IBAN: Il beneficiario ha un IBAN, ma non ha alcuno Strumento di Pagamento associato all’iniziativa, NOT_REFUNDABLE_ONLY_INSTRUMENT: Il beneficiario ha almeno uno Strumento di Pagamento, ma non ha alcun IBAN associato all’iniziativa, REFUNDABLE: Il beneficiario ha sia un IBAN che almeno uno Strumento di Pagamento associato all’iniziativa, SUSPENDED: il beneficiario è stato sospeso dall'iniziativa, UNSUBSCRIBED: il beneficiario ha fatto il recesso dall'iniziativa"
         endDate:
           type: string
           format: date
+          description: "ENG: End date of the initiative - IT: Data del termine dell’iniziativa"
         amount:
           type: number
+          description: "ENG: Available balance: the maximum benefit net of all accrued benefits - IT: Saldo disponibile, ovvero il BENEFICIO/CAP MASSIMO previsto per quella iniziativa al netto di eventuali BENEFICI MATURATI"
         accrued:
           type: number
+          description: "ENG: Accrued benefits - IT: Benefici maturati"
         refunded:
           type: number
+          description: "ENG: Refunded benefits - IT: Beneficio rimborsato"
         lastCounterUpdate:
           type: string
           format: date-time
+          description: "ENG: Last date of update of accrued/refunded benefits - IT: Ultima data dell’aggiornamento dei benefici maturati/rimborsati"
         iban:
           type: string
+          description: "ENG: IBAN associated to the initiative - IT: IBAN associato all'iniziativa"
         nInstr:
           type: integer
           format: int32
+          description: "ENG: Number of Payment Instruments associated to the initiative - IT: Numero di strumenti di pagamento associati all'iniziativa"
     InstrumentListDTO:
       type: object
       required:
@@ -2295,7 +2328,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InstrumentDTO'
-          description: The list of payment instruments associated to the initiative by the citizen
+          description: "ENG: The list of payment instruments associated to the initiative by the citizen - IT: Lista degli strumenti di pagamento associati dal cittadino sull'iniziativa"
     InstrumentDTO:
       title: InstrumentDTO
       type: object
@@ -2307,28 +2340,30 @@ components:
       properties:
         idWallet:
           type: string
-          description: Wallet's id provided by the Payment manager
+          description: "ENG: Wallet's ID provided by the Payment manager - IT: Wallet ID provveduto dal Payment manager"
         instrumentId:
           type: string
-          description: Payment instrument id
+          description: "ENG: Payment instrument ID - IT: ID dello strumento di pagamento"
         maskedPan:
           type: string
-          description: Masked Pan
+          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
         channel:
           type: string
+          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
         brandLogo:
           type: string
-          description: Card's brand as mastercard, visa, ecc.
+          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
         status:
           enum:
             - ACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
           type: string
-          description: The status of the instrument
+          description: "ENG: One of the possible status of the instrument: ACTIVE: active instrument, PENDING_ENROLLMENT_REQUEST: the instrument enrollment request is in pending, PENDING_DEACTIVATION_REQUEST: the instrument deactivation request is in pending,  - IT: Uno dei possibili stati dello strumento di pagamento: ACTIVE: strumento di pagamento attivo , PENDING_ENROLLMENT_REQUEST: L'aggiunta dello strumento di pagamento è in attesa, PENDING_DEACTIVATION_REQUEST: La disattivazione dello strumento di pagamento è in attesa"
         activationDate:
           type: string
           format: date-time
+          description: "ENG: The instrument activation date - IT: La data di attivazione dello strumento di pagamento"
     OperationDTO:
       oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
@@ -2345,25 +2380,29 @@ components:
       properties:
         lastUpdate:
           type: string
-          description: date of the last update
+          description: "ENG: The date of the last update - IT: La data dell'ultimo aggiornamento"
           format: date-time
         operationList:
           type: array
           items:
             $ref: '#/components/schemas/OperationListDTO'
-          description: the list of transactions and operations of an initiative of a citizen
+          description: "ENG: The list of transactions and operations of citizen on initiative - IT: La lista delle transazioni ed operazioni di un cittadino su un iniziativa"
         pageNo:
           type: integer
           format: int32
+          description: "ENG: The number of the page - IT: Il numero della pagina"
         pageSize:
           type: integer
           format: int32
+          description: "ENG: The element size for page - IT: Il numero di elementi per pagina"
         totalElements:
           type: integer
           format: int32
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
     OperationListDTO:
       description: Complex type for items in the operation list
       oneOf:
@@ -2387,22 +2426,29 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - REJECTED_ADD_INSTRUMENT
             - REJECTED_DELETE_INSTRUMENT
           type: string
+          description: "ENG: Indicates one of the possible operation type: REJECTED_ADD_INSTRUMENT, REJECTED_DELETE_INSTRUMENT,  - IT: Indica uno dei possibili tipi di operazione: REJECTED_ADD_INSTRUMENT: Aggiunta dello strumento rifiutata, REJECTED_DELETE_INSTRUMENT: Cancellazione dello strumento rifiutata"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
         brandLogo:
           type: string
+          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
         instrumentId:
           type: string
+          description: "ENG: Payment instrument ID - IT: ID dello strumento di pagamento"
         maskedPan:
           type: string
+          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
         channel:
           type: string
+          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
     TransactionDetailDTO:
       type: object
       required:
@@ -2419,29 +2465,38 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - TRANSACTION
             - REVERSAL
           type: string
+          description: "ENG: Indicates one of the possible operation type: TRANSACTION, REVERSAL,  - IT: Indica uno dei possibili tipi di operazione: TRANSACTION: Transazione, REVERSAL: Storno"
         brandLogo:
           type: string
+          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
         maskedPan:
           type: string
+          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
         amount:
           type: number
+          description: "ENG: The amount of transaction - IT: Il totale della transazione"
         accrued:
           type: number
+          description: "ENG: Accrued benefits - IT: Benefici maturati"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
         brand:
           type: string
-          description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+          description: "ENG: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit - IT: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
         idTrxIssuer:
           type: string
+          description: "ENG: - IT:"
         idTrxAcquirer:
           type: string
+          description: "ENG: - IT:"
     InstrumentOperationDTO:
       type: object
       required:
@@ -2454,20 +2509,26 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - ADD_INSTRUMENT
             - DELETE_INSTRUMENT
           type: string
+          description: "ENG: One of the possible operation type: ADD_INSTRUMENT, DELETE_INSTRUMENT,  - IT: Uno dei possibili tipi di operazione: ADD_INSTRUMENT, DELETE_INSTRUMENT"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
         brandLogo:
           type: string
+          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
         maskedPan:
           type: string
+          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
         channel:
           type: string
+          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
     IbanOperationDTO:
       type: object
       required:
@@ -2479,17 +2540,22 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - ADD_IBAN
           type: string
+          description: "ENG: One of the possible operation type: ADD_IBAN,  - IT: Uno dei possibili tipi di operazione: ADD_IBAN"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
         iban:
           type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         channel:
           type: string
+          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
     OnboardingOperationDTO:
       type: object
       required:
@@ -2499,13 +2565,16 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - ONBOARDING
           type: string
+          description: "ENG: One of the possible operation type: ONBOARDING,  - IT: Uno dei possibili tipi di operazione: ONBOARDING"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
     RefundOperationDTO:
       type: object
       required:
@@ -2517,20 +2586,26 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         eventId:
           type: string
+          description: "ENG: The ID of the event - IT: L'ID dell'evento"
         operationType:
           enum:
             - PAID_REFUND
             - REJECTED_REFUND
           type: string
+          description: "ENG: One of the possible operation type: PAID_REFUND, REJECTED_REFUND,  - IT: Uno dei possibili tipi di operazione: PAID_REFUND: Rimborso pagato, REJECTED_REFUND: Rimborso rifiutato"
         operationDate:
           type: string
           format: date
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
         amount:
           type: number
+          description: "ENG: The amount of the refund - IT: Il totale del rimborso"
         accrued:
           type: number
+          description: "ENG: Accrued benefits - IT: Benefici maturati"
     TransactionOperationDTO:
       type: object
       required:
@@ -2544,25 +2619,32 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - TRANSACTION
             - REVERSAL
           type: string
+          description: "ENG: Indicates one of the possible operation type: TRANSACTION, REVERSAL,  - IT: Indica uno dei possibili tipi di operazione: TRANSACTION: Transazione, REVERSAL: Storno"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
         brandLogo:
           type: string
+          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
         maskedPan:
           type: string
+          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
         amount:
           type: number
+          description: "ENG: The amount of transaction - IT: Il totale della transazione"
         accrued:
           type: number
+          description: "ENG: Accrued benefits - IT: Benefici maturati"
         circuitType:
           type: string
-          description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+          description: "ENG: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit - IT: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
     SuspendOperationDTO:
       type: object
       required:
@@ -2572,13 +2654,16 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - SUSPENDED
           type: string
+          description: "ENG: Indicates one of the possible operation type: SUSPENDED,  - IT: Indica uno dei possibili tipi di operazione: SUSPENDED"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
     ReadmittedOperationDTO:
       type: object
       required:
@@ -2588,13 +2673,16 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
         operationType:
           enum:
             - READMITTED
           type: string
+          description: "ENG: Indicates one of the possible operation type: READMITTED - IT: Indica uno dei possibili tipi di operazione: READMITTED"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
     CsvDTO:
       title: CsvDTO
       type: object
@@ -2608,17 +2696,23 @@ components:
         createDate:
           type: string
           format: date
+          description: "ENG: The creation date of the refund file - IT: La data di creazione del file dei rimborsi"
         totalAmount:
           type: number
+          description: "ENG: The total of rewards present in the file - IT: Il totale dei premi presenti nel file"
         totalRefundedAmount:
           type: number
+          description: "ENG: The total of the rewards refunded present in the file - IT: Il totale dei premi rimborsati presenti nel file"
         totalRefunds:
           type: integer
           format: int64
+          description: "ENG: The number of total refunds - IT: Il numero totale dei rimborsi presenti"
         successPercentage:
           type: string
+          description: "ENG: The success percentage of the refunds - IT: La percentuale di successo dei rimborsi"
         status:
           type: string
+          description: "ENG: One of the possible status: EXPORTED, PARTIAL, COMPLETE - IT: Uno dei possibili stati: EXPORTED: Al momento della creazione del file, PARTIAL: Se non si hanno tutti gli esiti, COMPLETE: Se tutte le richieste sono state ricevute"
     ExportListDTO:
       type: object
       properties:
@@ -2629,15 +2723,19 @@ components:
         pageNo:
           type: integer
           format: int32
+          description: "ENG: The number of the page - IT: Il numero della pagina"
         pageSize:
           type: integer
           format: int32
+          description: "ENG: The element size for page - IT: Il numero di elementi per pagina"
         totalElements:
           type: integer
           format: int32
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
     OnboardingStatusDTO:
       title: OnboardingStatusDTO
       type: object
@@ -2658,83 +2756,59 @@ components:
             - UNSUBSCRIBED
             - SUSPENDED
           type: string
-          description: actual status of the citizen onboarding for an initiative
+          description: "ENG: The actual status for the onboarding's citizen. The possible status is one of these: INVITED, ACCEPTED_TC, DEMANDED, ON_EVALUATION, ONBOARDING_KO, ELIGIBLE_KO, ONBOARDING_OK, ELIGIBLE, INACTIVE, UNSUBSCRIBED, SUSPENDED,  - IT: Lo stato attuale dell'onboarding in cui si trova il cittadino. Lo stato può essere uno di questi: INVITED, ACCEPTED_TC, DEMANDED, ON_EVALUATION, ONBOARDING_KO, ELIGIBLE_KO, ONBOARDING_OK, ELIGIBLE, INACTIVE, UNSUBSCRIBED, SUSPENDED"
     ExportDetailDTO:
       type: object
       properties:
         iban:
           type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         amount:
           type: number
+          description: "ENG: The amount of refund - IT: Il totale del rimborso"
         status:
           type: string
+          description: "ENG: One of the possible status: RECOVERED, EXPORTED, COMPLETED_OK, COMPLETED_KO - IT: Uno dei possibili stati: RECOVERED: Se in precedenza era un completed_ko ma è stato recuperato, EXPORTED: Se correttamente esportato nel csv da affidare all’ente, COMPLETED_OK: Se si è avuto riscontro positivo, COMPLETED_KO: Se si è avuto riscontro negativo, eventuali dettagli nel campo rejection_reason"
         eventId:
           type: string
+          description: "ENG: The ID of the event - IT: L'ID dell'evento"
     RefundDetailDTO:
       type: object
       properties:
         fiscalCode:
           type: string
+          description: "ENG: The fiscal code of the citizen - IT: Il codice fiscale del cittadino"
         iban:
           type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         amount:
           type: number
+          description: "ENG: The amount of refund - IT: Il totale del rimborso"
         startDate:
           type: string
           format: date
+          description: "ENG: The start date of the refund's reference period - IT: La data di inizio del periodo di riferimento del rimborso"
         endDate:
           type: string
           format: date
+          description: "ENG: The end date of the refund's reference period - IT: La data di fine del periodo di riferimento del rimborso"
         status:
           type: string
+          description: "ENG: One of the possible status: RECOVERED, EXPORTED, COMPLETED_OK, COMPLETED_KO - IT: Uno dei possibili stati: RECOVERED: Se in precedenza era un completed_ko ma è stato recuperato, EXPORTED: Se correttamente esportato nel csv da affidare all’ente, COMPLETED_OK: Se si è avuto riscontro positivo, COMPLETED_KO: Se si è avuto riscontro negativo, eventuali dettagli nel campo rejection_reason"
         refundType:
           type: string
+          description: "ENG: One of the possible type: ORDINARY, REMEDIAL - IT: Una delle possibili tipologie: ORDINARY, REMEDIAL: Quando un ordinary va ko e viene recuperato"
         cro:
           type: string
+          description: "ENG: CRO = Codice di Riferimento dell'Operazione - IT: CRO = Codice di Riferimento dell'Operazione"
         transferDate:
           type: string
           format: date
+          description: "ENG: The date of refund's sending by the organization - IT: La data di invio del rimborso da parte dell'ente"
         userNotificationDate:
           type: string
           format: date
-    FamilyUnitCompositionDTO:
-      type: object
-      required:
-        - usersList
-      properties:
-        usersList:
-          type: array
-          items:
-            $ref: '#/components/schemas/OnboardingDetailDTO'
-          description: The list of family unit composition details
-    OnboardingDetailDTO:
-      type: object
-      required:
-        - code
-        - message
-        - details
-      properties:
-        fiscalCode:
-          type: string
-        familyId:
-          type: string
-        onboardingDate:
-          type: string
-          format: date
-        status:
-          enum:
-            - INVITED
-            - ACCEPTED_TC
-            - DEMANDED
-            - ON_EVALUATION
-            - ONBOARDING_KO
-            - ELIGIBLE_KO
-            - ONBOARDING_OK
-            - ELIGIBLE
-            - INACTIVE
-            - UNSUBSCRIBED
-            - SUSPENDED
-          type: string
+          description: "ENG: The date of the notification to user - IT: La data di notifica all'utente"
   securitySchemes:
     Bearer:
       type: apiKey
@@ -2742,6 +2816,3 @@ components:
       in: header
 security:
   - Bearer: []
-tags:
-  - name: initiative
-    description: ''
