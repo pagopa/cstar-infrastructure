@@ -1744,6 +1744,15 @@ components:
           type: string
         status:
           type: string
+          enum:
+            - AUTHORIZED
+            - REWARDED
+            - CANCELLED
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
     InstrumentOperationDTO:
       type: object
       required:
@@ -1951,6 +1960,15 @@ components:
             09->Satispay, 10->PrivateCircuit
         status:
           type: string
+          enum:
+            - AUTHORIZED
+            - REWARDED
+            - CANCELED
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
     IbanPutDTO:
       title: IbanPutDTO
       type: object
@@ -2082,9 +2100,6 @@ components:
         organizationName:
           type: string
         nTrx:
-          type: integer
-          format: int64
-        maxTrx:
           type: integer
           format: int64
     InitiativesWithInstrumentDTO:
