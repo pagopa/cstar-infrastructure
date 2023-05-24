@@ -65,6 +65,19 @@ resource "azurerm_eventgrid_system_topic" "idpay_refund_storage_topic" {
   resource_group_name    = azurerm_resource_group.rg_refund_storage.name
   source_arm_resource_id = module.idpay_refund_storage.id
   topic_type             = "Microsoft.Storage.StorageAccounts"
+
+  identity {
+    type = "SystemAssigned"
+  }
+}
+
+# Assign role to event grid topic to publish over refund_storage_topic
+resource "azurerm_role_assignment" "event_grid_sender_role_on_refund_storage_topic" {
+  role_definition_name = "Azure Event Hubs Data Sender"
+  principal_id         = azurerm_eventgrid_system_topic.idpay_refund_storage_topic.identity[0].principal_id
+  scope                = data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+
+  depends_on = [azurerm_eventgrid_system_topic.idpay_refund_storage_topic]
 }
 
 /* cannot use delivery_property with plugin 2.99, creating through azapi_resource.idpay_refund_storage_topic_event_subscription instead
@@ -89,20 +102,25 @@ resource "azapi_resource" "idpay_refund_storage_topic_event_subscription" {
 
   body = jsonencode({
     "properties" : {
-      "destination" : {
-        "endpointType" : "EventHub",
-        "properties" : {
-          "deliveryAttributeMappings" : [
-            {
-              "name" : "PartitionKey",
-              "properties" : {
-                "sourceField" : "data.clientRequestId"
-              },
-              "type" : "Dynamic"
-            }
-          ],
-          "resourceId" : data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+      "deliveryWithResourceIdentity" : {
+        "identity" : {
+          "type" : "SystemAssigned"
         }
+        "destination" : {
+          "endpointType" : "EventHub",
+          "properties" : {
+            "deliveryAttributeMappings" : [
+              {
+                "name" : "PartitionKey",
+                "properties" : {
+                  "sourceField" : "data.clientRequestId"
+                },
+                "type" : "Dynamic"
+              }
+            ],
+            "resourceId" : data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+          }
+        },
       },
       "eventDeliverySchema" : "EventGridSchema",
       "filter" : {
