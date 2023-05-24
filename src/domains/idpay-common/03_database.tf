@@ -79,6 +79,14 @@ locals {
         {
           keys   = ["updateDate"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
