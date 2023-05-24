@@ -22,7 +22,7 @@ module "idpay_merchant_storage" {
   tags = var.tags
 }
 
-resource "azurerm_storage_container" "idpay_merchant_container" {
+resource "azurerm_storage_container" "idpay_merchant_container_test" {
   name                  = "merchant"
   storage_account_name  = module.idpay_merchant_storage.name
   container_access_type = "private"

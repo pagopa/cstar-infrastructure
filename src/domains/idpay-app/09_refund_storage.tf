@@ -33,6 +33,12 @@ resource "azurerm_storage_container" "idpay_refund_container" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_container" "idpay_merchant_container" {
+  name                  = "merchant"
+  storage_account_name  = module.idpay_refund_storage.name
+  container_access_type = "private"
+}
+
 resource "azurerm_key_vault_secret" "refund_storage_access_key" {
   name         = "refund-storage-access-key"
   value        = module.idpay_refund_storage.primary_access_key
