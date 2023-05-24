@@ -8,7 +8,7 @@ resource "azapi_resource" "apim-merchant-id-retriever" {
       description = "idpay-merchant-id-retriever"
       format      = "rawxml"
       value = templatefile("./api_fragment/merchant-id-retriever.xml", {
-        ingress_ip = var.ingress_load_balancer_ip
+        ingress_hostname = var.ingress_load_balancer_hostname
       })
     }
   })

@@ -44,7 +44,7 @@
             Jwt selcToken = (Jwt)context.Variables["outputToken"];
 
             JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
-            return organization["fiscal_code"];
+            return organization["fiscal_code"].ToString();
         }" />
 
         <include-fragment fragment-id="idpay-merchant-id-retriever" />
