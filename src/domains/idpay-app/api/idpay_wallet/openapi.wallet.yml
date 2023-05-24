@@ -534,7 +534,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        '204':
           description: Unsubscribe OK
           content:
             application/json: { }
