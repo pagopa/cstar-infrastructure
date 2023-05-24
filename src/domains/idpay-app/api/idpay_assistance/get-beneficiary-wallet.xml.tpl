@@ -13,31 +13,40 @@
 <policies>
     <inbound>
         <base />
-        <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
-            <set-url>${pdv_tokenizer_url}/tokens</set-url>
-            <set-method>PUT</set-method>
-            <set-header name="x-api-key" exists-action="override">
-                <value>{{pdv-api-key}}</value>
-            </set-header>
-            <set-body>@{
-                    return new JObject(
-                            new JProperty("pii", context.Request.Headers.GetValueOrDefault("Fiscal-Code")
-                            )).ToString();
-                }</set-body>
-        </send-request>
         <choose>
-            <when condition="@(context.Variables["responsePDV"] == null)">
-                <return-response>
-                    <set-status code="504" reason="PDV Timeout" />
-                </return-response>
-            </when>
-            <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
-                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-                <rewrite-uri template="@("/idpay/wallet/{initiativeId}/"+(string)((IResponse)context.Variables["responsePDV"]).Body.As<JObject>()["token"])" />
+            <when condition="context.Request.Headers.ContainsKey("Fiscal-Code") == true">
+                <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
+                    <set-url>${pdv_tokenizer_url}/tokens</set-url>
+                    <set-method>PUT</set-method>
+                    <set-header name="x-api-key" exists-action="override">
+                        <value>{{pdv-api-key}}</value>
+                    </set-header>
+                    <set-body>@{
+                            return new JObject(
+                                    new JProperty("pii", context.Request.Headers.GetValueOrDefault("Fiscal-Code")
+                                    )).ToString();
+                        }</set-body>
+                </send-request>
+                <choose>
+                    <when condition="@(context.Variables["responsePDV"] == null)">
+                        <return-response>
+                            <set-status code="504" reason="PDV Timeout" />
+                        </return-response>
+                    </when>
+                    <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
+                        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
+                        <rewrite-uri template="@("/idpay/wallet/{initiativeId}/"+(string)((IResponse)context.Variables["responsePDV"]).Body.As<JObject>()["token"])" />
+                    </when>
+                    <otherwise>
+                        <return-response>
+                            <set-status code="401" reason="Unauthorized" />
+                        </return-response>
+                    </otherwise>
+                </choose>
             </when>
             <otherwise>
                 <return-response>
-                    <set-status code="401" reason="Unauthorized" />
+                    <set-status code="400" reason="Missing Fiscal-Code" />
                 </return-response>
             </otherwise>
         </choose>
