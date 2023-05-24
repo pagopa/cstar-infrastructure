@@ -534,7 +534,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        '204':
           description: Unsubscribe OK
           content:
             application/json: { }
@@ -848,9 +848,6 @@ components:
         organizationName:
           type: string
         nTrx:
-          type: integer
-          format: int64
-        maxTrx:
           type: integer
           format: int64
     InitiativesWithInstrumentDTO:
