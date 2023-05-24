@@ -519,11 +519,11 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
-      },
-       {
-         keys   = ["fileName","initiativeId"]
-         unique = true
-       }
+        },
+        {
+          keys   = ["fileName", "initiativeId"]
+          unique = true
+        }
       ]
     },
     {
@@ -536,10 +536,10 @@ locals {
           keys   = ["merchantId"]
           unique = true
         },
-         {
-           keys   = ["fiscalCode","acquirerId"]
-           unique = true
-         }
+        {
+          keys   = ["fiscalCode", "acquirerId"]
+          unique = true
+        }
       ]
     },
   ]
