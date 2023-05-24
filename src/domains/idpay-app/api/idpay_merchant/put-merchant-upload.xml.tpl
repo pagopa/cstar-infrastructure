@@ -15,20 +15,9 @@
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaymerchant/" />
             <set-variable name="varUserIdFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
-            <set-variable name="varUserOrgRoleFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
             <set-header name="organization-user-id" exists-action="override">
                 <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
             </set-header>
-            <set-body>@{
-                var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
-                requestToBeModified.Add(new JProperty("organizationUserId", context.Variables["varUserIdFromValidToken"]));
-                requestToBeModified.Add(new JProperty("organizationUserRole", context.Variables["varUserOrgRoleFromValidToken"]));
-                return requestToBeModified.ToString();
-            }
-            </set-body>
         <rewrite-uri template="@("/idpay/merchant/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/upload")" />
     </inbound>
     <backend>
