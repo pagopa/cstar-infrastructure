@@ -11,7 +11,7 @@
     <!-- If API Management find it in the cache, make a request for it and store it -->
     <when condition="@(!context.Variables.ContainsKey("merchantId"))">
       <send-request mode="new" response-variable-name="responseMerchantId" timeout="10" ignore-error="true">
-        <set-url>@("https://${ingress_hostname}/idpaymerchants/idpay/merchant/acquirer/" + ((String)context.Variables["acquirerId"]) + "/merchant-fiscalcode/" + ((String)context.Variables["merchantFiscalCode"]) + "/id")</set-url>
+        <set-url>@("https://${ingress_hostname}/idpaymerchant/idpay/merchant/acquirer/" + ((String)context.Variables["acquirerId"]) + "/merchant-fiscalcode/" + ((String)context.Variables["merchantFiscalCode"]) + "/id")</set-url>
         <set-method>GET</set-method>
       </send-request>
 
