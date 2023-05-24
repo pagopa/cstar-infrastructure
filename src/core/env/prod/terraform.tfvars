@@ -20,11 +20,10 @@ pgp_put_limit_bytes            = 524288000 # 500MB
 apim_publisher_name            = "PagoPA Centro Stella PROD"
 apim_sku                       = "Premium_1"
 
-# ddos_protection_plan = {
-#   id     = "/subscriptions/0da48c97-355f-4050-a520-f11a18b8be90/resourceGroups/sec-p-ddos/providers/Microsoft.Network/ddosProtectionPlans/sec-p-ddos-protection"
-#   enable = false
-# }
-ddos_protection_plan = null
+ddos_protection_plan = {
+  id     = "/subscriptions/0da48c97-355f-4050-a520-f11a18b8be90/resourceGroups/sec-p-ddos/providers/Microsoft.Network/ddosProtectionPlans/sec-p-ddos-protection"
+  enable = true
+}
 
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.1.0.0&mask=16&division=35.df9ccf000
 cidr_vnet = ["10.1.0.0/16"]
@@ -369,39 +368,7 @@ dns_zone_prefix         = "cstar"
 dns_zone_welfare_prefix = "welfare"
 
 cosmos_mongo_db_params = {
-  enabled      = true
-  kind         = "MongoDB"
-  capabilities = ["EnableMongo"]
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "Strong"
-    max_interval_in_seconds = 5
-    max_staleness_prefix    = 100
-  }
-  server_version                   = "4.0"
-  main_geo_location_zone_redundant = true
-  enable_free_tier                 = false
-
-  private_endpoint_enabled      = true
-  public_network_access_enabled = true
-  additional_geo_locations = [
-    {
-      location          = "northeurope"
-      failover_priority = 1
-      zone_redundant    = true
-    }
-  ]
-
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = true
-}
-
-cosmos_mongo_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 10000
-  throughput         = 2000
+  enabled = true
 }
 
 dexp_params = {

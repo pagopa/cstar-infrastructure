@@ -148,7 +148,7 @@ No outputs.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/azurerm.git//cosmosdb_account | v2.15.1 |
+| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/azurerm.git//cosmosdb_account | v4.15.0 |
 | <a name="module_event_hub_idpay_00"></a> [event\_hub\_idpay\_00](#module\_event\_hub\_idpay\_00) | git::https://github.com/pagopa/azurerm.git//eventhub | ISB-124-fix-conditional-operator |
 | <a name="module_event_hub_idpay_01"></a> [event\_hub\_idpay\_01](#module\_event\_hub\_idpay\_01) | git::https://github.com/pagopa/azurerm.git//eventhub | ISB-124-fix-conditional-operator |
 | <a name="module_idpay_cdn"></a> [idpay\_cdn](#module\_idpay\_cdn) | git::https://github.com/pagopa/azurerm.git//cdn | v3.2.1 |
@@ -260,7 +260,7 @@ No outputs.
 | <a name="input_robots_indexed_paths"></a> [robots\_indexed\_paths](#input\_robots\_indexed\_paths) | List of cdn paths to allow robots index | `list(string)` | `[]` | no |
 | <a name="input_rtd_keyvault"></a> [rtd\_keyvault](#input\_rtd\_keyvault) | n/a | <pre>object({<br>    name           = string<br>    resource_group = string<br>  })</pre> | n/a | yes |
 | <a name="input_service_bus_namespace"></a> [service\_bus\_namespace](#input\_service\_bus\_namespace) | n/a | <pre>object({<br>    sku = string<br>  })</pre> | n/a | yes |
-| <a name="input_spa"></a> [spa](#input\_spa) | spa root dirs | `list(string)` | <pre>[<br>  "portale-enti",<br>  "mocks/merchant"<br>]</pre> | no |
+| <a name="input_spa"></a> [spa](#input\_spa) | spa root dirs | `list(string)` | <pre>[<br>  "portale-enti",<br>  "portale-esercenti",<br>  "mocks/merchant"<br>]</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
 | <a name="input_terraform_remote_state_core"></a> [terraform\_remote\_state\_core](#input\_terraform\_remote\_state\_core) | n/a | <pre>object({<br>    resource_group_name  = string,<br>    storage_account_name = string,<br>    container_name       = string,<br>    key                  = string<br>  })</pre> | n/a | yes |
 
