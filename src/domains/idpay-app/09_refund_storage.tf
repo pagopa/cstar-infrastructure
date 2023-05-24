@@ -102,20 +102,25 @@ resource "azapi_resource" "idpay_refund_storage_topic_event_subscription" {
 
   body = jsonencode({
     "properties" : {
-      "destination" : {
-        "endpointType" : "EventHub",
-        "properties" : {
-          "deliveryAttributeMappings" : [
-            {
-              "name" : "PartitionKey",
-              "properties" : {
-                "sourceField" : "data.clientRequestId"
-              },
-              "type" : "Dynamic"
-            }
-          ],
-          "resourceId" : data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+      "deliveryWithResourceIdentity" : {
+        "identity" : {
+          "type" : "SystemAssigned"
         }
+        "destination" : {
+          "endpointType" : "EventHub",
+          "properties" : {
+            "deliveryAttributeMappings" : [
+              {
+                "name" : "PartitionKey",
+                "properties" : {
+                  "sourceField" : "data.clientRequestId"
+                },
+                "type" : "Dynamic"
+              }
+            ],
+            "resourceId" : data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id
+          }
+        },
       },
       "eventDeliverySchema" : "EventGridSchema",
       "filter" : {
