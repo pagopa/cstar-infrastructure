@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "msg_rg" {
 
 
 module "event_hub" {
-  source                        = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.2.1"
+  source                        = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.11.2"
   name                          = format("%s-evh-ns", local.project)
   location                      = var.location
   resource_group_name           = azurerm_resource_group.msg_rg.name
