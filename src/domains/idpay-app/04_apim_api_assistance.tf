@@ -6,8 +6,8 @@ module "idpay_api_assistance_product" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
 
   product_id   = "idpay_api_assistance_product"
-  display_name = "IDPAY_APP_ASSISTANCE PRODUCT"
-  description  = "IDPAY_APP_ASSISTANCE PRODUCT"
+  display_name = "IDPAY_API_ASSISTANCE PRODUCT"
+  description  = "IDPAY_API_ASSISTANCE PRODUCT"
 
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
@@ -48,7 +48,7 @@ module "idpay_api_assistance" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.idpay_api_assistance_product.product_id]
-  subscription_required = false
+  subscription_required = true
 
   api_operation_policies = [
     {
