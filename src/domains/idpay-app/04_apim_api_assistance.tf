@@ -5,9 +5,9 @@
 module "idpay_api_assistance_product" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
 
-  product_id   = "idpay_api_assistance"
-  display_name = "IDPAY_APP_ASSISTANCE"
-  description  = "IDPAY_APP_ASSISTANCE"
+  product_id   = "idpay_api_assistance_product"
+  display_name = "IDPAY_APP_ASSISTANCE PRODUCT"
+  description  = "IDPAY_APP_ASSISTANCE PRODUCT"
 
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
