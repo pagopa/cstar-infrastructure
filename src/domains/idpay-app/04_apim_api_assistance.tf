@@ -47,7 +47,7 @@ module "idpay_api_assistance" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_assistance.product_id]
+  product_ids           = [module.idpay_api_assistance_product.product_id]
   subscription_required = false
 
   api_operation_policies = [
