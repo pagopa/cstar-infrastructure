@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
-        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/notification/exports/paged")" copy-unmatched-params="true" />
+        <rewrite-uri template="@("/idpay/organization/{organizationId}/initiative/{initiativeId}/reward/notification/exports/paged")" copy-unmatched-params="true" />
     </inbound>
     <backend>
         <base />

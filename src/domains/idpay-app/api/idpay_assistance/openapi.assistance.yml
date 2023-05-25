@@ -43,13 +43,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /summary:
+  /organization/{organizationId}/summary:
     get:
       tags:
         - initiative
       summary: "ENG: Returns the list of initiatives names for a specific organization - IT: Mostra una lista di iniziative per uno specifico ente"
       description: "ENG: Returns the list of initiatives names for a specific organization - IT: Mostra una lista di iniziative per uno specifico ente"
       operationId: getInitativeSummary
+      parameters:
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Ok
@@ -76,7 +83,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
-  /{initiativeId}/statistics:
+  /organization/{organizationId}/initiative/{initiativeId}/statistics:
     get:
       tags:
         - initiative
@@ -86,6 +93,12 @@ paths:
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
           required: true
           schema:
             type: string
@@ -126,7 +139,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}:
+  /organization/{organizationId}/initiative/{initiativeId}:
     get:
       tags:
         - initiative
@@ -137,6 +150,12 @@ paths:
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
           required: true
           schema:
             type: string
@@ -171,7 +190,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  '/{initiativeId}/beneficiary/{iban}':
+  '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/{iban}':
     get:
       tags:
         - beneficiary
@@ -187,6 +206,12 @@ paths:
         - name: iban
           in: path
           description: The citizen iban
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
           required: true
           schema:
             type: string
@@ -239,7 +264,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}/beneficiary/timeline':
+  '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/timeline':
     get:
       tags:
         - beneficiary
@@ -252,6 +277,12 @@ paths:
             type: string
             example: Fiscal-Code
           required: true
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
@@ -330,7 +361,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}/beneficiary/timeline/{operationId}':
+  '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/timeline/{operationId}':
     get:
       tags:
         - beneficiary
@@ -343,6 +374,12 @@ paths:
             type: string
             example: Fiscal-Code
           required: true
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
@@ -398,7 +435,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}/beneficiary/wallet':
+  '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/wallet':
     get:
       tags:
         - beneficiary
@@ -411,6 +448,12 @@ paths:
             type: string
             example: Fiscal-Code
           required: true
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
@@ -460,7 +503,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/{initiativeId}/beneficiary/instruments':
+  '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/instruments':
     get:
       tags:
         - beneficiary
@@ -473,6 +516,12 @@ paths:
             type: string
             example: Fiscal-Code
           required: true
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
@@ -522,7 +571,7 @@ paths:
               example:
                 code: 0
                 message: string
-  /{initiativeId}/onboardings:
+  /organization/{organizationId}/initiative/{initiativeId}/onboardings:
     get:
       tags:
         - initiative-onboarding
@@ -533,6 +582,12 @@ paths:
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
           required: true
           schema:
             type: string
@@ -608,7 +663,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/onboarding/status:
+  /organization/{organizationId}/initiative/{initiativeId}/onboarding/status:
     get:
       tags:
         - initiative-onboarding
@@ -623,6 +678,12 @@ paths:
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
           required: true
           schema:
             type: string
@@ -671,17 +732,23 @@ paths:
               example:
                 code: 0
                 message: string
-  /{initiativeId}/ranking/exports:
+  /organization/{organizationId}/initiative/{initiativeId}/ranking/exports:
     get:
       tags:
         - initiative-onboarding
-      summary: "ENG: Return a pageable list of Citizen ranking status for a specific Intiative by using filters - IT: Mostra una lista paginata dello stato dei cittadini in graduatoria utilizzando dei filtri"
+      summary: "ENG: Return a pageable list of Citizen ranking status for a specific Intiative by using filters - IT: Mostra una lista paginata dello stato dei cittadini in graduatoria utilizzando dei filtri" 
       description: "ENG: Return a pageable list of Citizen ranking status for a specific Intiative by using filters - IT: Mostra una lista paginata dello stato dei cittadini in graduatoria utilizzando dei filtri"
       operationId: getInitiativeOnboardingRankingStatusPaged
       parameters:
         - name: initiativeId
           in: path
           description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
           required: true
           schema:
             type: string
@@ -745,7 +812,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/ranking/exports/{filename}:
+  /organization/{organizationId}/initiative/{initiativeId}/ranking/exports/{filename}:
     get:
       tags:
         - initiative-onboarding
@@ -760,6 +827,12 @@ paths:
           style: simple
           schema:
             type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string  
         - name: filename
           in: path
           description: filename
@@ -810,7 +883,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/reward/exports:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/exports:
     get:
       tags:
         - initiative-reward
@@ -822,6 +895,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: page
@@ -907,7 +986,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/reward/imports:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/imports:
     get:
       tags:
         - initiative-reward
@@ -919,6 +998,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: page
@@ -1011,7 +1096,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
-  /{initiativeId}/reward/exports/{filename}:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/exports/{filename}:
     get:
       tags:
         - initiative-reward
@@ -1023,6 +1108,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: filename
@@ -1076,7 +1167,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
-  /{initiativeId}/reward/import/{filename}/errors:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/import/{filename}/errors:
     get:
       tags:
         - initiative-reward
@@ -1088,6 +1179,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: filename
@@ -1140,7 +1237,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/reward/exports/{exportId}/summary:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/exports/{exportId}/summary:
     get:
       tags:
         - initiative-reward
@@ -1152,6 +1249,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: exportId
@@ -1211,7 +1314,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/reward/exports/{exportId}/refunds:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/exports/{exportId}/refunds:
     get:
       tags:
         - initiative-reward
@@ -1223,6 +1326,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: exportId
@@ -1348,7 +1457,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{initiativeId}/reward/exports/event/{eventId}:
+  /organization/{organizationId}/initiative/{initiativeId}/reward/exports/event/{eventId}:
     get:
       tags:
         - initiative-reward
@@ -1360,6 +1469,12 @@ paths:
           description: initiativeId
           required: true
           style: simple
+          schema:
+            type: string
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
           schema:
             type: string
         - name: eventId
@@ -1542,7 +1657,7 @@ components:
           enum:
             - ASC
             - DESC
-          description: "ENG: One of the possible order direction for the initiative criteria: ASC: Ascendent, DESC: Descendent,  - IT: Uno dei possibili ordinamenti dei criteri dell'iniziativa: ASC: Ascendente, DESC: Discendente"
+          description: "ENG: One of the possible order direction for the initiative criteria: ASC: Ascendent, DESC: Descendent,  - IT: Uno dei possibili ordinamenti dei criteri dell'iniziativa: ASC: Ascendente, DESC: Discendente"  
         iseeTypes:
           type: array
           items:
@@ -1751,7 +1866,7 @@ components:
             - value1
             - value2
             - value3
-          description: "ENG: The possible value condition - IT: Le possibili condizioni per aderire"
+          description: "ENG: The possible value condition - IT: Le possibili condizioni per aderire"  
         code:
           type: string
           description: "ENG: The index,as string, of citeria - IT: L'indice,come stringa, dei criteri"
@@ -1790,7 +1905,7 @@ components:
           enum:
             - PERCENTAGE
             - ABSOLUTE
-          description: "ENG: One of the possible reward value type: PERCENTAGE: A percentage amount is rewarded, ABSOLUTE: An absolute amount is rewarded,  - IT: Una delle possibili regole per premiare l'importo: PERCENTAGE: Viene riconosciuta una percentuale, ABSOLUTE: Viene riconosciuto un importo fisso"
+          description: "ENG: One of the possible reward value type: PERCENTAGE: A percentage amount is rewarded, ABSOLUTE: An absolute amount is rewarded,  - IT: Una delle possibili regole per premiare l'importo: PERCENTAGE: Viene riconosciuta una percentuale, ABSOLUTE: Viene riconosciuto un importo fisso"  
       discriminator:
         propertyName: _type
     InitiativeTrxConditionsDTO:
@@ -1846,7 +1961,7 @@ components:
             - WEEKLY
             - MONTHLY
             - YEARLY
-          description: "ENG: The frequency to receive a reward - IT: La cadenza temporale per ricevere il premio"
+          description: "ENG: The frequency to receive a reward - IT: La cadenza temporale per ricevere il premio"  
         rewardLimit:
           type: number
           description: "ENG: The max value rewardable - IT: Il valore massimo premiabile"
@@ -2239,7 +2354,7 @@ components:
             - ERROR
             - IN_PROGRESS
             - WARN
-          description: "ENG: One of the possible status: IN PROGRESS, WARN: If the elaboration of at least one of the record is an error, ERROR, COMPLETE,  - IT: Uno dei possibili stati: IN PROGRESS: Se in fase di elaborazione, WARN: Se l’elaborazione di almeno un record si è risolta con un errore, ERROR: Se l’intero file non è stato elaborato a causa di un errore, COMPLETE: Se l’elaborazione è stata completata con successo"
+          description: "ENG: One of the possible status: IN PROGRESS, WARN: If the elaboration of at least one of the record is an error, ERROR, COMPLETE,  - IT: Uno dei possibili stati: IN PROGRESS: Se in fase di elaborazione, WARN: Se l’elaborazione di almeno un record si è risolta con un errore, ERROR: Se l’intero file non è stato elaborato a causa di un errore, COMPLETE: Se l’elaborazione è stata completata con successo"  
         url:
           type: string
           description: "ENG: Url of the file in the blob - IT: Url verso il file nel blob"
@@ -2261,7 +2376,7 @@ components:
         holderBank:
           type: string
           description: "ENG: The name of the holder bank - IT: Il nome della banca titolare"
-        description:
+        description: 
           type: string
           description: "ENG: The account description - IT: La descrizione del conto"
         channel:
@@ -2810,10 +2925,9 @@ components:
           format: date
           description: "ENG: The date of the notification to user - IT: La data di notifica all'utente"
   securitySchemes:
-    ApiKeyAuth:
+    Bearer:
       type: apiKey
+      name: Authorization
       in: header
-      name: Ocp-Apim-Subscription-Key
-      description: The API key can be obtained through the developer portal
 security:
-  - ApiKeyAuth: [ ]
+  - Bearer: []
