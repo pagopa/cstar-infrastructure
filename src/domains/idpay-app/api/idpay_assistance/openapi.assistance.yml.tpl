@@ -1565,7 +1565,7 @@ components:
               'RESIDENZIALE',
               'CORRENTE',
             ]
-          description: "ENG: The possibile ISEE types for the initiative criteria: ORDINARIO, MINORENNE, UNIVERSITARIO, SOCIONANITARIO, DOTTORATO, RESIDENZIALE, CORRENTE,  - IT: Le possibili tipologie di ISEE per i criteri dell'iniziativa: ORDINARIO, MINORENNE, UNIVERSITARIO, SOCIONANITARIO, DOTTORATO, RESIDENZIALE, CORRENTE"
+          description: "ENG: The possibile ISEE types for the initiative criteria: ORDINARIO, MINORENNE, UNIVERSITARIO, SOCIOSANITARIO, DOTTORATO, RESIDENZIALE, CORRENTE,  - IT: Le possibili tipologie di ISEE per i criteri dell'iniziativa: ORDINARIO, MINORENNE, UNIVERSITARIO, SOCIOSANITARIO, DOTTORATO, RESIDENZIALE, CORRENTE"
     InitiativeDTO:
       type: object
       properties:
