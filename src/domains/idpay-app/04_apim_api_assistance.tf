@@ -27,7 +27,7 @@ module "idpay_api_assistance_product" {
 #
 
 ## IDPAY Assistance API ##
-/*
+
 module "idpay_api_assistance" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
 
@@ -214,4 +214,4 @@ module "idpay_api_assistance" {
   ]
 
 }
-*/
+
