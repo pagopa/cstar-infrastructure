@@ -31,13 +31,13 @@ module "idpay_api_assistance_product" {
 module "idpay_api_assistance" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
 
-  name                = "${var.env_short}-idpay-initiative"
+  name                = "${var.env_short}-idpay-assistance"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
-  description  = "IDPAY Welfare Portal Initiative"
-  display_name = "IDPAY Welfare Portal Initiative API"
-  path         = "idpay/initiative"
+  description  = "IDPAY Assistance"
+  display_name = "IDPAY Assistance"
+  path         = "idpay/assistance"
   protocols    = ["https", "http"]
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
