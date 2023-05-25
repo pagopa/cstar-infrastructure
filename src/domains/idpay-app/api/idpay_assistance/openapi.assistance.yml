@@ -2810,9 +2810,10 @@ components:
           format: date
           description: "ENG: The date of the notification to user - IT: La data di notifica all'utente"
   securitySchemes:
-    Bearer:
+    ApiKeyAuth:
       type: apiKey
-      name: Authorization
       in: header
+      name: Ocp-Apim-Subscription-Key
+      description: The API key can be obtained through the developer portal
 security:
-  - Bearer: []
+  - ApiKeyAuth: [ ]
