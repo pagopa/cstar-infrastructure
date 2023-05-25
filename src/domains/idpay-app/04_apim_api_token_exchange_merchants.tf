@@ -62,7 +62,7 @@ resource "azurerm_api_management_api" "idpay_merchants_token_exchange" {
 
   revision              = "1"
   display_name          = "IDPAY Token Exchange for Merchants Portal"
-  path                  = "idpay/merchants"
+  path                  = "idpay/merchant"
   subscription_required = false
   #service_url           = ""
   protocols = ["https"]
