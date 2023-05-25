@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <choose>
-            <when condition="context.Request.Headers.ContainsKey("Fiscal-Code") == true">
+            <when condition="@(context.Request.Headers.ContainsKey("Fiscal-Code") == true)">
                 <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
                     <set-url>${pdv_tokenizer_url}/tokens</set-url>
                     <set-method>PUT</set-method>
