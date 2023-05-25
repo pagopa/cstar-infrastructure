@@ -505,6 +505,55 @@ module "idpay_group_portal" {
 
 }
 
+## IDPAY Merchant API ##
+module "idpay_merchant_portal" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-merchant"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY Merchant"
+  display_name = "IDPAY Merchant API"
+  path         = "idpay/merchant"
+  protocols    = ["https"]
+
+  service_url = "http://${var.ingress_load_balancer_hostname}/idpaymerchant/"
+
+  content_format = "openapi"
+  content_value  = file("./api/idpay_merchant/openapi.merchant.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_portal_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "getMerchantList"
+
+      xml_content = templatefile("./api/idpay_merchant/get-merchant-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantDetail"
+
+      xml_content = templatefile("./api/idpay_merchant/get-merchant-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "uploadMerchantList"
+
+      xml_content = templatefile("./api/idpay_merchant/put-merchant-upload.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
+
 ## IDPAY Welfare Portal Email API ##
 module "idpay_notification_email_api" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"

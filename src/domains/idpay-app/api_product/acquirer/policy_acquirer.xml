@@ -1,8 +1,10 @@
 <policies>
     <inbound>
       <base />
+      <set-variable name="acquirerId" value="@(context.User?.Id)" />
+
       <set-header name="x-acquirer-id" exists-action="override">
-        <value>@(context.User?.Id)</value>
+        <value>@((String)context.Variables["acquirerId"])</value>
       </set-header>
       <set-header name="x-apim-request-id" exists-action="override">
         <value>@(context.RequestId.ToString())</value>
