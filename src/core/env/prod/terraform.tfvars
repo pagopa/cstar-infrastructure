@@ -672,110 +672,6 @@ eventhubs = [
   }
 ]
 
-
-eventhubs_fa = [
-  {
-    name              = "fa-trx-error"
-    partitions        = 1
-    message_retention = 7
-    consumers         = ["fa-trx-error-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-error-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx"
-    partitions        = 1
-    message_retention = 7
-    consumers         = ["fa-trx-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-merchant"
-    partitions        = 1
-    message_retention = 7
-    consumers         = ["fa-trx-merchant-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-merchant-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-merchant-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-customer"
-    partitions        = 1
-    message_retention = 7
-    consumers         = ["fa-trx-customer-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-customer-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-customer-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-payment-instrument"
-    partitions        = 1
-    message_retention = 7
-    consumers         = ["fa-trx-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-payment-instrument-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-payment-instrument-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  }
-]
-
 external_domain = "pagopa.it"
 
 pm_backend_url      = "https://api.platform.pagopa.it"
@@ -814,7 +710,7 @@ cdc_api_params = {
   host = "https://api.sogei.it/interop/carta-cultura"
 }
 
-enable_api_fa                              = true
+enable_api_fa                              = false
 enable_blob_storage_event_grid_integration = true
 
 enable = {
@@ -834,7 +730,7 @@ enable = {
     tkm_integration                     = false
   }
   fa = {
-    api = true
+    api = false
   }
   cdc = {
     api = true

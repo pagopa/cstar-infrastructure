@@ -355,7 +355,7 @@ db_metric_alerts = {
 
 pgres_flex_params = {
 
-  enabled    = true
+  enabled    = false
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
   # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
@@ -658,108 +658,6 @@ eventhubs = [
   }
 ]
 
-eventhubs_fa = [
-  {
-    name              = "fa-trx-error"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-error-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-error-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-merchant"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-merchant-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-merchant-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-merchant-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-customer"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-customer-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-customer-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-customer-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-payment-instrument"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-payment-instrument-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-payment-instrument-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-]
 
 external_domain = "pagopa.it"
 
@@ -810,7 +708,7 @@ enable = {
     tkm_integration                     = true
   }
   fa = {
-    api = true
+    api = false
   }
   cdc = {
     api = false
