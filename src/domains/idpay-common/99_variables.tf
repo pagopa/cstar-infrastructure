@@ -152,6 +152,7 @@ variable "spa" {
   description = "spa root dirs"
   default = [
     "portale-enti",
+    "portale-esercenti",
     "mocks/merchant"
   ]
 }

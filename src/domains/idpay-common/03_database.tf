@@ -76,6 +76,14 @@ locals {
         {
           keys   = ["updateDate"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
@@ -509,6 +517,30 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        }
+      ]
+    },
+    {
+      name = "merchant_file"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["fileName", "initiativeId"]
+          unique = true
+        }
+      ]
+    },
+    {
+      name = "merchant"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["fiscalCode", "acquirerId"]
+          unique = true
         }
       ]
     },
