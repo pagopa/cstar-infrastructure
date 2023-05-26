@@ -542,10 +542,6 @@ locals {
         unique = true
         },
         {
-          keys   = ["merchantId"]
-          unique = true
-        },
-        {
           keys   = ["fiscalCode", "acquirerId"]
           unique = true
         }
