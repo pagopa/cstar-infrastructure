@@ -34,7 +34,7 @@ rtd_keyvault = {
   resource_group = "cstar-p-rtd-sec-rg"
 }
 
-cosmos_mongo_db_params = {
+cosmos_mongo_account_params = {
   enabled      = true
   capabilities = ["EnableMongo", "DisableRateLimitingResponses"]
   offer_type   = "Standard"
@@ -61,11 +61,9 @@ cosmos_mongo_db_params = {
 
 }
 
-cosmos_mongo_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 1000
-  throughput         = 1000
+cosmos_mongo_db_idpay_params = {
+  throughput     = null
+  max_throughput = 4000
 }
 
 service_bus_namespace = {
