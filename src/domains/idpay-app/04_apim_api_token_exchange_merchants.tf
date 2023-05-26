@@ -62,7 +62,7 @@ resource "azurerm_api_management_api" "idpay_merchants_token_exchange" {
 
   revision              = "1"
   display_name          = "IDPAY Token Exchange for Merchants Portal"
-  path                  = "idpay/merchants"
+  path                  = "idpay/merchant/token"
   subscription_required = false
   #service_url           = ""
   protocols = ["https"]
@@ -76,7 +76,7 @@ resource "azurerm_api_management_api_operation" "idpay_merchants_token_exchange"
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Token Exchange for Merchants Portal"
   method              = "POST"
-  url_template        = "/token"
+  url_template        = "/"
   description         = "Endpoint for selfcare token exchange towards merchants portal"
 }
 
