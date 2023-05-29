@@ -365,3 +365,9 @@ variable "pm_backend_url" {
   description = "Payment manager backend url"
 }
 
+
+variable "aks_cluster_domain_name" {
+  type = string
+  description = "Name of the aks cluster domain. eg: dev01"
+}
+

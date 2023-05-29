@@ -23,8 +23,9 @@ log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
 
 ### Aks
 
-aks_name                = "cstar-p-weu-uat01-aks"
-aks_resource_group_name = "cstar-p-weu-uat01-aks-rg"
+aks_name                = "cstar-p-weu-prod01-aks"
+aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
+aks_cluster_domain_name = "prod01"
 
 ingress_load_balancer_ip = "10.11.100.250"
 
