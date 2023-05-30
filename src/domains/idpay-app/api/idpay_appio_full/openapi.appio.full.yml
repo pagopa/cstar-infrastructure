@@ -1363,6 +1363,84 @@ paths:
               example:
                 code: 0
                 message: string
+  /{trxCode}/relate-user:
+    put:
+      tags:
+        - payment
+      summary: Pre Authorize payment
+      operationId: putPreAuthPayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: The transaction's code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '401':
+          description: Token not validated correctly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Transaction is associated to another user, or user hasn't joined the initiative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Transaction does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{trxCode}/authorize:
+    put:
+      tags:
+        - payment
+      summary: Authorize payment
+      operationId: putAuthPayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: The transaction's code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '400':
+          description: Transaction is not IDENTIFIED or AUTHORIZE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Transaction is associated to another user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Transaction does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
 components:
   schemas:
     IbanDTO:
@@ -1400,8 +1478,7 @@ components:
         - message
       properties:
         code:
-          type: integer
-          format: int32
+          type: string
         message:
           type: string
     ConsentPutDTO:
@@ -2241,13 +2318,36 @@ components:
             - ABSOLUTE
         rewardValue:
           type: number
-    RefundAdditionalInfoDTO:
-      required:
-        - identificationCode
+    AuthPaymentResponseDTO:
       type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - status
+        - rejectionReasons
+        - amountCents
       properties:
-        identificationCode:
+        id:
           type: string
+        trxCode:
+          type: string
+        initiativeId:
+          type: string
+        status:
+          type: string
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+        reward:
+          type: integer
+          format: int64
+        rejectionReasons:
+          type: array
+          items:
+            type: string
+          description: The list of rejection reasons
+        amountCents:
+          type: integer
+          format: int64
   securitySchemes:
     bearerAuth:
       type: http
