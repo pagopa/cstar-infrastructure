@@ -1363,7 +1363,7 @@ paths:
               example:
                 code: 0
                 message: string
-  /{trxCode}/relate-user:
+  /payment/qr-code/{trxCode}/relate-user:
     put:
       tags:
         - payment
@@ -1401,7 +1401,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{trxCode}/authorize:
+  /payment/qr-code/{trxCode}/authorize:
     put:
       tags:
         - payment
