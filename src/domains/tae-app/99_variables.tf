@@ -189,7 +189,7 @@ variable "alerts_conf" {
 }
 
 variable "aks_cluster_domain_name" {
-  type = string
+  type        = string
   description = "Name of the aks cluster domain. eg: dev01"
 }
 
