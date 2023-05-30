@@ -35,7 +35,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /initiative/{initiativeId}/statistics:
+  /initiatives/{initiativeId}/statistics:
     get:
       tags:
         - merchant-initiative-statistics
@@ -68,7 +68,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /transaction/create:
+  /transactions:
     post:
       tags:
         - merchant-transactions
@@ -93,37 +93,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /transaction/{transactionId}/confirm:
-    put:
-      tags:
-        - merchant-transactions
-      summary: Merchant confirms the payment and the event is notified to IDPay
-      operationId: confirmPaymentQRCode
-      parameters:
-        - name: transactionId
-          in: path
-          description: Transaction ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '400':
-          description: Transaction is not AUTHORIZED
-        '403':
-          description: Merchant not allowed to operate on this transaction
-        '404':
-          description: Transaction does not exist
-        '429':
-          description: Too many Request
-        '500':
-          description: Server ERROR
-  /transactions:
     get:
       tags:
         - merchant-transactions
@@ -173,7 +142,37 @@ paths:
           description: Too many requests
         '500':
           description: Server error
-  /initiative/{initiativeId}:
+  /transactions/{transactionId}/confirm:
+    put:
+      tags:
+        - merchant-transactions
+      summary: Merchant confirms the payment and the event is notified to IDPay
+      operationId: confirmPaymentQRCode
+      parameters:
+        - name: transactionId
+          in: path
+          description: Transaction ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Transaction is not AUTHORIZED
+        '403':
+          description: Merchant not allowed to operate on this transaction
+        '404':
+          description: Transaction does not exist
+        '429':
+          description: Too many Request
+        '500':
+          description: Server ERROR
+  /initiatives/{initiativeId}:
     get:
       tags:
         - merchant-detail
