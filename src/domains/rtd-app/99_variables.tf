@@ -224,6 +224,7 @@ variable "enable" {
     tkm_integration                     = bool
     pm_integration                      = bool
     hashed_pans_container               = bool
+    batch_service_api                   = bool
   })
   description = "Feature flags"
   default = {
@@ -242,6 +243,7 @@ variable "enable" {
     tkm_integration                     = false
     pm_integration                      = false
     hashed_pans_container               = false
+    batch_service_api                   = false
   }
 }
 
