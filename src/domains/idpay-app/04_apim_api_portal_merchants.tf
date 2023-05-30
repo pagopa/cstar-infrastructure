@@ -123,3 +123,32 @@ module "idpay_merchants_notification_email_api" {
   ]
 
 }
+
+## IDPAY Welfare Merchants Portal API ##
+module "idpay_merchants_portal" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+
+  name                = "${var.env_short}-idpay-merchants-portal"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY Merchants Portal"
+  display_name = "IDPAY Merchants Portal API"
+  path         = "idpay/merchant/portal"
+  protocols    = ["https"]
+
+  service_url = "http://${var.ingress_load_balancer_hostname}/idpaymerchant/"
+
+  content_format = "openapi"
+  content_value  = file("./api/idpay_merchants_portal/openapi.merchants.portal.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_portal_merchants_product.product_id]
+  subscription_required = false
+
+  depends_on = [
+    azurerm_api_management_named_value.selc_external_api_key
+  ]
+
+}
