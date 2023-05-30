@@ -254,11 +254,11 @@ components:
     MerchantTransactionDTO:
       type: object
       required:
-       - trxCode
-       - trxId
-       - effectiveAmount
-       - status
-       - date
+        - trxCode
+        - trxId
+        - effectiveAmount
+        - status
+        - date
       properties:
         trxCode:
           type: string
@@ -327,19 +327,12 @@ components:
     TransactionCreationRequest:
       type: object
       required:
-        - merchantFiscalCode
-        - vat
         - idTrxIssuer
         - initiativeId
         - trxDate
         - amountCents
-        - mcc
       properties:
         initiativeId:
-          type: string
-        merchantFiscalCode:
-          type: string
-        vat:
           type: string
         idTrxIssuer:
           type: string
@@ -354,18 +347,18 @@ components:
     TransactionResponse:
       type: object
       required:
-       - id
-       - trxCode
-       - initiativeId
-       - merchantId
-       - idTrxIssuer
-       - idTrxAcquirer
-       - trxDate
-       - amountCents
-       - amountCurrency
-       - mcc
-       - acquirerId
-       - status
+        - id
+        - trxCode
+        - initiativeId
+        - merchantId
+        - idTrxIssuer
+        - idTrxAcquirer
+        - trxDate
+        - amountCents
+        - amountCurrency
+        - mcc
+        - acquirerId
+        - status
       properties:
         id:
           type: string
