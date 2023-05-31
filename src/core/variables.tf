@@ -30,10 +30,10 @@ locals {
   ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
 
   # Azure DevOps
-  azuredevops_agent_vm_app_name = "${local.project}-vmss-ubuntu-app-azdoa"
+  azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
   azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
-  azuredevops_rg_name       = "${local.project}-azdoa-rg"
-  azuredevops_subnet_name   = "${local.project}-azdoa-snet"
+  azuredevops_rg_name             = "${local.project}-azdoa-rg"
+  azuredevops_subnet_name         = "${local.project}-azdoa-snet"
 }
 
 variable "location" {

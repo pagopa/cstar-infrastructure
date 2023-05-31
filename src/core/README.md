@@ -507,6 +507,8 @@
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.2.1 |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
+| <a name="module_azdoa_vmss_ubuntu_app"></a> [azdoa\_vmss\_ubuntu\_app](#module\_azdoa\_vmss\_ubuntu\_app) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.14.1 |
+| <a name="module_azdoa_vmss_ubuntu_infra"></a> [azdoa\_vmss\_ubuntu\_infra](#module\_azdoa\_vmss\_ubuntu\_infra) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.14.1 |
 | <a name="module_backupstorage"></a> [backupstorage](#module\_backupstorage) | git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account | v6.2.1 |
 | <a name="module_batch_api_product"></a> [batch\_api\_product](#module\_batch\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_bpd_api_product"></a> [bpd\_api\_product](#module\_bpd\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
@@ -794,6 +796,7 @@
 | <a name="input_app_gw_load_client_certificate"></a> [app\_gw\_load\_client\_certificate](#input\_app\_gw\_load\_client\_certificate) | Load client certificate in app gateway | `bool` | `true` | no |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
 | <a name="input_azdo_sp_tls_cert_enabled"></a> [azdo\_sp\_tls\_cert\_enabled](#input\_azdo\_sp\_tls\_cert\_enabled) | Enable Azure DevOps connection for TLS cert management | `string` | `false` | no |
+| <a name="input_azdoa_image_name"></a> [azdoa\_image\_name](#input\_azdoa\_image\_name) | Azure DevOps Agent image name for scaleset | `string` | n/a | yes |
 | <a name="input_batch_service_last_supported_version"></a> [batch\_service\_last\_supported\_version](#input\_batch\_service\_last\_supported\_version) | batch service last version supported by backend | `string` | `"0.0.1"` | no |
 | <a name="input_cdc_api_params"></a> [cdc\_api\_params](#input\_cdc\_api\_params) | n/a | <pre>object({<br>    host = string<br>  })</pre> | <pre>{<br>  "host": "https://httpbin.org"<br>}</pre> | no |
 | <a name="input_cidr_integration_vnet"></a> [cidr\_integration\_vnet](#input\_cidr\_integration\_vnet) | Virtual network to peer with sia subscription. It should host apim and event hub. | `list(string)` | n/a | yes |
