@@ -182,7 +182,14 @@ components:
           type: string
         trxCode:
           type: string
+        trxDate:
+          type: string
+          format: date-time
         initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        businessName:
           type: string
         status:
           type: string
