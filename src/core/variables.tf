@@ -28,6 +28,12 @@ locals {
 
   # Temporary fallback to old ingress over non-dev environments
   ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+
+  # Azure DevOps
+  azuredevops_agent_vm_app_name = "${local.project}-vmss-ubuntu-app-azdoa"
+  azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
+  azuredevops_rg_name       = "${local.project}-azdoa-rg"
+  azuredevops_subnet_name   = "${local.project}-azdoa-snet"
 }
 
 variable "location" {
@@ -893,4 +899,12 @@ variable "batch_service_last_supported_version" {
 variable "cstarblobstorage_account_replication_type" {
   type        = string
   description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
+}
+
+#
+# Azure Devops
+#
+variable "azdoa_image_name" {
+  type        = string
+  description = "Azure DevOps Agent image name for scaleset"
 }

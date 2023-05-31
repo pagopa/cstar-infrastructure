@@ -855,3 +855,8 @@ batch_service_last_supported_version = "1.3.2"
 
 # cstarblobstorage
 cstarblobstorage_account_replication_type = "RAGRS"
+
+#
+# Azure devops
+#
+azdoa_image_name = "cstar-p-azdo-agent-ubuntu2204-image-v1"
