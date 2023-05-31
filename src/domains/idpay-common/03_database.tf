@@ -551,6 +551,14 @@ locals {
           unique = true
         }
       ]
+    },
+    {
+      name = "merchant_initiative_counters"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
     }
   ]
 }
