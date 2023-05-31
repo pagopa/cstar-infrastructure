@@ -176,6 +176,10 @@ locals {
         {
           keys   = ["trxDate"]
           unique = false
+        },
+        {
+          keys   = ["merchantId"]
+          unique = false
         }
       ]
     },
@@ -487,6 +491,10 @@ locals {
         }, {
         keys   = ["trxChargeDate"]
         unique = false
+        },
+        {
+          keys   = ["merchantId"]
+          unique = false
         }
       ]
     },
@@ -543,7 +551,7 @@ locals {
           unique = true
         }
       ]
-    },
+    }
   ]
 }
 
