@@ -230,7 +230,9 @@ components:
           type: string
         status:
           type: string
-          enum: [PUBLISHED, CLOSED]
+          enum:
+            - PUBLISHED
+            - CLOSED
         startDate:
           type: string
           format: date
@@ -273,7 +275,11 @@ components:
           format: date-time
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REJECTED
     MerchantDetailDTO:
       type: object
       properties:
@@ -385,7 +391,12 @@ components:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REWARDED
+            - REJECTED
         merchantFiscalCode:
           type: string
         vat:
