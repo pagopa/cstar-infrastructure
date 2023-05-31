@@ -93,6 +93,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /initiatives/{initiativeId}/transactions:
     get:
       tags:
         - merchant-transactions
@@ -100,6 +101,12 @@ paths:
       description: "ENG: Returns the list of in progress transactions associated to a merchant <br> IT: Ritorna la lista delle transazioni in corso associate ad un esercente"
       operationId: getMerchantTransactions
       parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           required: false
@@ -130,10 +137,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  allOf:
-                    - $ref: '#/components/schemas/MerchantTransactionDTO'
+                $ref: '#/components/schemas/MerchantTransactionsListDTO'
         '401':
           description: Autentication failed
         '404':
@@ -252,6 +256,32 @@ components:
           type: number
         refunded:
           type: number
+    MerchantTransactionsListDTO:
+      type: object
+      required:
+        - content
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantTransactionDTO'
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+
     MerchantTransactionDTO:
       type: object
       required:
@@ -268,8 +298,7 @@ components:
         fiscalCode:
           type: string
         effectiveAmount:
-          type: integer
-          format: int32
+          type: number
         updateDate:
           type: string
           format: date-time
