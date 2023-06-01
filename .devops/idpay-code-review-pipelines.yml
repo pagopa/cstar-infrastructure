@@ -71,7 +71,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
-      name: cstar-dev-linux
+      name: cstar-dev-linux-infra
     jobs:
       - job: tf_plan_idpay_common
         strategy:
@@ -92,7 +92,7 @@ stages:
     dependsOn: [tf_plan_common_dev]
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
-      name: cstar-dev-linux
+      name: cstar-dev-linux-infra
     jobs:
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
@@ -169,7 +169,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.PROD}}, true))
     pool:
-      name: cstar-prod-linux
+      name: cstar-prod-linux-infra
     jobs:
       - job: tf_plan_idpay_common
         strategy:
@@ -190,7 +190,7 @@ stages:
     dependsOn: [tf_plan_common_prod]
     condition: and(succeeded(), eq(${{parameters.PROD}}, true))
     pool:
-      name: cstar-prod-linux
+      name: cstar-prod-linux-infra
     jobs:
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
