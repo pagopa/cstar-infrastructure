@@ -120,7 +120,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.UAT}}, true))
     pool:
-      name: cstar-uat-deleteme-infra
+      name: cstar-uat-linux-infra
     jobs:
       - job: tf_plan_idpay_common
         strategy:
@@ -141,7 +141,7 @@ stages:
     dependsOn: [tf_plan_common_uat]
     condition: and(succeeded(), eq(${{parameters.UAT}}, true))
     pool:
-      name: cstar-uat-deleteme-infra
+      name: cstar-uat-linux-infra
     jobs:
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
