@@ -14,7 +14,9 @@
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v6.14.0 |
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity | v6.3.1 |
+| <a name="module_rtd_sender_api_key_check"></a> [rtd\_sender\_api\_key\_check](#module\_rtd\_sender\_api\_key\_check) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/azurerm.git//tls_checker | version-unlocked |
 
 ## Resources
@@ -128,6 +130,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aks_cluster_domain_name"></a> [aks\_cluster\_domain\_name](#input\_aks\_cluster\_domain\_name) | Name of the aks cluster domain. eg: dev01 | `string` | n/a | yes |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
@@ -146,7 +149,7 @@
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `"cstar"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    blob_storage_event_grid_integration = bool<br>    internal_api                        = bool<br>    csv_transaction_apis                = bool<br>    ingestor                            = bool<br>    file_register                       = bool<br>    enrolled_payment_instrument         = bool<br>    mongodb_storage                     = bool<br>    file_reporter                       = bool<br>    payment_instrument                  = bool<br>    exporter                            = bool<br>    alternative_gateway                 = bool<br>    api_payment_instrument              = bool<br>    tkm_integration                     = bool<br>    pm_integration                      = bool<br>    hashed_pans_container               = bool<br>  })</pre> | <pre>{<br>  "alternative_gateway": false,<br>  "api_payment_instrument": false,<br>  "blob_storage_event_grid_integration": false,<br>  "csv_transaction_apis": false,<br>  "enrolled_payment_instrument": false,<br>  "exporter": false,<br>  "file_register": false,<br>  "file_reporter": false,<br>  "hashed_pans_container": false,<br>  "ingestor": false,<br>  "internal_api": false,<br>  "mongodb_storage": false,<br>  "payment_instrument": false,<br>  "pm_integration": false,<br>  "tkm_integration": false<br>}</pre> | no |
+| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    blob_storage_event_grid_integration = bool<br>    internal_api                        = bool<br>    csv_transaction_apis                = bool<br>    ingestor                            = bool<br>    file_register                       = bool<br>    enrolled_payment_instrument         = bool<br>    mongodb_storage                     = bool<br>    file_reporter                       = bool<br>    payment_instrument                  = bool<br>    exporter                            = bool<br>    alternative_gateway                 = bool<br>    api_payment_instrument              = bool<br>    tkm_integration                     = bool<br>    pm_integration                      = bool<br>    hashed_pans_container               = bool<br>    batch_service_api                   = bool<br>  })</pre> | <pre>{<br>  "alternative_gateway": false,<br>  "api_payment_instrument": false,<br>  "batch_service_api": false,<br>  "blob_storage_event_grid_integration": false,<br>  "csv_transaction_apis": false,<br>  "enrolled_payment_instrument": false,<br>  "exporter": false,<br>  "file_register": false,<br>  "file_reporter": false,<br>  "hashed_pans_container": false,<br>  "ingestor": false,<br>  "internal_api": false,<br>  "mongodb_storage": false,<br>  "payment_instrument": false,<br>  "pm_integration": false,<br>  "tkm_integration": false<br>}</pre> | no |
 | <a name="input_enable_hpan_par_pipeline_periodic_trigger"></a> [enable\_hpan\_par\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_par\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan par pipeline | `bool` | `false` | no |
 | <a name="input_enable_hpan_pipeline_periodic_trigger"></a> [enable\_hpan\_pipeline\_periodic\_trigger](#input\_enable\_hpan\_pipeline\_periodic\_trigger) | Feature flag to enable/disable periodic trigger for hpan pipeline | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |

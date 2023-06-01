@@ -526,7 +526,6 @@
 | <a name="module_dns_forwarder_pair_subnet"></a> [dns\_forwarder\_pair\_subnet](#module\_dns\_forwarder\_pair\_subnet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.3.1 |
 | <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.3.1 |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v6.11.2 |
-| <a name="module_event_hub_fa_01"></a> [event\_hub\_fa\_01](#module\_event\_hub\_fa\_01) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v6.2.1 |
 | <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_fa_proxy_product"></a> [fa\_proxy\_product](#module\_fa\_proxy\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_issuer_api_product"></a> [issuer\_api\_product](#module\_issuer\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
@@ -553,7 +552,6 @@
 | <a name="module_rtd_filereporter"></a> [rtd\_filereporter](#module\_rtd\_filereporter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument"></a> [rtd\_payment\_instrument](#module\_rtd\_payment\_instrument) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_payment_instrument_token_api"></a> [rtd\_payment\_instrument\_token\_api](#module\_rtd\_payment\_instrument\_token\_api) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_rtd_sender_api_key_check"></a> [rtd\_sender\_api\_key\_check](#module\_rtd\_sender\_api\_key\_check) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_sender_auth_put_api_key"></a> [rtd\_sender\_auth\_put\_api\_key](#module\_rtd\_sender\_auth\_put\_api\_key) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_sender_mauth_check"></a> [rtd\_sender\_mauth\_check](#module\_rtd\_sender\_mauth\_check) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_rtd_senderack_correct_download_ack"></a> [rtd\_senderack\_correct\_download\_ack](#module\_rtd\_senderack\_correct\_download\_ack) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
@@ -607,6 +605,7 @@
 | [azurerm_dns_a_record.dns_a_apim_dev_portal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api_io](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_caa_record.cstar_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_caa_record) | resource |
 | [azurerm_dns_ns_record.cstar_dev_pagopa_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_dns_ns_record.cstar_uat_pagopa_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_zone) | resource |
@@ -629,7 +628,6 @@
 | [azurerm_key_vault_secret.application_insights_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.cstar_blobstorage_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_keys](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
-| [azurerm_key_vault_secret.event_hub_keys_fa_01](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.rtd_internal_api_product_subscription_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_kusto_cluster.data_explorer_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/kusto_cluster) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/log_analytics_workspace) | resource |
