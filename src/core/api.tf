@@ -131,7 +131,7 @@ module "monitor" {
   service_url = null
 
   content_format = "openapi"
-  content_value = templatefile("./api/monitor/openapi.json.tpl", {
+  content_value = templatefile("./api/monitor/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -165,7 +165,7 @@ module "api_bdp_info_privacy" {
   )
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_info_privacy/openapi.json.tpl", {
+  content_value = templatefile("./api/bpd_info_privacy/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -196,7 +196,7 @@ module "api_bpd-io_payment_instrument" {
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bpd_io_payment_instrument/swagger.json.tpl", {
+  content_value = templatefile("./api/bpd_io_payment_instrument/swagger.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -208,7 +208,7 @@ module "api_bpd-io_payment_instrument" {
   api_operation_policies = [
     {
       operation_id = "enrollmentPaymentInstrumentIOUsingPUT",
-      xml_content = templatefile("./api/bpd_io_payment_instrument/put_enrollment_payment_instrument_io_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_payment_instrument/put_enrollment_payment_instrument_io_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
@@ -234,7 +234,7 @@ module "api_bpd_pm_payment_instrument" {
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_pm_payment_instrument/openapi.json.tpl", {
+  content_value = templatefile("./api/bpd_pm_payment_instrument/openapi.json", {
     host = local.apim_hostname # azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -258,7 +258,7 @@ module "api_bpd_io_backend_test" {
 
   service_url = format("http://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bpd_io_backend_test/swagger.json.tpl", {
+  content_value = templatefile("./api/bpd_io_backend_test/swagger.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -269,7 +269,7 @@ module "api_bpd_io_backend_test" {
   api_operation_policies = [
     {
       operation_id = "getToken",
-      xml_content = templatefile("./api/bpd_io_backend_test/post_get_token_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_backend_test/post_get_token_policy.xml", {
         reverse_proxy_ip = var.reverse_proxy_ip
       })
     },
@@ -294,7 +294,7 @@ module "api_bpd_tc" {
   )
 
 
-  content_value = templatefile("./api/bpd_tc/swagger.json.tpl", {
+  content_value = templatefile("./api/bpd_tc/swagger.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -329,7 +329,7 @@ module "rtd_payment_instrument" {
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_payment_instrument/openapi.json.tpl", {
+  content_value = templatefile("./api/rtd_payment_instrument/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -367,7 +367,7 @@ module "bpd_io_award_period_original" {
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bpd_io_award_period/original/swagger.json.tpl", {
+  content_value = templatefile("./api/bpd_io_award_period/original/swagger.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -379,7 +379,7 @@ module "bpd_io_award_period_original" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content = templatefile("./api/bpd_io_award_period/original/findAllUsingGET_close_cashback_policy.xml.tmpl", {
+      xml_content = templatefile("./api/bpd_io_award_period/original/findAllUsingGET_close_cashback_policy.xml", {
         env_short = var.env_short
       })
     }
@@ -405,7 +405,7 @@ module "bpd_io_award_period_v2" {
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_io_award_period/v2/openapi.json.tpl", {
+  content_value = templatefile("./api/bpd_io_award_period/v2/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -417,7 +417,7 @@ module "bpd_io_award_period_v2" {
   api_operation_policies = [
     {
       operation_id = "findAllUsingGET"
-      xml_content = templatefile("./api/bpd_io_award_period/v2/findAllUsingGET_close_cashback_policy.xml.tmpl", {
+      xml_content = templatefile("./api/bpd_io_award_period/v2/findAllUsingGET_close_cashback_policy.xml", {
         env_short = var.env_short
       })
     }
@@ -448,7 +448,7 @@ module "bpd_io_citizen_original" {
 
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bpd_io_citizen/original/swagger.json.tpl", {
+  content_value = templatefile("./api/bpd_io_citizen/original/swagger.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -460,13 +460,13 @@ module "bpd_io_citizen_original" {
   api_operation_policies = [
     {
       operation_id = "deleteUsingDELETE"
-      xml_content = templatefile("./api/bpd_io_citizen/original/deleteUsingDELETE_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_citizen/original/deleteUsingDELETE_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
       operation_id = "enrollment"
-      xml_content = templatefile("./api/bpd_io_citizen/original/enrollment_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_citizen/original/enrollment_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
@@ -502,7 +502,7 @@ module "bpd_io_citizen_v2" {
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_io_citizen/v2/openapi.json.tpl", {
+  content_value = templatefile("./api/bpd_io_citizen/v2/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -514,13 +514,13 @@ module "bpd_io_citizen_v2" {
   api_operation_policies = [
     {
       operation_id = "deleteUsingDELETE"
-      xml_content = templatefile("./api/bpd_io_citizen/v2/deleteUsingDELETE_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_citizen/v2/deleteUsingDELETE_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
     {
       operation_id = "enrollment"
-      xml_content = templatefile("./api/bpd_io_citizen/v2/enrollment_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_citizen/v2/enrollment_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
@@ -567,7 +567,7 @@ module "bpd_io_winning_transactions_original" {
 
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
-  content_value = templatefile("./api/bpd_io_winning_transactions/original/swagger.xml.tpl", {
+  content_value = templatefile("./api/bpd_io_winning_transactions/original/swagger.xml", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -579,7 +579,7 @@ module "bpd_io_winning_transactions_original" {
   api_operation_policies = [
     {
       operation_id = "getTotalScoreUsingGET"
-      xml_content = templatefile("./api/bpd_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_winning_transactions/original/getTotalScoreUsingGET_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
@@ -603,7 +603,7 @@ module "bpd_io_winning_transactions_v2" {
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
   content_format = "openapi"
-  content_value = templatefile("./api/bpd_io_winning_transactions/v2/openapi.json.tpl", {
+  content_value = templatefile("./api/bpd_io_winning_transactions/v2/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -619,7 +619,7 @@ module "bpd_io_winning_transactions_v2" {
     },
     {
       operation_id = "getTotalScoreUsingGET"
-      xml_content = templatefile("./api/bpd_io_winning_transactions/v2/getTotalScoreUsingGET_policy.xml.tpl", {
+      xml_content = templatefile("./api/bpd_io_winning_transactions/v2/getTotalScoreUsingGET_policy.xml", {
         reverse-proxy-ip = var.reverse_proxy_ip
       })
     },
@@ -646,7 +646,7 @@ module "app_io_product" {
   subscription_required = false
   approval_required     = false
 
-  policy_xml = templatefile("./api_product/app_io/policy.xml.tmpl", {
+  policy_xml = templatefile("./api_product/app_io/policy.xml", {
     env_short         = var.env_short
     reverse_proxy_ip  = var.reverse_proxy_ip
     appio_timeout_sec = var.appio_timeout_sec
