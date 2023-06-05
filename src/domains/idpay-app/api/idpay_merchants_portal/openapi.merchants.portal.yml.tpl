@@ -93,6 +93,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /transactions/{transactionId}:
+    delete:
+      tags:
+        - merchant-transactions
+      summary: Merchant delete transaction
+      operationId: deleteTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: The transaction ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+        '403':
+          description: Merchant not allowed to operate on this transaction
+        '404':
+          description: Transaction does not exist
+        '429':
+          description: Too many Request
   /initiatives/{initiativeId}/transactions:
     get:
       tags:
@@ -281,7 +303,6 @@ components:
         totalPages:
           type: integer
           format: int32
-
     MerchantTransactionDTO:
       type: object
       required:
