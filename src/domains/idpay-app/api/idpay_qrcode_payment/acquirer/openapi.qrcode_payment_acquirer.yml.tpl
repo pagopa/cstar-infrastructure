@@ -109,19 +109,12 @@ components:
     TransactionCreationRequest:
       type: object
       required:
-        - merchantFiscalCode
-        - vat
         - idTrxIssuer
         - initiativeId
         - trxDate
         - amountCents
-        - mcc
       properties:
         initiativeId:
-          type: string
-        merchantFiscalCode:
-          type: string
-        vat:
           type: string
         idTrxIssuer:
           type: string
