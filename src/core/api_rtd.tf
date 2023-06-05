@@ -406,36 +406,6 @@ module "rtd_sender_mauth_check" {
   api_operation_policies = []
 }
 
-module "rtd_sender_api_key_check" {
-
-  count = var.enable.rtd.batch_service_api ? 1 : 0
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-rtd-sender-api-key-check", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = "RTD API to check RTD product API Key validity"
-  display_name = "RTD API to Check API Key"
-  path         = "rtd/api-key"
-  protocols    = ["https"]
-
-  service_url = ""
-
-  # Mandatory field when api definition format is openapi
-  content_format = "openapi"
-  content_value  = file("./api/rtd_sender_api_key_check/openapi.yml")
-
-  xml_content = file("./api/rtd_sender_api_key_check/policy.xml")
-
-  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = []
-}
-
 module "rtd_deposited_file_check" {
 
   count = var.enable.rtd.batch_service_api ? 1 : 0

@@ -224,6 +224,7 @@ variable "enable" {
     tkm_integration                     = bool
     pm_integration                      = bool
     hashed_pans_container               = bool
+    batch_service_api                   = bool
   })
   description = "Feature flags"
   default = {
@@ -242,6 +243,7 @@ variable "enable" {
     tkm_integration                     = false
     pm_integration                      = false
     hashed_pans_container               = false
+    batch_service_api                   = false
   }
 }
 
@@ -363,5 +365,11 @@ variable "k8s_ip_filter_range_aks" {
 variable "pm_backend_url" {
   type        = string
   description = "Payment manager backend url"
+}
+
+
+variable "aks_cluster_domain_name" {
+  type        = string
+  description = "Name of the aks cluster domain. eg: dev01"
 }
 

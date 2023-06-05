@@ -25,6 +25,7 @@ log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 
 aks_name                = "cstar-u-weu-uat01-aks"
 aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
+aks_cluster_domain_name = "uat01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "uat01.rtd.internal.uat.cstar.pagopa.it"
@@ -61,6 +62,7 @@ enable = {
   tkm_integration                     = false
   pm_integration                      = true
   hashed_pans_container               = true
+  batch_service_api                   = true
 }
 
 #
