@@ -12,7 +12,9 @@
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v6.14.0 |
 
 ## Resources
 
@@ -95,6 +97,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_ack_ingestor_conf"></a> [ack\_ingestor\_conf](#input\_ack\_ingestor\_conf) | n/a | <pre>object({<br>    interval                     = number<br>    frequency                    = string<br>    enable                       = bool<br>    sink_thoughput_cap           = number<br>    sink_write_throughput_budget = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Minute",<br>  "interval": 15,<br>  "sink_thoughput_cap": 500,<br>  "sink_write_throughput_budget": 1000<br>}</pre> | no |
 | <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable                               = bool<br>    copy_activity_retries                = number<br>    copy_activity_retry_interval_seconds = number<br>  })</pre> | <pre>{<br>  "copy_activity_retries": 3,<br>  "copy_activity_retry_interval_seconds": 1800,<br>  "enable": false<br>}</pre> | no |
+| <a name="input_aks_cluster_domain_name"></a> [aks\_cluster\_domain\_name](#input\_aks\_cluster\_domain\_name) | Name of the aks cluster domain. eg: dev01 | `string` | n/a | yes |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
 | <a name="input_alerts_conf"></a> [alerts\_conf](#input\_alerts\_conf) | n/a | <pre>object({<br>    max_days_just_into_ade_in = number<br>  })</pre> | <pre>{<br>  "max_days_just_into_ade_in": 3<br>}</pre> | no |
