@@ -2040,7 +2040,7 @@ components:
           enum:
             - AUTHORIZED
             - REWARDED
-            - CANCELED
+            - CANCELLED
         channel:
           type: string
           enum:
