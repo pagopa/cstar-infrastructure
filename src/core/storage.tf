@@ -227,11 +227,41 @@ module "backupstorage" {
   tags                            = var.tags
 }
 
+resource "azurerm_private_endpoint" "backupstorage_private_endpoint" {
+
+  name                = "${local.project}-backupstorage-private-endpoint"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_storage.name
+  subnet_id           = module.private_endpoint_snet[0].id
+
+  private_dns_zone_group {
+    name                 = "${local.project}-backupstorage-private-dns-zone-group"
+    private_dns_zone_ids = [azurerm_private_dns_zone.storage_account.id]
+  }
+
+  private_service_connection {
+    name                           = "${local.project}-backupstorage-private-service-connection"
+    private_connection_resource_id = module.backupstorage[0].id
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
+  }
+
+  tags = var.tags
+
+  depends_on = [
+    module.backupstorage
+  ]
+}
+
 resource "azurerm_storage_container" "apim_backup" {
   count  = var.env_short != "u" ? 1 : 0
   name                  = "apim"
   storage_account_name  = module.backupstorage[0].name
   container_access_type = "private"
+
+    depends_on = [
+    module.backupstorage
+  ]
 }
 
 resource "azurerm_storage_management_policy" "backups" {
@@ -251,4 +281,8 @@ resource "azurerm_storage_management_policy" "backups" {
       }
     }
   }
+
+    depends_on = [
+    module.backupstorage
+  ]
 }
