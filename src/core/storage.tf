@@ -209,7 +209,7 @@ resource "null_resource" "upload_tc_pdf" {
 
 # Storage account to store backups: mainly api management
 module "backupstorage" {
-  count  = var.env_short == "p" ? 1 : 0
+  count  = var.env_short != "u" ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
   name                            = replace("${local.project}-backupstorage", "-", "")
@@ -228,14 +228,14 @@ module "backupstorage" {
 }
 
 resource "azurerm_storage_container" "apim_backup" {
-  count                 = var.env_short == "p" ? 1 : 0
+  count  = var.env_short != "u" ? 1 : 0
   name                  = "apim"
   storage_account_name  = module.backupstorage[0].name
   container_access_type = "private"
 }
 
 resource "azurerm_storage_management_policy" "backups" {
-  count              = var.env_short == "p" ? 1 : 0
+  count  = var.env_short != "u" ? 1 : 0
   storage_account_id = module.backupstorage[0].id
 
   rule {
