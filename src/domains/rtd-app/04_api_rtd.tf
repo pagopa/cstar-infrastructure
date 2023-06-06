@@ -295,7 +295,6 @@ resource "azurerm_api_management_api_operation_policy" "get_hashed_pans_policy_v
 }
 
 module "rtd_sender_api_key_check" {
-
   count = var.enable.batch_service_api ? 1 : 0
 
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
