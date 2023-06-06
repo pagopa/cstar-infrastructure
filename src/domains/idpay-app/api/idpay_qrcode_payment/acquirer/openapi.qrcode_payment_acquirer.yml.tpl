@@ -157,6 +157,8 @@ components:
         trxDate:
           type: string
           format: date-time
+        trxExpirationMinutes:
+          type: number
         amountCents:
           type: integer
           format: int64
