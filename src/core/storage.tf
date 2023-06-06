@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg_storage" {
-  name     = format("%s-storage-rg", local.project)
+  name     = "${local.project}-storage-rg"
   location = var.location
   tags     = var.tags
 }
@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "rg_storage" {
 module "cstarblobstorage" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
-  name                             = replace(format("%s-blobstorage", local.project), "-", "")
+  name                             = replace("${local.project}-blobstorage", "-", "")
   account_kind                     = "StorageV2"
   account_tier                     = "Standard"
   account_replication_type         = var.env_short == "p" ? "RAGZRS" : "RAGRS"
@@ -146,7 +146,7 @@ resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
 module "operations_logs" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
-  name                = replace(format("%s-sa-ops-logs", local.project), "-", "")
+  name                = replace("${local.project}-sa-ops-logs", "-", "")
   resource_group_name = azurerm_resource_group.rg_storage.name
   location            = var.location
 
@@ -169,6 +169,7 @@ module "operations_logs" {
 data "local_file" "tc_html" {
   filename = "${path.module}/blob/tc/bpd-tc.html"
 }
+
 resource "null_resource" "upload_tc_html" {
   triggers = {
     "changes-in-config" : md5(data.local_file.tc_html.content)
@@ -188,6 +189,7 @@ resource "null_resource" "upload_tc_html" {
 data "local_file" "tc_pdf" {
   filename = "${path.module}/blob/tc/bpd-tc.pdf"
 }
+
 resource "null_resource" "upload_tc_pdf" {
   triggers = {
     "changes-in-config" : md5(data.local_file.tc_pdf.content)
@@ -210,7 +212,7 @@ module "backupstorage" {
   count  = var.env_short == "p" ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
 
-  name                            = replace(format("%s-backupstorage", local.project), "-", "")
+  name                            = replace("${local.project}-backupstorage", "-", "")
   account_kind                    = "StorageV2"
   account_tier                    = "Standard"
   account_replication_type        = "GRS"
