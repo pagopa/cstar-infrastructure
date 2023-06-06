@@ -10,7 +10,7 @@ module "tls_checker" {
   helm_chart_image_name                                     = var.tls_cert_check_helm.image_name
   helm_chart_image_tag                                      = var.tls_cert_check_helm.image_tag
   location_string                                           = var.location_string
-  kv_secret_name_for_application_insights_connection_string = data.azurerm_application_insights.application_insights.connection_string
+  kv_secret_name_for_application_insights_connection_string = azurerm_key_vault_secret.appinsights-instrumentation-key.name
   keyvault_name                                             = data.azurerm_key_vault.kv.name
   keyvault_tenant_id                                        = data.azurerm_client_config.current.tenant_id
   application_insights_resource_group                       = data.azurerm_resource_group.monitor_rg.name
