@@ -825,7 +825,7 @@ variable "enable_blob_storage_event_grid_integration" {
 variable "enable" {
   type = object({
     core = object({
-      private_endpoints_subnet            = bool
+      private_endpoints_subnet = bool
     })
     rtd = object({
       blob_storage_event_grid_integration = bool
@@ -861,7 +861,7 @@ variable "enable" {
   description = "Feature flags"
   default = {
     core = {
-      private_endpoints_subnet            = false
+      private_endpoints_subnet = false
     }
     rtd = {
       blob_storage_event_grid_integration = false
