@@ -310,7 +310,6 @@ components:
         - trxId
         - effectiveAmount
         - status
-        - date
       properties:
         trxCode:
           type: string
