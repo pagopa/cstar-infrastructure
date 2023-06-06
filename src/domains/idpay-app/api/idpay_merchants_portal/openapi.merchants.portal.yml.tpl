@@ -21,8 +21,7 @@ paths:
               schema:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '#/components/schemas/InitiativeDTO'
+                  $ref: '#/components/schemas/InitiativeDTO'
         '400':
           description: Bad request
           content:
@@ -415,7 +414,6 @@ components:
         - trxDate
         - amountCents
         - amountCurrency
-        - mcc
         - acquirerId
         - status
       properties:
