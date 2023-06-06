@@ -228,6 +228,7 @@ module "backupstorage" {
 }
 
 resource "azurerm_private_endpoint" "backupstorage_private_endpoint" {
+  count  = var.env_short != "u" ? 1 : 0
 
   name                = "${local.project}-backupstorage-private-endpoint"
   location            = var.location
