@@ -42,7 +42,7 @@ module "cosmos_mongodb_snet" {
 }
 
 module "private_endpoint_snet" {
-  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+  count = var.enable.core.private_endpoints_subnet ? 1 : 0
 
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   name                 = "private-endpoint-snet"

@@ -686,6 +686,9 @@ enable_api_fa                              = false
 enable_blob_storage_event_grid_integration = true
 
 enable = {
+  core = {
+    private_endpoints_subnet = true
+  }
   rtd = {
     blob_storage_event_grid_integration = true
     internal_api                        = true

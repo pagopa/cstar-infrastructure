@@ -148,42 +148,42 @@ module "idpay_merchants_portal" {
   subscription_required = false
 
   api_operation_policies = [
-      {
-        operation_id = "getMerchantInitiativeStatistics"
+    {
+      operation_id = "getMerchantInitiativeStatistics"
 
-        xml_content = templatefile("./api/idpay_merchants_portal/get-merchant-statistics-policy.xml.tpl", {
-          ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        })
-      },
-      {
-        operation_id = "createTransaction"
+      xml_content = templatefile("./api/idpay_merchants_portal/get-merchant-statistics-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "createTransaction"
 
-        xml_content = templatefile("./api/idpay_merchants_portal/post-create-merchant-transaction-policy.xml.tpl", {
-          ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        })
-      },
-     {
-       operation_id = "getMerchantTransactions"
+      xml_content = templatefile("./api/idpay_merchants_portal/post-create-merchant-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantTransactions"
 
-       xml_content = templatefile("./api/idpay_merchants_portal/get-merchant-transactions-policy.xml.tpl", {
-         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-       })
-     },
-     {
-       operation_id = "confirmPaymentQRCode"
+      xml_content = templatefile("./api/idpay_merchants_portal/get-merchant-transactions-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "confirmPaymentQRCode"
 
-       xml_content = templatefile("./api/idpay_merchants_portal/put-confirm-merchant-transaction-policy.xml.tpl", {
-         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-       })
-     },
-     {
-       operation_id = "deleteTransaction"
+      xml_content = templatefile("./api/idpay_merchants_portal/put-confirm-merchant-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "deleteTransaction"
 
-       xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
-         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-       })
-     }
-    ]
+      xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
 
   depends_on = [
     azurerm_api_management_named_value.selc_external_api_key
