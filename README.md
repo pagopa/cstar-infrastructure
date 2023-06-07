@@ -38,6 +38,7 @@ terraform.sh plan [dev|uat|prod]
 terraform.sh apply [dev|uat|prod]
 ```
 
+
 ## Terraform lock.hcl
 
 We have both developers who work with your Terraform configuration on their Linux, macOS or Windows workstations and automated systems that apply the configuration while running on Linux.

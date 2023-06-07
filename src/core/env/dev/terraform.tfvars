@@ -355,7 +355,7 @@ db_metric_alerts = {
 
 pgres_flex_params = {
 
-  enabled    = true
+  enabled    = false
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
   # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
@@ -379,32 +379,7 @@ dns_storage_account_tkm = {
 }
 
 cosmos_mongo_db_params = {
-  enabled      = true
-  kind         = "MongoDB"
-  capabilities = ["EnableMongo", "DisableRateLimitingResponses"]
-  offer_type   = "Standard"
-  consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 300
-    max_staleness_prefix    = 100000
-  }
-  server_version                   = "4.0"
-  main_geo_location_zone_redundant = false
-  enable_free_tier                 = false
-
-  private_endpoint_enabled          = false
-  public_network_access_enabled     = true
-  additional_geo_locations          = []
-  is_virtual_network_filter_enabled = true
-
-  backup_continuous_enabled = false
-}
-
-cosmos_mongo_db_transaction_params = {
-  enable_serverless  = true
-  enable_autoscaling = true
-  max_throughput     = 5000
-  throughput         = 1000
+  enabled = true
 }
 
 dexp_params = {
@@ -683,108 +658,6 @@ eventhubs = [
   }
 ]
 
-eventhubs_fa = [
-  {
-    name              = "fa-trx-error"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-error-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-error-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-error-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-merchant"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-merchant-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-merchant-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-merchant-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-customer"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-customer-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-customer-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-customer-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "fa-trx-payment-instrument"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["fa-trx-payment-instrument-consumer-group"]
-    keys = [
-      {
-        name   = "fa-trx-payment-instrument-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "fa-trx-payment-instrument-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-]
 
 external_domain = "pagopa.it"
 
@@ -819,6 +692,9 @@ enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
 
 enable = {
+  core = {
+    private_endpoints_subnet = true
+  }
   rtd = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
@@ -835,7 +711,7 @@ enable = {
     tkm_integration                     = true
   }
   fa = {
-    api = true
+    api = false
   }
   cdc = {
     api = false
@@ -855,3 +731,8 @@ batch_service_last_supported_version = "1.3.2"
 
 # cstarblobstorage
 cstarblobstorage_account_replication_type = "RAGRS"
+
+#
+# Azure devops
+#
+azdoa_image_name = "cstar-d-azdo-agent-ubuntu2204-image-v1"

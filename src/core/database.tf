@@ -86,32 +86,6 @@ module "postgresql" {
   tags = var.tags
 }
 
-# created by scripts
-# resource "azurerm_postgresql_database" "bpd_db" {
-#   name                = "bpd"
-#   resource_group_name = azurerm_resource_group.db_rg.name
-#   server_name         = module.postgresql.name
-#   charset             = "UTF8"
-#   collation           = "English_United States.1252"
-# }
-
-# resource "azurerm_postgresql_database" "rtd_db" {
-#   name                = "rtd"
-#   resource_group_name = azurerm_resource_group.db_rg.name
-#   server_name         = module.postgresql.name
-#   charset             = "UTF8"
-#   collation           = "English_United States.1252"
-# }
-
-# resource "azurerm_postgresql_database" "fa_db" {
-#   name                = "fa"
-#   resource_group_name = azurerm_resource_group.db_rg.name
-#   server_name         = module.postgresql.name
-#   charset             = "UTF8"
-#   collation           = "English_United States.1252"
-# }
-
-
 module "postgres_flexible_server" {
 
   count = var.pgres_flex_params.enabled ? 1 : 0

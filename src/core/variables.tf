@@ -28,6 +28,12 @@ locals {
 
   # Temporary fallback to old ingress over non-dev environments
   ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+
+  # Azure DevOps
+  azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
+  azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
+  azuredevops_rg_name             = "${local.project}-azdoa-rg"
+  azuredevops_subnet_name         = "${local.project}-azdoa-snet"
 }
 
 variable "location" {
@@ -743,37 +749,7 @@ variable "enable_iac_pipeline" {
 
 variable "cosmos_mongo_db_params" {
   type = object({
-    enabled        = bool
-    capabilities   = list(string)
-    offer_type     = string
-    server_version = string
-    kind           = string
-    consistency_policy = object({
-      consistency_level       = string
-      max_interval_in_seconds = number
-      max_staleness_prefix    = number
-    })
-    main_geo_location_zone_redundant = bool
-    enable_free_tier                 = bool
-    main_geo_location_zone_redundant = bool
-    additional_geo_locations = list(object({
-      location          = string
-      failover_priority = number
-      zone_redundant    = bool
-    }))
-    private_endpoint_enabled          = bool
-    public_network_access_enabled     = bool
-    is_virtual_network_filter_enabled = bool
-    backup_continuous_enabled         = bool
-  })
-}
-
-variable "cosmos_mongo_db_transaction_params" {
-  type = object({
-    enable_serverless  = bool
-    enable_autoscaling = bool
-    throughput         = number
-    max_throughput     = number
+    enabled = bool
   })
 }
 
@@ -848,6 +824,9 @@ variable "enable_blob_storage_event_grid_integration" {
 
 variable "enable" {
   type = object({
+    core = object({
+      private_endpoints_subnet = bool
+    })
     rtd = object({
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
@@ -881,6 +860,9 @@ variable "enable" {
   })
   description = "Feature flags"
   default = {
+    core = {
+      private_endpoints_subnet = false
+    }
     rtd = {
       blob_storage_event_grid_integration = false
       internal_api                        = false
@@ -923,4 +905,12 @@ variable "batch_service_last_supported_version" {
 variable "cstarblobstorage_account_replication_type" {
   type        = string
   description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
+}
+
+#
+# Azure Devops
+#
+variable "azdoa_image_name" {
+  type        = string
+  description = "Azure DevOps Agent image name for scaleset"
 }

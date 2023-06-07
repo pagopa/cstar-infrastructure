@@ -1,0 +1,36 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+  <set-variable name="merchantIdCacheKey" value="@(((String)context.Variables["acquirerId"]) + ((String)context.Variables["merchantFiscalCode"]))" />
+  <cache-lookup-value key="@((String)context.Variables["merchantIdCacheKey"])" variable-name="merchantId"  />
+  <choose>
+    <!-- If API Management find it in the cache, make a request for it and store it -->
+    <when condition="@(!context.Variables.ContainsKey("merchantId"))">
+      <send-request mode="new" response-variable-name="responseMerchantId" timeout="10" ignore-error="true">
+        <set-url>@("https://${ingress_hostname}/idpaymerchant/idpay/merchant/acquirer/" + ((String)context.Variables["acquirerId"]) + "/merchant-fiscalcode/" + ((String)context.Variables["merchantFiscalCode"]) + "/id")</set-url>
+        <set-method>GET</set-method>
+      </send-request>
+
+      <choose>
+        <when condition="@(context.Variables["responseMerchantId"] == null)">
+          <return-response>
+            <set-status code="408" reason="Merchants Timeout" />
+          </return-response>
+        </when>
+        <when condition="@(((IResponse)context.Variables["responseMerchantId"]).StatusCode == 200)">
+          <set-variable name="merchantId" value="@((string)((IResponse)context.Variables["responseMerchantId"]).Body.As<string>())" />
+          <cache-store-value key="@((string)context.Variables["merchantIdCacheKey"])" value="@((string)context.Variables["merchantId"])" duration="900" />
+        </when>
+        <otherwise>
+          <return-response>
+            <set-status code="403" reason="Forbidden" />
+          </return-response>
+        </otherwise>
+      </choose>
+    </when>
+  </choose>
+</fragment>

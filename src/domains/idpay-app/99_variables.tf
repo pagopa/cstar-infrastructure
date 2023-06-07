@@ -324,3 +324,8 @@ variable "idpay_mocked_acquirer_apim_user_id" {
   description = "APIm user id of mocked acquirer"
   default     = null
 }
+
+variable "aks_cluster_domain_name" {
+  type        = string
+  description = "Name of the aks cluster domain. eg: dev01"
+}

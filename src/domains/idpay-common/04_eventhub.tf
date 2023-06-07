@@ -26,7 +26,7 @@ module "event_hub_idpay_00" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=ISB-124-fix-conditional-operator"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v4.15.0"
   name                     = "${local.product}-${var.domain}-evh-ns-00"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -63,6 +63,29 @@ module "event_hub_idpay_00" {
       webhook_properties = null
     }
   ]
+
+  network_rulesets = [
+    {
+      default_action                 = "Deny"
+      trusted_service_access_enabled = true
+      virtual_network_rule = [
+        {
+          subnet_id                                       = data.azurerm_subnet.eventhub_snet.id
+          ignore_missing_virtual_network_service_endpoint = false
+        },
+        {
+          subnet_id                                       = data.azurerm_subnet.aks_domain_subnet.id
+          ignore_missing_virtual_network_service_endpoint = false
+        },
+        {
+          subnet_id                                       = data.azurerm_subnet.private_endpoint_snet.id
+          ignore_missing_virtual_network_service_endpoint = false
+        }
+      ]
+      ip_rule = []
+    }
+  ]
+
 
   tags = var.tags
 }
@@ -105,7 +128,7 @@ module "event_hub_idpay_01" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=ISB-124-fix-conditional-operator"
+  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v4.15.0"
   name                     = "${local.product}-${var.domain}-evh-ns-01"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -140,6 +163,28 @@ module "event_hub_idpay_01" {
     {
       action_group_id    = local.monitor_action_group_email_name
       webhook_properties = null
+    }
+  ]
+
+  network_rulesets = [
+    {
+      default_action                 = "Deny"
+      trusted_service_access_enabled = true
+      virtual_network_rule = [
+        {
+          subnet_id                                       = data.azurerm_subnet.eventhub_snet.id
+          ignore_missing_virtual_network_service_endpoint = false
+        },
+        {
+          subnet_id                                       = data.azurerm_subnet.aks_domain_subnet.id
+          ignore_missing_virtual_network_service_endpoint = false
+        },
+        {
+          subnet_id                                       = data.azurerm_subnet.private_endpoint_snet.id
+          ignore_missing_virtual_network_service_endpoint = false
+        }
+      ]
+      ip_rule = []
     }
   ]
 
