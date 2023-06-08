@@ -96,6 +96,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet_old" {
   tags                  = var.tags
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet_old_to_pair" {
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.db_rg.name
+  private_dns_zone_name = azurerm_private_dns_zone.postgres_old.name
+  virtual_network_id    = module.vnet_pair.id
+  tags                  = var.tags
+}
+
 #
 # Private DNS Zone for Storage Accounts
 #
