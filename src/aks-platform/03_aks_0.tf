@@ -30,13 +30,15 @@ module "aks" {
 
   count = var.aks_enabled ? 1 : 0
 
-  name                       = local.aks_cluster_name
-  location                   = azurerm_resource_group.rg_aks.location
-  dns_prefix                 = "${local.project}-aks"
-  resource_group_name        = azurerm_resource_group.rg_aks.name
-  kubernetes_version         = var.aks_kubernetes_version
-  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
-  sku_tier                   = var.aks_sku_tier
+  name                                          = local.aks_cluster_name
+  location                                      = azurerm_resource_group.rg_aks.location
+  dns_prefix                                    = "${local.project}-aks"
+  resource_group_name                           = azurerm_resource_group.rg_aks.name
+  kubernetes_version                            = var.aks_kubernetes_version
+  log_analytics_workspace_id                    = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  microsoft_defender_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_log_analytics_workspace.log_analytics_workspace.id : null
+
+  sku_tier = var.aks_sku_tier
 
   #
   # 🤖 System node pool
