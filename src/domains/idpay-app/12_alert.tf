@@ -75,7 +75,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
   display_name                     = "${var.domain}-${var.env_short}-Complete Onboarding"
   enabled                          = true
   query_time_range_override        = "P2D"
-  skip_query_validation = false
+  skip_query_validation            = false
   action {
     action_groups = [
       azurerm_monitor_action_group.slackIdpay[0].id
