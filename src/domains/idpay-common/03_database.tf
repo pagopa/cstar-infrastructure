@@ -490,7 +490,7 @@ locals {
         }, {
         keys   = ["updateDate"]
         unique = false
-      }
+        }
       ]
     },
     {
