@@ -15,7 +15,7 @@ module "pm_admin_panel" {
   service_url = ""
 
   content_format = "openapi"
-  content_value = templatefile("./api/pm_admin_panel/openapi.json.tpl", {
+  content_value = templatefile("./api/pm_admin_panel/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -27,7 +27,7 @@ module "pm_admin_panel" {
   api_operation_policies = [
     {
       operation_id = "walletv2",
-      xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml.tpl", {
+      xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml", {
         pm-backend-url                       = var.pm_backend_url,
         PM-Timeout-Sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -88,7 +88,7 @@ module "pm_wallet_ext" {
   service_url = ""
 
   content_format = "openapi"
-  content_value = templatefile("./api/pm_wallet_ext/openapi.json.tpl", {
+  content_value = templatefile("./api/pm_wallet_ext/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 

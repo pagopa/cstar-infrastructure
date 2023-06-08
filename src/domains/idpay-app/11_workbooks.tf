@@ -31,6 +31,10 @@ locals {
     {
       name     = "PerformanceTrx",
       filePath = "${path.module}/workbooks/PerformanceTrx.json.tpl"
+    },
+    {
+      name     = "OPEX Workbook",
+      filePath = "${path.module}/workbooks/OPEXWorkbook.json.tpl"
     }
   ]
 }
