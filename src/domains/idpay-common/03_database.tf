@@ -487,9 +487,6 @@ locals {
         }, {
         keys   = ["trxChargeDate"]
         unique = false
-        }, {
-        keys   = ["updateDate"]
-        unique = false
         }
       ]
     },
