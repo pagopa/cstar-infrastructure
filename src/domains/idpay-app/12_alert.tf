@@ -1,10 +1,10 @@
 resource "azurerm_monitor_action_group" "slackIdpay" {
 
-  count = var.idpay_alert_enabled.enable == true ? 1 : 0
+  count = var.idpay_alert_enabled == true ? 1 : 0
 
   name                = "slackIdpay"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  short_name          = "send_to_slack"
+  short_name          = "send_to_idpay_slack"
 
   email_receiver {
     name                    = "slackIdpay"

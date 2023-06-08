@@ -39,6 +39,6 @@ data "azurerm_key_vault_secret" "alert-slack-idpay" {
 
   count = var.idpay_alert_enabled.enable == true ? 1 : 0
 
-  name         = "alert-slack-idpay"
+  name         = "alert-idpay-notification-slack"
   key_vault_id = data.azurerm_key_vault.kv.id
 }

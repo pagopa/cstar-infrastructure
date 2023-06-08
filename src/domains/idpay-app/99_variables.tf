@@ -35,12 +35,8 @@ variable "domain" {
 }
 
 variable "idpay_alert_enabled" {
-  type = object({
-    enable = bool
-  })
-  default = {
-    enable = false
-  }
+  type    = bool
+  default = false
 }
 
 variable "location" {
