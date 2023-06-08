@@ -148,41 +148,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /initiatives:
-    get:
-      tags:
-        - merchant-initiatives
-      summary: Returns the list of initiatives of a specific merchant
-      description: Returns the list of initiatives of a specific merchant
-      operationId: getMerchantInitiativeList
-      parameters:
-        - name: merchantId
-          in: header
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  allOf:
-                    - $ref: '#/components/schemas/InitiativeDTO'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '404':
-          description: The merchant ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
   /{merchantId}/initiative/{initiativeId}:
     get:
       tags:
@@ -297,23 +262,6 @@ components:
           type: string
           format: date-time
           description: "ENG: Time and date of the last status update <br> IT: La data ed ora dell'ultimo aggiornamento dello stato"
-    InitiativeDTO:
-      type: object
-      properties:
-        initiativeId:
-          type: string
-        initiativeName:
-          type: string
-        merchantStatus:
-          type: string
-        creationDate:
-          type: string
-          format: date-time
-        updateDate:
-          type: string
-          format: date-time
-        enabled:
-          type: boolean
     ErrorDTO:
       type: object
       properties:
