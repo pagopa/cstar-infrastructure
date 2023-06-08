@@ -500,10 +500,12 @@ locals {
         }, {
         keys   = ["trxChargeDate"]
         unique = false
-        },
-        {
-          keys   = ["merchantId"]
-          unique = false
+        }, {
+        keys   = ["updateDate"]
+        unique = false
+        }, {
+        keys   = ["merchantId"]
+        unique = false
         }
       ]
     },
