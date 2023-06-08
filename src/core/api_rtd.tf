@@ -33,7 +33,7 @@ module "api_azureblob" {
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/azureblob/openapi.json.tpl", {
+  content_value = templatefile("./api/azureblob/openapi.json", {
     host                = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
     pgp-put-limit-bytes = var.pgp_put_limit_bytes
   })
@@ -164,7 +164,7 @@ module "rtd_csv_transaction" {
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
+  content_value = templatefile("./api/rtd_csv_transaction/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -196,7 +196,7 @@ module "rtd_csv_transaction" {
     },
     {
       operation_id = "getPublicKey",
-      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml", {
         public-key-asc         = data.azurerm_key_vault_secret.cstarblobstorage_public_key[0].value,
         last-version-supported = var.batch_service_last_supported_version
       })
@@ -269,7 +269,7 @@ module "rtd_blob_internal" {
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/azureblob/internal.openapi.json.tpl", {
+  content_value = templatefile("./api/azureblob/internal.openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name,
 
   })
@@ -302,9 +302,9 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
-  content_value  = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml.tpl", {})
+  content_value  = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml", {})
 
-  xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml.tpl", {})
+  xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml", {})
 
   product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
@@ -331,11 +331,11 @@ module "rtd_senderadeack_filename_list" {
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_senderack_filename_list/openapi.yml.tpl", {
+  content_value = templatefile("./api/rtd_senderack_filename_list/openapi.yml", {
     host = "https://httpbin.org"
   })
 
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
     rtd-ingress = local.ingress_load_balancer_hostname_https
   })
 
@@ -498,7 +498,7 @@ module "rtd_filereporter" {
   api_operation_policies = [
     {
       operation_id = "getFileReport"
-      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml", {
         rtd-ingress = local.ingress_load_balancer_hostname_https
       })
     }
