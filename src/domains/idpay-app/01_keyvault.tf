@@ -37,7 +37,7 @@ resource "azurerm_key_vault_secret" "revoked_pi_consumer_connection_uri" {
 
 data "azurerm_key_vault_secret" "alert-slack-idpay" {
 
-  count = var.zendesk_action_enabled.enable == true ? 1 : 0
+  count = var.idpay_alert_enabled.enable == true ? 1 : 0
 
   name         = "alert-slack-idpay"
   key_vault_id = data.azurerm_key_vault.kv.id
