@@ -14,7 +14,8 @@ locals {
     module.idpay_notification_email_api.name,
     module.idpay_merchants_permission_portal.name,
     module.idpay_merchants_notification_email_api.name,
-    module.idpay_merchants_portal.name
+    module.idpay_merchants_portal.name,
+    module.idpay_qr_code_payment_acquirer.name
   ]
 }
 
