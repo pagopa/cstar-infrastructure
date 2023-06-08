@@ -61,6 +61,12 @@ resource "azurerm_cosmosdb_mongo_database" "idpay" {
       max_throughput = var.cosmos_mongo_db_idpay_params.max_throughput
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      autoscale_settings
+    ]
+  }
 }
 
 # Collections
