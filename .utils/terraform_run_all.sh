@@ -21,10 +21,10 @@ array=(
     'src/psql::dev-cstar'
     'src/domains/idpay-app::dev'
     'src/domains/idpay-common::dev'
-    'src/domains/tae-app::dev'
-    'src/domains/tae-common::dev'
     'src/domains/rtd-app::dev'
     'src/domains/rtd-common::dev'
+    'src/domains/tae-app::dev'
+    'src/domains/tae-common::dev'
 )
 
 function rm_terraform {
