@@ -1,6 +1,6 @@
 resource "azurerm_monitor_action_group" "slackIdpay" {
 
-  count = var.idpay_alert_enabled == true ? 1 : 0
+  count = var.idpay_alert_enabled ? 1 : 0
 
   name                = "slackIdpay"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
@@ -16,7 +16,7 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 
-  count = var.env_short == "p" ? 1 : 0
+  count = var.idpay_alert_enabled ? 1 : 0
 
   name                = "CompleteOnboarding"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
