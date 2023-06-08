@@ -322,3 +322,32 @@ module "rtd_sender_api_key_check" {
 
   api_operation_policies = []
 }
+
+module "rtd_deposited_file_check" {
+  count = var.enable.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+
+  name                = format("%s-rtd-deposited-file-check", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+
+  description  = "RTD API to retrieve a deposited ADE file in SFTP by name"
+  display_name = "RTD API to get AdE file"
+  path         = "rtd/sftp-retrieve"
+  protocols    = ["https"]
+
+  service_url = "https://cstar${var.env_short}blobstorage.blob.core.windows.net/ade-integration-aggregates/"
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = file("./api/rtd_deposited_file_check/openapi.yml")
+
+  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
