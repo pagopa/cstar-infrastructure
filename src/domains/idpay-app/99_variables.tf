@@ -34,6 +34,15 @@ variable "domain" {
   }
 }
 
+variable "idpay_alert_enabled" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "location" {
   type        = string
   description = "One of westeurope, northeurope"
