@@ -50,7 +50,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aks_dns_private_link_v
   resource_group_name   = data.external.get_dns_zone[0].result["dns_zone_resource_group_name"]
   private_dns_zone_name = data.external.get_dns_zone[0].result["dns_zone_name"]
 
-    depends_on = [
+  depends_on = [
     module.aks,
     data.external.get_dns_zone
   ]
