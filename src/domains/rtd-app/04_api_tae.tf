@@ -15,7 +15,7 @@ module "rtd_senderack_download_file" {
   service_url = local.rtd_senderack_download_file_uri
 
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_senderack_download_file/openapi.json.tpl", {
+  content_value = templatefile("./api/rtd_senderack_download_file/openapi.json", {
     host = local.rtd_senderack_download_file_uri
   })
 
