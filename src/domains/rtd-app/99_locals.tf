@@ -30,4 +30,12 @@ locals {
 
   appgw_api_hostname    = "api%{if var.env_short == "p"}.%{else}.${var.env}.%{endif}cstar.pagopa.it"
   appgw_api_io_hostname = "api-io%{if var.env_short == "p"}.%{else}.${var.env}.%{endif}cstar.pagopa.it"
+
+  # Private DNS record storage accounts
+  cstarblobstorage_private_fqdn = "${data.azurerm_storage_account.cstarblobstorage.name}.privatelink.blob.core.windows.net"
+
+  # Temporary fallback to old ingress over non-dev environments
+  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+  rtd_senderack_download_file_uri      = format("https://%s/%s", local.cstarblobstorage_private_fqdn, azurerm_storage_container.sender_ade_ack[0].name)
+
 }
