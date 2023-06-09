@@ -63,6 +63,8 @@ enable = {
   pm_integration                      = true
   hashed_pans_container               = true
   batch_service_api                   = true
+  tae_api                             = true
+  tae_blob_containers                 = true
 }
 
 #
