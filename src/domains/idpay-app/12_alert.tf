@@ -4,7 +4,7 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 
   name                = "slackIdpay"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  short_name          = "send_to_idpay_slack"
+  short_name          = "idpay_slack"
 
   email_receiver {
     name                    = "slackIdpay"
@@ -13,22 +13,22 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
   }
 
 }
-
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
-
+resource "azurerm_monitor_scheduled_query_rules_alert" "CompleteOnboarding" {
   count = var.idpay_alert_enabled ? 1 : 0
-
-  name                = "CompleteOnboarding"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  name                = format("%s-CompleteOnboarding", var.prefix)
   location            = data.azurerm_resource_group.monitor_rg.location
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
-  evaluation_frequency = "P1D"
-  window_duration      = "P2D"
-  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
-  criteria {
-    query                   = <<-QUERY
-      let apps = dynamic(['idpay-onboarding-workflow']);
+  action {
+    action_group = [
+    azurerm_monitor_action_group.slackIdpay[0].id]
+    email_subject          = "Email Header"
+  }
+  data_source_id = data.azurerm_log_analytics_workspace.log_analytics.id
+  description    = "Trigger alert when the Rule Engine can't process the requests of onboarding"
+  enabled        = true
+  query          = <<-QUERY
+  let apps = dynamic(['idpay-onboarding-workflow']);
   let threshold = timespan(3h);
   let startTime = ago(24h);
   let endTime = now();
@@ -58,30 +58,18 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
   let durationAlerts = toscalar(joinedLogs | where Alert == true | count);
   let percentage = round(100.0 * durationAlerts / totalAlerts, 2);
   print Percent = percentage
-      QUERY
-    time_aggregation_method = "Total"
-    threshold               = 10
-    operator                = "GreaterThan"
-
-    failing_periods {
-      minimum_failing_periods_to_trigger_alert = 1
-      number_of_evaluation_periods             = 1
+QUERY
+  severity       = 0
+  frequency      = 1440
+  time_window    = 1440
+  trigger {
+    operator  = "GreaterThanOrEqual"
+    threshold = 10
+    metric_trigger {
+      operator            = "GreaterThanOrEqual"
+      threshold           = 10
+      metric_trigger_type = "Total"
+      metric_column       = "Percent"
     }
   }
-
-  auto_mitigation_enabled          = false
-  workspace_alerts_storage_enabled = false
-  description                      = "Trigger alert when the Rule Engine can't process the requests of onboarding"
-  display_name                     = "${var.domain}-${var.env_short}-Complete Onboarding"
-  enabled                          = true
-  query_time_range_override        = "P2D"
-  skip_query_validation            = false
-  action {
-    action_groups = [
-      azurerm_monitor_action_group.slackIdpay[0].id
-    ]
-    custom_properties = {}
-  }
-
-  tags = var.tags
 }

@@ -37,6 +37,7 @@ reverse_proxy_be_io            = "10.1.0.250"
 #
 dns_zone_internal_prefix = "internal.uat.cstar"
 external_domain          = "pagopa.it"
+idpay_alert_enabled = true
 
 #
 # Enable components
