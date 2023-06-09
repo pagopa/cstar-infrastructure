@@ -60,8 +60,7 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 3840000,
-              "endTime": "2023-06-06T10:04:00.000Z"
+              "durationMs": 900000
             }
           },
           {
@@ -95,7 +94,7 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n        {\"value\": \"idpay-payment\", \"selected\": true},\r\n        {\"value\": \"idpay-reward-calculator\", \"selected\": true}\r\n\r\n]",
+            "jsonData": "[\r\n        {\"value\": \"idpay-payment\", \"selected\": true},\r\n        {\"value\": \"idpay-reward-calculator\", \"selected\": true},\r\n        {\"value\": \"idpay-merchant\", \"selected\": true}\r\n]",
             "timeContext": {
               "durationMs": 86400000
             }
@@ -116,7 +115,7 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n    \"transaction_in_progress\",\r\n    \"reward_rule\",\r\n    \"user_initiative_counters\",\r\n    \"transaction_processed\",\r\n    \"hpan_initiatives_lookup\"\r\n]",
+            "jsonData": "[\r\n    \"transaction_in_progress\",\r\n    \"reward_rule\",\r\n    \"user_initiative_counters\",\r\n    \"transaction_processed\",\r\n    \"hpan_initiatives_lookup\",\r\n    \"merchant\",\r\n    \"merchant_file\"\r\n]",
             "timeContext": {
               "durationMs": 0
             },
@@ -141,7 +140,7 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n   {\"label\": \"idpay-payment\", \"value\":            \"QR_CODE_AUTHORIZE_TRANSACTION_REWARD_CALCULATOR\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\":            \"QR_CODE_PREVIEW_TRANSACTION_REWARD_CALCULATOR\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_CREATE_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_RELATE_USER\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_AUTHORIZE_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_CONFIRM_PAYMENT\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"GET_STATUS_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"GET_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-reward-calculator\", \"value\": \"SYNC_PREVIEW_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-reward-calculator\", \"value\": \"SYNC_AUTHORIZE_TRANSACTION\", \"selected\": true}\r\n\r\n   \r\n]",
+            "jsonData": "[\r\n   {\"label\": \"idpay-payment\", \"value\":            \"QR_CODE_AUTHORIZE_TRANSACTION_REWARD_CALCULATOR\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\":            \"QR_CODE_PREVIEW_TRANSACTION_REWARD_CALCULATOR\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_CREATE_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_RELATE_USER\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_AUTHORIZE_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_CONFIRM_PAYMENT\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"GET_STATUS_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"GET_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"GET_MERCHANT_TRANSACTIONS\", \"selected\": true},\r\n   {\"label\": \"idpay-payment\", \"value\": \"QR_CODE_CANCEL_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-merchant\", \"value\": \"GET_MERCHANT_LIST\", \"selected\": true},\r\n   {\"label\": \"idpay-merchant\", \"value\": \"GET_MERCHANT_DETAIL\", \"selected\": true},\r\n   {\"label\": \"idpay-merchant\", \"value\": \"STORE_MERCHANT_FILE\", \"selected\": true},\r\n   {\"label\": \"idpay-merchant\", \"value\": \"DOWNLOAD_MERCHANT_FILE\", \"selected\": true},\r\n   {\"label\": \"idpay-merchant\", \"value\": \"SAVE_MERCHANTS\", \"selected\": true},\r\n   {\"label\": \"idpay-reward-calculator\", \"value\": \"SYNC_PREVIEW_TRANSACTION\", \"selected\": true},\r\n   {\"label\": \"idpay-reward-calculator\", \"value\": \"SYNC_AUTHORIZE_TRANSACTION\", \"selected\": true}\r\n\r\n   \r\n]",
             "timeContext": {
               "durationMs": 86400000
             }
@@ -161,7 +160,7 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n        {\"label\": \"Authorize transaction\", \"value\": \"{\\\"label\\\": \\\"authorize transaction\\\", \\\"value\\\": \\\"QR_CODE_AUTHORIZE_TRANSACTION_REWARD_CALCULATOR\\\"}\", \"selected\": true},\r\n        {\"label\": \"Preview transaction\", \"value\": \"{\\\"label\\\": \\\"preview transaction\\\", \\\"value\\\": \\\"QR_CODE_PREVIEW_TRANSACTION_REWARD_CALCULATOR\\\"}\", \"selected\": true},\r\n\t\t{\"label\": \"Create transaction\", \"value\": \"{\\\"label\\\": \\\"create transaction\\\", \\\"value\\\": \\\"QR_CODE_CREATE_TRANSACTION\\\"}\", \"selected\": true},\r\n        {\"label\": \"Relate user\", \"value\": \"{\\\"label\\\": \\\"relate user\\\", \\\"value\\\": \\\"QR_CODE_RELATE_USER\\\"}\", \"selected\": true},\r\n        {\"label\": \"Authorize transaction\", \"value\": \"{\\\"label\\\": \\\"authorize transaction\\\", \\\"value\\\": \\\"QR_CODE_AUTHORIZE_TRANSACTION\\\"}\", \"selected\": true},\r\n        {\"label\": \"Confirm transaction\", \"value\": \"{\\\"label\\\": \\\"confirm transaction\\\", \\\"value\\\": \\\"QR_CODE_CONFIRM_PAYMENT\\\"}\", \"selected\": true},\r\n        {\"label\": \"Get status transaction\", \"value\": \"{\\\"label\\\": \\\"get status transaction\\\", \\\"value\\\": \\\"GET_STATUS_TRANSACTION\\\"}\", \"selected\": true},\r\n        {\"label\": \"Get transaction\", \"value\": \"{\\\"label\\\": \\\"get transaction\\\", \\\"value\\\": \\\"GET_TRANSACTION\\\"}\", \"selected\": true},\r\n        {\"label\": \"Sync preview transaction\", \"value\": \"{\\\"label\\\": \\\"sync preview transaction\\\", \\\"value\\\": \\\"SYNC_PREVIEW_TRANSACTION\\\"}\", \"selected\": true},\r\n        {\"label\": \"Sync authorize transaction\", \"value\": \"{\\\"label\\\": \\\"sync authorize transaction\\\", \\\"value\\\": \\\"SYNC_AUTHORIZE_TRANSACTION\\\"}\", \"selected\": true}\r\n\r\n]"
+            "jsonData": "[\r\n    {\"label\": \"Authorize transaction\", \"value\": \"{\\\"label\\\": \\\"authorize transaction\\\", \\\"value\\\": \\\"QR_CODE_AUTHORIZE_TRANSACTION_REWARD_CALCULATOR\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Preview transaction\", \"value\": \"{\\\"label\\\": \\\"preview transaction\\\", \\\"value\\\": \\\"QR_CODE_PREVIEW_TRANSACTION_REWARD_CALCULATOR\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Create transaction\", \"value\": \"{\\\"label\\\": \\\"create transaction\\\", \\\"value\\\": \\\"QR_CODE_CREATE_TRANSACTION\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Relate user\", \"value\": \"{\\\"label\\\": \\\"relate user\\\", \\\"value\\\": \\\"QR_CODE_RELATE_USER\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Authorize transaction\", \"value\": \"{\\\"label\\\": \\\"authorize transaction\\\", \\\"value\\\": \\\"QR_CODE_AUTHORIZE_TRANSACTION\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Confirm transaction\", \"value\": \"{\\\"label\\\": \\\"confirm transaction\\\", \\\"value\\\": \\\"QR_CODE_CONFIRM_PAYMENT\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Get status transaction\", \"value\": \"{\\\"label\\\": \\\"get status transaction\\\", \\\"value\\\": \\\"GET_STATUS_TRANSACTION\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Get transaction\", \"value\": \"{\\\"label\\\": \\\"get transaction\\\", \\\"value\\\": \\\"GET_TRANSACTION\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Get merchant transaction\", \"value\": \"{\\\"label\\\": \\\"get merchant transaction\\\", \\\"value\\\": \\\"GET_MERCHANT_TRANSACTIONS\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Delete transaction\", \"value\": \"{\\\"label\\\": \\\"delete transaction\\\", \\\"value\\\": \\\"QR_CODE_CANCEL_TRANSACTION\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Get merchant list\", \"value\": \"{\\\"label\\\": \\\"get merchant list\\\", \\\"value\\\": \\\"GET_MERCHANT_LIST\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Get merchant detail\", \"value\": \"{\\\"label\\\": \\\"get merchant detail\\\", \\\"value\\\": \\\"GET_MERCHANT_DETAIL\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Store merchant file\", \"value\": \"{\\\"label\\\": \\\"store merchant file\\\", \\\"value\\\": \\\"STORE_MERCHANT_FILE\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Download merchant file\", \"value\": \"{\\\"label\\\": \\\"download merchant file\\\", \\\"value\\\": \\\"DOWNLOAD_MERCHANT_FILE\\\"}\", \"selected\": true},\r\n\t{\"label\": \"Save merchant\", \"value\": \"{\\\"label\\\": \\\"save merchant\\\", \\\"value\\\": \\\"SAVE_MERCHANTS\\\"}\", \"selected\": true}\r\n]"
           },
           {
             "id": "c4825ba3-5603-4bd4-a2e4-e172c3aa12c5",
@@ -198,7 +197,7 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n        {\"value\": \"${env_short}-idpay-qr-code-payment-acquirer;rev=1 - getStatusTransaction\", \"selected\": true},\r\n        {\"value\": \"${env_short}-idpay-qr-code-payment-mock-merchant;rev=1 - createTransaction\", \"selected\": true},\r\n        {\"value\": \"${env_short}-idpay-qr-code-payment-acquirer;rev=1 - confirmPaymentQRCode\", \"selected\": true},\r\n        {\"value\": \"${env_short}-idpay-qr-code-payment-acquirer;rev=1 - createTransaction\", \"selected\": true},\r\n        {\"value\": \"${env_short}-idpay-payment-io;rev=1 - getTransaction\", \"selected\": true},\r\n        {\"value\": \"${env_short}-idpay-qr-code-payment-io;rev=1 - putAuthPayment\", \"selected\": true},\r\n        {\"value\": \"${env_short}-idpay-qr-code-payment-io;rev=1 - putPreAuthPayment\", \"selected\": true}\r\n]"
+            "jsonData": "[\r\n\t{\"value\": \"${env_short}-idpay-qr-code-payment-acquirer;rev=1 - getStatusTransaction\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-qr-code-payment-acquirer;rev=1 - confirmPaymentQRCode\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-qr-code-payment-acquirer;rev=1 - createTransaction\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-payment-io;rev=1 - getTransaction\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-qr-code-payment-io;rev=1 - putAuthPayment\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-qr-code-payment-io;rev=1 - putPreAuthPayment\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-merchants-portal;rev=1 - createTransaction\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-merchants-portal;rev=1 - confirmPaymentQRCode\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-merchants-portal;rev=1 - getMerchantTransactions\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-merchants-portal;rev=1 - getMerchantDetail\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-merchants-portal;rev=1 - getMerchantInitiativeList\", \"selected\": true},\r\n\t{\"value\": \"${env_short}-idpay-merchants-portal;rev=1 - deleteTransaction\", \"selected\": true}\r\n]"
           },
           {
             "id": "de4d170d-642c-4c7b-8dda-6cbeea968c9a",
@@ -234,9 +233,11 @@
               ],
               "showDefault": false
             },
-            "jsonData": "[\r\n    \"idpaypayment\",\r\n    \"idpayrewardcalculator\"\r\n]",
+            "jsonData": "[\r\n    \"idpaypayment\",\r\n    \"idpayrewardcalculator\",\r\n    \"idpaymerchant\"\r\n]",
             "value": [
-              "value::all"
+              "idpaypayment",
+              "idpayrewardcalculator",
+              "idpaymerchant"
             ]
           },
           {
@@ -1130,8 +1131,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1175,8 +1175,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1244,8 +1243,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1293,8 +1291,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1443,8 +1440,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1541,8 +1537,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1641,8 +1636,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1682,8 +1676,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1900,8 +1893,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -1945,8 +1937,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2028,8 +2019,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2077,8 +2067,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2126,8 +2115,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2171,8 +2159,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2280,8 +2267,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2334,8 +2320,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2367,8 +2352,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2482,8 +2466,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
@@ -2592,8 +2575,7 @@
               ],
               "timeContextFromParameter": "timeRange",
               "timeContext": {
-                "durationMs": 3840000,
-                "endTime": "2023-06-06T10:04:00.000Z"
+                "durationMs": 300000
               },
               "metrics": [
                 {
