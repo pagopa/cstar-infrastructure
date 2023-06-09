@@ -134,7 +134,7 @@ resource "kubernetes_config_map" "notification-email" {
   }
 }
 
-resource "azurerm_kubernetes_config_map" "appinsights-config" {
+resource "kubernetes_config_map" "appinsights-config" {
   metadata {
     name      = "appinsights-config"
     namespace = var.domain
