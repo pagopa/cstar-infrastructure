@@ -2,12 +2,12 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 
   count = var.idpay_alert_enabled ? 1 : 0
 
-  name                = "slackIdpay"
+  name                = "SlackIdpay"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  short_name          = "idpay_slack"
+  short_name          = "Slack-idpay"
 
   email_receiver {
-    name                    = "slackIdpay"
+    name                    = "SlackIdpay"
     email_address           = data.azurerm_key_vault_secret.alert-slack-idpay[count.index].value
     use_common_alert_schema = true
   }
@@ -22,7 +22,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "CompleteOnboarding" {
   action {
     action_group = [
     azurerm_monitor_action_group.slackIdpay[0].id]
-    email_subject = "Email Header"
+    email_subject = "[IDPAY][ALERT] Complete Onboarding"
   }
   data_source_id = data.azurerm_log_analytics_workspace.log_analytics.id
   description    = "Trigger alert when the Rule Engine can't process the requests of onboarding"
