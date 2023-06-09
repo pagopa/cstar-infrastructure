@@ -9,16 +9,16 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   variables = {
     rowsCopiedToCosmos = ""
   }
-  activities_json = "[${templatefile("pipelines/copy-activities/senderAggregatesToDatastore.json.tpl", {
+  activities_json = "[${templatefile("pipelines/copy-activities/senderAggregatesToDatastore.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${file("pipelines/copy-activities/setRowsCopiedToCosmos.json.tpl")},${templatefile("pipelines/copy-activities/aggregatesToLog.json.tpl", {
+    })},${file("pipelines/copy-activities/setRowsCopiedToCosmos.json")},${templatefile("pipelines/copy-activities/aggregatesToLog.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToLog.json.tpl", {
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToLog.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTP.json.tpl", {
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTP.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
   })}]"
@@ -70,19 +70,19 @@ resource "azurerm_data_factory_pipeline" "aggregates_ingestor_testing" {
   variables = {
     rowsCopiedToCosmos = ""
   }
-  activities_json = "[${templatefile("pipelines/copy-activities/senderAggregatesToDatastore.json.tpl", {
+  activities_json = "[${templatefile("pipelines/copy-activities/senderAggregatesToDatastore.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${file("pipelines/copy-activities/setRowsCopiedToCosmos.json.tpl")},${templatefile("pipelines/copy-activities/aggregatesToLog.json.tpl", {
+    })},${file("pipelines/copy-activities/setRowsCopiedToCosmos.json")},${templatefile("pipelines/copy-activities/aggregatesToLog.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToLog.json.tpl", {
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToLog.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTPTesting.json.tpl", {
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedToSFTPTesting.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
-    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedOnIntContainer.json.tpl", {
+    })},${templatefile("pipelines/copy-activities/rowsCopiedToCosmosEqualsRowsCopiedOnIntContainer.json", {
     copy_activity_retries                = var.aggregates_ingestor_conf.copy_activity_retries
     copy_activity_retry_interval_seconds = var.aggregates_ingestor_conf.copy_activity_retry_interval_seconds
   })}]"

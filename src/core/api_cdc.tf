@@ -150,7 +150,7 @@ module "cdc_api_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = templatefile("./api_product/cdc_api/policy.xml.tpl", {})
+  policy_xml = templatefile("./api_product/cdc_api/policy.xml", {})
 
   # tags = merge(var.tags, { Application = "CDC" })
 
@@ -175,11 +175,11 @@ module "api_cdc_sogei" {
   service_url = var.cdc_api_params.host
 
   content_format = "openapi"
-  content_value = templatefile("./api/cdc/openapi.sogei.yml.tpl", {
+  content_value = templatefile("./api/cdc/openapi.sogei.yml", {
     host = var.cdc_api_params.host
   })
 
-  xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
+  xml_content = templatefile("./api/cdc/policy.jwt.xml", {
     jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
@@ -216,11 +216,11 @@ module "api_cdc_io" {
   service_url = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
 
   content_format = "openapi"
-  content_value = templatefile("./api/cdc/openapi.io.yml.tpl", {
+  content_value = templatefile("./api/cdc/openapi.io.yml", {
     host = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
   })
 
-  xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
+  xml_content = templatefile("./api/cdc/policy.jwt.xml", {
     jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
