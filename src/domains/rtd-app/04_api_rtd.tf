@@ -297,7 +297,7 @@ resource "azurerm_api_management_api_operation_policy" "get_hashed_pans_policy_v
 module "rtd_sender_api_key_check" {
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = format("%s-rtd-sender-api-key-check", var.env_short)
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -326,7 +326,7 @@ module "rtd_sender_api_key_check" {
 module "rtd_deposited_file_check" {
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = format("%s-rtd-deposited-file-check", var.env_short)
   api_management_name = data.azurerm_api_management.apim_core.name
