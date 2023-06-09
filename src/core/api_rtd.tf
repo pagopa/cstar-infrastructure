@@ -315,10 +315,6 @@ locals {
   rtd_senderack_download_file_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, "sender-ade-ack") //azurerm_storage_container.sender_ade_ack[0].name
 }
 
-locals {
-  rtd_senderack_download_file_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, "sender-ade-ack") //azurerm_storage_container.sender_ade_ack[0].name
-}
-
 module "rtd_senderack_correct_download_ack" {
   count  = var.enable.tae.api ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
