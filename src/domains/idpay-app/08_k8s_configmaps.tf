@@ -133,3 +133,14 @@ resource "kubernetes_config_map" "notification-email" {
     mail_server_port = var.mail_server_port
   }
 }
+
+resource "azurerm_kubernetes_config_map" "appinsights-config" {
+  metadata {
+    name      = "appinsights-config"
+    namespace = var.domain
+  }
+
+  data = {
+    "applicationinsights.json" = file("./k8s-file/appinsights-config/applicationinsights.json")
+  }
+}
