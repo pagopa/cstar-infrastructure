@@ -351,3 +351,36 @@ module "rtd_deposited_file_check" {
 
   api_operation_policies = []
 }
+
+module "rtd_senderadeack_filename_list" {
+  count = var.enable.tae_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+
+  name                = format("%s-rtd-senderack-filename-list", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+
+  description  = "TAE API to query file register"
+  display_name = "TAE API to query file register"
+  path         = "rtd/file-register"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_senderack_filename_list/openapi.yml", {
+    host = "https://httpbin.org"
+  })
+
+  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
+    rtd-ingress = local.ingress_load_balancer_hostname_https
+  })
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}

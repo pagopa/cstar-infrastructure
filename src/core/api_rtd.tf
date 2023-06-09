@@ -311,40 +311,6 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   api_operation_policies = []
 }
-
-module "rtd_senderadeack_filename_list" {
-  count = var.enable.tae.api ? 1 : 0
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-rtd-senderack-filename-list", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = "TAE API to query file register"
-  display_name = "TAE API to query file register"
-  path         = "rtd/file-register"
-  protocols    = ["https"]
-
-  service_url = ""
-
-  # Mandatory field when api definition format is openapi
-  content_format = "openapi"
-  content_value = templatefile("./api/rtd_senderack_filename_list/openapi.yml", {
-    host = "https://httpbin.org"
-  })
-
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml", {
-    rtd-ingress = local.ingress_load_balancer_hostname_https
-  })
-
-  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = []
-}
-
 locals {
   rtd_senderack_download_file_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, "sender-ade-ack") //azurerm_storage_container.sender_ade_ack[0].name
 }
