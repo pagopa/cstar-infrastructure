@@ -225,6 +225,8 @@ variable "enable" {
     pm_integration                      = bool
     hashed_pans_container               = bool
     batch_service_api                   = bool
+    tae_api                             = bool
+    tae_blob_containers                 = bool
   })
   description = "Feature flags"
   default = {
@@ -244,6 +246,8 @@ variable "enable" {
     pm_integration                      = false
     hashed_pans_container               = false
     batch_service_api                   = false
+    tae_api                             = false
+    tae_blob_containers                 = false
   }
 }
 

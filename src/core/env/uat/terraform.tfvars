@@ -686,6 +686,9 @@ enable_api_fa                              = false
 enable_blob_storage_event_grid_integration = true
 
 enable = {
+  core = {
+    private_endpoints_subnet = true
+  }
   rtd = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
@@ -722,3 +725,9 @@ batch_service_last_supported_version = "1.3.2"
 
 # cstarblobstorage
 cstarblobstorage_account_replication_type = "RAGRS"
+
+#
+# Azure devops
+#
+azdoa_image_name = "cstar-u-azdo-agent-ubuntu2204-image-v1"
+

@@ -33,7 +33,7 @@ module "api_azureblob" {
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/azureblob/openapi.json.tpl", {
+  content_value = templatefile("./api/azureblob/openapi.json", {
     host                = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
     pgp-put-limit-bytes = var.pgp_put_limit_bytes
   })
@@ -164,7 +164,7 @@ module "rtd_csv_transaction" {
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/rtd_csv_transaction/openapi.json.tpl", {
+  content_value = templatefile("./api/rtd_csv_transaction/openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
@@ -196,7 +196,7 @@ module "rtd_csv_transaction" {
     },
     {
       operation_id = "getPublicKey",
-      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml", {
         public-key-asc         = data.azurerm_key_vault_secret.cstarblobstorage_public_key[0].value,
         last-version-supported = var.batch_service_last_supported_version
       })
@@ -269,7 +269,7 @@ module "rtd_blob_internal" {
   service_url = format("https://%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn)
 
   content_format = "openapi"
-  content_value = templatefile("./api/azureblob/internal.openapi.json.tpl", {
+  content_value = templatefile("./api/azureblob/internal.openapi.json", {
     host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name,
 
   })
@@ -302,47 +302,17 @@ module "rtd_fake_abi_to_fiscal_code" {
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
-  content_value  = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml.tpl", {})
+  content_value  = templatefile("./api/rtd_abi_to_fiscalcode/openapi.yml", {})
 
-  xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml.tpl", {})
+  xml_content = templatefile("./api/rtd_abi_to_fiscalcode/policy.xml", {})
 
   product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = []
 }
-
-module "rtd_senderadeack_filename_list" {
-  count = var.enable.tae.api ? 1 : 0
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-rtd-senderack-filename-list", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = "TAE API to query file register"
-  display_name = "TAE API to query file register"
-  path         = "rtd/file-register"
-  protocols    = ["https"]
-
-  service_url = ""
-
-  # Mandatory field when api definition format is openapi
-  content_format = "openapi"
-  content_value = templatefile("./api/rtd_senderack_filename_list/openapi.yml.tpl", {
-    host = "https://httpbin.org"
-  })
-
-  xml_content = templatefile("./api/rtd_senderack_filename_list/policy.xml.tpl", {
-    rtd-ingress = local.ingress_load_balancer_hostname_https
-  })
-
-  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = []
+locals {
+  rtd_senderack_download_file_uri = format("https://%s/%s", azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn, "sender-ade-ack") //azurerm_storage_container.sender_ade_ack[0].name
 }
 
 module "rtd_senderack_correct_download_ack" {
@@ -402,36 +372,6 @@ module "rtd_sender_mauth_check" {
 
   product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
   subscription_required = false
-
-  api_operation_policies = []
-}
-
-module "rtd_deposited_file_check" {
-
-  count = var.enable.rtd.batch_service_api ? 1 : 0
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-rtd-deposited-file-check", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = "RTD API to retrieve a deposited ADE file in SFTP by name"
-  display_name = "RTD API to get AdE file"
-  path         = "rtd/sftp-retrieve"
-  protocols    = ["https"]
-
-  service_url = "https://cstar${var.env_short}blobstorage.blob.core.windows.net/ade-integration-aggregates/"
-
-  # Mandatory field when api definition format is openapi
-  content_format = "openapi"
-  content_value  = file("./api/rtd_deposited_file_check/openapi.yml")
-
-  xml_content = file("./api/rtd_deposited_file_check/azureblob_policy.xml")
-
-  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
 
   api_operation_policies = []
 }
@@ -528,7 +468,7 @@ module "rtd_filereporter" {
   api_operation_policies = [
     {
       operation_id = "getFileReport"
-      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml.tpl", {
+      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml", {
         rtd-ingress = local.ingress_load_balancer_hostname_https
       })
     }
