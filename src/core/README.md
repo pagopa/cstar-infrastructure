@@ -169,6 +169,7 @@
 | [azurerm_private_dns_zone.postgres](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.postgres_old](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.private_private_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone) | resource |
+| [azurerm_private_dns_zone.redis](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.adf_link_to_pair](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.adf_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
@@ -184,6 +185,8 @@
 | [azurerm_private_dns_zone_virtual_network_link.postgres_vnet_old_to_pair](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.private_integration_dns_zone_virtual_network_link](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.private_private_dns_zone_virtual_network_link](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.redis_link_to_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.redis_link_to_vnet_pair](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.storage_account_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.storage_account_vnet_integration](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.storage_link_to_pair](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
