@@ -726,7 +726,6 @@ enable = {
     enrolled_payment_instrument         = true
     payment_instrument                  = false
     mongodb_storage                     = true
-    sender_auth                         = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     pm_integration                      = true

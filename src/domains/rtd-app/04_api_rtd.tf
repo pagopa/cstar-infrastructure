@@ -429,3 +429,34 @@ module "batch_api_product" {
 
   policy_xml = file("./api_product/batch_api/policy.xml")
 }
+
+
+module "rtd_sender_auth_put_api_key" {
+
+  count = var.enable.sender_auth ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  name                = format("%s-rtd-sender-auth-put", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "RTD API to store a new association between sender code and api key"
+  display_name = "RTD API to store senderCode-apiKey"
+  path         = "rtd/sender-auth"
+  protocols    = ["https"]
+
+  service_url = format("%s/rtdmssenderauth", local.ingress_load_balancer_hostname_https)
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = file("./api/rtd_sender_auth_put/openapi.yml")
+
+  xml_content = file("./api/rtd_sender_auth_put/policy.xml")
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
+
