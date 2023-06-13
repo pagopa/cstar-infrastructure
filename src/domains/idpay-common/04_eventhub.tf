@@ -86,6 +86,9 @@ module "event_hub_idpay_00" {
     }
   ]
 
+  # fixme. defined for backward compatibility, needs to be changed to false
+  public_network_access_enabled = true
+
 
   tags = var.tags
 }
@@ -187,6 +190,9 @@ module "event_hub_idpay_01" {
       ip_rule = []
     }
   ]
+
+  # fixme. defined for backward compatibility, needs to be changed to false
+  public_network_access_enabled = true
 
   tags = var.tags
 }

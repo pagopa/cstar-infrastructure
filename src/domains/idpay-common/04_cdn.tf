@@ -55,7 +55,7 @@ module "idpay_cdn" {
   prefix                = local.project
   resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
   location              = var.location
-  hostname              = format("welfare.%s", data.azurerm_dns_zone.public.name)
+  hostname              = "welfare.${data.azurerm_dns_zone.public.name}"
   https_rewrite_enabled = true
 
   index_document     = "index.html"
