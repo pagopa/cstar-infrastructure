@@ -49,7 +49,7 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v3.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.15.2"
 
   name                  = "idpaycdn"
   prefix                = local.project
@@ -57,7 +57,6 @@ module "idpay_cdn" {
   location              = var.location
   hostname              = format("welfare.%s", data.azurerm_dns_zone.public.name)
   https_rewrite_enabled = true
-  lock_enabled          = false
 
   index_document     = "index.html"
   error_404_document = "error.html"
@@ -246,7 +245,7 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v4.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.15.2"
 
   name                = format("welfare-selfcare-%s", var.env_short)
   prefix              = var.prefix
@@ -255,7 +254,6 @@ module "selfcare_welfare_cdn" {
 
   hostname              = format("selfcare.%s", data.terraform_remote_state.core.outputs.dns_zone_welfare_name)
   https_rewrite_enabled = true
-  lock_enabled          = false
 
   index_document     = "index.html"
   error_404_document = "not_found.html"

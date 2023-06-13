@@ -26,7 +26,7 @@ module "event_hub_idpay_00" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v4.15.0"
+  source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.15.2"
   name                     = "${local.product}-${var.domain}-evh-ns-00"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -38,7 +38,7 @@ module "event_hub_idpay_00" {
 
   virtual_network_ids = [
     data.azurerm_virtual_network.vnet_integration.id,
-    data.azurerm_virtual_network.vnet.id
+    data.azurerm_virtual_network.vnet_core.id
   ]
   subnet_id = data.azurerm_subnet.eventhub_snet.id
 
@@ -128,7 +128,7 @@ module "event_hub_idpay_01" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=v4.15.0"
+  source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.15.2"
   name                     = "${local.product}-${var.domain}-evh-ns-01"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -140,7 +140,7 @@ module "event_hub_idpay_01" {
 
   virtual_network_ids = [
     data.azurerm_virtual_network.vnet_integration.id,
-    data.azurerm_virtual_network.vnet.id
+    data.azurerm_virtual_network.vnet_core.id
   ]
   subnet_id = data.azurerm_subnet.eventhub_snet.id
 

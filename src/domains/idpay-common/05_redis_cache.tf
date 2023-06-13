@@ -1,6 +1,6 @@
 module "idpay_redis_00" {
 
-  source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v1.0.37"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache?ref=v6.15.2"
 
   name                  = "${local.product}-${var.domain}-redis-00"
   location              = azurerm_resource_group.data_rg.location
@@ -11,6 +11,15 @@ module "idpay_redis_00" {
   sku_name              = var.redis_sku_name
   enable_authentication = true
   subnet_id             = length(module.idpay_redis_snet.*.id) == 0 ? null : module.idpay_redis_snet[0].id
+  redis_version         = "6"
+  public_network_access_enabled = true #fixme
+
+  private_endpoint = {
+    enabled              = true
+    virtual_network_id   = data.azurerm_virtual_network.vnet_core.id
+    subnet_id            = data.azurerm_subnet.private_endpoint_snet.id
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.redis.id]
+  }
 
   tags = var.tags
 }
