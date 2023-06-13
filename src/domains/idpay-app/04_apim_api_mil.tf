@@ -55,8 +55,4 @@ module "idpay_mil" {
     }
   ]
 
-  depends_on = [
-    azurerm_api_management_named_value.selc_external_api_key
-  ]
-
 }
