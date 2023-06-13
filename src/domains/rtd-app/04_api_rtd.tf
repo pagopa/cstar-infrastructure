@@ -430,7 +430,6 @@ module "batch_api_product" {
   policy_xml = file("./api_product/batch_api/policy.xml")
 }
 
-
 module "rtd_sender_auth_put_api_key" {
 
   count = var.enable.sender_auth ? 1 : 0
