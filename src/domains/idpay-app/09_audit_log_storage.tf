@@ -18,20 +18,20 @@ locals {
 # Storage for Audit Logs Data
 #
 module "idpay_audit_storage" {
-  source                     = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.18.0"
+  source                     = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
   name                       = replace("${var.domain}${var.env_short}-audit-storage", "-", "")
   account_kind               = "StorageV2"
   account_tier               = "Standard"
   account_replication_type   = var.storage_account_replication_type
   access_tier                = "Hot"
-  versioning_name            = "${var.domain}${var.env_short}-audit-storage-versioning"
-  enable_versioning          = var.storage_enable_versioning
+  blob_versioning_enabled          = var.storage_enable_versioning
   resource_group_name        = data.azurerm_log_analytics_workspace.log_analytics.resource_group_name
   location                   = var.location
   advanced_threat_protection = var.storage_advanced_threat_protection
-  allow_blob_public_access   = false
+  allow_nested_items_to_be_public   = false
 
-  blob_properties_delete_retention_policy_days = var.storage_delete_retention_days
+  blob_delete_retention_days = var.storage_delete_retention_days
+  public_network_access_enabled = false
 
   tags = var.tags
 }
@@ -41,7 +41,7 @@ module "idpay_audit_storage" {
 resource "null_resource" "idpay_audit_lh" {
   provisioner "local-exec" {
     command = <<EOC
-      az storage container legal-hold set --account-name ${module.idpay_audit_storage.name} --container-name am-idpayauditlog-cl --tags idpayauditlog --allow-protected-append-writes-all true 
+      az storage container legal-hold set --account-name ${module.idpay_audit_storage.name} --container-name am-idpayauditlog-cl --tags idpayauditlog --allow-protected-append-writes-all true
       EOC
   }
   depends_on = [module.idpay_audit_storage, azurerm_log_analytics_data_export_rule.idpay_audit_analytics_export_rule]
@@ -75,7 +75,7 @@ resource "null_resource" "idpay_audit_dce" {
   }
 }
 
-# Data Collection Rule 
+# Data Collection Rule
 resource "local_file" "idpay_audit_dcr_file_tmp" {
   filename = ".terraform/tmp/idpay-audit-dcr.json"
 
