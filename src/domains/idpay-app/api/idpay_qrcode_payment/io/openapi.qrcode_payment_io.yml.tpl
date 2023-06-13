@@ -50,22 +50,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
-        '401':
-          description: Token not validated correctly
+        '400':
+          description: Transaction is not CREATED or IDENTIFIED
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Token not validated correctly
         '403':
-          description: Transaction is associated to another user, or user hasn't joined the initiative
+          description: Transaction is associated to another user, or transaction rejected
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: Transaction does not exist
+          description: Transaction does not exist or is expired
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
+          content:
+           application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
   /{trxCode}/authorize:
@@ -94,20 +108,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Token not validated correctly
         '403':
-          description: Transaction is associated to another user
+          description: Transaction is associated to another user, or transaction rejected
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: Transaction does not exist
+          description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
+          content:
+           application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     SyncTrxStatus:
@@ -167,7 +193,7 @@ components:
           description: The list of rejection reasons
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum: [CREATED, IDENTIFIED, AUTHORIZED]
     AuthPaymentResponseDTO:
       type: object
       required:
@@ -175,7 +201,6 @@ components:
        - trxCode
        - initiativeId
        - status
-       - rejectionReasons
        - amountCents
       properties:
         id:
@@ -193,15 +218,10 @@ components:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum: [CREATED, IDENTIFIED, AUTHORIZED]
         reward:
           type: integer
           format: int64
-        rejectionReasons:
-          type: array
-          items:
-            type: string
-          description: The list of rejection reasons
         amountCents:
           type: integer
           format: int64
@@ -213,6 +233,7 @@ components:
       properties:
         code:
           type: string
+          format: enum [payment.authorization.not.found.or.expired, payment.authorization.transaction.associated.to.another.user, payment.authorization.status.not.valid, payment.authorization.budget.exhausted, payment.authorization.generic.rejected, payment.authorization.too.many.requests, payment.authorization.generic.error]
         message:
           type: string
   securitySchemes:
