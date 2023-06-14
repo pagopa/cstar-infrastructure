@@ -376,38 +376,6 @@ module "rtd_sender_mauth_check" {
   api_operation_policies = []
 }
 
-module "rtd_deposit_ade_ack" {
-
-  count = var.enable.rtd.batch_service_api ? 1 : 0
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-rtd-deposit-ade-ack", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = "RTD API to deposit a synthetic ADE ACK file in SFTP"
-  display_name = "RTD API to put AdE ACK file"
-  path         = "rtd/sftp-deposit"
-  protocols    = ["https"]
-
-  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/ack/", var.env_short)
-
-  # Mandatory field when api definition format is openapi
-  content_format = "openapi"
-  content_value = templatefile("./api/rtd_deposit_ade_ack/openapi.yml", {
-    host = format("https://cstar%ssftp.blob.core.windows.net/ade/ack/", var.env_short)
-  })
-
-  xml_content = file("./api/rtd_deposit_ade_ack/azureblob_policy.xml")
-
-  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = []
-}
-
 module "rtd_sender_auth_put_api_key" {
 
   count = var.enable.rtd.sender_auth ? 1 : 0
