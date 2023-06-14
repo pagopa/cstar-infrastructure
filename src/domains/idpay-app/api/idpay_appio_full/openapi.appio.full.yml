@@ -2395,6 +2395,8 @@ components:
         amountCents:
           type: integer
           format: int64
+        residualBudget:
+          type: number
   securitySchemes:
     bearerAuth:
       type: http
