@@ -54,6 +54,12 @@ paths:
             type: string
             example: merchant-id
           required: true
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
       requestBody:
         description: General information about Transaction
         content:
@@ -86,6 +92,12 @@ paths:
             type: string
             example: merchant-id
           required: true
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
         - name: transactionId
           in: path
           description: The transaction ID
@@ -114,6 +126,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
         - name: transactionId
           in: path
           description: The initiative ID

@@ -35,7 +35,7 @@ module "idpay_mil" {
   path         = "idpay/mil/payment/qr-code/merchant"
   protocols    = ["https"]
 
-  service_url = "https://api-io.${data.azurerm_dns_zone.public.name}/idpay/payment/qr-code/merchant"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code/merchant"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_mil/openapi.mil.yml")
