@@ -91,7 +91,7 @@ resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
   storage_permissions = []
 }
 
-#azdo-sp-plan-cstar-dev
+#azdo-sp-plan-cstar-<env>
 data "azuread_service_principal" "iac_sp_plan" {
   display_name = "azdo-sp-plan-cstar-${var.env}"
 }
