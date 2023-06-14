@@ -42,14 +42,14 @@ variables:
   AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
 
 pool:
-  vmImage: 'ubuntu-22.04'
+  vmImage: 'ubuntu-latest'
 
 resources:
   repositories:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v3.7.0
+      ref: refs/heads/plan-without-locks
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -72,7 +72,7 @@ stages:
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
       - job: terraform_plan_rtd_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
@@ -86,7 +86,7 @@ stages:
             parameters:
               ENVIRONMENT: "dev"
               WORKINGDIR: 'src/domains/rtd-app'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
