@@ -6,18 +6,18 @@
 module "idpay_initiative_storage" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
 
-  name                       = replace("${var.domain}${var.env_short}-initiative-storage", "-", "")
-  account_kind               = "StorageV2"
-  account_tier               = "Standard"
-  account_replication_type   = var.storage_account_replication_type
-  access_tier                = "Hot"
-  blob_versioning_enabled    = var.storage_enable_versioning
-  resource_group_name        = azurerm_resource_group.rg_refund_storage.name
-  location                   = var.location
-  advanced_threat_protection = var.storage_advanced_threat_protection
-  allow_nested_items_to_be_public   = true
+  name                            = replace("${var.domain}${var.env_short}-initiative-storage", "-", "")
+  account_kind                    = "StorageV2"
+  account_tier                    = "Standard"
+  account_replication_type        = var.storage_account_replication_type
+  access_tier                     = "Hot"
+  blob_versioning_enabled         = var.storage_enable_versioning
+  resource_group_name             = azurerm_resource_group.rg_refund_storage.name
+  location                        = var.location
+  advanced_threat_protection      = var.storage_advanced_threat_protection
+  allow_nested_items_to_be_public = true
 
-  blob_delete_retention_days = var.storage_delete_retention_days
+  blob_delete_retention_days    = var.storage_delete_retention_days
   public_network_access_enabled = false
 
   tags = var.tags

@@ -17,12 +17,12 @@
 | <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v6.15.2 |
 | <a name="module_event_hub_idpay_00"></a> [event\_hub\_idpay\_00](#module\_event\_hub\_idpay\_00) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v6.15.2 |
 | <a name="module_event_hub_idpay_01"></a> [event\_hub\_idpay\_01](#module\_event\_hub\_idpay\_01) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v6.15.2 |
-| <a name="module_idpay_cdn"></a> [idpay\_cdn](#module\_idpay\_cdn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn | v6.15.2 |
+| <a name="module_idpay_cdn"></a> [idpay\_cdn](#module\_idpay\_cdn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn | v6.18.0 |
 | <a name="module_idpay_redis_00"></a> [idpay\_redis\_00](#module\_idpay\_redis\_00) | git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache | v6.15.2 |
 | <a name="module_idpay_redis_snet"></a> [idpay\_redis\_snet](#module\_idpay\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.15.2 |
 | <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v6.15.2 |
 | <a name="module_mongdb_collections"></a> [mongdb\_collections](#module\_mongdb\_collections) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v6.15.2 |
-| <a name="module_selfcare_welfare_cdn"></a> [selfcare\_welfare\_cdn](#module\_selfcare\_welfare\_cdn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn | v6.15.2 |
+| <a name="module_selfcare_welfare_cdn"></a> [selfcare\_welfare\_cdn](#module\_selfcare\_welfare\_cdn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn | v6.18.0 |
 
 ## Resources
 
@@ -112,6 +112,7 @@
 | <a name="input_eventhubs_idpay_00"></a> [eventhubs\_idpay\_00](#input\_eventhubs\_idpay\_00) | A list of event hubs to add to namespace for IDPAY application. | <pre>list(object({<br>    name              = string<br>    partitions        = number<br>    message_retention = number<br>    consumers         = list(string)<br>    keys = list(object({<br>      name   = string<br>      listen = bool<br>      send   = bool<br>      manage = bool<br>    }))<br>  }))</pre> | `[]` | no |
 | <a name="input_eventhubs_idpay_01"></a> [eventhubs\_idpay\_01](#input\_eventhubs\_idpay\_01) | A list of event hubs to add to namespace for IDPAY application. | <pre>list(object({<br>    name              = string<br>    partitions        = number<br>    message_retention = number<br>    consumers         = list(string)<br>    keys = list(object({<br>      name   = string<br>      listen = bool<br>      send   = bool<br>      manage = bool<br>    }))<br>  }))</pre> | `[]` | no |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `"pagopa.it"` | no |
+| <a name="input_idpay_cdn_sa_advanced_threat_protection_enabled"></a> [idpay\_cdn\_sa\_advanced\_threat\_protection\_enabled](#input\_idpay\_cdn\_sa\_advanced\_threat\_protection\_enabled) | n/a | `bool` | `false` | no |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | One of wue, neu | `string` | n/a | yes |

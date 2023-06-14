@@ -326,6 +326,6 @@ variable "aks_vnet" {
 }
 
 variable "idpay_cdn_sa_advanced_threat_protection_enabled" {
-  type = bool
+  type    = bool
   default = false
 }

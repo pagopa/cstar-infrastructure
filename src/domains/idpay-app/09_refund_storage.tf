@@ -9,18 +9,18 @@ resource "azurerm_resource_group" "rg_refund_storage" {
 
 #tfsec:ignore:azure-storage-default-action-deny
 module "idpay_refund_storage" {
-  source                     = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
-  name                       = replace("${var.domain}${var.env_short}-refund-storage", "-", "")
-  account_kind               = "StorageV2"
-  account_tier               = "Standard"
-  account_replication_type   = var.storage_account_replication_type
-  access_tier                = "Hot"
-  blob_versioning_enabled          = var.storage_enable_versioning
-  resource_group_name        = azurerm_resource_group.rg_refund_storage.name
-  location                   = var.location
-  advanced_threat_protection = var.storage_advanced_threat_protection
-  allow_nested_items_to_be_public   = false
-  public_network_access_enabled = true
+  source                          = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
+  name                            = replace("${var.domain}${var.env_short}-refund-storage", "-", "")
+  account_kind                    = "StorageV2"
+  account_tier                    = "Standard"
+  account_replication_type        = var.storage_account_replication_type
+  access_tier                     = "Hot"
+  blob_versioning_enabled         = var.storage_enable_versioning
+  resource_group_name             = azurerm_resource_group.rg_refund_storage.name
+  location                        = var.location
+  advanced_threat_protection      = var.storage_advanced_threat_protection
+  allow_nested_items_to_be_public = false
+  public_network_access_enabled   = true
 
   blob_delete_retention_days = var.storage_delete_retention_days
 

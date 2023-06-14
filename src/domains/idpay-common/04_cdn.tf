@@ -268,6 +268,7 @@ module "selfcare_welfare_cdn" {
   keyvault_vault_name          = module.key_vault_idpay.name
 
   querystring_caching_behaviour = "BypassCaching"
+  advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
 
   // https://antbutcher.medium.com/hosting-a-react-js-app-on-azure-blob-storage-azure-cdn-for-ssl-and-routing-8fdf4a48feeb
   // it is important to add base tag in index.html too (i.e. <base href="/">)

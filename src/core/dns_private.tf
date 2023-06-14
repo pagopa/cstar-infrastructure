@@ -258,3 +258,5 @@ resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_pai
   private_dns_zone_name = azurerm_private_dns_zone.redis.name
   virtual_network_id    = module.vnet_pair.id
 }
+
+
