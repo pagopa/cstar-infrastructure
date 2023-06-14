@@ -432,7 +432,7 @@ module "batch_api_product" {
 
 module "rtd_deposit_ade_ack" {
 
-  count = var.enable.rtd.batch_service_api ? 1 : 0
+  count = var.enable.batch_service_api ? 1 : 0
 
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
