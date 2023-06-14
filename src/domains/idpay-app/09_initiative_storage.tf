@@ -11,7 +11,7 @@ module "idpay_initiative_storage" {
   account_tier               = "Standard"
   account_replication_type   = var.storage_account_replication_type
   access_tier                = "Hot"
-  blob_versioning_enabled          = var.storage_enable_versioning
+  blob_versioning_enabled    = var.storage_enable_versioning
   resource_group_name        = azurerm_resource_group.rg_refund_storage.name
   location                   = var.location
   advanced_threat_protection = var.storage_advanced_threat_protection
@@ -33,6 +33,32 @@ resource "azurerm_storage_container" "idpay_ranking_container" {
   name                  = "ranking"
   storage_account_name  = module.idpay_initiative_storage.name
   container_access_type = "private"
+}
+
+resource "azurerm_private_endpoint" "idpay_initiative_storage_private_endpoint" {
+
+  name                = "${local.product}-initiative-storage-private-endpoint"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_refund_storage.name
+  subnet_id           = data.azurerm_subnet.private_endpoint_subnet.id
+
+  private_dns_zone_group {
+    name                 = "${local.product}-initiative-storage-private-dns-zone-group"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.storage_account.id]
+  }
+
+  private_service_connection {
+    name                           = "${local.product}-initiative-storage-private-service-connection"
+    private_connection_resource_id = module.idpay_initiative_storage.id
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
+  }
+
+  tags = var.tags
+
+  depends_on = [
+    module.idpay_initiative_storage
+  ]
 }
 
 # storage access key
