@@ -49,7 +49,7 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.15.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.18.0"
 
   name                  = "idpaycdn"
   prefix                = local.project
@@ -69,6 +69,8 @@ module "idpay_cdn" {
   keyvault_vault_name          = module.key_vault_idpay.name
 
   querystring_caching_behaviour = "BypassCaching"
+
+  advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
 
   global_delivery_rule = {
     cache_expiration_action       = []
@@ -245,7 +247,7 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.15.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.18.0"
 
   name                = format("welfare-selfcare-%s", var.env_short)
   prefix              = var.prefix
