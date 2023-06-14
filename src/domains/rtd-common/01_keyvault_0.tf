@@ -90,3 +90,20 @@ resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
 
   storage_permissions = []
 }
+
+#azdo-sp-plan-cstar-dev
+data "azuread_service_principal" "iac_sp_plan" {
+  display_name = "azdo-sp-plan-cstar-${var.env}"
+}
+
+resource "azurerm_key_vault_access_policy" "iac_sp_plan_policy" {
+  key_vault_id = module.key_vault_domain.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.iac_sp_plan.object_id
+
+  secret_permissions = ["Get", "List", "Set", ]
+
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", "Import"]
+
+  storage_permissions = []
+}
