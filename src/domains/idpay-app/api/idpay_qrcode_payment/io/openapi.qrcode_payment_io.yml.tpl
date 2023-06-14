@@ -169,7 +169,9 @@ components:
           format: date-time
         operationType:
           type: string
-          enum: [CHARGE, REFUND]
+          enum:
+            - CHARGE
+            - REFUND
         amountCents:
           type: integer
           format: int64
@@ -193,7 +195,11 @@ components:
           description: The list of rejection reasons
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED]
+          enum:
+          - CREATED
+          - IDENTIFIED
+          - AUTHORIZED
+          - REJECTED
     AuthPaymentResponseDTO:
       type: object
       required:
@@ -218,7 +224,10 @@ components:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED]
+          enum:
+          - CREATED
+          - IDENTIFIED
+          - AUTHORIZED
         reward:
           type: integer
           format: int64
@@ -233,7 +242,14 @@ components:
       properties:
         code:
           type: string
-          format: enum [payment.authorization.not.found.or.expired, payment.authorization.transaction.associated.to.another.user, payment.authorization.status.not.valid, payment.authorization.budget.exhausted, payment.authorization.generic.rejected, payment.authorization.too.many.requests, payment.authorization.generic.error]
+          enum:
+          - PAYMENT_NOT_FOUND_EXPIRED
+          - PAYMENT_USER_NOT_VALID
+          - PAYMENT_STATUS_NOT_VALID
+          - PAYMENT_BUDGET_EXHAUSTED
+          - PAYMENT_GENERIC_REJECTED
+          - PAYMENT_TOO_MANY_REQUESTS
+          - PAYMENT_GENERIC_ERROR
         message:
           type: string
   securitySchemes:
