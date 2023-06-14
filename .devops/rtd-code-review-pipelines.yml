@@ -70,7 +70,7 @@ stages:
           # 2. Run terraform plan rtd-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "dev"
+              TF_ENVIRONMENT_FOLDER: "dev"
               WORKINGDIR: 'src/domains/rtd-common'
               AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
       - job: terraform_plan_rtd_app
@@ -84,13 +84,14 @@ stages:
           # Run terraform plan rtd-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "dev"
+              TF_ENVIRONMENT_FOLDER: "dev"
               WORKINGDIR: 'src/domains/rtd-app'
               AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
               AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+
 
   # - stage: UAT
   #   dependsOn: []
