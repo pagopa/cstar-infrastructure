@@ -31,7 +31,7 @@ module "idpay_audit_storage" {
   allow_nested_items_to_be_public = false
 
   blob_delete_retention_days    = var.storage_delete_retention_days
-  public_network_access_enabled = false
+  public_network_access_enabled = var.storage_public_network_access_enabled
 
   tags = var.tags
 }

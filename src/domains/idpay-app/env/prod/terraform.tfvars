@@ -95,6 +95,7 @@ storage_account_replication_type   = "RAGZRS"
 storage_delete_retention_days      = 90
 storage_enable_versioning          = true
 storage_advanced_threat_protection = true
+storage_public_network_access_enabled = true
 
 #
 # RTD reverse proxy
