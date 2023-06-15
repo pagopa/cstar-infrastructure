@@ -124,8 +124,8 @@ configmaps_bpdmsnotificationmanager = {
   NOTIFICATION_SERVICE_UPDATE_RANKING_THREAD_POOL                  = "2"
   POSTGRES_POOLSIZE                                                = "5"
   POSTGRES_SHOW_SQL                                                = "false"
-  SFTP_HOST                                                        = "185.91.56.144"
-  SFTP_PORT                                                        = "8022"
+  SFTP_HOST                                                        = "10.1.137.5"
+  SFTP_PORT                                                        = "22"
 }
 
 # bpdmspaymentinstrument
@@ -654,6 +654,7 @@ secrets_to_be_read_from_kv = [
   "evh-rtd-trx-rtd-csv-connector-key",
   "notification-sftp-private-key",
   "notification-service-notify-winners-public-key",
+  "bpd-notificator-sftp-user",
   "notification-sftp-password",
   "pagopa-checkiban-apikey",
   "storageaccount-cstarblob-key",
