@@ -12,7 +12,7 @@ module "idpay_redis_00" {
   enable_authentication         = true
   subnet_id                     = length(module.idpay_redis_snet.*.id) == 0 ? null : module.idpay_redis_snet[0].id
   redis_version                 = "6"
-  public_network_access_enabled = true #fixme
+  public_network_access_enabled = var.redis_public_network_access_enabled
 
   private_endpoint = {
     enabled              = true

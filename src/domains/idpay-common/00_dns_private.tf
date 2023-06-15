@@ -4,6 +4,6 @@ data "azurerm_private_dns_zone" "ehub" {
 }
 
 data "azurerm_private_dns_zone" "redis" {
-  name                = "privatelink.redis.azure.net"
+  name                = "privatelink.redis.cache.windows.net"
   resource_group_name = "${local.product}-vnet-rg"
 }

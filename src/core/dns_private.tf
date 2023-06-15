@@ -239,7 +239,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "event_hub_link_to_pair
 # Private DNS Zone for Redis
 #
 resource "azurerm_private_dns_zone" "redis" {
-  name                = "privatelink.redis.azure.net"
+  name                = "privatelink.redis.cache.windows.net"
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
