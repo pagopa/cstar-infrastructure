@@ -6,10 +6,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
   location            = data.azurerm_resource_group.monitor_rg.location
 
-  evaluation_frequency = "P1D"
-  window_duration      = "P1D"
-  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  evaluation_frequency      = "P1D"
+  window_duration           = "P1D"
+  query_time_range_override = "P2D"
+  scopes                    = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity                  = 0
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
@@ -20,7 +21,9 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
   skip_query_validation = false
 
   action {
-    // no action
+    action_groups = [
+      data.azurerm_monitor_action_group.slack.id # cstar-status
+    ]
   }
 
   criteria {
@@ -68,6 +71,10 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
       minimum_failing_periods_to_trigger_alert = 1
       number_of_evaluation_periods             = 1
     }
+  }
+
+  tags = {
+    key = "Incident Alert"
   }
 }
 
