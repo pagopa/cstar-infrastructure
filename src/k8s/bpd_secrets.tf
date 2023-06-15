@@ -142,7 +142,8 @@ resource "kubernetes_secret" "bpdmsnotificationmanager" {
 
   data = {
     NOTIFICATION_SERVICE_NOTIFY_WINNERS_PUBLIC_KEY = module.key_vault_secrets_query.values["notification-service-notify-winners-public-key"].value
-    NOTIFICATION_SFTP_PRIVATE_KEY                  = module.key_vault_secrets_query.values["notification-sftp-private-key"].value
+    #NOTIFICATION_SFTP_PRIVATE_KEY                  = module.key_vault_secrets_query.values["notification-sftp-private-key"].value
+    SFTP_USER                                      = module.key_vault_secrets_query.values["bpd-notificator-sftp-user"].value
     SFTP_PASSWORD                                  = module.key_vault_secrets_query.values["notification-sftp-password"].value
     URL_BACKEND_IO_TOKEN_VALUE                     = module.key_vault_secrets_query.values["url-backend-io-token-value"].value
     APPLICATIONINSIGHTS_CONNECTION_STRING          = local.appinsights_instrumentation_key
