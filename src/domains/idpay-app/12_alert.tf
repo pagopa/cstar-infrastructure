@@ -68,6 +68,116 @@ resource "azapi_resource" "CompleteOnboarding" {
   })
 }
 
+# alert rule set with azapi
+resource "azapi_resource" "RewardOutcomeFile" {
+  count = var.idpay_alert_enabled ? 1 : 0
+
+  type      = "Microsoft.Insights/scheduledQueryRules@2022-08-01-preview"
+  name      = format("%s-RewardOutcomeFile", var.prefix)
+  location  = "westeurope"
+  parent_id = data.azurerm_resource_group.monitor_rg.id
+  tags = {
+    IDPAY = "IDPAY"
+  }
+  body = jsonencode({
+    properties = {
+      actions = {
+        actionGroups = [
+          azurerm_monitor_action_group.slackIdpay[0].id
+        ]
+        customProperties = {}
+      }
+      autoMitigate                          = false
+      checkWorkspaceAlertsStorageConfigured = false
+      criteria = {
+        allOf = [
+          {
+            dimensions = []
+            failingPeriods = {
+              minFailingPeriodsToAlert  = 1
+              numberOfEvaluationPeriods = 1
+            }
+            metricMeasureColumn = "Count"
+            operator            = "GreaterThanOrEqual"
+            query               = "ContainerLog\n| where LogEntry has \"[REWARD_NOTIFICATION_FEEDBACK] Processing import request\"\n    and LogEntry has_any ('idpay-reward-notification')\n    and TimeGenerated between (ago(1d) .. now())\n| extend\n    subject = extract(\"/blobServices/default/containers/refund/blobs/([^/]+/[^/]+/import/[^,\\\"]+)\", 1, LogEntry),\n    timestamp = TimeGenerated\n| summarize minTimestamp = min(timestamp) by subject\n| join kind=leftouter (\n    ContainerLog\n    | where LogEntry has \"[PERFORMANCE_LOG] [REWARD_NOTIFICATION_FEEDBACK]\" and LogEntry has \"/import/\"\n        and LogEntry has_any ('idpay-reward-notification')\n        and TimeGenerated between (ago(1d) .. now())\n    | extend\n        subject = extract(\"/blobServices/default/containers/refund/blobs/([^/]+/[^/]+/import/[^,\\\"]+)\", 1, LogEntry),\n        timestamp = TimeGenerated\n    | summarize maxTimestamp = max(timestamp) by subject\n) on subject\n| extend Duration = coalesce(maxTimestamp, now()) - minTimestamp\n| extend Millis = Duration / 1ms, Alert = Duration > timespan(3h)\n| project Duration, Millis, Alert\n| where Alert == true\n| count"
+            threshold           = 1
+            timeAggregation     = "Total"
+          }
+        ]
+      }
+      description            = "Trigger alert when at least one reward outcome file take more than 3 hours to be processed"
+      displayName            = "${var.domain}-${var.env_short}-RewardOutcomeFile"
+      enabled                = true
+      evaluationFrequency    = "P1D"
+      overrideQueryTimeRange = "P2D"
+      scopes = [
+        data.azurerm_log_analytics_workspace.log_analytics.id
+      ]
+      severity            = 0
+      skipQueryValidation = false
+      targetResourceTypes = [
+        "microsoft.operationalinsights/workspaces"
+      ]
+      windowSize = "P1D"
+    }
+  })
+}
+
+# alert rule set with azapi
+resource "azapi_resource" "CosmosServerSideRetry" {
+  count = var.idpay_alert_enabled ? 1 : 0
+
+  type      = "Microsoft.Insights/scheduledQueryRules@2022-08-01-preview"
+  name      = format("%s-CosmosServerSideRetry", var.prefix)
+  location  = "westeurope"
+  parent_id = data.azurerm_resource_group.monitor_rg.id
+  tags = {
+    IDPAY = "IDPAY"
+  }
+  body = jsonencode({
+    properties = {
+      actions = {
+        actionGroups = [
+          azurerm_monitor_action_group.slackIdpay[0].id
+        ]
+        customProperties = {}
+      }
+      autoMitigate                          = false
+      checkWorkspaceAlertsStorageConfigured = false
+      criteria = {
+        allOf = [
+          {
+            dimensions = []
+            failingPeriods = {
+              minFailingPeriodsToAlert  = 1
+              numberOfEvaluationPeriods = 1
+            }
+            metricMeasureColumn = "Count"
+            operator            = "GreaterThanOrEqual"
+            query               = "ContainerLog\n| where LogEntry has \"UncategorizedMongoDbException: Request timed out. Retries due to rate limiting: True\"\n| summarize count() by LogEntry, TimeGenerated\n| count"
+            threshold           = 1
+            timeAggregation     = "Total"
+          }
+        ]
+      }
+      description            = "Trigger alert when at least one UncategorizedMongoDbException exception appear"
+      displayName            = "${var.domain}-${var.env_short}-CosmosServerSideRetry"
+      enabled                = true
+      evaluationFrequency    = "PT1H"
+      overrideQueryTimeRange = "P2D"
+      scopes = [
+        data.azurerm_log_analytics_workspace.log_analytics.id
+      ]
+      severity            = 0
+      skipQueryValidation = false
+      targetResourceTypes = [
+        "microsoft.operationalinsights/workspaces"
+      ]
+      windowSize = "PT1H"
+    }
+  })
+}
+
 # In this moment this version is not supported by the 2.99 plugin,
 # once the plugin is updated we can proceed with this version of alert,
 # in the meantime the alert it's being set with azapi
