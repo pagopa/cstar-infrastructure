@@ -21,7 +21,7 @@ resource "azurerm_data_factory" "data_factory" {
 }
 
 resource "azurerm_data_factory_integration_runtime_azure" "autoresolve" {
-  name                    = "AutoResolveIntegrationRuntime"
+  name = "AutoResolveIntegrationRuntime"
   # resource_group_name     = azurerm_resource_group.data_factory_rg.name
   data_factory_id         = azurerm_data_factory.data_factory.id
   location                = "AutoResolve"
@@ -75,7 +75,7 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   target_resource_id = each.key
   subresource_name   = each.value[0]
   # fqdns              = [each.value[1]]
-  fqdns              = each.value[1] == "" ? null : [each.value[1]]
+  fqdns = each.value[1] == "" ? null : [each.value[1]]
 }
 
 resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
