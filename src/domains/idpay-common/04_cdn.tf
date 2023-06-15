@@ -17,7 +17,7 @@ locals {
   spa = [
     for i, spa in var.spa :
     {
-      name  = replace(replace(format("SPA-%s", spa), "-", ""), "/", "0")
+      name  = replace(replace("SPA-${spa}", "-", ""), "/", "0")
       order = i + 3 // +3 required because the order start from 1: 1 is reserved for default application redirect; 2 is reserved for the https rewrite;
       conditions = [
         {
@@ -249,12 +249,12 @@ resource "azurerm_resource_group" "rg_welfare" {
 module "selfcare_welfare_cdn" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.18.0"
 
-  name                = format("welfare-selfcare-%s", var.env_short)
+  name                = "welfare-selfcare-${var.env_short}"
   prefix              = var.prefix
   resource_group_name = azurerm_resource_group.rg_welfare.name
   location            = var.location
 
-  hostname              = format("selfcare.%s", data.terraform_remote_state.core.outputs.dns_zone_welfare_name)
+  hostname              = "selfcare.${data.terraform_remote_state.core.outputs.dns_zone_welfare_name}"
   https_rewrite_enabled = true
 
   index_document     = "index.html"
