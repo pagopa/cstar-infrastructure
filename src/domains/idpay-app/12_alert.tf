@@ -14,7 +14,7 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 
 }
 # alert rule set with azapi
-resource "azapi_resource" "CompleteOnboarding" {
+resource "azapi_resource" "alert_CompleteOnboarding" {
   count = var.idpay_alert_enabled ? 1 : 0
 
   type      = "Microsoft.Insights/scheduledQueryRules@2022-08-01-preview"
@@ -69,7 +69,7 @@ resource "azapi_resource" "CompleteOnboarding" {
 }
 
 # alert rule set with azapi
-resource "azapi_resource" "RewardOutcomeFile" {
+resource "azapi_resource" "alert_RewardOutcomeFile" {
   count = var.idpay_alert_enabled ? 1 : 0
 
   type      = "Microsoft.Insights/scheduledQueryRules@2022-08-01-preview"
@@ -124,7 +124,7 @@ resource "azapi_resource" "RewardOutcomeFile" {
 }
 
 # alert rule set with azapi
-resource "azapi_resource" "CosmosServerSideRetry" {
+resource "azapi_resource" "alert_CosmosServerSideRetry" {
   count = var.idpay_alert_enabled ? 1 : 0
 
   type      = "Microsoft.Insights/scheduledQueryRules@2022-08-01-preview"
