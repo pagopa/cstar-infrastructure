@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "sftp" {
 }
 
 module "sftp" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=enable-sftp-on-sa"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.17.0"
 
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
@@ -128,3 +128,16 @@ resource "azurerm_role_assignment" "sftp_data_contributor_role" {
   ]
 }
 
+resource "azurerm_storage_container" "consap" {
+  name                  = "consap"
+  storage_account_name  = module.sftp.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "consap_dirs" {
+  for_each               = toset(["Inbox"])
+  name                   = format("%s/.test", each.key)
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.consap.name
+  type                   = "Block"
+}
