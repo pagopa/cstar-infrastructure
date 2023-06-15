@@ -314,33 +314,6 @@ module "api_bpd_tc" {
   ]
 }
 
-## RTD Payment Instrument API ##
-module "rtd_payment_instrument" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-  name                = format("%s-rtd-payment-instrument-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  description  = ""
-  display_name = "RTD Payment Instrument API"
-  path         = "rtd/payment-instruments"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
-
-  content_format = "openapi"
-  content_value = templatefile("./api/rtd_payment_instrument/openapi.json", {
-    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.batch_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = []
-}
-
 ## 04 BPD IO Award Period API ##
 resource "azurerm_api_management_api_version_set" "bpd_io_award_period" {
   name                = format("%s-bpd-io-award-period", var.env_short)
@@ -651,23 +624,6 @@ module "app_io_product" {
     reverse_proxy_ip  = var.reverse_proxy_ip
     appio_timeout_sec = var.appio_timeout_sec
   })
-}
-
-module "batch_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
-
-  product_id   = "batch-api-product"
-  display_name = "BATCH_API_PRODUCT"
-  description  = "BATCH_API_PRODUCT"
-
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  published             = false
-  subscription_required = true
-  approval_required     = false
-
-  policy_xml = file("./api_product/batch_api/policy.xml")
 }
 
 module "bpd_api_product" {
