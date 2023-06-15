@@ -423,4 +423,4 @@ aks_vnet = {
 
 
 idpay_cdn_sa_advanced_threat_protection_enabled = true
-redis_public_network_access_enabled = true
+redis_public_network_access_enabled             = true

@@ -267,7 +267,7 @@ module "selfcare_welfare_cdn" {
   keyvault_subscription_id     = data.azurerm_subscription.current.subscription_id
   keyvault_vault_name          = module.key_vault_idpay.name
 
-  querystring_caching_behaviour = "BypassCaching"
+  querystring_caching_behaviour      = "BypassCaching"
   advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
 
   // https://antbutcher.medium.com/hosting-a-react-js-app-on-azure-blob-storage-azure-cdn-for-ssl-and-routing-8fdf4a48feeb
