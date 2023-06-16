@@ -24,7 +24,7 @@ module "idpay_api_mil_product" {
 
 ## IDPAY MIL API ##
 module "idpay_mil" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-mil"
   api_management_name = data.azurerm_api_management.apim_core.name
