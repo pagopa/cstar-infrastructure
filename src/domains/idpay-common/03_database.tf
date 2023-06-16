@@ -506,6 +506,9 @@ locals {
         }, {
         keys   = ["merchantId"]
         unique = false
+        }, {
+        keys   = ["status"]
+        unique = false
         }
       ]
     },

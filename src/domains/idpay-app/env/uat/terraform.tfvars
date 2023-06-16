@@ -105,3 +105,4 @@ mail_server_host = "smtp.ethereal.email"
 
 idpay_mocked_merchant_enable       = true
 idpay_mocked_acquirer_apim_user_id = "rtd-uat-acquirer-pagopa-it"
+idpay_alert_enabled                = true
