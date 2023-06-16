@@ -1,24 +1,65 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment Merchant API
-  description: IDPAY Payment Merchant
-  version: '1.0'
+  title: IDPAY MIL API
+  description: IDPAY MIL
+  version: '1.0.1'
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code/merchant
 paths:
+  /initiatives:
+    get:
+      tags:
+        - merchant-initiatives
+      summary: Returns the list of initiatives of a specific merchant
+      description: Returns the list of initiatives of a specific merchant
+      operationId: getMerchantInitiativeList
+      parameters:
+        - name: x-merchant-id
+          in: header
+          schema:
+            type: string
+            example: merchant-id
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InitiativeDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The merchant ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   /:
     post:
       tags:
-        - payment
-      summary: Merchant create transaction
+        - merchant-transactions
+      summary: Create a transaction
       operationId: createTransaction
       parameters:
         - name: x-merchant-id
           in: header
-          description: Merchant ID
-          required: true
           schema:
             type: string
+            example: merchant-id
+          required: true
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
       requestBody:
         description: General information about Transaction
         content:
@@ -38,79 +79,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /{transactionId}/confirm:
-    put:
-      tags:
-        - payment
-      summary: Merchant confirms the payment and the event is notified to IDPay
-      operationId: confirmPaymentQRCode
-      parameters:
-        - name: transactionId
-          in: path
-          description: Transaction ID
-          required: true
-          schema:
-            type: string
-        - name: x-merchant-id
-          in: header
-          description: Merchant ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '400':
-          description: Transaction is not AUTHORIZED
-        '403':
-          description: Merchant not allowed to operate on this transaction
-        '404':
-          description: Transaction does not exist
-        '429':
-          description: Too many Request
-        '500':
-          description: Server ERROR
-  /status/{transactionId}:
-    get:
-      tags:
-        - payment
-      summary: Returns the detail of a transaction
-      operationId: getStatusTransaction
-      parameters:
-        - name: transactionId
-          in: path
-          description: The initiative ID
-          required: true
-          schema:
-            type: string
-        - name: x-merchant-id
-          in: header
-          description: Merchant ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SyncTrxStatus'
-        '403':
-          description: Transaction is associated to another user
-        '404':
-          description: Transaction does not exist
   /{transactionId}:
     delete:
       tags:
-        - payment
-      summary: Merchant delete transaction
+        - merchant-transactions
+      summary: Delete a transaction
       operationId: deleteTransaction
       parameters:
+        - name: x-merchant-id
+          in: header
+          schema:
+            type: string
+            example: merchant-id
+          required: true
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
         - name: transactionId
           in: path
           description: The transaction ID
@@ -126,8 +113,68 @@ paths:
           description: Transaction does not exist
         '429':
           description: Too many Request
+  /status/{transactionId}:
+    get:
+      tags:
+        - merchant-transactions
+      summary: Returns the detail of a transaction
+      operationId: getStatusTransaction
+      parameters:
+        - name: x-merchant-id
+          in: header
+          description: Merchant ID
+          required: true
+          schema:
+            type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+        - name: transactionId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncTrxStatus'
+        '403':
+          description: Transaction is associated to another user
+        '404':
+          description: Transaction does not exist
 components:
   schemas:
+    InitiativeDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        organizationName:
+          type: string
+        status:
+          type: string
+          enum:
+            - PUBLISHED
+            - CLOSED
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        serviceId:
+          type: string
+        enabled:
+          type: boolean
     TransactionCreationRequest:
       type: object
       required:
@@ -151,18 +198,17 @@ components:
     TransactionResponse:
       type: object
       required:
-       - id
-       - trxCode
-       - initiativeId
-       - merchantId
-       - idTrxIssuer
-       - idTrxAcquirer
-       - trxDate
-       - amountCents
-       - amountCurrency
-       - mcc
-       - acquirerId
-       - status
+        - id
+        - trxCode
+        - initiativeId
+        - merchantId
+        - idTrxIssuer
+        - idTrxAcquirer
+        - trxDate
+        - amountCents
+        - amountCurrency
+        - acquirerId
+        - status
       properties:
         id:
           type: string
@@ -192,7 +238,12 @@ components:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REWARDED
+            - REJECTED
         merchantFiscalCode:
           type: string
         vat:
@@ -205,19 +256,19 @@ components:
     SyncTrxStatus:
       type: object
       required:
-       - id
-       - idTrxIssuer
-       - trxCode
-       - trxDate
-       - operationType
-       - amountCents
-       - amountCurrency
-       - mcc
-       - acquirerId
-       - merchantId
-       - initiativeId
-       - rejectionReasons
-       - status
+        - id
+        - idTrxIssuer
+        - trxCode
+        - trxDate
+        - operationType
+        - amountCents
+        - amountCurrency
+        - mcc
+        - acquirerId
+        - merchantId
+        - initiativeId
+        - rejectionReasons
+        - status
       properties:
         id:
           type: string
@@ -260,22 +311,15 @@ components:
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
     ErrorDTO:
       type: object
-      required:
-       - code
-       - message
       properties:
         code:
           type: string
         message:
           type: string
   securitySchemes:
-    ApiKeyAuth:
+    Bearer:
       type: apiKey
+      name: Authorization
       in: header
-      name: Ocp-Apim-Subscription-Key
-      description: The API key can be obtained through the developer portal
 security:
-  - ApiKeyAuth: [ ]
-tags:
-  - name: payment
-    description: ''
+  - Bearer: []

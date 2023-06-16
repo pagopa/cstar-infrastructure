@@ -65,6 +65,7 @@ enable = {
   batch_service_api                   = true
   tae_api                             = true
   tae_blob_containers                 = true
+  sender_auth                         = true
 }
 
 #
