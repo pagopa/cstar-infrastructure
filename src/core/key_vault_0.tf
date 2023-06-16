@@ -153,12 +153,6 @@ data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
   key_vault_id = module.key_vault.id
 }
 
-data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
-  count        = var.enable.rtd.csv_transaction_apis ? 1 : 0
-  name         = "cstarblobstorage-public-key"
-  key_vault_id = module.key_vault.id
-}
-
 #
 # Security Subscription
 #

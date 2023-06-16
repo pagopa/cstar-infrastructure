@@ -66,6 +66,7 @@ enable = {
   tae_api                             = true
   tae_blob_containers                 = true
   sender_auth                         = true
+  csv_transaction_apis                = true
 }
 #
 # Hashpan generation pipeline related variables
@@ -271,4 +272,6 @@ k8s_ip_filter_range_aks = {
   to   = "10.11.127.254"
 }
 
-pm_backend_url = "https://api.platform.pagopa.it"
+pm_backend_url                       = "https://api.platform.pagopa.it"
+batch_service_last_supported_version = "1.3.2"
+
