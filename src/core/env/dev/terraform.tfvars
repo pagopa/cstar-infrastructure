@@ -74,11 +74,12 @@ aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"
     metric_namespace = "Insights.Container/nodes"
-    metric_name      = "cpuUsagePercentage"
-    operator         = "GreaterThan"
-    threshold        = 80
-    frequency        = "PT1M"
-    window_size      = "PT5M"
+
+    metric_name = "cpuUsagePercentage"
+    operator    = "GreaterThan"
+    threshold   = 80
+    frequency   = "PT1M"
+    window_size = "PT5M"
     dimension = [
       {
         name     = "host"
@@ -704,7 +705,6 @@ enable = {
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
     payment_instrument                  = true
-    sender_auth                         = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     pm_integration                      = true

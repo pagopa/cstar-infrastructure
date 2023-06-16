@@ -227,6 +227,7 @@ variable "enable" {
     batch_service_api                   = bool
     tae_api                             = bool
     tae_blob_containers                 = bool
+    sender_auth                         = bool
   })
   description = "Feature flags"
   default = {
@@ -248,6 +249,7 @@ variable "enable" {
     batch_service_api                   = false
     tae_api                             = false
     tae_blob_containers                 = false
+    sender_auth                         = false
   }
 }
 
