@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sec_rg_idpay" {
 }
 
 module "key_vault_idpay" {
-  source = "git::https://github.com/pagopa/azurerm.git//key_vault?ref=v2.16.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault?ref=v6.15.2"
 
   name                       = "${local.product}-${var.domain}-kv"
   location                   = azurerm_resource_group.sec_rg_idpay.location
