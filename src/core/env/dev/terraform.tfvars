@@ -701,6 +701,7 @@ enable = {
     internal_api                        = true
     batch_service_api                   = true
     payment_instrument                  = true
+    hashed_pans_container               = true
     pm_wallet_ext_api                   = true
     tkm_integration                     = true
   }

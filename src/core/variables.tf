@@ -832,6 +832,7 @@ variable "enable" {
       internal_api                        = bool
       batch_service_api                   = bool
       payment_instrument                  = bool
+      hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
       tkm_integration                     = bool
     })
@@ -861,6 +862,7 @@ variable "enable" {
       internal_api                        = false
       batch_service_api                   = false
       payment_instrument                  = false
+      hashed_pans_container               = false
       pm_wallet_ext_api                   = false
       tkm_integration                     = false
     }
