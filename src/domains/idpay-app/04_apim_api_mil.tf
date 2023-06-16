@@ -3,7 +3,7 @@
 #
 
 module "idpay_api_mil_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
   product_id   = "idpay_api_mil_product"
   display_name = "IDPAY_APP_MIL_PRODUCT"
