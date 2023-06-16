@@ -699,15 +699,10 @@ enable = {
   rtd = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
-    csv_transaction_apis                = true
-    file_register                       = true
     batch_service_api                   = true
-    enrolled_payment_instrument         = true
-    mongodb_storage                     = true
     payment_instrument                  = true
     hashed_pans_container               = true
     pm_wallet_ext_api                   = true
-    pm_integration                      = true
     tkm_integration                     = true
   }
   fa = {
@@ -726,8 +721,6 @@ enable = {
     eventhub_idpay = true
   }
 }
-
-batch_service_last_supported_version = "1.3.2"
 
 # cstarblobstorage
 cstarblobstorage_account_replication_type = "RAGRS"

@@ -38,4 +38,6 @@ locals {
   ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
   rtd_senderack_download_file_uri      = format("https://%s/%s", local.cstarblobstorage_private_fqdn, azurerm_storage_container.sender_ade_ack[0].name)
 
+  apim_logger_id = "${data.azurerm_api_management.apim_core.id}/loggers/${local.apim_name}-logger"
+
 }
