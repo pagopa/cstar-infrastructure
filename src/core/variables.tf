@@ -830,16 +830,10 @@ variable "enable" {
     rtd = object({
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
-      csv_transaction_apis                = bool
-      file_register                       = bool
       batch_service_api                   = bool
-      enrolled_payment_instrument         = bool
-      mongodb_storage                     = bool
       payment_instrument                  = bool
-      sender_auth                         = bool
       hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
-      pm_integration                      = bool
       tkm_integration                     = bool
     })
     fa = object({
@@ -866,16 +860,10 @@ variable "enable" {
     rtd = {
       blob_storage_event_grid_integration = false
       internal_api                        = false
-      csv_transaction_apis                = false
-      file_register                       = false
       batch_service_api                   = false
-      enrolled_payment_instrument         = false
-      mongodb_storage                     = false
       payment_instrument                  = false
-      sender_auth                         = false
       hashed_pans_container               = false
       pm_wallet_ext_api                   = false
-      pm_integration                      = false
       tkm_integration                     = false
     }
     fa = {
@@ -894,12 +882,6 @@ variable "enable" {
       eventhub_idpay = false
     }
   }
-}
-
-variable "batch_service_last_supported_version" {
-  type        = string
-  description = "batch service last version supported by backend"
-  default     = "0.0.1"
 }
 
 variable "cstarblobstorage_account_replication_type" {
