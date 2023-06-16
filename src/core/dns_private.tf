@@ -233,3 +233,38 @@ resource "azurerm_private_dns_zone_virtual_network_link" "event_hub_link_to_pair
   private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns_zone.name
   virtual_network_id    = module.vnet_pair.id
 }
+
+
+#
+# Private DNS Zone for Redis
+#
+resource "azurerm_private_dns_zone" "redis" {
+  name                = "privatelink.redis.cache.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet" {
+
+  name                  = module.vnet.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = module.vnet.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_pair" {
+
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = module.vnet_pair.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_aks" {
+  for_each              = { for n in var.aks_networks : n.domain_name => n }
+  name                  = module.vnet_aks[each.key].name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = module.vnet_aks[each.key].id
+}
+
+
