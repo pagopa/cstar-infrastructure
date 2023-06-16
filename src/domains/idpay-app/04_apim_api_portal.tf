@@ -3,7 +3,7 @@
 #
 
 module "idpay_api_portal_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
   product_id   = "idpay_api_portal_product"
   display_name = "IDPAY_APP_PORTAL_PRODUCT"
@@ -31,7 +31,7 @@ module "idpay_api_portal_product" {
 
 ## IDPAY Welfare Portal User Permission API ##
 module "idpay_permission_portal" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-portal-permission"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -77,7 +77,7 @@ module "idpay_permission_portal" {
 
 ## IDPAY Welfare Portal Initiative API ##
 module "idpay_initiative_portal" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-initiative"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -465,7 +465,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_portal_token_polic
 
 ## IDPAY Welfare Portal Group API ##
 module "idpay_group_portal" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-group"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -507,7 +507,7 @@ module "idpay_group_portal" {
 
 ## IDPAY Merchant API ##
 module "idpay_merchant_portal" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-merchant"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -556,7 +556,7 @@ module "idpay_merchant_portal" {
 
 ## IDPAY Welfare Portal Email API ##
 module "idpay_notification_email_api" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-email"
   api_management_name = data.azurerm_api_management.apim_core.name
