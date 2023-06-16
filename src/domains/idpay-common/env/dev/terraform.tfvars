@@ -412,3 +412,6 @@ aks_vnet = {
   resource_group = "cstar-d-weu-dev01-vnet-rg"
   subnet         = "cstar-d-weu-dev01-aks-snet"
 }
+
+
+redis_public_network_access_enabled = true

@@ -278,6 +278,12 @@ variable "storage_advanced_threat_protection" {
   default     = false
 }
 
+variable "storage_public_network_access_enabled" {
+  type        = bool
+  description = "Enable public network access"
+  default     = false
+}
+
 #
 # RTD reverse proxy
 #
