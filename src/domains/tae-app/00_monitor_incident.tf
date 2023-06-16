@@ -108,7 +108,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
   criteria {
     time_aggregation_method = "Count"
     threshold               = 4
-    operator                = "GreaterThanOrEqual"
+    operator                = "GreaterThan"
     query                   = <<-QUERY
                   let monitor_api_file_register_sender_ade_ack = AzureDiagnostics
                       | where url_s has "file-register/sender-ade-ack"
