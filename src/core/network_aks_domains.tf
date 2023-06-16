@@ -12,8 +12,7 @@ module "vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
-
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
   name                 = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
   location             = var.location
   resource_group_name  = azurerm_resource_group.rg_vnet_aks[each.key].name
