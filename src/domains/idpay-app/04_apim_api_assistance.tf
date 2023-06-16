@@ -3,7 +3,7 @@
 #
 
 module "idpay_api_assistance_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
   product_id   = "idpay_api_assistance_product"
   display_name = "IDPAY_API_ASSISTANCE PRODUCT"
@@ -29,7 +29,7 @@ module "idpay_api_assistance_product" {
 ## IDPAY Assistance API ##
 
 module "idpay_api_assistance" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-assistance"
   api_management_name = data.azurerm_api_management.apim_core.name

@@ -15,7 +15,7 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_mongodb_connection_strings
 
 module "cosmosdb_account_mongodb" {
 
-  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v4.15.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.15.2"
 
   name                 = "${local.product}-${var.domain}-mongodb-account"
   domain               = var.domain
@@ -575,7 +575,7 @@ locals {
 }
 
 module "mongdb_collections" {
-  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_mongodb_collection?ref=v3.2.4"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v6.15.2"
 
   for_each = {
     for index, coll in local.collections :

@@ -324,3 +324,14 @@ variable "aks_vnet" {
     subnet         = string
   })
 }
+
+variable "idpay_cdn_sa_advanced_threat_protection_enabled" {
+  type    = bool
+  default = false
+}
+
+
+variable "redis_public_network_access_enabled" {
+  type    = bool
+  default = false
+}
