@@ -102,6 +102,10 @@ stages:
     pool:
       name: cstar-dev-linux-infra
     jobs:
+      - job: tf_install
+        steps:
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
       - deployment: tf_apply_rtd_app
         environment: 'DIEGO_ENV'
         strategy:
