@@ -47,7 +47,7 @@ stages:
   - ${{ if eq(parameters['DEV'], true) }}:
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
-        DOMAIN_NAME: 'rtd'
+        DOMAIN_NAME: 'rtd-common'
         TF_ENVIRONMENT_FOLDER: "dev"
         ENVIRONMENT: "DIEGO_ENV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
@@ -56,7 +56,7 @@ stages:
         AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
-        DOMAIN_NAME: 'rtd'
+        DOMAIN_NAME: 'rtd-app'
         TF_ENVIRONMENT_FOLDER: "dev"
         ENVIRONMENT: "DIEGO_ENV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
