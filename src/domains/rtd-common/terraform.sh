@@ -47,6 +47,6 @@ if echo "init plan apply refresh import output state taint destroy apply-state" 
     terraform "$action" -var-file="./env/$env/terraform.tfvars" $other
   fi
 else
-    echo "Action not allowed."
+    echo "Action not allowed: ${action}"
     exit 1
 fi
