@@ -102,15 +102,21 @@ stages:
     pool:
       name: cstar-dev-linux-infra
     jobs:
-      - template: templates/terraform-apply/template.yaml@terraform
-        parameters:
-          TF_ENVIRONMENT_FOLDER: "dev"
-          WORKINGDIR: 'src/domains/rtd-app'
-          AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-          AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-          AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-          AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-          AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+      - deployment: tf_apply_rtd_app
+        environment: 'DIEGO_ENV'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: templates/terraform-apply/template.yaml@terraform
+                  parameters:
+                    TF_ENVIRONMENT_FOLDER: "dev"
+                    WORKINGDIR: 'src/domains/rtd-app'
+                    AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+                    AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+                    AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+                    AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+                    AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
       # #
       # # rtd_app
       # #
