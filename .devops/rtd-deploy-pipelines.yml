@@ -33,14 +33,14 @@ variables:
   AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
 
 pool:
-  vmImage: 'ubuntu-22.04'
+  vmImage: 'ubuntu-latest'
 
 resources:
   repositories:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v3.7.0
+      ref: refs/heads/apply-with-output-state
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
