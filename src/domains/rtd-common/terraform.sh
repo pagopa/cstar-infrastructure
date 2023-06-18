@@ -38,7 +38,7 @@ if echo "init plan apply refresh import output state taint destroy apply-state" 
     echo "🧭 terraform launched with action: ${action} in env: ${env}"
 
     terraform init -reconfigure -backend-config="./env/$env/backend.tfvars"
-    terraform "$action" $other
+    terraform apply $other
   else
     # init terraform backend
     echo "🧭 terraform launched with action: ${action} in env: ${env}"
