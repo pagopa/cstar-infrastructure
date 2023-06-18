@@ -47,7 +47,7 @@ stages:
   - ${{ if eq(parameters['DEV'], true) }}:
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
-        DOMAIN_NAME: 'common'
+        DOMAIN_NAME: 'rtd-common'
         TF_ENVIRONMENT_FOLDER: "dev"
         ENVIRONMENT: "DIEGO_ENV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
@@ -56,13 +56,17 @@ stages:
         AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
     - template: templates/terraform-plan-apply/template.yaml@terraform
       parameters:
-        DOMAIN_NAME: 'app'
+        DOMAIN_NAME: 'rtd-app'
         TF_ENVIRONMENT_FOLDER: "dev"
         ENVIRONMENT: "DIEGO_ENV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
         WORKINGDIR: 'src/domains/rtd-app'
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
+        AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+        AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+        AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+        AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
   # - stage: DEV_COMMON_PLAN
   #   dependsOn: []
