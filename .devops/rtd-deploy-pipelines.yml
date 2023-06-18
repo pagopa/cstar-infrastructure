@@ -44,7 +44,7 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
+  - stage: DEV-COMMON-PLAN
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
@@ -66,6 +66,12 @@ stages:
               WORKINGDIR: 'src/domains/rtd-common'
               AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
           # 3. Run terraform apply
+  - stage: DEV-COMMON-APPLY
+    dependsOn: []
+    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
+    pool:
+      name: cstar-dev-linux-infra
+    jobs:
       - deployment: tf_apply_rtd_common
         environment: 'DIEGO_ENV'
         strategy:
