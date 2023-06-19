@@ -65,6 +65,8 @@ enable = {
   batch_service_api                   = true
   tae_api                             = true
   tae_blob_containers                 = true
+  sender_auth                         = true
+  csv_transaction_apis                = true
 }
 
 #
@@ -306,3 +308,4 @@ k8s_ip_filter_range_aks = {
 
 pm_backend_url = "https://api.dev.platform.pagopa.it"
 
+batch_service_last_supported_version = "1.3.2"

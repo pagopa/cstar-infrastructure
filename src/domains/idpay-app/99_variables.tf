@@ -34,6 +34,11 @@ variable "domain" {
   }
 }
 
+variable "idpay_alert_enabled" {
+  type    = bool
+  default = false
+}
+
 variable "location" {
   type        = string
   description = "One of westeurope, northeurope"
@@ -275,6 +280,12 @@ variable "storage_enable_versioning" {
 variable "storage_advanced_threat_protection" {
   type        = bool
   description = "Enable threat advanced protection"
+  default     = false
+}
+
+variable "storage_public_network_access_enabled" {
+  type        = bool
+  description = "Enable public network access"
   default     = false
 }
 
