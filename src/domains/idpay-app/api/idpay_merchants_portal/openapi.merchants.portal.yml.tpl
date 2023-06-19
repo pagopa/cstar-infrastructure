@@ -167,6 +167,59 @@ paths:
           description: Too many requests
         '500':
           description: Server error
+  /initiatives/{initiativeId}/transactions/processed:
+    get:
+      tags:
+        - merchant-transactions
+      summary: Returns the list of processed transactions associated to a merchant
+      description: "ENG: Returns the list of processed transactions associated to a merchant <br> IT: Ritorna la lista delle transazioni processate associate ad un esercente"
+      operationId: getMerchantTransactionsProcessed
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: fiscalCode
+          in: query
+          description: Fiscal Code
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Transaction status
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantTransactionsListDTO'
+        '401':
+          description: Autentication failed
+        '404':
+          description: Merchant not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Server error
   /transactions/{transactionId}/confirm:
     put:
       tags:
@@ -309,6 +362,8 @@ components:
         - trxId
         - effectiveAmount
         - status
+        - qrcodePngUrl
+        - qrcodeTxtUrl
       properties:
         trxCode:
           type: string
@@ -317,6 +372,8 @@ components:
         fiscalCode:
           type: string
         effectiveAmount:
+          type: number
+        rewardAmount:
           type: number
         trxDate:
           type: string
@@ -333,6 +390,12 @@ components:
             - IDENTIFIED
             - AUTHORIZED
             - REJECTED
+            - REWARDED
+            - CANCELLED
+        qrcodePngUrl:
+          type: string
+        qrcodeTxtUrl:
+          type: string
     MerchantDetailDTO:
       type: object
       properties:
@@ -385,22 +448,18 @@ components:
     TransactionCreationRequest:
       type: object
       required:
-        - idTrxIssuer
         - initiativeId
-        - trxDate
         - amountCents
+        - idTrxAcquirer
       properties:
         initiativeId:
           type: string
-        idTrxIssuer:
-          type: string
-        trxDate:
-          type: string
-          format: date-time
         amountCents:
           type: integer
           format: int64
         mcc:
+          type: string
+        idTrxAcquirer:
           type: string
     TransactionResponse:
       type: object
@@ -409,13 +468,14 @@ components:
         - trxCode
         - initiativeId
         - merchantId
-        - idTrxIssuer
         - idTrxAcquirer
         - trxDate
         - amountCents
         - amountCurrency
         - acquirerId
         - status
+        - qrcodePngUrl
+        - qrcodeTxtUrl
       properties:
         id:
           type: string
@@ -424,8 +484,6 @@ components:
         initiativeId:
           type: string
         merchantId:
-          type: string
-        idTrxIssuer:
           type: string
         idTrxAcquirer:
           type: string
@@ -460,6 +518,10 @@ components:
         residualAmountCents:
           type: integer
           format: int64
+        qrcodePngUrl:
+          type: string
+        qrcodeTxtUrl:
+          type: string
     ErrorDTO:
       type: object
       properties:

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment Mocked Merchant API
-  description: IDPAY Payment Mocked Merchant
+  title: IDPAY Payment Merchant API
+  description: IDPAY Payment Merchant
   version: '1.0'
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code/merchant
@@ -100,52 +100,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SyncTrxStatus'
+        '403':
+          description: Transaction is associated to another user
         '404':
           description: Transaction does not exist
+  /{transactionId}:
+    delete:
+      tags:
+        - payment
+      summary: Merchant delete transaction
+      operationId: deleteTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: The transaction ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+        '403':
+          description: Merchant not allowed to operate on this transaction
+        '404':
+          description: Transaction does not exist
+        '429':
+          description: Too many Request
 components:
   schemas:
     TransactionCreationRequest:
       type: object
       required:
-        - merchantFiscalCode
-        - vat
-        - idTrxIssuer
         - initiativeId
-        - trxDate
         - amountCents
-        - mcc
+        - idTrxAcquirer
       properties:
-        merchantFiscalCode:
-          type: string
-        vat:
-          type: string
-        idTrxIssuer:
-          type: string
         initiativeId:
           type: string
-        trxDate:
-          type: string
-          format: date-time
         amountCents:
           type: integer
           format: int64
         mcc:
           type: string
+        idTrxAcquirer:
+          type: string
     TransactionResponse:
       type: object
       required:
-       - id
-       - trxCode
-       - initiativeId
-       - merchantId
-       - idTrxIssuer
-       - idTrxAcquire
-       - trxDate
-       - amountCents
-       - amountCurrency
-       - mcc
-       - acquirerId
-       - status
+        - id
+        - trxCode
+        - initiativeId
+        - merchantId
+        - idTrxAcquirer
+        - trxDate
+        - amountCents
+        - amountCurrency
+        - acquirerId
+        - status
+        - qrcodePngUrl
+        - qrcodeTxtUrl
       properties:
         id:
           type: string
@@ -155,21 +168,43 @@ components:
           type: string
         merchantId:
           type: string
-        idTrxIssuer:
+        idTrxAcquirer:
           type: string
         trxDate:
           type: string
           format: date-time
+        trxExpirationMinutes:
+          type: number
         amountCents:
           type: integer
           format: int64
+        amountCurrency:
+          type: string
         mcc:
           type: string
         acquirerId:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REWARDED
+            - REJECTED
+        merchantFiscalCode:
+          type: string
+        vat:
+          type: string
+        splitPayment:
+          type: boolean
+        residualAmountCents:
+          type: integer
+          format: int64
+        qrcodePngUrl:
+          type: string
+        qrcodeTxtUrl:
+          type: string
     SyncTrxStatus:
       type: object
       required:
@@ -229,15 +264,21 @@ components:
     ErrorDTO:
       type: object
       required:
-       - title
+       - code
        - message
       properties:
-        title:
+        code:
           type: string
         message:
           type: string
-  securitySchemes: {}
-security: []
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+      description: The API key can be obtained through the developer portal
+security:
+  - ApiKeyAuth: [ ]
 tags:
   - name: payment
     description: ''
