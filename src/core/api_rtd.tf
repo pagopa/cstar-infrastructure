@@ -242,44 +242,6 @@ module "rtd_deposit_ade_ack" {
   api_operation_policies = []
 }
 
-module "rtd_filereporter" {
-  count = var.enable.rtd.batch_service_api ? 1 : 0
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-rtd-filereporter", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-
-  description  = "RTD API to query file reporter"
-  display_name = "RTD API to query file reporter"
-  path         = "rtd/file-reporter"
-  protocols    = ["https"]
-
-  service_url = ""
-
-  xml_content = file("./api/base_policy.xml")
-
-  # Mandatory field when api definition format is openapi
-  content_format = "openapi"
-  content_value = templatefile("./api/rtd_filereporter/openapi.yml", {
-    host = "https://httpbin.org"
-  })
-
-  product_ids           = [data.azurerm_api_management_product.rtd_api_product.product_id]
-  subscription_required = true
-
-  api_operation_policies = [
-    {
-      operation_id = "getFileReport"
-      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml", {
-        rtd-ingress = local.ingress_load_balancer_hostname_https
-      })
-    }
-  ]
-}
-
 #
 # SUBSCRIPTIONS FOR INTERNAL USERS
 #
