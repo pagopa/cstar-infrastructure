@@ -50,22 +50,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
-        '401':
-          description: Token not validated correctly
+        '400':
+          description: Transaction is not CREATED or IDENTIFIED
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Token not validated correctly
         '403':
-          description: Transaction is associated to another user, or user hasn't joined the initiative
+          description: Transaction is associated to another user, or transaction rejected
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: Transaction does not exist
+          description: Transaction does not exist or is expired
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
+          content:
+           application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
   /{trxCode}/authorize:
@@ -94,20 +108,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Token not validated correctly
         '403':
-          description: Transaction is associated to another user
+          description: Transaction is associated to another user, or transaction rejected
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: Transaction does not exist
+          description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
+          content:
+           application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     SyncTrxStatus:
@@ -143,7 +169,9 @@ components:
           format: date-time
         operationType:
           type: string
-          enum: [CHARGE, REFUND]
+          enum:
+            - CHARGE
+            - REFUND
         amountCents:
           type: integer
           format: int64
@@ -167,7 +195,11 @@ components:
           description: The list of rejection reasons
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum:
+          - CREATED
+          - IDENTIFIED
+          - AUTHORIZED
+          - REJECTED
     AuthPaymentResponseDTO:
       type: object
       required:
@@ -175,7 +207,6 @@ components:
        - trxCode
        - initiativeId
        - status
-       - rejectionReasons
        - amountCents
       properties:
         id:
@@ -193,18 +224,18 @@ components:
           type: string
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REJECTED]
+          enum:
+          - CREATED
+          - IDENTIFIED
+          - AUTHORIZED
         reward:
           type: integer
           format: int64
-        rejectionReasons:
-          type: array
-          items:
-            type: string
-          description: The list of rejection reasons
         amountCents:
           type: integer
           format: int64
+        residualBudget:
+          type: number
     ErrorDTO:
       type: object
       required:
@@ -213,6 +244,14 @@ components:
       properties:
         code:
           type: string
+          enum:
+          - PAYMENT_NOT_FOUND_EXPIRED
+          - PAYMENT_USER_NOT_VALID
+          - PAYMENT_STATUS_NOT_VALID
+          - PAYMENT_BUDGET_EXHAUSTED
+          - PAYMENT_GENERIC_REJECTED
+          - PAYMENT_TOO_MANY_REQUESTS
+          - PAYMENT_GENERIC_ERROR
         message:
           type: string
   securitySchemes:

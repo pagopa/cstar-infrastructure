@@ -2,7 +2,7 @@
 # IDPAY PRODUCTS
 #
 module "idpay_api_io_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
   product_id   = "idpay_api_io_product"
   display_name = "IDPAY_APP_IO_PRODUCT"
@@ -61,7 +61,7 @@ resource "azurerm_api_management_named_value" "pdv_api_key" {
 
 ## IDPAY Onboarding workflow IO API ##
 module "idpay_onboarding_workflow_io" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-onboarding-workflow"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -119,7 +119,7 @@ module "idpay_onboarding_workflow_io" {
 
 ## IDPAY Wallet IO API ##
 module "idpay_wallet_io" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-wallet"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -217,7 +217,7 @@ module "idpay_wallet_io" {
 
 ## IDPAY Timeline IO API ##
 module "idpay_timeline_io" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-timeline"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -256,7 +256,7 @@ module "idpay_timeline_io" {
 
 ## IDPAY IBAN Wallet IO API ##
 module "idpay_iban_io" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-iban"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -295,7 +295,7 @@ module "idpay_iban_io" {
 
 ## IDPAY QR-Code payment IO API ##
 module "idpay_qr_code_payment_io" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-qr-code-payment-io"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -319,7 +319,7 @@ module "idpay_qr_code_payment_io" {
 
 ## IDPAY Payment IO API ##
 module "idpay_payment_io" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-payment-io"
   api_management_name = data.azurerm_api_management.apim_core.name
