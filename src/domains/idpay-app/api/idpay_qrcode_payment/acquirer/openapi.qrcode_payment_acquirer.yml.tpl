@@ -104,6 +104,28 @@ paths:
           description: Transaction is associated to another user
         '404':
           description: Transaction does not exist
+  /{transactionId}:
+    delete:
+      tags:
+        - payment
+      summary: Merchant delete transaction
+      operationId: deleteTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: The transaction ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+        '403':
+          description: Merchant not allowed to operate on this transaction
+        '404':
+          description: Transaction does not exist
+        '429':
+          description: Too many Request
 components:
   schemas:
     TransactionCreationRequest:

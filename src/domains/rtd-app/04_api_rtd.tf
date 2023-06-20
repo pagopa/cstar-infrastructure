@@ -414,7 +414,7 @@ module "rtd_payment_instrument" {
 }
 
 module "batch_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
   product_id   = "batch-api-product"
   display_name = "BATCH_API_PRODUCT"
@@ -428,4 +428,240 @@ module "batch_api_product" {
   approval_required     = false
 
   policy_xml = file("./api_product/batch_api/policy.xml")
+}
+
+module "rtd_sender_auth_put_api_key" {
+
+  count = var.enable.sender_auth ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  name                = format("%s-rtd-sender-auth-put", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "RTD API to store a new association between sender code and api key"
+  display_name = "RTD API to store senderCode-apiKey"
+  path         = "rtd/sender-auth"
+  protocols    = ["https"]
+
+  service_url = format("%s/rtdmssenderauth", local.ingress_load_balancer_hostname_https)
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = file("./api/rtd_sender_auth_put/openapi.yml")
+
+  xml_content = file("./api/rtd_sender_auth_put/policy.xml")
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
+
+
+resource "azurerm_api_management_api_diagnostic" "rtd_csv_transaction_diagnostic" {
+  count = var.enable.csv_transaction_apis ? 1 : 0
+
+  identifier               = "applicationinsights"
+  api_management_name      = data.azurerm_api_management.apim_core.name
+  resource_group_name      = data.azurerm_resource_group.apim_rg.name
+  api_name                 = module.rtd_csv_transaction[0].name
+  api_management_logger_id = local.apim_logger_id
+
+
+  sampling_percentage       = 100.0
+  always_log_errors         = true
+  log_client_ip             = true
+  verbosity                 = "information"
+  http_correlation_protocol = "W3C"
+
+  frontend_request {
+    body_bytes = 8192
+    headers_to_log = [
+      "User-Agent",
+      "X-Client-Certificate-End-Date"
+    ]
+  }
+}
+
+resource "azurerm_api_management_api_diagnostic" "blob_storage_api_diagnostic" {
+  count = var.enable.csv_transaction_apis ? 1 : 0
+
+  identifier               = "applicationinsights"
+  api_management_name      = data.azurerm_api_management.apim_core.name
+  resource_group_name      = data.azurerm_resource_group.apim_rg.name
+  api_name                 = format("%s-azureblob", var.env_short)
+  api_management_logger_id = local.apim_logger_id
+
+  sampling_percentage       = 100.0
+  always_log_errors         = true
+  log_client_ip             = true
+  verbosity                 = "information"
+  http_correlation_protocol = "W3C"
+
+  frontend_request {
+    body_bytes = 0
+    headers_to_log = [
+      "Content-Length"
+    ]
+  }
+}
+
+
+## RTD CSV Transaction API ##
+module "rtd_csv_transaction" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  count               = var.enable.csv_transaction_apis ? 1 : 0
+  name                = format("%s-rtd-csv-transaction-api", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "API providing upload methods for csv transaction files"
+  display_name = "RTD CSV Transaction API"
+  path         = "rtd/csv-transaction"
+  protocols    = ["https"]
+
+  service_url = format("https://%s", local.cstarblobstorage_private_fqdn)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_csv_transaction/openapi.json", {
+    host = local.appgw_api_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
+  })
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "createAdeSasToken",
+      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml", {
+        blob-storage-access-key       = data.azurerm_storage_account.cstarblobstorage.primary_access_key,
+        blob-storage-account-name     = data.azurerm_storage_account.cstarblobstorage.name,
+        blob-storage-private-fqdn     = local.cstarblobstorage_private_fqdn,
+        blob-storage-container-prefix = "ade-transactions",
+        rtd-ingress-ip                = var.reverse_proxy_ip_old_k8s
+      })
+    },
+    {
+      operation_id = "createRtdSasToken",
+      xml_content = templatefile("./api/rtd_csv_transaction/create-sas-token-policy.xml", {
+        blob-storage-access-key       = data.azurerm_storage_account.cstarblobstorage.primary_access_key,
+        blob-storage-account-name     = data.azurerm_storage_account.cstarblobstorage.name,
+        blob-storage-private-fqdn     = local.cstarblobstorage_private_fqdn,
+        blob-storage-container-prefix = "rtd-transactions",
+        rtd-ingress-ip                = var.reverse_proxy_ip_old_k8s
+      })
+    },
+    {
+      operation_id = "getPublicKey",
+      xml_content = templatefile("./api/rtd_csv_transaction/get-public-key-policy.xml", {
+        public-key-asc         = data.azurerm_key_vault_secret.cstarblobstorage_public_key[0].value,
+        last-version-supported = var.batch_service_last_supported_version
+      })
+    },
+  ]
+}
+
+module "rtd_sender_mauth_check" {
+
+  count = var.enable.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+
+  name                = format("%s-rtd-sender-mauth-check", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+
+  description  = "RTD API to check muthual authentication (client certificate)"
+  display_name = "RTD API to Check mAuth"
+  path         = "rtd/mauth"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value  = file("./api/rtd_sender_mauth_check/openapi.yml")
+
+  xml_content = file("./api/rtd_sender_mauth_check/policy.xml")
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = []
+}
+
+module "rtd_deposit_ade_ack" {
+
+  count = var.enable.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  name                = format("%s-rtd-deposit-ade-ack", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+
+  description  = "RTD API to deposit a synthetic ADE ACK file in SFTP"
+  display_name = "RTD API to put AdE ACK file"
+  path         = "rtd/sftp-deposit"
+  protocols    = ["https"]
+
+  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/ack/", var.env_short)
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_deposit_ade_ack/openapi.yml", {
+    host = format("https://cstar%ssftp.blob.core.windows.net/ade/ack/", var.env_short)
+  })
+
+  xml_content = file("./api/rtd_deposit_ade_ack/azureblob_policy.xml")
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = []
+}
+
+module "rtd_filereporter" {
+  count = var.enable.batch_service_api ? 1 : 0
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  name                = format("%s-rtd-filereporter", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+
+  description  = "RTD API to query file reporter"
+  display_name = "RTD API to query file reporter"
+  path         = "rtd/file-reporter"
+  protocols    = ["https"]
+
+  service_url = ""
+
+  xml_content = file("./api/base_policy.xml")
+
+  # Mandatory field when api definition format is openapi
+  content_format = "openapi"
+  content_value = templatefile("./api/rtd_filereporter/openapi.yml", {
+    host = "https://httpbin.org"
+  })
+
+  product_ids           = [azurerm_api_management_product.rtd_api_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getFileReport"
+      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml", {
+        rtd-ingress = local.ingress_load_balancer_hostname_https
+      })
+    }
+  ]
 }

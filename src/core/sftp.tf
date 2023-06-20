@@ -135,7 +135,7 @@ resource "azurerm_storage_container" "consap" {
 }
 
 resource "azurerm_storage_blob" "consap_dirs" {
-  for_each               = toset(["in", "out"])
+  for_each               = toset(["Inbox"])
   name                   = format("%s/.test", each.key)
   storage_account_name   = module.sftp.name
   storage_container_name = azurerm_storage_container.consap.name
