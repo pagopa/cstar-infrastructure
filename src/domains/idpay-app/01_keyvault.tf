@@ -34,3 +34,11 @@ resource "azurerm_key_vault_secret" "revoked_pi_consumer_connection_uri" {
   name         = "${var.domain}-revoked-pi-consumer-connection-uri"
   value        = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"\";"
 }
+
+data "azurerm_key_vault_secret" "alert-slack-idpay" {
+
+  count = var.idpay_alert_enabled ? 1 : 0
+
+  name         = "alert-idpay-notification-slack"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}

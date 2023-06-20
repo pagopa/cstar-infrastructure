@@ -42,3 +42,18 @@ resource "kubernetes_secret" "fa-postgres-credentials" {
 
   type = "Opaque"
 }
+
+
+# useb by cstar-io-mock
+resource "kubernetes_secret" "fa-application-insights" {
+  metadata {
+    name      = "application-insights"
+    namespace = kubernetes_namespace.fa.metadata[0].name
+  }
+
+  data = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}
