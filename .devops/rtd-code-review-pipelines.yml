@@ -52,6 +52,10 @@ variables:
   # working dir
   WORKING_DIR_COMMON: 'src/domains/rtd-common'
   WORKING_DIR_APP: 'src/domains/rtd-app'
+  stages:
+    - key: DEV
+      pool: cstar-dev-linux-infra
+
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -65,44 +69,58 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: cstar-dev-linux-infra
-    jobs:
-      - job: terraform_plan_rtd_common
-        strategy:
-          parallel: 1
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan rtd-common
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
-      - job: terraform_plan_rtd_app
-        timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan rtd-app
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+  ${{ each var in variables.myComplexVariable }}:
+    - stage: var.key
+      dependsOn: []
+      condition: and(succeeded(), eq(${{parameters[var.key]}}, true))
+      pool:
+        name: var.pool
+      jobs:
+        - job: terraform_plan_rtd_common
+          strategy:
+            parallel: 1
+          timeoutInMinutes: $[variables.TIME_OUT]
+          steps:
+            - checkout: self
+
+  # - stage: DEV
+  #   dependsOn: []
+  #   condition: and(succeeded(), eq(${{parameters.DEV}}, true))
+  #   pool:
+  #     name: cstar-dev-linux-infra
+  #   jobs:
+  #     - job: terraform_plan_rtd_common
+  #       strategy:
+  #         parallel: 1
+  #       timeoutInMinutes: $[variables.TIME_OUT]
+  #       steps:
+  #         - checkout: self
+  #         # 1. Install terraform and terragrunt
+  #         - template: templates/terraform-setup/template.yaml@terraform
+  #         # 2. Run terraform plan rtd-common
+  #         - template: templates/terraform-plan/template.yaml@terraform
+  #           parameters:
+  #             TF_ENVIRONMENT_FOLDER: "dev"
+  #             WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
+  #             AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
+  #     - job: terraform_plan_rtd_app
+  #       timeoutInMinutes: $[variables.TIME_OUT]
+  #       strategy:
+  #         parallel: 1
+  #       steps:
+  #         - checkout: self
+  #         # 1. Install terraform and terragrunt
+  #         - template: templates/terraform-setup/template.yaml@terraform
+  #         # Run terraform plan rtd-app
+  #         - template: templates/terraform-plan/template.yaml@terraform
+  #           parameters:
+  #             TF_ENVIRONMENT_FOLDER: "dev"
+  #             WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
+  #             AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
+  #             AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+  #             AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+  #             AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+  #             AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
 
   # - stage: UAT
