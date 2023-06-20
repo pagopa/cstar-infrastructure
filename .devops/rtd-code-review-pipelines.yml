@@ -33,6 +33,11 @@ parameters:
     values:
       - False
       - True
+  - name: stages
+    type: object
+    default:
+    - key: DEV
+      pool: cstar-dev-linux-infra
 
 variables:
   TIME_OUT: 15
@@ -52,10 +57,6 @@ variables:
   # working dir
   WORKING_DIR_COMMON: 'src/domains/rtd-common'
   WORKING_DIR_APP: 'src/domains/rtd-app'
-  stages:
-    - key: DEV
-      pool: cstar-dev-linux-infra
-
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -69,12 +70,12 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  ${{ each var in variables.myComplexVariable }}:
-    - stage: var.key
+  ${{ each item in parameters.stages }}:
+    - stage: item.key
       dependsOn: []
-      condition: and(succeeded(), eq(${{parameters[var.key]}}, true))
+      condition: and(succeeded(), eq(${{parameters[item.key]}}, true))
       pool:
-        name: var.pool
+        name: item.pool
       jobs:
         - job: terraform_plan_rtd_common
           strategy:
