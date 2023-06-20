@@ -12,6 +12,19 @@
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | = 4.0.4 |
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 1.6.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.21.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.40.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.5.1 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.11.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.4.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.1.1 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.4 |
+
 ## Modules
 
 | Name | Source | Version |
@@ -59,6 +72,7 @@
 |------|------|
 | [azapi_resource.alert_CompleteOnboarding](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.alert_CosmosServerSideRetry](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.alert_CreateTransaction](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.alert_RewardOutcomeFile](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.apim-merchant-id-retriever](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_audit_log_table](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |

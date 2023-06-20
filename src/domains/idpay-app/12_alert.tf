@@ -178,6 +178,69 @@ resource "azapi_resource" "alert_CosmosServerSideRetry" {
   })
 }
 
+# alert rule set with azapi
+resource "azapi_resource" "alert_CreateTransaction" {
+  count = var.idpay_alert_enabled ? 1 : 0
+
+  type      = "Microsoft.Insights/scheduledQueryRules@2022-08-01-preview"
+  name      = format("%s-CreateTransaction", var.prefix)
+  location  = "westeurope"
+  parent_id = data.azurerm_resource_group.monitor_rg.id
+  tags = {
+    IDPAY = "IDPAY"
+  }
+  body = jsonencode({
+    properties = {
+      actions = {
+        actionGroups = [
+          azurerm_monitor_action_group.slackIdpay[0].id
+        ]
+        customProperties = {}
+      }
+      autoMitigate                          = false
+      checkWorkspaceAlertsStorageConfigured = false
+      criteria = {
+        allOf = [
+          {
+            dimensions = [
+              {
+                name     = "operation_Name"
+                operator = "Include"
+                values = [
+                  "*"
+                ]
+              }
+            ]
+            failingPeriods = {
+              minFailingPeriodsToAlert  = 1
+              numberOfEvaluationPeriods = 1
+            }
+            metricMeasureColumn = "failurePercentage"
+            operator            = "GreaterThanOrEqual"
+            query               = "let startTime = ago(1d);\nlet endTime = now();\nlet operationName = dynamic([\"d-idpay-qr-code-payment-acquirer;rev=1 - createTransaction\", \"d-idpay-merchants-portal;rev=1 - createTransaction\", \"d-idpay-mil;rev=1 - createTransaction\"]);\nlet totalCount = toscalar(\n    requests\n    | where timestamp between (startTime .. endTime)\n    | where operation_Name in (operationName)\n    | summarize count() \n);\nrequests\n| where timestamp between (startTime .. endTime)\n| where operation_Name in (operationName)\n| where success == false\n| summarize failedCount = sum(itemCount), failurePercentage = round(todouble(sum(itemCount))/totalCount*100, 2) by operation_Name"
+            threshold           = 10
+            timeAggregation     = "Maximum"
+          }
+        ]
+      }
+      description            = "Trigger alert when the percentage of failure it's greater than 10%"
+      displayName            = "${var.domain}-${var.env_short}-CreateTransaction"
+      enabled                = true
+      evaluationFrequency    = "P1D"
+      overrideQueryTimeRange = "P2D"
+      scopes = [
+        data.azurerm_application_insights.application_insights.id
+      ]
+      severity            = 0
+      skipQueryValidation = false
+      targetResourceTypes = [
+        "microsoft.insights/components"
+      ]
+      windowSize = "P1D"
+    }
+  })
+}
+
 # In this moment this version is not supported by the 2.99 plugin,
 # once the plugin is updated we can proceed with this version of alert,
 # in the meantime the alert it's being set with azapi
