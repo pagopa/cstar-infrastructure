@@ -270,6 +270,12 @@ locals {
         }, {
         keys   = ["acquirerId"]
         unique = false
+        }, {
+        keys   = ["merchantId"]
+        unique = false
+        }, {
+        keys   = ["elaborationDateTime"]
+        unique = false
         }
       ]
     },
