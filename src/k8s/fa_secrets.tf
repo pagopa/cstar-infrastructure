@@ -43,6 +43,7 @@ resource "kubernetes_secret" "fa-postgres-credentials" {
   type = "Opaque"
 }
 
+
 # useb by cstar-io-mock
 resource "kubernetes_secret" "fa-application-insights" {
   metadata {
