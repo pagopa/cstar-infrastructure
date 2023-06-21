@@ -20,7 +20,7 @@ data "azurerm_monitor_action_group" "email" {
 data "azurerm_kusto_cluster" "dexp_cluster" {
   count = var.dexp_db.enable ? 1 : 0
 
-  name                = replace(format("%sdataexplorer", local.product), "-", "")
+  name                = replace("${local.product}dataexplorer", "-", "")
   resource_group_name = var.monitor_resource_group_name
 }
 
