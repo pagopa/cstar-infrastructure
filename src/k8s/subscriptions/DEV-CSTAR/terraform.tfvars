@@ -455,6 +455,7 @@ secrets_to_be_read_from_kv = [
   "evh-bpd-winner-outcome-award-winner-integration-key",
   "evh-rtd-trx-bpd-payment-instrument-key",
   "evh-rtd-trx-rtd-csv-connector-key",
+  "bpd-notificator-sftp-user",
   "notification-sftp-private-key",
   "notification-service-notify-winners-public-key",
   "notification-sftp-password",
