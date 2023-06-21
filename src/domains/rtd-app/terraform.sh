@@ -24,7 +24,7 @@ source "./env/$env/backend.ini"
 
 az account set -s "${subscription}"
 
-if echo "init plan apply refresh import output state taint destroy" | grep -w "$action" > /dev/null; then
+if echo "init plan apply refresh import output state taint destroy apply-state" | grep -w "$action" > /dev/null; then
   if [ "$action" = "init" ]; then
     echo "🧭 terraform INIT in env: ${env}"
     terraform "$action" -reconfigure -backend-config="./env/$env/backend.tfvars" $other
@@ -33,6 +33,12 @@ if echo "init plan apply refresh import output state taint destroy" | grep -w "$
     echo "🧭 terraform (output|state|taint) launched with action: ${action} in env: ${env}"
     terraform init -reconfigure -backend-config="./env/$env/backend.tfvars"
     terraform "$action" $other
+  elif [ "$action" = "apply-state" ]; then
+    # init terraform backend
+    echo "🧭 terraform launched with action: ${action} in env: ${env}"
+
+    terraform init -reconfigure -backend-config="./env/$env/backend.tfvars"
+    terraform apply $other
   else
     # init terraform backend
     echo "🧭 terraform launched with action: ${action} in env: ${env}"
@@ -41,6 +47,6 @@ if echo "init plan apply refresh import output state taint destroy" | grep -w "$
     terraform "$action" -var-file="./env/$env/terraform.tfvars" $other
   fi
 else
-    echo "Action not allowed."
+    echo "Action not allowed: ${action}"
     exit 1
 fi
