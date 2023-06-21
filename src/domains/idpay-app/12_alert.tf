@@ -154,7 +154,7 @@ resource "azapi_resource" "alert_CosmosServerSideRetry" {
             }
             metricMeasureColumn = "Count"
             operator            = "GreaterThanOrEqual"
-            query               = "let startTime = ago(1h);\nlet endTime = now();\nContainerLog\n| where timestamp = TimeGenerated between (startTime .. endTime)\n| where LogEntry has \"UncategorizedMongoDbException: Request timed out. Retries due to rate limiting: True\"\n| summarize count() by LogEntry, TimeGenerated\n| count"
+            query               = "let startTime = ago(1h);\nlet endTime = now();\nContainerLog\n| where TimeGenerated between (startTime .. endTime)\n| where LogEntry has \"UncategorizedMongoDbException: Request timed out. Retries due to rate limiting: True\"\n| summarize count() by LogEntry, TimeGenerated\n| count"
             threshold           = 1
             timeAggregation     = "Total"
           }
