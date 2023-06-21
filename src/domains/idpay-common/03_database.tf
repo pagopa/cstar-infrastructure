@@ -189,6 +189,10 @@ locals {
         {
           keys   = ["merchantId"]
           unique = false
+        },
+        {
+          keys   = ["elaborationDateTime"]
+          unique = false
         }
       ]
     },
@@ -269,12 +273,6 @@ locals {
         unique = false
         }, {
         keys   = ["acquirerId"]
-        unique = false
-        }, {
-        keys   = ["merchantId"]
-        unique = false
-        }, {
-        keys   = ["elaborationDateTime"]
         unique = false
         }
       ]
