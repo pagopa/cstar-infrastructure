@@ -211,7 +211,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MerchantTransactionsListDTO'
+                $ref: '#/components/schemas/MerchantTransactionsProcessedListDTO'
         '401':
           description: Autentication failed
         '404':
@@ -390,12 +390,61 @@ components:
             - IDENTIFIED
             - AUTHORIZED
             - REJECTED
-            - REWARDED
-            - CANCELLED
         qrcodePngUrl:
           type: string
         qrcodeTxtUrl:
           type: string
+    MerchantTransactionsProcessedListDTO:
+      type: object
+      required:
+        - content
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantTransactionProcessedDTO'
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+    MerchantTransactionProcessedDTO:
+      type: object
+      required:
+        - trxId
+        - effectiveAmount
+        - status
+      properties:
+        trxId:
+          type: string
+        fiscalCode:
+          type: string
+        effectiveAmount:
+          type: number
+        rewardAmount:
+          type: number
+        trxDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - REWARDED
+            - CANCELLED
     MerchantDetailDTO:
       type: object
       properties:
