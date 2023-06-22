@@ -12,3 +12,4 @@ locals {
   rg_container_registry_common_name = "${local.project}-container-registry-rg"
 }
 
+
