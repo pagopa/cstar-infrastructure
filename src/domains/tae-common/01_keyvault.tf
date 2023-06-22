@@ -106,3 +106,6 @@ resource "azurerm_key_vault_access_policy" "iac_sp_plan_policy" {
 
   storage_permissions = []
 }
+
+
+
