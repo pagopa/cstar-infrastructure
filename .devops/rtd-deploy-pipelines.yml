@@ -55,7 +55,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.0
+      ref: refs/tags/v5.0.1
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -65,7 +65,7 @@ stages:
       parameters:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
         TF_ENVIRONMENT_FOLDER: "dev"
-        ENVIRONMENT: "DIEGO_ENV"
+        ENVIRONMENT: "DEV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
         WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
@@ -74,7 +74,7 @@ stages:
       parameters:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_app"
         TF_ENVIRONMENT_FOLDER: "dev"
-        ENVIRONMENT: "DIEGO_ENV"
+        ENVIRONMENT: "DEV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
         WORKINGDIR:  ${{ variables.WORKING_DIR_APP }}
         AKS_NAME: ${{ variables.AKS_DEV_NAME }}
