@@ -143,7 +143,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
     }
   }
 
-
   tags = {
     key = "Incident Alert"
   }
