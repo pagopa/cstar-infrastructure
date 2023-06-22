@@ -6,15 +6,11 @@
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.21.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.26.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.5.1 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.11.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v6.14.0 |
+No modules.
 
 ## Resources
 
