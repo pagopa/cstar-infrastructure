@@ -50,7 +50,7 @@ stages:
       parameters:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
         TF_ENVIRONMENT_FOLDER: "dev"
-        ENVIRONMENT: "DIEGO_ENV"
+        ENVIRONMENT: "DEV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
         WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
@@ -59,7 +59,7 @@ stages:
       parameters:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_app"
         TF_ENVIRONMENT_FOLDER: "dev"
-        ENVIRONMENT: "DIEGO_ENV"
+        ENVIRONMENT: "DEV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
         WORKINGDIR:  ${{ variables.WORKING_DIR_APP }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
