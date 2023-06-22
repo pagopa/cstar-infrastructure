@@ -24,7 +24,7 @@
                         <value>application/json</value>
                     </set-header>
                     <set-body>{
-                        "code": "400",
+                        "code": "FISCAL_CODE_NOT_VALID",
                         "message": "Fiscal code not valid!"
                         }</set-body>
                 </return-response>
