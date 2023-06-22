@@ -170,6 +170,13 @@ module "idpay_merchants_portal" {
       })
     },
     {
+      operation_id = "getMerchantTransactionsProcessed"
+
+      xml_content = templatefile("./api/idpay_merchants_portal/get-merchant-transactions-processed-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
       operation_id = "confirmPaymentQRCode"
 
       xml_content = templatefile("./api/idpay_merchants_portal/put-confirm-merchant-transaction-policy.xml.tpl", {
