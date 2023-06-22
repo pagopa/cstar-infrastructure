@@ -28,9 +28,9 @@ parameters:
 variables:
   TIME_OUT: 10
   # working dir
-  WORKING_DIR_COMMON: 'src/domains/rtd-common'
-  WORKING_DIR_APP: 'src/domains/rtd-app'
-  DOMAIN_NAME: rtd
+  WORKING_DIR_COMMON: 'src/domains/tae-common'
+  WORKING_DIR_APP: 'src/domains/tae-app'
+  DOMAIN_NAME: tae
 
 pool:
   vmImage: 'ubuntu-latest'
