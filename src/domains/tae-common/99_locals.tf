@@ -11,3 +11,5 @@ locals {
   container_registry_common_name    = "${local.project}-common-acr"
   rg_container_registry_common_name = "${local.project}-container-registry-rg"
 }
+
+
