@@ -1,5 +1,5 @@
 pr:
-  autoCancel: false
+  autoCancel: true
   branches:
     include:
       - main
@@ -63,7 +63,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.0
+      ref: refs/tags/v5.0.1
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
