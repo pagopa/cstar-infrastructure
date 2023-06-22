@@ -134,6 +134,54 @@ paths:
            application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /{trxCode}:
+    delete:
+      tags:
+        - payment
+      summary: Cancel payment
+      operationId: deletePayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: The transaction's code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cancel Ok
+        '400':
+          description: Transaction is not IDENTIFIED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: Transaction is associated to another user, or transaction rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     SyncTrxStatus:
