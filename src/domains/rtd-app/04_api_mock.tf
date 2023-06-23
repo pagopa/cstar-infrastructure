@@ -38,7 +38,7 @@ module "api_mock_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids = [module.mock_api_product.product_id]
+  product_ids           = [module.mock_api_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
