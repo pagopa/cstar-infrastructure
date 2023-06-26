@@ -2088,12 +2088,6 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
-        - amount
-        - accrued
-        - circuitType
         - status
       properties:
         operationId:
