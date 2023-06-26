@@ -1552,7 +1552,8 @@ components:
         - message
       properties:
         code:
-          type: string
+          type: integer
+          format: int32
         message:
           type: string
     TransactionErrorDTO:
@@ -1871,14 +1872,6 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
-        - amount
-        - accrued
-        - circuitType
-        - idTrxIssuer
-        - idTrxAcquirer
         - status
       properties:
         operationId:
@@ -1887,6 +1880,8 @@ components:
           enum:
             - TRANSACTION
             - REVERSAL
+          type: string
+        eventId:
           type: string
         brandLogo:
           type: string
