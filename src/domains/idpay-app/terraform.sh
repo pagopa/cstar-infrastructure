@@ -1,1 +1,1 @@
-../../../scripts/terraform.sh $1 $2 $3
+../../../scripts/terraform.sh

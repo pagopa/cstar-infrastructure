@@ -299,56 +299,8 @@ ContainerLog
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Trigger alert when at least one file csv of payment can't be generated or zipped"
+  description                      = "Trigger alert when the file csv of payment can't be generated or zipped"
   display_name                     = "${var.domain}-${var.env_short}-GeneratePaymentFile_csv_zip"
-  enabled                          = true
-  query_time_range_override        = "P2D"
-  skip_query_validation            = false
-  action {
-    action_groups = [
-      azurerm_monitor_action_group.slackIdpay[0].id
-    ]
-    custom_properties = {}
-  }
-
-  tags = var.tags
-}
-
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "apps_exception" {
-
-  count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-apps_exception", var.prefix)
-  location            = data.azurerm_resource_group.monitor_rg.location
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-
-  evaluation_frequency = "PT1H"
-  window_duration      = "PT1H"
-  scopes               = [data.azurerm_application_insights.application_insights.id]
-  severity             = 0
-  criteria {
-    query                   = <<-QUERY
-let startTime = ago(1h);
-let endTime = now();
-exceptions
-| where timestamp between (startTime .. endTime)
-| where operation_Name has "idpay"
-| summarize count() by operation_Name, timestamp
-| count
-      QUERY
-    time_aggregation_method = "Total"
-    threshold               = 1
-    operator                = "GreaterThanOrEqual"
-    metric_measure_column   = "Count"
-    failing_periods {
-      minimum_failing_periods_to_trigger_alert = 1
-      number_of_evaluation_periods             = 1
-    }
-  }
-
-  auto_mitigation_enabled          = false
-  workspace_alerts_storage_enabled = false
-  description                      = "Trigger alert when at least one exception occurs"
-  display_name                     = "${var.domain}-${var.env_short}-apps_exception"
   enabled                          = true
   query_time_range_override        = "P2D"
   skip_query_validation            = false
