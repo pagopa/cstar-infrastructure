@@ -189,10 +189,10 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-prob
               and StatusCode == 201
               and Uri has "ade-transactions-decrypted"
           | extend Filename = tostring(extract(@"ade-transactions-decrypted\/([^?]*)", 1, Uri))
-          | extend CompositionPre = substring(Filename,7,28)
+          | extend CompositionAfter = substring(Filename,7,28)
           | extend SenderCode = tostring(split(Filename,".")[1])
-          | distinct CompositionPre, SenderCode
-          | summarize CountPreDecryption = count() by CompositionPre, SenderCode;
+          | distinct CompositionAfter, SenderCode
+          | summarize CountAfter = count() by CompositionAfter, SenderCode;
       StorageBlobLogs
           | where AccountName == 'cstarpblobstorage'
           | where OperationName in ('PutBlob', 'PutBlock')
@@ -203,15 +203,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-prob
           | extend Composition = replace_string(Filename,"TRNLOG.","")
           | extend SenderCode = tostring(split(Filename,".")[0])
           | distinct SenderCode, Composition
-          | summarize CountAfter = count() by Composition, SenderCode 
-      | join kind=leftouter (decryptedFile) on $left.Composition == $right.CompositionPre
+          | summarize CountPreDecryption = count() by Composition, SenderCode 
+      | join kind=leftouter (decryptedFile) on $left.Composition == $right.CompositionAfter
       | project
           SenderCode,
           Composition,
-          CountAfterDecryption = CountAfter,
-          CountPre = iif(isnull(CountPreDecryption), 0, CountPreDecryption)
+          CountPre = CountPreDecryption,
+          CountAfterDecryption = iif(isnull(CountAfter), 0, CountAfter)
       | summarize FilePre=sum(CountPre), FileAfter=sum(CountAfterDecryption) by SenderCode
-      | extend Rate=min_of((todouble(FilePre) / FileAfter) * 100, 100)
+      | extend Rate=min_of((todouble(FileAfter) / FilePre) * 100, 100)
       | where Rate < 0.5
       | summarize AffectedSenders = count()
       QUERY
