@@ -12,6 +12,19 @@
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | = 4.0.4 |
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 1.6.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.21.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.40.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.5.1 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.11.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.4.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.1.1 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.4 |
+
 ## Modules
 
 | Name | Source | Version |
@@ -119,6 +132,7 @@
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CompleteOnboarding](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CosmosServerSideRetry](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CreateTransaction](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.GeneratePaymentFile_csv_zip](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.RewardOutcomeFile](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/private_dns_a_record) | resource |
 | [azurerm_private_endpoint.idpay_initiative_storage_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/private_endpoint) | resource |
