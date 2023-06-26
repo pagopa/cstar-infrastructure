@@ -1872,7 +1872,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - amount
+        - accrued
         - status
       properties:
         operationId:
@@ -2031,7 +2031,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - amount
+        - accrued
       properties:
         operationId:
           type: string
