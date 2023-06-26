@@ -2103,6 +2103,8 @@ components:
             - TRANSACTION
             - REVERSAL
           type: string
+        eventId:
+          type: string
         operationDate:
           type: string
           format: date-time
