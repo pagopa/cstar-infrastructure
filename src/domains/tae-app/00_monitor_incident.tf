@@ -188,6 +188,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-prob
           | where OperationName in ('PutBlob', 'PutBlock')
               and StatusCode == 201
               and Uri has "ade-transactions-decrypted"
+              and TimeGenerated >= ago(1d)
           | extend Filename = tostring(extract(@"ade-transactions-decrypted\/([^?]*)", 1, Uri))
           | extend CompositionAfter = substring(Filename,7,28)
           | extend SenderCode = tostring(split(Filename,".")[1])
