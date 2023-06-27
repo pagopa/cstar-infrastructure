@@ -26,7 +26,7 @@ module "api_mock_io" {
 
   description  = "Mock IO API server."
   display_name = "Mock IO TEST API"
-  path         = "mock-io"
+  path         = "rtd/mock-io"
   protocols    = ["https"]
 
   service_url = ""

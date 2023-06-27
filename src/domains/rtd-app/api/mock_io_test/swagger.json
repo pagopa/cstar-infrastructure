@@ -6,7 +6,7 @@
         "description": "Mock IO API server."
     },
     "host": "${host}",
-    "basePath": "/mock-io",
+    "basePath": "/rtd/mock-io",
     "schemes": ["https"],
     "paths": {
         "/login": {
