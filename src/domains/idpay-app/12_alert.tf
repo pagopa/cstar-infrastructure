@@ -17,7 +17,7 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-CompleteOnboarding", var.prefix)
+  name                = "${var.prefix}-CompleteOnboarding"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -89,7 +89,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "RewardOutcomeFile" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-RewardOutcomeFile", var.prefix)
+  name                = "${var.prefix}-RewardOutcomeFile"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -155,7 +155,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "RewardOutcomeFile" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CosmosServerSideRetry" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-CosmosServerSideRetry", var.prefix)
+  name                = "${var.prefix}-CosmosServerSideRetry"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -204,7 +204,7 @@ ContainerLog
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CreateTransaction" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-CreateTransaction", var.prefix)
+  name                = "${var.prefix}-CreateTransaction"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -268,7 +268,7 @@ data
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "GeneratePaymentFile_csv_zip" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-GeneratePaymentFile_csv_zip", var.prefix)
+  name                = "${var.prefix}-GeneratePaymentFile_csv_zip"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -317,7 +317,7 @@ ContainerLog
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "apps_exception" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-apps_exception", var.prefix)
+  name                = "${var.prefix}-apps-exception"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
