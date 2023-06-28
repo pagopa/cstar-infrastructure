@@ -213,7 +213,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-prob
           | where AccountName == 'cstarpblobstorage'
           | where OperationName in ('PutBlob', 'PutBlock')
               and StatusCode == 201
-              and Uri has ".pgp"
+              and Uri has ".pgp" and Uri has "ADE."
               and TimeGenerated >= ago(1d) and TimeGenerated < ago(30m)
           | extend Filename = extract(@"ADE.(.*)\.csv.pgp",1,tostring(split(Uri, "/")[4]))
           | extend Composition = replace_string(Filename,"TRNLOG.","")
