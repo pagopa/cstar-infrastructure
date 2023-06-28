@@ -79,10 +79,6 @@ locals {
         unique = true
         },
         {
-          keys   = ["initiativeId", "userId"]
-          unique = true
-        },
-        {
           keys   = ["updateDate"]
           unique = false
         },
@@ -188,6 +184,10 @@ locals {
         },
         {
           keys   = ["merchantId"]
+          unique = false
+        },
+        {
+          keys   = ["elaborationDateTime"]
           unique = false
         }
       ]

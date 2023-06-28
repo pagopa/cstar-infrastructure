@@ -694,8 +694,9 @@ enable = {
     internal_api                        = true
     batch_service_api                   = true
     enrolled_payment_instrument         = true
-    mongodb_storage                     = true
     payment_instrument                  = false
+    mongodb_storage                     = true
+    hashed_pans_container               = false
     pm_wallet_ext_api                   = true
     tkm_integration                     = true
   }

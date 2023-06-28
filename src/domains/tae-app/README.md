@@ -6,15 +6,11 @@
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.21.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.26.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.5.1 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.11.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v6.14.0 |
+No modules.
 
 ## Resources
 
@@ -45,6 +41,7 @@
 | [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/kusto_database_principal_assignment) | resource |
 | [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/kusto_script) | resource |
 | [azurerm_monitor_action_group.send_to_operations](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.send_to_opsgenie](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.send_to_zendesk](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_diagnostic_setting.acquirer_aggregate_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.ack_ingestor_failures](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
@@ -82,6 +79,7 @@
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_secret.operations_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.operations_zendesk_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.opsgenie_webhook_url](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_kusto_cluster.dexp_cluster](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/kusto_cluster) | data source |
 | [azurerm_kusto_database.tae_db](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/kusto_database) | data source |
 | [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/log_analytics_workspace) | data source |
