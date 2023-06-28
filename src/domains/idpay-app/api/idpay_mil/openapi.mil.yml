@@ -178,22 +178,18 @@ components:
     TransactionCreationRequest:
       type: object
       required:
-        - idTrxIssuer
         - initiativeId
-        - trxDate
         - amountCents
+        - idTrxAcquirer
       properties:
         initiativeId:
           type: string
-        idTrxIssuer:
-          type: string
-        trxDate:
-          type: string
-          format: date-time
         amountCents:
           type: integer
           format: int64
         mcc:
+          type: string
+        idTrxAcquirer:
           type: string
     TransactionResponse:
       type: object
@@ -202,13 +198,14 @@ components:
         - trxCode
         - initiativeId
         - merchantId
-        - idTrxIssuer
         - idTrxAcquirer
         - trxDate
         - amountCents
         - amountCurrency
         - acquirerId
         - status
+        - qrcodePngUrl
+        - qrcodeTxtUrl
       properties:
         id:
           type: string
@@ -217,8 +214,6 @@ components:
         initiativeId:
           type: string
         merchantId:
-          type: string
-        idTrxIssuer:
           type: string
         idTrxAcquirer:
           type: string
@@ -253,6 +248,10 @@ components:
         residualAmountCents:
           type: integer
           format: int64
+        qrcodePngUrl:
+          type: string
+        qrcodeTxtUrl:
+          type: string
     SyncTrxStatus:
       type: object
       required:
