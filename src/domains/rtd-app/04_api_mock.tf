@@ -29,7 +29,7 @@ module "api_mock_io" {
   path         = "rtd/mock-io"
   protocols    = ["https"]
 
-  service_url = ""
+  service_url = "http://${var.reverse_proxy_ip_old_k8s}/cstariobackendtest/bpd/pagopa/api/v1"
 
   content_format = "swagger-json"
   content_value = templatefile("./api/mock_io_test/swagger.json", {
@@ -41,12 +41,4 @@ module "api_mock_io" {
   product_ids           = [module.mock_api_product.product_id]
   subscription_required = true
 
-  api_operation_policies = [
-    {
-      operation_id = "getToken",
-      xml_content = templatefile("./api/mock_io_test/post_get_token_policy.xml", {
-        reverse_proxy_ip = var.reverse_proxy_ip_old_k8s
-      })
-    },
-  ]
 }
