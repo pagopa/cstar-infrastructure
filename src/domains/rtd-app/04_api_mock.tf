@@ -1,6 +1,7 @@
 module "mock_api_product" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
+  count        = var.enable.mock_io_api ? 1 : 0
   product_id   = "mock-api-product"
   display_name = "RTD_Mock_API_Product"
   description  = "RTD_Mock_API_Product"
@@ -20,6 +21,7 @@ module "mock_api_product" {
 module "api_mock_io" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
+  count               = var.enable.mock_io_api ? 1 : 0
   name                = format("%s-mock-io-api", var.env_short)
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
@@ -38,7 +40,7 @@ module "api_mock_io" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.mock_api_product.product_id]
+  product_ids           = [module.mock_api_product[0].product_id]
   subscription_required = true
 
 }
