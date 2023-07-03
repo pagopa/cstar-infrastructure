@@ -14,11 +14,11 @@ paths:
       description: Returns the list of initiatives of a specific merchant
       operationId: getMerchantInitiativeList
       parameters:
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
           schema:
             type: string
-            example: merchant-id
+            example: merchant-fiscalcode
           required: true
       responses:
         '200':
@@ -48,11 +48,11 @@ paths:
       summary: Create a transaction
       operationId: createTransaction
       parameters:
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
           schema:
             type: string
-            example: merchant-id
+            example: merchant-fiscalcode
           required: true
         - name: x-acquirer-id
           in: header
@@ -86,11 +86,11 @@ paths:
       summary: Delete a transaction
       operationId: deleteTransaction
       parameters:
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
           schema:
             type: string
-            example: merchant-id
+            example: merchant-fiscalcode
           required: true
         - name: x-acquirer-id
           in: header
@@ -120,9 +120,9 @@ paths:
       summary: Returns the detail of a transaction
       operationId: getStatusTransaction
       parameters:
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
-          description: Merchant ID
+          description: Merchant fiscal code
           required: true
           schema:
             type: string
@@ -153,6 +153,12 @@ components:
   schemas:
     InitiativeDTO:
       type: object
+      required:
+        - initiativeId
+        - initiativeName
+        - organizationName
+        - status
+        - startDate
       properties:
         initiativeId:
           type: string
@@ -262,11 +268,9 @@ components:
         - operationType
         - amountCents
         - amountCurrency
-        - mcc
         - acquirerId
         - merchantId
         - initiativeId
-        - rejectionReasons
         - status
       properties:
         id:
