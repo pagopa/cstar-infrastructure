@@ -67,6 +67,7 @@ enable = {
   tae_blob_containers                 = true
   sender_auth                         = true
   csv_transaction_apis                = true
+  mock_io_api                         = true
 }
 
 #
