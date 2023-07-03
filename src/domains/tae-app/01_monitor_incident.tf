@@ -37,7 +37,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
 
   action {
     action_groups = [
-      data.azurerm_monitor_action_group.slack.id # cstar-status
+      data.azurerm_monitor_action_group.slack.id, # cstar-status
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id
     ]
   }
 
