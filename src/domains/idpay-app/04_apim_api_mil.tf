@@ -20,6 +20,8 @@ module "idpay_api_mil_product" {
 
   policy_xml = file("./api_product/mil_api/policy_mil.xml")
 
+  groups = ["developers"]
+
 }
 
 ## IDPAY MIL API ##
