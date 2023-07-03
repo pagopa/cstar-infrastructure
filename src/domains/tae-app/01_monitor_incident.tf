@@ -1,3 +1,18 @@
+resource "azurerm_monitor_action_group" "send_to_opsgenie" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "send_to_opsgenie"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  short_name          = "send_to_gen"
+
+  webhook_receiver {
+    name                    = "send_to_opsgenie"
+    service_uri             = data.azurerm_key_vault_secret.opsgenie_webhook_url[count.index].value
+    use_common_alert_schema = true
+  }
+}
+
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-files" {
 
   count = var.env_short == "p" ? 1 : 0
@@ -22,7 +37,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
 
   action {
     action_groups = [
-      data.azurerm_monitor_action_group.slack.id # cstar-status
+      data.azurerm_monitor_action_group.slack.id, # cstar-status
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id
     ]
   }
 
@@ -128,10 +144,10 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
                       | where isRequestSuccess_b == "false"
                       | project GeneralId=tostring(apimSubscriptionId_s);
 
-                  union 
+                  union
                       monitor_api_rtd_csv_transaction,
-                      monitor_api_pagopastorage, 
-                      monitor_api_file_register_sender_ade_ack, 
+                      monitor_api_pagopastorage,
+                      monitor_api_file_register_sender_ade_ack,
                       monitor_api_ade
                   | where GeneralId != ""
                   | distinct GeneralId
