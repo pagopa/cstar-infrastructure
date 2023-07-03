@@ -238,6 +238,14 @@ module "api_bpd_pm_payment_instrument" {
     host = local.apim_hostname # azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
+  # mock delete api only for dev and uat
+  api_operation_policies = var.env_short == "d" || var.env_short == "u" ? [
+    {
+      operation_id = "delete"
+      xml_content  = file("./api/bpd_pm_payment_instrument/mock_delete_policy.xml")
+    }
+  ] : []
+
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.pm_api_product.product_id]
