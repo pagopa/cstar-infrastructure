@@ -229,6 +229,7 @@ variable "enable" {
     tae_blob_containers                 = bool
     sender_auth                         = bool
     csv_transaction_apis                = bool
+    mock_io_api                         = bool
   })
   description = "Feature flags"
   default = {
@@ -252,6 +253,7 @@ variable "enable" {
     tae_blob_containers                 = false
     sender_auth                         = false
     csv_transaction_apis                = false
+    mock_io_api                         = false
   }
 }
 

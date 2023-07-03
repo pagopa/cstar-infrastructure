@@ -1,0 +1,343 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Mock IO TEST API",
+        "version": "1.0",
+        "description": "Mock IO API server."
+    },
+    "host": "${host}",
+    "basePath": "/rtd/mock-io",
+    "schemes": ["https"],
+    "paths": {
+        "/login": {
+            "post": {
+                "description": "Returns a token to be used in the PagoPA backend, using user's fiscalCode.",
+                "operationId": "getToken",
+                "summary": "Get user's token",
+                "tags": ["user-api-controller"],
+                "parameters": [{
+                    "name": "fiscalCode",
+                    "in": "query",
+                    "description": "fiscalCode",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "version",
+                    "in": "query",
+                    "description": "version",
+                    "type": "string"
+                }, {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Bearer Auth Token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "x-request-id",
+                    "in": "header",
+                    "description": "UUID for request identification",
+                    "type": "string"
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Found.",
+                        "schema": {
+                            "$ref": "#/definitions/BpdPagopaApiV1LoginPost200ApplicationJsonResponse"
+                        },
+                        "examples": {
+                            "application/json": "string"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    },
+                    "401": {
+                        "description": "Fiscal code null or invalid."
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "There was an error in retrieving the user data.",
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
+                            "application/json": "{\r\n  \"detail\": \"There was an error processing the request\",\r\n  \"instance\": \"string\",\r\n  \"status\": 0,\r\n  \"title\": \"string\",\r\n  \"type\": \"https://example.com/problem/constraint-violation\"\r\n}"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "description": "Returns the user data needed by PagoPA Wallet backend.",
+                "operationId": "getUser",
+                "summary": "Get user's data",
+                "tags": ["user-api-controller"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "query",
+                    "description": "token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "version",
+                    "in": "query",
+                    "description": "version",
+                    "type": "string"
+                }, {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Bearer Auth Token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "x-request-id",
+                    "in": "header",
+                    "description": "UUID for request identification",
+                    "type": "string"
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Found.",
+                        "schema": {
+                            "$ref": "#/definitions/ExtendedPagoPAUser"
+                        },
+                        "examples": {
+                            "application/json": "{\r\n  \"family_name\": \"string\",\r\n  \"fiscal_code\": \"string\",\r\n  \"mobile_phone\": \"string\",\r\n  \"name\": \"string\",\r\n  \"notice_email\": \"string\",\r\n  \"spid_email\": \"string\"\r\n}"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    },
+                    "401": {
+                        "description": "Token null or invalid."
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "There was an error in retrieving the user data.",
+                        "schema": {
+                            "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
+                            "application/json": "{\r\n  \"detail\": \"There was an error processing the request\",\r\n  \"instance\": \"string\",\r\n  \"status\": 0,\r\n  \"title\": \"string\",\r\n  \"type\": \"https://example.com/problem/constraint-violation\"\r\n}"
+                        }
+                    }
+                }
+            }
+        },
+        "/c/progetto-io/messages": {
+            "post": {
+                "description": "submitMessage",
+                "operationId": "submitMessageUsingPOST",
+                "summary": "submitMessage",
+                "tags": ["notification-controller"],
+                "parameters": [{
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Bearer Auth Token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "x-request-id",
+                    "in": "header",
+                    "description": "UUID for request identification",
+                    "type": "string"
+                }, {
+                    "name": "notificationMessage",
+                    "in": "body",
+                    "schema": {
+                        "$ref": "#/definitions/NotificationMessage"
+                    },
+                    "description": "notificationDTO"
+                }],
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CProgetto-ioMessagesPost200ApplicationJsonResponse"
+                        },
+                        "examples": {
+                            "application/json": "string"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ContentPaymentData": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "invalid_after_due_date": {
+                    "type": "boolean"
+                },
+                "notice_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "ContentPrescriptionData": {
+            "type": "object",
+            "properties": {
+                "iub": {
+                    "type": "string"
+                },
+                "nre": {
+                    "type": "string"
+                },
+                "prescriber_fiscal_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "ExtendedPagoPAUser": {
+            "description": "User data needed by PagoPA proxy with custom user email.",
+            "required": ["family_name", "fiscal_code", "name", "notice_email"],
+            "type": "object",
+            "properties": {
+                "family_name": {
+                    "type": "string"
+                },
+                "fiscal_code": {
+                    "type": "string"
+                },
+                "mobile_phone": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "notice_email": {
+                    "type": "string"
+                },
+                "spid_email": {
+                    "type": "string"
+                }
+            }
+        },
+        "MessageAddresses": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "MessageContent": {
+            "type": "object",
+            "properties": {
+                "due_date": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "markdown": {
+                    "type": "string"
+                },
+                "payment_data": {
+                    "$ref": "#/definitions/ContentPaymentData"
+                },
+                "prescription_data": {
+                    "$ref": "#/definitions/ContentPrescriptionData"
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        },
+        "NotificationMessage": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "$ref": "#/definitions/MessageContent"
+                },
+                "default_addresses": {
+                    "$ref": "#/definitions/MessageAddresses"
+                },
+                "fiscal_code": {
+                    "type": "string"
+                },
+                "time_to_live": {
+                    "format": "int64",
+                    "type": "integer"
+                }
+            },
+            "example": "{\r\n  \"content\": {\r\n    \"due_date\": \"string\",\r\n    \"markdown\": \"string\",\r\n    \"payment_data\": {\r\n      \"amount\": 0,\r\n      \"invalid_after_due_date\": true,\r\n      \"notice_number\": \"string\"\r\n    },\r\n    \"prescription_data\": {\r\n      \"iub\": \"string\",\r\n      \"nre\": \"string\",\r\n      \"prescriber_fiscal_code\": \"string\"\r\n    },\r\n    \"subject\": \"string\"\r\n  },\r\n  \"default_addresses\": {\r\n    \"email\": \"string\"\r\n  },\r\n  \"fiscal_code\": \"string\",\r\n  \"time_to_live\": 0\r\n}"
+        },
+        "ProblemJson": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "description": "A human readable explanation specific to this occurrence of the problem.",
+                    "type": "string",
+                    "example": "There was an error processing the request"
+                },
+                "instance": {
+                    "description": "An absolute URI that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
+                    "type": "string"
+                },
+                "status": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized); example: Service Unavailable",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "An absolute URI that identifies the problem type. When dereferenced, it SHOULD provide human-readable documentation for the problem type (e.g., using HTML).",
+                    "type": "string",
+                    "example": "https://example.com/problem/constraint-violation"
+                }
+            }
+        },
+        "BpdPagopaApiV1LoginPost200ApplicationJsonResponse": {
+            "type": "string"
+        },
+        "CProgetto-ioMessagesPost200ApplicationJsonResponse": {
+            "type": "string"
+        },
+        "Payment-instrumentsHpan-id-Get200ApplicationJsonResponse": {
+            "type": "string"
+        }
+    },
+    "tags": [{
+        "name": "notification-controller",
+        "description": "Notification Controller"
+    }, {
+        "name": "user-api-controller",
+        "description": "User Api Controller"
+    }]
+}
