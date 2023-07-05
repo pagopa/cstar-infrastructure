@@ -32,7 +32,7 @@ resource "azurerm_key_vault_secret" "ranking_p7m_private_key" {
   name            = "ranking-p7m-key"
   value           = tls_private_key.p7m_key[0].private_key_pem
   content_type    = "text/plain"
-  expiration_date = tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time
+  expiration_date = replace(formatdate("YYYY-MM-DD'T'hh:mm:ssZ", timeadd(tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time, "-59m59s500ms")), "+01:00", "Z")
 
   key_vault_id = data.azurerm_key_vault.kv.id
 }
@@ -41,10 +41,12 @@ resource "azurerm_key_vault_secret" "ranking_p7m_private_key" {
 resource "azurerm_key_vault_secret" "ranking_p7m_cert" {
   count = var.enable_p7m_self_sign ? 1 : 0
 
-  name            = "ranking-p7m-cert"
-  value           = tls_self_signed_cert.p7m_self_signed_cert[0].cert_pem
-  content_type    = "text/plain"
-  expiration_date = tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time
+  name         = "ranking-p7m-cert"
+  value        = tls_self_signed_cert.p7m_self_signed_cert[0].cert_pem
+  content_type = "text/plain"
+  #expiration_date = tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time
+  expiration_date = replace(formatdate("YYYY-MM-DD'T'hh:mm:ssZ", timeadd(tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time, "-59m59s500ms")), "+01:00", "Z")
 
   key_vault_id = data.azurerm_key_vault.kv.id
+
 }
