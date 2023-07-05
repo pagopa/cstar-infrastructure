@@ -13,9 +13,9 @@ paths:
       summary: Merchant create transaction
       operationId: createTransaction
       parameters:
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
-          description: Merchant ID
+          description: Merchant fiscal code
           required: true
           schema:
             type: string
@@ -51,9 +51,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
-          description: Merchant ID
+          description: Merchant fiscal code
           required: true
           schema:
             type: string
@@ -87,9 +87,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: x-merchant-id
+        - name: x-merchant-fiscalcode
           in: header
-          description: Merchant ID
+          description: Merchant fiscal code
           required: true
           schema:
             type: string
@@ -208,19 +208,17 @@ components:
     SyncTrxStatus:
       type: object
       required:
-       - id
-       - idTrxIssuer
-       - trxCode
-       - trxDate
-       - operationType
-       - amountCents
-       - amountCurrency
-       - mcc
-       - acquirerId
-       - merchantId
-       - initiativeId
-       - rejectionReasons
-       - status
+        - id
+        - idTrxIssuer
+        - trxCode
+        - trxDate
+        - operationType
+        - amountCents
+        - amountCurrency
+        - acquirerId
+        - merchantId
+        - initiativeId
+        - status
       properties:
         id:
           type: string

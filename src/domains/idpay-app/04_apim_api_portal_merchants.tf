@@ -109,7 +109,7 @@ module "idpay_merchants_notification_email_api" {
     {
       operation_id = "getInstitutionProductUserInfo"
 
-      xml_content = templatefile("./api/idpay_notification_email/get-institution-user-info-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_notification_email/get-institution-user-info-merchant-policy.xml.tpl", {
         ingress_load_balancer_hostname  = var.ingress_load_balancer_hostname,
         selc_base_url                   = var.selc_base_url,
         selc_timeout_sec                = var.selc_timeout_sec
