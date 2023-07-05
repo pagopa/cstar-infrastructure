@@ -17,7 +17,7 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${var.prefix}-CompleteOnboarding"
+  name                = "${local.project}-CompleteOnboarding"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -29,11 +29,9 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
     query                   = <<-QUERY
       let apps = dynamic(['idpay-onboarding-workflow']);
   let threshold = timespan(3h);
-  let startTime = ago(24h);
-  let endTime = now();
   let logs =
     ContainerLog
-    | where LogEntry has "[PERFORMANCE_LOG] [SAVE_CONSENT]" and LogEntry has_any (apps) and TimeGenerated between (startTime .. endTime)
+    | where LogEntry has "[PERFORMANCE_LOG] [SAVE_CONSENT]" and LogEntry has_any (apps)
     | extend
         userId = extract("userId: ([^,]+)", 1, LogEntry),
         initiativeId = extract("initiativeId: ([^,]+)", 1, LogEntry),
@@ -41,7 +39,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
     | summarize minTimestamp = min(timestamp) by userId, initiativeId;
   let completedLogs =
     ContainerLog
-    | where LogEntry has "[PERFORMANCE_LOG] [COMPLETE_ONBOARDING]" and LogEntry has_any (apps) and TimeGenerated between (startTime .. endTime)
+    | where LogEntry has "[PERFORMANCE_LOG] [COMPLETE_ONBOARDING]" and LogEntry has_any (apps)
     | extend
         userId = extract("userId: ([^,]+)", 1, LogEntry),
         initiativeId = extract("initiativeId: ([^,]+)", 1, LogEntry),
@@ -89,7 +87,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "RewardOutcomeFile" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${var.prefix}-RewardOutcomeFile"
+  name                = "${local.project}-RewardOutcomeFile"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -155,7 +153,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "RewardOutcomeFile" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CosmosServerSideRetry" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${var.prefix}-CosmosServerSideRetry"
+  name                = "${local.project}-CosmosServerSideRetry"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -165,10 +163,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CosmosServerSideRetry
   severity             = 0
   criteria {
     query                   = <<-QUERY
-      let startTime = ago(1h);
-let endTime = now();
 ContainerLog
-| where TimeGenerated between (startTime .. endTime)
 | where LogEntry has "UncategorizedMongoDbException: Request timed out. Retries due to rate limiting: True"
 | summarize count() by LogEntry, TimeGenerated
 | count
@@ -204,7 +199,7 @@ ContainerLog
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CreateTransaction" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${var.prefix}-CreateTransaction"
+  name                = "${local.project}-CreateTransaction"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -214,18 +209,14 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CreateTransaction" {
   severity             = 0
   criteria {
     query                   = <<-QUERY
-let startTime = ago(1d);
-let endTime = now();
-let operationName = dynamic(["d-idpay-qr-code-payment-acquirer;rev=1 - createTransaction",
-"d-idpay-merchants-portal;rev=1 - createTransaction",
-"d-idpay-mil;rev=1 - createTransaction"]);
+let operationName = dynamic(["${var.env_short}-idpay-qr-code-payment-acquirer;rev=1 - createTransaction",
+"${var.env_short}-idpay-merchants-portal;rev=1 - createTransaction",
+"${var.env_short}-idpay-mil;rev=1 - createTransaction"]);
 let totalCount =
     requests
-| where timestamp between (startTime .. endTime)
 | where operation_Name in (operationName)
 | summarize Total = count() by operation_Name;
 let data = requests
-| where timestamp between (startTime .. endTime)
 | where operation_Name in (operationName)
 | where success == false;
 data
@@ -268,7 +259,7 @@ data
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "GeneratePaymentFile_csv_zip" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${var.prefix}-GeneratePaymentFile_csv_zip"
+  name                = "${local.project}-GeneratePaymentFile_csv_zip"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -278,10 +269,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "GeneratePaymentFile_c
   severity             = 0
   criteria {
     query                   = <<-QUERY
-  let startTime = ago(1d);
-let endTime = now();
 ContainerLog
-| where TimeGenerated between (startTime .. endTime)
 | where LogEntry has "ERROR" and LogEntry has "[REWARD_NOTIFICATION_EXPORT_CSV]"
 | summarize count() by LogEntry, TimeGenerated
 | count
@@ -317,7 +305,7 @@ ContainerLog
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "apps_exception" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${var.prefix}-apps-exception"
+  name                = "${local.project}-apps-exception"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -327,10 +315,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "apps_exception" {
   severity             = 0
   criteria {
     query                   = <<-QUERY
-let startTime = ago(1h);
-let endTime = now();
 exceptions
-| where timestamp between (startTime .. endTime)
 | where operation_Name has "idpay"
 | summarize count() by operation_Name, timestamp
 | count
