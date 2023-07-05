@@ -243,14 +243,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
-        - amount
         - accrued
-        - circuitType
-        - idTrxIssuer
-        - idTrxAcquirer
         - status
       properties:
         operationId:
@@ -259,6 +252,8 @@ components:
           enum:
             - TRANSACTION
             - REVERSAL
+          type: string
+        eventId:
           type: string
         brandLogo:
           type: string
@@ -275,7 +270,10 @@ components:
           format: date-time
         circuitType:
           type: string
-          description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+          description: >-
+            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
+            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
+            09->Satispay, 10->PrivateCircuit
         idTrxIssuer:
           type: string
         idTrxAcquirer:
@@ -291,6 +289,8 @@ components:
           enum:
             - RTD
             - QRCODE
+        businessName:
+          type: string
     InstrumentOperationDTO:
       type: object
       required:
@@ -387,12 +387,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
-        - amount
         - accrued
-        - circuitType
         - status
       properties:
         operationId:
@@ -401,6 +396,8 @@ components:
           enum:
             - TRANSACTION
             - REVERSAL
+          type: string
+        eventId:
           type: string
         operationDate:
           type: string
@@ -417,7 +414,10 @@ components:
           type: number
         circuitType:
           type: string
-          description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
+          description: >-
+            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
+            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
+            09->Satispay, 10->PrivateCircuit
         status:
           type: string
           enum:
@@ -429,6 +429,8 @@ components:
           enum:
             - RTD
             - QRCODE
+        businessName:
+          type: string
     SuspendOperationDTO:
       type: object
       required:
