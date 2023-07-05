@@ -1918,6 +1918,8 @@ components:
           enum:
             - RTD
             - QRCODE
+        businessName:
+          type: string
     InstrumentOperationDTO:
       type: object
       required:
@@ -2031,7 +2033,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - accrued
+        - amount
       properties:
         operationId:
           type: string
@@ -2089,7 +2091,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - amount
+        - accrued
         - status
       properties:
         operationId:
@@ -2131,6 +2133,8 @@ components:
           enum:
             - RTD
             - QRCODE
+        businessName:
+          type: string
     IbanPutDTO:
       title: IbanPutDTO
       type: object
