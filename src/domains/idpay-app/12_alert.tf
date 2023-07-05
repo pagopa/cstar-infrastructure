@@ -278,7 +278,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "GeneratePaymentFile_c
   severity             = 0
   criteria {
     query                   = <<-QUERY
-  let startTime = ago(365d);
+  let startTime = ago(1d);
 let endTime = now();
 ContainerLog
 | where TimeGenerated between (startTime .. endTime)
