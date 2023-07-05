@@ -35,6 +35,13 @@ resource "azurerm_key_vault_secret" "ranking_p7m_private_key" {
   expiration_date = tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time
 
   key_vault_id = data.azurerm_key_vault.kv.id
+
+  lifecycle {
+    ignore_changes = [
+      expiration_date
+    ]
+  }
+
 }
 
 #tfsec:ignore:azure-keyvault-ensure-secret-expiry
@@ -47,4 +54,11 @@ resource "azurerm_key_vault_secret" "ranking_p7m_cert" {
   expiration_date = tls_self_signed_cert.p7m_self_signed_cert[0].validity_end_time
 
   key_vault_id = data.azurerm_key_vault.kv.id
+
+  lifecycle {
+    ignore_changes = [
+      expiration_date
+    ]
+  }
+
 }
