@@ -53,6 +53,13 @@ module "idpay_mil" {
       xml_content = templatefile("./api/idpay_mil/get-merchant-initiatives-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "uploadMerchantList"
+
+      xml_content = templatefile("./api/idpay_mil/put-merchant-upload-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 

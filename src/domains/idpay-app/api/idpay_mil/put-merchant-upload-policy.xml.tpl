@@ -14,11 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaymerchant/" />
-            <set-variable name="varUserIdFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
-            <set-header name="organization-user-id" exists-action="override">
-                <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
-            </set-header>
-        <rewrite-uri template="@("/idpay/merchant/entity/"+((Jwt)context.Variables["validatedToken"])+"/initiative/{initiativeId}/upload")" />
+        <rewrite-uri template="@("/idpay/merchant/entity/"+(context.Variables["acquirerId"])+"/initiative/{initiativeId}/upload")" />
     </inbound>
     <backend>
         <base />
