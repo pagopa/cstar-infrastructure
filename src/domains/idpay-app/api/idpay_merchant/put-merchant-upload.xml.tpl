@@ -18,7 +18,7 @@
             <set-header name="organization-user-id" exists-action="override">
                 <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
             </set-header>
-        <rewrite-uri template="@("/idpay/merchant/entity/"+((Jwt)context.Variables["validatedToken"])+"/initiative/{initiativeId}/upload")" />
+        <rewrite-uri template="@("/idpay/merchant/organization/"+((Jwt)context.Variables["validatedToken"])+"/initiative/{initiativeId}/upload")" />
     </inbound>
     <backend>
         <base />

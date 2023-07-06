@@ -55,6 +55,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
       requestBody:
         content:
           multipart/form-data:
