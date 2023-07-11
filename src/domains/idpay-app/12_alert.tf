@@ -340,7 +340,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ErrorsEventHub" {
       values =  [
         "idpay-errors"
       ]
-    },
+    }
     threshold = 0,
     operator =  "GreaterThan"
     timeAggregation =  "Total"
