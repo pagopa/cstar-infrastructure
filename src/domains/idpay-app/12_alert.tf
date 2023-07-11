@@ -331,19 +331,19 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ErrorsEventHub" {
   scopes               = [data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id]
   severity             = 0
   criteria {
-    name = "Metric1",
-    metricNamespace = "microsoft.eventhub/namespaces",
-    metricName = "IncomingMessages",
+    name = "Metric1"
+    metricNamespace = "microsoft.eventhub/namespaces"
+    metricName = "IncomingMessages"
     dimensions {
-      name = "EntityName",
-      operator =  "Include",
+      name = "EntityName"
+      operator =  "Include"
       values =  [
         "idpay-errors"
       ]
     },
     threshold = 0,
-    operator =  "GreaterThan",
-    timeAggregation =  "Total",
+    operator =  "GreaterThan"
+    timeAggregation =  "Total"
     criterionType = "StaticThresholdCriterion"
   }
 
