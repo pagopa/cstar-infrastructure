@@ -341,7 +341,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ErrorsEventHub" {
         "idpay-errors"
       ]
     }
-    threshold = 0,
+    threshold = 0
     operator =  "GreaterThan"
     timeAggregation =  "Total"
     criterionType = "StaticThresholdCriterion"
