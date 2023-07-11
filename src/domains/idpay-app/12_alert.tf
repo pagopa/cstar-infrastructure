@@ -264,3 +264,104 @@ data
 
   tags = var.tags
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "AvailabiltyIdPay" {
+
+  count               = var.idpay_alert_enabled ? 1 : 0
+  name                = format("%s-AvailabiltyIdPay", var.prefix)
+  location            = data.azurerm_resource_group.monitor_rg.location
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      let interval = totimespan(1m);
+      let tot = AzureDiagnostics
+          | where requestUri_s has 'idpay'
+          | summarize tot = todouble(count()) by bin(TimeGenerated, interval);
+      let y = AzureDiagnostics
+          | where requestUri_s has 'idpay'
+          | where httpStatus_d < 400 or httpStatus_d == 404
+          | summarize n_ok=count() by bin(TimeGenerated, interval);
+      y
+      | join kind=inner tot on TimeGenerated
+      | project TimeGenerated, availability = n_ok / tot
+      QUERY
+    time_aggregation_method = "Average"
+    threshold               = 0.99
+    operator                = "LessThan"
+    metric_measure_column   = "availability"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Trigger alert when Idpay's Availabilty is less than 0.99"
+  display_name                     = "${var.domain}-${var.env_short}-AvailabiltyIdPay"
+  enabled                          = true
+  query_time_range_override        = "P2D"
+  skip_query_validation            = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.slackIdpay[0].id
+    ]
+    custom_properties = {}
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ErrorsEventHub" {
+
+  count               = var.idpay_alert_enabled ? 1 : 0
+  name                = format("%s-ErrorsEventHub", var.prefix)
+  location            = data.azurerm_resource_group.monitor_rg.location
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+
+  evaluation_frequency = "PT1H"
+  window_duration      = "P1D"
+  // TODO CHECK
+  scopes               = [data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id]
+  severity             = 0
+  criteria {
+    name = "Metric1",
+    metricNamespace = "microsoft.eventhub/namespaces",
+    metricName = "IncomingMessages",
+    dimensions {
+      name = "EntityName",
+      operator =  "Include",
+      values =  [
+        "idpay-errors"
+      ]
+    },
+    threshold = 0,
+    operator =  "GreaterThan",
+    timeAggregation =  "Total",
+    criterionType = "StaticThresholdCriterion"
+  }
+
+  // TODO CHECK
+  targetResourceType = "Microsoft.EventHub/namespaces"
+  targetResourceRegion =  "westeurope"
+
+  auto_mitigation_enabled          = true
+  workspace_alerts_storage_enabled = false
+  description                      = "Trigger alert when idpay-errors has some messages"
+  display_name                     = "${var.domain}-${var.env_short}-ErrorsEventHub"
+  enabled                          = true
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.slackIdpay[0].id
+    ]
+    custom_properties = {}
+  }
+
+  tags = var.tags
+}
