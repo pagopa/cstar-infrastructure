@@ -133,6 +133,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_link_to_pair" 
   virtual_network_id    = module.vnet_pair.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_aks_link" {
+  for_each              = { for vnet_aks_domain in module.vnet_aks : vnet_aks_domain.name => vnet_aks_domain.id }
+  name                  = "${each.key}-blobstorage-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = each.value
+}
+
 resource "azurerm_private_dns_a_record" "storage_account_tkm" {
   count = var.dns_storage_account_tkm != null ? 1 : 0
 
