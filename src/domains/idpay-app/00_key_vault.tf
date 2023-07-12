@@ -3,6 +3,7 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = "${local.product}-${var.domain}-sec-rg"
 }
 
+
 resource "azurerm_key_vault_access_policy" "apim" {
   key_vault_id = data.azurerm_key_vault.kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
