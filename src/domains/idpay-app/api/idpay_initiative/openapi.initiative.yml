@@ -139,12 +139,12 @@ paths:
                   operator: EQ
                   checked: false
                 - code: BIRTHDATE
-                  authority: AUTH1
+                  authority: AGID
                   field: Year
                   operator: EQ
                   checked: false
                 - code: RESIDENCE
-                  authority: AUTH2
+                  authority: AGID
                   field: City
                   operator: EQ
                   checked: false
