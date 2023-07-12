@@ -268,7 +268,7 @@ data
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "AvailabiltyIdPay" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-AvailabiltyIdPay", var.prefix)
+  name                = "${local.project}-AvailabiltyIdPay"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -318,49 +318,34 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "AvailabiltyIdPay" {
   tags = var.tags
 }
 
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ErrorsEventHub" {
-
+resource "azurerm_monitor_metric_alert" "ErrorsTopic" {
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-ErrorsEventHub", var.prefix)
-  location            = data.azurerm_resource_group.monitor_rg.location
+  name                = "${local.project}-ErrorsTopic"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
-  evaluation_frequency = "PT1H"
-  window_duration      = "P1D"
-  // TODO CHECK
-  scopes               = [data.azurerm_eventhub.eventhub_idpay_reward_notification_storage_events.id]
-  severity             = 0
+  scopes      = [data.azurerm_eventhub_namespace.evh_01_namespace.id]
+  severity    = 0
+  frequency   = "PT1H"
+  window_size = "PT1H"
   criteria {
-    name = "Metric1"
-    metricNamespace = "microsoft.eventhub/namespaces"
-    metricName = "IncomingMessages"
-    dimensions {
-      name = "EntityName"
-      operator =  "Include"
-      values =  [
+    metric_namespace = "Microsoft.EventHub/namespaces"
+    metric_name      = "IncomingMessages"
+    dimension {
+      name     = "EntityName"
+      operator = "Include"
+      values = [
         "idpay-errors"
       ]
     }
-    threshold = 0
-    operator =  "GreaterThan"
-    timeAggregation =  "Total"
-    criterionType = "StaticThresholdCriterion"
+    aggregation = "Count"
+    threshold   = 0
+    operator    = "GreaterThan"
   }
 
-  // TODO CHECK
-  targetResourceType = "Microsoft.EventHub/namespaces"
-  targetResourceRegion =  "westeurope"
-
-  auto_mitigation_enabled          = true
-  workspace_alerts_storage_enabled = false
-  description                      = "Trigger alert when idpay-errors has some messages"
-  display_name                     = "${var.domain}-${var.env_short}-ErrorsEventHub"
-  enabled                          = true
+  description = "Trigger alert when idpay-errors has some messages"
+  enabled     = true
   action {
-    action_groups = [
-      azurerm_monitor_action_group.slackIdpay[0].id
-    ]
-    custom_properties = {}
+    action_group_id = azurerm_monitor_action_group.slackIdpay[0].id
   }
 
   tags = var.tags
