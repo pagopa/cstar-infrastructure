@@ -498,7 +498,7 @@ locals {
         keys   = ["trxCode"]
         unique = false
         }, {
-        keys   = ["trxChargeDate"]
+        keys   = ["trxDate"]
         unique = false
         }, {
         keys   = ["updateDate"]
