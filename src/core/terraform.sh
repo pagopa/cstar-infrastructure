@@ -1,1 +1,4 @@
-../../scripts/terraform.sh
+#!/bin/bash
+
+# shellcheck source=/dev/null
+source ../../scripts/terraform.sh
