@@ -182,6 +182,7 @@
 | [azurerm_private_dns_zone_virtual_network_link.storage_account_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.storage_account_vnet_integration](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.storage_link_to_pair](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.storage_private_endpoint_aks_link](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_endpoint.backupstorage_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_endpoint) | resource |
 | [azurerm_private_endpoint.blob_storage_pe](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_endpoint) | resource |
 | [azurerm_private_endpoint.evh-cstar-vnet-private-endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_endpoint) | resource |
