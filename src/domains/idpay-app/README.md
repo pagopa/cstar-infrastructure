@@ -119,7 +119,9 @@
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CompleteOnboarding](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CosmosServerSideRetry](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CreateTransaction](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.GeneratePaymentFile_csv_zip](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.RewardOutcomeFile](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.apps_exception](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/private_dns_a_record) | resource |
 | [azurerm_private_endpoint.idpay_audit_storage_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/private_endpoint) | resource |
 | [azurerm_private_endpoint.idpay_initiative_storage_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/private_endpoint) | resource |
