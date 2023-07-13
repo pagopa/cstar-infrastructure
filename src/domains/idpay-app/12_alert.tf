@@ -265,10 +265,10 @@ data
   tags = var.tags
 }
 
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "AvailabiltyIdPay" {
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "Availability" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${local.project}-AvailabiltyIdPay"
+  name                = "${local.project}-Availability"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -303,8 +303,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "AvailabiltyIdPay" {
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Trigger alert when Idpay's Availabilty is less than 0.99"
-  display_name                     = "${var.domain}-${var.env_short}-AvailabiltyIdPay"
+  description                      = "Trigger alert when Availability is less than 0.99"
+  display_name                     = "${var.domain}-${var.env_short}-Availability"
   enabled                          = true
   query_time_range_override        = "P2D"
   skip_query_validation            = false
