@@ -36,6 +36,32 @@ module "idpay_audit_storage" {
   tags = var.tags
 }
 
+resource "azurerm_private_endpoint" "idpay_audit_storage_private_endpoint" {
+
+  name                = "${local.product}-audit-storage-private-endpoint"
+  location            = var.location
+  resource_group_name = data.azurerm_log_analytics_workspace.log_analytics.resource_group_name
+  subnet_id           = data.azurerm_subnet.private_endpoint_subnet.id
+
+  private_dns_zone_group {
+    name                 = "${local.product}-audit-storage-private-dns-zone-group"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.storage_account.id]
+  }
+
+  private_service_connection {
+    name                           = "${local.product}-audit-storage-private-service-connection"
+    private_connection_resource_id = module.idpay_audit_storage.id
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
+  }
+
+  tags = var.tags
+
+  depends_on = [
+    module.idpay_audit_storage
+  ]
+}
+
 
 # Set legal hold on container created by azure monitor with the data exporter (the name is fixed and definid by the exporter)
 resource "null_resource" "idpay_audit_lh" {
