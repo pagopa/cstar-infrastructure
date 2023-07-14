@@ -181,14 +181,19 @@
             "delimiter": ",",
             "isHiddenWhenLocked": true,
             "typeSettings": {
-              "additionalResourceOptions": [],
+              "additionalResourceOptions": [
+                "value::all"
+              ],
               "showDefault": false
             },
             "jsonData": "[\r\n    {\"value\": \"getIban\", \"selected\": true},\r\n    {\"value\": \"getIbanList\", \"selected\": true},\r\n    {\"value\": \"getWallet\", \"selected\": true},\r\n    {\"value\": \"getWalletDetail\", \"selected\": true},\r\n    {\"value\": \"enrollIban\", \"selected\": true},\r\n    {\"value\": \"enrollInstrument\", \"selected\": true},\r\n    {\"value\": \"getInstrumentList\", \"selected\": true},\r\n    {\"value\": \"deleteInstrument\", \"selected\": true},\r\n    {\"value\": \"unsubscribe\", \"selected\": true},\r\n    {\"value\": \"getWalletStatus\", \"selected\": true},\r\n    {\"value\": \"getInitiativesWithInstrument\", \"selected\": true},\r\n    {\"value\": \"getTimeline\", \"selected\": true},\r\n    {\"value\": \"getTimelineDetail\", \"selected\": true},\r\n    {\"value\": \"getInitiativeData\", \"selected\": true},\r\n    {\"value\": \"onboardingCitizen\", \"selected\": true},\r\n    {\"value\": \"checkPrerequisites\", \"selected\": true},\r\n    {\"value\": \"consentOnboarding\", \"selected\": true},\r\n    {\"value\": \"onboardingStatus\", \"selected\": true}\r\n]",
             "timeContext": {
               "durationMs": 0
             },
-            "timeContextFromParameter": "timeRange"
+            "timeContextFromParameter": "timeRange",
+            "value": [
+              "value::all"
+            ]
           },
           {
             "id": "789c75b9-40fe-4ad2-a3e3-1ad2a057bf08",
@@ -200,14 +205,19 @@
             "delimiter": ",",
             "isHiddenWhenLocked": true,
             "typeSettings": {
-              "additionalResourceOptions": [],
+              "additionalResourceOptions": [
+                "value::all"
+              ],
               "showDefault": false
             },
             "jsonData": "[\r\n    {\"value\": \"sendEmail\", \"selected\": true},\r\n    {\"value\": \"getInstitutionProductUserInfo\", \"selected\": true},\r\n    {\"value\": \"uploadGroupOfBeneficiary\", \"selected\": true},\r\n    {\"value\": \"getGroupOfBeneficiaryStatusAndDetails\", \"selected\": true},\r\n    {\"value\": \"getCitizenStatusForInitiative\", \"selected\": true},\r\n    {\"value\": \"getInitiativeBeneficiaryView\", \"selected\": true},\r\n    {\"value\": \"getListOfOrganization\", \"selected\": true},\r\n    {\"value\": \"getInitativeSummary\", \"selected\": true},\r\n    {\"value\": \"getBeneficiaryConfigRules\", \"selected\": true},\r\n    {\"value\": \"getTransactionConfigRules\", \"selected\": true},\r\n    {\"value\": \"getMccConfig\", \"selected\": true},\r\n    {\"value\": \"initiativeStatistics\", \"selected\": true},\r\n    {\"value\": \"getInitiativeDetail\", \"selected\": true},\r\n    {\"value\": \"getIban\", \"selected\": true},\r\n    {\"value\": \"getTimeline\", \"selected\": true},\r\n    {\"value\": \"getTimelineDetail\", \"selected\": true},\r\n    {\"value\": \"getWalletDetail\", \"selected\": true},\r\n    {\"value\": \"getInstrumentList\", \"selected\": true},\r\n    {\"value\": \"logicallyDeleteInitiative\", \"selected\": true},\r\n    {\"value\": \"uploadAndUpdateLogo\", \"selected\": true},\r\n    {\"value\": \"saveInitiativeServiceInfo\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeServiceInfo\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeGeneralInfo\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeBeneficiary\", \"selected\": true},\r\n    {\"value\": \"updateTrxAndRewardRules\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeRefundRule\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeGeneralInfoDraft\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeBeneficiaryDraft\", \"selected\": true},\r\n    {\"value\": \"updateTrxAndRewardRulesDraft\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeRefundRuleDraft\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeApprovedStatus\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeToCheckStatus\", \"selected\": true},\r\n    {\"value\": \"updateInitiativePublishedStatus\", \"selected\": true},\r\n    {\"value\": \"getOnboardingStatus\", \"selected\": true},\r\n    {\"value\": \"getInitiativeOnboardingRankingStatusPaged\", \"selected\": true},\r\n    {\"value\": \"getRankingFileDownload\", \"selected\": true},\r\n    {\"value\": \"notifyCitizenRankings\", \"selected\": true},\r\n    {\"value\": \"getRewardNotificationExportsPaged\", \"selected\": true},\r\n    {\"value\": \"getRewardNotificationImportsPaged\", \"selected\": true},\r\n    {\"value\": \"getRewardFileDownload\", \"selected\": true},\r\n    {\"value\": \"putDispFileUpload\", \"selected\": true},\r\n    {\"value\": \"getDispFileErrors\", \"selected\": true},\r\n    {\"value\": \"getExportSummary\", \"selected\": true},\r\n    {\"value\": \"getExportRefundsListPaged\", \"selected\": true},\r\n    {\"value\": \"getRefundDetail\", \"selected\": true},\r\n    {\"value\": \"getPagoPaAdminToken\", \"selected\": true},\r\n    {\"value\": \"userPermission\", \"selected\": true},\r\n    {\"value\": \"saveConsent\", \"selected\": true},\r\n    {\"value\": \"retrieveConsent\", \"selected\": true}\r\n]",
             "timeContext": {
               "durationMs": 0
             },
-            "timeContextFromParameter": "timeRange"
+            "timeContextFromParameter": "timeRange",
+            "value": [
+              "value::all"
+            ]
           },
           {
             "id": "3afa2d0e-bc7c-415d-ab17-0ebe4b496fcc",
@@ -219,14 +229,19 @@
             "delimiter": ",",
             "isHiddenWhenLocked": true,
             "typeSettings": {
-              "additionalResourceOptions": [],
+              "additionalResourceOptions": [
+                "value::all"
+              ],
               "showDefault": false
             },
             "jsonData": "[\r\n\t{\"value\": \"uploadMerchantList\", \"selected\": true},\r\n\t{\"value\": \"getMerchantList\", \"selected\": true},\r\n\t{\"value\": \"getMerchantInitiativeList\", \"selected\": true},\r\n\t{\"value\": \"getMerchantDetail\", \"selected\": true}\r\n]",
             "timeContext": {
               "durationMs": 0
             },
-            "timeContextFromParameter": "timeRange"
+            "timeContextFromParameter": "timeRange",
+            "value": [
+              "value::all"
+            ]
           },
           {
             "id": "22f2e1f5-d0f8-4761-bed0-b4951357f2e5",
@@ -238,14 +253,19 @@
             "delimiter": ",",
             "isHiddenWhenLocked": true,
             "typeSettings": {
-              "additionalResourceOptions": [],
+              "additionalResourceOptions": [
+                "value::all"
+              ],
               "showDefault": false
             },
             "jsonData": "[\r\n    {\"value\": \"createTransaction\", \"selected\": true},\r\n    {\"value\": \"putPreAuthPayment\", \"selected\": true},\r\n    {\"value\": \"putAuthPayment\", \"selected\": true},\r\n    {\"value\": \"confirmPaymentQRCode\", \"selected\": true},\r\n    {\"value\": \"getTransaction\", \"selected\": true},\r\n    {\"value\": \"getStatusTransaction\", \"selected\": true}\r\n]",
             "timeContext": {
               "durationMs": 0
             },
-            "timeContextFromParameter": "timeRange"
+            "timeContextFromParameter": "timeRange",
+            "value": [
+              "value::all"
+            ]
           },
           {
             "id": "49e10ca9-6da1-49a0-9ddd-9e8bd017d51c",
@@ -257,14 +277,19 @@
             "delimiter": ",",
             "isHiddenWhenLocked": true,
             "typeSettings": {
-              "additionalResourceOptions": [],
+              "additionalResourceOptions": [
+                "value::all"
+              ],
               "showDefault": false
             },
             "jsonData": "[\r\n    {\"value\": \"getIban\", \"selected\": true},\r\n    {\"value\": \"getIbanList\", \"selected\": true},\r\n    {\"value\": \"getWallet\", \"selected\": true},\r\n    {\"value\": \"getWalletDetail\", \"selected\": true},\r\n    {\"value\": \"enrollIban\", \"selected\": true},\r\n    {\"value\": \"enrollInstrument\", \"selected\": true},\r\n    {\"value\": \"getInstrumentList\", \"selected\": true},\r\n    {\"value\": \"deleteInstrument\", \"selected\": true},\r\n    {\"value\": \"unsubscribe\", \"selected\": true},\r\n    {\"value\": \"getWalletStatus\", \"selected\": true},\r\n    {\"value\": \"getInitiativesWithInstrument\", \"selected\": true},\r\n    {\"value\": \"getTimeline\", \"selected\": true},\r\n    {\"value\": \"getTimelineDetail\", \"selected\": true},\r\n    {\"value\": \"getInitiativeData\", \"selected\": true},\r\n    {\"value\": \"onboardingCitizen\", \"selected\": true},\r\n    {\"value\": \"checkPrerequisites\", \"selected\": true},\r\n    {\"value\": \"consentOnboarding\", \"selected\": true},\r\n    {\"value\": \"onboardingStatus\", \"selected\": true},\r\n\r\n    {\"value\": \"sendEmail\", \"selected\": true},\r\n    {\"value\": \"getInstitutionProductUserInfo\", \"selected\": true},\r\n    {\"value\": \"uploadGroupOfBeneficiary\", \"selected\": true},\r\n    {\"value\": \"getGroupOfBeneficiaryStatusAndDetails\", \"selected\": true},\r\n    {\"value\": \"getCitizenStatusForInitiative\", \"selected\": true},\r\n    {\"value\": \"getInitiativeBeneficiaryView\", \"selected\": true},\r\n    {\"value\": \"getListOfOrganization\", \"selected\": true},\r\n    {\"value\": \"getInitativeSummary\", \"selected\": true},\r\n    {\"value\": \"getBeneficiaryConfigRules\", \"selected\": true},\r\n    {\"value\": \"getTransactionConfigRules\", \"selected\": true},\r\n    {\"value\": \"getMccConfig\", \"selected\": true},\r\n    {\"value\": \"initiativeStatistics\", \"selected\": true},\r\n    {\"value\": \"getInitiativeDetail\", \"selected\": true},\r\n    {\"value\": \"getIban\", \"selected\": true},\r\n    {\"value\": \"getTimeline\", \"selected\": true},\r\n    {\"value\": \"getTimelineDetail\", \"selected\": true},\r\n    {\"value\": \"getWalletDetail\", \"selected\": true},\r\n    {\"value\": \"getInstrumentList\", \"selected\": true},\r\n    {\"value\": \"logicallyDeleteInitiative\", \"selected\": true},\r\n    {\"value\": \"uploadAndUpdateLogo\", \"selected\": true},\r\n    {\"value\": \"saveInitiativeServiceInfo\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeServiceInfo\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeGeneralInfo\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeBeneficiary\", \"selected\": true},\r\n    {\"value\": \"updateTrxAndRewardRules\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeRefundRule\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeGeneralInfoDraft\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeBeneficiaryDraft\", \"selected\": true},\r\n    {\"value\": \"updateTrxAndRewardRulesDraft\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeRefundRuleDraft\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeApprovedStatus\", \"selected\": true},\r\n    {\"value\": \"updateInitiativeToCheckStatus\", \"selected\": true},\r\n    {\"value\": \"updateInitiativePublishedStatus\", \"selected\": true},\r\n    {\"value\": \"getOnboardingStatus\", \"selected\": true},\r\n    {\"value\": \"getInitiativeOnboardingRankingStatusPaged\", \"selected\": true},\r\n    {\"value\": \"getRankingFileDownload\", \"selected\": true},\r\n    {\"value\": \"notifyCitizenRankings\", \"selected\": true},\r\n    {\"value\": \"getRewardNotificationExportsPaged\", \"selected\": true},\r\n    {\"value\": \"getRewardNotificationImportsPaged\", \"selected\": true},\r\n    {\"value\": \"getRewardFileDownload\", \"selected\": true},\r\n    {\"value\": \"putDispFileUpload\", \"selected\": true},\r\n    {\"value\": \"getDispFileErrors\", \"selected\": true},\r\n    {\"value\": \"getExportSummary\", \"selected\": true},\r\n    {\"value\": \"getExportRefundsListPaged\", \"selected\": true},\r\n    {\"value\": \"getRefundDetail\", \"selected\": true},\r\n    {\"value\": \"getPagoPaAdminToken\", \"selected\": true},\r\n    {\"value\": \"userPermission\", \"selected\": true},\r\n    {\"value\": \"saveConsent\", \"selected\": true},\r\n    {\"value\": \"retrieveConsent\", \"selected\": true},\r\n\r\n    {\"value\": \"uploadMerchantList\", \"selected\": true},\r\n\t{\"value\": \"getMerchantList\", \"selected\": true},\r\n\t{\"value\": \"getMerchantInitiativeList\", \"selected\": true},\r\n\t{\"value\": \"getMerchantDetail\", \"selected\": true},\r\n\r\n    {\"value\": \"createTransaction\", \"selected\": true},\r\n    {\"value\": \"putPreAuthPayment\", \"selected\": true},\r\n    {\"value\": \"putAuthPayment\", \"selected\": true},\r\n    {\"value\": \"confirmPaymentQRCode\", \"selected\": true},\r\n    {\"value\": \"getTransaction\", \"selected\": true},\r\n    {\"value\": \"getStatusTransaction\", \"selected\": true}\r\n]",
             "timeContext": {
               "durationMs": 0
             },
-            "timeContextFromParameter": "timeRange"
+            "timeContextFromParameter": "timeRange",
+            "value": [
+              "value::all"
+            ]
           },
           {
             "id": "8fa882e8-6681-4e02-ad8d-886ee80b1542",
@@ -672,7 +697,7 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeOverall:start};\nlet endTime = {timeRangeOverall:end};\nlet interval = totimespan({timeSpan:label});\n\nlet tot = AzureDiagnostics\n| where requestUri_s has 'idpay'\n| summarize tot = todouble(count()) by bin(TimeGenerated, interval);\nlet y = AzureDiagnostics\n| where requestUri_s has 'idpay'\n| where httpStatus_d < 400 or httpStatus_d == 404\n| summarize n_ok=count() by bin(TimeGenerated, interval);\ny\n| join kind=inner tot  on TimeGenerated | project TimeGenerated, availability = n_ok/tot\n",
+                    "query": "let startTime = {timeRangeOverall:start};\nlet endTime = {timeRangeOverall:end};\nlet interval = totimespan({timeSpan:label});\n\nlet tot = AzureDiagnostics\n| where TimeGenerated between (startTime .. endTime) \n| where requestUri_s has 'idpay'\n| summarize tot = todouble(count()) by bin(TimeGenerated, interval);\nlet y = AzureDiagnostics\n| where requestUri_s has 'idpay'\n| where httpStatus_d < 400 or httpStatus_d == 404\n| summarize n_ok=count() by bin(TimeGenerated, interval);\ny\n| join kind=inner tot  on TimeGenerated | project TimeGenerated, availability = n_ok/tot\n",
                     "size": 0,
                     "aggregation": 3,
                     "showAnalytics": true,
