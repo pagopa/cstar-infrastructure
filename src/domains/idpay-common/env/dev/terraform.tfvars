@@ -414,4 +414,4 @@ aks_vnet = {
 }
 
 
-redis_public_network_access_enabled = true
+redis_public_network_access_enabled = false

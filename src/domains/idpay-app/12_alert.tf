@@ -17,7 +17,7 @@ resource "azurerm_monitor_action_group" "slackIdpay" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-CompleteOnboarding", var.prefix)
+  name                = "${local.project}-CompleteOnboarding"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -29,11 +29,9 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
     query                   = <<-QUERY
       let apps = dynamic(['idpay-onboarding-workflow']);
   let threshold = timespan(3h);
-  let startTime = ago(24h);
-  let endTime = now();
   let logs =
     ContainerLog
-    | where LogEntry has "[PERFORMANCE_LOG] [SAVE_CONSENT]" and LogEntry has_any (apps) and TimeGenerated between (startTime .. endTime)
+    | where LogEntry has "[PERFORMANCE_LOG] [SAVE_CONSENT]" and LogEntry has_any (apps)
     | extend
         userId = extract("userId: ([^,]+)", 1, LogEntry),
         initiativeId = extract("initiativeId: ([^,]+)", 1, LogEntry),
@@ -41,7 +39,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
     | summarize minTimestamp = min(timestamp) by userId, initiativeId;
   let completedLogs =
     ContainerLog
-    | where LogEntry has "[PERFORMANCE_LOG] [COMPLETE_ONBOARDING]" and LogEntry has_any (apps) and TimeGenerated between (startTime .. endTime)
+    | where LogEntry has "[PERFORMANCE_LOG] [COMPLETE_ONBOARDING]" and LogEntry has_any (apps)
     | extend
         userId = extract("userId: ([^,]+)", 1, LogEntry),
         initiativeId = extract("initiativeId: ([^,]+)", 1, LogEntry),
@@ -89,7 +87,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CompleteOnboarding" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "RewardOutcomeFile" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-RewardOutcomeFile", var.prefix)
+  name                = "${local.project}-RewardOutcomeFile"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -155,7 +153,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "RewardOutcomeFile" {
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CosmosServerSideRetry" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-CosmosServerSideRetry", var.prefix)
+  name                = "${local.project}-CosmosServerSideRetry"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -165,10 +163,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CosmosServerSideRetry
   severity             = 0
   criteria {
     query                   = <<-QUERY
-      let startTime = ago(1h);
-let endTime = now();
 ContainerLog
-| where TimeGenerated between (startTime .. endTime)
 | where LogEntry has "UncategorizedMongoDbException: Request timed out. Retries due to rate limiting: True"
 | summarize count() by LogEntry, TimeGenerated
 | count
@@ -204,7 +199,7 @@ ContainerLog
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CreateTransaction" {
 
   count               = var.idpay_alert_enabled ? 1 : 0
-  name                = format("%s-CreateTransaction", var.prefix)
+  name                = "${local.project}-CreateTransaction"
   location            = data.azurerm_resource_group.monitor_rg.location
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
 
@@ -214,18 +209,14 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "CreateTransaction" {
   severity             = 0
   criteria {
     query                   = <<-QUERY
-let startTime = ago(1d);
-let endTime = now();
-let operationName = dynamic(["d-idpay-qr-code-payment-acquirer;rev=1 - createTransaction",
-"d-idpay-merchants-portal;rev=1 - createTransaction",
-"d-idpay-mil;rev=1 - createTransaction"]);
+let operationName = dynamic(["${var.env_short}-idpay-qr-code-payment-acquirer;rev=1 - createTransaction",
+"${var.env_short}-idpay-merchants-portal;rev=1 - createTransaction",
+"${var.env_short}-idpay-mil;rev=1 - createTransaction"]);
 let totalCount =
     requests
-| where timestamp between (startTime .. endTime)
 | where operation_Name in (operationName)
 | summarize Total = count() by operation_Name;
 let data = requests
-| where timestamp between (startTime .. endTime)
 | where operation_Name in (operationName)
 | where success == false;
 data
@@ -260,6 +251,184 @@ data
       azurerm_monitor_action_group.slackIdpay[0].id
     ]
     custom_properties = {}
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "GeneratePaymentFile_csv_zip" {
+
+  count               = var.idpay_alert_enabled ? 1 : 0
+  name                = "${local.project}-GeneratePaymentFile_csv_zip"
+  location            = data.azurerm_resource_group.monitor_rg.location
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+ContainerLog
+| where LogEntry has "ERROR" and LogEntry has "[REWARD_NOTIFICATION_EXPORT_CSV]"
+| summarize count() by LogEntry, TimeGenerated
+| count
+      QUERY
+    time_aggregation_method = "Total"
+    threshold               = 1
+    operator                = "GreaterThanOrEqual"
+    metric_measure_column   = "Count"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Trigger alert when at least one file csv of payment can't be generated or zipped"
+  display_name                     = "${var.domain}-${var.env_short}-GeneratePaymentFile_csv_zip"
+  enabled                          = true
+  query_time_range_override        = "P2D"
+  skip_query_validation            = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.slackIdpay[0].id
+    ]
+    custom_properties = {}
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "apps_exception" {
+
+  count               = var.idpay_alert_enabled ? 1 : 0
+  name                = "${local.project}-apps-exception"
+  location            = data.azurerm_resource_group.monitor_rg.location
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+
+  evaluation_frequency = "PT1H"
+  window_duration      = "PT1H"
+  scopes               = [data.azurerm_application_insights.application_insights.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+exceptions
+| where operation_Name has "idpay"
+| summarize count() by operation_Name, timestamp
+| count
+      QUERY
+    time_aggregation_method = "Total"
+    threshold               = 1
+    operator                = "GreaterThanOrEqual"
+    metric_measure_column   = "Count"
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Trigger alert when at least one exception occurs"
+  display_name                     = "${var.domain}-${var.env_short}-apps_exception"
+  enabled                          = true
+  query_time_range_override        = "P2D"
+  skip_query_validation            = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.slackIdpay[0].id
+    ]
+    custom_properties = {}
+  }
+
+  tags = var.tags
+}
+
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "Availability" {
+
+  count               = var.idpay_alert_enabled ? 1 : 0
+  name                = "${local.project}-Availability"
+  location            = data.azurerm_resource_group.monitor_rg.location
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      let interval = totimespan(1m);
+      let tot = AzureDiagnostics
+          | where requestUri_s has 'idpay'
+          | summarize tot = todouble(count()) by bin(TimeGenerated, interval);
+      let y = AzureDiagnostics
+          | where requestUri_s has 'idpay'
+          | where httpStatus_d < 400 or httpStatus_d == 404
+          | summarize n_ok=count() by bin(TimeGenerated, interval);
+      y
+      | join kind=inner tot on TimeGenerated
+      | project TimeGenerated, availability = n_ok / tot
+      QUERY
+    time_aggregation_method = "Average"
+    threshold               = 0.99
+    operator                = "LessThan"
+    metric_measure_column   = "availability"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Trigger alert when Availability is less than 0.99"
+  display_name                     = "${var.domain}-${var.env_short}-Availability"
+  enabled                          = true
+  query_time_range_override        = "P2D"
+  skip_query_validation            = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.slackIdpay[0].id
+    ]
+    custom_properties = {}
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_monitor_metric_alert" "ErrorsTopic" {
+  count               = var.idpay_alert_enabled ? 1 : 0
+  name                = "${local.project}-ErrorsTopic"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+
+  scopes      = [data.azurerm_eventhub_namespace.evh_01_namespace.id]
+  severity    = 0
+  frequency   = "PT1H"
+  window_size = "PT1H"
+  criteria {
+    metric_namespace = "Microsoft.EventHub/namespaces"
+    metric_name      = "IncomingMessages"
+    dimension {
+      name     = "EntityName"
+      operator = "Include"
+      values = [
+        "idpay-errors"
+      ]
+    }
+    aggregation = "Count"
+    threshold   = 0
+    operator    = "GreaterThan"
+  }
+
+  description = "Trigger alert when idpay-errors has some messages"
+  enabled     = true
+  action {
+    action_group_id = azurerm_monitor_action_group.slackIdpay[0].id
   }
 
   tags = var.tags
