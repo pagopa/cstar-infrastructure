@@ -1720,8 +1720,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OnboardingStatusDTO'
-              example:
-                status: ACCEPTED_TC
         '400':
           description: Bad Request
           content:
@@ -4059,6 +4057,7 @@ components:
       type: object
       required:
         - status
+        - statusDate
       properties:
         status:
           enum:
@@ -4075,6 +4074,14 @@ components:
             - SUSPENDED
           type: string
           description: actual status of the citizen onboarding for an initiative
+        statusDate:
+          type: string
+          format: date-time
+          description: date on which the status change happened
+        onboardingOkDate:
+          type: string
+          format: date-time
+          description: date on which the onboarding successfully went through
     ExportDetailDTO:
       type: object
       properties:
