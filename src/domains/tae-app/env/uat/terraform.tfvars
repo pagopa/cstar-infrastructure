@@ -70,3 +70,7 @@ bulk_delete_aggregates_conf = {
   sink_thoughput_cap           = 500
   sink_write_throughput_budget = 1000
 }
+
+tae_blob_storage = {
+  enable = true
+}
