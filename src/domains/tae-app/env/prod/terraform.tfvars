@@ -64,3 +64,7 @@ cosmos_sink_throughput = {
 alerts_conf = {
   max_days_just_into_ade_in = 3
 }
+
+tae_blob_storage = {
+  enable = true
+}
