@@ -140,15 +140,15 @@ locals {
         },
         {
           keys   = ["userId"]
-          unique = true
+          unique = false
         },
         {
           keys   = ["familyId"]
-          unique = true
+          unique = false
         },
         {
           keys   = ["initiativeId"]
-          unique = true
+          unique = false
         }
       ]
     },
