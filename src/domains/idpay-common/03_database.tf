@@ -113,6 +113,10 @@ locals {
         {
           keys   = ["initiativeId", "userId"]
           unique = false
+        },
+        {
+          keys   = ["status"]
+          unique = false
         }
       ]
     },
