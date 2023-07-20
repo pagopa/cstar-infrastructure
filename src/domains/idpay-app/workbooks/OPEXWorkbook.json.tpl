@@ -442,6 +442,14 @@
                   "linkLabel": "OPEX - PAGAMENTI",
                   "subTarget": "payment",
                   "style": "link"
+                },
+                {
+                  "id": "5a3e244e-a412-4f57-912f-0e0cc4e4abd1",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "CLUSTER METRICS",
+                  "subTarget": "clusterMetrics",
+                  "style": "link"
                 }
               ]
             },
@@ -457,8 +465,9 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeOverall:start};\r\nlet endTime = {timeRangeOverall:end};\r\nlet interval = endTime-startTime;\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apis})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apis});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(user_Id) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
+                    "query": "let startTime = {timeRangeOverall:start};\r\nlet endTime = {timeRangeOverall:end};\r\nlet interval = endTime-startTime;\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apis})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apis});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"])) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
                     "size": 0,
+                    "showAnalytics": true,
                     "timeContextFromParameter": "timeRangeOverall",
                     "queryType": 0,
                     "resourceType": "microsoft.insights/components",
@@ -895,7 +904,7 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -946,7 +955,7 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -1305,8 +1314,9 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeBeneficiary:start};\r\nlet endTime = {timeRangeBeneficiary:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiBeneficiary})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiBeneficiary});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(user_Id) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
+                    "query": "let startTime = {timeRangeBeneficiary:start};\r\nlet endTime = {timeRangeBeneficiary:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiBeneficiary})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiBeneficiary});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"])) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
                     "size": 0,
+                    "showAnalytics": true,
                     "queryType": 0,
                     "resourceType": "microsoft.insights/components",
                     "crossComponentResources": [
@@ -2151,8 +2161,9 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeEnte:start};\r\nlet endTime = {timeRangeEnte:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiEnte})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiEnte});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(user_Id) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
+                    "query": "let startTime = {timeRangeEnte:start};\r\nlet endTime = {timeRangeEnte:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiEnte})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiEnte});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"])) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
                     "size": 0,
+                    "showAnalytics": true,
                     "queryType": 0,
                     "resourceType": "microsoft.insights/components",
                     "crossComponentResources": [
@@ -2996,8 +3007,9 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeMerchant:start};\r\nlet endTime = {timeRangeMerchant:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiMerchant})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiMerchant});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(user_Id) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
+                    "query": "let startTime = {timeRangeMerchant:start};\r\nlet endTime = {timeRangeMerchant:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiMerchant})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiMerchant});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"])) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
                     "size": 0,
+                    "showAnalytics": true,
                     "queryType": 0,
                     "resourceType": "microsoft.insights/components",
                     "crossComponentResources": [
@@ -3741,8 +3753,9 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangePayment:start};\r\nlet endTime = {timeRangePayment:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiPayment})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiPayment});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(user_Id) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
+                    "query": "let startTime = {timeRangePayment:start};\r\nlet endTime = {timeRangePayment:end};\r\nlet interval = endTime-startTime;\r\n\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiPayment})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apiPayment});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"])) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
                     "size": 0,
+                    "showAnalytics": true,
                     "queryType": 0,
                     "resourceType": "microsoft.insights/components",
                     "crossComponentResources": [
@@ -4033,7 +4046,7 @@
                           ],
                           "timeContextFromParameter": "timeRangePayment",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -4073,7 +4086,7 @@
                           ],
                           "timeContextFromParameter": "timeRangePayment",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -4124,7 +4137,7 @@
                           ],
                           "timeContextFromParameter": "timeRangePayment",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -4176,7 +4189,7 @@
                           ],
                           "timeContextFromParameter": "timeRangePayment",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -4227,7 +4240,7 @@
                           ],
                           "timeContextFromParameter": "timeRangePayment",
                           "timeContext": {
-                            "durationMs": 0
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -4278,8 +4291,7 @@
                           ],
                           "timeContextFromParameter": "timeRangePayment",
                           "timeContext": {
-                            "durationMs": 1814400000,
-                            "endTime": "2023-05-31T10:23:00.000Z"
+                            "durationMs": 86400000
                           },
                           "metrics": [
                             {
@@ -4385,8 +4397,7 @@
                                 ],
                                 "timeContextFromParameter": "timeRangePayment",
                                 "timeContext": {
-                                  "durationMs": 1814400000,
-                                  "endTime": "2023-05-31T10:23:00.000Z"
+                                  "durationMs": 86400000
                                 },
                                 "metrics": [
                                   {
@@ -4430,8 +4441,7 @@
                                 ],
                                 "timeContextFromParameter": "timeRangePayment",
                                 "timeContext": {
-                                  "durationMs": 1814400000,
-                                  "endTime": "2023-05-31T10:23:00.000Z"
+                                  "durationMs": 86400000
                                 },
                                 "metrics": [
                                   {
@@ -4478,6 +4488,78 @@
               "value": "payment"
             },
             "name": "payment"
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook4ff901ba-f592-405c-b520-5b7c8f17bc06",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.containerservice/managedclusters",
+              "metricScope": 0,
+              "resourceIds": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
+              ],
+              "timeContextFromParameter": "timeRangeOverall",
+              "timeContext": {
+                "durationMs": 86400000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.containerservice/managedclusters",
+                  "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_cpu_usage_percentage",
+                  "aggregation": 4,
+                  "splitBy": "node"
+                }
+              ],
+              "title": "Cluster CPU Usage ",
+              "showOpenInMe": true,
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "Cluster CPU Usage ",
+            "styleSettings": {
+              "maxWidth": "50"
+            }
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook3fc01a1c-c9b3-4135-9a95-cfa0513d9af6",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.containerservice/managedclusters",
+              "metricScope": 0,
+              "resourceIds": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
+              ],
+              "timeContextFromParameter": "timeRangeOverall",
+              "timeContext": {
+                "durationMs": 86400000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.containerservice/managedclusters",
+                  "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_memory_working_set_percentage",
+                  "aggregation": 4,
+                  "splitBy": "node"
+                }
+              ],
+              "title": "Cluster Memory Usage",
+              "showOpenInMe": true,
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "Cluster Memory Usage",
+            "styleSettings": {
+              "maxWidth": "50"
+            }
           }
         ]
       },
