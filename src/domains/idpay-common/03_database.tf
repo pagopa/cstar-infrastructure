@@ -137,6 +137,18 @@ locals {
         {
           keys   = ["initiativeId", "userId"]
           unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["familyId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
