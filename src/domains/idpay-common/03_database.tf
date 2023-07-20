@@ -121,6 +121,10 @@ locals {
         {
           keys   = ["userId"]
           unique = false
+        },
+        {
+          keys   = ["status"]
+          unique = false
         }
       ]
     },
