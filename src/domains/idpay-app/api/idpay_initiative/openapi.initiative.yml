@@ -1720,8 +1720,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OnboardingStatusDTO'
-              example:
-                status: ACCEPTED_TC
         '400':
           description: Bad Request
           content:
@@ -4059,6 +4057,7 @@ components:
       type: object
       required:
         - status
+        - statusDate
       properties:
         status:
           enum:
@@ -4074,7 +4073,15 @@ components:
             - UNSUBSCRIBED
             - SUSPENDED
           type: string
-          description: actual status of the citizen onboarding for an initiative
+          description: "ENG: Actual status of the citizen onboarding for an initiative - IT: Stato attuale del cittadino rispetto ad un'iniziativa"
+        statusDate:
+          type: string
+          format: date-time
+          description: "ENG: Date on which the status changed to the current one - IT: Data in cui lo stato è cambiato allo stato attuale"
+        onboardingOkDate:
+          type: string
+          format: date-time
+          description: "ENG: Date on which the onboarding successfully went through - IT: Data in cui l'adesione è avvenuta con successo"
     ExportDetailDTO:
       type: object
       properties:

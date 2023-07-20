@@ -10,11 +10,12 @@ paths:
     get:
       tags:
         - iban
-      summary: Returns the detail of the IBAN associated to the initiative by the citizen
+      summary: "ENG: Returns the details of the IBAN associated to the initiative by the citizen - IT: Ritorna i dettagli di un IBAN associato ad una iniziativa"
       operationId: getIban
       parameters:
         - name: Accept-Language
           in: header
+          description: "ENG: Language - IT: Lingua"
           schema:
             type: string
             example: it-IT
@@ -22,7 +23,7 @@ paths:
           required: true
         - name: iban
           in: path
-          description: The citizen iban
+          description: "ENG: The citizen IBAN - IT: IBAN del cittadino"
           required: true
           schema:
             type: string
@@ -73,11 +74,12 @@ paths:
     get:
       tags:
         - iban
-      summary: Returns the list of iban associated to the citizen
+      summary: "ENG: Returns the list of IBAN associated to the citizen - IT: Ritorna la lista di IBAN associati ad un cittadino"
       operationId: getIbanList
       parameters:
         - name: Accept-Language
           in: header
+          description: "ENG: Language - IT: Lingua"
           schema:
             type: string
             example: it-IT
@@ -138,14 +140,19 @@ components:
       properties:
         iban:
           type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         checkIbanStatus:
           type: string
+          description: "ENG: Status of checkIban - IT: Stato del checkIban"
         holderBank:
           type: string
+          description: "ENG: Holder Bank name - IT: Nome della banca"
         description:
           type: string
+          description: "ENG: General description associated with the iban - IT: Descrizione generale associata alll'IBAN"
         channel:
           type: string
+          description: "ENG: Channel from which the IBAN has been inserted - IT: Canale da cui l'IBAN è stato inserito"
     IbanListDTO:
       type: object
       required:
@@ -155,7 +162,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IbanDTO'
-          description: The list of iban of a citizen
+          description: "ENG: The list of IBAN associated to a citizen - IT: Lista di IBAN associati ad un cittadino"
     ErrorDTO:
       type: object
       required:
@@ -165,8 +172,10 @@ components:
         code:
           type: integer
           format: int32
+          description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
   securitySchemes:
     bearerAuth:
       type: http
