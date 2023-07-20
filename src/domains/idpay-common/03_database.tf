@@ -113,6 +113,14 @@ locals {
         {
           keys   = ["initiativeId", "userId"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
