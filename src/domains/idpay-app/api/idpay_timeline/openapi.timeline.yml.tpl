@@ -185,7 +185,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OperationListDTO'
-          description: "ENG: The list of transactions and operations of an initiative of a citizen - IT: La lista di transazioni e operazione di una iniziativa di un cittadino"
+          description: "ENG: The list of transactions and operations of an initiative of a citizen - IT: La lista di transazioni e operazioni di una iniziativa di un cittadino"
         pageNo:
           type: integer
           format: int32
@@ -244,7 +244,7 @@ components:
           description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marhio della carta come mastercard, visa, ecc..."
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         instrumentId:
           type: string
           description: "ENG: Id instrument - IT: Identificativo dello strumento"
@@ -279,7 +279,7 @@ components:
           description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marhio della carta come mastercard, visa, ecc..."
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         maskedPan:
           type: string
           description: "ENG: Masked Pan - IT: Masked Pan"
@@ -350,7 +350,7 @@ components:
           description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marhio della carta come mastercard, visa, ecc..."
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         maskedPan:
           type: string
           description: "ENG: Masked Pan - IT: Masked Pan"
@@ -461,7 +461,7 @@ components:
           description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marhio della carta come mastercard, visa, ecc..."
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         maskedPan:
           type: string
           description: "ENG: Masked PAN - IT: Masked PAN"
@@ -507,7 +507,7 @@ components:
           enum:
             - SUSPENDED
           type: string
-          description: "ENG: Operation type [SUSPENDED: Suspend] - IT: Tipologia dell'operazione [SUSPENDED: sospeso]"
+          description: "ENG: Operation type [SUSPENDED: Suspended] - IT: Tipologia dell'operazione [SUSPENDED: sospeso]"
         operationDate:
           type: string
           format: date-time
@@ -599,7 +599,7 @@ components:
           description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
-          description: "ENG: Error message- IT: Messaggio di errore"
+          description: "ENG: Error message - IT: Messaggio di errore"
   securitySchemes:
     bearerAuth:
       type: http

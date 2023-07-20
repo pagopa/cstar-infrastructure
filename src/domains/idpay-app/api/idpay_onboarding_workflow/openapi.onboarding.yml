@@ -601,7 +601,7 @@ components:
           description: "ENG: Self-consent code - IT: Codice dell'auto consenso"
         value:
           type: string
-          description: "ENG: Indicates self-consent values - IT: Indica i valori per gli auto consenso"
+          description: "ENG: Indicates self-consent values - IT: Indica i valori per gli auto consensi"
     ErrorDTO:
       type: object
       required:

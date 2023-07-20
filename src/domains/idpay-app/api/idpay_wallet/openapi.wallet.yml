@@ -28,20 +28,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WalletDTO'
-              example:
-                initiativeList:
-                  - initiativeId: string
-                    initiativeName: string
-                    status: NOT_REFUNDABLE_ONLY_IBAN
-                    endDate: string
-                    amount: 0.01
-                    accrued: 0.01
-                    refunded: 0.01
-                    iban: string
-                    nInstr: 0
-                    initiativeRewardType: REFUND
-                    logoURL: string
-                    organizationName: string
         '401':
           description: Authentication failed
           content:
@@ -143,20 +129,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeDTO'
-              example:
-                familyId: string
-                initiativeId: string
-                initiativeName: string
-                status: NOT_REFUNDABLE_ONLY_IBAN
-                endDate: string
-                amount: 0.01
-                accrued: 0.01
-                refunded: 0.01
-                iban: string
-                nInstr: 0
-                initiativeRewardType: REFUND
-                logoURL: string
-                organizationName: string
         '401':
           description: Authentication failed
           content:
@@ -437,7 +409,7 @@ paths:
     delete:
       tags:
         - wallet
-      summary: "ENG: Delete a payment instrument from an initiative - IT: Cancella un'instrumento di pagamento di un'iniziativa"
+      summary: "ENG: Delete a payment instrument from an initiative - IT: Cancella uno strumento di pagamento di un'iniziativa"
       operationId: deleteInstrument
       parameters:
         - name: Accept-Language
@@ -783,7 +755,7 @@ components:
             $ref: '#/components/schemas/InstrumentDTO'
           description: >-
             "ENG: The list of payment instruments associated to the initiative by the
-            citizen - IT: Lista degli instrumenti di pagamenti di un cittadino associati ad una iniziativa"
+            citizen - IT: Lista degli strumenti di pagamenti di un cittadino associati ad una iniziativa"
     InstrumentDTO:
       title: InstrumentDTO
       type: object
@@ -807,7 +779,7 @@ components:
           description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marhio della carta come mastercard, visa, ecc..."
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         status:
           enum:
             - ACTIVE
@@ -849,7 +821,7 @@ components:
         endDate:
           type: string
           format: date
-          description: "ENG: time window in which it is possible to use the initiative's rewards - IT: Data che indica la fine del periodo di fruizion dell'iniziativa"
+          description: "ENG: End date for the time window in which it is possible to use the initiative's rewards - IT: Data che indica la fine del periodo di fruizione dell'iniziativa"
         amount:
           type: number
           description: "ENG: Initiative total amount - IT: Importo totale dell'iniziativa"
@@ -902,7 +874,7 @@ components:
           description: "ENG: Masked Pan - IT: Masked Pan"
         brand:
           type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marhio della carta come mastercard, visa, ecc..."
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         initiativeList:
           type: array
           items:
@@ -944,7 +916,7 @@ components:
           description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
-          description: "ENG: Error message- IT: Messaggio di errore"
+          description: "ENG: Error message - IT: Messaggio di errore"
     InitiativeDetailDTO:
       type: object
       properties:
@@ -1046,13 +1018,6 @@ components:
         rewardValue:
           type: number
           description: "ENG: Reward value - IT: Valore di reward"
-    RefundAdditionalInfoDTO:
-      required:
-        - identificationCode
-      type: object
-      properties:
-        identificationCode:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http
