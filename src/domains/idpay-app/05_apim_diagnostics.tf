@@ -33,4 +33,10 @@ resource "azurerm_api_management_api_diagnostic" "idpay_apim_api_diagnostics" {
 
   always_log_errors = true
   verbosity         = "information"
+
+  frontend_request {
+    headers_to_log = [
+      "X-Forwarded-For"
+    ]
+  }
 }
