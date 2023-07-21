@@ -295,7 +295,7 @@ module "idpay_initiative_portal" {
       operation_id = "getRankingFileDownload"
 
       xml_content = templatefile("./api/idpay_initiative/get-ranking-download.xml.tpl", {
-        initiative-storage-account-name = module.idpay_initiative_storage.name
+        initiative-storage-account-name = local.initiative_storage_fqdn
       })
     },
     {

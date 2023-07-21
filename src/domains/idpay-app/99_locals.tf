@@ -51,4 +51,6 @@ locals {
   }
 
   domain_aks_hostname = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
+  #private record storage account name
+  initiative_storage_fqdn = "${module.idpay_initiative_storage.name}.blob.core.windows.net"
 }
