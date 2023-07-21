@@ -490,8 +490,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OnboardingStatusDTO"
-              example:
-                status: ACCEPTED_TC
         "400":
           description: Bad Request
           content:
@@ -1611,6 +1609,7 @@ components:
       type: object
       required:
         - status
+        - statusDate
       properties:
         status:
           enum:
@@ -1626,6 +1625,14 @@ components:
             - DEMANDED
           type: string
           description: actual status of the citizen onboarding for an initiative
+        statusDate:
+          type: string
+          format: date-time
+          description: date on which the status change happened
+        onboardingOkDate:
+          type: string
+          format: date-time
+          description: date on which the onboarding successfully went through
     RequiredCriteriaDTO:
       type: object
       required:
@@ -2338,13 +2345,16 @@ components:
           type: string
         ruleDescription:
           type: string
-        endDate:
+        onboardingStartDate:
           type: string
           format: date
-        rankingStartDate:
+        onboardingEndDate:
           type: string
           format: date
-        rankingEndDate:
+        fruitionStartDate:
+          type: string
+          format: date
+        fruitionEndDate:
           type: string
           format: date
         rewardRule:
