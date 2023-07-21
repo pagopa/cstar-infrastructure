@@ -549,6 +549,27 @@ module "idpay_merchant_portal" {
       xml_content = templatefile("./api/idpay_merchant/put-merchant-upload.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getMerchantInitiativeStatistics"
+
+      xml_content = templatefile("./api/idpay_merchant/get-merchant-statistics-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantTransactions"
+
+      xml_content = templatefile("./api/idpay_merchant/get-merchant-transactions-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantTransactionsProcessed"
+
+      xml_content = templatefile("./api/idpay_merchant/get-merchant-transactions-processed-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
