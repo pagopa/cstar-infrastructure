@@ -252,38 +252,6 @@ module "api_bpd_pm_payment_instrument" {
   subscription_required = true
 }
 
-module "api_bpd_io_backend_test" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-
-  name                = format("%s-bpd-io-backend-test-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  description  = "TEST IO Backend API server."
-  display_name = "BPD IO Backend TEST API"
-  path         = "bpd/pagopa/api/v1"
-  protocols    = ["https", "http"]
-
-  service_url = format("http://%s/cstariobackendtest/bpd/pagopa/api/v1", var.reverse_proxy_ip)
-
-  content_value = templatefile("./api/bpd_io_backend_test/swagger.json", {
-    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-  })
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids = [module.bpd_api_product.product_id]
-
-  api_operation_policies = [
-    {
-      operation_id = "getToken",
-      xml_content = templatefile("./api/bpd_io_backend_test/post_get_token_policy.xml", {
-        reverse_proxy_ip = var.reverse_proxy_ip
-      })
-    },
-  ]
-}
-
 module "api_bpd_tc" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
