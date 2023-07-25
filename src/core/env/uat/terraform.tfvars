@@ -690,7 +690,7 @@ enable = {
     private_endpoints_subnet = true
   }
   bpd = {
-    db = true
+    db = false
   }
   rtd = {
     blob_storage_event_grid_integration = true
