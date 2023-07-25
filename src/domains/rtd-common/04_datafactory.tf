@@ -26,6 +26,16 @@ resource "azurerm_data_factory" "data_factory" {
   tags = var.tags
 }
 
+locals {
+  pe_map = var.enable.rtd_df ? tomap({}) : tomap(
+    {
+      (data.azurerm_storage_account.blobstorage_account.id) = "blob",
+      (module.cosmosdb_account_mongodb.id)                  = "MongoDB"
+  })
+  df_id   = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].id : null
+  df_name = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].name : null
+}
+
 resource "azurerm_data_factory_integration_runtime_azure" "autoresolve" {
 
   count = var.enable.rtd_df ? 1 : 0
@@ -76,20 +86,13 @@ resource "azurerm_private_dns_a_record" "data_factory_a_record" {
   tags = var.tags
 }
 
-locals {
-  pe_map = var.enable.rtd_df ? tomap({}) : tomap(
-    {
-      (data.azurerm_storage_account.blobstorage_account.id) = "blob",
-      (module.cosmosdb_account_mongodb.id)                  = "MongoDB"
-  })
-  df_id = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].id : null
-}
+
 
 resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
 
   for_each = local.pe_map
 
-  name               = replace(format("%s-%s-mng-private-endpoint", azurerm_data_factory.data_factory[0].name, substr(sha256(each.key), 0, 3)), "-", "_")
+  name               = replace(format("%s-%s-mng-private-endpoint", local.df_name, substr(sha256(each.key), 0, 3)), "-", "_")
   data_factory_id    = local.df_id
   target_resource_id = each.key
   subresource_name   = each.value
