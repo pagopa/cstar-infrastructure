@@ -1,10 +1,10 @@
 # Used by BPD pipelines
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "storage_account_linked_service" {
 
-  count = var.env_short == "p" ? 1 : 0
+  count = var.enable.rtd_df ? 1 : 0
 
   name            = "${local.product}-sa-linked-service"
-  data_factory_id = data.azurerm_data_factory.datafactory.id
+  data_factory_id = data.azurerm_data_factory.datafactory[count.index].id
 
   service_endpoint     = data.azurerm_storage_account.blobstorage_account.primary_blob_endpoint
   use_managed_identity = true
