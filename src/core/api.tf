@@ -596,9 +596,9 @@ module "app_io_product" {
   approval_required     = false
 
   policy_xml = templatefile("./api_product/app_io/policy.xml", {
-    env_short         = var.env_short
-    reverse_proxy_ip  = var.reverse_proxy_ip
-    appio_timeout_sec = var.appio_timeout_sec
+    env_short             = var.env_short
+    ingress_load_balancer = local.ingress_load_balancer_hostname_https
+    appio_timeout_sec     = var.appio_timeout_sec
   })
 }
 
