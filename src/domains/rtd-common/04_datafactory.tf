@@ -31,7 +31,7 @@ locals {
     {
       (data.azurerm_storage_account.blobstorage_account.id) = "blob",
       (module.cosmosdb_account_mongodb.id)                  = "MongoDB"
-  }) : null
+  }) : tomap({})
   df_id   = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].id : null
   df_name = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].name : null
 }
