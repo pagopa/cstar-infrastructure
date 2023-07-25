@@ -9,7 +9,7 @@ paths:
   /transaction/{transactionId}:
     get:
       tags:
-        - payment
+        - mergeIgnore
       summary: Returns the detail of a transaction
       operationId: getTransaction
       parameters:
