@@ -48,7 +48,7 @@ jobs:
           echo "The appIO.full file and the generated merged file are IDENTICAL"
 
       - name: check if the files are not identical
-        if: ${{ steps.diff.with.output != true }}
+        if: ${{ needs.main.steps[5].with.output != true }}
         run: |
           echo "The appIO.full file and the generated merged file are NOT IDENTICAL " ${{ steps.with.output }}
 
