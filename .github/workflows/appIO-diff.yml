@@ -24,7 +24,8 @@ jobs:
         run: npm i -g openapi-merge-cli
 
       - name: directory
-        run: echo $pwd
+        run: |
+         pwd
 
       - name: Run script merge
         working-directory: ./scripts/idpay-script
