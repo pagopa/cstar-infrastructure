@@ -27,13 +27,13 @@ resource "azurerm_data_factory" "data_factory" {
 }
 
 locals {
-  pe_map = var.enable.rtd_df ? tomap({}) : tomap(
+  pe_map = var.enable.rtd_df ? tomap(
     {
       (data.azurerm_storage_account.blobstorage_account.id) = "blob",
       (module.cosmosdb_account_mongodb.id)                  = "MongoDB"
-  })
-  df_id   = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].id : ""
-  df_name = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].name : ""
+  }) : null
+  df_id   = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].id : null
+  df_name = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].name : null
 }
 
 resource "azurerm_data_factory_integration_runtime_azure" "autoresolve" {
