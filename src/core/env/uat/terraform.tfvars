@@ -689,6 +689,9 @@ enable = {
   core = {
     private_endpoints_subnet = true
   }
+  bpd = {
+    db = true
+  }
   rtd = {
     blob_storage_event_grid_integration = true
     internal_api                        = true
