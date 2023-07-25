@@ -1,11 +1,11 @@
 name: 'Check diff on AppIO full swagger'
 
-on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
+on: push
+#  pull_request_target:
+#    types:
+#      - opened
+#      - edited
+#      - synchronize
 jobs:
   main:
     name: Check diff on AppIO full swagger
