@@ -230,6 +230,7 @@ variable "enable" {
     sender_auth                         = bool
     csv_transaction_apis                = bool
     mock_io_api                         = bool
+    rtd_df                              = bool
   })
   description = "Feature flags"
   default = {
@@ -254,6 +255,7 @@ variable "enable" {
     sender_auth                         = false
     csv_transaction_apis                = false
     mock_io_api                         = false
+    rtd_df                              = false
   }
 }
 
