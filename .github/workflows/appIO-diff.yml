@@ -23,14 +23,15 @@ jobs:
       - name: Install library
         run: npm i -g openapi-merge-cli
 
-      - name: directory
-        run: |
-         pwd
+
 
       - name: Run script merge
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
+      - name: directory
+        run: |
+          pwd
 
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff
