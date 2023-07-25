@@ -22,7 +22,7 @@
       }
     },
     {
-      "inputFile": "../../src/domains/idpay-app/api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl",
+      "inputFile": "../../src/domains/idpay-app/api/idpay_timeline/openapi.timeline.yml.tpl",
       "pathModification": {
         "prepend": "/timeline"
       },
@@ -40,7 +40,7 @@
       }
     },
     {
-      "inputFile": "../../src/domains/idpay-app/api/idpay_payment/openapi.payment.yml.tpl",
+      "inputFile": "../../src/domains/idpay-app/api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl",
       "operationSelection" : {
         "excludeTags" : ["mergeIgnore"]
       },
