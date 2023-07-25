@@ -1,7 +1,7 @@
 {
   "inputs": [
     {
-      "inputFile": "/src/domains/idpay-app/api/idpay_input_serverUrl/openapi.server.url.yml"
+      "inputFile": "openapi.server.url.yml"
     },
     {
       "inputFile": "/src/domains/idpay-app/api/idpay_iban/openapi.iban.yml",
