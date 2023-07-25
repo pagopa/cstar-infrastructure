@@ -23,15 +23,9 @@ jobs:
       - name: Install library
         run: npm i -g openapi-merge-cli
 
-
-
       - name: Run script merge
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
-
-      - name: directory
-        run: |
-          pwd
 
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff
@@ -41,17 +35,6 @@ jobs:
           mode: addition
           tolerance: same
           output: passed
-
-      - name: check if the files are identical
-        if: ${{ steps.diff.with.output == true }}
-        run: |
-          echo "The appIO.full file and the generated merged file are IDENTICAL"
-
-      - name: check if the files are not identical
-        if: ${{ needs.main.steps[5].with.output == 1 }}
-        run: |
-          echo "The appIO.full file and the generated merged file are NOT IDENTICAL " ${{ steps.with.output }}
-
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
