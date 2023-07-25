@@ -90,7 +90,7 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   for_each = local.pe_map
 
   name               = replace(format("%s-%s-mng-private-endpoint", azurerm_data_factory.data_factory[0].name, substr(sha256(each.key), 0, 3)), "-", "_")
-  data_factory_id    = azurerm_data_factory.data_factory[0].id
+  data_factory_id    = local.df_id
   target_resource_id = each.key
   subresource_name   = each.value
 
