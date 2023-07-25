@@ -82,6 +82,7 @@ locals {
       (data.azurerm_storage_account.blobstorage_account.id) = "blob",
       (module.cosmosdb_account_mongodb.id)                  = "MongoDB"
   })
+  df_id = var.enable.rtd_df ? azurerm_data_factory.data_factory[0].id : null
 }
 
 resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
