@@ -1,8 +1,6 @@
 name: 'Check diff on AppIO full swagger'
 
-on: pull_request
-
-
+on: push
 
 jobs:
   main:
