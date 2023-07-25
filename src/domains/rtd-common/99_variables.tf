@@ -140,10 +140,14 @@ variable "enable" {
   type = object({
     enrolled_payment_instrument = bool
     payment_instrument          = bool
+    rtd_df                      = bool
+
   })
   default = {
     enrolled_payment_instrument = false
     payment_instrument          = false
+    rtd_df                      = false
+
   }
 }
 

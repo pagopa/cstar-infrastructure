@@ -48,6 +48,7 @@ terraform_remote_state_core = {
 enable = {
   enrolled_payment_instrument = true
   payment_instrument          = false
+  rtd_df                      = true
 }
 
 ## Cosmos DB
