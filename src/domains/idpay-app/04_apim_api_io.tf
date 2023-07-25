@@ -19,7 +19,7 @@ module "idpay_api_io_product" {
 
   policy_xml = templatefile("./api_product/app_io/policy_io.xml.tpl", {
     env_short              = var.env_short
-    reverse_proxy_be_io    = var.reverse_proxy_be_io
+    ingress_load_balancer  = local.rtd_ingress_load_balancer_hostname_https
     appio_timeout_sec      = var.appio_timeout_sec
     pdv_timeout_sec        = var.pdv_timeout_sec
     pdv_tokenizer_url      = var.pdv_tokenizer_url

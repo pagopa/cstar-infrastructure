@@ -31,7 +31,7 @@ module "api_mock_io" {
   path         = "rtd/mock-io"
   protocols    = ["https"]
 
-  service_url = "http://${var.reverse_proxy_ip_old_k8s}/cstariobackendtest/bpd/pagopa/api/v1"
+  service_url = "${local.ingress_load_balancer_hostname_https}/cstarmockbackendio/bpd/pagopa/api/v1"
 
   content_format = "swagger-json"
   content_value = templatefile("./api/mock_io_test/swagger.json", {
