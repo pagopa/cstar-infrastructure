@@ -64,14 +64,7 @@
 | [azurerm_api_management_product_policy.payment_instruments_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
 | [azurerm_api_management_product_policy.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
 | [azurerm_api_management_product_policy.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
-| [azurerm_data_factory_custom_dataset.binary_destination_dataset](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.binary_source_dataset](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.enrolled_payment_instrument_dataset](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.hpans_blob_csv_destination](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_linked_service_azure_blob_storage.storage_account_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
-| [azurerm_data_factory_linked_service_cosmosdb_mongoapi.cosmos_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_linked_service_cosmosdb_mongoapi) | resource |
-| [azurerm_data_factory_pipeline.hashpan_csv_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_pipeline) | resource |
-| [azurerm_data_factory_trigger_tumbling_window.every_5_min_trigger](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_trigger_tumbling_window) | resource |
 | [azurerm_eventhub.event_hub_rtd_hub](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventhub) | resource |
 | [azurerm_eventhub_authorization_rule.event_hub_rtd_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventhub_authorization_rule) | resource |
 | [azurerm_eventhub_consumer_group.event_hub_rtd_consumer_group](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventhub_consumer_group) | resource |
@@ -125,7 +118,6 @@
 | [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_secret.cstarblobstorage_public_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_key_vault_secret.mongodb_connection_uri](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.pagopa_platform_api_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.rtd_pm_client-certificate-thumbprint](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_kubernetes_cluster.aks](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/kubernetes_cluster) | data source |
