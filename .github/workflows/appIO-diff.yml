@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.16.x
-      - run: npm install
 
       - name: Install library
         run: npm i -g openapi-merge-cli
