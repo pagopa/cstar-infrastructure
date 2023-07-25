@@ -13,7 +13,7 @@
                 <send-request mode="new" response-variable-name="tokenstate" timeout="${appio_timeout_sec}" ignore-error="true">
                     %{ if env_short != "p" ~}
                       <!--MOCK-->
-                      <set-url>@("http://${reverse_proxy_be_io}/cstariobackendtest/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
+                      <set-url>@("${ingress_load_balancer}/cstarmockbackendio/bpd/pagopa/api/v1/user?token="+(string)context.Variables["token"])</set-url>
                       <set-method>GET</set-method>
                     %{ else ~}
                       <!--AppIO Produzione-->
