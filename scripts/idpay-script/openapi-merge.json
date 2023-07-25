@@ -1,10 +1,10 @@
 {
   "inputs": [
     {
-      "inputFile": "./src/domains/idpay-app/api/idpay_input_serverUrl/openapi.server.url.yml"
+      "inputFile": "src/domains/idpay-app/api/idpay_input_serverUrl/openapi.server.url.yml"
     },
     {
-      "inputFile": "./src/domains/idpay-app/api/idpay_iban/openapi.iban.yml",
+      "inputFile": "src/domains/idpay-app/api/idpay_iban/openapi.iban.yml",
       "pathModification": {
         "prepend": "/iban"
       },
@@ -13,7 +13,7 @@
       }
     },
     {
-      "inputFile": "./src/domains/idpay-app/api/idpay_onboarding_workflow/openapi.onboarding.yml",
+      "inputFile": "src/domains/idpay-app/api/idpay_onboarding_workflow/openapi.onboarding.yml",
       "pathModification": {
         "prepend": "/onboarding"
       },
@@ -22,7 +22,7 @@
       }
     },
     {
-      "inputFile": "./src/domains/idpay-app/api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl",
+      "inputFile": "src/domains/idpay-app/api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl",
       "pathModification": {
         "prepend": "/timeline"
       },
@@ -31,7 +31,7 @@
       }
     },
     {
-      "inputFile": "./src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml",
+      "inputFile": "src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml",
       "pathModification": {
         "prepend": "/wallet"
       },
@@ -40,7 +40,7 @@
       }
     },
     {
-      "inputFile": "./src/domains/idpay-app/api/idpay_payment/openapi.payment.yml.tpl",
+      "inputFile": "src/domains/idpay-app/api/idpay_payment/openapi.payment.yml.tpl",
       "operationSelection" : {
         "excludeTags" : ["mergeIgnore"]
       },
@@ -52,5 +52,5 @@
       }
     }
   ],
-  "output": "./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml"
+  "output": "src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml"
 }
