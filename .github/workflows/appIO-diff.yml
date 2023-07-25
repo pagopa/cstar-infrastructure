@@ -45,5 +45,6 @@ jobs:
         run: |
           echo "The appIO.full file and the generated merged file are NOT identical"
 
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
