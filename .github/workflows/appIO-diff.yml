@@ -1,0 +1,49 @@
+name: 'Check diff on AppIO full swagger'
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  main:
+    name: Check diff on AppIO full swagger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.x
+          cache: npm
+
+      - name: Install library
+        run: npm i -g openapi-merge-cli
+
+      - uses: actions/checkout@v3
+      - name: Run script merge
+        working-directory: ./scripts/idpay-script
+        run: npx openapi-merge-cli
+
+
+      - uses: LouisBrunner/diff-action@v0.2.0
+        with:
+          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
+          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+          mode: addition
+          tolerance: same
+          output: passed
+
+      - name: check if the files are identical
+        if: ${{ jobs.main.steps[4].with.output == true }}
+        run: |
+          echo "The appIO.full file and the generated merged file are identical"
+
+      - name: check if the files are not identical
+        if: ${{ jobs.main.steps[4].with.output == false }}
+        run: |
+          echo "The appIO.full file and the generated merged file are NOT identical"
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
