@@ -30,6 +30,7 @@ jobs:
 
 
       - uses: LouisBrunner/diff-action@v0.2.0
+        id: diff
         with:
           old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
           new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
@@ -38,12 +39,12 @@ jobs:
           output: passed
 
       - name: check if the files are identical
-        if: ${{ jobs.main.steps[4].with.output == true }}
+        if: ${{ steps.diff.with.output == true }}
         run: |
           echo "The appIO.full file and the generated merged file are identical"
 
       - name: check if the files are not identical
-        if: ${{ jobs.main.steps[4].with.output == false }}
+        if: ${{ steps.diff.with.output == false }}
         run: |
           echo "The appIO.full file and the generated merged file are NOT identical"
 
