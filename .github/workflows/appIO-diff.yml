@@ -24,6 +24,10 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
+      - uses: KazukiHayase/review-git-diff-action@v1.0.0
+        with:
+          threshold: 100
+
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff
         with:
