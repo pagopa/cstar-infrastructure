@@ -827,6 +827,11 @@ variable "enable" {
     core = object({
       private_endpoints_subnet = bool
     })
+    bpd = object({
+      db     = bool
+      api    = bool
+      api_pm = bool
+    })
     rtd = object({
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
@@ -856,6 +861,11 @@ variable "enable" {
   default = {
     core = {
       private_endpoints_subnet = false
+    }
+    bpd = {
+      db     = false
+      api    = false
+      api_pm = false
     }
     rtd = {
       blob_storage_event_grid_integration = false

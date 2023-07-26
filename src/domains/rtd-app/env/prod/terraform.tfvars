@@ -68,6 +68,7 @@ enable = {
   sender_auth                         = true
   csv_transaction_apis                = true
   mock_io_api                         = false
+  rtd_df                              = true
 }
 #
 # Hashpan generation pipeline related variables
