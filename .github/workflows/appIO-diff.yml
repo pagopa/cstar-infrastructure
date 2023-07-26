@@ -27,14 +27,14 @@ jobs:
       - name: Run git-diff
         run: git diff
 
-#      - uses: LouisBrunner/diff-action@v0.2.0
-#        id: diff
-#        with:
-#          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-#          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-#          mode: addition
-#          tolerance: same
-#          output: passed
+      - uses: LouisBrunner/diff-action@v0.2.0
+        id: diff
+        with:
+          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
+          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+          mode: addition
+          tolerance: same
+          output: passed
 
 
 
