@@ -581,6 +581,7 @@ components:
         code:
           type: string
           description: "ENG: Self-consent code - IT: Codice dell'auto consenso"
+
         accepted:
           type: boolean
           description: "ENG: Indicates whether the self-consent is accepted or not - IT: Indica se l'auto consenso è accettato o no"

@@ -52,5 +52,5 @@
       }
     }
   ],
-  "output": "../../src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml"
+  "output": "../../src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml"
 }

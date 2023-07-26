@@ -24,19 +24,17 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - name: commit
+#      - uses: LouisBrunner/diff-action@v0.2.0
+#        id: diff
+#        with:
+#          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
+#          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+#          mode: addition
+#          tolerance: same
+#          output: passed
+      - name: add file
         run: |
-          git add .
-          git commit -m "test"
-
-      - uses: LouisBrunner/diff-action@v0.2.0
-        id: diff
-        with:
-          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-          mode: addition
-          tolerance: same
-          output: passed
+          git diff
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
