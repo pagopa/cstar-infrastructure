@@ -35,7 +35,7 @@ jobs:
 #          mode: addition
 #          tolerance: same
 #          output: passed
-      - name: add file
+      - name: check diff
         run: |
           git diff
 
