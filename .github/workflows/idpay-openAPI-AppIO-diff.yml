@@ -1,6 +1,9 @@
 name: 'Check diff on idpay AppIO full swagger'
 
-on: push
+on:
+  push:
+    paths:
+      - 'src/domains/idpay-app/**'
 
 jobs:
   main:
