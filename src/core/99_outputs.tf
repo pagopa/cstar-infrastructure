@@ -99,7 +99,7 @@ output "pm_client_certificate_thumbprint" {
 
 ## Postgresql server
 output "postgresql_fqdn" {
-  value = module.postgresql.fqdn
+  value = one(module.postgresql[*].fqdn)
 }
 
 output "postgresql_administrator_login" {
@@ -113,7 +113,7 @@ output "postgresql_administrator_login_password" {
 }
 
 output "postgresql_replica_fqdn" {
-  value = module.postgresql.replica_fqdn
+  value = one(module.postgresql[*].replica_fqdn)
 }
 
 # Postgres flexible server

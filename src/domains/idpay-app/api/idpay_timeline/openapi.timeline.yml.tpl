@@ -10,11 +10,13 @@ paths:
     get:
       tags:
         - timeline
-      summary: Returns the list of transactions and operations of an initiative of a citizen sorted by date (newest->oldest)
-      operationId: getTimeline
+      summary: >-
+          ENG: Returns the list of transactions and operations of an initiative of a
+          citizen sorted by date (newest->oldest) - IT: Ritorna la lista ordinata di transazioni e operazioni di una iniziativa di un cittadino (nuove->vecchie)
       parameters:
         - name: Accept-Language
           in: header
+          description: "ENG: Language - IT: Lingua"
           schema:
             type: string
             example: it-IT
@@ -22,23 +24,23 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
         - name: operationType
           in: query
-          description: Operation type filter
+          description: "ENG: Operation type filter - IT: Filtro tipologia dell'operazione"
           schema:
             type: string
         - name: page
           in: query
-          description: The number of the page
+          description: "ENG: The number of the page - IT: Numero della pagina"
           schema:
             type: integer
         - name: size
           in: query
-          description: 'Number of items, default 3 - max 10'
+          description: "ENG: Number of items, default 3 - max 10 - IT: Numero di elementi, default 3 - max 10"
           schema:
             type: integer
       responses:
@@ -88,10 +90,11 @@ paths:
     get:
       tags:
         - timeline
-      summary: Returns the detail of a transaction
+      summary: "ENG: Returns the detail of a transaction - IT: Ritorna il dettaglio di una transazione"
       operationId: getTimelineDetail
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -99,14 +102,14 @@ paths:
             default: it-IT
           required: true
         - name: initiativeId
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           in: path
-          description: The initiative ID
           required: true
           schema:
             type: string
         - name: operationId
+          description: "ENG: The operation ID - IT: Identificativo dell'operazione"
           in: path
-          description: The operation ID
           required: true
           schema:
             type: string
@@ -176,25 +179,29 @@ components:
       properties:
         lastUpdate:
           type: string
-          description: date of the last update
+          description: "ENG: Date of the last update - IT: Data dell'ultimo aggiornamento"
           format: date-time
         operationList:
           type: array
           items:
             $ref: '#/components/schemas/OperationListDTO'
-          description: the list of transactions and operations of an initiative of a citizen
+          description: "ENG: The list of transactions and operations of an initiative of a citizen - IT: La lista di transazioni e operazioni di una iniziativa di un cittadino"
         pageNo:
           type: integer
           format: int32
+          description: "ENG: Number of pages - IT: Numero di pagine"
         pageSize:
           type: integer
           format: int32
+          description: "ENG: Number of elements in the page - IT: Numero di elementi all'interno della pagina"
         totalElements:
           type: integer
           format: int32
+          description: "ENG: Number of total elements - IT: Numero totali di elementi"
         totalPages:
           type: integer
           format: int32
+          description: "ENG: Number of total pages - IT: Numero totali di pagine"
     OperationListDTO:
       description: Complex type for items in the operation list
       oneOf:
@@ -219,24 +226,34 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Id of operation - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - REJECTED_ADD_INSTRUMENT
             - REJECTED_DELETE_INSTRUMENT
+          description: "ENG: Operation type [REJECTED_ADD_INSTRUMENT: Rejected add instrument,
+                      REJECTED_DELETE_INSTRUMENT: Rejected delete instrument] - IT: Tipologia di operazione [REJECTED_ADD_INSTRUMENT: Respinto l'inserimento dello strumento,
+                      REJECTED_DELETE_INSTRUMENT: Respinta la cancellazione dello strumento]"
           type: string
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         brandLogo:
           type: string
+          description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         instrumentId:
           type: string
+          description: "ENG: Id instrument - IT: Identificativo dello strumento"
         maskedPan:
           type: string
+          description: "ENG: masked PAN - IT: masked PAN"
         channel:
           type: string
+          description: "ENG: Channel from which the operation takes place - IT: Canale da cui avviene l'operazione"
     TransactionDetailDTO:
       type: object
       required:
@@ -248,47 +265,60 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - TRANSACTION
             - REVERSAL
           type: string
+          description: "ENG: Operation type - IT: Tipologia di operazione"
         eventId:
           type: string
         brandLogo:
           type: string
+          description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         maskedPan:
           type: string
+          description: "ENG: Masked Pan - IT: Masked Pan"
         amount:
           type: number
+          description: "ENG: Transaction amount - IT: Importo della transazione"
         accrued:
           type: number
+          description: "ENG: Transaction accrued - IT: Importo accumulato"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         circuitType:
           type: string
           description: >-
-            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
-            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
-            09->Satispay, 10->PrivateCircuit
+              ENG: Circuit type - IT: Tipologia del circuito
+              00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
+              05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
+              09->Satispay, 10->PrivateCircuit
         idTrxIssuer:
           type: string
+          description: "ENG: Transaction issuer ID - IT: Identificativo della transazione rispetto all'issuer"
         idTrxAcquirer:
           type: string
+          description: "ENG: Transaction acquirer ID- IT: Identificativo della transazione rispetto all'acquirer"
         status:
           type: string
           enum:
             - AUTHORIZED
             - REWARDED
             - CANCELLED
+          description: "ENG: Transaction status [AUTHORIZED: Transaction authorize, REWARDED: Transaction rewarded, CANCELLED: Transaction cancelled]  - IT: Stato della transazione [AUTHORIZED: Transazione autorizzata, REWARDED: Transazione premiata, CANCELLED: transazione cancellata]"
         channel:
           type: string
           enum:
             - RTD
             - QRCODE
+          description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string
     InstrumentOperationDTO:
@@ -304,22 +334,29 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Operation ID - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - ADD_INSTRUMENT
             - DELETE_INSTRUMENT
           type: string
+          description: "ENG: Operation type - IT: Tipologia di operazione"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         brandLogo:
           type: string
+          description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         maskedPan:
           type: string
+          description: "ENG: Masked Pan - IT: Masked Pan"
         channel:
           type: string
+          description: "ENG: Channel from which the operation takes place - IT: Canale da cui avviene l'operazione"
     IbanOperationDTO:
       type: object
       required:
@@ -331,17 +368,22 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Operation ID - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - ADD_IBAN
           type: string
+          description: "ENG: Operation type - IT: Tipologia dell'operazione"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         iban:
           type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         channel:
           type: string
+          description: "ENG: Channel from which the operation takes place - IT: Canale da cui avviene l'operazione"
     OnboardingOperationDTO:
       type: object
       required:
@@ -351,13 +393,16 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Operation ID - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - ONBOARDING
           type: string
+          description: "ENG: Operaztion type - IT: Tipologia dell'operazione"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
     RefundOperationDTO:
       type: object
       required:
@@ -369,18 +414,23 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Operation ID - IT: Identificativo dell'operazione"
         eventId:
           type: string
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
         operationType:
           enum:
             - PAID_REFUND
             - REJECTED_REFUND
           type: string
+          description: "ENG: Operation type [PAID_REFUND: Paid refund, REJECTED_REFUND: Rejected refund] - IT: Tipologia dell'operazione [PAID_REFUND: Rimborso pagato, REJECTED_REFUND: Rimborso rifiutato]"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         amount:
           type: number
+          description: "ENG: Refund amount - IT: Importo da rimborsare"
     TransactionOperationDTO:
       type: object
       required:
@@ -392,43 +442,55 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - TRANSACTION
             - REVERSAL
           type: string
+          description: "ENG: Operation type - IT: Tipologia dell'operazione"
         eventId:
           type: string
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         brandLogo:
           type: string
+          description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         maskedPan:
           type: string
+          description: "ENG: Masked PAN - IT: Masked PAN"
         amount:
           type: number
+          description: "ENG: Transaction amount - IT: Importo della transazione"
         accrued:
           type: number
+          description: "ENG: Accrued amount - IT: Importo accumulato"
         circuitType:
           type: string
           description: >-
-            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
-            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
-            09->Satispay, 10->PrivateCircuit
+             ENG: Circuit type - IT: Tipologia di circuito
+             00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
+             05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
+             09->Satispay, 10->PrivateCircuit
         status:
           type: string
           enum:
             - AUTHORIZED
             - REWARDED
             - CANCELLED
+          description: "ENG: Transaction status  - IT: Stato della transazione"
         channel:
           type: string
           enum:
             - RTD
             - QRCODE
+          description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string
     SuspendOperationDTO:
@@ -440,13 +502,16 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Operation ID - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - SUSPENDED
           type: string
+          description: "ENG: Operation type [SUSPENDED: Suspended] - IT: Tipologia dell'operazione [SUSPENDED: sospeso]"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
     RefundDetailDTO:
       type: object
       required:
@@ -458,38 +523,51 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Operation ID - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - PAID_REFUND
             - REJECTED_REFUND
           type: string
+          description: "ENG: Operation type [PAID_REFUND: Paid refund, REJECTED_REFUND: Rejected refund] - IT: Tipologia dell'operazione [PAID_REFUND: Rimborso pagato, REJECTED_REFUND: Rimborso rifiutato]"
         eventId:
           type: string
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
         iban:
           type: string
+          description: "ENG: IBAN - IT: IBAN"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
         amount:
           type: number
+          description: "ENG: Refund amount - IT: Importo da rimborsare"
         status:
           type: string
+          description: "ENG: Refund status - IT: Stato del rimborso"
         refundType:
           type: string
+          description: "ENG: Refund type - IT: Tipologia di rimborso"
         startDate:
           type: string
           format: date
+          description: "ENG: Start date - IT: Data di inizio"
         endDate:
           type: string
           format: date
+          description: "ENG: End date - IT Data di fine"
         transferDate:
           type: string
           format: date
+          description: "ENG: Transfer date - IT: Data della trasferenza"
         userNotificationDate:
           type: string
           format: date
+          description: "ENG: User notification date - IT: Data di notificazione all'utente"
         cro:
           type: string
+          description: "ENG: Code that identifies a bank transaction/credit transfer - IT: Codice che identifica una transazione bancaria/bonifico"
     ReadmittedOperationDTO:
       type: object
       required:
@@ -499,13 +577,16 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - READMITTED
           type: string
+          description: "ENG: Operation type - IT: Tipologia dell'operazione"
         operationDate:
           type: string
           format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
     ErrorDTO:
       type: object
       required:
@@ -515,8 +596,10 @@ components:
         code:
           type: integer
           format: int32
+          description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
   securitySchemes:
     bearerAuth:
       type: http
