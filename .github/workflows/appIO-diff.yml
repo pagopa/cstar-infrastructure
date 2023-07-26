@@ -1,30 +1,33 @@
 name: 'Check diff on AppIO full swagger'
 
-on: push
+on:
+  push:
+    paths:
+      - 'src/domains/idpay-app/**'
 
 
 jobs:
-  paths-filter:
-    runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.filter.outputs.workflows }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            workflows:
-              - 'src/domains/idpay-app/**'
-      # run only if 'workflows' files were changed
-      - name: workflow tests
-        if: steps.filter.outputs.workflows == 'true'
-        run: echo "Workflow file"
-
-      # run only if not 'workflows' files were changed
-      - name: not workflow tests
-        if: steps.filter.outputs.workflows != 'true'
-        run: echo "NOT workflow file"
+#  paths-filter:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      output1: ${{ steps.filter.outputs.workflows }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: dorny/paths-filter@v2
+#        id: filter
+#        with:
+#          filters: |
+#            workflows:
+#              - 'src/domains/idpay-app/**'
+#      # run only if 'workflows' files were changed
+#      - name: workflow tests
+#        if: steps.filter.outputs.workflows == 'true'
+#        run: echo "Workflow file"
+#
+#      # run only if not 'workflows' files were changed
+#      - name: not workflow tests
+#        if: steps.filter.outputs.workflows != 'true'
+#        run: echo "NOT workflow file"
   main:
     name: Check diff on AppIO full swagger
     runs-on: ubuntu-latest
