@@ -698,8 +698,8 @@ enable = {
   }
   bpd = {
     db     = false
-    api    = true
-    api_pm = true
+    api    = false
+    api_pm = false
   }
   rtd = {
     blob_storage_event_grid_integration = true

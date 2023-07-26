@@ -691,7 +691,7 @@ enable = {
   }
   bpd = {
     db     = false
-    api    = true
+    api    = false
     api_pm = true
   }
   rtd = {
