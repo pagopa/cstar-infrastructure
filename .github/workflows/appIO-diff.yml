@@ -24,10 +24,6 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - name: Run git-diff
-        run: |
-          git diff
-
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff
         with:
@@ -36,8 +32,6 @@ jobs:
           mode: addition
           tolerance: same
           output: passed
-
-
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
