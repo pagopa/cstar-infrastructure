@@ -5,7 +5,6 @@ on:
     paths:
       - 'src/domains/idpay-app/**'
 
-
 jobs:
 #  paths-filter:
 #    runs-on: ubuntu-latest
