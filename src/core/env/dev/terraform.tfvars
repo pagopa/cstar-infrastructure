@@ -457,141 +457,11 @@ enable_azdoa = true
 
 eventhubs = [
   {
-    name              = "bpd-citizen-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["bpd-citizen"]
-    keys = [
-      {
-        name   = "bpd-payment-instrument"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-citizen"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "bpd-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["bpd-point-processor"]
-    keys = [
-      {
-        name   = "bpd-payment-instrument"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-point-processor"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "bpd-citizen"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "bpd-trx-cashback"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["bpd-winning-transaction"]
-    keys = [
-      {
-        name   = "bpd-point-processor"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-winning-transaction"
-        listen = true
-        send   = false
-        manage = false
-      },
-    ]
-  },
-  {
-    name              = "bpd-trx-error"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["bpd-transaction-error-manager"]
-    keys = [
-      {
-        name   = "bpd-point-processor"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-transaction-error-manager"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "bpd-payment-instrument"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "bpd-winner-outcome"
-    partitions        = 1
-    message_retention = 1
-    consumers         = []
-    keys = [
-      {
-        name   = "award-winner"
-        listen = true
-        send   = true
-        manage = true
-      },
-      {
-        name   = "consap-csv-connector"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "award-winner-integration" //TODO Check
-        listen = true
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
     consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
     keys = [
-      {
-        name   = "rtd-csv-connector"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-payment-instrument"
-        listen = true
-        send   = false
-        manage = false
-      },
       {
         name   = "rtd-trx-consumer"
         listen = true
@@ -697,7 +567,9 @@ enable = {
     private_endpoints_subnet = true
   }
   bpd = {
-    db = false
+    db     = false
+    api    = false
+    api_pm = false
   }
   rtd = {
     blob_storage_event_grid_integration = true
