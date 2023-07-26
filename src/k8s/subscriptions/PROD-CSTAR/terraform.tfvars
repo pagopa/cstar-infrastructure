@@ -699,4 +699,7 @@ enable = {
   fa = {
     api = false
   }
+  bpd = {
+    api = true
+  }
 }

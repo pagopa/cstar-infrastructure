@@ -433,36 +433,9 @@ autoscaling_specs = {
 
 secrets_to_be_read_from_kv = [
   "appinsights-instrumentation-key",
-  "db-administrator-login",
-  "db-bpd-login",
-  "db-bpd-user-password",
-  "db-fa-login",
-  "db-fa-user-password",
-  "db-rtd-login",
-  "db-rtd-user-password",
-  "evh-bpd-winner-outcome-award-winner-key",
-  "evh-bpd-citizen-trx-bpd-citizen-key",
-  "evh-bpd-citizen-trx-bpd-payment-instrument-key",
-  "evh-bpd-trx-bpd-citizen-key",
-  "evh-bpd-trx-bpd-payment-instrument-key",
-  "evh-bpd-trx-bpd-point-processor-key",
-  "evh-bpd-trx-cashback-bpd-point-processor-key",
-  "evh-bpd-trx-cashback-bpd-winning-transaction-key",
-  "evh-bpd-trx-error-bpd-payment-instrument-key",
-  "evh-bpd-trx-error-bpd-point-processor-key",
-  "evh-bpd-trx-error-bpd-transaction-error-manager-key",
-  "evh-bpd-winner-outcome-award-winner-key",
-  "evh-bpd-winner-outcome-award-winner-integration-key",
-  "evh-rtd-trx-bpd-payment-instrument-key",
-  "evh-rtd-trx-rtd-csv-connector-key",
-  "bpd-notificator-sftp-user",
-  "notification-sftp-private-key",
-  "notification-service-notify-winners-public-key",
-  "notification-sftp-password",
   "pagopa-checkiban-apikey",
   "storageaccount-cstarblob-key",
   "url-backend-io-token-value",
-  # FA
   "evh-rtd-trx-rtd-trx-consumer-key",
   "evh-rtd-trx-rtd-trx-producer-key",
   "evh-rtd-platform-events-rtd-platform-events-sub-key",
@@ -507,5 +480,8 @@ enable = {
   }
   fa = {
     api = true
+  }
+  bpd = {
+    api = false
   }
 }
