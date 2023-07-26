@@ -381,55 +381,7 @@ configmaps_rtdpieventprocessor = {
   KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
 }
 
-autoscaling_specs = {
-
-  # map key must be the name of a deployment
-  bpdmscitizen = {
-
-    namespace = "bpd" # namespace of the deployment in the map key
-
-    max_replicas = 5
-    min_replicas = 1
-
-    # Support for multiple metrics per autoscaler
-    metrics = [
-      {
-        type = "Resource"
-        resource = {
-
-          name = "cpu"
-
-          target = {
-            type                = "Utilization"
-            average_utilization = 85
-          }
-        }
-      }
-    ]
-  }
-  bpdmscitizenbatch = {
-
-    namespace = "bpd"
-
-    max_replicas = 5
-    min_replicas = 1
-
-    metrics = [
-      {
-        type = "Resource"
-        resource = {
-
-          name = "cpu"
-
-          target = {
-            type                = "Utilization"
-            average_utilization = 85
-          }
-        }
-      }
-    ]
-  }
-}
+autoscaling_specs = {}
 
 secrets_to_be_read_from_kv = [
   "appinsights-instrumentation-key",
