@@ -55,6 +55,9 @@
         <set-header name="Content-Disposition" exists-action="override">
             <value>@("attachment; filename="+context.Request.MatchedParameters["filename"])</value>
         </set-header>
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/octet-stream</value>
+        </set-header>
     </outbound>
     <on-error>
         <base />
