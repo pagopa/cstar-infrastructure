@@ -16,7 +16,7 @@ jobs:
 
       - name: Install library
         run: npm i -g openapi-merge-cli
-
+        #The.json file containing the inputs for the merge is inside the path "scripts/idpay-script/openapi-merge.json"
       - name: Run script merge
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
