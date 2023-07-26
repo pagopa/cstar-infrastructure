@@ -584,7 +584,6 @@ components:
         accepted:
           type: boolean
           description: "ENG: Indicates whether the self-consent is accepted or not - IT: Indica se l'auto consenso è accettato o no"
-
     SelfConsentMultiDTO:
       type: object
       required:
