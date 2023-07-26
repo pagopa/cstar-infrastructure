@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: IDPAY mock citizen data
+  description: IDPAY mock citizen data
+  version: '1.0'
+servers:
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/mock/citizen
+paths:
+  /isee:
+    post:
+      tags:
+        - isee-mock
+      summary: Add new isee values for citizen
+      description: Add new isee values for citizen
+      operationId: createIsee
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+            example: fiscalcode
+          required: true
+      requestBody:
+        description: Values of isee types
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IseeRequestDTO'
+      responses:
+        '201':
+          description: Get successful
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+components:
+  schemas:
+    IseeRequestDTO:
+      type: object
+      properties:
+        iseeTypeMap:
+          type: number
+          description: "Valore numerico per isee"
+          example:
+            ORDINARIO: 5000
+            MINORENNE: 6000
+            UNIVERSITARIO: 7000
+            SOCIOSANITARIO: 8000
+            DOTTORATO: 9000
+            RESIDENZIALE: 10000
+            CORRENTE: 1000
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: [ ]
+tags:
+  - name: isee-mock
+    description: ''
