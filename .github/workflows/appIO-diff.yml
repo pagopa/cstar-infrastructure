@@ -25,7 +25,8 @@ jobs:
         run: npx openapi-merge-cli
 
       - name: Run git-diff
-        run: git diff
+        run: |
+          git diff
 
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff
