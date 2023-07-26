@@ -24,9 +24,12 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - uses: KazukiHayase/review-git-diff-action@v1.0.0
+      - name: Modify README.md
+        uses: jaywcjlove/github-action-modify-file-content@main
         with:
-          threshold: 100
+          path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
+          body: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml,
+          overwrite: 'true'
 
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff

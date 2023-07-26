@@ -566,7 +566,24 @@ components:
           items:
             type: string
           description: "ENG: Indicates self-declaration values - IT: Indica i valori per l'autodichiarazione"
-
+    SelfConsentBoolDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - accepted
+      properties:
+        _type:
+          type: string
+          enum:
+            - boolean
+          description: "ENG: Self-consent boolean type - IT: Auto consenso di tipo boolean"
+        code:
+          type: string
+          description: "ENG: Self-consent code - IT: Codice dell'auto consenso"
+        accepted:
+          type: boolean
+          description: "ENG: Indicates whether the self-consent is accepted or not - IT: Indica se l'auto consenso è accettato o no"
     SelfConsentMultiDTO:
       type: object
       required:
