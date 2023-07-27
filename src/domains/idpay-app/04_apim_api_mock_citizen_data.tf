@@ -9,7 +9,7 @@ module "idpay_citizen_data" {
   description  = "IDPAY Mock citizen data"
   display_name = "IDPAY Mock citizen data API"
   path         = "idpay/mock/citizen"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "http://${var.ingress_load_balancer_hostname}/idpayadmissibility/idpay/mock/citizen"
 
@@ -19,7 +19,7 @@ module "idpay_citizen_data" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [data.azurerm_api_management_product.mock_api_product.product_id]
-  subscription_required = false
+  subscription_required = true
 
   api_operation_policies = [
     {
