@@ -1,4 +1,8 @@
 resource "kubernetes_ingress_v1" "bpd_ingress" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
+
   depends_on = [helm_release.ingress]
 
   metadata {
