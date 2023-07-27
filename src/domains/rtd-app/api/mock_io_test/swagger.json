@@ -6,10 +6,10 @@
         "description": "Mock API server."
     },
     "host": "${host}",
-    "basePath": "/rtd",
+    "basePath": "/rtd/mock-io",
     "schemes": ["https"],
     "paths": {
-        "/mock-io/login": {
+        "/login": {
             "post": {
                 "description": "Returns a token to be used in the PagoPA backend, using user's fiscalCode.",
                 "operationId": "getToken",
@@ -76,7 +76,7 @@
                 }
             }
         },
-        "/mock-io/user": {
+        "/user": {
             "get": {
                 "description": "Returns the user data needed by PagoPA Wallet backend.",
                 "operationId": "getUser",
@@ -140,7 +140,7 @@
                 }
             }
         },
-        "/mock-io/c/progetto-io/messages": {
+        "/c/progetto-io/messages": {
             "post": {
                 "description": "submitMessage",
                 "operationId": "submitMessageUsingPOST",
@@ -192,7 +192,7 @@
                 }
             }
         },
-        "/mock/isee": {
+        "/isee": {
             "post": {
                 "description": "Create mock isee, using user's fiscalCode.",
                 "operationId": "createMockIsee",
@@ -222,6 +222,9 @@
                 "responses": {
                     "200": {
                       "description": "OK"
+                    },
+                    "201": {
+                      "description": "Created"
                     },
                     "400": {
                       "description": "Bad request."

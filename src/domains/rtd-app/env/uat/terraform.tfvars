@@ -285,3 +285,5 @@ batch_service_last_supported_version = "1.3.2"
 #
 pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
 pdv_timeout_sec   = 15
+
+ingress_idpay_load_balancer_hostname = "uat01.idpay.internal.uat.cstar.pagopa.it"

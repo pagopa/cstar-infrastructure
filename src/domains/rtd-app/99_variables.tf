@@ -404,3 +404,6 @@ variable "pdv_timeout_sec" {
   default     = 15
 }
 
+variable "ingress_idpay_load_balancer_hostname" {
+  type = string
+}
