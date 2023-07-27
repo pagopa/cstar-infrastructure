@@ -21,7 +21,7 @@
             </set-header>
             <set-body>@{
                     return new JObject(
-                            new JProperty("pii", context.Request.MatchedParameters["fiscalCode"]
+                            new JProperty("pii", context.Request.Headers.GetValueOrDefault("Fiscal-Code")
                             )).ToString();
                 }</set-body>
         </send-request>
@@ -32,7 +32,7 @@
                 </return-response>
             </when>
             <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
-                <set-backend-service base-url="https://${ingress_idpay_load_balancer_hostname}/idpayadmissibility" />
+                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayadmissibility" />
                 <rewrite-uri template="@("/idpay/isee/mock/"+(string)((IResponse)context.Variables["responsePDV"]).Body.As<JObject>()["token"])" />
             </when>
             <otherwise>

@@ -26,8 +26,8 @@ module "api_mock_io" {
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
-  description  = "Mock API server."
-  display_name = "Mock TEST API"
+  description  = "Mock IO API server."
+  display_name = "Mock IO TEST API"
   path         = "rtd/mock-io"
   protocols    = ["https"]
 
@@ -42,16 +42,5 @@ module "api_mock_io" {
 
   product_ids           = [module.mock_api_product[0].product_id]
   subscription_required = true
-
-  api_operation_policies = [
-      {
-        operation_id = "createMockIsee"
-        xml_content = templatefile("./api/mock_io_test/create-isee-policy.xml.tpl", {
-          ingress_idpay_load_balancer_hostname = var.ingress_idpay_load_balancer_hostname
-          pdv_timeout_sec                      = var.pdv_timeout_sec
-          pdv_tokenizer_url                    = var.pdv_tokenizer_url
-        })
-      }
-    ]
 
 }

@@ -276,11 +276,3 @@ k8s_ip_filter_range_aks = {
 
 pm_backend_url                       = "https://api.platform.pagopa.it"
 batch_service_last_supported_version = "1.3.2"
-
-#
-# PDV
-#
-pdv_tokenizer_url = "https://api.tokenizer.pdv.pagopa.it/tokenizer/v1"
-pdv_timeout_sec   = 5
-
-ingress_idpay_load_balancer_hostname = "prod01.idpay.internal.cstar.pagopa.it"
