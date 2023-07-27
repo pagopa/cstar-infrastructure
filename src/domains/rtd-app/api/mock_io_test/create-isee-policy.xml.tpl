@@ -21,7 +21,7 @@
             </set-header>
             <set-body>@{
                     return new JObject(
-                            new JProperty("pii", context.Request.Headers.GetValueOrDefault("Fiscal-Code")
+                            new JProperty("pii", context.Request.MatchedParameters["fiscalCode"]
                             )).ToString();
                 }</set-body>
         </send-request>

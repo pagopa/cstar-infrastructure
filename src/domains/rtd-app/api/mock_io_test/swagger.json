@@ -1,15 +1,15 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Mock IO TEST API",
+        "title": "Mock TEST API",
         "version": "1.0",
-        "description": "Mock IO API server."
+        "description": "Mock API server."
     },
     "host": "${host}",
-    "basePath": "/rtd/mock-io",
+    "basePath": "/rtd",
     "schemes": ["https"],
     "paths": {
-        "/login": {
+        "/mock-io/login": {
             "post": {
                 "description": "Returns a token to be used in the PagoPA backend, using user's fiscalCode.",
                 "operationId": "getToken",
@@ -76,7 +76,7 @@
                 }
             }
         },
-        "/user": {
+        "/mock-io/user": {
             "get": {
                 "description": "Returns the user data needed by PagoPA Wallet backend.",
                 "operationId": "getUser",
@@ -140,7 +140,7 @@
                 }
             }
         },
-        "/c/progetto-io/messages": {
+        "/mock-io/c/progetto-io/messages": {
             "post": {
                 "description": "submitMessage",
                 "operationId": "submitMessageUsingPOST",
@@ -188,6 +188,61 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/isee": {
+            "post": {
+                "description": "Create mock isee, using user's fiscalCode.",
+                "operationId": "createMockIsee",
+                "summary": "Create mock user's isee",
+                "tags": ["user-data-controller"],
+                "parameters": [{
+                    "name": "fiscalCode",
+                    "in": "query",
+                    "description": "fiscalCode",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Bearer Auth Token",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "iseeRequest",
+                    "in": "body",
+                    "schema": {
+                        "$ref": "#/definitions/IseeRequest"
+                    },
+                    "description": "iseeRequest"
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                      "description": "OK"
+                    },
+                    "400": {
+                      "description": "Bad request."
+                    },
+                    "401": {
+                      "description": "Fiscal code null or invalid."
+                    },
+                    "403": {
+                      "description": "Forbidden"
+                    },
+                    "404": {
+                      "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "There was an error in retrieving the user data.",
+                        "schema": {
+                          "$ref": "#/definitions/ProblemJson"
+                        },
+                        "examples": {
+                          "application/json": "{\r\n  \"detail\": \"There was an error processing the request\",\r\n  \"instance\": \"string\",\r\n  \"status\": 0,\r\n  \"title\": \"string\",\r\n  \"type\": \"https://example.com/problem/constraint-violation\"\r\n}"
+                        }
                     }
                 }
             }
@@ -331,6 +386,24 @@
         },
         "Payment-instrumentsHpan-id-Get200ApplicationJsonResponse": {
             "type": "string"
+        },
+        "IseeRequest": {
+            "type": "object",
+            "properties": {
+                "iseeTypeMap": {
+                    "type": "number",
+                    "description": "Value of isee",
+                    "example": {
+                      "ORDINARIO": 5000,
+                      "MINORENNE": 6000,
+                      "UNIVERSITARIO": 7000,
+                      "SOCIOSANITARIO": 8000,
+                      "DOTTORATO": 9000,
+                      "RESIDENZIALE": 10000,
+                      "CORRENTE": 1000
+                    }
+                }
+            }
         }
     },
     "tags": [{
@@ -339,5 +412,8 @@
     }, {
         "name": "user-api-controller",
         "description": "User Api Controller"
+    }, {
+        "name": "user-data-controller",
+        "description": "User Data Controller"
     }]
 }

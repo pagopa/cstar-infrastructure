@@ -392,3 +392,15 @@ variable "batch_service_last_supported_version" {
   default     = "0.0.1"
 }
 
+variable "pdv_tokenizer_url" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "PDV uri. Endpoint for encryption of pii information."
+}
+
+variable "pdv_timeout_sec" {
+  type        = number
+  description = "PDV timeout (sec)"
+  default     = 15
+}
+

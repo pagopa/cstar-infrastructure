@@ -43,4 +43,15 @@ module "api_mock_io" {
   product_ids           = [module.mock_api_product[0].product_id]
   subscription_required = true
 
+  api_operation_policies = [
+      {
+        operation_id = "createMockIsee"
+        xml_content = templatefile("./api/mock_io_test/create-isee-policy.xml.tpl", {
+          ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+          pdv_timeout_sec                = var.pdv_timeout_sec
+          pdv_tokenizer_url              = var.pdv_tokenizer_url
+        })
+      }
+    ]
+
 }
