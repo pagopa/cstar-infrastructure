@@ -391,3 +391,4 @@ variable "batch_service_last_supported_version" {
   description = "batch service last version supported by backend"
   default     = "0.0.1"
 }
+
