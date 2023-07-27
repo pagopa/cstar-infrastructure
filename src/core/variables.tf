@@ -828,7 +828,9 @@ variable "enable" {
       private_endpoints_subnet = bool
     })
     bpd = object({
-      db = bool
+      db     = bool
+      api    = bool
+      api_pm = bool
     })
     rtd = object({
       blob_storage_event_grid_integration = bool
@@ -861,7 +863,9 @@ variable "enable" {
       private_endpoints_subnet = false
     }
     bpd = {
-      db = false
+      db     = false
+      api    = false
+      api_pm = false
     }
     rtd = {
       blob_storage_event_grid_integration = false
