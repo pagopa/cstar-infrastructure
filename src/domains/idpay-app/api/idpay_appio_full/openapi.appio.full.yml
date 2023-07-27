@@ -235,7 +235,7 @@ paths:
         "204":
           description: Acceptance successful
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
@@ -324,7 +324,7 @@ paths:
         "202":
           description: Accepted - Request Taken Over
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
@@ -407,7 +407,7 @@ paths:
         "202":
           description: Accepted - Request Taken Over
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
@@ -864,7 +864,7 @@ paths:
         "200":
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
@@ -949,7 +949,7 @@ paths:
         "200":
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
@@ -1099,7 +1099,7 @@ paths:
         "200":
           description: Delete OK
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
@@ -1178,7 +1178,7 @@ paths:
         "204":
           description: Unsubscribe OK
           content:
-            application/json: { }
+            application/json: {}
         "400":
           description: Bad request
           content:
