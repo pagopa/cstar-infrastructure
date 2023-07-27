@@ -372,6 +372,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -390,7 +391,7 @@ paths:
             type: string
         - name: operationId
           in: path
-          description: The operation ID
+          description: "ENG: The operation ID - IT: L'ID dell'operazione"
           required: true
           schema:
             type: string
@@ -446,6 +447,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -514,6 +516,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -595,6 +598,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           schema:
             type: integer
@@ -607,6 +611,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           schema:
             type: string
@@ -618,19 +623,19 @@ paths:
             type: string
         - name: dateFrom
           in: query
-          description: Start date
+          description: "ENG: Start date - IT: Data iniziale dell'intervallo temporale entro cui recuperare gli stati dell'onboarding"
           required: false
           schema:
             type: string
         - name: dateTo
           in: query
-          description: End date
+          description: "ENG: End date - IT: Data finale superiore dell'intervallo temporale entro cui recuperare gli stati dell'onbaording"
           required: false
           schema:
             type: string
         - name: state
           in: query
-          description: onboarding state
+          description: "ENG: Onboarding state - IT: Stato dell'onboarding"
           required: false
           schema:
             type: string
@@ -674,6 +679,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
           required: true
@@ -756,6 +762,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           schema:
             type: integer
@@ -768,6 +775,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           schema:
             type: string
@@ -779,7 +787,7 @@ paths:
             type: string
         - name: state
           in: query
-          description: onboarding state
+          description: "ENG: Onboarding state - IT: Stato dell'onboarding"
           required: false
           schema:
             type: string
@@ -824,7 +832,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -837,7 +845,7 @@ paths:
             type: string
         - name: filename
           in: path
-          description: filename
+          description: "ENG: File name - IT: Nome del file"
           required: true
           style: simple
           schema:
@@ -894,7 +902,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -907,6 +915,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           style: form
           schema:
@@ -921,6 +930,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           style: form
           schema:
@@ -997,7 +1007,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1010,6 +1020,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           style: form
           schema:
@@ -1024,6 +1035,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           style: form
           schema:
@@ -1107,7 +1119,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1178,7 +1190,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1248,7 +1260,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1325,7 +1337,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1345,6 +1357,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           schema:
             type: integer
@@ -1357,6 +1370,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           schema:
             type: string
@@ -1468,7 +1482,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1481,7 +1495,7 @@ paths:
             type: string
         - name: eventId
           in: path
-          description: eventId
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
           required: true
           style: simple
           schema:
@@ -1569,7 +1583,7 @@ paths:
             format: int32
         - name: size
           in: query
-          description: "ENG: Number of items, default 3 - max 10 - IT: Numero di risultati, il default è 3 - il massimo è 10"
+          description: "ENG: Number of items, default 10 - IT: Numero di risultati, il default è 10"
           required: false
           schema:
             type: integer
@@ -1754,7 +1768,7 @@ paths:
             format: int32
         - name: size
           in: query
-          description: 'ENG: Number of items, default 3 - max 10 - IT: Numero di risultati, il default è 3 - il massimo è 10'
+          description: 'ENG: Number of items, default 10 - IT: Numero di risultati, il default è 10'
           required: false
           schema:
             type: integer
@@ -1821,7 +1835,7 @@ paths:
             format: int32
         - name: size
           in: query
-          description: "ENG: Number of items, default 3 - max 10 - IT: Numero di risultati, il default è 3 - il massimo è 10"
+          description: "ENG: Number of items, default 10 - IT: Numero di risultati, il default è 10"
           required: false
           schema:
             type: integer
@@ -2901,6 +2915,7 @@ components:
           description: "ENG: Indicates one of the possible operation type: TRANSACTION, REVERSAL,  - IT: Indica uno dei possibili tipi di operazione: TRANSACTION: Transazione, REVERSAL: Storno"
         eventId:
           type: string
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
         brandLogo:
           type: string
           description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
@@ -2922,12 +2937,17 @@ components:
           description: "ENG: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit - IT: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
         idTrxIssuer:
           type: string
-          description: "ENG: - IT:"
+          description: >-
+            ENG: Transaction issuer ID - IT: Identificativo della transazione
+            rispetto all'issuer
         idTrxAcquirer:
           type: string
-          description: "ENG: - IT:"
+          description: >-
+            ENG: Transaction acquirer ID- IT: Identificativo della transazione
+            rispetto all'acquirer
         businessName:
           type: string
+          description: 'ENG: Business name - IT: Nome dell''esercente'
     InstrumentOperationDTO:
       type: object
       required:
