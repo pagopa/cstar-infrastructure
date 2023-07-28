@@ -14,106 +14,29 @@
     <inbound>
         <base />
         <!-- Storage related variables -->
-        <set-variable name="accessKey" value="{{initiative-storage-access-key}}" />
-        <set-variable name="storageAccount" value="${initiative-storage-account-name}" />
+        <set-variable name="storagePrivateFqdn" value="${initiative-storage-account-name}" />
         <set-variable name="containerName" value="ranking" />
-        <set-variable name="x-ms-date" value="@(DateTime.UtcNow.ToString("R"))" />
-        <set-variable name="x-ms-version" value="2021-06-08" />
-        <!-- SAS Token variables -->
-        <set-variable name="sasTokenExpiresInMinutes" value="60" />
-        <!-- Genere a service-level SAS token -->
-        <set-variable name="signedPermissions" value="r" />
-        <set-variable name="signedStart" value="@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mmZ"))" />
-        <set-variable name="signedExpiry" value="@(DateTime.UtcNow.AddMinutes(Convert.ToDouble((string)context.Variables["sasTokenExpiresInMinutes"])).ToString("yyyy-MM-ddTHH:mmZ"))" />
-        <!-- se, required -->
-        <set-variable name="canonicalizedResource" value="@{
-            // {resourceName}/{storageAccount}/{resourcePath}
-            // must include resourceName from signedVersion 2015-02-21 onwards
-            return string.Format("/blob/{0}/{1}", (string)context.Variables["storageAccount"], (string)context.Variables["containerName"]);
-        }" />
-        <set-variable name="signedIdentifier" value="" />
-        <!-- si, optional -->
-        <set-variable name="signedIP" value="" />
-        <!-- sip, optional -->
-        <set-variable name="signedProtocol" value="https" />
-        <!-- spr, optional -->
-        <set-variable name="signedVersion" value="2020-12-06" />
-        <!-- sv, required -->
-        <set-variable name="signedResource" value="c" />
-        <!-- sr, required -->
-        <set-variable name="signedSnapshotTime" value="" />
-        <!-- sst, optional -->
-        <set-variable name="signedEncryptionScope" value="" />
-        <!-- ses, optional -->
-        <!-- Response Cache Control -->
-        <set-variable name="rscc" value="" />
-        <!-- rscc, optional -->
-        <!-- Response Content Disposition -->
-        <set-variable name="rscd" value="" />
-        <!-- rscd, optional -->
-        <!-- Response Content Encoding -->
-        <set-variable name="rsce" value="" />
-        <!-- rsce, optional -->
-        <!-- Response Content Language -->
-        <set-variable name="rscl" value="" />
-        <!-- rscl, optional -->
-        <set-variable name="StringToSign" value="@{
-            return string.Format(
-                "{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n{11}\n{12}\n{13}\n{14}\n",
-                (string)context.Variables["signedPermissions"],
-                (string)context.Variables["signedStart"],
-                (string)context.Variables["signedExpiry"],
-                (string)context.Variables["canonicalizedResource"],
-                (string)context.Variables["signedIdentifier"],
-                (string)context.Variables["signedIP"],
-                (string)context.Variables["signedProtocol"],
-                (string)context.Variables["signedVersion"],
-                (string)context.Variables["signedResource"],
-                (string)context.Variables["signedSnapshotTime"],
-                (string)context.Variables["signedEncryptionScope"],
-                (string)context.Variables["rscc"],
-                (string)context.Variables["rscd"],
-                (string)context.Variables["rsce"],
-                (string)context.Variables["rscl"]
-            );
-            }" />
-        <set-variable name="sharedKey" value="@{
-                // https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/authentication-for-the-azure-storage-services
-                // Hash-based Message Authentication Code (HMAC) using SHA256 hash
-                System.Security.Cryptography.HMACSHA256 hasher = new System.Security.Cryptography.HMACSHA256(Convert.FromBase64String((string)context.Variables["accessKey"]));
-                return Convert.ToBase64String(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes((string)context.Variables["StringToSign"])));
-            }" />
-        <set-variable name="sas" value="@{
-            return string.Format(
-                "sig={0}&st={1}&se={2}&spr={3}&sp={4}&sr={5}&sv={6}",
-                System.Net.WebUtility.UrlEncode((string)context.Variables["sharedKey"]),
-                (string)context.Variables["signedStart"],
-                (string)context.Variables["signedExpiry"],
-                (string)context.Variables["signedProtocol"],
-                (string)context.Variables["signedPermissions"],
-                (string)context.Variables["signedResource"],
-                (string)context.Variables["signedVersion"]
-            );
-            }" />
         <!-- section: rewrite request to backend -->
         <!-- change base backend url -->
-
-        <return-response>
-            <set-status code="201" reason="Created" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>@{
-                return new JObject(
-                    new JProperty("sas", string.Format("{0}/{1}/{2}/{3}?{4}",
-                    "https://${initiative-storage-account-name}.blob.core.windows.net/ranking",
+        <set-backend-service base-url="@{
+                return "https://" + context.Variables["storagePrivateFqdn"] + "/" + context.Variables["containerName"];
+        }" />
+        <set-method>GET</set-method>
+        <!-- rewrite request to backend -->
+        <rewrite-uri template="@(string.Format("{0}/{1}/{2}",
                     ((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", ""),
                     context.Request.MatchedParameters["initiativeId"],
-                    context.Request.MatchedParameters["filename"],
-                    context.Variables["sas"]))
-                ).ToString();
-             }</set-body>
-        </return-response>
+                    context.Request.MatchedParameters["filename"])
+        )" />
+        <!-- section: rewrite request to backend -->
+        <!-- change base backend url -->
+        <authentication-managed-identity resource="https://storage.azure.com/" output-token-variable-name="msi-access-token" ignore-error="false" />
+        <set-header name="Authorization" exists-action="override">
+            <value>@("Bearer " + (string)context.Variables["msi-access-token"])</value>
+        </set-header>
+        <set-header name="X-Ms-Version" exists-action="override">
+            <value>2019-12-12</value>
+        </set-header>
     </inbound>
     <backend>
         <base />
@@ -129,6 +52,12 @@
         <set-header name="x-ms-blob-type" exists-action="delete" />
         <set-header name="x-ms-server-encrypted" exists-action="delete" />
         <set-header name="ETag" exists-action="delete" />
+        <set-header name="Content-Disposition" exists-action="override">
+            <value>@("attachment; filename="+context.Request.MatchedParameters["filename"])</value>
+        </set-header>
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/octet-stream</value>
+        </set-header>
     </outbound>
     <on-error>
         <base />
