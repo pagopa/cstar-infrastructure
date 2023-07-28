@@ -45,6 +45,7 @@ enable = {
   idpay = {
     eventhub = true
   }
+  mock_io_api = true
 }
 
 #

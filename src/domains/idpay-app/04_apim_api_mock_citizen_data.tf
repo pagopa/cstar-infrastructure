@@ -2,6 +2,7 @@
 module "idpay_citizen_data" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
+  count               = var.enable.mock_io_api ? 1 : 0
   name                = "${var.env_short}-idpay-mock-citizen-data"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
@@ -18,7 +19,7 @@ module "idpay_citizen_data" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [data.azurerm_api_management_product.mock_api_product.product_id]
+  product_ids           = [data.azurerm_api_management_product.mock_api_product[0].product_id]
   subscription_required = true
 
   api_operation_policies = [
