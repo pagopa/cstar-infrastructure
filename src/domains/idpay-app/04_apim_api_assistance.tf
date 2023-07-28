@@ -210,6 +210,41 @@ module "idpay_api_assistance" {
         pdv_retry_max_interval         = var.pdv_retry_max_interval
         pdv_retry_delta                = var.pdv_retry_delta
       })
+    },
+    {
+      operation_id = "getMerchantList"
+
+      xml_content = templatefile("./api/idpay_assistance/get-merchant-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantDetail"
+
+      xml_content = templatefile("./api/idpay_assistance/get-merchant-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantInitiativeStatistics"
+
+      xml_content = templatefile("./api/idpay_assistance/get-merchant-statistics-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantTransactions"
+
+      xml_content = templatefile("./api/idpay_assistance/get-merchant-transactions-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getMerchantTransactionsProcessed"
+
+      xml_content = templatefile("./api/idpay_assistance/get-merchant-transactions-processed-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
