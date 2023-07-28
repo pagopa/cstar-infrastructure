@@ -1,7 +1,11 @@
 name: 'Check diff on idpay AppIO full swagger'
 
 on:
-  push:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
     paths:
       - 'src/domains/idpay-app/**'
 
