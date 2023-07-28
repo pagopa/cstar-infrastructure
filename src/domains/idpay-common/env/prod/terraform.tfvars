@@ -388,7 +388,7 @@ eventhubs_idpay_01 = [
     name              = "idpay-commands"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-commands-wallet", "idpay-commands-group", "idpay-commands-notification", "idpay-commands-ranking","idpay-commands-admissibility","idpay-commands-reward-calculator","idpay-commands-reward-notification","idpay-commands-timeline","idpay-commands-onboarding","idpay-commands-payment-instrument","idpay-commands-statistics","idpay-commands-merchant","idpay-commands-payment","idpay-commands-transaction","idpay-commands-iban","idpay-commands-initiative"]
+    consumers         = ["idpay-commands-wallet", "idpay-commands-group", "idpay-commands-notification", "idpay-commands-ranking", "idpay-commands-admissibility", "idpay-commands-reward-calculator", "idpay-commands-reward-notification", "idpay-commands-timeline", "idpay-commands-onboarding", "idpay-commands-payment-instrument", "idpay-commands-statistics", "idpay-commands-merchant", "idpay-commands-payment", "idpay-commands-transaction", "idpay-commands-iban", "idpay-commands-initiative"]
     keys = [
       {
         name   = "idpay-commands-producer"
