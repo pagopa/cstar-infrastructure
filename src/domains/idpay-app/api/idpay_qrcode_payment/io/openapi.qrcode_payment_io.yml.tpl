@@ -12,7 +12,6 @@ paths:
         - mergeIgnore
       summary: Returns the detail of a transaction
       operationId: getTransaction
-
       parameters:
         - name: transactionId
           in: path
