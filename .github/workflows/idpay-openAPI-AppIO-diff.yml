@@ -9,6 +9,7 @@ on:
     paths:
       - 'src/domains/idpay-app/**'
 
+
 jobs:
   main:
     name: Check diff on idpay AppIO full swagger
