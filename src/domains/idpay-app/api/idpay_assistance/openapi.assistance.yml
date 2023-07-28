@@ -9,7 +9,7 @@ paths:
   '/organizations':
     get:
       tags:
-       - organizations
+        - organizations
       summary: "ENG: Returns list of Organizations for at least one initiative by each visible to the PagoPA operator - IT: Mostra una lista di enti con almeno un'iniziativa ciascuno visibili all'operatore PagoPA"
       operationId: getListOfOrganization
       responses:
@@ -199,13 +199,14 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
           required: true
         - name: iban
           in: path
-          description: The citizen iban
+          description: "ENG: The citizen IBAN - IT: L'IBAN del cittadino"
           required: true
           schema:
             type: string
@@ -273,6 +274,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -291,31 +293,31 @@ paths:
             type: string
         - name: operationType
           in: query
-          description: Operation type filter
+          description: "ENG: Operation type filter - IT: Filtro sul tipo di operazione"
           schema:
             type: string
         - name: dateFrom
           in: query
-          description: Start date
+          description: "ENG: Start date - IT: Data iniziale dell'intervallo temporale entro cui recuperare le operazioni"
           required: false
           schema:
             type: string
             format: date-time
         - name: dateTo
           in: query
-          description: End date
+          description: "ENG: End date - IT: Data finale superiore dell'intervallo temporale entro cui recuperare le operazioni"
           required: false
           schema:
             type: string
             format: date-time
         - name: page
           in: query
-          description: The number of the page
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           schema:
             type: integer
         - name: size
           in: query
-          description: 'Number of items, default 3 - max 10'
+          description: 'ENG: Number of items, default 3 - max 10 - IT: Numero di risultati, il default è 3 - il massimo è 10'
           schema:
             type: integer
       responses:
@@ -370,6 +372,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -388,7 +391,7 @@ paths:
             type: string
         - name: operationId
           in: path
-          description: The operation ID
+          description: "ENG: The operation ID - IT: L'ID dell'operazione"
           required: true
           schema:
             type: string
@@ -444,6 +447,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -512,6 +516,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
             example: Fiscal-Code
@@ -593,6 +598,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           schema:
             type: integer
@@ -605,6 +611,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           schema:
             type: string
@@ -616,19 +623,19 @@ paths:
             type: string
         - name: dateFrom
           in: query
-          description: Start date
+          description: "ENG: Start date - IT: Data iniziale dell'intervallo temporale entro cui recuperare gli stati dell'onboarding"
           required: false
           schema:
             type: string
         - name: dateTo
           in: query
-          description: End date
+          description: "ENG: End date - IT: Data finale superiore dell'intervallo temporale entro cui recuperare gli stati dell'onbaording"
           required: false
           schema:
             type: string
         - name: state
           in: query
-          description: onboarding state
+          description: "ENG: Onboarding state - IT: Stato dell'onboarding"
           required: false
           schema:
             type: string
@@ -672,6 +679,7 @@ paths:
       parameters:
         - name: Fiscal-Code
           in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
           schema:
             type: string
           required: true
@@ -754,6 +762,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           schema:
             type: integer
@@ -766,6 +775,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           schema:
             type: string
@@ -777,7 +787,7 @@ paths:
             type: string
         - name: state
           in: query
-          description: onboarding state
+          description: "ENG: Onboarding state - IT: Stato dell'onboarding"
           required: false
           schema:
             type: string
@@ -822,7 +832,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -835,7 +845,7 @@ paths:
             type: string
         - name: filename
           in: path
-          description: filename
+          description: "ENG: File name - IT: Nome del file"
           required: true
           style: simple
           schema:
@@ -892,7 +902,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -905,6 +915,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           style: form
           schema:
@@ -919,6 +930,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           style: form
           schema:
@@ -995,7 +1007,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1008,6 +1020,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           style: form
           schema:
@@ -1022,6 +1035,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           style: form
           schema:
@@ -1105,7 +1119,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1176,7 +1190,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1246,7 +1260,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1323,7 +1337,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1343,6 +1357,7 @@ paths:
             type: string
         - name: page
           in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
           required: false
           schema:
             type: integer
@@ -1355,6 +1370,7 @@ paths:
             format: int32
         - name: sort
           in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
           required: false
           schema:
             type: string
@@ -1466,7 +1482,7 @@ paths:
       parameters:
         - name: initiativeId
           in: path
-          description: initiativeId
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
           required: true
           style: simple
           schema:
@@ -1479,7 +1495,7 @@ paths:
             type: string
         - name: eventId
           in: path
-          description: eventId
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
           required: true
           style: simple
           schema:
@@ -1538,6 +1554,319 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/initiative/{initiativeId}/merchants:
+    get:
+      tags:
+        - merchant
+      summary: "ENG: Returns the merchants list - IT: Ritorna la ista degli esercenti"
+      description: "ENG: Returns the merchants list <br> IT: Lista degli esercenti"
+      operationId: getMerchantList
+      parameters:
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: "ENG: The initiative ID - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: "ENG: Number of items, default 10 - IT: Numero di risultati, il default è 10"
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: "ENG: Sorting order of the result - IT: Ordinamento del risultato"
+          required: false
+          schema:
+            type: string
+        - name: fiscalCode
+          in: query
+          description: "ENG: Citizen fiscal code- IT: Codice fiscale del cittadino"
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantListDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}:
+    get:
+      tags:
+        - merchant
+      summary: "ENG: Returns the merchant detail on initiative - IT: Ritorna il dettaglio dell' esercente sull'iniziativa"
+      description: "ENG: Returns the merchant detail on initiative <br> IT: Dettaglio dell' esercente sull'iniziativa"
+      operationId: getMerchantDetail
+      parameters:
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: "ENG: The initiative ID - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: merchantId
+          in: path
+          description: "ENG: The merchant ID - ID: L'ID dell'esercente"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantDetailDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}/statistics:
+    get:
+      tags:
+        - merchant
+      summary: "ENG: Returns the merchant statistics on the initiative - IT: Ritorna le statistiche dell'esercente sull'iniziativa"
+      description: "ENG: Returns the merchant statistics on the initiative <br> IT: Ritorna le statistiche dell'esercente sull'iniziativa"
+      operationId: getMerchantInitiativeStatistics
+      parameters:
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
+        - name: merchantId
+          in: path
+          description: "ENG: The merchant ID - ID: L'ID dell'esercente"
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: "ENG: The initiative ID - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantStatisticsDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}/transactions:
+    get:
+      tags:
+        - merchant
+      summary: "ENG: Returns the list of in progress transactions associated to a merchant - IT: Ritorna la lista delle transazioni in corso associate ad un esercente"
+      description: "ENG: Returns the list of in progress transactions associated to a merchant <br> IT: Ritorna la lista delle transazioni in corso associate ad un esercente"
+      operationId: getMerchantTransactions
+      parameters:
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
+        - name: merchantId
+          in: path
+          description: "ENG: The merchant ID - ID: L'ID dell'esercente"
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: "ENG: The initiative ID - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: 'ENG: Number of items, default 10 - IT: Numero di risultati, il default è 10'
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: fiscalCode
+          in: query
+          description: "ENG: Citizen fiscal code- IT: Codice fiscale del cittadino"
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "ENG: Transaction status - IT: Stato della transazione"
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantTransactionsListDTO'
+        '401':
+          description: Autentication failed
+        '404':
+          description: Merchant not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Server error
+  /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}/transactions/processed:
+    get:
+      tags:
+        - merchant
+      summary: "ENG: Returns the list of processed transactions associated to a merchant - IT: Ritorna la lista delle transazioni processate associate ad un esercente"
+      description: "ENG: Returns the list of processed transactions associated to a merchant <br> IT: Ritorna la lista delle transazioni processate associate ad un esercente"
+      operationId: getMerchantTransactionsProcessed
+      parameters:
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
+        - name: merchantId
+          in: path
+          description: "ENG: The merchant ID - IT: L'ID dell'esercente"
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: "ENG: The initiative ID - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: "ENG: The number of the page - IT: Il numero della pagina"
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: "ENG: Number of items, default 10 - IT: Numero di risultati, il default è 10"
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: fiscalCode
+          in: query
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "ENG: Transaction status - IT: Stato della tansazione"
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantTransactionsProcessedListDTO'
+        '401':
+          description: Autentication failed
+        '404':
+          description: Merchant not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Server error
 components:
   schemas:
     SasToken:
@@ -1804,8 +2133,10 @@ components:
       properties:
         code:
           type: string
+          description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     AnyOfInitiativeBeneficiaryRuleDTOSelfDeclarationCriteriaItems:
       type: object
       anyOf:
@@ -2584,6 +2915,7 @@ components:
           description: "ENG: Indicates one of the possible operation type: TRANSACTION, REVERSAL,  - IT: Indica uno dei possibili tipi di operazione: TRANSACTION: Transazione, REVERSAL: Storno"
         eventId:
           type: string
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
         brandLogo:
           type: string
           description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
@@ -2605,12 +2937,17 @@ components:
           description: "ENG: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit - IT: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
         idTrxIssuer:
           type: string
-          description: "ENG: - IT:"
+          description: >-
+            ENG: Transaction issuer ID - IT: Identificativo della transazione
+            rispetto all'issuer
         idTrxAcquirer:
           type: string
-          description: "ENG: - IT:"
+          description: >-
+            ENG: Transaction acquirer ID- IT: Identificativo della transazione
+            rispetto all'acquirer
         businessName:
           type: string
+          description: 'ENG: Business name - IT: Nome dell''esercente'
     InstrumentOperationDTO:
       type: object
       required:
@@ -2740,6 +3077,7 @@ components:
           description: "ENG: Indicates one of the possible operation type: TRANSACTION, REVERSAL,  - IT: Indica uno dei possibili tipi di operazione: TRANSACTION: Transazione, REVERSAL: Storno"
         eventId:
           type: string
+          description: "ENG: Event ID - IT: Identificativo dell'evento"
         operationDate:
           type: string
           format: date-time
@@ -2761,21 +3099,36 @@ components:
           description: "ENG: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit - IT: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
         idTrxIssuer:
           type: string
+          description: >-
+            ENG: Transaction issuer ID - IT: Identificativo della transazione
+            rispetto all'issuer
         idTrxAcquirer:
           type: string
+          description: >-
+            ENG: Transaction acquirer ID- IT: Identificativo della transazione
+            rispetto all'acquirer
         status:
           type: string
           enum:
             - AUTHORIZED
             - REWARDED
             - CANCELLED
+          description: >-
+            ENG: Transaction status [AUTHORIZED: Transaction authorize,
+            REWARDED: Transaction rewarded, CANCELLED: Transaction cancelled]  -
+            IT: Stato della transazione [AUTHORIZED: Transazione autorizzata,
+            REWARDED: Transazione premiata, CANCELLED: transazione cancellata]
         channel:
           type: string
           enum:
             - RTD
             - QRCODE
+          description: >-
+            ENG: Channel from which the transaction takes place - IT: Canale da
+            cui avviene la transazione
         businessName:
           type: string
+          description: 'ENG: Business name - IT: Nome dell''esercente'
     SuspendOperationDTO:
       type: object
       required:
@@ -2940,6 +3293,249 @@ components:
           type: string
           format: date
           description: "ENG: The date of the notification to user - IT: La data di notifica all'utente"
+    MerchantListDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantDTO'
+        pageNo:
+          type: integer
+          format: int32
+          description: "ENG: The number of the page <br> IT: Il numero della pagina"
+        pageSize:
+          type: integer
+          format: int32
+          description: "ENG: The element size for page <br> IT: Il numero di elementi per pagina"
+        totalElements:
+          type: integer
+          format: int32
+          description: "ENG: The total number of the elements <br> IT: Il numero totale degli elementi"
+        totalPages:
+          type: integer
+          format: int32
+          description: "ENG: The total number of the pages <br> IT: Il numero totale delle pagine"
+    MerchantDTO:
+      type: object
+      properties:
+        merchantId:
+          type: string
+          description: "ENG: The ID of the merchant <br> IT: L'ID' dell'esercente"
+        businessName:
+          type: string
+          description: "ENG: The name of the merchant <br> IT: La ragione sociale dell'esercente"
+        fiscalCode:
+          type: string
+          description: "ENG: The fiscal code/vat number of the merchant <br> IT: Il codice fiscale/partita iva dell'esercente"
+        merchantStatus:
+          type: string
+          enum:
+            - UPLOADED
+          description: "ENG: One of the possible merchant onboarding status: <ul><li>UPLOADED:This is the initial status after the csv upload</li></ul>IT: Uno dei possibili stati dell'onboarding da parte dell'esercente: <ul><li>UPLOADED:Questo è lo stato iniziale dopo il caricamento del file csv</li></ul>"
+        updateStatusDate:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of the last status update <br> IT: La data ed ora dell'ultimo aggiornamento dello stato"
+    MerchantTransactionsListDTO:
+      type: object
+      required:
+        - content
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantTransactionDTO'
+        pageNo:
+          type: integer
+          format: int32
+          description: "ENG: The number of the page - IT: Il numero della pagina"
+        pageSize:
+          type: integer
+          format: int32
+          description: "ENG: The element size for page - IT: Il numero di elementi per pagina"
+        totalElements:
+          type: integer
+          format: int32
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
+        totalPages:
+          type: integer
+          format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
+    MerchantTransactionDTO:
+      type: object
+      required:
+        - trxCode
+        - trxId
+        - effectiveAmount
+        - status
+        - qrcodePngUrl
+        - qrcodeTxtUrl
+      properties:
+        trxCode:
+          type: string
+          description: "ENG: Transaction code - IT: Il codice della transazione"
+        trxId:
+          type: string
+          description: "ENG: Transaction ID - IT: L'ID della transazione"
+        fiscalCode:
+          type: string
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
+        effectiveAmount:
+          type: number
+          description: "ENG: Transaction amount - IT: Quantitativo della transazione"
+        rewardAmount:
+          type: number
+          description: "ENG: Reward amount - IT: Premio generato"
+        trxDate:
+          type: string
+          format: date-time
+          description: "ENG: The date of the transaction - IT: La data della transazione"
+        trxExpirationMinutes:
+          type: number
+          description: "ENG: Expiration time of the transaction, in minutes - IT: Scadenza della transazione, in minuti"
+        updateDate:
+          type: string
+          format: date-time
+          description: "ENG: The date of the transaction update - IT: La data di aggiornamento della transazione"
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REJECTED
+          description: "ENG: Status of the transaction - IT: Stato della transazione"
+        qrcodePngUrl:
+          type: string
+          description: "ENG: Url to the QR code image - IT: Url all'immagine del QR code"
+        qrcodeTxtUrl:
+          type: string
+          description: "ENG: Url of the QR code link - IT: Url del QR code"
+    MerchantTransactionsProcessedListDTO:
+      type: object
+      required:
+        - content
+        - pageNo
+        - pageSize
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantTransactionProcessedDTO'
+        pageNo:
+          type: integer
+          format: int32
+          description: "ENG: The number of the page - IT: Il numero della pagina"
+        pageSize:
+          type: integer
+          format: int32
+          description: "ENG: The element size for page - IT: Il numero di elementi per pagina"
+        totalElements:
+          type: integer
+          format: int32
+          description: "ENG: The total number of the elements - IT: Il numero totale degli elementi"
+        totalPages:
+          type: integer
+          format: int32
+          description: "ENG: The total number of the pages - IT: Il numero totale delle pagine"
+    MerchantTransactionProcessedDTO:
+      type: object
+      required:
+        - trxId
+        - effectiveAmount
+        - status
+      properties:
+        trxId:
+          type: string
+          description: "ENG: Transaction ID - IT: L'ID della transazione"
+        fiscalCode:
+          type: string
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
+        effectiveAmount:
+          type: number
+          description: "ENG: Transaction amount - IT: Quantitativo della transazione"
+        rewardAmount:
+          type: number
+          description: "ENG: Reward amount - IT: Premio generato"
+        trxDate:
+          type: string
+          format: date-time
+          description: "ENG: The date of the transaction - IT: La data della transazione"
+        updateDate:
+          type: string
+          format: date-time
+          description: "ENG: The date of the transaction update - IT: La data di aggiornamento della transazione"
+        status:
+          type: string
+          enum:
+            - REWARDED
+            - CANCELLED
+          description: "ENG: Status of the transaction - IT: Stato della transazione"
+    MerchantStatisticsDTO:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: "ENG: Amount supplied - IT: Totale erogato"
+        accrued:
+          type: number
+          description: "ENG: Amount accrued - IT: Importo accumulato"
+        refunded:
+          type: number
+          description: "ENG: Amount refunded - IT: Importo rimborsato"
+    MerchantDetailDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+          description: "ENG: The ID of the initiative <br> IT: L'ID' dell'iniziativa"
+        businessName:
+          type: string
+          description: "ENG: The name of the merchant <br> IT: La ragione sociale dell'esercente"
+        legalOfficeAddress:
+          type: string
+          description: "ENG: The address of the legal office <br> IT: L'indirizzo della sede legale"
+        legalOfficeMunicipality:
+          type: string
+          description: "ENG: The municipality of the legal office <br> IT: Il comune della sede legale"
+        legalOfficeProvince:
+          type: string
+          description: "ENG: The province of the legal office <br> IT: La provincia della sede legale"
+        legalOfficeZipCode:
+          type: string
+          description: "ENG: The zipcode of the legal office <br> IT: Il CAP della sede legale"
+        certifiedEmail:
+          type: string
+          description: "ENG: The certified email address of the merchant <br> IT: L'indirizzo email PEC dell' esercente"
+        fiscalCode:
+          type: string
+          description: "ENG: The fiscal code/vat number of the merchant <br> IT: Il codice fiscale/partita iva dell'esercente"
+        vatNumber:
+          type: string
+          description: "ENG: The vat number of the merchant <br> IT: La partita iva dell'esercente"
+        status:
+          type: string
+          enum:
+            - UPLOADED
+          description: "ENG: One of the possible merchant onboarding status: <ul><li>UPLOADED:This is the initial status after the csv upload</li></ul>IT: Uno dei possibili stati dell'onboarding da parte dell'esercente: <ul><li>UPLOADED:Questo è lo stato iniziale dopo il caricamento del file csv</li></ul>"
+        iban:
+          type: string
+          description: "ENG: The iban of the merchant <br> IT: L'iban dell'esercente"
+        creationDate:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of the initiative creation <br> IT: La data ed ora della creazione dell'iniziativa"
+        updateDate:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of the last status update <br> IT: La data ed ora dell'ultimo aggiornamento dello stato"
   securitySchemes:
     Bearer:
       type: apiKey
