@@ -1,0 +1,56 @@
+{
+  "inputs": [
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_appio_full/openapi.server.url.yml"
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_iban/openapi.iban.yml",
+      "pathModification": {
+        "prepend": "/iban"
+      },
+      "description": {
+        "append": true
+      }
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_onboarding_workflow/openapi.onboarding.yml",
+      "pathModification": {
+        "prepend": "/onboarding"
+      },
+      "description": {
+        "append": true
+      }
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_timeline/openapi.timeline.yml.tpl",
+      "pathModification": {
+        "prepend": "/timeline"
+      },
+      "description": {
+        "append": true
+      }
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml",
+      "pathModification": {
+        "prepend": "/wallet"
+      },
+      "description": {
+        "append": true
+      }
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl",
+      "operationSelection" : {
+        "excludeTags" : ["mergeIgnore"]
+      },
+      "pathModification": {
+        "prepend": "/payment/qr-code"
+      },
+      "description": {
+        "append": true
+      }
+    }
+  ],
+  "output": "../../src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml"
+}
