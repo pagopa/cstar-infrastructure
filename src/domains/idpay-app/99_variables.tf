@@ -340,3 +340,13 @@ variable "aks_cluster_domain_name" {
   type        = string
   description = "Name of the aks cluster domain. eg: dev01"
 }
+
+variable "enable" {
+  type = object({
+    mock_io_api = bool
+  })
+  description = "Feature flags"
+  default = {
+    mock_io_api = false
+  }
+}
