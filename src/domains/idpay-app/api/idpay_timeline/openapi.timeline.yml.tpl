@@ -13,6 +13,7 @@ paths:
       summary: >-
           ENG: Returns the list of transactions and operations of an initiative of a
           citizen sorted by date (newest->oldest) - IT: Ritorna la lista ordinata di transazioni e operazioni di una iniziativa di un cittadino (nuove->vecchie)
+      operationId: getTimeline
       parameters:
         - name: Accept-Language
           in: header

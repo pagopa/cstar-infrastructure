@@ -53,4 +53,5 @@ locals {
   domain_aks_hostname                      = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
   rtd_domain_aks_hostname                  = var.env == "prod" ? "${var.instance}.rtd.internal.cstar.pagopa.it" : "${var.instance}.rtd.internal.${var.env}.cstar.pagopa.it"
   rtd_ingress_load_balancer_hostname_https = "https://${local.rtd_domain_aks_hostname}"
+  initiative_storage_fqdn                  = "${module.idpay_initiative_storage.name}.blob.core.windows.net"
 }
