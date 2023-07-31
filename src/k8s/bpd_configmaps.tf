@@ -1,7 +1,10 @@
 resource "kubernetes_config_map" "cstariobackendtest" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "cstariobackendtest"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -23,9 +26,12 @@ resource "kubernetes_config_map" "cstariobackendtest" {
 }
 
 resource "kubernetes_config_map" "bpdmsawardperiod" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsawardperiod"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -38,9 +44,12 @@ resource "kubernetes_config_map" "bpdmsawardperiod" {
 }
 
 resource "kubernetes_config_map" "bpdmsawardwinner" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsawardwinner"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -63,9 +72,12 @@ resource "kubernetes_config_map" "bpdmsawardwinner" {
 }
 
 resource "kubernetes_config_map" "bpdmscitizen" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmscitizen"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -82,9 +94,12 @@ resource "kubernetes_config_map" "bpdmscitizen" {
 }
 
 resource "kubernetes_config_map" "bpdmscitizenbatch" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmscitizenbatch"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
 
@@ -105,9 +120,12 @@ resource "kubernetes_config_map" "bpdmscitizenbatch" {
 }
 
 resource "kubernetes_config_map" "bpdmsenrollment" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsenrollment"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -116,9 +134,12 @@ resource "kubernetes_config_map" "bpdmsenrollment" {
 }
 
 resource "kubernetes_config_map" "bpdmsnotificationmanager" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsnotificationmanager"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -150,9 +171,12 @@ resource "kubernetes_config_map" "bpdmsnotificationmanager" {
 }
 
 resource "kubernetes_config_map" "bpdmspaymentinstrument" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmspaymentinstrument"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -176,9 +200,12 @@ resource "kubernetes_config_map" "bpdmspaymentinstrument" {
 }
 
 resource "kubernetes_config_map" "bpdmspointprocessor" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmspointprocessor"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -195,9 +222,12 @@ resource "kubernetes_config_map" "bpdmspointprocessor" {
 }
 
 resource "kubernetes_config_map" "bpdmsrankingprocessor" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsrankingprocessor"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -216,9 +246,12 @@ resource "kubernetes_config_map" "bpdmsrankingprocessor" {
 }
 
 resource "kubernetes_config_map" "bpdmsrankingprocessoroffline" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsrankingprocessoroffline"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -238,9 +271,12 @@ resource "kubernetes_config_map" "bpdmsrankingprocessoroffline" {
 }
 
 resource "kubernetes_config_map" "bpdmsrankingprocessorpoc" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsrankingprocessorpoc"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -261,9 +297,12 @@ resource "kubernetes_config_map" "bpdmsrankingprocessorpoc" {
 }
 
 resource "kubernetes_config_map" "bpdmstransactionerrormanager" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmstransactionerrormanager"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -282,9 +321,12 @@ resource "kubernetes_config_map" "bpdmstransactionerrormanager" {
 }
 
 resource "kubernetes_config_map" "bpdmswinningtransaction" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmswinningtransaction"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = merge({
@@ -301,9 +343,12 @@ resource "kubernetes_config_map" "bpdmswinningtransaction" {
 }
 
 resource "kubernetes_config_map" "bpd-eventhub-common" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "eventhub-common"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -320,9 +365,12 @@ resource "kubernetes_config_map" "bpd-eventhub-common" {
 }
 
 resource "kubernetes_config_map" "bpd-eventhub-logging" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "eventhub-logging"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -336,9 +384,12 @@ resource "kubernetes_config_map" "bpd-eventhub-logging" {
 }
 
 resource "kubernetes_config_map" "bpd-jvm" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "jvm"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -347,9 +398,12 @@ resource "kubernetes_config_map" "bpd-jvm" {
 }
 
 resource "kubernetes_config_map" "bpd-rest-client" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "rest-client"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {

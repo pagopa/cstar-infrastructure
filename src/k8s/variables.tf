@@ -319,6 +319,9 @@ variable "enable" {
     fa = object({
       api = bool
     })
+    bpd = object({
+      api = bool
+    })
   })
   description = "Feature flags"
   default = {
@@ -332,6 +335,9 @@ variable "enable" {
       mongodb_storage                     = false
     }
     fa = {
+      api = false
+    }
+    bpd = {
       api = false
     }
   }

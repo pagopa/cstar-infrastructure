@@ -3,9 +3,12 @@ locals {
 }
 
 resource "kubernetes_secret" "bpdmsawardwinner" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsawardwinner"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -24,9 +27,12 @@ resource "kubernetes_secret" "bpdmsawardwinner" {
 }
 
 resource "kubernetes_secret" "bpdmscitizen" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmscitizen"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -40,9 +46,12 @@ resource "kubernetes_secret" "bpdmscitizen" {
 }
 
 resource "kubernetes_secret" "bpdmscitizenbatch" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmscitizenbatch"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -59,9 +68,12 @@ resource "kubernetes_secret" "bpdmscitizenbatch" {
 }
 
 resource "kubernetes_secret" "bpdmspaymentinstrument" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmspaymentinstrument"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -78,9 +90,12 @@ resource "kubernetes_secret" "bpdmspaymentinstrument" {
 }
 
 resource "kubernetes_secret" "bpdmspointprocessor" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmspointprocessor"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -97,9 +112,12 @@ resource "kubernetes_secret" "bpdmspointprocessor" {
 }
 
 resource "kubernetes_secret" "bpdmstransactionerrormanager" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmstransactionerrormanager"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -118,9 +136,12 @@ resource "kubernetes_secret" "bpdmstransactionerrormanager" {
 }
 
 resource "kubernetes_secret" "bpdmswinningtransaction" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmswinningtransaction"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -135,9 +156,12 @@ resource "kubernetes_secret" "bpdmswinningtransaction" {
 }
 
 resource "kubernetes_secret" "bpdmsnotificationmanager" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsnotificationmanager"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -153,9 +177,12 @@ resource "kubernetes_secret" "bpdmsnotificationmanager" {
 }
 
 resource "kubernetes_secret" "bpd-postgres-credentials" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "postgres-credentials"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -182,9 +209,12 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
 
 # not yet used by any deployment, but maybe useful for the future
 resource "kubernetes_secret" "bpd-application-insights" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "application-insights"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -195,10 +225,12 @@ resource "kubernetes_secret" "bpd-application-insights" {
 }
 
 resource "kubernetes_secret" "cstariobackendtest" {
-  count = var.env_short == "d" ? 1 : 0 # only in dev
+
+  count = (var.enable.bpd.api && var.env_short != "p") ? 1 : 0
+
   metadata {
     name      = "cstariobackendtest"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {

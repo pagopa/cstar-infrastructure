@@ -5,6 +5,9 @@ resource "kubernetes_namespace" "ingress" {
 }
 
 resource "kubernetes_namespace" "bpd" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name = "bpd"
   }
