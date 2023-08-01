@@ -137,6 +137,10 @@ locals {
         {
           keys   = ["notificationStatus"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -176,6 +180,10 @@ locals {
         },
         {
           keys   = ["eventId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
           unique = false
         }
       ]
@@ -302,6 +310,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -334,6 +346,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -345,6 +361,10 @@ locals {
         },
         {
           keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
           unique = false
         }
       ]
@@ -468,6 +488,10 @@ locals {
         {
           keys   = ["userId"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -511,7 +535,12 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
-      }]
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        }
+      ]
     },
     {
       name = "transaction_in_progress"
@@ -533,6 +562,10 @@ locals {
         }, {
         keys   = ["status"]
         unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -544,6 +577,10 @@ locals {
         }, {
         keys   = ["memberIds"]
         unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -575,6 +612,10 @@ locals {
         {
           keys   = ["fileName", "initiativeId"]
           unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -595,6 +636,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     }
