@@ -207,11 +207,11 @@ event_hub_hubs = [
     ]
   },
   {
-    name              = "rtd-trx"
-    partitions        = 16
-    message_retention = 1
-    consumers         = ["idpay-consumer-group"]
-    keys = [
+    name       = "rtd-trx"
+    partitions = 16
+    retention  = 1
+    consumers  = ["idpay-consumer-group"]
+    policies = [
       {
         name   = "rtd-trx-consumer"
         listen = true
