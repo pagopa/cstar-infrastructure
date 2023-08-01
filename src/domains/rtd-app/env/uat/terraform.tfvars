@@ -205,6 +205,26 @@ event_hub_hubs = [
         manage = false
       }
     ]
+  },
+  {
+    name              = "rtd-trx"
+    partitions        = 16
+    message_retention = 1
+    consumers         = ["idpay-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
   }
 ]
 
