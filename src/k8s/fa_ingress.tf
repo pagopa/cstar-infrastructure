@@ -1,9 +1,12 @@
 resource "kubernetes_ingress_v1" "fa_ingress" {
+
+  count = var.enable.fa.api ? 1 : 0
+
   depends_on = [helm_release.ingress]
 
   metadata {
-    name      = "${kubernetes_namespace.fa.metadata[0].name}-ingress"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    name      = "${kubernetes_namespace.fa[count.index].metadata[0].name}-ingress"
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
     annotations = {
       "kubernetes.io/ingress.class"                = "nginx"
       "nginx.ingress.kubernetes.io/rewrite-target" = "/$1"
