@@ -69,8 +69,8 @@ module "aks" {
     }
   ]
 
-  alerts_enabled = var.aks_alerts_enabled
-  microsoft_defender_log_analytics_workspace_id = var.env_short == "p"? data.azurerm_log_analytics_workspace.default[0].id : null
+  alerts_enabled                                = var.aks_alerts_enabled
+  microsoft_defender_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_log_analytics_workspace.default[0].id : null
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
 

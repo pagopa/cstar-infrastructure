@@ -6,9 +6,9 @@ resource "azurerm_resource_group" "monitor_rg" {
 }
 
 data "azurerm_log_analytics_workspace" "default" {
-  
+
   count = var.env_short == "p" ? 1 : 0
-  
+
   name                = "DefaultWorkspace-88c709b0-11cf-4450-856e-f9bf54051c1d-WEU"
   resource_group_name = "DefaultResourceGroup-WEU"
 }

@@ -826,7 +826,7 @@ variable "enable" {
   type = object({
     core = object({
       private_endpoints_subnet = bool
-      aks = bool
+      aks                      = bool
     })
     bpd = object({
       db     = bool
@@ -862,7 +862,7 @@ variable "enable" {
   default = {
     core = {
       private_endpoints_subnet = false
-      aks = false
+      aks                      = false
     }
     bpd = {
       db     = false
