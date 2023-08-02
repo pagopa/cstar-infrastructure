@@ -83,6 +83,9 @@ moved {
 }
 
 module "acr" {
+
+  count = var.enable.core.aks ? 1 : 0
+
   source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v6.2.1"
   name                = replace(format("%s-acr", local.project), "-", "")
   resource_group_name = azurerm_resource_group.rg_aks.name
@@ -98,14 +101,17 @@ module "acr" {
   tags = var.tags
 }
 
-
+moved {
+  from = module.acr
+  to   = module.acr[0]
+}
 
 # add the role to the identity the kubernetes cluster was assigned
 resource "azurerm_role_assignment" "aks_to_acr" {
 
   count = var.enable.core.aks ? 1 : 0
 
-  scope                = module.acr.id
+  scope                = module.acr[count.index].id
   role_definition_name = "AcrPull"
   principal_id         = module.aks[count.index].kubelet_identity_id
 }
