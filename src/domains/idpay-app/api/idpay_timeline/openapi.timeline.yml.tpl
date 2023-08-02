@@ -59,7 +59,7 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
               example:
                 code: 0
-                message: "Parameter [size] must be less than or equal to 10"
+                message: 'Parameter [size] must be less than or equal to 10'
         '401':
           description: Authentication failed
           content:
