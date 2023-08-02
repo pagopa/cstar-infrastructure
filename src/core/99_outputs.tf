@@ -12,15 +12,15 @@ output "vnet_address_space" {
 
 
 output "aks_cluster_name" {
-  value = module.aks.name
+  value = one(module.aks[*].name)
 }
 
 output "aks_fqdn" {
-  value = module.aks.fqdn
+  value = one(module.aks[*].fqdn)
 }
 
 output "aks_private_fqdn" {
-  value = module.aks.private_fqdn
+  value = one(module.aks[*].private_fqdn)
 }
 
 output "aks_outbound_ips" {
