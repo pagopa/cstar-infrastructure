@@ -567,7 +567,7 @@ eventhubs = [
     name              = "rtd-trx"
     partitions        = 32
     message_retention = 7
-    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
+    consumers         = ["bpd-payment-instrument"]
     keys = [
       {
         name   = "rtd-csv-connector"
@@ -716,6 +716,7 @@ enable_blob_storage_event_grid_integration = true
 enable = {
   core = {
     private_endpoints_subnet = true
+    aks                      = true
   }
   bpd = {
     db     = true
