@@ -245,6 +245,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["onboardedInitiatives.initiativeId"]
+          unique = false
         }
       ]
     },
@@ -628,6 +632,10 @@ locals {
         {
           keys   = ["fiscalCode", "acquirerId"]
           unique = true
+        },
+        {
+          keys   = ["initiativeList.initiativeId"]
+          unique = false
         }
       ]
     },
