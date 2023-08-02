@@ -421,6 +421,24 @@ module "app_gw_maz" {
         ]
         response_header_configurations = []
         url                            = null
+        },
+        {
+          name          = "remove-tracing-headers"
+          rule_sequence = 10
+          conditions    = []
+          request_header_configurations = [
+            {
+              header_name  = "Ocp-Apim-Trace"
+              header_value = ""
+            }
+          ]
+          response_header_configurations = [
+            {
+              header_name  = "Ocp-Apim-Trace-Location"
+              header_value = ""
+            }
+          ]
+          url = null
       }]
     },
   ]
