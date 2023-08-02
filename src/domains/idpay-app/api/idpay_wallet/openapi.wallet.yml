@@ -858,28 +858,6 @@ components:
           type: integer
           format: int64
           description: "ENG:Number of transaction - IT: Numero di transazione"
-    InitiativesWithInstrumentDTO:
-      type: object
-      required:
-        - idWallet
-        - maskedPan
-        - brand
-        - initiativeList
-      properties:
-        idWallet:
-          type: string
-          description: "ENG: Id of the wallet - IT: Identificativo del portafoglio"
-        maskedPan:
-          type: string
-          description: "ENG: Masked Pan - IT: Masked Pan"
-        brand:
-          type: string
-          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
-        initiativeList:
-          type: array
-          items:
-            $ref: '#/components/schemas/InitiativesStatusDTO'
-          description: "ENG: The list of the initiatives status related to a payment instrument - IT: Lista degli stati delle iniziative associate ad un instrumento di pagamento"
     InitiativesStatusDTO:
       type: object
       required:
