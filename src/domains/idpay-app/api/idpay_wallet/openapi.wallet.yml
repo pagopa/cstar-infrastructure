@@ -880,12 +880,6 @@ components:
           items:
             $ref: '#/components/schemas/InitiativesStatusDTO'
           description: "ENG: The list of the initiatives status related to a payment instrument - IT: Lista degli stati delle iniziative associate ad un instrumento di pagamento"
-    TestDTO:
-      type: object
-      properties:
-        testProperty:
-          type: String
-          description: "Test description"
     InitiativesStatusDTO:
       type: object
       required:
