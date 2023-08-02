@@ -2,7 +2,8 @@ locals {
   rtd_external_secrets = [
     "evh-rtd-pi-from-app-rtd-pi-from-app-producer-policy-rtd",
     "evh-rtd-pi-to-app-rtd-pi-to-app-consumer-policy-rtd",
-    "evh-rtd-trx-rtd-trx-consumer-rtd"
+    "evh-rtd-trx-rtd-trx-consumer-rtd",
+    "evh-rtd-trx-rtd-trx-producer-rtd"
   ]
 }
 

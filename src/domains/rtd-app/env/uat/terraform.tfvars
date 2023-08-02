@@ -223,6 +223,12 @@ event_hub_hubs = [
         listen = false
         send   = true
         manage = false
+      },
+      {
+        name   = "rtd-trx-test-policy"
+        listen = true
+        send   = true
+        manage = false
       }
     ]
   }
