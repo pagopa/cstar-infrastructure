@@ -8,9 +8,11 @@ locals {
 
 resource "kubernetes_secret" "facstariobackendtest" {
 
+  count = var.enable.fa.api ? 1 : 0
+
   metadata {
     name      = "cstariobackendtest"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
   }
 
   data = {
@@ -24,9 +26,12 @@ resource "kubernetes_secret" "facstariobackendtest" {
 }
 
 resource "kubernetes_secret" "fa-postgres-credentials" {
+
+  count = var.enable.fa.api ? 1 : 0
+
   metadata {
     name      = "postgres-credentials"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
   }
 
   data = {
@@ -46,9 +51,12 @@ resource "kubernetes_secret" "fa-postgres-credentials" {
 
 # useb by cstar-io-mock
 resource "kubernetes_secret" "fa-application-insights" {
+
+  count = var.enable.fa.api ? 1 : 0
+
   metadata {
     name      = "application-insights"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
   }
 
   data = {

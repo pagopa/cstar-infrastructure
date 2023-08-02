@@ -1,7 +1,10 @@
 resource "kubernetes_config_map" "facstariobackendtest" {
+
+  count = var.enable.fa.api ? 1 : 0
+
   metadata {
     name      = "cstariobackendtest"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
   }
 
   data = merge({
@@ -23,9 +26,12 @@ resource "kubernetes_config_map" "facstariobackendtest" {
 }
 
 resource "kubernetes_config_map" "fa-eventhub-common" {
+
+  count = var.enable.fa.api ? 1 : 0
+
   metadata {
     name      = "eventhub-common"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
   }
 
   data = {
@@ -36,9 +42,12 @@ resource "kubernetes_config_map" "fa-eventhub-common" {
 }
 
 resource "kubernetes_config_map" "fa-jvm" {
+
+  count = var.enable.fa.api ? 1 : 0
+
   metadata {
     name      = "jvm"
-    namespace = kubernetes_namespace.fa.metadata[0].name
+    namespace = kubernetes_namespace.fa[count.index].metadata[0].name
   }
 
   data = {

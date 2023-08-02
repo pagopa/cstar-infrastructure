@@ -927,7 +927,7 @@ enable = {
     mongodb_storage                     = true
   }
   fa = {
-    api = true
+    api = false
   }
   bpd = {
     api = false
