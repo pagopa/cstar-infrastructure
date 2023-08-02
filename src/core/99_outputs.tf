@@ -38,15 +38,15 @@ output "key_vault_name" {
 
 ## Container registry ##
 output "container_registry_login_server" {
-  value = module.acr.login_server
+  value = one(module.acr[*].login_server)
 }
 
 output "container_registry_admin_username" {
-  value = module.acr.admin_username
+  value = one(module.acr[*].admin_username)
 }
 
 output "container_registry_admin_password" {
-  value     = module.acr.admin_password
+  value     = one(module.acr[*].admin_password)
   sensitive = true
 }
 
