@@ -111,10 +111,6 @@ locals {
         unique = true
         },
         {
-          keys   = ["initiativeId", "userId"]
-          unique = false
-        },
-        {
           keys   = ["initiativeId"]
           unique = false
         },
@@ -124,6 +120,10 @@ locals {
         },
         {
           keys   = ["status"]
+          unique = false
+        },
+        {
+          keys   = ["hpan"]
           unique = false
         }
       ]
