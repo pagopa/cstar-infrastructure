@@ -457,26 +457,6 @@ enable_azdoa = true
 
 eventhubs = [
   {
-    name              = "rtd-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-trx-consumer"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-trx-producer"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "rtd-platform-events"
     partitions        = 4
     message_retention = 1
@@ -565,6 +545,7 @@ enable_blob_storage_event_grid_integration = true
 enable = {
   core = {
     private_endpoints_subnet = true
+    aks                      = false
   }
   bpd = {
     db     = false
