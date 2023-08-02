@@ -221,6 +221,10 @@ locals {
         {
           keys   = ["elaborationDateTime"]
           unique = false
+        },
+        {
+          keys   = ["initiatives"]
+          unique = false
         }
       ]
     },
@@ -305,6 +309,9 @@ locals {
         unique = false
         }, {
         keys   = ["acquirerId"]
+        unique = false
+        }, {
+        keys   = ["initiatives"]
         unique = false
         }
       ]
