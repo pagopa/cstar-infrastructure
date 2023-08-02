@@ -111,6 +111,7 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   data = {
     kafka_broker_rtd               = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
     kafka_broker_rtd_pi            = "${local.product}-rtd-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    kafka_broker_rtd_domain        = "${local.product}-rtd-evh-ns.servicebus.windows.net:${var.event_hub_port}"
     rtd_pi_from_app_topic          = "rtd-pi-from-app"
     rtd_trx_topic                  = "rtd-trx"
     kafka_partition_count          = 1

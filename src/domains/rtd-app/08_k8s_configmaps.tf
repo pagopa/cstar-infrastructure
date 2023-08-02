@@ -23,6 +23,7 @@ resource "kubernetes_config_map" "rtd-trx-producer" {
 
   data = {
     KAFKA_TOPIC_RTD_TRX = "rtd-trx"
+    KAFKA_BROKER_RTD    = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 
