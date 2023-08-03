@@ -27,10 +27,10 @@ resource "azurerm_eventhub" "event_hub_rtd_hub" {
 # Eventhub consumer groups
 #
 resource "azurerm_eventhub_consumer_group" "event_hub_rtd_consumer_group" {
-  for_each = merge([for hub in var.event_hub_hubs : { for consumer in hub.consumers : hub.name => consumer }]...)
+  for_each = merge([for hub in var.event_hub_hubs : { for consumer in hub.consumers : "${hub.name}-${consumer}" => { eventhub_name = hub.name, name = consumer } }]...)
 
-  eventhub_name       = each.key
-  name                = each.value
+  eventhub_name       = each.value.eventhub_name
+  name                = each.value.name
   namespace_name      = data.azurerm_eventhub_namespace.event_hub_rtd.name
   resource_group_name = data.azurerm_resource_group.msg_rg.name
   depends_on          = [azurerm_eventhub.event_hub_rtd_hub]
