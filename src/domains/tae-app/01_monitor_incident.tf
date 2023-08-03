@@ -181,7 +181,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-prob
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever less of 50% of sender's files aren't derypted for at least 5 senders. Runbook: ${var.inc_runbook_decrypter}"
+  description                      = "Triggers whenever less of 50% of sender's files aren't derypted for at least 5 senders. Runbook: ${data.azurerm_key_vault_secret.inc_runbook_decrypter_link[count.index].value}"
   display_name                     = "tae-${var.env_short}-decrypting-problems#INC"
   enabled                          = true
 

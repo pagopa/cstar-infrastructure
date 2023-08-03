@@ -68,6 +68,3 @@ alerts_conf = {
 tae_blob_storage = {
   enable = true
 }
-
-#Runbooks
-inc_runbook_decrypter = "https://pagopa.atlassian.net/wiki/spaces/SLCS/pages/765690354/RunBook+Incident+Management+-+Allarme+tae-p-decrypting-problems+INC"

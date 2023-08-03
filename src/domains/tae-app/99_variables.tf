@@ -193,12 +193,6 @@ variable "aks_cluster_domain_name" {
   description = "Name of the aks cluster domain. eg: dev01"
 }
 
-variable "inc_runbook_decrypter" {
-  type        = string
-  description = "Link to decrypter problems runbook"
-  default     = ""
-}
-
 variable "tae_blob_storage" {
   type = object({
     enable = bool
