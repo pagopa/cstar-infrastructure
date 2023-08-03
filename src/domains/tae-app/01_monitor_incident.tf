@@ -29,7 +29,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever less of 50% of sender's files aren't forwarded to ADE for at least 5 senders. Runbook: ${var.inc_runbook_adein}"
+  description                      = "Triggers whenever less of 50% of sender's files aren't forwarded to ADE for at least 5 senders. Runbook: ${data.azurerm_key_vault_secret.inc_runbook_adein_link[count.index].value}"
   display_name                     = "tae-${var.env_short}-missing-senders-files-ade#INC"
   enabled                          = true
 

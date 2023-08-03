@@ -68,5 +68,3 @@ alerts_conf = {
 tae_blob_storage = {
   enable = true
 }
-
-inc_runbook_adein = "https://pagopa.atlassian.net/wiki/spaces/SLCS/pages/765723168/RunBook+Incident+Management+-+Allarme+tae-p-missing-senders-files-ade+INC"
