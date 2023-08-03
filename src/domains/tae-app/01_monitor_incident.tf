@@ -164,7 +164,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
     key = "Incident Alert"
   }
 }
-
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-problems" {
 
   count = var.env_short == "p" ? 1 : 0
