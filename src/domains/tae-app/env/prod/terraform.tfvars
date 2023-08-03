@@ -68,5 +68,3 @@ alerts_conf = {
 tae_blob_storage = {
   enable = true
 }
-
-inc_runbook_external_access = "https://pagopa.atlassian.net/wiki/spaces/SLCS/pages/765985291/RunBook+Incident+Management+-+Allarme+tae-p-external-access-problems+INC"

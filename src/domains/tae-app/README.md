@@ -81,6 +81,7 @@ No modules.
 | [azurerm_cosmosdb_account.cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/cosmosdb_account) | data source |
 | [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/data_factory) | data source |
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault) | data source |
+| [azurerm_key_vault_secret.inc_runbook_external_access_link](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.operations_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.operations_zendesk_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.opsgenie_webhook_url](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/data-sources/key_vault_secret) | data source |
@@ -112,7 +113,6 @@ No modules.
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
-| <a name="input_inc_runbook_external_access"></a> [inc\_runbook\_external\_access](#input\_inc\_runbook\_external\_access) | Link to external\_access problems runbook | `string` | `""` | no |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
 | <a name="input_k8s_kube_config_path_prefix"></a> [k8s\_kube\_config\_path\_prefix](#input\_k8s\_kube\_config\_path\_prefix) | n/a | `string` | `"~/.kube"` | no |
