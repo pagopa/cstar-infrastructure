@@ -195,7 +195,7 @@ variable "aks_cluster_domain_name" {
 
 variable "inc_runbook_decrypter" {
   type        = string
-  description = "Link to decrypter problem runbook"
+  description = "Link to decrypter problems runbook"
   default     = ""
 }
 
