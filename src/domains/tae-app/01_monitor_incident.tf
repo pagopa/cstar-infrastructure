@@ -109,7 +109,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "The alarm will be triggered when more then 4 senders have had problems to interact with our API."
+  description                      = "The alarm will be triggered when more then 4 senders have had problems to interact with our API. Runbook: ${var.inc_runbook_external_access}"
   display_name                     = "tae-${var.env_short}-external-access-problems#INC"
   enabled                          = true
 
