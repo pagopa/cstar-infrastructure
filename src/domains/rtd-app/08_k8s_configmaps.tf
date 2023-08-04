@@ -11,6 +11,7 @@ resource "kubernetes_config_map" "rtd-blob-storage-events-consumer" {
   data = {
     KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
     KAFKA_BROKER                    = "${local.product}-evh-ns.servicebus.windows.net:9093"
+    KAFKA_BROKER_RTD                = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 
