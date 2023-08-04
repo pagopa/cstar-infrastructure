@@ -32,3 +32,10 @@ data "azurerm_key_vault_secret" "inc_runbook_decrypter_link" {
   name         = "inc-runbook-decrypter"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+
+data "azurerm_key_vault_secret" "inc_runbook_adein_link" {
+  count = var.env_short == "p" ? 1 : 0
+
+  name         = "inc-runbook-adein"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
