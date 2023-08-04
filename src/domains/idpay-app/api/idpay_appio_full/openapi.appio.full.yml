@@ -1,6 +1,7 @@
 openapi: 3.0.3
 info:
-  title: IDPAY Iban IO API
+  title: IDPAY IO API
+  version: '1.0'
   description: |-
     IDPAY IBAN IO
 
@@ -10,7 +11,7 @@ info:
 
     IDPAY Wallet IO
 
-  version: '1.0'
+    IDPAY Payment CIT
 servers:
   - url: 'https://api-io.dev.cstar.pagopa.it/idpay'
 security:
@@ -23,6 +24,8 @@ tags:
   - name: timeline
     description: ''
   - name: wallet
+    description: ''
+  - name: payment
     description: ''
 paths:
   '/iban/{iban}':
@@ -600,6 +603,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimelineDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: 'Parameter [size] must be less than or equal to 10'
         '401':
           description: Authentication failed
           content:
@@ -2883,7 +2895,7 @@ components:
             "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
             or expired, PAYMENT_USER_NOT_VALID: user not valid,
             PAYMENT_STATUS_NOT_VALID: status not valid,
-            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized
+            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
             PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
             PAYMENT_GENERIC_REJECTED: generic rejected error,
             PAYMENT_TOO_MANY_REQUESTS: too many request, PAYMENT_GENERIC_ERROR:
