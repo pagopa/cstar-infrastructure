@@ -77,8 +77,3 @@ resource "azurerm_role_assignment" "event_grid_sender_role_sftp_on_rtd_platform_
     azurerm_eventhub.event_hub_rtd_hub
   ]
 }
-
-moved {
-  from = azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events
-  to   = azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events[0]
-}
