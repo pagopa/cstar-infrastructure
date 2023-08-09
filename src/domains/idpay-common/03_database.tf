@@ -139,6 +139,14 @@ locals {
           unique = false
         },
         {
+          keys   = ["retry"]
+          unique = false
+        },
+        {
+          keys   = ["retryDate"]
+          unique = false
+        },
+        {
           keys   = ["initiativeId"]
           unique = false
         }
