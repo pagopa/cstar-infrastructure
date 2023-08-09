@@ -66,6 +66,7 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_reward_notification_response_consumer_group = "idpay-reward-notification-response-group"
     idpay_reward_notification_response_topic          = "idpay-reward-notification-response"
     idpay_reward_notification_storage_events_topic    = "idpay-reward-notification-storage-events"
+    idpay_commands_topic                              = "idpay-commands"
   }
 
 }
