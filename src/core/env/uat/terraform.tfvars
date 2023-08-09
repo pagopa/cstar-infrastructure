@@ -450,28 +450,6 @@ enable_azdoa = true
 
 eventhubs = [
   {
-    name              = "rtd-platform-events"
-    partitions        = 4
-    message_retention = 7
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
-    keys = [
-      {
-        # publisher
-        name   = "rtd-platform-events-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "rtd-platform-events-sub"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "tkm-write-update-token"
     partitions        = 1
     message_retention = 1
@@ -546,7 +524,7 @@ enable = {
     api_pm = true
   }
   rtd = {
-    blob_storage_event_grid_integration = true
+    blob_storage_event_grid_integration = false
     internal_api                        = true
     batch_service_api                   = true
     enrolled_payment_instrument         = true
