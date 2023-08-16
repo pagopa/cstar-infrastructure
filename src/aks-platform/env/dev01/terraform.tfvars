@@ -43,7 +43,7 @@ public_ip_aksoutbound_name = "cstar-d-weu-dev01-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.24.6"
+aks_kubernetes_version      = "1.25.11"
 aks_system_node_pool = {
   name            = "cstdev01sys",
   vm_size         = "Standard_B2ms",
@@ -67,28 +67,6 @@ aks_user_node_pool = {
   node_tags       = { node_tag_2 : "2" },
 }
 
-# aks_system_node_pool = {
-#   name            = "cstarddev01sys",
-#   vm_size         = "Standard_D2ds_v5",
-#   os_disk_type    = "Ephemeral",
-#   os_disk_size_gb = 75,
-#   node_count_min  = 1,
-#   node_count_max  = 3,
-#   node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
-#   node_tags       = { node_tag_1 : "1" },
-# }
-# aks_user_node_pool = {
-#   enabled         = true,
-#   name            = "cstarddev01usr",
-#   vm_size         = "Standard_D2ds_v5",
-#   os_disk_type    = "Ephemeral",
-#   os_disk_size_gb = 75,
-#   node_count_min  = 1,
-#   node_count_max  = 3,
-#   node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
-#   node_taints     = [],
-#   node_tags       = { node_tag_2 : "2" },
-# }
 aks_addons = {
   azure_policy                     = true,
   azure_key_vault_secrets_provider = true,
