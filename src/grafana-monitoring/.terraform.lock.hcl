@@ -1,6 +1,28 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/grafana/grafana" {
+  version     = "1.21.2"
+  constraints = "~> 1.21.0"
+  hashes = [
+    "h1:UjCWdo9Fy/L0INopCLvg4rfxhtHMkEK+1QK+SLmQOiM=",
+    "zh:256d0f8c6792c0dd2af2afe8dbc772e4e349631e66bc9b1e41a8e2c6bd1c3ba3",
+    "zh:27cf346c4137c3cb7a4384f245b1357d6090eca2c257f32400f2a22f27ebfe11",
+    "zh:2e632d70d49e828fcb1940d2078103ad16ab0696552a72ba8ad03dd919b1f0f6",
+    "zh:311de4481098f2140b7b27fe729f3df93f1bef23c89dc287be4a5cf1125b7f49",
+    "zh:32c4f592fb2922273a2b790c1726f8cb1d5101d7985299ece63e953053eeac6b",
+    "zh:58b6b3bb3da0b3ad6508066f195b752d323484ebb6a23528e42e44534f25e375",
+    "zh:678ab592539e5448fa379aa86c83b9584a8b25ff0873dee85af06a188530e18a",
+    "zh:67d5914f07de74fe3c8054be7adfc18922c999fc50a8d21bd4704b20efce6949",
+    "zh:6af35ec094b9ef09ef13b97738e4d89fa2e384fb778ced622704b3b8e3d19647",
+    "zh:6dbcdbe2ae2fba16ac83d23e61e2d3dce557f05b3bbbf6413b6e8e8be6a55eac",
+    "zh:779fd50cb21986d1b401f870c6eb9b8b76209472622cac9fd4cddfbfb99a8600",
+    "zh:8b8af100f351864d25153b4ddbaa34d898d0dc3c6591f881fbfc737f03ae1da5",
+    "zh:c21f0191731a9379a9d606084703d3ea7e5ebad60776d88a85c6fdb1a4c2a403",
+    "zh:d13fdc743c240eb1e0c12b430b1091a56027da606ed4b519cda7d401e809c320",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/azuread" {
   version     = "2.10.0"
   constraints = "2.10.0"

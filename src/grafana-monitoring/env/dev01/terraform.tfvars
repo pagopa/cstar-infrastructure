@@ -1,4 +1,4 @@
-prefix          = "pagopa"
+prefix          = "cstar"
 env_short       = "d"
 env             = "dev"
 domain          = "grafana"
@@ -11,19 +11,19 @@ tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
   Owner       = "PagoPa"
-  Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/grafana-monitoring"
+  Source      = "https://github.com/pagopa/cstar-infrastructure/tree/main/src/grafana-monitoring"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
 ### External resources
 
-monitor_resource_group_name                 = "pagopa-d-monitor-rg"
-log_analytics_workspace_name                = "pagopa-d-law"
-log_analytics_workspace_resource_group_name = "pagopa-d-monitor-rg"
+monitor_resource_group_name                 = "cstar-d-monitor-rg"
+log_analytics_workspace_name                = "cstar-d-law"
+log_analytics_workspace_resource_group_name = "cstar-d-monitor-rg"
 
 external_domain          = "pagopa.it"
-dns_zone_internal_prefix = "internal.dev.platform"
-apim_dns_zone_prefix     = "dev.platform"
+dns_zone_internal_prefix = "internal.dev.cstar"
+apim_dns_zone_prefix     = "dev.cstar"
 
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
 # image tags: https://github.com/pagopa/infra-ssl-check/releases
