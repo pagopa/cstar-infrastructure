@@ -32,6 +32,7 @@ locals {
   # Azure DevOps
   azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
   azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
+  azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
   azuredevops_rg_name             = "${local.project}-azdoa-rg"
   azuredevops_subnet_name         = "${local.project}-azdoa-snet"
 }
@@ -71,6 +72,14 @@ variable "env" {
 #
 # Network
 #
+variable "ddos_protection_plan" {
+  type = object({
+    id     = string
+    enable = bool
+  })
+  default = null
+}
+
 variable "cidr_vnet" {
   type        = list(string)
   description = "Virtual network address space."
@@ -79,14 +88,6 @@ variable "cidr_vnet" {
 variable "cidr_pair_vnet" {
   type        = list(string)
   description = "Virtual network address space."
-}
-
-variable "ddos_protection_plan" {
-  type = object({
-    id     = string
-    enable = bool
-  })
-  default = null
 }
 
 variable "cidr_subnet_storage_account" {
@@ -159,6 +160,11 @@ variable "cidr_subnet_adf" {
 variable "cidr_subnet_private_endpoint" {
   type        = list(string)
   description = "Private Endpoint address space."
+}
+
+variable "cidr_subnet_azdoa" {
+  type        = list(string)
+  description = "Azure DevOps agent network address space."
 }
 
 #
@@ -498,17 +504,6 @@ variable "app_gw_load_client_certificate" {
   type        = bool
   default     = true
   description = "Load client certificate in app gateway"
-}
-
-# Azure DevOps Agent
-variable "enable_azdoa" {
-  type        = bool
-  description = "Enable Azure DevOps agent."
-}
-
-variable "cidr_subnet_azdoa" {
-  type        = list(string)
-  description = "Azure DevOps agent network address space."
 }
 
 ## Database server postgresl
@@ -907,4 +902,19 @@ variable "cstarblobstorage_account_replication_type" {
 variable "azdoa_image_name" {
   type        = string
   description = "Azure DevOps Agent image name for scaleset"
+}
+
+variable "enable_azdoa" {
+  type        = bool
+  description = "Enable Azure DevOps agent."
+}
+
+variable "enable_azdoa_agent_performance" {
+  type        = bool
+  description = "Enable Azure DevOps agent for performance."
+}
+
+variable "azdoa_agent_performance_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent performance VM SKU"
 }

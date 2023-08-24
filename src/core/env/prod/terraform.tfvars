@@ -756,4 +756,7 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 # Azure devops
 #
-azdoa_image_name = "cstar-p-azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name               = "cstar-p-azdo-agent-ubuntu2204-image-v1"
+enable_azdoa_agent_performance = true
+azdoa_agent_performance_vm_sku = "Standard_B2s"
+
