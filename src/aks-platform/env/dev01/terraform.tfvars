@@ -11,9 +11,9 @@ location_pair       = "northeurope"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
-  Owner       = "DevOps"
-  Source      = "https://github.com/pagopa/devopslab-infra"
+  Environment = "DEV"
+  Owner       = "CSTAR"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
@@ -57,7 +57,7 @@ aks_system_node_pool = {
 aks_user_node_pool = {
   enabled         = true,
   name            = "cstdev01usr",
-  vm_size         = "Standard_B4ms",
+  vm_size         = "Standard_B8ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 3,
