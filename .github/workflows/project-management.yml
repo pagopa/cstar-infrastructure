@@ -5,7 +5,7 @@ on: [push]
 jobs:
   gajira-action:
     runs-on: ubuntu-latest
-    environment: master
+    environment: jira_action
     steps:
       - name: JIRA Login
         id: login
