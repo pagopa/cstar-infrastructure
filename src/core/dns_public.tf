@@ -159,3 +159,30 @@ resource "azurerm_dns_zone" "welfare" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   tags                = var.tags
 }
+
+resource "azurerm_dns_caa_record" "welfare_cstar_pagopa_it" {
+  name                = "@"
+  zone_name           = azurerm_dns_zone.welfare.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+
+  record {
+    flags = 0
+    tag   = "issue"
+    value = "digicert.com"
+  }
+
+  record {
+    flags = 0
+    tag   = "issue"
+    value = "letsencrypt.org"
+  }
+
+  record {
+    flags = 0
+    tag   = "iodef"
+    value = "mailto:security+caa@pagopa.it"
+  }
+
+  tags = var.tags
+}

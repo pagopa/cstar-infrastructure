@@ -455,59 +455,7 @@ ehns_metric_alerts = {
 
 enable_azdoa = true
 
-eventhubs = [
-  {
-    name              = "rtd-platform-events"
-    partitions        = 4
-    message_retention = 1
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
-    keys = [
-      {
-        # publisher
-        name   = "rtd-platform-events-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "rtd-platform-events-sub"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "tkm-write-update-token"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"]
-    keys = [
-      {
-        # publisher
-        name   = "tkm-write-update-token-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-sub"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-tests"
-        listen = true
-        send   = false
-        manage = false
-      },
-    ]
-  }
-]
+eventhubs = []
 
 
 external_domain = "pagopa.it"
@@ -553,7 +501,7 @@ enable = {
     api_pm = false
   }
   rtd = {
-    blob_storage_event_grid_integration = true
+    blob_storage_event_grid_integration = false
     internal_api                        = true
     batch_service_api                   = true
     payment_instrument                  = true
@@ -584,4 +532,6 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 # Azure devops
 #
-azdoa_image_name = "cstar-d-azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name               = "cstar-d-azdo-agent-ubuntu2204-image-v1"
+enable_azdoa_agent_performance = true
+azdoa_agent_performance_vm_sku = "Standard_B2s"

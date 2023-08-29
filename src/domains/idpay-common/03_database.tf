@@ -271,7 +271,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["userId"]
+          keys   = ["entityId"]
           unique = false
         },
         {
