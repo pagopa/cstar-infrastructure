@@ -261,6 +261,10 @@ locals {
         {
           keys   = ["onboardedInitiatives.initiativeId"]
           unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
