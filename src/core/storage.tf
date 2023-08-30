@@ -289,7 +289,7 @@ resource "azurerm_storage_management_policy" "backups" {
 }
 
 resource "azurerm_storage_container" "db_backup" {
-  count                 = var.env_short == "p"? 1 : 0
+  count                 = var.env_short == "p" ? 1 : 0
   name                  = "data"
   storage_account_name  = module.backupstorage[0].name
   container_access_type = "private"
