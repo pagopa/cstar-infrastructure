@@ -219,18 +219,36 @@ module "idpay_initiative_portal" {
       })
     },
     {
-      operation_id = "suspendUser"
+      operation_id = "suspendUserRefund"
 
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension-refund.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
-      operation_id = "readmitUser"
+      operation_id = "readmitUserRefund"
 
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission-refund.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "suspendUserDiscount"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension-discount.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        pdv_timeout_sec                = var.pdv_timeout_sec
+        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "readmitUserDiscount"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission-discount.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         pdv_timeout_sec                = var.pdv_timeout_sec
         pdv_tokenizer_url              = var.pdv_tokenizer_url
