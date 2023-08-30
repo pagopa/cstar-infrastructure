@@ -73,24 +73,6 @@ resource "helm_release" "prometheus" {
   }
 }
 
-# resource "helm_release" "grafana" {
-#   name       = "grafana"
-#   repository = "https://grafana.github.io/helm-charts"
-#   chart      = "grafana"
-#   version    = var.grafana_helm_version
-#   namespace  = kubernetes_namespace.monitoring.metadata[0].name
-
-#   set {
-#     name  = "adminUser"
-#     value = data.azurerm_key_vault_secret.grafana_admin_username.value
-#   }
-
-#   set {
-#     name  = "adminPassword"
-#     value = data.azurerm_key_vault_secret.grafana_admin_password.value
-#   }
-# }
-
 resource "helm_release" "monitoring_reloader" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"

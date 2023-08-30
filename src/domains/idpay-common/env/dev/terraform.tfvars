@@ -401,7 +401,7 @@ eventhubs_idpay_01 = [
     name              = "idpay-commands"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-commands-wallet", "idpay-commands-group", "idpay-commands-notification", "idpay-commands-ranking", "idpay-commands-admissibility", "idpay-commands-reward-calculator", "idpay-commands-reward-notification", "idpay-commands-timeline", "idpay-commands-onboarding", "idpay-commands-payment-instrument", "idpay-commands-statistics", "idpay-commands-merchant", "idpay-commands-payment", "idpay-commands-transaction", "idpay-commands-iban", "idpay-commands-initiative"]
+    consumers         = ["idpay-commands-wallet-consumer-group", "idpay-commands-group-consumer-group", "idpay-commands-notification-consumer-group", "idpay-commands-ranking-consumer-group", "idpay-commands-admissibility-consumer-group", "idpay-commands-reward-calculator-consumer-group", "idpay-commands-reward-notification-consumer-group", "idpay-commands-timeline-consumer-group", "idpay-commands-onboarding-consumer-group", "idpay-commands-payment-instrument-consumer-group", "idpay-commands-statistics-consumer-group", "idpay-commands-merchant-consumer-group", "idpay-commands-payment-consumer-group", "idpay-commands-transaction-consumer-group", "idpay-commands-iban-consumer-group", "idpay-commands-initiative-consumer-group"]
     keys = [
       {
         name   = "idpay-commands-producer"

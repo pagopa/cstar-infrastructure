@@ -83,6 +83,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeDetailDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '404':
           description: The requested ID was not found
           content:

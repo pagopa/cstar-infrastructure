@@ -614,37 +614,6 @@ eventhubs = [
         manage = false
       }
     ]
-  },
-  {
-    name              = "tkm-write-update-token"
-    partitions        = 1
-    message_retention = 1
-    consumers = [
-      "tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"
-    ]
-    keys = [
-      {
-        # publisher
-        name   = "tkm-write-update-token-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-sub"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-tests"
-        listen = true
-        send   = false
-        manage = false
-      },
-    ]
   }
 ]
 
@@ -732,4 +701,7 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 # Azure devops
 #
-azdoa_image_name = "cstar-p-azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name               = "cstar-p-azdo-agent-ubuntu2204-image-v1"
+enable_azdoa_agent_performance = true
+azdoa_agent_performance_vm_sku = "Standard_B2s"
+
