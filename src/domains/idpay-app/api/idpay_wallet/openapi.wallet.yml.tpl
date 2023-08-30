@@ -10,10 +10,11 @@ paths:
     get:
       tags:
         - wallet
-      summary: Returns the list of active initiatives of a citizen
+      summary: "ENG: Returns the list of active initiatives of a citizen - IT: Ritorna la lista di iniziative attive di un cittadino"
       operationId: getWallet
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -27,20 +28,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WalletDTO'
-              example:
-                initiativeList:
-                  - initiativeId: string
-                    initiativeName: string
-                    status: NOT_REFUNDABLE_ONLY_IBAN
-                    endDate: string
-                    amount: 0.01
-                    accrued: 0.01
-                    refunded: 0.01
-                    iban: string
-                    nInstr: 0
-                    initiativeRewardType: REFUND
-                    logoURL: string
-                    organizationName: string
         '401':
           description: Authentication failed
           content:
@@ -72,16 +59,17 @@ paths:
     get:
       tags:
         - wallet
-      summary: Returns the detail of an initiative
+      summary: "ENG: Returns the detail of an initiative - IT: Ritorna i dettagli dell'iniziativa"
       operationId: getInitiativeBeneficiaryDetail
       parameters:
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -95,6 +83,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeDetailDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '404':
           description: The requested ID was not found
           content:
@@ -117,10 +114,11 @@ paths:
     get:
       tags:
         - wallet
-      summary: Returns the detail of an active initiative of a citizen
+      summary: "ENG: Returns the detail of an active initiative of a citizen - IT: Ritorna i dettagli di una iniziativa di un cittadino"
       operationId: getWalletDetail
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -129,7 +127,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
@@ -140,20 +138,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeDTO'
-              example:
-                familyId: string
-                initiativeId: string
-                initiativeName: string
-                status: NOT_REFUNDABLE_ONLY_IBAN
-                endDate: string
-                amount: 0.01
-                accrued: 0.01
-                refunded: 0.01
-                iban: string
-                nInstr: 0
-                initiativeRewardType: REFUND
-                logoURL: string
-                organizationName: string
         '401':
           description: Authentication failed
           content:
@@ -194,10 +178,11 @@ paths:
     put:
       tags:
         - wallet
-      summary: Association of an IBAN to an initiative
+      summary: "ENG: Association of an IBAN to an initiative - IT: Associa un IBAN ad un'iniziativa"
       operationId: enrollIban
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -206,12 +191,12 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
       requestBody:
-        description: 'Unique identifier of the subscribed initiative, IBAN of the citizen'
+        description: "ENG: Unique identifier of the subscribed initiative, IBAN of the citizen - IT: Identificativo dell'iniziativa sottoscritta, IBAN del cittadino"
         content:
           application/json:
             schema:
@@ -282,10 +267,11 @@ paths:
     put:
       tags:
         - wallet
-      summary: Association of a payment instrument to an initiative
+      summary: "ENG: Association of a payment instrument to an initiative - IT: Associa uno strumento di pagamento ad un'iniziativa"
       operationId: enrollInstrument
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -294,13 +280,13 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
         - name: idWallet
           in: path
-          description: A unique id that identifies a payment method
+          description: "ENG: A unique id that identifies a payment method - IT: Identificativo univoco del metodo di pagamento"
           required: true
           schema:
             type: string
@@ -308,7 +294,7 @@ paths:
         '200':
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -367,11 +353,12 @@ paths:
     get:
       tags:
         - wallet
-      summary: Returns the list of payment instruments associated to the initiative by the citizen
+      summary: "ENG: Returns the list of payment instruments associated to the initiative by the citizen - IT: Ritorna la lista di istrumenti di pagamenti associati ad un'iniziativa del cittadino"
       operationId: getInstrumentList
       parameters:
         - name: Accept-Language
           in: header
+          description: "ENG: Language - IT: Lingua"
           schema:
             type: string
             example: it-IT
@@ -379,7 +366,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
@@ -431,10 +418,11 @@ paths:
     delete:
       tags:
         - wallet
-      summary: Delete a payment instrument from an initiative
+      summary: "ENG: Delete a payment instrument from an initiative - IT: Cancella uno strumento di pagamento di un'iniziativa"
       operationId: deleteInstrument
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -443,13 +431,13 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificatico dell'iniziativa"
           required: true
           schema:
             type: string
         - name: instrumentId
           in: path
-          description: A unique id, internally detached, which identifies a payment method
+          description: "ENG: A unique id, internally detached, which identifies a payment method - IT: Identificativo univoco, che identifica il metodo di pagamento"
           required: true
           schema:
             type: string
@@ -457,7 +445,7 @@ paths:
         '200':
           description: Delete OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -517,10 +505,11 @@ paths:
     delete:
       tags:
         - wallet
-      summary: Unsubscribe to an initiative
+      summary: "ENG: Unsubscribe to an initiative - IT: Disiscrizione ad un'iniziativa"
       operationId: unsubscribe
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -529,7 +518,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
@@ -537,7 +526,7 @@ paths:
         '204':
           description: Unsubscribe OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -597,10 +586,11 @@ paths:
     get:
       tags:
         - wallet
-      summary: Returns the actual wallet status
+      summary: "ENG: Returns the actual wallet status - IT: Ritorna lo status attuale del wallet"
       operationId: getWalletStatus
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -609,7 +599,7 @@ paths:
           required: true
         - name: initiativeId
           in: path
-          description: The initiative ID
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
           required: true
           schema:
             type: string
@@ -671,10 +661,11 @@ paths:
     get:
       tags:
         - wallet
-      summary: Returns the initiatives list associated to a payment instrument
+      summary: "ENG: Returns the initiatives list associated to a payment instrument - IT: Ritorna la lista di iniziative associate ad uno strumento di pagamento"
       operationId: getInitiativesWithInstrument
       parameters:
         - name: Accept-Language
+          description: "ENG: Language - IT: Lingua"
           in: header
           schema:
             type: string
@@ -683,7 +674,7 @@ paths:
           required: true
         - name: idWallet
           in: path
-          description: The ID Wallet
+          description: "ENG: The ID Wallet - IT: Identificativo wallet"
           required: true
           schema:
             type: string
@@ -732,10 +723,10 @@ components:
       properties:
         iban:
           type: string
-          description: IBAN of the citizen
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         description:
           type: string
-          description: further information about the iban
+          description: "ENG: Further information about the iban - IT: Ulteriori informazioni sull'iban"
     WalletStatusDTO:
       title: WalletStatusDTO
       type: object
@@ -751,7 +742,7 @@ components:
             - UNSUBSCRIBED
             - SUSPENDED
           type: string
-          description: actual status of the citizen wallet for an initiative
+          description: "ENG: Actual status of the citizen wallet for an initiative - IT: Stato attuale del portafoglio di un cittadino per un'iniziativa"
     WalletDTO:
       type: object
       required:
@@ -761,7 +752,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InitiativeDTO'
-          description: The list of active initiatives of a citizen
+          description: "ENG: The list of active initiatives of a citizen - IT: Lista delle iniziative attive di un cittadino"
     InstrumentListDTO:
       type: object
       required:
@@ -771,7 +762,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InstrumentDTO'
-          description: The list of payment instruments associated to the initiative by the citizen
+          description: >-
+            "ENG: The list of payment instruments associated to the initiative by the
+            citizen - IT: Lista degli strumenti di pagamenti di un cittadino associati ad una iniziativa"
     InstrumentDTO:
       title: InstrumentDTO
       type: object
@@ -780,27 +773,33 @@ components:
       properties:
         idWallet:
           type: string
-          description: Wallet's id provided by the Payment manager
+          description: "ENG: Wallet's id provided by the Payment manager - IT: Identificativo del portafoglio fornito dal gestore di pagamenti"
         instrumentId:
           type: string
-          description: Payment instrument id
+          description: "ENG: Payment instrument id - IT: Identificativo dello strumento di pagamento"
         maskedPan:
           type: string
-          description: Masked Pan
+          description: "ENG: Masked Pan - IT: Masked Pan"
         channel:
           type: string
+          description: "ENG: Channel - IT: Canale di richiesta"
         brandLogo:
           type: string
-          description: Card's brand as mastercard, visa, ecc.
+          description: "ENG: Card's brand logo URL - IT: URL del logo del marchio della carta"
         brand:
           type: string
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         status:
           enum:
             - ACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
           type: string
-          description: The status of the instrument
+          description: "ENG: The status of the instrument - IT: Stato dello strumento"
+        activationDate:
+          type: string
+          format: date-time
+          description: "ENG: Activation date of the instrument - IT: Data di attivazione dello strumento"
     InitiativeDTO:
       type: object
       required:
@@ -811,10 +810,13 @@ components:
       properties:
         familyId:
           type: string
+          description: "ENG: Id of the family unit - IT: Identificativo del nucleo familiare"
         initiativeId:
           type: string
+          description: "ENG: Id initiative - IT: Identificativo dell'iniziativa"
         initiativeName:
           type: string
+          description: "ENG: Name of the initiative - IT: Nome dell'iniziativa"
         status:
           enum:
             - NOT_REFUNDABLE_ONLY_IBAN
@@ -824,32 +826,47 @@ components:
             - UNSUBSCRIBED
             - SUSPENDED
           type: string
+          description: "ENG: The status of the initiative - IT: Stato dell'iniziativa"
         endDate:
           type: string
           format: date
+          description: "ENG: End date for the time window in which it is possible to use the initiative's rewards - IT: Data che indica la fine del periodo di fruizione dell'iniziativa"
         amount:
           type: number
+          description: "ENG: Initiative total amount - IT: Importo totale dell'iniziativa"
         accrued:
           type: number
+          description: "ENG: Initiative accrued amount IT: Importo accumulato dell'iniziativa"
         refunded:
           type: number
+          description: "ENG: Refunded amount of the initiative - IT: Importo rimborsato dell'iniziativa"
+        lastCounterUpdate:
+          type: string
+          format: date-time
+          description: "ENG: Date of the last update of the counters - IT: Data dell'ultimo aggiornamento dei contatori"
         iban:
           type: string
+          description: "ENG: IBAN - IT: IBAN"
         nInstr:
           type: integer
           format: int32
+          description: "ENG: Number of instruments - IT: Numero di strumenti"
         initiativeRewardType:
           enum:
             - DISCOUNT
             - REFUND
           type: string
+          description: "ENG: Reward type of the initiative - IT: Tipologia di premio dell'iniziativa"
         logoURL:
           type: string
+          description: "ENG: Url of the logo - IT: Url del logo"
         organizationName:
           type: string
+          description: "ENG: Organization name - IT: Nome dell'organizzazione"
         nTrx:
           type: integer
           format: int64
+          description: "ENG:Number of transaction - IT: Numero di transazione"
     InitiativesWithInstrumentDTO:
       type: object
       required:
@@ -860,15 +877,18 @@ components:
       properties:
         idWallet:
           type: string
+          description: "ENG: Id of the wallet - IT: Identificativo del portafoglio"
         maskedPan:
           type: string
+          description: "ENG: Masked Pan - IT: Masked Pan"
         brand:
           type: string
+          description: "ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della carta come mastercard, visa, ecc..."
         initiativeList:
           type: array
           items:
             $ref: '#/components/schemas/InitiativesStatusDTO'
-          description: The list of the payment instrument status with respect to the initiative
+          description: "ENG: The list of the initiatives status related to a payment instrument - IT: Lista degli stati delle iniziative associate ad un instrumento di pagamento"
     InitiativesStatusDTO:
       type: object
       required:
@@ -878,10 +898,13 @@ components:
       properties:
         initiativeId:
           type: string
+          description: "ENG: Initiative ID - IT: Identificativo dell'iniziativa"
         initiativeName:
           type: string
+          description: "ENG: Name of the initiative - IT: Nome dell'iniziativa"
         idInstrument:
           type: string
+          description: "ENG: Instrument ID - IT: Identificativo dello strumento"
         status:
           type: string
           enum:
@@ -889,6 +912,7 @@ components:
             - INACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
+          description: "ENG: Status of the initiative [ACTIVE: Active, INACTIVE: Inactive, PENDING_ENROLLMENT_REQUEST: Richiesta di adesione in attesa, PENDING_DEACTIVATION_REQUEST: Pending deactivation request] - IT: Stato dell'iniziativa [ACTIVE: Iniziativa attiva, INACTIVE: Iniziativa inactive, PENDING_ENROLLMENT_REQUEST: Pending enrollment request, PENDING_DEACTIVATION_REQUEST: Richiesta di disattivazione in attesa]"
     ErrorDTO:
       type: object
       required:
@@ -898,43 +922,61 @@ components:
         code:
           type: integer
           format: int32
+          description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     InitiativeDetailDTO:
       type: object
       properties:
         initiativeName:
           type: string
+          description: "ENG: Name of the initiative - IT: Nome dell'iniziativa"
         status:
           type: string
+          description: "ENG: Status of the initiative - IT: Stato dell'iniziativa"
         description:
           type: string
+          description: "ENG: Description of the initiative - IT: Descrizione dell'iniziativa"
         ruleDescription:
           type: string
-        endDate:
+          description: "ENG: Description of the rules - IT: Descrizione delle regole"
+        onboardingStartDate:
           type: string
           format: date
-        rankingStartDate:
+          description: "ENG: Start date for the initiative's onboarding time window - IT: Data di inizio della finestra temporale in cui si può aderire all'iniziativa"
+        onboardingEndDate:
           type: string
           format: date
-        rankingEndDate:
+          description: "ENG: End date for the initiative's onboarding time window - IT: Data di fine della finestra temporale in cui si può aderire all'iniziativa"
+        fruitionStartDate:
           type: string
           format: date
+          description: "ENG: Start date of the time window in which it is possible to use the initiative's rewards - IT: Data di inizio della finestra temporale in cui si usufruire dei premi dell'iniziativa"
+        fruitionEndDate:
+          type: string
+          format: date
+          description: "ENG: End date of the time window in which it is possible to use the initiative's rewards - IT: Data di fine della finestra temporale in cui si usufruire dei premi dell'iniziativa"
         rewardRule:
           $ref: '#/components/schemas/RewardValueDTO'
         refundRule:
           $ref: '#/components/schemas/InitiativeRefundRuleDTO'
         privacyLink:
           type: string
+          description: "ENG: URL that redirects to the privacy policy - IT: URL che reindirizza all informativa della privacy"
         tcLink:
           type: string
+          description: "ENG: URL that redirects to the terms and conditions - IT: URL che porta ai termini e condizioni"
         logoURL:
           type: string
+          description: "ENG: Url of the logo - IT: Url del logo"
         updateDate:
           type: string
           format: date-time
+          description: "ENG: Update date - IT: Data di aggiornamento dell'iniziativa"
         serviceId:
           type: string
+          description: "ENG: The service ID - IT: Identificativo del service"
     InitiativeRefundRuleDTO:
       type: object
       properties:
@@ -952,8 +994,10 @@ components:
           enum:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
+          description: "ENG: Accumulated type [BUDGET_EXHAUSTED: budget exhausted, THRESHOLD_REACHED: threshold reached] - IT: Tipologia di accumulazione [BUDGET_EXHAUSTED: Budget esaurito, THRESHOLD_REACHED: Soglia raggiunta]"
         refundThreshold:
           type: number
+          description: "ENG: Refund threshold - IT: Soglia di rimborso"
     TimeParameterDTO:
       required:
         - timeType
@@ -967,6 +1011,7 @@ components:
             - WEEKLY
             - MONTHLY
             - QUARTERLY
+          description: "ENG: Time type [CLOSED: At the end of the initiative, DAILY: Daily, WEEKLY: Weekly, MONTHLY: Monthly, QUARTERLY: Quarterly] - IT: Tipologia di tesmpistiche di rimborso [CLOSED: Alla chiusura dell'iniziativa, DAILY: Giornaliero, WEEKLY: Settimanale, MONTHLY: Mensile, QUARTERLY: Trimestrale]"
     RewardValueDTO:
       required:
         - rewardValueType
@@ -978,15 +1023,10 @@ components:
           enum:
             - PERCENTAGE
             - ABSOLUTE
+          description: "ENG: Reward value type [PERCENTAGE: Percentage, ABSOLUTE: Absolute]- IT: Tipologia di premio [PERCENTAGE: Percentuale, ABSOLUTE: Assoluto]"
         rewardValue:
           type: number
-    RefundAdditionalInfoDTO:
-      required:
-        - identificationCode
-      type: object
-      properties:
-        identificationCode:
-          type: string
+          description: "ENG: Reward value - IT: Valore di reward"
   securitySchemes:
     bearerAuth:
       type: http
