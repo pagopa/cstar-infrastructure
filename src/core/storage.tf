@@ -287,3 +287,14 @@ resource "azurerm_storage_management_policy" "backups" {
     azurerm_private_endpoint.backupstorage_private_endpoint
   ]
 }
+
+resource "azurerm_storage_container" "db_backup" {
+  count                 = var.env_short == "p" ? 1 : 0
+  name                  = "data"
+  storage_account_name  = module.backupstorage[0].name
+  container_access_type = "private"
+
+  depends_on = [
+    azurerm_private_endpoint.backupstorage_private_endpoint
+  ]
+}
