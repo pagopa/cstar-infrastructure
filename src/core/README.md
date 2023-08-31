@@ -125,8 +125,6 @@
 | [azurerm_dns_zone.welfare](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_zone) | resource |
 | [azurerm_eventgrid_system_topic.sftp](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic) | resource |
 | [azurerm_eventgrid_system_topic.storage_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic) | resource |
-| [azurerm_eventgrid_system_topic_event_subscription.sftp](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
-| [azurerm_eventgrid_system_topic_event_subscription.storage_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
 | [azurerm_key_vault_access_policy.ad_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_developers_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_externals_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_access_policy) | resource |
@@ -208,8 +206,6 @@
 | [azurerm_role_assignment.aks_to_acr](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.data_contributor_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.data_reader_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.event_grid_sender_role_on_rtd_platform_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.sftp_data_contributor_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_storage_blob.ade_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_blob) | resource |
 | [azurerm_storage_blob.consap_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_blob) | resource |
@@ -245,7 +241,6 @@
 | [azurerm_api_management_product.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_api_management_product.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/client_config) | data source |
-| [azurerm_eventhub.rtd_platform_eventhub](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventhub) | data source |
 | [azurerm_key_vault.rtd_domain_kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.rtd_kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_certificate.app_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_certificate) | data source |
