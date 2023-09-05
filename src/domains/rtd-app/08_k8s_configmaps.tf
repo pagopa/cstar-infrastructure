@@ -261,7 +261,6 @@ resource "kubernetes_config_map" "rtdpaymentinstrument" {
   data = merge({
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdpaymentinstrument"
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
-    KAFKA_BROKER_PI               = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
     },
   var.configmaps_rtdpaymentinstrument)
 }
