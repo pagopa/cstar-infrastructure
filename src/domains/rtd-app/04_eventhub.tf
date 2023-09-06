@@ -15,10 +15,10 @@ data "azurerm_eventhub_namespace" "event_hub_rtd" {
 # Eventhub queues for rtd namespace
 #
 resource "azurerm_eventhub" "event_hub_rtd_hub" {
-  count               = length(var.event_hub_hubs)
-  name                = var.event_hub_hubs[count.index].name
-  partition_count     = var.event_hub_hubs[count.index].partitions
-  message_retention   = var.event_hub_hubs[count.index].retention
+  for_each            = { for hub in var.event_hub_hubs : hub.name => hub }
+  name                = each.value.name
+  partition_count     = each.value.partitions
+  message_retention   = each.value.retention
   namespace_name      = data.azurerm_eventhub_namespace.event_hub_rtd.name
   resource_group_name = data.azurerm_resource_group.msg_rg.name
 }
