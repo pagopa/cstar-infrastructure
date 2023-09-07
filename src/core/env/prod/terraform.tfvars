@@ -37,8 +37,6 @@ cidr_subnet_redis        = ["10.1.132.0/24"]
 cidr_subnet_vpn          = ["10.1.133.0/24"]
 cidr_subnet_dnsforwarder = ["10.1.134.0/29"]
 cidr_subnet_adf          = ["10.1.135.0/24"]
-
-cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
@@ -347,21 +345,6 @@ db_metric_alerts = {
     window_size = "PT15M"
     dimension   = []
   }
-}
-
-pgres_flex_params = {
-
-  enabled    = true
-  sku_name   = "B_Standard_B1ms"
-  db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
-  # 2097152, 4194304, 8388608, 16777216, and 33554432.
-  storage_mb                   = 32768
-  zone                         = 1
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
-  create_mode                  = "Default"
-
 }
 
 dns_zone_prefix         = "cstar"
