@@ -206,28 +206,6 @@ event_hub_hubs = [
     ]
   },
   {
-    name       = "migration-pi"
-    retention  = 1
-    partitions = 1
-    consumers = [
-      "migration-pi-consumer-group"
-    ]
-    policies = [
-      {
-        name   = "migration-pi-consumer-policy"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "migration-pi-producer-policy"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
     name       = "rtd-trx"
     partitions = 1
     retention  = 1
