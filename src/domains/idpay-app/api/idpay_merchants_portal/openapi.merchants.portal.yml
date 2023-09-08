@@ -310,6 +310,11 @@ components:
           type: string
           enum:
             - PUBLISHED
+            - APPROVED
+            - IN_REVISION
+            - TO_CHECK
+            - SUSPENDED
+            - DRAFT
             - CLOSED
         startDate:
           type: string
