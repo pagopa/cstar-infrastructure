@@ -223,7 +223,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_link_to_pair" {
 # THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
 data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
-  resource_group_name = "${local.project}-msg-rg"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
 # *-vnet and *-integration-vnet private network links are already created by "eventhub" pagopa module
