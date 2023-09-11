@@ -176,45 +176,6 @@ variable "configmaps_rtdsenderauth" {
   default = {}
 }
 
-variable "configmaps_facustomer" {
-  type = map(string)
-}
-
-variable "configmaps_fatransaction" {
-  type = map(string)
-}
-
-variable "configmaps_faenrollment" {
-  type = map(string)
-}
-
-variable "configmaps_fapaymentinstrument" {
-  type = map(string)
-}
-
-variable "configmaps_famerchant" {
-  type = map(string)
-}
-
-variable "configmaps_faonboardingmerchant" {
-  type = map(string)
-}
-
-variable "configmaps_fainvoicemanager" {
-  type = map(string)
-}
-
-variable "configmaps_fainvoiceprovider" {
-  type = map(string)
-}
-
-variable "configmaps_fatransactionerrormanager" {
-  type = map(string)
-}
-
-variable "configmaps_fanotificationmanager" {
-  type = map(string)
-}
 
 variable "configmaps_rtdenrolledpaymentinstrument" {
   type = map(string)
@@ -253,45 +214,6 @@ variable "autoscaling_specs" {
   ))
 }
 
-variable "fa_autoscaling_specs" {
-  type = map(object({
-    min_replicas = number
-    max_replicas = number
-    metrics = list(object({
-      type = string
-      resource = object({
-        name = string
-        target = object({
-          type                = string
-          average_utilization = number
-        })
-      })
-    }))
-    behaviors = list(object({
-      scale_down = object({
-        stabilization_window_seconds = number
-        select_policy                = string
-        policy = object({
-          period_seconds = number
-          type           = string
-          value          = number
-        })
-      })
-      scale_up = object({
-        stabilization_window_seconds = number
-        select_policy                = string
-        policy = object({
-          period_seconds = number
-          type           = string
-          value          = number
-        })
-      })
-    }))
-    }
-  ))
-  default = {}
-}
-
 variable "secrets_to_be_read_from_kv" {
   type = list(string)
 }
@@ -316,9 +238,6 @@ variable "enable" {
       enrolled_payment_instrument         = bool
       mongodb_storage                     = bool
     })
-    fa = object({
-      api = bool
-    })
     bpd = object({
       api = bool
     })
@@ -333,9 +252,6 @@ variable "enable" {
       file_register                       = false
       enrolled_payment_instrument         = false
       mongodb_storage                     = false
-    }
-    fa = {
-      api = false
     }
     bpd = {
       api = false
