@@ -89,7 +89,7 @@ resource "kubernetes_config_map" "rest-client" {
     idpay-reward-calculator-baseurl  = "http://idpay-reward-calculator-microservice-chart:8080"
     admissibility_ms_base_url        = "http://idpay-admissibility-assessor-microservice-chart:8080"
     idpay_merchant_host              = "http://idpay-merchant-microservice-chart:8080"
-    idpay-mock-baseurl               = "http://idpay-mock-microservice-chart:8080"
+    idpay_mock_base_url              = "http://idpay-mock-microservice-chart:8080"
     checkiban_base_url               = var.checkiban_base_url
     checkiban_url                    = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url             = var.pdv_tokenizer_url
