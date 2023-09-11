@@ -43,7 +43,7 @@ resource "azurerm_private_endpoint" "event_hub_rtd_namespace" {
   subnet_id           = data.azurerm_subnet.eventhub_snet.id
 
   private_service_connection {
-    name = "${azurerm_eventhub_namespace.event_hub_rtd_namespace.name}-private-service-connection"
+    name                           = "${azurerm_eventhub_namespace.event_hub_rtd_namespace.name}-private-service-connection"
     private_connection_resource_id = azurerm_eventhub_namespace.event_hub_rtd_namespace.id
     is_manual_connection           = false
     subresource_names              = ["namespace"]
