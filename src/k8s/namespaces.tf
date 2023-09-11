@@ -13,15 +13,6 @@ resource "kubernetes_namespace" "bpd" {
   }
 }
 
-resource "kubernetes_namespace" "fa" {
-
-  count = var.enable.fa.api ? 1 : 0
-
-  metadata {
-    name = "fa"
-  }
-}
-
 resource "kubernetes_namespace" "rtd" {
   metadata {
     name = "rtd"
