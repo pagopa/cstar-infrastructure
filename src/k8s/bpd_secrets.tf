@@ -296,3 +296,16 @@ resource "kubernetes_secret" "rtd-postgres-credentials" {
 
   type = "Opaque"
 }
+
+resource "kubernetes_secret" "rtd-application-insights" {
+  metadata {
+    name      = "application-insights"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}
