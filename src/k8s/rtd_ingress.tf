@@ -26,7 +26,7 @@ resource "kubernetes_ingress_v1" "rtd_ingress" {
             }
           }
           path = "/rtdmspaymentinstrumentmanager/(.*)"
-        }     
+        }
       }
     }
   }
