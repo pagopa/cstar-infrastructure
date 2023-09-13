@@ -450,6 +450,14 @@
                   "linkLabel": "CLUSTER METRICS",
                   "subTarget": "clusterMetrics",
                   "style": "link"
+                },
+                {
+                  "id": "71a6e41d-5cb9-4ee1-b71b-d3011168e8e9",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "SERVIZI ESTERNI",
+                  "subTarget": "externalService",
+                  "style": "link"
                 }
               ]
             },
@@ -4489,77 +4497,236 @@
             },
             "name": "payment"
           },
-          {
-            "type": 10,
-            "content": {
-              "chartId": "workbook4ff901ba-f592-405c-b520-5b7c8f17bc06",
-              "version": "MetricsItem/2.0",
-              "size": 0,
-              "chartType": 2,
-              "resourceType": "microsoft.containerservice/managedclusters",
-              "metricScope": 0,
-              "resourceIds": [
-                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
-              ],
-              "timeContextFromParameter": "timeRangeOverall",
-              "timeContext": {
-                "durationMs": 86400000
+           {
+                      "type": 10,
+                      "content": {
+                        "chartId": "workbook4ff901ba-f592-405c-b520-5b7c8f17bc06",
+                        "version": "MetricsItem/2.0",
+                        "size": 0,
+                        "chartType": 2,
+                        "resourceType": "microsoft.containerservice/managedclusters",
+                        "metricScope": 0,
+                        "resourceIds": [
+                          "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
+                        ],
+                        "timeContextFromParameter": "timeRangeOverall",
+                        "timeContext": {
+                          "durationMs": 86400000
+                        },
+                        "metrics": [
+                          {
+                            "namespace": "microsoft.containerservice/managedclusters",
+                            "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_cpu_usage_percentage",
+                            "aggregation": 4,
+                            "splitBy": "node"
+                          }
+                        ],
+                        "title": "Cluster CPU Usage ",
+                        "showOpenInMe": true,
+                        "gridSettings": {
+                          "rowLimit": 10000
+                        }
+                      },
+                      "customWidth": "50",
+                      "name": "Cluster CPU Usage ",
+                      "styleSettings": {
+                        "maxWidth": "50"
+                      }
+                    },
+                    {
+                      "type": 10,
+                      "content": {
+                        "chartId": "workbook3fc01a1c-c9b3-4135-9a95-cfa0513d9af6",
+                        "version": "MetricsItem/2.0",
+                        "size": 0,
+                        "chartType": 2,
+                        "resourceType": "microsoft.containerservice/managedclusters",
+                        "metricScope": 0,
+                        "resourceIds": [
+                          "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
+                        ],
+                        "timeContextFromParameter": "timeRangeOverall",
+                        "timeContext": {
+                          "durationMs": 86400000
+                        },
+                        "metrics": [
+                          {
+                            "namespace": "microsoft.containerservice/managedclusters",
+                            "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_memory_working_set_percentage",
+                            "aggregation": 4,
+                            "splitBy": "node"
+                          }
+                        ],
+                        "title": "Cluster Memory Usage",
+                        "showOpenInMe": true,
+                        "gridSettings": {
+                          "rowLimit": 10000
+                        }
+                      },
+                      "customWidth": "50",
+                      "name": "Cluster Memory Usage",
+                      "styleSettings": {
+                        "maxWidth": "50"
+                      }
+                    }
+                  ]
+                },
+                "name": "wrapper"
               },
-              "metrics": [
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
                 {
-                  "namespace": "microsoft.containerservice/managedclusters",
-                  "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_cpu_usage_percentage",
-                  "aggregation": 4,
-                  "splitBy": "node"
+                  "id": "2c27e0f6-1f79-4352-a6cb-2194f39415b8",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "externalService",
+                  "type": 2,
+                  "description": "Select the external service you want to monitor",
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"label\":\"checkIban\",\"value\":\"bankingservices-sandbox.pagopa.it\",\"selected\": true},\r\n    {\"label\":\"pdv\",\"value\":\"api.uat.tokenizer.pdv.pagopa.it\",\"selected\": true},\r\n    {\"label\":\"notifica\",\"value\":\"api.io.italia.it\",\"selected\": true},\r\n    {\"label\":\"pm\",\"value\":\"api.uat.tokenizer.pdv.pagopa.it\",\"selected\": true}\r\n]",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                },
+                {
+                  "id": "4e47ec78-a580-4f32-a653-84965cae9a6d",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "timeRangeExternalService",
+                  "type": 4,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "selectableValues": [
+                      {
+                        "durationMs": 300000
+                      },
+                      {
+                        "durationMs": 900000
+                      },
+                      {
+                        "durationMs": 1800000
+                      },
+                      {
+                        "durationMs": 3600000
+                      },
+                      {
+                        "durationMs": 14400000
+                      },
+                      {
+                        "durationMs": 43200000
+                      },
+                      {
+                        "durationMs": 86400000
+                      },
+                      {
+                        "durationMs": 259200000
+                      },
+                      {
+                        "durationMs": 604800000
+                      }
+                    ],
+                    "allowCustom": true
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": {
+                    "durationMs": 604800000
+                  }
                 }
               ],
-              "title": "Cluster CPU Usage ",
-              "showOpenInMe": true,
-              "gridSettings": {
-                "rowLimit": 10000
-              }
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
             },
-            "customWidth": "50",
-            "name": "Cluster CPU Usage ",
-            "styleSettings": {
-              "maxWidth": "50"
-            }
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "externalService"
+            },
+            "name": "parameters - 9"
           },
           {
-            "type": 10,
+            "type": 3,
             "content": {
-              "chartId": "workbook3fc01a1c-c9b3-4135-9a95-cfa0513d9af6",
-              "version": "MetricsItem/2.0",
-              "size": 0,
-              "chartType": 2,
-              "resourceType": "microsoft.containerservice/managedclusters",
-              "metricScope": 0,
-              "resourceIds": [
-                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
-              ],
-              "timeContextFromParameter": "timeRangeOverall",
-              "timeContext": {
-                "durationMs": 86400000
-              },
-              "metrics": [
-                {
-                  "namespace": "microsoft.containerservice/managedclusters",
-                  "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_memory_working_set_percentage",
-                  "aggregation": 4,
-                  "splitBy": "node"
-                }
-              ],
-              "title": "Cluster Memory Usage",
-              "showOpenInMe": true,
-              "gridSettings": {
-                "rowLimit": 10000
-              }
+              "version": "KqlItem/1.0",
+              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where target has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m), cloud_RoleName\r\n| render timechart",
+              "size": 3,
+              "showAnalytics": true,
+              "title": "Number of calls to the external service \" {externalService:label} \" divided  by microservices",
+              "timeContextFromParameter": "timeRangeExternalService",
+              "queryType": 0,
+              "resourceType": "microsoft.insights/components",
+              "crossComponentResources": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-monitor-rg/providers/Microsoft.Insights/components/${prefix}-appinsights"
+              ]
             },
             "customWidth": "50",
-            "name": "Cluster Memory Usage",
-            "styleSettings": {
-              "maxWidth": "50"
-            }
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "externalService"
+            },
+            "name": "Number of calls to the external service divided by microservices"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where target has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m),resultCode\r\n| render timechart",
+              "size": 3,
+              "showAnalytics": true,
+              "title": "Number of calls to the external service \" {externalService:label} \" divided by resultCode",
+              "timeContextFromParameter": "timeRangeExternalService",
+              "queryType": 0,
+              "resourceType": "microsoft.insights/components",
+              "crossComponentResources": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-monitor-rg/providers/Microsoft.Insights/components/${prefix}-appinsights"
+              ]
+            },
+            "customWidth": "50",
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "externalService"
+            },
+            "name": "Number of calls to the external service divided by resultCode"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where target has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m), duration, cloud_RoleName\r\n| render timechart",
+              "size": 3,
+              "showAnalytics": true,
+              "title": "Duration of calls to the external service \" {externalService:label} \" divided by microservices",
+              "timeContextFromParameter": "timeRangeExternalService",
+              "queryType": 0,
+              "resourceType": "microsoft.insights/components",
+              "crossComponentResources": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-monitor-rg/providers/Microsoft.Insights/components/${prefix}-appinsights"
+              ],
+              "visualization": "timechart",
+              "chartSettings": {
+                "xAxis": "timestamp",
+                "yAxis": [
+                  "duration"
+                ],
+                "customThresholdLine": "800",
+                "customThresholdLineStyle": 0
+              }
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "externalService"
+            },
+            "name": "Duration of calls to the external service divided by microservices"
           }
         ]
       },
