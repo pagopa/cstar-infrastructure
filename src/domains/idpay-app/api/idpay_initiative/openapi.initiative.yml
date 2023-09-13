@@ -3566,6 +3566,8 @@ components:
           format: int64
         beneficiaryRankingStatus:
           type: string
+        familyId:
+          type: string
     RefundAdditionalInfoDTO:
       required:
         - identificationCode
