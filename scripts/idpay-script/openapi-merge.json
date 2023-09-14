@@ -31,7 +31,7 @@
       }
     },
     {
-      "inputFile": "../../src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml",
+      "inputFile": "../../src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml.tpl",
       "pathModification": {
         "prepend": "/wallet"
       },

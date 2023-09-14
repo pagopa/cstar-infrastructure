@@ -170,3 +170,13 @@ resource "azapi_resource" "idpay_refund_storage_topic_event_subscription" {
 
   response_export_values = ["*"]
 }
+
+resource "azurerm_role_assignment" "refund_storage_data_contributor" {
+  scope                = module.idpay_refund_storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_api_management.apim_core.identity[0].principal_id
+
+  depends_on = [
+    module.idpay_refund_storage
+  ]
+}
