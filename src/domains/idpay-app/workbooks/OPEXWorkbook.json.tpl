@@ -4568,11 +4568,7 @@
                       "styleSettings": {
                         "maxWidth": "50"
                       }
-                    }
-                  ]
-                },
-                "name": "wrapper"
-              },
+                    },
           {
             "type": 9,
             "content": {
@@ -4728,6 +4724,10 @@
             },
             "name": "Duration of calls to the external service divided by microservices"
           }
+        ]
+      },
+      "name": "wrapper"
+    }
   ],
   "fallbackResourceIds": [
     "Azure Monitor"
