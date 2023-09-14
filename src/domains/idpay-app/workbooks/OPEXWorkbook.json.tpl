@@ -33,7 +33,8 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 86400000
+              "durationMs": 3801600000,
+              "endTime": "2023-09-14T10:46:00.000Z"
             }
           },
           {
@@ -122,7 +123,8 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 86400000
+              "durationMs": 432000000,
+              "endTime": "2023-09-14T10:59:00.000Z"
             },
             "id": "2cf67bf4-f445-4fe4-9375-bcbd19b9e8d7"
           },
@@ -152,7 +154,8 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 86400000
+              "durationMs": 432000000,
+              "endTime": "2023-09-14T10:58:00.000Z"
             },
             "id": "e39254bc-334b-43ec-b064-87a2889fc3ca"
           },
@@ -769,7 +772,8 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 86400000
+                            "durationMs": 3801600000,
+                            "endTime": "2023-09-14T10:46:00.000Z"
                           },
                           "metrics": [
                             {
@@ -809,7 +813,8 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 86400000
+                            "durationMs": 3801600000,
+                            "endTime": "2023-09-14T10:46:00.000Z"
                           },
                           "metrics": [
                             {
@@ -860,7 +865,8 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 86400000
+                            "durationMs": 3801600000,
+                            "endTime": "2023-09-14T10:46:00.000Z"
                           },
                           "metrics": [
                             {
@@ -912,7 +918,8 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 86400000
+                            "durationMs": 3801600000,
+                            "endTime": "2023-09-14T10:46:00.000Z"
                           },
                           "metrics": [
                             {
@@ -963,7 +970,8 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 86400000
+                            "durationMs": 3801600000,
+                            "endTime": "2023-09-14T10:46:00.000Z"
                           },
                           "metrics": [
                             {
@@ -1015,7 +1023,8 @@
                           ],
                           "timeContextFromParameter": "timeRangeOverall",
                           "timeContext": {
-                            "durationMs": 86400000
+                            "durationMs": 3801600000,
+                            "endTime": "2023-09-14T10:46:00.000Z"
                           },
                           "metrics": [
                             {
@@ -1121,7 +1130,8 @@
                                 ],
                                 "timeContextFromParameter": "timeRangeOverall",
                                 "timeContext": {
-                                  "durationMs": 86400000
+                                  "durationMs": 3801600000,
+                                  "endTime": "2023-09-14T10:46:00.000Z"
                                 },
                                 "metrics": [
                                   {
@@ -1165,7 +1175,8 @@
                                 ],
                                 "timeContextFromParameter": "timeRangeOverall",
                                 "timeContext": {
-                                  "durationMs": 86400000
+                                  "durationMs": 3801600000,
+                                  "endTime": "2023-09-14T10:46:00.000Z"
                                 },
                                 "metrics": [
                                   {
@@ -1220,7 +1231,8 @@
                                 ],
                                 "timeContextFromParameter": "timeRangeOverall",
                                 "timeContext": {
-                                  "durationMs": 86400000
+                                  "durationMs": 3801600000,
+                                  "endTime": "2023-09-14T10:46:00.000Z"
                                 },
                                 "metrics": [
                                   {
@@ -1264,7 +1276,8 @@
                                 ],
                                 "timeContextFromParameter": "timeRangeOverall",
                                 "timeContext": {
-                                  "durationMs": 86400000
+                                  "durationMs": 3801600000,
+                                  "endTime": "2023-09-14T10:46:00.000Z"
                                 },
                                 "metrics": [
                                   {
@@ -4497,78 +4510,90 @@
             },
             "name": "payment"
           },
-           {
-                      "type": 10,
-                      "content": {
-                        "chartId": "workbook4ff901ba-f592-405c-b520-5b7c8f17bc06",
-                        "version": "MetricsItem/2.0",
-                        "size": 0,
-                        "chartType": 2,
-                        "resourceType": "microsoft.containerservice/managedclusters",
-                        "metricScope": 0,
-                        "resourceIds": [
-                          "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
-                        ],
-                        "timeContextFromParameter": "timeRangeOverall",
-                        "timeContext": {
-                          "durationMs": 86400000
-                        },
-                        "metrics": [
-                          {
-                            "namespace": "microsoft.containerservice/managedclusters",
-                            "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_cpu_usage_percentage",
-                            "aggregation": 4,
-                            "splitBy": "node"
-                          }
-                        ],
-                        "title": "Cluster CPU Usage ",
-                        "showOpenInMe": true,
-                        "gridSettings": {
-                          "rowLimit": 10000
-                        }
-                      },
-                      "customWidth": "50",
-                      "name": "Cluster CPU Usage ",
-                      "styleSettings": {
-                        "maxWidth": "50"
-                      }
-                    },
-                    {
-                      "type": 10,
-                      "content": {
-                        "chartId": "workbook3fc01a1c-c9b3-4135-9a95-cfa0513d9af6",
-                        "version": "MetricsItem/2.0",
-                        "size": 0,
-                        "chartType": 2,
-                        "resourceType": "microsoft.containerservice/managedclusters",
-                        "metricScope": 0,
-                        "resourceIds": [
-                          "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
-                        ],
-                        "timeContextFromParameter": "timeRangeOverall",
-                        "timeContext": {
-                          "durationMs": 86400000
-                        },
-                        "metrics": [
-                          {
-                            "namespace": "microsoft.containerservice/managedclusters",
-                            "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_memory_working_set_percentage",
-                            "aggregation": 4,
-                            "splitBy": "node"
-                          }
-                        ],
-                        "title": "Cluster Memory Usage",
-                        "showOpenInMe": true,
-                        "gridSettings": {
-                          "rowLimit": 10000
-                        }
-                      },
-                      "customWidth": "50",
-                      "name": "Cluster Memory Usage",
-                      "styleSettings": {
-                        "maxWidth": "50"
-                      }
-                    },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook4ff901ba-f592-405c-b520-5b7c8f17bc06",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.containerservice/managedclusters",
+              "metricScope": 0,
+              "resourceIds": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
+              ],
+              "timeContextFromParameter": "timeRangeOverall",
+              "timeContext": {
+                "durationMs": 3801600000,
+                "endTime": "2023-09-14T10:46:00.000Z"
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.containerservice/managedclusters",
+                  "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_cpu_usage_percentage",
+                  "aggregation": 4,
+                  "splitBy": null
+                }
+              ],
+              "title": "Cluster CPU Usage ",
+              "showOpenInMe": true,
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "clusterMetrics"
+            },
+            "name": "Cluster CPU Usage ",
+            "styleSettings": {
+              "maxWidth": "50"
+            }
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook3fc01a1c-c9b3-4135-9a95-cfa0513d9af6",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.containerservice/managedclusters",
+              "metricScope": 0,
+              "resourceIds": [
+                "/subscriptions/${subscription_id}/resourceGroups/${prefix}-${location_short}-${env}01-aks-rg/providers/Microsoft.ContainerService/managedClusters/${prefix}-${location_short}-${env}01-aks"
+              ],
+              "timeContextFromParameter": "timeRangeOverall",
+              "timeContext": {
+                "durationMs": 3801600000,
+                "endTime": "2023-09-14T10:46:00.000Z"
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.containerservice/managedclusters",
+                  "metric": "microsoft.containerservice/managedclusters-Nodes (PREVIEW)-node_memory_working_set_percentage",
+                  "aggregation": 4,
+                  "splitBy": null
+                }
+              ],
+              "title": "Cluster Memory Usage",
+              "showOpenInMe": true,
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "clusterMetrics"
+            },
+            "name": "Cluster Memory Usage",
+            "styleSettings": {
+              "maxWidth": "50"
+            }
+          },
           {
             "type": 9,
             "content": {
@@ -4585,10 +4610,11 @@
                     "additionalResourceOptions": [],
                     "showDefault": false
                   },
-                  "jsonData": "[\r\n    {\"label\":\"checkIban\",\"value\":\"bankingservices-sandbox.pagopa.it\",\"selected\": true},\r\n    {\"label\":\"pdv\",\"value\":\"api.uat.tokenizer.pdv.pagopa.it\",\"selected\": true},\r\n    {\"label\":\"notifica\",\"value\":\"api.io.italia.it\",\"selected\": true},\r\n    {\"label\":\"pm\",\"value\":\"api.uat.tokenizer.pdv.pagopa.it\",\"selected\": true}\r\n]",
+                  "jsonData": "[\r\n    {\"label\":\"checkIban\",\"value\":\"bankingservices-sandbox.pagopa.it\",\"selected\": true},\r\n    {\"label\":\"pdv\",\"value\":\"tokenizer.pdv.pagopa.it\",\"selected\": true},\r\n    {\"label\":\"notifica\",\"value\":\"api.io.italia.it\",\"selected\": true},\r\n    {\"label\":\"pm\",\"value\":\"pm\",\"selected\": true}\r\n]",
                   "timeContext": {
                     "durationMs": 86400000
-                  }
+                  },
+                  "value": "tokenizer.pdv.pagopa.it"
                 },
                 {
                   "id": "4e47ec78-a580-4f32-a653-84965cae9a6d",
@@ -4651,7 +4677,7 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where target has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m), cloud_RoleName\r\n| render timechart",
+              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where data has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m), cloud_RoleName\r\n| render timechart",
               "size": 3,
               "showAnalytics": true,
               "title": "Number of calls to the external service \" {externalService:label} \" divided  by microservices",
@@ -4674,7 +4700,7 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where target has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m),resultCode\r\n| render timechart",
+              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where data has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m),resultCode\r\n| render timechart",
               "size": 3,
               "showAnalytics": true,
               "title": "Number of calls to the external service \" {externalService:label} \" divided by resultCode",
@@ -4697,7 +4723,7 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where target has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m), duration, cloud_RoleName\r\n| render timechart",
+              "query": "let startTime = {timeRangeExternalService:start};\r\nlet endTime = {timeRangeExternalService:end};\r\n\r\ndependencies\r\n| where timestamp between (startTime .. endTime)\r\n| where cloud_RoleName startswith \"idpay\"\r\n| where data has (\"{externalService}\")\r\n| summarize total=count() by bin(timestamp,1m), duration, cloud_RoleName\r\n| render timechart",
               "size": 3,
               "showAnalytics": true,
               "title": "Duration of calls to the external service \" {externalService:label} \" divided by microservices",
