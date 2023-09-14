@@ -4728,10 +4728,6 @@
             },
             "name": "Duration of calls to the external service divided by microservices"
           }
-        ]
-      },
-      "name": "wrapper"
-    }
   ],
   "fallbackResourceIds": [
     "Azure Monitor"
