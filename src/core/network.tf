@@ -656,27 +656,6 @@ module "route_table_peering_sia" {
   tags = var.tags
 }
 
-# Postgres Flexible Server subnet
-module "postgres_flexible_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-pgres-flexible-snet", local.project)
-  address_prefixes                          = var.cidr_subnet_flex_dbms
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet.name
-  service_endpoints                         = ["Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = false
-
-  delegation = {
-    name = "delegation"
-    service_delegation = {
-      name = "Microsoft.DBforPostgreSQL/flexibleServers"
-      actions = [
-        "Microsoft.Network/virtualNetworks/subnets/join/action",
-      ]
-    }
-  }
-}
-
 # Azure Blob Storage subnet
 module "storage_account_snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"

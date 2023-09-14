@@ -236,114 +236,6 @@ configmaps_rtdtransactionfilter = {
   ACQ_BATCH_INPUT_CRON = "0 */2 * * * *"
 }
 
-configmaps_facustomer = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famscustomer"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_CUSTOMER                                  = "DEBUG"
-}
-
-configmaps_fatransaction = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famstransaction"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_TRANSACTION                               = "DEBUG"
-}
-
-configmaps_faenrollment = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsenrollment"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_ENROLLMENT                                = "DEBUG"
-  MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
-}
-
-configmaps_fapaymentinstrument = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famspaymentinstrument"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_PAYMENT_INSTRUMENT                        = "DEBUG"
-}
-
-configmaps_famerchant = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsmerchant"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_MERCHANT                                  = "DEBUG"
-}
-
-configmaps_faonboardingmerchant = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsonboardingmerchant"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_ONBOARDING_MERCHANT                       = "DEBUG"
-}
-
-configmaps_fainvoicemanager = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsinvoicemanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_INVOICE_MANAGER                           = "DEBUG"
-  MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
-  MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
-  # the two rows below are ignored if MS_AGENZIA_ENTRATE_URL has already been set
-  MS_AGENZIA_ENTRATE_PORT   = ""
-  MS_AGENZIA_ENTRATE_SCHEMA = "https"
-}
-
-configmaps_fainvoiceprovider = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsinvoiceprovider"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_INVOICE_PROVIDER                          = "DEBUG"
-}
-
-configmaps_fatransactionerrormanager = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famstransactionerrormanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_TRANSACTION                               = "DEBUG"
-}
-
-configmaps_fanotificationmanager = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsnotificationmanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_NOTIFICATION_MANAGER                      = "DEBUG"
-  NOTIFICATION_SERVICE_TTL                               = "3600"
-  URL_BACKEND_IO                                         = "https://api.io.italia.it"
-}
-
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD     = true
   SPLITTER_LINE_THRESHOLD = 2000000
@@ -429,9 +321,6 @@ enable = {
     file_register                       = true
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
-  }
-  fa = {
-    api = false
   }
   bpd = {
     api = false
