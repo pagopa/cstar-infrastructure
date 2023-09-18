@@ -448,6 +448,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimelineDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: "Parameter [size] must be less than or equal to 10"
         '401':
           description: Authentication failed
           content:
@@ -552,6 +561,122 @@ paths:
               example:
                 code: 0
                 message: string
+  /{initiativeId}/beneficiary/suspend:
+    put:
+      tags:
+        - beneficiary
+      summary: Suspend user to initiative discount type
+      operationId: suspendUserDiscount
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: OK
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /{initiativeId}/beneficiary/readmit:
+    put:
+      tags:
+        - beneficiary
+      summary: Readmit user to initiative discount type
+      operationId: readmitUserDiscount
+      parameters:
+        - name: initiativeId
+          in: path
+          description: initiativeId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: Fiscal-Code
+          in: header
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: OK
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
   '/{initiativeId}/beneficiary/wallet':
     get:
       tags:
@@ -2154,8 +2279,8 @@ paths:
     put:
       tags:
         - initiative-reward
-      summary: Suspend user to initiative
-      operationId: suspendUser
+      summary: Suspend user to initiative refund type
+      operationId: suspendUserRefund
       parameters:
         - name: initiativeId
           in: path
@@ -2212,8 +2337,8 @@ paths:
     put:
       tags:
         - initiative-reward
-      summary: Readmit user to initiative
-      operationId: readmitUser
+      summary: Readmit user to initiative refund type
+      operationId: readmitUserRefund
       parameters:
         - name: initiativeId
           in: path
@@ -3440,6 +3565,8 @@ components:
           type: integer
           format: int64
         beneficiaryRankingStatus:
+          type: string
+        familyId:
           type: string
     RefundAdditionalInfoDTO:
       required:

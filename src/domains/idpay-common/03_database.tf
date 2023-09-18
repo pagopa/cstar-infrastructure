@@ -111,10 +111,6 @@ locals {
         unique = true
         },
         {
-          keys   = ["initiativeId", "userId"]
-          unique = false
-        },
-        {
           keys   = ["initiativeId"]
           unique = false
         },
@@ -124,6 +120,10 @@ locals {
         },
         {
           keys   = ["status"]
+          unique = false
+        },
+        {
+          keys   = ["hpan"]
           unique = false
         }
       ]
@@ -136,6 +136,18 @@ locals {
         },
         {
           keys   = ["notificationStatus"]
+          unique = false
+        },
+        {
+          keys   = ["retry"]
+          unique = false
+        },
+        {
+          keys   = ["retryDate"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
           unique = false
         }
       ]
@@ -177,6 +189,10 @@ locals {
         {
           keys   = ["eventId"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -213,6 +229,10 @@ locals {
         {
           keys   = ["elaborationDateTime"]
           unique = false
+        },
+        {
+          keys   = ["initiatives"]
+          unique = false
         }
       ]
     },
@@ -237,6 +257,14 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["onboardedInitiatives.initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
         }
       ]
     },
@@ -247,7 +275,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["userId"]
+          keys   = ["entityId"]
           unique = false
         },
         {
@@ -294,6 +322,9 @@ locals {
         }, {
         keys   = ["acquirerId"]
         unique = false
+        }, {
+        keys   = ["initiatives"]
+        unique = false
         }
       ]
     },
@@ -302,6 +333,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -334,6 +369,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -345,6 +384,10 @@ locals {
         },
         {
           keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
           unique = false
         }
       ]
@@ -468,6 +511,10 @@ locals {
         {
           keys   = ["userId"]
           unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -511,7 +558,12 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
-      }]
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        }
+      ]
     },
     {
       name = "transaction_in_progress"
@@ -533,6 +585,10 @@ locals {
         }, {
         keys   = ["status"]
         unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -544,6 +600,10 @@ locals {
         }, {
         keys   = ["memberIds"]
         unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -575,6 +635,10 @@ locals {
         {
           keys   = ["fileName", "initiativeId"]
           unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     },
@@ -587,6 +651,10 @@ locals {
         {
           keys   = ["fiscalCode", "acquirerId"]
           unique = true
+        },
+        {
+          keys   = ["initiativeList.initiativeId"]
+          unique = false
         }
       ]
     },
@@ -595,6 +663,10 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
         }
       ]
     }

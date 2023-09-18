@@ -7,6 +7,8 @@ resource "azurerm_resource_group" "rg_aks" {
 module "aks" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v6.2.1"
 
+  count = var.enable.core.aks ? 1 : 0
+
   name                = format("%s-aks", local.project)
   location            = azurerm_resource_group.rg_aks.location
   dns_prefix          = format("%s-aks", local.project)
@@ -67,14 +69,23 @@ module "aks" {
     }
   ]
 
-  alerts_enabled = var.aks_alerts_enabled
+  alerts_enabled                                = var.aks_alerts_enabled
+  microsoft_defender_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_log_analytics_workspace.default[0].id : null
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
 
   tags = var.tags
 }
 
+moved {
+  from = module.aks
+  to   = module.aks[0]
+}
+
 module "acr" {
+
+  count = var.enable.core.aks ? 1 : 0
+
   source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v6.2.1"
   name                = replace(format("%s-acr", local.project), "-", "")
   resource_group_name = azurerm_resource_group.rg_aks.name
@@ -90,11 +101,17 @@ module "acr" {
   tags = var.tags
 }
 
-
+moved {
+  from = module.acr
+  to   = module.acr[0]
+}
 
 # add the role to the identity the kubernetes cluster was assigned
 resource "azurerm_role_assignment" "aks_to_acr" {
-  scope                = module.acr.id
+
+  count = var.enable.core.aks ? 1 : 0
+
+  scope                = module.acr[count.index].id
   role_definition_name = "AcrPull"
-  principal_id         = module.aks.kubelet_identity_id
+  principal_id         = module.aks[count.index].kubelet_identity_id
 }

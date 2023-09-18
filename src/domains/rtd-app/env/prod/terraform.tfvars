@@ -203,7 +203,51 @@ event_hub_hubs = [
         manage = false
       }
     ]
-  }
+  },
+  {
+    name       = "rtd-trx"
+    partitions = 32
+    retention  = 7
+    consumers  = ["idpay-consumer-group"]
+    policies = [
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-platform-events"
+    partitions = 4
+    retention  = 7
+    consumers = [
+      "rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"
+    ]
+    policies = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 #

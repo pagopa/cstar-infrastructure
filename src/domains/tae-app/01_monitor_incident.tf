@@ -29,7 +29,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever less of 50% of sender's files aren't forwarded to ADE for at least 5 senders."
+  description                      = "Triggers whenever less of 50% of sender's files aren't forwarded to ADE for at least 5 senders. Runbook: ${data.azurerm_key_vault_secret.inc_runbook_adein_link[count.index].value}"
   display_name                     = "tae-${var.env_short}-missing-senders-files-ade#INC"
   enabled                          = true
 
@@ -109,7 +109,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "The alarm will be triggered when more then 4 senders have had problems to interact with our API."
+  description                      = "The alarm will be triggered when more then 4 senders have had problems to interact with our API. Runbook: ${data.azurerm_key_vault_secret.inc_runbook_external_access_link[count.index].value}"
   display_name                     = "tae-${var.env_short}-external-access-problems#INC"
   enabled                          = true
 
@@ -164,7 +164,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-external-access
     key = "Incident Alert"
   }
 }
-
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-problems" {
 
   count = var.env_short == "p" ? 1 : 0
@@ -181,7 +180,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-decrypting-prob
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever less of 50% of sender's files aren't derypted for at least 5 senders."
+  description                      = "Triggers whenever less of 50% of sender's files aren't decrypted for at least 5 senders. Runbook: ${data.azurerm_key_vault_secret.inc_runbook_decrypter_link[count.index].value}"
   display_name                     = "tae-${var.env_short}-decrypting-problems#INC"
   enabled                          = true
 

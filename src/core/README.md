@@ -29,6 +29,7 @@
 | <a name="module_app_gw_maz"></a> [app\_gw\_maz](#module\_app\_gw\_maz) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v6.2.1 |
 | <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
+| <a name="module_azdoa_agent_vmss_ubuntu_perf"></a> [azdoa\_agent\_vmss\_ubuntu\_perf](#module\_azdoa\_agent\_vmss\_ubuntu\_perf) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.2.0 |
 | <a name="module_azdoa_li"></a> [azdoa\_li](#module\_azdoa\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.2.1 |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_azdoa_vmss_ubuntu_app"></a> [azdoa\_vmss\_ubuntu\_app](#module\_azdoa\_vmss\_ubuntu\_app) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.14.1 |
@@ -61,8 +62,6 @@
 | <a name="module_pm_admin_panel"></a> [pm\_admin\_panel](#module\_pm\_admin\_panel) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
 | <a name="module_pm_api_product"></a> [pm\_api\_product](#module\_pm\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_pm_wallet_ext"></a> [pm\_wallet\_ext](#module\_pm\_wallet\_ext) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
-| <a name="module_postgres_flexible_server"></a> [postgres\_flexible\_server](#module\_postgres\_flexible\_server) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v6.2.1 |
-| <a name="module_postgres_flexible_snet"></a> [postgres\_flexible\_snet](#module\_postgres\_flexible\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_postgresql"></a> [postgresql](#module\_postgresql) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server | v6.2.1 |
 | <a name="module_private_endpoint_snet"></a> [private\_endpoint\_snet](#module\_private\_endpoint\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
 | <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
@@ -117,14 +116,13 @@
 | [azurerm_dns_a_record.dns_a_appgw_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api_io](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_caa_record.cstar_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_caa_record) | resource |
+| [azurerm_dns_caa_record.welfare_cstar_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_caa_record) | resource |
 | [azurerm_dns_ns_record.cstar_dev_pagopa_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_dns_ns_record.cstar_uat_pagopa_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_zone) | resource |
 | [azurerm_dns_zone.welfare](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/dns_zone) | resource |
 | [azurerm_eventgrid_system_topic.sftp](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic) | resource |
 | [azurerm_eventgrid_system_topic.storage_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic) | resource |
-| [azurerm_eventgrid_system_topic_event_subscription.sftp](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
-| [azurerm_eventgrid_system_topic_event_subscription.storage_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
 | [azurerm_key_vault_access_policy.ad_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_developers_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_externals_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_access_policy) | resource |
@@ -206,8 +204,6 @@
 | [azurerm_role_assignment.aks_to_acr](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.data_contributor_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.data_reader_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.event_grid_sender_role_on_rtd_platform_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.sftp_data_contributor_role](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_storage_blob.ade_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_blob) | resource |
 | [azurerm_storage_blob.consap_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_blob) | resource |
@@ -216,6 +212,7 @@
 | [azurerm_storage_container.bpd_terms_and_conditions](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.consap](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cstar_exports](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
+| [azurerm_storage_container.db_backup](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.fa_terms_and_conditions](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.info_privacy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.rtd_transactions_decrypted](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
@@ -242,7 +239,6 @@
 | [azurerm_api_management_product.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_api_management_product.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/api_management_product) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/client_config) | data source |
-| [azurerm_eventhub.rtd_platform_eventhub](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventhub) | data source |
 | [azurerm_key_vault.rtd_domain_kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.rtd_kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_certificate.app_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_certificate) | data source |
@@ -273,6 +269,7 @@
 | [azurerm_key_vault_secret.sec_storage_id](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.sec_sub_id](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.sec_workspace_id](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_log_analytics_workspace.default](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_private_dns_zone.eventhub_private_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/private_dns_zone) | data source |
 | [azurerm_subnet.aks_domain_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/subscription) | data source |
@@ -311,6 +308,7 @@
 | <a name="input_app_gw_load_client_certificate"></a> [app\_gw\_load\_client\_certificate](#input\_app\_gw\_load\_client\_certificate) | Load client certificate in app gateway | `bool` | `true` | no |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
 | <a name="input_azdo_sp_tls_cert_enabled"></a> [azdo\_sp\_tls\_cert\_enabled](#input\_azdo\_sp\_tls\_cert\_enabled) | Enable Azure DevOps connection for TLS cert management | `string` | `false` | no |
+| <a name="input_azdoa_agent_performance_vm_sku"></a> [azdoa\_agent\_performance\_vm\_sku](#input\_azdoa\_agent\_performance\_vm\_sku) | Azure DevOps Agent performance VM SKU | `string` | n/a | yes |
 | <a name="input_azdoa_image_name"></a> [azdoa\_image\_name](#input\_azdoa\_image\_name) | Azure DevOps Agent image name for scaleset | `string` | n/a | yes |
 | <a name="input_cdc_api_params"></a> [cdc\_api\_params](#input\_cdc\_api\_params) | n/a | <pre>object({<br>    host = string<br>  })</pre> | <pre>{<br>  "host": "https://httpbin.org"<br>}</pre> | no |
 | <a name="input_cidr_integration_vnet"></a> [cidr\_integration\_vnet](#input\_cidr\_integration\_vnet) | Virtual network to peer with sia subscription. It should host apim and event hub. | `list(string)` | n/a | yes |
@@ -323,7 +321,6 @@
 | <a name="input_cidr_subnet_db"></a> [cidr\_subnet\_db](#input\_cidr\_subnet\_db) | Database network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_dnsforwarder"></a> [cidr\_subnet\_dnsforwarder](#input\_cidr\_subnet\_dnsforwarder) | DNS Forwarder network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_eventhub"></a> [cidr\_subnet\_eventhub](#input\_cidr\_subnet\_eventhub) | Eventhub network address space. | `list(string)` | n/a | yes |
-| <a name="input_cidr_subnet_flex_dbms"></a> [cidr\_subnet\_flex\_dbms](#input\_cidr\_subnet\_flex\_dbms) | Postgres Flexible Server network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_jumpbox"></a> [cidr\_subnet\_jumpbox](#input\_cidr\_subnet\_jumpbox) | Jumpbox subnet address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_k8s"></a> [cidr\_subnet\_k8s](#input\_cidr\_subnet\_k8s) | Subnet cluster kubernetes. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_pair_dnsforwarder"></a> [cidr\_subnet\_pair\_dnsforwarder](#input\_cidr\_subnet\_pair\_dnsforwarder) | DNS Forwarder network address space. | `list(string)` | n/a | yes |
@@ -344,7 +341,7 @@
 | <a name="input_db_replica_network_rules"></a> [db\_replica\_network\_rules](#input\_db\_replica\_network\_rules) | Database network rules | <pre>object({<br>    ip_rules                       = list(string)<br>    allow_access_to_azure_services = bool<br>  })</pre> | <pre>{<br>  "allow_access_to_azure_services": true,<br>  "ip_rules": []<br>}</pre> | no |
 | <a name="input_db_sku_name"></a> [db\_sku\_name](#input\_db\_sku\_name) | Specifies the SKU Name for this PostgreSQL Server. | `string` | n/a | yes |
 | <a name="input_db_storage_mb"></a> [db\_storage\_mb](#input\_db\_storage\_mb) | Max storage allowed for a server | `number` | `5120` | no |
-| <a name="input_ddos_protection_plan"></a> [ddos\_protection\_plan](#input\_ddos\_protection\_plan) | n/a | <pre>object({<br>    id     = string<br>    enable = bool<br>  })</pre> | `null` | no |
+| <a name="input_ddos_protection_plan"></a> [ddos\_protection\_plan](#input\_ddos\_protection\_plan) | Network | <pre>object({<br>    id     = string<br>    enable = bool<br>  })</pre> | `null` | no |
 | <a name="input_devops_service_connection_object_id"></a> [devops\_service\_connection\_object\_id](#input\_devops\_service\_connection\_object\_id) | Azure deveops service connection id. | `string` | `null` | no |
 | <a name="input_dexp_params"></a> [dexp\_params](#input\_dexp\_params) | n/a | <pre>object({<br>    enabled = bool<br>    sku = object({<br>      name     = string<br>      capacity = number<br>    })<br>    autoscale = object({<br>      enabled       = bool<br>      min_instances = number<br>      max_instances = number<br>    })<br>    public_network_access_enabled = bool<br>    double_encryption_enabled     = bool<br>    disk_encryption_enabled       = bool<br>    purge_enabled                 = bool<br>  })</pre> | n/a | yes |
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |
@@ -358,9 +355,10 @@
 | <a name="input_ehns_metric_alerts"></a> [ehns\_metric\_alerts](#input\_ehns\_metric\_alerts) | Map of name = criteria objects | <pre>map(object({<br>    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]<br>    aggregation = string<br>    metric_name = string<br>    description = string<br>    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]<br>    operator  = string<br>    threshold = number<br>    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H<br>    frequency = string<br>    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.<br>    window_size = string<br><br>    dimension = list(object(<br>      {<br>        name     = string<br>        operator = string<br>        values   = list(string)<br>      }<br>    ))<br>  }))</pre> | `{}` | no |
 | <a name="input_ehns_sku_name"></a> [ehns\_sku\_name](#input\_ehns\_sku\_name) | Defines which tier to use. | `string` | `"Basic"` | no |
 | <a name="input_ehns_zone_redundant"></a> [ehns\_zone\_redundant](#input\_ehns\_zone\_redundant) | Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones). | `bool` | `false` | no |
-| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    core = object({<br>      private_endpoints_subnet = bool<br>    })<br>    bpd = object({<br>      db     = bool<br>      api    = bool<br>      api_pm = bool<br>    })<br>    rtd = object({<br>      blob_storage_event_grid_integration = bool<br>      internal_api                        = bool<br>      batch_service_api                   = bool<br>      payment_instrument                  = bool<br>      hashed_pans_container               = bool<br>      pm_wallet_ext_api                   = bool<br>      tkm_integration                     = bool<br>    })<br>    fa = object({<br>      api = bool<br>    })<br>    cdc = object({<br>      api = bool<br>    })<br>    tae = object({<br>      api             = bool<br>      db_collections  = bool<br>      blob_containers = bool<br>      adf             = bool<br>    })<br>    idpay = object({<br>      eventhub_idpay = bool<br>    })<br>  })</pre> | <pre>{<br>  "bpd": {<br>    "api": false,<br>    "api_pm": false,<br>    "db": false<br>  },<br>  "cdc": {<br>    "api": false<br>  },<br>  "core": {<br>    "private_endpoints_subnet": false<br>  },<br>  "fa": {<br>    "api": false<br>  },<br>  "idpay": {<br>    "eventhub_idpay": false<br>  },<br>  "rtd": {<br>    "batch_service_api": false,<br>    "blob_storage_event_grid_integration": false,<br>    "hashed_pans_container": false,<br>    "internal_api": false,<br>    "payment_instrument": false,<br>    "pm_wallet_ext_api": false,<br>    "tkm_integration": false<br>  },<br>  "tae": {<br>    "adf": false,<br>    "api": false,<br>    "blob_containers": false,<br>    "db_collections": false<br>  }<br>}</pre> | no |
+| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    core = object({<br>      private_endpoints_subnet = bool<br>      aks                      = bool<br>    })<br>    bpd = object({<br>      db     = bool<br>      api    = bool<br>      api_pm = bool<br>    })<br>    rtd = object({<br>      blob_storage_event_grid_integration = bool<br>      internal_api                        = bool<br>      batch_service_api                   = bool<br>      payment_instrument                  = bool<br>      hashed_pans_container               = bool<br>      pm_wallet_ext_api                   = bool<br>      tkm_integration                     = bool<br>    })<br>    fa = object({<br>      api = bool<br>    })<br>    cdc = object({<br>      api = bool<br>    })<br>    tae = object({<br>      api             = bool<br>      db_collections  = bool<br>      blob_containers = bool<br>      adf             = bool<br>    })<br>    idpay = object({<br>      eventhub_idpay = bool<br>    })<br>  })</pre> | <pre>{<br>  "bpd": {<br>    "api": false,<br>    "api_pm": false,<br>    "db": false<br>  },<br>  "cdc": {<br>    "api": false<br>  },<br>  "core": {<br>    "aks": false,<br>    "private_endpoints_subnet": false<br>  },<br>  "fa": {<br>    "api": false<br>  },<br>  "idpay": {<br>    "eventhub_idpay": false<br>  },<br>  "rtd": {<br>    "batch_service_api": false,<br>    "blob_storage_event_grid_integration": false,<br>    "hashed_pans_container": false,<br>    "internal_api": false,<br>    "payment_instrument": false,<br>    "pm_wallet_ext_api": false,<br>    "tkm_integration": false<br>  },<br>  "tae": {<br>    "adf": false,<br>    "api": false,<br>    "blob_containers": false,<br>    "db_collections": false<br>  }<br>}</pre> | no |
 | <a name="input_enable_api_fa"></a> [enable\_api\_fa](#input\_enable\_api\_fa) | If true, allows to generate the APIs for FA. | `bool` | `false` | no |
 | <a name="input_enable_azdoa"></a> [enable\_azdoa](#input\_enable\_azdoa) | Enable Azure DevOps agent. | `bool` | n/a | yes |
+| <a name="input_enable_azdoa_agent_performance"></a> [enable\_azdoa\_agent\_performance](#input\_enable\_azdoa\_agent\_performance) | Enable Azure DevOps agent for performance. | `bool` | n/a | yes |
 | <a name="input_enable_blob_storage_event_grid_integration"></a> [enable\_blob\_storage\_event\_grid\_integration](#input\_enable\_blob\_storage\_event\_grid\_integration) | If true, allows to send Blob Storage events to a queue. | `bool` | `false` | no |
 | <a name="input_enable_custom_dns"></a> [enable\_custom\_dns](#input\_enable\_custom\_dns) | Enable application gateway custom domain. | `bool` | `false` | no |
 | <a name="input_enable_iac_pipeline"></a> [enable\_iac\_pipeline](#input\_enable\_iac\_pipeline) | If true create the key vault policy to allow used by azure devops iac pipelines. | `bool` | `false` | no |
@@ -383,7 +381,6 @@
 | <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
 | <a name="input_pagopa_platform_url"></a> [pagopa\_platform\_url](#input\_pagopa\_platform\_url) | PagoPA Platform APIM url | `string` | n/a | yes |
 | <a name="input_pgp_put_limit_bytes"></a> [pgp\_put\_limit\_bytes](#input\_pgp\_put\_limit\_bytes) | n/a | `number` | `10737418240` | no |
-| <a name="input_pgres_flex_params"></a> [pgres\_flex\_params](#input\_pgres\_flex\_params) | Postgres Flexible | <pre>object({<br>    enabled                      = bool<br>    sku_name                     = string<br>    db_version                   = string<br>    storage_mb                   = string<br>    zone                         = number<br>    backup_retention_days        = number<br>    geo_redundant_backup_enabled = bool<br>    create_mode                  = string<br>  })</pre> | n/a | yes |
 | <a name="input_pm_backend_url"></a> [pm\_backend\_url](#input\_pm\_backend\_url) | Payment manager backend url | `string` | n/a | yes |
 | <a name="input_pm_ip_filter_range"></a> [pm\_ip\_filter\_range](#input\_pm\_ip\_filter\_range) | n/a | <pre>object({<br>    from = string<br>    to   = string<br>  })</pre> | n/a | yes |
 | <a name="input_pm_timeout_sec"></a> [pm\_timeout\_sec](#input\_pm\_timeout\_sec) | Payment manager timeout (sec) | `number` | `5` | no |
@@ -424,8 +421,6 @@
 | <a name="output_event_hub_keys_ids"></a> [event\_hub\_keys\_ids](#output\_event\_hub\_keys\_ids) | List of event hub key ids. |
 | <a name="output_key_vault_name"></a> [key\_vault\_name](#output\_key\_vault\_name) | n/a |
 | <a name="output_key_vault_uri"></a> [key\_vault\_uri](#output\_key\_vault\_uri) | # key vault ## |
-| <a name="output_pgres_flex_fqdn"></a> [pgres\_flex\_fqdn](#output\_pgres\_flex\_fqdn) | n/a |
-| <a name="output_pgres_flex_public_access_enabled"></a> [pgres\_flex\_public\_access\_enabled](#output\_pgres\_flex\_public\_access\_enabled) | n/a |
 | <a name="output_pm_backend_url"></a> [pm\_backend\_url](#output\_pm\_backend\_url) | n/a |
 | <a name="output_pm_client_certificate_thumbprint"></a> [pm\_client\_certificate\_thumbprint](#output\_pm\_client\_certificate\_thumbprint) | n/a |
 | <a name="output_postgresql_administrator_login"></a> [postgresql\_administrator\_login](#output\_postgresql\_administrator\_login) | n/a |

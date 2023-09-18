@@ -12,15 +12,15 @@ output "vnet_address_space" {
 
 
 output "aks_cluster_name" {
-  value = module.aks.name
+  value = one(module.aks[*].name)
 }
 
 output "aks_fqdn" {
-  value = module.aks.fqdn
+  value = one(module.aks[*].fqdn)
 }
 
 output "aks_private_fqdn" {
-  value = module.aks.private_fqdn
+  value = one(module.aks[*].private_fqdn)
 }
 
 output "aks_outbound_ips" {
@@ -38,15 +38,15 @@ output "key_vault_name" {
 
 ## Container registry ##
 output "container_registry_login_server" {
-  value = module.acr.login_server
+  value = one(module.acr[*].login_server)
 }
 
 output "container_registry_admin_username" {
-  value = module.acr.admin_username
+  value = one(module.acr[*].admin_username)
 }
 
 output "container_registry_admin_password" {
-  value     = module.acr.admin_password
+  value     = one(module.acr[*].admin_password)
   sensitive = true
 }
 
@@ -115,36 +115,6 @@ output "postgresql_administrator_login_password" {
 output "postgresql_replica_fqdn" {
   value = one(module.postgresql[*].replica_fqdn)
 }
-
-# Postgres flexible server
-
-output "pgres_flex_fqdn" {
-  value = module.postgres_flexible_server.*.fqdn
-}
-
-output "pgres_flex_public_access_enabled" {
-  value = module.postgres_flexible_server.*.public_access_enabled
-}
-
-# To enable outputs related to redis cache, please uncomment the following lines
-## Redis cache
-# output "redis_primary_access_key" {
-#   value     = module.redis.primary_access_key
-#   sensitive = true
-# }
-
-# output "redis_hostname" {
-#   value = module.redis.hostname
-# }
-
-# output "redis_port" {
-#   value = module.redis.port
-# }
-
-# output "redis_ssl_port" {
-#   value = module.redis.ssl_port
-# }
-
 
 # Blob storage
 output "primary_blob_host" {

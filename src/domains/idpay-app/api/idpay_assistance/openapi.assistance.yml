@@ -327,6 +327,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimelineDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: "Parameter [size] must be less than or equal to 10"
         '401':
           description: Authentication failed
           content:
@@ -2479,6 +2488,9 @@ components:
         beneficiaryRankingStatus:
           type: string
           description: "ENG: One of the possible beneficiary ranking status: ELIGIBLE_OK: Citizen eligible and included in the ranking, ELIGIBLE_KO: Citizen eligible but not included in the ranking, ONBOARDING_KO: Citizen not eligible for the ranking,  IT: Uno dei possibili stati del cittadino in graduatoria: ELIGIBLE_OK: Cittadini che soddisfano i requisiti e rientrano nella graduatoria, ELIGIBLE_KO: Cittadini che soddisfano i requisiti ma non rientrano nella graduatoria, ONBOARDING_KO: Cittadini che non soddisfano i requisiti"
+        familyId:
+          type: string
+          description: "ENG: The family id of user when initiative is for family unit - IT: L'id della famiglia a cui appartiene l'utente per iniziative per nuclei familiari"
     RefundAdditionalInfoDTO:
       required:
         - identificationCode

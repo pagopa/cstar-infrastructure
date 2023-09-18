@@ -65,6 +65,8 @@
 | [azurerm_api_management_product_policy.rtd_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
 | [azurerm_api_management_product_policy.rtd_api_product_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/api_management_product_policy) | resource |
 | [azurerm_data_factory_linked_service_azure_blob_storage.storage_account_linked_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
+| [azurerm_eventgrid_system_topic_event_subscription.sftp](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
+| [azurerm_eventgrid_system_topic_event_subscription.storage_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventgrid_system_topic_event_subscription) | resource |
 | [azurerm_eventhub.event_hub_rtd_hub](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventhub) | resource |
 | [azurerm_eventhub_authorization_rule.event_hub_rtd_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventhub_authorization_rule) | resource |
 | [azurerm_eventhub_consumer_group.event_hub_rtd_consumer_group](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/eventhub_consumer_group) | resource |
@@ -75,6 +77,8 @@
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.event_hub_rtd_jaas_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_a_record) | resource |
+| [azurerm_role_assignment.event_grid_sender_role_on_rtd_platform_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/role_assignment) | resource |
 | [azurerm_storage_container.cstar_hashed_pans](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.cstar_hashed_pans_par](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.sender_ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/storage_container) | resource |
@@ -114,6 +118,9 @@
 | [azurerm_data_factory.datafactory](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/data_factory) | data source |
 | [azurerm_dns_a_record.dns_a_appgw_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/dns_a_record) | data source |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/dns_zone) | data source |
+| [azurerm_eventgrid_system_topic.sftp](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventgrid_system_topic) | data source |
+| [azurerm_eventgrid_system_topic.storage_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventgrid_system_topic) | data source |
+| [azurerm_eventhub.rtd_platform_eventhub](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventhub) | data source |
 | [azurerm_eventhub_namespace.event_hub_rtd](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/eventhub_namespace) | data source |
 | [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/data-sources/key_vault) | data source |

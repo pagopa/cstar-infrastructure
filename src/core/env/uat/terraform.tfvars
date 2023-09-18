@@ -32,7 +32,6 @@ cidr_subnet_jumpbox          = ["10.1.131.0/24"]
 cidr_subnet_vpn              = ["10.1.132.0/24"]
 cidr_subnet_dnsforwarder     = ["10.1.133.0/29"]
 cidr_subnet_adf              = ["10.1.135.0/24"]
-cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
@@ -349,20 +348,6 @@ db_metric_alerts = {
   }
 }
 
-pgres_flex_params = {
-
-  enabled    = false
-  sku_name   = "B_Standard_B1ms"
-  db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
-  # 2097152, 4194304, 8388608, 16777216, and 33554432.
-  storage_mb                   = 32768
-  zone                         = 1
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
-  create_mode                  = "Default"
-}
-
 ## DNS
 dns_zone_prefix         = "uat.cstar"
 dns_zone_welfare_prefix = "uat.welfare"
@@ -448,79 +433,7 @@ ehns_metric_alerts = {
 
 enable_azdoa = true
 
-eventhubs = [
-  {
-    name              = "rtd-trx"
-    partitions        = 16
-    message_retention = 1
-    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
-    keys = [
-      {
-        name   = "rtd-trx-consumer"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-trx-producer"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "rtd-platform-events"
-    partitions        = 4
-    message_retention = 7
-    consumers         = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
-    keys = [
-      {
-        # publisher
-        name   = "rtd-platform-events-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "rtd-platform-events-sub"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
-    name              = "tkm-write-update-token"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"]
-    keys = [
-      {
-        # publisher
-        name   = "tkm-write-update-token-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-sub"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-tests"
-        listen = true
-        send   = false
-        manage = false
-      },
-    ]
-  }
-]
+eventhubs = []
 
 external_domain = "pagopa.it"
 
@@ -558,6 +471,7 @@ enable_blob_storage_event_grid_integration = true
 enable = {
   core = {
     private_endpoints_subnet = true
+    aks                      = false
   }
   bpd = {
     db     = false
@@ -565,7 +479,7 @@ enable = {
     api_pm = true
   }
   rtd = {
-    blob_storage_event_grid_integration = true
+    blob_storage_event_grid_integration = false
     internal_api                        = true
     batch_service_api                   = true
     enrolled_payment_instrument         = true
@@ -598,5 +512,7 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 # Azure devops
 #
-azdoa_image_name = "cstar-u-azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name               = "cstar-u-azdo-agent-ubuntu2204-image-v1"
+enable_azdoa_agent_performance = true
+azdoa_agent_performance_vm_sku = "Standard_B2s"
 

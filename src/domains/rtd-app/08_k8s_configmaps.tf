@@ -11,6 +11,7 @@ resource "kubernetes_config_map" "rtd-blob-storage-events-consumer" {
   data = {
     KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
     KAFKA_BROKER                    = "${local.product}-evh-ns.servicebus.windows.net:9093"
+    KAFKA_BROKER_RTD                = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -23,6 +24,7 @@ resource "kubernetes_config_map" "rtd-trx-producer" {
 
   data = {
     KAFKA_TOPIC_RTD_TRX = "rtd-trx"
+    KAFKA_BROKER_RTD    = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -259,8 +261,6 @@ resource "kubernetes_config_map" "rtdpaymentinstrument" {
   data = merge({
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdpaymentinstrument"
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
-    KAFKA_TOPIC_MIGRATION_PI      = "migration-pi"
-    KAFKA_BROKER_PI               = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
     },
   var.configmaps_rtdpaymentinstrument)
 }

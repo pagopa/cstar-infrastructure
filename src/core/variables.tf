@@ -32,6 +32,7 @@ locals {
   # Azure DevOps
   azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
   azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
+  azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
   azuredevops_rg_name             = "${local.project}-azdoa-rg"
   azuredevops_subnet_name         = "${local.project}-azdoa-snet"
 }
@@ -71,6 +72,14 @@ variable "env" {
 #
 # Network
 #
+variable "ddos_protection_plan" {
+  type = object({
+    id     = string
+    enable = bool
+  })
+  default = null
+}
+
 variable "cidr_vnet" {
   type        = list(string)
   description = "Virtual network address space."
@@ -81,14 +90,6 @@ variable "cidr_pair_vnet" {
   description = "Virtual network address space."
 }
 
-variable "ddos_protection_plan" {
-  type = object({
-    id     = string
-    enable = bool
-  })
-  default = null
-}
-
 variable "cidr_subnet_storage_account" {
   type        = list(string)
   description = "Storage account network address space."
@@ -97,11 +98,6 @@ variable "cidr_subnet_storage_account" {
 variable "cidr_subnet_db" {
   type        = list(string)
   description = "Database network address space."
-}
-
-variable "cidr_subnet_flex_dbms" {
-  type        = list(string)
-  description = "Postgres Flexible Server network address space."
 }
 
 variable "cidr_subnet_redis" {
@@ -159,6 +155,11 @@ variable "cidr_subnet_adf" {
 variable "cidr_subnet_private_endpoint" {
   type        = list(string)
   description = "Private Endpoint address space."
+}
+
+variable "cidr_subnet_azdoa" {
+  type        = list(string)
+  description = "Azure DevOps agent network address space."
 }
 
 #
@@ -500,17 +501,6 @@ variable "app_gw_load_client_certificate" {
   description = "Load client certificate in app gateway"
 }
 
-# Azure DevOps Agent
-variable "enable_azdoa" {
-  type        = bool
-  description = "Enable Azure DevOps agent."
-}
-
-variable "cidr_subnet_azdoa" {
-  type        = list(string)
-  description = "Azure DevOps agent network address space."
-}
-
 ## Database server postgresl
 variable "db_sku_name" {
   type        = string
@@ -604,20 +594,6 @@ EOD
   }))
 }
 
-# Postgres Flexible
-variable "pgres_flex_params" {
-  type = object({
-    enabled                      = bool
-    sku_name                     = string
-    db_version                   = string
-    storage_mb                   = string
-    zone                         = number
-    backup_retention_days        = number
-    geo_redundant_backup_enabled = bool
-    create_mode                  = string
-  })
-
-}
 
 ## Event hub
 variable "ehns_sku_name" {
@@ -826,6 +802,7 @@ variable "enable" {
   type = object({
     core = object({
       private_endpoints_subnet = bool
+      aks                      = bool
     })
     bpd = object({
       db     = bool
@@ -861,6 +838,7 @@ variable "enable" {
   default = {
     core = {
       private_endpoints_subnet = false
+      aks                      = false
     }
     bpd = {
       db     = false
@@ -905,4 +883,19 @@ variable "cstarblobstorage_account_replication_type" {
 variable "azdoa_image_name" {
   type        = string
   description = "Azure DevOps Agent image name for scaleset"
+}
+
+variable "enable_azdoa" {
+  type        = bool
+  description = "Enable Azure DevOps agent."
+}
+
+variable "enable_azdoa_agent_performance" {
+  type        = bool
+  description = "Enable Azure DevOps agent for performance."
+}
+
+variable "azdoa_agent_performance_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent performance VM SKU"
 }

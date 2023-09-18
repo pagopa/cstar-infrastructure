@@ -102,7 +102,7 @@ module "idpay_wallet_issuer" {
   service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/idpay_issuer_wallet/openapi.issuer.wallet.yal.tpl", {})
+  content_value  = templatefile("./api/idpay_issuer_wallet/openapi.issuer.wallet.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 

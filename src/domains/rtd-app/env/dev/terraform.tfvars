@@ -206,27 +206,53 @@ event_hub_hubs = [
     ]
   },
   {
-    name       = "migration-pi"
-    retention  = 1
+    name       = "rtd-trx"
     partitions = 1
-    consumers = [
-      "migration-pi-consumer-group"
-    ]
+    retention  = 1
+    consumers  = ["idpay-consumer-group"]
     policies = [
       {
-        name   = "migration-pi-consumer-policy"
+        name   = "rtd-trx-consumer"
         listen = true
         send   = false
         manage = false
       },
       {
-        name   = "migration-pi-producer-policy"
+        name   = "rtd-trx-producer"
         listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-trx-test-policy"
+        listen = true
         send   = true
         manage = false
       }
     ]
-  }
+  },
+  {
+    name       = "rtd-platform-events"
+    partitions = 4
+    retention  = 1
+    consumers  = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
+    policies = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 #
