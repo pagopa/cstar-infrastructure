@@ -1108,7 +1108,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InstrumentList'
+                $ref: '#/components/schemas/InstrumentListDTO'
         '401':
           description: Authentication failed
           content:
@@ -2727,21 +2727,20 @@ components:
           description: >-
             ENG: The list of active initiatives of a citizen - IT: Lista delle
             iniziative attive di un cittadino
-    InstrumentList:
-      type: array
-      items:
-        $ref: '#/components/schemas/InstrumentListDTO'
-      description: >-
-        "ENG: The list of payment instruments associated to the initiative
-        by the citizen - IT: Lista degli strumenti di pagamenti di un
-        cittadino associati ad una iniziativa"
     InstrumentListDTO:
-      description: Complex type for items in the operation list
-      oneOf:
-        - $ref: '#/components/schemas/CardInstrumentDTO'
-        - $ref: '#/components/schemas/QrCodeInstrumentDTO'
-        - $ref: '#/components/schemas/IdpayCodeInstrumentDTO'
-    CardInstrumentDTO:
+      type: object
+      required:
+        - instrumentList
+      properties:
+        instrumentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentDTO'
+          description: >-
+            "ENG: The list of payment instruments associated to the initiative
+            by the citizen - IT: Lista degli strumenti di pagamenti di un
+            cittadino associati ad una iniziativa"
+    InstrumentDTO:
       title: InstrumentDTO
       type: object
       required:
@@ -2784,68 +2783,8 @@ components:
           type: string
           enum:
             - CARD
-        activationDate:
-          type: string
-          format: date-time
-          description: >-
-            ENG: Activation date of the instrument - IT: Data di attivazione
-            dello strumento
-    QrCodeInstrumentDTO:
-      title: QrCodeInstrumentDTO
-      type: object
-      required:
-        - instrumentId
-      properties:
-        instrumentId:
-          type: string
-          description: >-
-            ENG: Payment instrument id - IT: Identificativo dello strumento di
-            pagamento
-        channel:
-          type: string
-          description: 'ENG: Channel - IT: Canale di richiesta'
-        instrumentType:
-          type: string
-          enum:
             - QRCODE
-          description: 'ENG: instrument Type - IT: tipo di strumento'
-        activationDate:
-          type: string
-          format: date-time
-          description: >-
-            ENG: Activation date of the instrument - IT: Data di attivazione
-            dello strumento
-        status:
-          type: string
-          enum:
-            - ACTIVE
-          description: 'ENG: Status - IT: Stato dello strumento'
-    IdpayCodeInstrumentDTO:
-      title: IdpayCodeInstrumentDTO
-      type: object
-      required:
-        - instrumentId
-      properties:
-        instrumentId:
-          type: string
-          description: >-
-            ENG: Payment instrument id - IT: Identificativo dello strumento di
-            pagamento
-        channel:
-          type: string
-          description: 'ENG: Channel - IT: Canale di richiesta'
-        status:
-          type: string
-          enum:
-            - ACTIVE
-            - PENDING_ENROLLMENT_REQUEST
-            - PENDING_DEACTIVATION_REQUEST
-          description: 'ENG: Status - IT: Stato dello strumento'
-        instrumentType:
-          type: string
-          enum:
             - IDPAYCODE
-          description: 'ENG: instrument Type - IT: tipo di strumento'
         activationDate:
           type: string
           format: date-time
