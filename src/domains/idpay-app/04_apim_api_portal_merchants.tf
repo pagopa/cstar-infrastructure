@@ -42,7 +42,7 @@ module "idpay_merchants_permission_portal" {
   path         = "idpay/merchant/authorization"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_role_permission/openapi.role-permission.yml")
@@ -88,7 +88,7 @@ module "idpay_merchants_notification_email_api" {
   path         = "idpay/merchant/email-notification"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaynotificationemail/"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaynotificationemail/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_notification_email/openapi.notification.email.yml")

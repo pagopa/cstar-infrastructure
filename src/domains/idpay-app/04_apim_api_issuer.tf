@@ -48,7 +48,7 @@ module "idpay_onboarding_workflow_issuer" {
   path         = "idpay/hb/onboarding"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_onboarding_workflow/openapi.issuer.onboarding.yml.tpl", {})
@@ -99,7 +99,7 @@ module "idpay_wallet_issuer" {
   path         = "idpay/hb/wallet"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_wallet/openapi.issuer.wallet.yml.tpl", {})
@@ -158,7 +158,7 @@ module "idpay_timeline_issuer" {
   path         = "idpay/hb/timeline"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl", {})
@@ -191,7 +191,7 @@ module "idpay_iban_io" {
   path         = "idpay/iban"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})

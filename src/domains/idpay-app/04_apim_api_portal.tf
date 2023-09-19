@@ -42,7 +42,7 @@ module "idpay_permission_portal" {
   path         = "idpay/authorization"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_role_permission/openapi.role-permission.yml")
@@ -88,7 +88,7 @@ module "idpay_initiative_portal" {
   path         = "idpay/initiative"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_initiative/openapi.initiative.yml")
@@ -494,7 +494,7 @@ module "idpay_group_portal" {
   path         = "idpay/group"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaygroup/"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaygroup/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_group/openapi.group.yml")
@@ -536,7 +536,7 @@ module "idpay_merchant_portal" {
   path         = "idpay/merchant"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaymerchant/"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaymerchant/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_merchant/openapi.merchant.yml")
@@ -606,7 +606,7 @@ module "idpay_notification_email_api" {
   path         = "idpay/email-notification"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaynotificationemail/"
+  service_url = "https://${var.ingress_load_balancer_hostname}/idpaynotificationemail/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_notification_email/openapi.notification.email.yml")
