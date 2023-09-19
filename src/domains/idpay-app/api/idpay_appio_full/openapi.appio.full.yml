@@ -2728,6 +2728,7 @@ components:
             ENG: The list of active initiatives of a citizen - IT: Lista delle
             iniziative attive di un cittadino
     InstrumentList:
+      type: array
       items:
         $ref: '#/components/schemas/InstrumentListDTO'
       description: >-
