@@ -1603,8 +1603,224 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+  '/wallet/code/status':
+    get:
+      tags:
+        - wallet
+      summary: 'ENG: Check if the idpay code already exists - IT: Verifica se è già stato generato il codice idpay'
+      operationId: getIdpayCodeStatus
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckEnrollmentDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  '/wallet/code/generate':
+    post:
+      tags:
+        - wallet
+      summary: 'ENG: Generate idpay code, if initativeId is not present new code will be generated,- IT: Generato il codice per idpay, se l''initiativeId non è presente verrà generato un nuovo codice'
+      operationId: generateCode
+      requestBody:
+        description: 'ENG: Id of the iniziative - IT: Identificativo dell''iniziativa'
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateCodeReqDTO'
+            example:
+              initiativeId: string
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateCodeRespDTO'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  '/wallet/{initiativeId}/instruments/code':
+    put:
+      tags:
+        - wallet
+      summary: 'ENG: Association of a payment instrument to an initiative - IT: Associa uno strumento di pagamento ad una iniziativa'
+      operationId: enrollInstrument1
+      parameters:
+        - name: Accept-Language
+          description: 'ENG: Language - IT: Lingua'
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: 'ENG: The initiative ID - IT: Identificativo dell''iniziativa'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Enrollment OK
+          content:
+            application/json: { }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
 components:
   schemas:
+    CheckEnrollmentDTO:
+      type: object
+      properties:
+        isIdPayCodeEnabled:
+          type: boolean
+    GenerateCodeReqDTO:
+      title: GenerateCodeDTO
+      type: object
+      properties:
+        initiativeId:
+          type: string
+          description: >-
+            ENG: Unique identifier of the subscribed initiative - IT:
+            Identificativo univoco dell'iniziativa sottoscritta
+    GenerateCodeRespDTO:
+      type: object
+      properties:
+        idpayCode:
+          type: string
+          description: 'ENG: Numeric code - IT: codice numerico'
     IbanDTO:
       type: object
       required:
@@ -2519,12 +2735,15 @@ components:
         instrumentList:
           type: array
           items:
-            $ref: '#/components/schemas/InstrumentDTO'
+            oneOf:
+              - $ref: '#/components/schemas/CardInstrumentDTO'
+              - $ref: '#/components/schemas/QrCodeInstrumentDTO'
+              - $ref: '#/components/schemas/IdpayCodeInstrumentDTO'
           description: >-
             "ENG: The list of payment instruments associated to the initiative
             by the citizen - IT: Lista degli strumenti di pagamenti di un
             cittadino associati ad una iniziativa"
-    InstrumentDTO:
+    CardInstrumentDTO:
       title: InstrumentDTO
       type: object
       required:
@@ -2563,6 +2782,72 @@ components:
             - PENDING_DEACTIVATION_REQUEST
           type: string
           description: 'ENG: The status of the instrument - IT: Stato dello strumento'
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+        activationDate:
+          type: string
+          format: date-time
+          description: >-
+            ENG: Activation date of the instrument - IT: Data di attivazione
+            dello strumento
+    QrCodeInstrumentDTO:
+      title: QrCodeInstrumentDTO
+      type: object
+      required:
+        - instrumentId
+      properties:
+        instrumentId:
+          type: string
+          description: >-
+            ENG: Payment instrument id - IT: Identificativo dello strumento di
+            pagamento
+        channel:
+          type: string
+          description: 'ENG: Channel - IT: Canale di richiesta'
+        instrumentType:
+          type: string
+          enum:
+            - QRCODE
+          description: 'ENG: instrument Type - IT: tipo di strumento'
+        activationDate:
+          type: string
+          format: date-time
+          description: >-
+            ENG: Activation date of the instrument - IT: Data di attivazione
+            dello strumento
+        status:
+          type: string
+          enum:
+            - ACTIVE
+          description: 'ENG: Status - IT: Stato dello strumento'
+    IdpayCodeInstrumentDTO:
+      title: IdpayCodeInstrumentDTO
+      type: object
+      required:
+        - instrumentId
+      properties:
+        instrumentId:
+          type: string
+          description: >-
+            ENG: Payment instrument id - IT: Identificativo dello strumento di
+            pagamento
+        channel:
+          type: string
+          description: 'ENG: Channel - IT: Canale di richiesta'
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - PENDING_ENROLLMENT_REQUEST
+            - PENDING_DEACTIVATION_REQUEST
+          description: 'ENG: Status - IT: Stato dello strumento'
+        instrumentType:
+          type: string
+          enum:
+            - IDPAYCODE
+          description: 'ENG: instrument Type - IT: tipo di strumento'
         activationDate:
           type: string
           format: date-time
