@@ -669,6 +669,18 @@ locals {
           unique = false
         }
       ]
+    },
+    {
+      name = "payment_instrument_code"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        }
+      ]
     }
   ]
 }
