@@ -1108,7 +1108,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InstrumentListDTO'
+                $ref: '#/components/schemas/InstrumentList'
         '401':
           description: Authentication failed
           content:
@@ -1719,7 +1719,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/wallet/{initiativeId}/instruments/code':
+  '/wallet/{initiativeId}/code/instruments':
     put:
       tags:
         - wallet
@@ -2727,22 +2727,19 @@ components:
           description: >-
             ENG: The list of active initiatives of a citizen - IT: Lista delle
             iniziative attive di un cittadino
+    InstrumentList:
+      items:
+        $ref: '#/components/schemas/InstrumentListDTO'
+      description: >-
+        "ENG: The list of payment instruments associated to the initiative
+        by the citizen - IT: Lista degli strumenti di pagamenti di un
+        cittadino associati ad una iniziativa"
     InstrumentListDTO:
-      type: object
-      required:
-        - instrumentList
-      properties:
-        instrumentList:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/CardInstrumentDTO'
-              - $ref: '#/components/schemas/QrCodeInstrumentDTO'
-              - $ref: '#/components/schemas/IdpayCodeInstrumentDTO'
-          description: >-
-            "ENG: The list of payment instruments associated to the initiative
-            by the citizen - IT: Lista degli strumenti di pagamenti di un
-            cittadino associati ad una iniziativa"
+      description: Complex type for items in the operation list
+      oneOf:
+        - $ref: '#/components/schemas/CardInstrumentDTO'
+        - $ref: '#/components/schemas/QrCodeInstrumentDTO'
+        - $ref: '#/components/schemas/IdpayCodeInstrumentDTO'
     CardInstrumentDTO:
       title: InstrumentDTO
       type: object
