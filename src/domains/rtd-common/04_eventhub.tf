@@ -37,23 +37,20 @@ resource "azurerm_eventhub_namespace" "event_hub_rtd_namespace" {
 
 ## Create private endpoint and dns A record for it
 resource "azurerm_private_endpoint" "event_hub_rtd_namespace" {
-  name                = format("%s-private-endpoint", azurerm_eventhub_namespace.event_hub_rtd_namespace.name)
+  name                = "${azurerm_eventhub_namespace.event_hub_rtd_namespace.name}-private-endpoint"
   location            = var.location
   resource_group_name = azurerm_resource_group.msg_rg.name
   subnet_id           = data.azurerm_subnet.eventhub_snet.id
 
   private_service_connection {
-    name = format(
-      "%s-private-service-connection",
-      azurerm_eventhub_namespace.event_hub_rtd_namespace.name
-    )
+    name                           = "${azurerm_eventhub_namespace.event_hub_rtd_namespace.name}-private-service-connection"
     private_connection_resource_id = azurerm_eventhub_namespace.event_hub_rtd_namespace.id
     is_manual_connection           = false
     subresource_names              = ["namespace"]
   }
 
   private_dns_zone_group {
-    name                 = format("%s-private-dns-zone-group", azurerm_eventhub_namespace.event_hub_rtd_namespace.name)
+    name                 = "${azurerm_eventhub_namespace.event_hub_rtd_namespace.name}-private-dns-zone-group"
     private_dns_zone_ids = concat([], data.azurerm_private_dns_zone.eventhub_private_dns.*.id)
   }
 }
@@ -62,7 +59,7 @@ resource "azurerm_private_endpoint" "event_hub_rtd_namespace" {
 resource "azurerm_private_endpoint" "evh-cstar-vnet-private-endpoint" {
   # disabled in PROD
   count               = var.env_short == "p" ? 0 : 1
-  name                = format("%s-evh-private-endpoint", local.project)
+  name                = "${local.project}-evh-private-endpoint"
   location            = var.location
   resource_group_name = local.vnet_core_resource_group_name
   subnet_id           = data.azurerm_subnet.private_endpoint_snet.id
@@ -73,7 +70,7 @@ resource "azurerm_private_endpoint" "evh-cstar-vnet-private-endpoint" {
   }
 
   private_service_connection {
-    name                           = format("%s-evh-private-service-connection", local.project)
+    name                           = "${local.project}-evh-private-service-connection"
     is_manual_connection           = false
     private_connection_resource_id = azurerm_eventhub_namespace.event_hub_rtd_namespace.id
     subresource_names              = ["namespace"]
@@ -83,7 +80,7 @@ resource "azurerm_private_endpoint" "evh-cstar-vnet-private-endpoint" {
 resource "azurerm_private_dns_a_record" "private_dns_a_record_event_hub_rtd_namespace" {
   name                = "eventhubrtd"
   zone_name           = data.azurerm_private_dns_zone.eventhub_private_dns.name
-  resource_group_name = "${local.product}-msg-rg"
+  resource_group_name = data.azurerm_private_dns_zone.eventhub_private_dns.resource_group_name
   ttl                 = 300
   records             = azurerm_private_endpoint.event_hub_rtd_namespace.private_service_connection.*.private_ip_address
 }

@@ -327,7 +327,7 @@ module "idpay_initiative_portal" {
       operation_id = "getRewardFileDownload"
 
       xml_content = templatefile("./api/idpay_initiative/get-reward-download.xml.tpl", {
-        refund-storage-account-name = module.idpay_refund_storage.name
+        refund-storage-account-name = local.reward_storage_fqdn
       })
     },
     {

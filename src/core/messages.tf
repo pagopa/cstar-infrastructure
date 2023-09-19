@@ -77,7 +77,7 @@ module "event_hub" {
 resource "azurerm_private_endpoint" "evh-cstar-vnet-private-endpoint" {
   # disabled in PROD
   count               = var.env_short == "p" ? 0 : 1
-  name                = format("%s-evh-private-endpoint", local.project)
+  name                = "${local.project}-evh-private-endpoint"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   subnet_id           = module.private_endpoint_snet[0].id
@@ -90,7 +90,7 @@ resource "azurerm_private_endpoint" "evh-cstar-vnet-private-endpoint" {
   }
 
   private_service_connection {
-    name                           = format("%s-evh-private-service-connection", local.project)
+    name                           = "${local.project}-evh-private-service-connection"
     is_manual_connection           = false
     private_connection_resource_id = module.event_hub.namespace_id
     subresource_names              = ["namespace"]
