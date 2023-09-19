@@ -1724,7 +1724,7 @@ paths:
       tags:
         - wallet
       summary: 'ENG: Association of a payment instrument to an initiative - IT: Associa uno strumento di pagamento ad una iniziativa'
-      operationId: enrollInstrument1
+      operationId: enrollInstrumentCode
       parameters:
         - name: Accept-Language
           description: 'ENG: Language - IT: Lingua'
