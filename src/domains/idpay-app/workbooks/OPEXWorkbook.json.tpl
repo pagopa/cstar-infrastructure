@@ -33,8 +33,7 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 3801600000,
-              "endTime": "2023-09-14T10:46:00.000Z"
+              "durationMs": 86400000
             }
           },
           {
@@ -476,7 +475,7 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeOverall:start};\r\nlet endTime = {timeRangeOverall:end};\r\nlet interval = endTime-startTime;\r\nlet totalCount = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apis})\r\n| summarize Total = count() by operation_Name;\r\nlet data = requests\r\n| where timestamp between (startTime .. endTime)\r\n| where operation_Name has_any ({apis});\r\ndata\r\n| join kind=inner totalCount on operation_Name\r\n| summarize Count = count(), Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"])) by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n| project ['Request Name'] = operation_Name, ['Result Code'] = resultCode, ['Total Response'] = Count, ['Rate %'] = (Count*100)/Total, ['Users Affected'] = Users\r\n| sort by ['Request Name']",
+                    "query": "let startTime = datetime(\"2023-09-19T08:00:00.000Z\");\r\nlet endTime = datetime(\"2023-09-19T10:46:00.000Z\");\r\nlet interval = endTime - startTime;\r\nlet data = requests\r\n    | where timestamp between (startTime .. endTime);\r\nlet operationData = data\r\n    | where operation_Name has_any ({apis});\r\nlet totalOperationCount = operationData\r\n    | summarize Total = count() by operation_Name;\r\nlet joinedOperationData = operationData\r\n    | join kind=inner totalOperationCount on operation_Name\r\n    | summarize\r\n        Count = count(),\r\n        Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"]))\r\n        by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n    | project\r\n        ['Request Name'] = operation_Name,\r\n        ['Result Code'] = resultCode,\r\n        ['Total Response'] = Count,\r\n        ['Rate %'] = (Count * 100) / Total,\r\n        ['Users Affected'] = Users\r\n    | sort by ['Request Name'];\r\nlet unknowApi = data\r\n    |join kind=inner exceptions on operation_Id\r\n    | where type has \"OperationNotFound\";\r\nlet totalRequestCount = toscalar (data\r\n    | count);\r\nlet joinedUnknowApi = unknowApi\r\n    | summarize\r\n        Count = count(),\r\n        Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"]))\r\n    | project \r\n        ['Request Name'] = \"OperationNotFound\",\r\n        ['Result Code'] = \"500\",\r\n        ['Total Response'] = Count,\r\n        ['Rate %'] = (Count * 100) / totalRequestCount,\r\n        ['Users Affected'] = Users;\r\nunion joinedUnknowApi, joinedOperationData",
                     "size": 0,
                     "showAnalytics": true,
                     "timeContextFromParameter": "timeRangeOverall",
