@@ -298,3 +298,24 @@ resource "azurerm_storage_container" "db_backup" {
     azurerm_private_endpoint.backupstorage_private_endpoint
   ]
 }
+
+resource "azurerm_storage_account" "management_sa" {
+  count                 = var.env_short == "p" ? 1 : 0
+  name                     = replace("${local.project}-management-sa", "-", "")
+  resource_group_name      = azurerm_resource_group.rg_storage.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_kind             = "StorageV2"
+  account_replication_type = "GRS"
+
+  public_network_access_enabled = false
+
+  tags = var.tags
+}
+
+resource "azurerm_storage_container" "costs" {
+  count                 = var.env_short == "p" ? 1 : 0
+  name                  = "costs"
+  storage_account_name  = azurerm_storage_account.management_sa[count.index].name
+  container_access_type = "private"
+}
