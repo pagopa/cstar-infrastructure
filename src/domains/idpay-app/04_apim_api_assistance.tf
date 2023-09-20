@@ -40,7 +40,7 @@ module "idpay_api_assistance" {
   path         = "idpay/assistance"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
+  service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_assistance/openapi.assistance.yml")
