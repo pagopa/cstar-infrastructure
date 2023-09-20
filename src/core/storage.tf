@@ -300,7 +300,7 @@ resource "azurerm_storage_container" "db_backup" {
 }
 
 resource "azurerm_storage_account" "management_sa" {
-  count                 = var.env_short == "p" ? 1 : 0
+  count                    = var.env_short == "p" ? 1 : 0
   name                     = replace("${local.project}-management-sa", "-", "")
   resource_group_name      = azurerm_resource_group.rg_storage.name
   location                 = var.location
