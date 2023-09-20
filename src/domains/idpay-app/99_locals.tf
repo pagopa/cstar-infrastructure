@@ -55,4 +55,6 @@ locals {
   rtd_ingress_load_balancer_hostname_https = "https://${local.rtd_domain_aks_hostname}"
   initiative_storage_fqdn                  = "${module.idpay_initiative_storage.name}.blob.core.windows.net"
   reward_storage_fqdn                      = "${module.idpay_refund_storage.name}.blob.core.windows.net"
+
+  ingress_load_balancer_https = "https://${var.ingress_load_balancer_hostname}"
 }
