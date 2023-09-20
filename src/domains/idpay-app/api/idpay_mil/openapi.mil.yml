@@ -14,6 +14,12 @@ paths:
       description: Returns the list of initiatives of a specific merchant
       operationId: getMerchantInitiativeList
       parameters:
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
         - name: x-merchant-fiscalcode
           in: header
           schema:
