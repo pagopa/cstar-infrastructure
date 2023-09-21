@@ -41,6 +41,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: "INVALID_REQUEST"
+                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
         '404':
           description: The merchant ID was not found
           content:
@@ -91,6 +94,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: "INVALID_REQUEST"
+                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
         '401':
           description: Authentication failed
           content:
@@ -159,6 +165,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: "INVALID_REQUEST"
+                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
         '404':
           description: Transaction not found
           content:
@@ -193,6 +208,15 @@ paths:
       responses:
         '200':
           description: Ok
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: "INVALID_REQUEST"
+                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
         '403':
           description: Merchant not allowed to operate on this transaction
         '404':
@@ -231,6 +255,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SyncTrxStatus'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: "INVALID_REQUEST"
+                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
         '403':
           description: Transaction is associated to another user
         '404':
