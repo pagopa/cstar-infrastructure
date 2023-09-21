@@ -311,6 +311,7 @@ components:
           - PAYMENT_GENERIC_REJECTED
           - PAYMENT_TOO_MANY_REQUESTS
           - PAYMENT_GENERIC_ERROR
+          - PAYMENT_USER_SUSPENDED
           description: >-
                "ENG: Error code:
                PAYMENT_NOT_FOUND_EXPIRED: transaction not found or expired,
@@ -320,7 +321,8 @@ components:
                PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
                PAYMENT_GENERIC_REJECTED: generic rejected error,
                PAYMENT_TOO_MANY_REQUESTS: too many request,
-               PAYMENT_GENERIC_ERROR: generic error
+               PAYMENT_GENERIC_ERROR: generic error,
+               PAYMENT_USER_SUSPENDED: the user has been suspended on the initiative
                - IT: Codice di errore
                PAYMENT_NOT_FOUND_EXPIRED: transazione non trovata oppure caducata,
                PAYMENT_USER_NOT_VALID: utente no valido,
@@ -329,7 +331,8 @@ components:
                PAYMENT_BUDGET_EXHAUSTED: budget esaurito,
                PAYMENT_GENERIC_REJECTED: errore generico di rifiuto,
                PAYMENT_TOO_MANY_REQUESTS: troppe richieste,
-               PAYMENT_GENERIC_ERROR: errore generico"
+               PAYMENT_GENERIC_ERROR: errore generico,
+               PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa"
         message:
           type: string
           description: "ENG: Error message- IT: Messaggio di errore"
