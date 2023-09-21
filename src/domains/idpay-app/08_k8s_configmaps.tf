@@ -100,6 +100,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_service_url           = "/api/v1/services"
     pm_service_base_url              = var.pm_service_base_url
     selc_base_url                    = var.selc_base_url
+    io_manage_backend_base_url       = var.io_manage_backend_base_url
   }
 
 }
