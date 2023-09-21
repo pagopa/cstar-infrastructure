@@ -249,7 +249,7 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=f9ea700"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.7.0"
 
   name                = "welfare-selfcare-${var.env_short}"
   prefix              = var.prefix
