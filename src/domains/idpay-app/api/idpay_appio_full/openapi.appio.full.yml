@@ -1451,158 +1451,6 @@ paths:
               example:
                 code: 0
                 message: string
-  '/payment/qr-code/{trxCode}/relate-user':
-    put:
-      tags:
-        - payment
-      summary: 'ENG: Pre Authorize payment - IT: Preautorizzazione pagamento'
-      operationId: putPreAuthPayment
-      parameters:
-        - name: trxCode
-          in: path
-          description: 'ENG: The transaction''s code - IT: Codice della transazione'
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthPaymentResponseDTO'
-        '400':
-          description: Transaction is not CREATED or IDENTIFIED
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '401':
-          description: Token not validated correctly
-        '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '404':
-          description: Transaction does not exist or is expired
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '500':
-          description: Generic error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-  '/payment/qr-code/{trxCode}/authorize':
-    put:
-      tags:
-        - payment
-      summary: 'ENG: Authorize payment - IT: Autorizzazione pagamento'
-      operationId: putAuthPayment
-      parameters:
-        - name: trxCode
-          in: path
-          description: 'ENG: The transaction''s code - IT: Codice della transazione'
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthPaymentResponseDTO'
-        '400':
-          description: Transaction is not IDENTIFIED or AUTHORIZE
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '401':
-          description: Token not validated correctly
-        '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '404':
-          description: Transaction does not exist or is expired
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '500':
-          description: Generic error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-  '/payment/qr-code/{trxCode}':
-    delete:
-      tags:
-        - payment
-      summary: 'ENG: Cancel payment - IT: Cancellazione pagamento'
-      operationId: deletePayment
-      parameters:
-        - name: trxCode
-          in: path
-          description: 'ENG: The transaction''s code - IT: Codice della transazione'
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Cancel Ok
-        '400':
-          description: Transaction is not IDENTIFIED
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '401':
-          description: Token not validated correctly
-        '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '404':
-          description: Transaction does not exist or is expired
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '429':
-          description: Too many Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-        '500':
-          description: Generic error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
   '/wallet/code/status':
     get:
       tags:
@@ -1791,6 +1639,158 @@ paths:
               example:
                 code: 0
                 message: string
+  '/payment/qr-code/{trxCode}/relate-user':
+    put:
+      tags:
+        - payment
+      summary: 'ENG: Pre Authorize payment - IT: Preautorizzazione pagamento'
+      operationId: putPreAuthPayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: 'ENG: The transaction''s code - IT: Codice della transazione'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '400':
+          description: Transaction is not CREATED or IDENTIFIED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Transaction is associated to another user, or transaction rejected'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+  '/payment/qr-code/{trxCode}/authorize':
+    put:
+      tags:
+        - payment
+      summary: 'ENG: Authorize payment - IT: Autorizzazione pagamento'
+      operationId: putAuthPayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: 'ENG: The transaction''s code - IT: Codice della transazione'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '400':
+          description: Transaction is not IDENTIFIED or AUTHORIZE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Transaction is associated to another user, or transaction rejected'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+  '/payment/qr-code/{trxCode}':
+    delete:
+      tags:
+        - payment
+      summary: 'ENG: Cancel payment - IT: Cancellazione pagamento'
+      operationId: deletePayment
+      parameters:
+        - name: trxCode
+          in: path
+          description: 'ENG: The transaction''s code - IT: Codice della transazione'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cancel Ok
+        '400':
+          description: Transaction is not IDENTIFIED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Transaction is associated to another user, or transaction rejected'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
 components:
   schemas:
     CheckEnrollmentDTO:
