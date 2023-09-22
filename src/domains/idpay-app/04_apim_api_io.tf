@@ -72,7 +72,7 @@ module "idpay_onboarding_workflow_io" {
   path         = "idpay/onboarding"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
+  service_url = "${local.ingress_load_balancer_https}/idpayonboardingworkflow/idpay/onboarding"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_onboarding_workflow/openapi.onboarding.yml.tpl", {})
@@ -130,7 +130,7 @@ module "idpay_wallet_io" {
   path         = "idpay/wallet"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
+  service_url = "${local.ingress_load_balancer_https}/idpaywallet/idpay/wallet"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_wallet/openapi.wallet.yml.tpl", {})
@@ -228,7 +228,7 @@ module "idpay_timeline_io" {
   path         = "idpay/timeline"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
+  service_url = "${local.ingress_load_balancer_https}/idpaytimeline/idpay/timeline"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_timeline/openapi.timeline.yml.tpl", {})
@@ -267,7 +267,7 @@ module "idpay_iban_io" {
   path         = "idpay/iban"
   protocols    = ["https", "http"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+  service_url = "${local.ingress_load_balancer_https}/idpayiban/idpay/iban"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})
@@ -306,7 +306,7 @@ module "idpay_qr_code_payment_io" {
   path         = "idpay/payment/qr-code"
   protocols    = ["https", "http"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code"
+  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment/qr-code"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl", {})
@@ -330,7 +330,7 @@ module "idpay_payment_io" {
   path         = "idpay/payment"
   protocols    = ["https", "http"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment"
+  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_payment/openapi.payment.yml.tpl", {})
