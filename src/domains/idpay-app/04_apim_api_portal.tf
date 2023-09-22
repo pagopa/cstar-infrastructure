@@ -40,7 +40,7 @@ module "idpay_permission_portal" {
   description  = "IDPAY Welfare Portal User Permission"
   display_name = "IDPAY Welfare Portal User Permission API"
   path         = "idpay/authorization"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
@@ -86,7 +86,7 @@ module "idpay_initiative_portal" {
   description  = "IDPAY Welfare Portal Initiative"
   display_name = "IDPAY Welfare Portal Initiative API"
   path         = "idpay/initiative"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
