@@ -40,7 +40,7 @@ module "idpay_merchants_permission_portal" {
   description  = "IDPAY Merchants Portal User Permission"
   display_name = "IDPAY Merchants Portal User Permission API"
   path         = "idpay/merchant/authorization"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 

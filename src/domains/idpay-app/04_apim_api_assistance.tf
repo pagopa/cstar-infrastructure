@@ -38,7 +38,7 @@ module "idpay_api_assistance" {
   description  = "IDPAY Assistance"
   display_name = "IDPAY Assistance"
   path         = "idpay/assistance"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackeninitiative/idpay/initiative"
 

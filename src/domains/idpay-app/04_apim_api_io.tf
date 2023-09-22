@@ -70,7 +70,7 @@ module "idpay_onboarding_workflow_io" {
   description  = "IDPAY Onboarding Workflow IO"
   display_name = "IDPAY Onboarding Workflow IO API"
   path         = "idpay/onboarding"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayonboardingworkflow/idpay/onboarding"
 
@@ -128,7 +128,7 @@ module "idpay_wallet_io" {
   description  = "IDPAY Wallet IO"
   display_name = "IDPAY Wallet IO API"
   path         = "idpay/wallet"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpaywallet/idpay/wallet"
 
@@ -226,7 +226,7 @@ module "idpay_timeline_io" {
   description  = "IDPAY Timeline IO"
   display_name = "IDPAY Timeline IO API"
   path         = "idpay/timeline"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpaytimeline/idpay/timeline"
 
@@ -265,7 +265,7 @@ module "idpay_iban_io" {
   description  = "IDPAY IBAN IO"
   display_name = "IDPAY IBAN IO API"
   path         = "idpay/iban"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayiban/idpay/iban"
 
@@ -304,7 +304,7 @@ module "idpay_qr_code_payment_io" {
   description  = "IDPAY QR-CODE PAYMENT IO"
   display_name = "IDPAY QR-CODE PAYMENT IO API"
   path         = "idpay/payment/qr-code"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment/qr-code"
 
@@ -328,7 +328,7 @@ module "idpay_payment_io" {
   description  = "IDPAY PAYMENT IO"
   display_name = "IDPAY PAYMENT IO API"
   path         = "idpay/payment"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment"
 
