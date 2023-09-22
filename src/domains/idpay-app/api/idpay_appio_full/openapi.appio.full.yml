@@ -1616,15 +1616,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CheckEnrollmentDTO'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '401':
           description: Authentication failed
           content:
@@ -1634,8 +1625,9 @@ paths:
               example:
                 code: 0
                 message: string
-        '403':
-          description: Forbidden
+
+        '404':
+          description: The requested ID was not found
           content:
             application/json:
               schema:
@@ -1643,8 +1635,8 @@ paths:
               example:
                 code: 0
                 message: string
-        '404':
-          description: The requested ID was not found
+        '429':
+          description: Too many requests
           content:
             application/json:
               schema:
@@ -1692,8 +1684,8 @@ paths:
               example:
                 code: 0
                 message: string
-        '403':
-          description: Forbidden
+        '429':
+          description: Too many requests
           content:
             application/json:
               schema:
