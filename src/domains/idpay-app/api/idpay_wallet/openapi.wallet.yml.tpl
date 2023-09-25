@@ -978,6 +978,7 @@ components:
       type: object
       required:
         - instrumentId
+        - instrumentType
       properties:
         idWallet:
           type: string

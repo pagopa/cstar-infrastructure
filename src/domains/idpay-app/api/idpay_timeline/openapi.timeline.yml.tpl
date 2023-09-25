@@ -229,9 +229,6 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
         - channel
       properties:
         operationId:
@@ -264,6 +261,11 @@ components:
         channel:
           type: string
           description: "ENG: Channel from which the operation takes place - IT: Canale da cui avviene l'operazione"
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - IDPAYCODE
     TransactionDetailDTO:
       type: object
       required:
@@ -337,9 +339,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
+        - instrumentType
         - channel
       properties:
         operationId:
