@@ -396,7 +396,7 @@ module "rtd_payment_instrument" {
   description  = ""
   display_name = "RTD Payment Instrument API"
   path         = "rtd/payment-instruments"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip_old_k8s)
 
