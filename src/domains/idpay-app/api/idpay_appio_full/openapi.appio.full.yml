@@ -1451,7 +1451,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/wallet/code/status':
+  /wallet/code/status:
     get:
       tags:
         - wallet
@@ -1502,7 +1502,7 @@ paths:
               example:
                 code: 0
                 message: string
-  '/wallet/code/generate':
+  /wallet/code/generate:
     post:
       tags:
         - wallet
