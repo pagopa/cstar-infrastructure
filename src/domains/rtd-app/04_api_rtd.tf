@@ -76,7 +76,7 @@ resource "azurerm_api_management_api" "rtd_payment_instrument_manager" {
 
   revision              = "1"
   subscription_required = true
-  protocols             = ["https", "http"]
+  protocols             = ["https"]
 
   service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip_old_k8s)
 
@@ -149,7 +149,7 @@ resource "azurerm_api_management_api" "rtd_payment_instrument_manager_v2" {
   version               = "v2"
   revision              = "1"
   subscription_required = true
-  protocols             = ["https", "http"]
+  protocols             = ["https"]
 
   service_url = "http://${var.reverse_proxy_ip_old_k8s}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
 
@@ -230,7 +230,7 @@ resource "azurerm_api_management_api" "rtd_payment_instrument_manager_v3" {
   version               = "v3"
   revision              = "1"
   subscription_required = true
-  protocols             = ["https", "http"]
+  protocols             = ["https"]
 
   service_url = "http://${var.reverse_proxy_ip_old_k8s}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
 
