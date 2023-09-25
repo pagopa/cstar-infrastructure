@@ -49,7 +49,7 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=f9ea700"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.7.0"
 
   name                  = "idpaycdn"
   prefix                = local.project
