@@ -189,7 +189,7 @@ module "idpay_iban_io" {
   description  = "IDPAY IBAN IO"
   display_name = "IDPAY IBAN IO API"
   path         = "idpay/iban"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "${local.ingress_load_balancer_https}/idpayiban/idpay/iban"
 
