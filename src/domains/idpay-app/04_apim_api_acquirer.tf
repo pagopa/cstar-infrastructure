@@ -38,9 +38,9 @@ module "idpay_qr_code_payment_acquirer" {
   description  = "IDPAY QR-CODE PAYMENT ACQUIRER"
   display_name = "IDPAY QR-CODE PAYMENT ACQUIRER API"
   path         = "idpay/payment/qr-code/merchant"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code/merchant"
+  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment/qr-code/merchant"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_qrcode_payment/acquirer/openapi.qrcode_payment_acquirer.yml.tpl", {})

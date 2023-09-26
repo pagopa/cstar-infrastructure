@@ -12,7 +12,7 @@ resource "azurerm_api_management_api" "devops_idpay_color" {
   path                  = "idpay/color"
   subscription_required = false
   service_url           = "https://dev01.idpay.internal.dev.cstar.pagopa.it/idpay/color"
-  protocols             = ["https", "http"]
+  protocols             = ["https"]
 }
 
 resource "azurerm_api_management_api_policy" "example" {
