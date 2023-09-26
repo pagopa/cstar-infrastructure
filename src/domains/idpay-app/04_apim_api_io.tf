@@ -173,6 +173,30 @@ module "idpay_wallet_io" {
       })
     },
     {
+      operation_id = "enrollInstrumentCode"
+      xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-idpaycode-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "generateCode"
+      xml_content = templatefile("./api/idpay_wallet/post-generate-idpaycode-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "getIdpayCodeStatus"
+      xml_content = templatefile("./api/idpay_wallet/get-code-status-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
       operation_id = "deleteInstrument"
       xml_content = templatefile("./api/idpay_wallet/delete-instrument-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
