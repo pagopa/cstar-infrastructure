@@ -126,7 +126,7 @@ module "monitor" {
   description  = "Monitor"
   display_name = "Monitor"
   path         = ""
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = null
 
