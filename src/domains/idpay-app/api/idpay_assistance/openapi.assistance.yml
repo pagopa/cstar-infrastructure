@@ -2418,6 +2418,9 @@ components:
           type: string
           format: date-time
           description: "ENG: The date-time of the status update - IT: La data-ora dell'aggiornamento dello stato"
+        familyId:
+          type: string
+          description: "ENG: The familyId of beneficiary when initiative is for family - IT: Id famiglia del beneficiario se l'iniziativa è per nuclei"
     PageOnboardingRankingsDTO:
       type: object
       properties:

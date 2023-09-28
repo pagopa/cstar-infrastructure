@@ -10,7 +10,7 @@ module "pm_admin_panel" {
   description  = ""
   display_name = "pm-admin-panel"
   path         = "backoffice"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = ""
 
