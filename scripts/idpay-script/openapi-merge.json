@@ -41,9 +41,6 @@
     },
     {
       "inputFile": "../../src/domains/idpay-app/api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl",
-      "operationSelection" : {
-        "excludeTags" : ["mergeIgnore"]
-      },
       "pathModification": {
         "prepend": "/payment/qr-code"
       },
