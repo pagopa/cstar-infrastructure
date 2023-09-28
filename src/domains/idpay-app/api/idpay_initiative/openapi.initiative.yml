@@ -3812,34 +3812,53 @@ components:
       type: object
       required:
         - instrumentId
-        - status
-        - activationDate
-        - channel
+        - instrumentType
       properties:
         idWallet:
           type: string
-          description: Wallet's id provided by the Payment manager
+          description: >-
+            ENG: Wallet's id provided by the Payment manager - IT:
+            Identificativo del portafoglio fornito dal gestore di pagamenti
         instrumentId:
           type: string
-          description: Payment instrument id
+          description: >-
+            ENG: Payment instrument id - IT: Identificativo dello strumento di
+            pagamento
         maskedPan:
           type: string
-          description: Masked Pan
+          description: 'ENG: Masked Pan - IT: Masked Pan'
         channel:
           type: string
+          description: 'ENG: Channel - IT: Canale di richiesta'
         brandLogo:
           type: string
-          description: Card's brand as mastercard, visa, ecc.
+          description: >-
+            ENG: Card's brand logo URL - IT: URL del logo del marchio della
+            carta
+        brand:
+          type: string
+          description: >-
+            ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della
+            carta come mastercard, visa, ecc...
         status:
           enum:
             - ACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
           type: string
-          description: The status of the instrument
+          description: 'ENG: The status of the instrument - IT: Stato dello strumento'
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - QRCODE
+            - IDPAYCODE
         activationDate:
           type: string
           format: date-time
+          description: >-
+            ENG: Activation date of the instrument - IT: Data di attivazione
+            dello strumento
     OperationDTO:
       oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
@@ -3892,8 +3911,6 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - maskedPan
         - channel
       properties:
         operationId:
@@ -3914,6 +3931,11 @@ components:
           type: string
         channel:
           type: string
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - IDPAYCODE
     TransactionDetailDTO:
       type: object
       required:
@@ -3974,8 +3996,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - maskedPan
+        - instrumentType
         - channel
       properties:
         operationId:
@@ -3994,6 +4015,11 @@ components:
           type: string
         channel:
           type: string
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - IDPAYCODE
     IbanOperationDTO:
       type: object
       required:
