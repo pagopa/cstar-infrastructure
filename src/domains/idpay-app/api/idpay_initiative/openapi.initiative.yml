@@ -3512,6 +3512,8 @@ components:
         updateStatusDate:
           type: string
           format: date-time
+        familyId:
+          type: string
     PageOnboardingRankingsDTO:
       type: object
       properties:
