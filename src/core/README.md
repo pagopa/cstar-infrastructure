@@ -145,7 +145,6 @@
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.error](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/monitor_action_group) | resource |
-| [azurerm_monitor_diagnostic_setting.activity_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.apim_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.appgw_maz_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_private_dns_a_record.private_dns_a_record_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.38.0/docs/resources/private_dns_a_record) | resource |
