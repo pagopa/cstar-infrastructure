@@ -27,7 +27,7 @@
 
 | Name | Type |
 |------|------|
-| [azurerm_cosmosdb_mongo_collection.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/cosmosdb_mongo_collection) | resource |
+| [azurerm_cosmosdb_mongo_collection.mongodb_collections_idpay](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/cosmosdb_mongo_collection) | resource |
 | [azurerm_cosmosdb_mongo_database.idpay](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/cosmosdb_mongo_database) | resource |
 | [azurerm_dns_ns_record.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_key_vault_access_policy.ad_admin_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_access_policy) | resource |

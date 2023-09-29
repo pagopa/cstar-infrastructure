@@ -685,7 +685,7 @@ locals {
   ]
 }
 
-resource "azurerm_cosmosdb_mongo_collection" "this" {
+resource "azurerm_cosmosdb_mongo_collection" "mongodb_collections_idpay" {
 
   for_each = {
     for index, coll in local.collections :
