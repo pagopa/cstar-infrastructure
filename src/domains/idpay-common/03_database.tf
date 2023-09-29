@@ -685,8 +685,7 @@ locals {
   ]
 }
 
-module "mongdb_collections" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v6.15.2"
+resource "azurerm_cosmosdb_mongo_collection" "this" {
 
   for_each = {
     for index, coll in local.collections :
@@ -696,10 +695,17 @@ module "mongdb_collections" {
   name                = each.value.name
   resource_group_name = azurerm_resource_group.data_rg.name
 
-  cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb.name
-  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.idpay.name
+  account_name  = module.cosmosdb_account_mongodb.name
+  database_name = azurerm_cosmosdb_mongo_database.idpay.name
 
-  indexes = each.value.indexes
 
-  lock_enable = true
+  dynamic "index" {
+    for_each = each.value.indexes
+    iterator = index
+    content {
+      keys   = index.value.keys
+      unique = index.value.unique
+    }
+  }
+
 }
