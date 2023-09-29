@@ -475,7 +475,7 @@
                   "type": 3,
                   "content": {
                     "version": "KqlItem/1.0",
-                    "query": "let startTime = {timeRangeOverall:start};\r\nlet endTime = {timeRangeOverall:end};\r\nlet interval = totimespan({timeSpan:label});\r\nlet data = requests\r\n    | where timestamp between (startTime .. endTime);\r\nlet operationData = data\r\n    | where operation_Name has_any ({apis});\r\nlet totalOperationCount = operationData\r\n    | summarize Total = count() by operation_Name;\r\nlet joinedOperationData = operationData\r\n    | join kind=inner totalOperationCount on operation_Name\r\n    | summarize\r\n        Count = count(),\r\n        Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"]))\r\n        by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n    | project\r\n        ['Request Name'] = operation_Name,\r\n        ['Result Code'] = resultCode,\r\n        ['Total Response'] = Count,\r\n        ['Rate %'] = (Count * 100) / Total,\r\n        ['Users Affected'] = Users\r\n    | sort by ['Request Name'];\r\nlet unknowApi = data\r\n    |join kind=inner exceptions on operation_Id\r\n    | where type has \"OperationNotFound\";\r\nlet totalRequestCount = toscalar (data\r\n    | count);\r\nlet joinedUnknowApi = unknowApi\r\n    | summarize\r\n        Count = count(),\r\n        Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"]))\r\n    | project \r\n        ['Request Name'] = \"OperationNotFound\",\r\n        ['Result Code'] = \"500\",\r\n        ['Total Response'] = Count,\r\n        ['Rate %'] = (Count * 100) / totalRequestCount,\r\n        ['Users Affected'] = Users;\r\nunion joinedUnknowApi, joinedOperationData",
+                    "query": "let startTime = {timeRangeOverall:start};\r\nlet endTime = {timeRangeOverall:end};\r\nlet interval = totimespan({timeSpan:label});\r\nlet data = requests\r\n    | where timestamp between (startTime .. endTime) and operation_Name has \"idpay\";\r\nlet operationData = data\r\n    | where operation_Name has_any ({apis});\r\nlet totalOperationCount = operationData\r\n    | summarize Total = count() by operation_Name;\r\noperationData\r\n    | join kind=inner totalOperationCount on operation_Name\r\n    | summarize\r\n        Count = count(),\r\n        Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"]))\r\n        by operation_Name, resultCode, Total//, timestamp=bin(timestamp,interval)\r\n    | project\r\n        ['Request Name'] = operation_Name,\r\n        ['Result Code'] = resultCode,\r\n        ['Total Response'] = Count,\r\n        ['Rate %'] = (Count * 100) / Total,\r\n        ['Users Affected'] = Users\r\n    | sort by ['Request Name']\r\n",
                     "size": 0,
                     "showAnalytics": true,
                     "timeContextFromParameter": "timeRangeOverall",
@@ -722,6 +722,259 @@
                     }
                   },
                   "name": "query - 14"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "let startTime = {timeRangeOverall:start};\r\nlet endTime = {timeRangeOverall:end};\r\nlet interval = totimespan({timeSpan:label});\r\nlet data = requests\r\n    | where timestamp between (startTime .. endTime) and operation_Name has \"idpay\";\r\nlet unknowApi = data\r\n    | join kind=inner exceptions on operation_Id\r\n    | where type has \"OperationNotFound\";\r\nlet totalRequestCount = toscalar (data\r\n    | count);\r\nlet joinedUnknowApi = unknowApi\r\n    | summarize\r\n        Count = count(),\r\n        Users = dcount(tostring(customDimensions[\"Request-X-Forwarded-For\"]))\r\n        by operation_Name, resultCode, type\r\n    | project \r\n        ['Request Name'] = operation_Name,\r\n        ['Result Code'] = resultCode,\r\n        ['Total Response'] = Count,\r\n        ['Rate (% of total requests)'] = (Count * 100) / totalRequestCount,\r\n        ['Users Affected'] = Users,\r\n        ['Type'] = type;\r\nunion joinedUnknowApi",
+                    "size": 0,
+                    "showAnalytics": true,
+                    "title": "Requests not mapped in apim that give an \"OperationNotFound\" error",
+                    "timeContextFromParameter": "timeRangeOverall",
+                    "queryType": 0,
+                    "resourceType": "microsoft.insights/components",
+                    "crossComponentResources": [
+                      "/subscriptions/${subscription_id}/resourceGroups/${prefix}-monitor-rg/providers/Microsoft.Insights/components/${prefix}-appinsights"
+                    ],
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "Result Code",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "icons",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "==",
+                                "thresholdValue": "429",
+                                "representation": "4",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "==",
+                                "thresholdValue": "404",
+                                "representation": "failed",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "startsWith",
+                                "thresholdValue": "5",
+                                "representation": "4",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "startsWith",
+                                "thresholdValue": "2",
+                                "representation": "success",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "Default",
+                                "thresholdValue": null,
+                                "representation": "warning",
+                                "text": "{0}{1}"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "columnMatch": "Total Response",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "min": 1,
+                            "palette": "blue"
+                          }
+                        },
+                        {
+                          "columnMatch": "Rate %",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "min": 0,
+                            "max": 100,
+                            "palette": "yellowGreenBlue"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "useGrouping": false
+                            }
+                          }
+                        },
+                        {
+                          "columnMatch": "Users Affected",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "min": 0,
+                            "palette": "blueDark"
+                          }
+                        },
+                        {
+                          "columnMatch": "Group",
+                          "formatter": 1
+                        },
+                        {
+                          "columnMatch": "Failed with Result Code",
+                          "formatter": 18,
+                          "formatOptions": {
+                            "thresholdsOptions": "icons",
+                            "thresholdsGrid": [
+                              {
+                                "operator": "startsWith",
+                                "thresholdValue": "5",
+                                "representation": "4",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "==",
+                                "thresholdValue": "429",
+                                "representation": "4",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "startsWith",
+                                "thresholdValue": "2",
+                                "representation": "success",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "==",
+                                "thresholdValue": "404",
+                                "representation": "success",
+                                "text": "{0}{1}"
+                              },
+                              {
+                                "operator": "Default",
+                                "thresholdValue": null,
+                                "representation": "2",
+                                "text": "{0}{1}"
+                              }
+                            ],
+                            "compositeBarSettings": {
+                              "labelText": "",
+                              "columnSettings": [
+                                {
+                                  "columnName": "Failed with Result Code",
+                                  "color": "blue"
+                                }
+                              ]
+                            }
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal"
+                            }
+                          }
+                        },
+                        {
+                          "columnMatch": "Total Failures",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "min": 1,
+                            "palette": "blue"
+                          }
+                        },
+                        {
+                          "columnMatch": "Failure rate %",
+                          "formatter": 8,
+                          "formatOptions": {
+                            "min": 0,
+                            "max": 100,
+                            "palette": "redGreen"
+                          }
+                        }
+                      ],
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_heatmap_Total Response_2",
+                          "sortOrder": 1
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_heatmap_Total Response_2",
+                        "sortOrder": 1
+                      }
+                    ],
+                    "tileSettings": {
+                      "showBorder": false,
+                      "titleContent": {
+                        "columnMatch": "Request Name",
+                        "formatter": 1
+                      },
+                      "leftContent": {
+                        "columnMatch": "Total Failures",
+                        "formatter": 12,
+                        "formatOptions": {
+                          "palette": "auto"
+                        },
+                        "numberFormat": {
+                          "unit": 17,
+                          "options": {
+                            "maximumSignificantDigits": 3,
+                            "maximumFractionDigits": 2
+                          }
+                        }
+                      }
+                    },
+                    "graphSettings": {
+                      "type": 0,
+                      "topContent": {
+                        "columnMatch": "Request Name",
+                        "formatter": 1
+                      },
+                      "leftContent": {
+                        "columnMatch": "Failed with Result Code"
+                      },
+                      "centerContent": {
+                        "columnMatch": "Total Failures",
+                        "formatter": 1,
+                        "numberFormat": {
+                          "unit": 17,
+                          "options": {
+                            "maximumSignificantDigits": 3,
+                            "maximumFractionDigits": 2
+                          }
+                        }
+                      },
+                      "rightContent": {
+                        "columnMatch": "Failure rate %"
+                      },
+                      "bottomContent": {
+                        "columnMatch": "Users Affected"
+                      },
+                      "nodeIdField": "Request Name",
+                      "sourceIdField": "Failed with Result Code",
+                      "targetIdField": "Total Failures",
+                      "graphOrientation": 3,
+                      "showOrientationToggles": false,
+                      "nodeSize": null,
+                      "staticNodeSize": 100,
+                      "colorSettings": null,
+                      "hivesMargin": 5
+                    },
+                    "chartSettings": {
+                      "showLegend": true,
+                      "showDataPoints": true
+                    },
+                    "mapSettings": {
+                      "locInfo": "LatLong",
+                      "sizeSettings": "Total Failures",
+                      "sizeAggregation": "Sum",
+                      "legendMetric": "Total Failures",
+                      "legendAggregation": "Sum",
+                      "itemColorSettings": {
+                        "type": "heatmap",
+                        "colorAggregation": "Sum",
+                        "nodeColorField": "Total Failures",
+                        "heatmapPalette": "greenRed"
+                      }
+                    }
+                  },
+                  "name": "query - 14 - Copy"
                 },
                 {
                   "type": 3,
@@ -4754,7 +5007,7 @@
     }
   ],
   "fallbackResourceIds": [
-    "Azure Monitor"
+    "azure monitor"
   ],
   "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
 }
