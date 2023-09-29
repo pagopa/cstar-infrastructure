@@ -708,4 +708,14 @@ resource "azurerm_cosmosdb_mongo_collection" "this" {
     }
   }
 
+  dynamic "autoscale_settings" {
+    for_each = var.cosmos_mongo_db_idpay_params.max_throughput == null ? [] : ["dummy"]
+    content {
+      max_throughput = var.cosmos_mongo_db_idpay_params.max_throughput
+    }
+  }
+
+  timeouts {
+  }
+
 }

@@ -58,7 +58,7 @@ cosmos_mongo_account_params = {
 
 cosmos_mongo_db_idpay_params = {
   throughput     = null
-  max_throughput = 4000
+  max_throughput = 1000
 }
 
 service_bus_namespace = {
