@@ -21,13 +21,13 @@
 | <a name="module_idpay_redis_00"></a> [idpay\_redis\_00](#module\_idpay\_redis\_00) | git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache | v6.15.2 |
 | <a name="module_idpay_redis_snet"></a> [idpay\_redis\_snet](#module\_idpay\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.15.2 |
 | <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v6.15.2 |
-| <a name="module_mongdb_collections"></a> [mongdb\_collections](#module\_mongdb\_collections) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v6.15.2 |
 | <a name="module_selfcare_welfare_cdn"></a> [selfcare\_welfare\_cdn](#module\_selfcare\_welfare\_cdn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn | v6.18.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [azurerm_cosmosdb_mongo_collection.mongodb_collections_idpay](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/cosmosdb_mongo_collection) | resource |
 | [azurerm_cosmosdb_mongo_database.idpay](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/cosmosdb_mongo_database) | resource |
 | [azurerm_dns_ns_record.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/dns_ns_record) | resource |
 | [azurerm_key_vault_access_policy.ad_admin_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_access_policy) | resource |
