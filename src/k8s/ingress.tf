@@ -34,4 +34,9 @@ resource "helm_release" "ingress" {
     name  = "controller.admissionWebhooks.patch.nodeSelector.beta\\.kubernetes\\.io/os"
     value = "linux"
   }
+
+  set {
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+    value = "/healthz"
+  }
 }

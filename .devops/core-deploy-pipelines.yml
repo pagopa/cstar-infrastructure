@@ -27,96 +27,52 @@ parameters:
 
 variables:
   TIME_OUT: 10
+  # working dir
+  WORKING_DIR: 'src/core'
+  DOMAIN_NAME: core
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'ubuntu-latest'
 
 resources:
   repositories:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v2.4.0
+      ref: refs/tags/v5.0.1
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: apply_dev
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: cstar-dev-linux
-    jobs:
-      - job: tf_apply_dev
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-          # 3. Run terraform apply
-          - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-
-  - stage: apply_uat
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: cstar-uat-linux
-    jobs:
-      #
-      # idpay_common
-      #
-      - job: tf_apply_uat
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "uat"
-              WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
-          # 3. Run terraform apply
-          - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "uat"
-              WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
-
-  - stage: apply_prod
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: cstar-prod-linux
-    jobs:
-      #
-      # idpay_common
-      #
-      - job: tf_apply_prod
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "prod"
-              WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
-          # 3. Run terraform apply
-          - template: templates/terraform-apply/template.yaml@terraform
-            parameters:
-              ENVIRONMENT: "prod"
-              WORKINGDIR: 'src/core'
-              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
+#DEV
+  - ${{ if eq(parameters['DEV'], true) }}:
+    - template: templates/terraform-plan-apply/template.yaml@terraform
+      parameters:
+        FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
+        TF_ENVIRONMENT_FOLDER: "dev"
+        ENVIRONMENT: "DEV"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
+        WORKINGDIR: ${{ variables.WORKING_DIR }}
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
+#UAT
+  - ${{ if eq(parameters['UAT'], true) }}:
+    - template: templates/terraform-plan-apply/template.yaml@terraform
+      parameters:
+        FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
+        TF_ENVIRONMENT_FOLDER: "uat"
+        ENVIRONMENT: "UAT"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux-infra"
+        WORKINGDIR: ${{ variables.WORKING_DIR }}
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: UAT-CSTAR-SERVICE-CONN
+#PROD
+  - ${{ if eq(parameters['PROD'], true) }}:
+    - template: templates/terraform-plan-apply/template.yaml@terraform
+      parameters:
+        FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
+        TF_ENVIRONMENT_FOLDER: "prod"
+        ENVIRONMENT: "PROD"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-prod-linux-infra"
+        WORKINGDIR: ${{ variables.WORKING_DIR }}
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: PROD-CSTAR-SERVICE-CONN

@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "domain_namespace" {
 }
 
 module "domain_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.13.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v6.15.2"
 
   resource_group_name = local.aks_resource_group_name
   location            = var.location
@@ -14,16 +14,16 @@ module "domain_pod_identity" {
 
   identity_name = "${var.domain}-pod-identity"
   namespace     = kubernetes_namespace.domain_namespace.metadata[0].name
-  key_vault     = data.azurerm_key_vault.kv
+  key_vault_id  = data.azurerm_key_vault.kv.id
 
-  secret_permissions = ["get"]
+  secret_permissions = ["Get"]
 }
 
 resource "helm_release" "reloader" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
-  version    = "v0.0.110"
+  version    = "v1.0.30"
   namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
 
   set {

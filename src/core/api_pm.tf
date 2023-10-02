@@ -1,6 +1,6 @@
 ## pm-admin-panel ##
 module "pm_admin_panel" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v1.0.16"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-pm-admin-panel", var.env_short)
   api_management_name = module.apim.name
@@ -10,13 +10,13 @@ module "pm_admin_panel" {
   description  = ""
   display_name = "pm-admin-panel"
   path         = "backoffice"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = ""
 
   content_format = "openapi"
-  content_value = templatefile("./api/pm_admin_panel/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  content_value = templatefile("./api/pm_admin_panel/openapi.json", {
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -27,7 +27,7 @@ module "pm_admin_panel" {
   api_operation_policies = [
     {
       operation_id = "walletv2",
-      xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml.tpl", {
+      xml_content = templatefile("./api/pm_admin_panel/walletv2_policy.xml", {
         pm-backend-url                       = var.pm_backend_url,
         PM-Timeout-Sec                       = var.pm_timeout_sec
         bpd-pm-client-certificate-thumbprint = data.azurerm_key_vault_secret.bpd_pm_client_certificate_thumbprint.value
@@ -73,7 +73,7 @@ module "pm_wallet_ext" {
 
   count = var.enable.rtd.pm_wallet_ext_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.19.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
 
   name                = format("%s-pm-wallet-ext", var.env_short)
   api_management_name = module.apim.name
@@ -88,8 +88,8 @@ module "pm_wallet_ext" {
   service_url = ""
 
   content_format = "openapi"
-  content_value = templatefile("./api/pm_wallet_ext/openapi.json.tpl", {
-    host = azurerm_api_management_custom_domain.api_custom_domain.proxy[0].host_name
+  content_value = templatefile("./api/pm_wallet_ext/openapi.json", {
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
   })
 
   xml_content = file("./api/base_policy.xml")
@@ -115,7 +115,7 @@ module "pm_wallet_ext" {
 }
 
 module "wisp_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
   product_id   = "wisp-api-product"
   display_name = "WISP_API_Product"
@@ -134,7 +134,7 @@ module "wisp_api_product" {
 }
 
 module "pm_api_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v1.0.42"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
   product_id   = "pm-api-product"
   display_name = "PM_API_PRODUCT"
@@ -149,26 +149,4 @@ module "pm_api_product" {
   subscriptions_limit   = 50
 
   policy_xml = file("./api_product/pm_api/policy.xml")
-}
-
-data "azurerm_key_vault_secret" "pagopa_platform_api_key" {
-  count = var.enable.rtd.pm_integration ? 1 : 0
-
-  name         = "pagopa-platform-apim-api-key-primary"
-  key_vault_id = module.key_vault.id
-}
-
-resource "azurerm_api_management_named_value" "pagopa_platform_api_key" {
-  count = var.enable.rtd.pm_integration ? 1 : 0
-
-  name                = format("%s-pagopa-platform-api-key", var.env_short)
-  resource_group_name = azurerm_resource_group.rg_api.name
-  api_management_name = module.apim.name
-
-  display_name = "pagopa-platform-apim-api-key-primary"
-  secret       = true
-  value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.pagopa_platform_api_key[count.index].id
-  }
-
 }

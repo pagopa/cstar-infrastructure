@@ -1,0 +1,46 @@
+<policies>
+    <inbound>
+      <base />
+      <set-variable name="acquirerId" value="@(context.User?.Id)" />
+
+      <set-header name="x-acquirer-id" exists-action="override">
+        <value>@((String)context.Variables["acquirerId"])</value>
+      </set-header>
+      <set-header name="x-apim-request-id" exists-action="override">
+        <value>@(context.RequestId.ToString())</value>
+      </set-header>
+
+      <set-variable name="merchantFiscalCode" value="@(context.Request.Headers.GetValueOrDefault("x-merchant-fiscalcode",""))" />
+      <choose>
+        <when condition="@(context.Variables["merchantFiscalCode"] != "" && context.Variables["acquirerId"] != "")">
+          <include-fragment fragment-id="idpay-merchant-id-retriever" />
+
+          <choose>
+            <when condition="@(context.Variables["merchantId"] == null)">
+              <return-response>
+                <set-status code="403" reason="Unauthorized" />
+              </return-response>
+            </when>
+            <otherwise>
+              <set-header name="x-merchant-id" exists-action="override">
+                <value>@((String)context.Variables["merchantId"])</value>
+              </set-header>
+            </otherwise>
+          </choose>
+        </when>
+      </choose>
+
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+        <return-response>
+            <set-status code="500" reason="Policy Error" />
+        </return-response>
+    </on-error>
+</policies>

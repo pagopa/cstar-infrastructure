@@ -1,0 +1,41 @@
+name: 'Check diff on idpay AppIO full swagger'
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+    paths:
+      - 'src/domains/idpay-app/**'
+
+jobs:
+  main:
+    name: Check diff on idpay AppIO full swagger
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.x
+
+      - name: Install library
+        run: npm i -g openapi-merge-cli
+        #The.json file containing the inputs for the merge is inside the path "scripts/idpay-script/openapi-merge.json"
+      - name: Run script merge
+        working-directory: ./scripts/idpay-script
+        run: npx openapi-merge-cli
+
+      - uses: LouisBrunner/diff-action@v0.2.0
+        id: diff
+        with:
+          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
+          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+          mode: addition
+          tolerance: same
+          output: passed
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

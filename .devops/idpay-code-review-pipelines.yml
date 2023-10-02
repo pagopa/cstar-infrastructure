@@ -1,5 +1,5 @@
 pr:
-  autoCancel: false
+  autoCancel: true
   branches:
     include:
       - main
@@ -10,7 +10,6 @@ pr:
     exclude:
       - '**/*.lock.hcl'
       - '**/*.md'
-
 
 parameters:
   - name: 'DEV'
@@ -37,41 +36,42 @@ parameters:
 
 variables:
   TIME_OUT: 15
+  #dev
   DEV01_AKS_APISERVER_URL: '$(TF_DEV01_AKS_APISERVER_URL)'
   DEV01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_CACRT)'
   DEV01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_TOKEN)'
   AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
-
+  #uat
   UAT01_AKS_APISERVER_URL: '$(TF_UAT01_AKS_APISERVER_URL)'
   UAT01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_UAT01_AKS_AZURE_DEVOPS_SA_CACRT)'
   UAT01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_UAT01_AKS_AZURE_DEVOPS_SA_TOKEN)'
   AKS_UAT_NAME: '$(TF_AKS_UAT_NAME)'
-
+  #prod
   PROD01_AKS_APISERVER_URL: '$(TF_PROD01_AKS_APISERVER_URL)'
   PROD01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_PROD01_AKS_AZURE_DEVOPS_SA_CACRT)'
   PROD01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_PROD01_AKS_AZURE_DEVOPS_SA_TOKEN)'
   AKS_PROD_NAME: '$(TF_AKS_PROD_NAME)'
+  # working dir
+  WORKING_DIR_COMMON: 'src/domains/idpay-common'
+  WORKING_DIR_APP: 'src/domains/idpay-app'
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'ubuntu-latest'
 
 resources:
   repositories:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v2.4.0
+      ref: refs/tags/v5.0.1
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-#
-# DEV
-#
-  - stage: tf_plan_common_dev
+  - stage: DEV
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
-      name: cstar-dev-linux
+      name: cstar-dev-linux-infra
     jobs:
       - job: tf_plan_idpay_common
         strategy:
@@ -84,16 +84,9 @@ stages:
           # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-common'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
-
-  - stage: tf_plan_app
-    dependsOn: [tf_plan_common_dev]
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: cstar-dev-linux
-    jobs:
+              TF_ENVIRONMENT_FOLDER: "dev"
+              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
@@ -105,22 +98,20 @@ stages:
           # Run terraform plan idpay-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "dev"
-              WORKINGDIR: 'src/domains/idpay-app'
-              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              TF_ENVIRONMENT_FOLDER: "dev"
+              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
               AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
               AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
-#
-# UAT
-#
-  - stage: tf_plan_common_uat
+
+  - stage: UAT
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.UAT}}, true))
     pool:
-      name: cstar-uat-linux
+      name: cstar-uat-linux-infra
     jobs:
       - job: tf_plan_idpay_common
         strategy:
@@ -133,16 +124,9 @@ stages:
           # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "uat"
-              WORKINGDIR: 'src/domains/idpay-common'
-              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
-
-  - stage: tf_plan_app_uat
-    dependsOn: [tf_plan_common_uat]
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: cstar-uat-linux
-    jobs:
+              TF_ENVIRONMENT_FOLDER: "uat"
+              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
@@ -154,22 +138,19 @@ stages:
           # Run terraform plan idpay-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "uat"
-              WORKINGDIR: 'src/domains/idpay-app'
-              AZURE_SERVICE_CONNECTION_NAME: UAT-CSTAR-SERVICE-CONN
+              TF_ENVIRONMENT_FOLDER: "uat"
+              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_UAT_NAME }}
               AKS_API_SERVER_URL: ${{ variables.UAT01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.UAT01_AKS_AZURE_DEVOPS_SA_CACRT }}
               AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.UAT01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
-#
-# PROD
-#
-  - stage: tf_plan_common_prod
+  - stage: PROD
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.PROD}}, true))
     pool:
-      name: cstar-prod-linux
+      name: cstar-prod-linux-infra
     jobs:
       - job: tf_plan_idpay_common
         strategy:
@@ -182,16 +163,9 @@ stages:
           # 2. Run terraform plan idpay-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "prod"
-              WORKINGDIR: 'src/domains/idpay-common'
-              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
-
-  - stage: tf_plan_app_prod
-    dependsOn: [tf_plan_common_prod]
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: cstar-prod-linux
-    jobs:
+              TF_ENVIRONMENT_FOLDER: "prod"
+              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
       - job: tf_plan_idpay_app
         timeoutInMinutes: $[variables.TIME_OUT]
         strategy:
@@ -203,9 +177,9 @@ stages:
           # Run terraform plan idpay-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "prod"
-              WORKINGDIR: 'src/domains/idpay-app'
-              AZURE_SERVICE_CONNECTION_NAME: PROD-CSTAR-SERVICE-CONN
+              TF_ENVIRONMENT_FOLDER: "prod"
+              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
+              AZURE_SERVICE_CONNECTION_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_PROD_NAME }}
               AKS_API_SERVER_URL: ${{ variables.PROD01_AKS_APISERVER_URL }}
               AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.PROD01_AKS_AZURE_DEVOPS_SA_CACRT }}

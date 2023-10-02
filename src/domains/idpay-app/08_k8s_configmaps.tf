@@ -66,6 +66,7 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_reward_notification_response_consumer_group = "idpay-reward-notification-response-group"
     idpay_reward_notification_response_topic          = "idpay-reward-notification-response"
     idpay_reward_notification_storage_events_topic    = "idpay-reward-notification-storage-events"
+    idpay_commands_topic                              = "idpay-commands"
   }
 
 }
@@ -85,6 +86,10 @@ resource "kubernetes_config_map" "rest-client" {
     idpay_wallet_host                = "http://idpay-wallet-microservice-chart:8080"
     initiative_ms_base_url           = "http://idpay-portal-welfare-backend-initiative-microservice-chart:8080"
     email_notification_ms_host       = "http://idpay-notification-email-microservice-chart:8080"
+    idpay-reward-calculator-baseurl  = "http://idpay-reward-calculator-microservice-chart:8080"
+    admissibility_ms_base_url        = "http://idpay-admissibility-assessor-microservice-chart:8080"
+    idpay_merchant_host              = "http://idpay-merchant-microservice-chart:8080"
+    idpay_mock_base_url              = "http://idpay-mock-microservice-chart:8080"
     checkiban_base_url               = var.checkiban_base_url
     checkiban_url                    = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url             = var.pdv_tokenizer_url
@@ -95,6 +100,7 @@ resource "kubernetes_config_map" "rest-client" {
     io_backend_service_url           = "/api/v1/services"
     pm_service_base_url              = var.pm_service_base_url
     selc_base_url                    = var.selc_base_url
+    io_manage_backend_base_url       = var.io_manage_backend_base_url
   }
 
 }
@@ -108,6 +114,7 @@ resource "kubernetes_config_map" "rtd-eventhub" {
   data = {
     kafka_broker_rtd               = "${local.product}-evh-ns.servicebus.windows.net:${var.event_hub_port}"
     kafka_broker_rtd_pi            = "${local.product}-rtd-evh-ns.servicebus.windows.net:${var.event_hub_port}"
+    kafka_broker_rtd_domain        = "${local.product}-rtd-evh-ns.servicebus.windows.net:${var.event_hub_port}"
     rtd_pi_from_app_topic          = "rtd-pi-from-app"
     rtd_trx_topic                  = "rtd-trx"
     kafka_partition_count          = 1
@@ -128,5 +135,16 @@ resource "kubernetes_config_map" "notification-email" {
   data = {
     mail_server_host = var.mail_server_host
     mail_server_port = var.mail_server_port
+  }
+}
+
+resource "kubernetes_config_map" "appinsights-config" {
+  metadata {
+    name      = "appinsights-config"
+    namespace = var.domain
+  }
+
+  data = {
+    "applicationinsights.json" = file("./k8s-file/appinsights-config/applicationinsights.json")
   }
 }

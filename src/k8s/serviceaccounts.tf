@@ -27,7 +27,7 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 resource "kubernetes_role_binding" "deployer_binding" {
   depends_on = [
     kubernetes_namespace.bpd,
-    kubernetes_namespace.fa,
+    #kubernetes_namespace.fa,
     kubernetes_namespace.rtd
   ]
 

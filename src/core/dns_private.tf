@@ -22,6 +22,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_integration_dn
   virtual_network_id    = module.vnet_integration.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "internal_cstar_to_vnet_pair" {
+  name                  = "${local.project}-pair-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.private_private_dns_zone.name
+  virtual_network_id    = module.vnet_pair.id
+}
+
 #
 # Records for private dns zone
 #
@@ -66,6 +73,37 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet" {
   virtual_network_id    = module.vnet.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_to_pair" {
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.postgres.name
+  virtual_network_id    = module.vnet_pair.id
+}
+
+# Just for migration purposes, it will be removed
+resource "azurerm_private_dns_zone" "postgres_old" {
+  name                = "privatelink.postgres.database.azure.com"
+  resource_group_name = azurerm_resource_group.db_rg.name
+  tags                = var.tags
+}
+
+# Just for migration purposes, it will be removed
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet_old" {
+  name                  = "${local.project}-postgresql-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.db_rg.name
+  private_dns_zone_name = azurerm_private_dns_zone.postgres_old.name
+  virtual_network_id    = module.vnet.id
+  tags                  = var.tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet_old_to_pair" {
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.db_rg.name
+  private_dns_zone_name = azurerm_private_dns_zone.postgres_old.name
+  virtual_network_id    = module.vnet_pair.id
+  tags                  = var.tags
+}
+
 #
 # Private DNS Zone for Storage Accounts
 #
@@ -86,6 +124,21 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet_i
   resource_group_name   = azurerm_resource_group.rg_vnet.name
   private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
   virtual_network_id    = module.vnet_integration.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_link_to_pair" {
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = module.vnet_pair.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_aks_link" {
+  for_each              = { for vnet_aks_domain in module.vnet_aks : vnet_aks_domain.name => vnet_aks_domain.id }
+  name                  = "${each.key}-blobstorage-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = each.value
 }
 
 resource "azurerm_private_dns_a_record" "storage_account_tkm" {
@@ -122,6 +175,18 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_vnet" {
   tags = var.tags
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_link_to_pair" {
+  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
+
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo[count.index].name
+  virtual_network_id    = module.vnet_pair.id
+  registration_enabled  = false
+
+  tags = var.tags
+}
+
 #
 # Private DNS Zone for Azure Data Factory
 #
@@ -141,6 +206,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
   virtual_network_id    = module.vnet.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "adf_link_to_pair" {
+  count = var.enable.tae.adf ? 1 : 0
+
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.adf[count.index].name
+  virtual_network_id    = module.vnet_pair.id
+}
+
 
 #
 # Private DNS zone for EventHub
@@ -149,7 +223,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
 # THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
 data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
-  resource_group_name = "${local.project}-msg-rg"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
 # *-vnet and *-integration-vnet private network links are already created by "eventhub" pagopa module
@@ -160,3 +234,45 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aks_eventhub_private_v
   private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns_zone.name
   virtual_network_id    = module.vnet_aks[each.key].id
 }
+
+resource "azurerm_private_dns_zone_virtual_network_link" "event_hub_link_to_pair" {
+  name                  = module.vnet_pair.name
+  resource_group_name   = data.azurerm_private_dns_zone.eventhub_private_dns_zone.resource_group_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns_zone.name
+  virtual_network_id    = module.vnet_pair.id
+}
+
+
+#
+# Private DNS Zone for Redis
+#
+resource "azurerm_private_dns_zone" "redis" {
+  name                = "privatelink.redis.cache.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet" {
+
+  name                  = module.vnet.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = module.vnet.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_pair" {
+
+  name                  = module.vnet_pair.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = module.vnet_pair.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_aks" {
+  for_each              = { for n in var.aks_networks : n.domain_name => n }
+  name                  = module.vnet_aks[each.key].name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = module.vnet_aks[each.key].id
+}
+
+

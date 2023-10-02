@@ -17,7 +17,7 @@ locals {
   spa = [
     for i, spa in var.spa :
     {
-      name  = replace(format("SPA-%s", spa), "-", "")
+      name  = replace(replace("SPA-${spa}", "-", ""), "/", "0")
       order = i + 3 // +3 required because the order start from 1: 1 is reserved for default application redirect; 2 is reserved for the https rewrite;
       conditions = [
         {
@@ -49,15 +49,14 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v3.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.18.0"
 
   name                  = "idpaycdn"
   prefix                = local.project
   resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
   location              = var.location
-  hostname              = format("welfare.%s", data.azurerm_dns_zone.public.name)
+  hostname              = "welfare.${data.azurerm_dns_zone.public.name}"
   https_rewrite_enabled = true
-  lock_enabled          = false
 
   index_document     = "index.html"
   error_404_document = "error.html"
@@ -70,6 +69,8 @@ module "idpay_cdn" {
   keyvault_vault_name          = module.key_vault_idpay.name
 
   querystring_caching_behaviour = "BypassCaching"
+
+  advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
 
   global_delivery_rule = {
     cache_expiration_action       = []
@@ -246,16 +247,15 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/azurerm.git//cdn?ref=v4.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v6.18.0"
 
-  name                = format("welfare-selfcare-%s", var.env_short)
+  name                = "welfare-selfcare-${var.env_short}"
   prefix              = var.prefix
   resource_group_name = azurerm_resource_group.rg_welfare.name
   location            = var.location
 
-  hostname              = format("selfcare.%s", data.terraform_remote_state.core.outputs.dns_zone_welfare_name)
+  hostname              = "selfcare.${data.terraform_remote_state.core.outputs.dns_zone_welfare_name}"
   https_rewrite_enabled = true
-  lock_enabled          = false
 
   index_document     = "index.html"
   error_404_document = "not_found.html"
@@ -267,7 +267,8 @@ module "selfcare_welfare_cdn" {
   keyvault_subscription_id     = data.azurerm_subscription.current.subscription_id
   keyvault_vault_name          = module.key_vault_idpay.name
 
-  querystring_caching_behaviour = "BypassCaching"
+  querystring_caching_behaviour      = "BypassCaching"
+  advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
 
   // https://antbutcher.medium.com/hosting-a-react-js-app-on-azure-blob-storage-azure-cdn-for-ssl-and-routing-8fdf4a48feeb
   // it is important to add base tag in index.html too (i.e. <base href="/">)

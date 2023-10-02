@@ -18,3 +18,31 @@ data "azurerm_key_vault_secret" "operations_zendesk_email" {
   name         = "operations-zendesk-email"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+
+data "azurerm_key_vault_secret" "opsgenie_webhook_url" {
+  count = var.env_short == "p" ? 1 : 0
+
+  name         = "opsgenie-tae-webhook-url"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+data "azurerm_key_vault_secret" "inc_runbook_external_access_link" {
+  count = var.env_short == "p" ? 1 : 0
+
+  name         = "inc-runbook-external-access"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+data "azurerm_key_vault_secret" "inc_runbook_decrypter_link" {
+  count = var.env_short == "p" ? 1 : 0
+
+  name         = "inc-runbook-decrypter"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+data "azurerm_key_vault_secret" "inc_runbook_adein_link" {
+  count = var.env_short == "p" ? 1 : 0
+
+  name         = "inc-runbook-adein"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}

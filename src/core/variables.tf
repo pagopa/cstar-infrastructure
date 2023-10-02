@@ -1,3 +1,42 @@
+locals {
+  project      = "${var.prefix}-${var.env_short}"
+  project_pair = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
+
+  aks_network_prefix = local.project
+  aks_network_indexs = {
+    for n in var.aks_networks :
+    index(var.aks_networks.*.domain_name, n.domain_name) => n
+  }
+
+  #
+  # Platform
+  #
+  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "${local.project}-common-acr"
+
+  #
+  # IdPay
+  #
+  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
+  idpay_keyvault_name    = "${local.project}-idpay-kv"
+
+  #
+  # RTD
+  #
+  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
+  rtd_keyvault_name    = "${local.project}-rtd-kv"
+
+  # Temporary fallback to old ingress over non-dev environments
+  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
+
+  # Azure DevOps
+  azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
+  azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
+  azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
+  azuredevops_rg_name             = "${local.project}-azdoa-rg"
+  azuredevops_subnet_name         = "${local.project}-azdoa-snet"
+}
+
 variable "location" {
   type        = string
   description = "Primary location region (e.g. westeurope)"
@@ -26,20 +65,29 @@ variable "env_short" {
   type = string
 }
 
+variable "env" {
+  type = string
+}
+
 #
 # Network
 #
-variable "cidr_vnet" {
-  type        = list(string)
-  description = "Virtual network address space."
-}
-
 variable "ddos_protection_plan" {
   type = object({
     id     = string
     enable = bool
   })
   default = null
+}
+
+variable "cidr_vnet" {
+  type        = list(string)
+  description = "Virtual network address space."
+}
+
+variable "cidr_pair_vnet" {
+  type        = list(string)
+  description = "Virtual network address space."
 }
 
 variable "cidr_subnet_storage_account" {
@@ -50,11 +98,6 @@ variable "cidr_subnet_storage_account" {
 variable "cidr_subnet_db" {
   type        = list(string)
   description = "Database network address space."
-}
-
-variable "cidr_subnet_flex_dbms" {
-  type        = list(string)
-  description = "Postgres Flexible Server network address space."
 }
 
 variable "cidr_subnet_redis" {
@@ -93,6 +136,11 @@ variable "cidr_subnet_dnsforwarder" {
   description = "DNS Forwarder network address space."
 }
 
+variable "cidr_subnet_pair_dnsforwarder" {
+  type        = list(string)
+  description = "DNS Forwarder network address space."
+}
+
 variable "cidr_subnet_cosmos_mongodb" {
   type        = list(string)
   description = "Cosmos Mongo DB network address space."
@@ -107,6 +155,11 @@ variable "cidr_subnet_adf" {
 variable "cidr_subnet_private_endpoint" {
   type        = list(string)
   description = "Private Endpoint address space."
+}
+
+variable "cidr_subnet_azdoa" {
+  type        = list(string)
+  description = "Azure DevOps agent network address space."
 }
 
 #
@@ -355,24 +408,14 @@ variable "pm_ip_filter_range" {
   })
 }
 
-variable "k8s_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
-variable "k8s_ip_filter_range_aks" {
-  description = "AKS IPs range to allow internal APIM usage"
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
 variable "cstar_support_email" {
   type        = string
   description = "Email for CSTAR support, read by the CSTAR team and Operations team"
+}
+
+variable "pgp_put_limit_bytes" {
+  type    = number
+  default = 10737418240 # 10GB
 }
 
 ## Application gateway
@@ -456,17 +499,6 @@ variable "app_gw_load_client_certificate" {
   type        = bool
   default     = true
   description = "Load client certificate in app gateway"
-}
-
-# Azure DevOps Agent
-variable "enable_azdoa" {
-  type        = bool
-  description = "Enable Azure DevOps agent."
-}
-
-variable "cidr_subnet_azdoa" {
-  type        = list(string)
-  description = "Azure DevOps agent network address space."
 }
 
 ## Database server postgresl
@@ -562,20 +594,6 @@ EOD
   }))
 }
 
-# Postgres Flexible
-variable "pgres_flex_params" {
-  type = object({
-    enabled                      = bool
-    sku_name                     = string
-    db_version                   = string
-    storage_mb                   = string
-    zone                         = number
-    backup_retention_days        = number
-    geo_redundant_backup_enabled = bool
-    create_mode                  = string
-  })
-
-}
 
 ## Event hub
 variable "ehns_sku_name" {
@@ -707,37 +725,7 @@ variable "enable_iac_pipeline" {
 
 variable "cosmos_mongo_db_params" {
   type = object({
-    enabled        = bool
-    capabilities   = list(string)
-    offer_type     = string
-    server_version = string
-    kind           = string
-    consistency_policy = object({
-      consistency_level       = string
-      max_interval_in_seconds = number
-      max_staleness_prefix    = number
-    })
-    main_geo_location_zone_redundant = bool
-    enable_free_tier                 = bool
-    main_geo_location_zone_redundant = bool
-    additional_geo_locations = list(object({
-      location          = string
-      failover_priority = number
-      zone_redundant    = bool
-    }))
-    private_endpoint_enabled          = bool
-    public_network_access_enabled     = bool
-    is_virtual_network_filter_enabled = bool
-    backup_continuous_enabled         = bool
-  })
-}
-
-variable "cosmos_mongo_db_transaction_params" {
-  type = object({
-    enable_serverless  = bool
-    enable_autoscaling = bool
-    throughput         = number
-    max_throughput     = number
+    enabled = bool
   })
 }
 
@@ -812,18 +800,22 @@ variable "enable_blob_storage_event_grid_integration" {
 
 variable "enable" {
   type = object({
+    core = object({
+      private_endpoints_subnet = bool
+      aks                      = bool
+    })
+    bpd = object({
+      db     = bool
+      api    = bool
+      api_pm = bool
+    })
     rtd = object({
       blob_storage_event_grid_integration = bool
       internal_api                        = bool
-      csv_transaction_apis                = bool
-      file_register                       = bool
       batch_service_api                   = bool
-      enrolled_payment_instrument         = bool
-      mongodb_storage                     = bool
-      sender_auth                         = bool
+      payment_instrument                  = bool
       hashed_pans_container               = bool
       pm_wallet_ext_api                   = bool
-      pm_integration                      = bool
       tkm_integration                     = bool
     })
     fa = object({
@@ -844,18 +836,22 @@ variable "enable" {
   })
   description = "Feature flags"
   default = {
+    core = {
+      private_endpoints_subnet = false
+      aks                      = false
+    }
+    bpd = {
+      db     = false
+      api    = false
+      api_pm = false
+    }
     rtd = {
       blob_storage_event_grid_integration = false
       internal_api                        = false
-      csv_transaction_apis                = false
-      file_register                       = false
       batch_service_api                   = false
-      enrolled_payment_instrument         = false
-      mongodb_storage                     = false
-      sender_auth                         = false
+      payment_instrument                  = false
       hashed_pans_container               = false
       pm_wallet_ext_api                   = false
-      pm_integration                      = false
       tkm_integration                     = false
     }
     fa = {
@@ -876,30 +872,30 @@ variable "enable" {
   }
 }
 
+variable "cstarblobstorage_account_replication_type" {
+  type        = string
+  description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
+}
 
-locals {
-  project            = "${var.prefix}-${var.env_short}"
-  aks_network_prefix = local.project
-  aks_network_indexs = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
+#
+# Azure Devops
+#
+variable "azdoa_image_name" {
+  type        = string
+  description = "Azure DevOps Agent image name for scaleset"
+}
 
-  #
-  # Platform
-  #
-  rg_container_registry_common_name = "${local.project}-container-registry-rg"
-  container_registry_common_name    = "${local.project}-common-acr"
+variable "enable_azdoa" {
+  type        = bool
+  description = "Enable Azure DevOps agent."
+}
 
-  #
-  # IdPay
-  #
-  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
-  idpay_keyvault_name    = "${local.project}-idpay-kv"
+variable "enable_azdoa_agent_performance" {
+  type        = bool
+  description = "Enable Azure DevOps agent for performance."
+}
 
-  #
-  # RTD
-  #
-  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
-  rtd_keyvault_name    = "${local.project}-rtd-kv"
-
-  # Temporary fallback to old ingress over non-dev environments
-  ingress_load_balancer_hostname_https = var.env_short == "d" || var.env_short == "u" ? "https://${var.ingress_load_balancer_hostname}" : "http://${var.reverse_proxy_ip}"
+variable "azdoa_agent_performance_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent performance VM SKU"
 }

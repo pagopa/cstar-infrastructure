@@ -2,7 +2,7 @@
 # IDPAY PRODUCTS
 #
 module "idpay_api_issuer_product" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
   product_id   = "idpay_api_issuer_product"
   display_name = "IDPAY_APP_ISSUER_PRODUCT"
@@ -37,7 +37,7 @@ module "idpay_api_issuer_product" {
 
 ## IDPAY Onboarding workflow ISSUER API ##
 module "idpay_onboarding_workflow_issuer" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-issuer-onboarding-workflow"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -48,7 +48,7 @@ module "idpay_onboarding_workflow_issuer" {
   path         = "idpay/hb/onboarding"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
+  service_url = "${local.ingress_load_balancer_https}/idpayonboardingworkflow/idpay/onboarding"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_onboarding_workflow/openapi.issuer.onboarding.yml.tpl", {})
@@ -88,7 +88,7 @@ module "idpay_onboarding_workflow_issuer" {
 
 ## IDPAY Wallet IO API ##
 module "idpay_wallet_issuer" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-issuer-wallet"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -99,10 +99,10 @@ module "idpay_wallet_issuer" {
   path         = "idpay/hb/wallet"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
+  service_url = "${local.ingress_load_balancer_https}/idpaywallet/idpay/wallet"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/idpay_issuer_wallet/openapi.issuer.wallet.yal.tpl", {})
+  content_value  = templatefile("./api/idpay_issuer_wallet/openapi.issuer.wallet.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 
@@ -147,7 +147,7 @@ module "idpay_wallet_issuer" {
 
 ## IDPAY Timeline IO API ##
 module "idpay_timeline_issuer" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.18.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
   name                = "${var.env_short}-idpay-issuer-timeline"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -158,7 +158,7 @@ module "idpay_timeline_issuer" {
   path         = "idpay/hb/timeline"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
+  service_url = "${local.ingress_load_balancer_https}/idpaytimeline/idpay/timeline"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl", {})
@@ -189,9 +189,9 @@ module "idpay_iban_io" {
   description  = "IDPAY IBAN IO"
   display_name = "IDPAY IBAN IO API"
   path         = "idpay/iban"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+  service_url = "${local.ingress_load_balancer_https}/idpayiban/idpay/iban"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})

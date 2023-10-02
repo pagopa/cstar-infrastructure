@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "sec_rg" {
 
 
 module "key_vault" {
-  source              = "git::https://github.com/pagopa/azurerm.git//key_vault?ref=v1.0.90"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault?ref=v6.2.1"
   name                = "${local.project}-kv"
   location            = azurerm_resource_group.sec_rg.location
   resource_group_name = azurerm_resource_group.sec_rg.name
@@ -150,12 +150,6 @@ data "azurerm_key_vault_secret" "apim_internal_user_email" {
 
 data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
   name         = "CRUSCOTTO-Basic-Auth-Pwd"
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
-  count        = var.enable.rtd.csv_transaction_apis ? 1 : 0
-  name         = "cstarblobstorage-public-key"
   key_vault_id = module.key_vault.id
 }
 

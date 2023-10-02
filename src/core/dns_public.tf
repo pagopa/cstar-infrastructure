@@ -86,6 +86,34 @@ resource "azurerm_dns_a_record" "dns-a-management-test-cstar" {
   tags                = var.tags
 }
 
+resource "azurerm_dns_caa_record" "cstar_pagopa_it" {
+  name                = "@"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+
+  record {
+    flags = 0
+    tag   = "issue"
+    value = "digicert.com"
+  }
+
+  record {
+    flags = 0
+    tag   = "issue"
+    value = "letsencrypt.org"
+  }
+
+  record {
+    flags = 0
+    tag   = "iodef"
+    value = "mailto:security+caa@pagopa.it"
+  }
+
+  tags = var.tags
+}
+
+
 # application gateway records
 resource "azurerm_dns_a_record" "dns_a_appgw_api" {
   name                = "api"
@@ -130,4 +158,31 @@ resource "azurerm_dns_zone" "welfare" {
   name                = join(".", [var.dns_zone_welfare_prefix, var.external_domain])
   resource_group_name = azurerm_resource_group.rg_vnet.name
   tags                = var.tags
+}
+
+resource "azurerm_dns_caa_record" "welfare_cstar_pagopa_it" {
+  name                = "@"
+  zone_name           = azurerm_dns_zone.welfare.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+
+  record {
+    flags = 0
+    tag   = "issue"
+    value = "digicert.com"
+  }
+
+  record {
+    flags = 0
+    tag   = "issue"
+    value = "letsencrypt.org"
+  }
+
+  record {
+    flags = 0
+    tag   = "iodef"
+    value = "mailto:security+caa@pagopa.it"
+  }
+
+  tags = var.tags
 }

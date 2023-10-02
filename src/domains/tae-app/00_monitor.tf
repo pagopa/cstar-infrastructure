@@ -282,18 +282,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_e
       | where AccountName == "cstar${var.env_short}sftp"
       | where OperationName == "SftpCreate"
       | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
-      let wrote = StorageBlobLogs
-      | where TimeGenerated > ago(5m)
-      | where AccountName == "cstar${var.env_short}sftp"
-      | where OperationName == "SftpWrite"
-      | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
       let committed = StorageBlobLogs
       | where TimeGenerated > ago(5m)
       | where AccountName == "cstar${var.env_short}sftp"
       | where OperationName == "SftpCommit"
       | where Uri startswith "sftp://cstar${var.env_short}sftp.blob.core.windows.net/ade/error/";
       created
-      | join kind=inner wrote on Uri
       | join kind=inner committed on Uri
       | project Uri
       QUERY
@@ -346,11 +340,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
     query                   = <<-QUERY
       AzureDiagnostics
       | where TimeGenerated > ago(5m)
-      | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
-      | where httpStatus_d !in (201, 409)
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47), Container = substring(requestUri_s, 15, 61)
+      | where httpStatus_d !in (201, 400, 401, 409, 413, 503)
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -402,7 +400,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       AppRequests
       | where ResultCode == 401
       | where Name startswith "PUT /pagopastorage/"
-      | project TimeGenerated, Filename = substring(Url, 104, 44)
+      | project TimeGenerated,
+          Container = split(Url, '/')[4],
+          Filename = split(split(Url, '/')[5],'?')[0],
+          SAS_token = split(split(Url, '/')[5],'?')[1]
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -454,7 +456,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
       AppRequests
       | where ResultCode == 503
       | where Name startswith "PUT /pagopastorage/"
-      | project TimeGenerated, Filename = substring(Url, 104, 44)
+      | project TimeGenerated,
+          Container = split(Url, '/')[4],
+          Filename = split(split(Url, '/')[5],'?')[0],
+          SAS_token = split(split(Url, '/')[5],'?')[1]
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -1093,11 +1099,15 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
-      | where userAgent_s startswith "BatchService/"
       | where requestUri_s startswith "/pagopastorage/"
       | where httpMethod_s == "PUT"
       | where httpStatus_d == 409
-      | project TimeGenerated, Filename = substring(requestUri_s, 77, 47)
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -1131,3 +1141,222 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
     key = "Sender Monitoring"
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_no_content_length" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-upload-pgp-with-no-content-length"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where requestUri_s startswith "/pagopastorage/"
+      | where httpMethod_s == "PUT"
+      | where httpStatus_d == 400
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one pgp file upload request has content length 0."
+  display_name                     = "cstar-${var.env_short}-upload-pgp-with-no-content-length-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_content_length_over_allowed_size" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-upload-pgp-with-content-length-over-allowed-size"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where requestUri_s startswith "/pagopastorage/"
+      | where httpMethod_s == "PUT"
+      | where httpStatus_d == 413
+      | project
+          TimeGenerated,
+          Filename = split(requestUri_s, '/')[3],
+          Container = split(requestUri_s, '/')[2],
+          Status_Code = httpStatus_d
+      | order by TimeGenerated desc
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one pgp file upload request has content length greater than allowed size."
+  display_name                     = "cstar-${var.env_short}-upload-pgp-with-content-length-over-allowed-size-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_service_version" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-deprecated-batch-service-version"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 0
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where url_s == "https://api.cstar.pagopa.it/rtd/csv-transaction/publickey"
+      | where responseCode_d == 403
+      | project TimeGenerated, apimSubscriptionId_s
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one request to get public key request returns a 403 to the sender. This happens when the Batch Service version used to do the request is considered deprecated."
+  display_name                     = "cstar-${var.env_short}-deprecated-batch-service-version-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-close-to-expiry-date" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-client-certificate-close-to-expiry-date"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P2D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 2
+  criteria {
+    query                   = <<-QUERY
+      AppRequests
+      | where Url has "rtd/csv-transaction/publickey"
+      | extend normalizedDateString = replace_string(tostring(Properties["Request-X-Client-Certificate-End-Date"]), '  ', ' ')
+      | extend dateSplitted = split(normalizedDateString, ' ')
+      | extend dateFormattedProperly = strcat(dateSplitted[1], ' ', dateSplitted[0], ' ', dateSplitted[3], ' ', dateSplitted[2], ' ',dateSplitted[4])
+      | extend certificateEndDate = todatetime(dateFormattedProperly)
+      | extend daysLeftBeforeExpire = datetime_diff('day', certificateEndDate, now())
+      | where daysLeftBeforeExpire == 60 or daysLeftBeforeExpire == 30
+      | summarize arg_max(LastRequestTimestamp=TimeGenerated, CertificateEndDate=Properties['Request-X-Client-Certificate-End-Date']) by SubscriptionId = tostring(Properties['Subscription Name'])
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a client certificate is going to expire in 60 or 30 days."
+  display_name                     = "cstar-${var.env_short}-client-certificate-close-to-expiry-date-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+}
+

@@ -26,6 +26,33 @@
         </when>
       </choose>
 
+    <set-variable name="allowedSize" value="${pgp-put-limit-bytes}" />
+    <set-variable name="bodySize" value="@(context.Request.Headers["Content-Length"][0])" />
+
+    <!-- Check for Content-Length not zero-->
+    <choose>
+      <when condition="@(int.Parse(context.Variables.GetValueOrDefault<string>("bodySize")) == 0)">
+        <return-response>
+          <set-status code="400" reason="Content Length is zero" />
+          <set-body>
+            @("Content Length is zero")
+          </set-body>
+        </return-response>
+      </when>
+    </choose>
+
+    <!-- Check for Content-Length less than allowed size-->
+    <choose>
+      <when condition="@(int.Parse(context.Variables.GetValueOrDefault<string>("bodySize")) > int.Parse(context.Variables.GetValueOrDefault<string>("allowedSize")))">
+      <return-response>
+        <set-status code="413" reason="Payload Too Large" />
+        <set-body>
+          @("Maximum allowed payload size is " + context.Variables.GetValueOrDefault<string>("allowedSize") + " bytes (this request has " + context.Variables.GetValueOrDefault<string>("bodySize") + " bytes)")
+        </set-body>
+      </return-response>
+      </when>
+    </choose>
+
       <set-header name="If-None-Match" exists-action="override">
         <value>*</value>
       </set-header>

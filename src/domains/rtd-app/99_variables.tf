@@ -142,11 +142,22 @@ variable "reverse_proxy_be_io" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
+variable "reverse_proxy_ip_old_k8s" {
+  type        = string
+  default     = "127.0.0.1"
+  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
+}
+
+# External references
+variable "pagopa_platform_url" {
+  type        = string
+  description = "PagoPA Platform APIM url"
+}
+
 # Hashpan generation pipeline related variables
 variable "hpan_blob_storage_container_name" {
   type = object({
-    hpan     = string
-    hpan_par = string
+    hpan = string
   })
   default     = null
   description = "The container name where hashpan file will be created by pipeline"
@@ -207,6 +218,19 @@ variable "enable" {
     mongodb_storage                     = bool
     file_reporter                       = bool
     payment_instrument                  = bool
+    exporter                            = bool
+    alternative_gateway                 = bool
+    api_payment_instrument              = bool
+    tkm_integration                     = bool
+    pm_integration                      = bool
+    hashed_pans_container               = bool
+    batch_service_api                   = bool
+    tae_api                             = bool
+    tae_blob_containers                 = bool
+    sender_auth                         = bool
+    csv_transaction_apis                = bool
+    mock_io_api                         = bool
+    rtd_df                              = bool
   })
   description = "Feature flags"
   default = {
@@ -219,6 +243,19 @@ variable "enable" {
     mongodb_storage                     = false
     file_reporter                       = false
     payment_instrument                  = false
+    exporter                            = false
+    alternative_gateway                 = false
+    api_payment_instrument              = false
+    tkm_integration                     = false
+    pm_integration                      = false
+    hashed_pans_container               = false
+    batch_service_api                   = false
+    tae_api                             = false
+    tae_blob_containers                 = false
+    sender_auth                         = false
+    csv_transaction_apis                = false
+    mock_io_api                         = false
+    rtd_df                              = false
   }
 }
 
@@ -304,3 +341,54 @@ variable "configmaps_rtdpaymentinstrument" {
   type    = map(string)
   default = {}
 }
+
+#
+# RTD Exporter
+#
+variable "configmaps_rtdexporter" {
+  type    = map(string)
+  default = {}
+}
+
+#
+# RTD Alternative Gateway
+#
+variable "configmaps_rtdalternativegateway" {
+  type    = map(string)
+  default = {}
+}
+
+
+variable "k8s_ip_filter_range" {
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
+variable "k8s_ip_filter_range_aks" {
+  description = "AKS IPs range to allow internal APIM usage"
+  type = object({
+    from = string
+    to   = string
+  })
+}
+
+variable "pm_backend_url" {
+  type        = string
+  description = "Payment manager backend url"
+}
+
+
+variable "aks_cluster_domain_name" {
+  type        = string
+  description = "Name of the aks cluster domain. eg: dev01"
+}
+
+
+variable "batch_service_last_supported_version" {
+  type        = string
+  description = "batch service last version supported by backend"
+  default     = "0.0.1"
+}
+

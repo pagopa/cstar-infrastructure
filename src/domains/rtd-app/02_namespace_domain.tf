@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "domain_namespace" {
 }
 
 module "domain_pod_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity?ref=v3.0.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3//kubernetes_pod_identity?ref=v6.14.0"
 
   resource_group_name = local.aks_resource_group_name
   location            = var.location
@@ -23,7 +23,7 @@ resource "helm_release" "reloader" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
-  version    = "v0.0.110"
+  version    = "v1.0.30"
   namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
 
   set {

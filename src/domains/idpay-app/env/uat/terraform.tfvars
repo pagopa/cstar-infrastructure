@@ -26,6 +26,7 @@ log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 aks_name                = "cstar-u-weu-uat01-aks"
 aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
 aks_vmss_name           = "aks-cstuat01usr-39999986-vmss"
+aks_cluster_domain_name = "uat01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "uat01.idpay.internal.uat.cstar.pagopa.it"
@@ -44,6 +45,7 @@ enable = {
   idpay = {
     eventhub = true
   }
+  mock_io_api = true
 }
 
 #
@@ -70,7 +72,8 @@ selc_base_url = "https://api.uat.selfcare.pagopa.it"
 #
 # BE IO API
 #
-io_backend_base_url = "https://api.io.italia.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
+io_backend_base_url        = "https://api-io.uat.cstar.pagopa.it/idpay/mock" #"https://api.io.italia.it"
+io_manage_backend_base_url = "https://api.io.pagopa.it"                      #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
 
 #
 # ONE TRUST API
@@ -101,3 +104,7 @@ reverse_proxy_rtd = "10.1.0.250"
 # SMTP Server
 #
 mail_server_host = "smtp.ethereal.email"
+
+idpay_mocked_merchant_enable       = true
+idpay_mocked_acquirer_apim_user_id = "rtd-uat-acquirer-pagopa-it"
+idpay_alert_enabled                = true

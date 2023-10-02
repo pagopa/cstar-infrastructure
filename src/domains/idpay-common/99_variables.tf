@@ -78,7 +78,7 @@ variable "rtd_keyvault" {
   })
 }
 
-variable "cosmos_mongo_db_params" {
+variable "cosmos_mongo_account_params" {
   type = object({
     enabled        = bool
     capabilities   = list(string)
@@ -104,12 +104,10 @@ variable "cosmos_mongo_db_params" {
   })
 }
 
-variable "cosmos_mongo_db_transaction_params" {
+variable "cosmos_mongo_db_idpay_params" {
   type = object({
-    enable_serverless  = bool
-    enable_autoscaling = bool
-    throughput         = number
-    max_throughput     = number
+    throughput     = number
+    max_throughput = number
   })
 }
 
@@ -153,7 +151,9 @@ variable "spa" {
   type        = list(string)
   description = "spa root dirs"
   default = [
-    "portale-enti"
+    "portale-enti",
+    "portale-esercenti",
+    "mocks/merchant"
   ]
 }
 ## Event hub
@@ -315,4 +315,23 @@ variable "enable" {
       eventhub_idpay_00 = false
     }
   }
+}
+
+variable "aks_vnet" {
+  type = object({
+    name           = string
+    resource_group = string
+    subnet         = string
+  })
+}
+
+variable "idpay_cdn_sa_advanced_threat_protection_enabled" {
+  type    = bool
+  default = false
+}
+
+
+variable "redis_public_network_access_enabled" {
+  type    = bool
+  default = false
 }

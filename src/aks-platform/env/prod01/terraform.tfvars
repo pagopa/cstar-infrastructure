@@ -1,11 +1,13 @@
 # general
-prefix          = "cstar"
-env_short       = "p"
-env             = "prod"
-domain          = "prod01"
-location        = "westeurope"
-location_string = "West Europe"
-location_short  = "weu"
+prefix              = "cstar"
+env_short           = "p"
+env                 = "prod"
+domain              = "prod01"
+location            = "westeurope"
+location_string     = "West Europe"
+location_short      = "weu"
+location_pair_short = "neu"
+location_pair       = "northeurope"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -37,7 +39,7 @@ public_ip_aksoutbound_name = "cstar-p-weu-prod01-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = true
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.24.6"
+aks_kubernetes_version      = "1.25.11"
 aks_sku_tier                = "Paid"
 aks_system_node_pool = {
   name            = "cstprod01sys",
@@ -56,8 +58,8 @@ aks_user_node_pool = {
   vm_size         = "Standard_D8ds_v5",
   os_disk_type    = "Ephemeral",
   os_disk_size_gb = 300,
-  node_count_min  = 1,
-  node_count_max  = 3,
+  node_count_min  = 0,
+  node_count_max  = 0,
   zones           = [1, 2, 3]
   node_labels     = { node_name : "aks-prod01-user", node_type : "user" },
   node_taints     = [],
@@ -73,18 +75,15 @@ aks_addons = {
 ingress_replica_count = "2"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 ingress_load_balancer_ip = "10.11.100.250"
-nginx_helm_version       = "4.1.0"
-keda_helm_version        = "2.6.2"
-prometheus_helm_version  = "15.10.4"
-grafana_helm_version     = "6.32.3"
-
+nginx_helm_version       = "4.7.1"
+keda_helm_version        = "2.11.1"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
 reloader_helm = {
-  chart_version = "v0.0.118"
+  chart_version = "v1.0.30"
   image_name    = "stakater/reloader"
-  image_tag     = "v0.0.118@sha256:2d423cab8d0e83d1428ebc70c5c5cafc44bd92a597bff94007f93cddaa607b02"
+  image_tag     = "v1.0.30"
 }
 
 # chart releases: https://github.com/prometheus-community/helm-charts/releases?q=tag%3Aprometheus-15&expanded=true
@@ -94,30 +93,30 @@ reloader_helm = {
 # quay.io/prometheus/prometheus image tags: https://quay.io/repository/prometheus/prometheus?tab=tags
 # prom/pushgateway image tags:https://hub.docker.com/r/prom/pushgateway/tags
 prometheus_helm = {
-  chart_version = "15.12.0"
+  chart_version = "15.18.0"
   alertmanager = {
     image_name = "quay.io/prometheus/alertmanager"
-    image_tag  = "v0.24.0@sha256:088464f949de8065b9da7dfce7302a633d700e9d598e2bebc03310712f083b31"
+    image_tag  = "v0.25.0"
   }
   configmap_reload_prometheus = {
     image_name = "jimmidyson/configmap-reload"
-    image_tag  = "v0.5.0@sha256:91467ba755a0c41199a63fe80a2c321c06edc4d3affb4f0ab6b3d20a49ed88d1"
+    image_tag  = "v0.9.0"
   }
   configmap_reload_alertmanager = {
     image_name = "jimmidyson/configmap-reload"
-    image_tag  = "v0.5.0@sha256:91467ba755a0c41199a63fe80a2c321c06edc4d3affb4f0ab6b3d20a49ed88d1"
+    image_tag  = "v0.9.0"
   }
   node_exporter = {
     image_name = "quay.io/prometheus/node-exporter"
-    image_tag  = "v1.3.1@sha256:f2269e73124dd0f60a7d19a2ce1264d33d08a985aed0ee6b0b89d0be470592cd"
+    image_tag  = "v1.6.1"
   }
   server = {
     image_name = "quay.io/prometheus/prometheus"
-    image_tag  = "v2.36.2@sha256:df0cd5887887ec393c1934c36c1977b69ef3693611932c3ddeae8b7a412059b9"
+    image_tag  = "v2.45.0"
   }
   pushgateway = {
     image_name = "prom/pushgateway"
-    image_tag  = "v1.4.3@sha256:9e4e2396009751f1dc66ebb2b59e07d5abb009eb26d637eb0cf89b9a3738f146"
+    image_tag  = "v1.6.0"
   }
 }
 

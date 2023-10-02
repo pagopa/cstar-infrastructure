@@ -15,19 +15,22 @@ data "azurerm_eventhub_namespace" "event_hub_rtd" {
 # Eventhub queues for rtd namespace
 #
 resource "azurerm_eventhub" "event_hub_rtd_hub" {
-  count               = length(var.event_hub_hubs)
-  name                = var.event_hub_hubs[count.index].name
-  partition_count     = var.event_hub_hubs[count.index].partitions
-  message_retention   = var.event_hub_hubs[count.index].retention
+  for_each            = { for hub in var.event_hub_hubs : hub.name => hub }
+  name                = each.value.name
+  partition_count     = each.value.partitions
+  message_retention   = each.value.retention
   namespace_name      = data.azurerm_eventhub_namespace.event_hub_rtd.name
   resource_group_name = data.azurerm_resource_group.msg_rg.name
 }
 
+#
+# Eventhub consumer groups
+#
 resource "azurerm_eventhub_consumer_group" "event_hub_rtd_consumer_group" {
-  for_each = merge([for hub in var.event_hub_hubs : { for consumer in hub.consumers : hub.name => consumer }]...)
+  for_each = merge([for hub in var.event_hub_hubs : { for consumer in hub.consumers : "${hub.name}-${consumer}" => { eventhub_name = hub.name, name = consumer } }]...)
 
-  eventhub_name       = each.key
-  name                = each.value
+  eventhub_name       = each.value.eventhub_name
+  name                = each.value.name
   namespace_name      = data.azurerm_eventhub_namespace.event_hub_rtd.name
   resource_group_name = data.azurerm_resource_group.msg_rg.name
   depends_on          = [azurerm_eventhub.event_hub_rtd_hub]

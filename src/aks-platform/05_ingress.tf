@@ -44,6 +44,10 @@ module "nginx_ingress" {
     {
       name  = "controller.admissionWebhooks.patch.nodeSelector.beta\\.kubernetes\\.io/os"
       value = "linux"
+    },
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+      value = "/healthz"
     }
   ]
 

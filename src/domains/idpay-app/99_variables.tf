@@ -34,6 +34,11 @@ variable "domain" {
   }
 }
 
+variable "idpay_alert_enabled" {
+  type    = bool
+  default = false
+}
+
 variable "location" {
   type        = string
   description = "One of westeurope, northeurope"
@@ -172,6 +177,11 @@ variable "io_backend_base_url" {
   description = "BE IO backend url"
 }
 
+variable "io_manage_backend_base_url" {
+  type        = string
+  description = "BE IO manage backend url"
+}
+
 variable "pdv_tokenizer_url" {
   type        = string
   default     = "127.0.0.1"
@@ -182,6 +192,30 @@ variable "pdv_timeout_sec" {
   type        = number
   description = "PDV timeout (sec)"
   default     = 15
+}
+
+variable "pdv_retry_count" {
+  type        = number
+  description = "PDV max retry number"
+  default     = 3
+}
+
+variable "pdv_retry_interval" {
+  type        = number
+  description = "PDV interval between each retry"
+  default     = 5
+}
+
+variable "pdv_retry_max_interval" {
+  type        = number
+  description = "PDV max interval between each retry"
+  default     = 15
+}
+
+variable "pdv_retry_delta" {
+  type        = number
+  description = "PDV delta"
+  default     = 1
 }
 
 variable "checkiban_base_url" {
@@ -254,6 +288,12 @@ variable "storage_advanced_threat_protection" {
   default     = false
 }
 
+variable "storage_public_network_access_enabled" {
+  type        = bool
+  description = "Enable public network access"
+  default     = false
+}
+
 #
 # RTD reverse proxy
 #
@@ -287,4 +327,31 @@ variable "p7m_cert_validity_hours" {
   type    = number
   default = 87600 # 10 year
 
+}
+
+variable "idpay_mocked_merchant_enable" {
+  type        = bool
+  description = "Enable mocked merchant APIs"
+  default     = false
+}
+
+variable "idpay_mocked_acquirer_apim_user_id" {
+  type        = string
+  description = "APIm user id of mocked acquirer"
+  default     = null
+}
+
+variable "aks_cluster_domain_name" {
+  type        = string
+  description = "Name of the aks cluster domain. eg: dev01"
+}
+
+variable "enable" {
+  type = object({
+    mock_io_api = bool
+  })
+  description = "Feature flags"
+  default = {
+    mock_io_api = false
+  }
 }

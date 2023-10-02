@@ -3,9 +3,12 @@ locals {
 }
 
 resource "kubernetes_secret" "bpdmsawardwinner" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsawardwinner"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -24,9 +27,12 @@ resource "kubernetes_secret" "bpdmsawardwinner" {
 }
 
 resource "kubernetes_secret" "bpdmscitizen" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmscitizen"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -40,9 +46,12 @@ resource "kubernetes_secret" "bpdmscitizen" {
 }
 
 resource "kubernetes_secret" "bpdmscitizenbatch" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmscitizenbatch"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -59,9 +68,12 @@ resource "kubernetes_secret" "bpdmscitizenbatch" {
 }
 
 resource "kubernetes_secret" "bpdmspaymentinstrument" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmspaymentinstrument"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -78,9 +90,12 @@ resource "kubernetes_secret" "bpdmspaymentinstrument" {
 }
 
 resource "kubernetes_secret" "bpdmspointprocessor" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmspointprocessor"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -97,9 +112,12 @@ resource "kubernetes_secret" "bpdmspointprocessor" {
 }
 
 resource "kubernetes_secret" "bpdmstransactionerrormanager" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmstransactionerrormanager"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -118,9 +136,12 @@ resource "kubernetes_secret" "bpdmstransactionerrormanager" {
 }
 
 resource "kubernetes_secret" "bpdmswinningtransaction" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmswinningtransaction"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -135,14 +156,18 @@ resource "kubernetes_secret" "bpdmswinningtransaction" {
 }
 
 resource "kubernetes_secret" "bpdmsnotificationmanager" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "bpdmsnotificationmanager"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
     NOTIFICATION_SERVICE_NOTIFY_WINNERS_PUBLIC_KEY = module.key_vault_secrets_query.values["notification-service-notify-winners-public-key"].value
     NOTIFICATION_SFTP_PRIVATE_KEY                  = module.key_vault_secrets_query.values["notification-sftp-private-key"].value
+    SFTP_USER                                      = module.key_vault_secrets_query.values["bpd-notificator-sftp-user"].value
     SFTP_PASSWORD                                  = module.key_vault_secrets_query.values["notification-sftp-password"].value
     URL_BACKEND_IO_TOKEN_VALUE                     = module.key_vault_secrets_query.values["url-backend-io-token-value"].value
     APPLICATIONINSIGHTS_CONNECTION_STRING          = local.appinsights_instrumentation_key
@@ -152,9 +177,12 @@ resource "kubernetes_secret" "bpdmsnotificationmanager" {
 }
 
 resource "kubernetes_secret" "bpd-postgres-credentials" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "postgres-credentials"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -181,9 +209,12 @@ resource "kubernetes_secret" "bpd-postgres-credentials" {
 
 # not yet used by any deployment, but maybe useful for the future
 resource "kubernetes_secret" "bpd-application-insights" {
+
+  count = var.enable.bpd.api ? 1 : 0
+
   metadata {
     name      = "application-insights"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
@@ -194,16 +225,85 @@ resource "kubernetes_secret" "bpd-application-insights" {
 }
 
 resource "kubernetes_secret" "cstariobackendtest" {
-  count = var.env_short == "d" ? 1 : 0 # only in dev
+
+  count = (var.enable.bpd.api && var.env_short != "p") ? 1 : 0
+
   metadata {
     name      = "cstariobackendtest"
-    namespace = kubernetes_namespace.bpd.metadata[0].name
+    namespace = kubernetes_namespace.bpd[count.index].metadata[0].name
   }
 
   data = {
     #Kafka Connection String Producer
     KAFKA_MOCKPOCTRX_SASL_JAAS_CONFIG = format(local.jaas_config_template, "rtd-trx", "rtd-trx-producer", module.key_vault_secrets_query.values["evh-rtd-trx-rtd-trx-producer-key"].value)
 
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "azure-storage" {
+  metadata {
+    name      = "azure-storage"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    BLOB_SA_EXPIRY_TIME                   = "5"
+    BLOB_SA_PROTOCOL                      = "https"
+    BLOB_STORAGE_CONN_STRING              = format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", local.storage_account_name, module.key_vault_secrets_query.values["storageaccount-cstarblob-key"].value)
+    APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "rtd-postgres-credentials" {
+  metadata {
+    name      = "postgres-credentials"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
+    POSTGRES_AWARD_DB_NAME    = "bpd"
+    POSTGRES_AWARD_HOST       = local.postgres_hostname
+    POSTGRES_AWARD_PASSWORD   = module.key_vault_secrets_query.values["db-bpd-user-password"].value
+    POSTGRES_AWARD_SCHEMA     = "bpd_award_period"
+    POSTGRES_AWARD_USERNAME   = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
+    POSTGRES_BPD_DB_NAME      = "bpd"
+    POSTGRES_BPD_HOST         = local.postgres_hostname
+    POSTGRES_BPD_PASSWORD     = module.key_vault_secrets_query.values["db-bpd-user-password"].value
+    POSTGRES_BPD_SCHEMA       = "bpd_payment_instrument"
+    POSTGRES_BPD_USERNAME     = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
+    POSTGRES_CITIZEN_DB_NAME  = "bpd"
+    POSTGRES_CITIZEN_HOST     = local.postgres_hostname
+    POSTGRES_CITIZEN_PASSWORD = module.key_vault_secrets_query.values["db-bpd-user-password"].value
+    POSTGRES_CITIZEN_SCHEMA   = "bpd_citizen"
+    POSTGRES_CITIZEN_USERNAME = format("%s@%s", module.key_vault_secrets_query.values["db-bpd-login"].value, local.postgres_hostname)
+    POSTGRES_FA_DB_NAME       = "fa"
+    POSTGRES_FA_HOST          = local.postgres_hostname
+    POSTGRES_FA_PASSWORD      = module.key_vault_secrets_query.values["db-fa-user-password"].value
+    POSTGRES_FA_SCHEMA        = "fa_payment_instrument"
+    POSTGRES_FA_USERNAME      = format("%s@%s", module.key_vault_secrets_query.values["db-fa-login"].value, local.postgres_hostname)
+    POSTGRES_DB_NAME          = "rtd"
+    POSTGRES_HOST             = local.postgres_hostname
+    POSTGRES_RTD_HOST         = local.postgres_hostname
+    POSTGRES_PASSWORD         = module.key_vault_secrets_query.values["db-rtd-user-password"].value
+    POSTGRES_SCHEMA           = "rtd_database"
+    POSTGRES_USERNAME         = format("%s@%s", module.key_vault_secrets_query.values["db-rtd-login"].value, local.postgres_hostname)
+  }
+
+  type = "Opaque"
+}
+
+resource "kubernetes_secret" "rtd-application-insights" {
+  metadata {
+    name      = "application-insights"
+    namespace = kubernetes_namespace.rtd.metadata[0].name
+  }
+
+  data = {
     APPLICATIONINSIGHTS_CONNECTION_STRING = local.appinsights_instrumentation_key
   }
 

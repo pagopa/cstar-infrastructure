@@ -1,0 +1,20 @@
+<policies>
+    <inbound>
+      <base />
+      <set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
+        <value>{{MockedAcquirerSubscriptionKey}}</value>
+      </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+        <return-response>
+            <set-status code="500" reason="Policy Error" />
+        </return-response>
+    </on-error>
+</policies>

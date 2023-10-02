@@ -25,10 +25,17 @@ log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 
 aks_name                = "cstar-u-weu-uat01-aks"
 aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
+aks_cluster_domain_name = "uat01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "uat01.rtd.internal.uat.cstar.pagopa.it"
 reverse_proxy_be_io            = "10.1.0.250"
+reverse_proxy_ip_old_k8s       = "10.1.0.250"
+
+#
+# External references
+#
+pagopa_platform_url = "https://api.uat.platform.pagopa.it"
 
 #
 # Dns
@@ -48,14 +55,27 @@ enable = {
   enrolled_payment_instrument         = true
   mongodb_storage                     = true
   file_reporter                       = true
+  payment_instrument                  = false
+  exporter                            = false
+  alternative_gateway                 = false
+  api_payment_instrument              = false
+  tkm_integration                     = false
+  pm_integration                      = true
+  hashed_pans_container               = true
+  batch_service_api                   = true
+  tae_api                             = true
+  tae_blob_containers                 = true
+  sender_auth                         = true
+  csv_transaction_apis                = true
+  mock_io_api                         = true
+  rtd_df                              = false
 }
 
 #
 # Hashpan generation pipeline related variables
 #
 hpan_blob_storage_container_name = {
-  hpan     = "cstar-hashed-pans"
-  hpan_par = "cstar-hashed-pans-par"
+  hpan = "cstar-hashed-pans"
 }
 enable_hpan_pipeline_periodic_trigger     = false
 enable_hpan_par_pipeline_periodic_trigger = false
@@ -185,7 +205,55 @@ event_hub_hubs = [
         manage = false
       }
     ]
-  }
+  },
+  {
+    name       = "rtd-trx"
+    partitions = 16
+    retention  = 1
+    consumers  = ["idpay-consumer-group"]
+    policies = [
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "rtd-trx-test-policy"
+        listen = true
+        send   = true
+        manage = false
+      }
+    ]
+  },
+  {
+    name       = "rtd-platform-events"
+    partitions = 4
+    retention  = 7
+    consumers  = ["rtd-decrypter-consumer-group", "rtd-ingestor-consumer-group", "rtd-file-register-consumer-group"]
+    policies = [
+      {
+        # publisher
+        name   = "rtd-platform-events-pub"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        # subscriber
+        name   = "rtd-platform-events-sub"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 #
@@ -239,3 +307,24 @@ configmaps_rtdfilereporter = {
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
+
+configmaps_rtdexporter = {
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
+}
+
+# See cidr_subnet_k8s
+k8s_ip_filter_range = {
+  from = "10.1.0.1"
+  to   = "10.1.127.254"
+}
+
+k8s_ip_filter_range_aks = {
+  from = "10.11.0.1"
+  to   = "10.11.127.254"
+}
+
+pm_backend_url = "https://api.uat.platform.pagopa.it"
+
+batch_service_last_supported_version = "1.3.2"
+

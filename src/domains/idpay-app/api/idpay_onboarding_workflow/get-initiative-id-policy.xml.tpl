@@ -21,7 +21,7 @@
                 <return-response response-variable-name="initiativeIdResponse" />
             </when>
             <otherwise>
-                <rewrite-uri template="@("/idpay/initiative/?serviceId={serviceId}")" copy-unmatched-params="true" />
+                <rewrite-uri template="@("/idpay/initiative?serviceId={serviceId}")" copy-unmatched-params="true" />
             </otherwise>
         </choose>
     </inbound>

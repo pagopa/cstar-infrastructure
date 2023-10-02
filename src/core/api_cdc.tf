@@ -87,11 +87,55 @@ resource "azurerm_api_management_certificate" "cdc_cert_jwt" {
   key_vault_secret_id = data.azurerm_key_vault_certificate.jwt_signing_cert[count.index].versionless_secret_id
 }
 
+resource "azurerm_key_vault_certificate" "cdc_sign_certificate" {
+  count        = var.enable.cdc.api ? 1 : 0
+  name         = "cdc-sign-jwt"
+  key_vault_id = module.key_vault.id
+
+  certificate_policy {
+    x509_certificate_properties {
+      key_usage          = ["digitalSignature", "keyEncipherment"]
+      subject            = "E=cstar@pagopa.it, CN=cstar.pagopa.it, OU=Cstar, O=PagoPA SpA, L=Rome, S=Lazio, C=IT"
+      validity_in_months = 12
+    }
+
+    issuer_parameters {
+      name = "self"
+    }
+    key_properties {
+      exportable = true
+      key_type   = "RSA"
+      key_size   = 2048
+      reuse_key  = false
+    }
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    lifetime_action {
+      action {
+        action_type = "EmailContacts"
+      }
+      trigger {
+        lifetime_percentage = 80
+      }
+    }
+  }
+}
+
+resource "azurerm_api_management_certificate" "cdc_sign_certificate_jwt" {
+  count               = var.enable.cdc.api ? 1 : 0
+  name                = "cdc-sign-jwt"
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  key_vault_secret_id = azurerm_key_vault_certificate.cdc_sign_certificate[count.index].versionless_secret_id
+}
 
 module "cdc_api_product" {
   count = var.enable.cdc.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.12.5"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
 
   product_id   = "cdc-api-product"
   display_name = "CDC_API_Product"
@@ -106,7 +150,7 @@ module "cdc_api_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = templatefile("./api_product/cdc_api/policy.xml.tpl", {})
+  policy_xml = templatefile("./api_product/cdc_api/policy.xml", {})
 
   # tags = merge(var.tags, { Application = "CDC" })
 
@@ -114,12 +158,11 @@ module "cdc_api_product" {
     azurerm_api_management_named_value.cdc_sogei_api_key,
     azurerm_api_management_named_value.cdc_sogei_client_id
   ]
-
 }
 
 module "api_cdc_sogei" {
   count               = var.enable.cdc.api ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.12.5"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-cdc-sogei", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -132,12 +175,12 @@ module "api_cdc_sogei" {
   service_url = var.cdc_api_params.host
 
   content_format = "openapi"
-  content_value = templatefile("./api/cdc/openapi.sogei.yml.tpl", {
+  content_value = templatefile("./api/cdc/openapi.sogei.yml", {
     host = var.cdc_api_params.host
   })
 
-  xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint,
+  xml_content = templatefile("./api/cdc/policy.jwt.xml", {
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
 
@@ -152,14 +195,15 @@ module "api_cdc_sogei" {
     azurerm_api_management_named_value.cdc_sogei_api_key,
     azurerm_api_management_named_value.cdc_sogei_client_id,
     azurerm_api_management_named_value.cdc_sogei_jwt_aud,
-    azurerm_api_management_certificate.cdc_cert_jwt
+    azurerm_api_management_certificate.cdc_cert_jwt,
+    azurerm_api_management_certificate.cdc_sign_certificate_jwt
   ]
 
 }
 
 module "api_cdc_io" {
   count               = var.enable.cdc.api ? 1 : 0
-  source              = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.12.5"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
   name                = format("%s-cdc-io", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -172,12 +216,12 @@ module "api_cdc_io" {
   service_url = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
 
   content_format = "openapi"
-  content_value = templatefile("./api/cdc/openapi.io.yml.tpl", {
+  content_value = templatefile("./api/cdc/openapi.io.yml", {
     host = format("%s/CDCUtenteWS/rest/secured", var.cdc_api_params.host)
   })
 
-  xml_content = templatefile("./api/cdc/policy.jwt.xml.tpl", {
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_cert_jwt[count.index].thumbprint
+  xml_content = templatefile("./api/cdc/policy.jwt.xml", {
+    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.cdc_sign_certificate_jwt[count.index].thumbprint,
     env_short                   = var.env_short
   })
 
@@ -197,7 +241,8 @@ module "api_cdc_io" {
     azurerm_api_management_named_value.cdc_sogei_api_key,
     azurerm_api_management_named_value.cdc_sogei_client_id,
     azurerm_api_management_named_value.cdc_sogei_jwt_aud,
-    azurerm_api_management_certificate.cdc_cert_jwt
+    azurerm_api_management_certificate.cdc_cert_jwt,
+    azurerm_api_management_certificate.cdc_sign_certificate_jwt
   ]
 
 }

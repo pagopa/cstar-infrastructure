@@ -7,9 +7,10 @@ resource "azurerm_resource_group" "db_rg" {
 
 module "cosmosdb_account" {
 
-  source = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v2.15.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.15.2"
 
   name                = "${local.project}-cosmos-db-account"
+  domain              = var.domain
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name
   offer_type          = var.cosmos_dbms_params.offer_type

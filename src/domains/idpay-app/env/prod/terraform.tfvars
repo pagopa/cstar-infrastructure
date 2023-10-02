@@ -26,6 +26,7 @@ log_analytics_workspace_resource_group_name = "cstar-p-monitor-rg"
 aks_name                = "cstar-p-weu-prod01-aks"
 aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
 aks_vmss_name           = "aks-cstprod01usr-18685956-vmss"
+aks_cluster_domain_name = "prod01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "prod01.idpay.internal.cstar.pagopa.it"
@@ -44,6 +45,7 @@ enable = {
   idpay = {
     eventhub = true
   }
+  mock_io_api = false
 }
 
 #
@@ -71,7 +73,8 @@ selc_base_url = "https://api.selfcare.pagopa.it"
 #
 # BE IO API
 #
-io_backend_base_url = "https://api-io.cstar.pagopa.it/idpay/mock" # "https://api.io.italia.it"
+io_backend_base_url        = "https://api-io.cstar.pagopa.it/idpay/mock" # "https://api.io.italia.it"
+io_manage_backend_base_url = "https://api-io.cstar.pagopa.it/idpay/mock" # "https://api.io.pagopa.it"
 
 #
 # ONE TRUST API
@@ -90,10 +93,11 @@ tls_cert_check_helm = {
 }
 
 # Storage
-storage_account_replication_type   = "RAGZRS"
-storage_delete_retention_days      = 90
-storage_enable_versioning          = true
-storage_advanced_threat_protection = true
+storage_account_replication_type      = "RAGZRS"
+storage_delete_retention_days         = 90
+storage_enable_versioning             = true
+storage_advanced_threat_protection    = true
+storage_public_network_access_enabled = false
 
 #
 # RTD reverse proxy
@@ -103,4 +107,5 @@ reverse_proxy_rtd = "10.1.0.250"
 #
 # SMTP Server
 #
-mail_server_host = "smtp.google.com"
+mail_server_host    = "smtp.google.com"
+idpay_alert_enabled = true

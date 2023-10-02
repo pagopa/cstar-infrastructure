@@ -2,13 +2,13 @@
 # VPN
 #
 module "vpn_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.18.10"
-  name                                           = "GatewaySubnet"
-  address_prefixes                               = var.cidr_subnet_vpn
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = module.vnet.name
-  service_endpoints                              = []
-  enforce_private_link_endpoint_network_policies = true
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  name                 = "GatewaySubnet"
+  address_prefixes     = var.cidr_subnet_vpn
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  service_endpoints    = []
+  //enforce_private_link_endpoint_network_policies = true
 }
 
 data "azuread_application" "vpn_app" {
@@ -16,7 +16,7 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
-  source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v2.18.10"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v6.2.1"
 
   depends_on = [
     azurerm_log_analytics_workspace.log_analytics_workspace,
@@ -54,12 +54,12 @@ module "vpn" {
 # DNS Forwarder
 #
 module "dns_forwarder_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.18.10"
-  name                                           = "${local.project}-dnsforwarder-snet"
-  address_prefixes                               = var.cidr_subnet_dnsforwarder
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = module.vnet.name
-  enforce_private_link_endpoint_network_policies = true
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.3.1"
+  name                                      = "${local.project}-dnsforwarder-snet"
+  address_prefixes                          = var.cidr_subnet_dnsforwarder
+  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = module.vnet.name
+  private_endpoint_network_policies_enabled = false
 
   delegation = {
     name = "delegation"
@@ -70,154 +70,55 @@ module "dns_forwarder_snet" {
   }
 }
 
-resource "azurerm_network_profile" "dns_forwarder" {
-  name                = "${local.project}-dnsforwarder-netprofile"
+resource "random_id" "dns_forwarder_hash" {
+  byte_length = 3
+}
+
+module "vpn_dns_forwarder" {
+
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.4.1"
+
+  name                = "${local.project}-${random_id.dns_forwarder_hash.hex}-vpn-dnsfrw"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
+  subnet_id           = module.dns_forwarder_snet.id
+  tags                = var.tags
+}
 
-  container_network_interface {
-    name = "container-nic"
 
-    ip_configuration {
-      name      = "ip-config"
-      subnet_id = module.dns_forwarder_snet.id
+# DNS FORWARDER FOR DISASTER RECOVERY
+
+#
+# DNS Forwarder
+#
+module "dns_forwarder_pair_subnet" {
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.3.1"
+  name                                      = "${local.project_pair}-dnsforwarder-snet"
+  address_prefixes                          = var.cidr_subnet_pair_dnsforwarder
+  resource_group_name                       = azurerm_resource_group.rg_pair_vnet.name
+  virtual_network_name                      = module.vnet_pair.name
+  private_endpoint_network_policies_enabled = false
+
+  delegation = {
+    name = "ACIDelegationService"
+    service_delegation = {
+      name    = "Microsoft.ContainerInstance/containerGroups"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
 }
 
-resource "azurerm_resource_group" "dns_forwarder" {
-
-  name     = "${local.project}-dns-forwarder-rg"
-  location = var.location
-
-  tags = var.tags
+resource "random_id" "pair_dns_forwarder_hash" {
+  byte_length = 3
 }
 
+module "vpn_pair_dns_forwarder" {
 
-resource "azurerm_storage_account" "dns_forwarder" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v6.4.1"
 
-  name                      = replace("${local.project}-dnsfwd-st", "-", "")
-  resource_group_name       = azurerm_resource_group.dns_forwarder.name
-  location                  = var.location
-  enable_https_traffic_only = true
-  min_tls_version           = "TLS1_2"
-  account_tier              = "Standard"
-
-  account_replication_type = "LRS"
-
-  tags = var.tags
-}
-
-resource "azurerm_storage_share" "dns_forwarder" {
-
-  name = "${local.project}-dns-forwarder-share"
-
-  storage_account_name = azurerm_storage_account.dns_forwarder.name
-
-  quota = 1
-}
-
-resource "azurerm_container_group" "coredns_forwarder" {
-
-  name                = "${local.project}-dns-forwarder"
-  location            = azurerm_resource_group.dns_forwarder.location
-  resource_group_name = azurerm_resource_group.dns_forwarder.name
-  ip_address_type     = "Private"
-  network_profile_id  = azurerm_network_profile.dns_forwarder.id
-  os_type             = "Linux"
-
-  container {
-    name   = "dns-forwarder"
-    image  = "coredns/coredns:1.8.4"
-    cpu    = "0.5"
-    memory = "0.5"
-
-    commands = ["/coredns", "-conf", "/app/conf/Corefile"]
-
-    ports {
-      port     = 53
-      protocol = "UDP"
-    }
-
-    ports {
-      port     = 8080
-      protocol = "TCP"
-    }
-
-    ports {
-      port     = 8181
-      protocol = "TCP"
-    }
-
-    environment_variables = {
-
-    }
-
-    /*
-    readiness_probe {
-      http_get {
-        path   = "/ready"
-        port   = 8181
-        scheme = "Http"
-      }
-      failure_threshold     = 3
-      initial_delay_seconds = 0
-      period_seconds        = 10
-      success_threshold     = 1
-      timeout_seconds       = 1
-    }
-
-    liveness_probe {
-      http_get {
-        path   = "/health"
-        port   = 8080
-        scheme = "Http"
-      }
-      failure_threshold     = 5
-      initial_delay_seconds = 60
-      period_seconds        = 10
-      success_threshold     = 1
-      timeout_seconds       = 5
-    }
-*/
-
-    volume {
-      mount_path = "/app/conf"
-      name       = "dns-forwarder-conf"
-      read_only  = false
-      share_name = azurerm_storage_share.dns_forwarder.name
-
-      storage_account_key  = azurerm_storage_account.dns_forwarder.primary_access_key
-      storage_account_name = azurerm_storage_account.dns_forwarder.name
-    }
-
-  }
-
-
-  depends_on = [
-    null_resource.upload_corefile
-  ]
-
-  tags = var.tags
-}
-
-data "local_file" "corefile" {
-  filename = "${path.module}/dns/Corefile"
-}
-
-resource "null_resource" "upload_corefile" {
-
-  triggers = {
-    "changes-in-config" : md5(data.local_file.corefile.content)
-  }
-
-  provisioner "local-exec" {
-    command = <<EOT
-              az storage file upload \
-                --account-name ${azurerm_storage_account.dns_forwarder.name} \
-                --account-key ${azurerm_storage_account.dns_forwarder.primary_access_key} \
-                --share-name ${azurerm_storage_share.dns_forwarder.name} \
-                --source "${path.module}/dns/Corefile"
-          EOT
-  }
+  name                = "${local.project_pair}-${random_id.pair_dns_forwarder_hash.hex}-vpn-dnsfrw"
+  location            = var.location_pair
+  resource_group_name = azurerm_resource_group.rg_pair_vnet.name
+  subnet_id           = module.dns_forwarder_pair_subnet.id
+  tags                = var.tags
 }

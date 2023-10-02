@@ -1,0 +1,48 @@
+<policies>
+    <inbound>
+      <base />
+      <set-variable name="keyHash" value="@{
+                    System.Security.Cryptography.SHA256 hasher = System.Security.Cryptography.SHA256.Create();
+                    return BitConverter.ToString(hasher.ComputeHash(System.Text.Encoding.UTF8.GetBytes(context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key","")))).Replace("-", "").ToLowerInvariant();
+      }"/>
+      <set-variable name="containerName" value="@{return string.Format("{0}",
+            ((string)context.Request.MatchedParameters["fileName"]).Substring(7, 5));
+      }"/>
+      <set-variable name="senderCode" value="@((string)context.Variables["containerName"])"/>
+
+      <send-request mode="new" response-variable-name="authorization" timeout="60" ignore-error="true">
+          <set-url>@("${rtd-ingress}/rtdmssenderauth/authorize/" + (string)context.Variables["senderCode"])</set-url>
+          <set-method>GET</set-method>
+          <set-header name="internal-id" exists-action="override">
+              <value>@((string)context.Variables["keyHash"])</value>
+          </set-header>
+      </send-request>
+
+      <choose>
+        <when condition="@(((IResponse)context.Variables["authorization"]).StatusCode == 200)">
+            <rewrite-uri template="@((context.Variables["containerName"])+"/{fileName}")"/>
+
+            <authentication-managed-identity resource="https://storage.azure.com/" output-token-variable-name="msi-access-token" ignore-error="false" />
+            <set-header name="X-Ms-Version" exists-action="override">
+                <value>2019-12-12</value>
+            </set-header>
+            <set-header name="Authorization" exists-action="override">
+                <value>@("Bearer " + (string)context.Variables["msi-access-token"])</value>
+            </set-header>
+        </when>
+        <otherwise>
+            <return-response response-variable-name="authorization">
+            </return-response>
+        </otherwise>
+      </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+      <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

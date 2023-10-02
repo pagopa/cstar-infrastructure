@@ -236,114 +236,6 @@ configmaps_rtdtransactionfilter = {
   ACQ_BATCH_INPUT_CRON = "0 */2 * * * *"
 }
 
-configmaps_facustomer = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famscustomer"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_CUSTOMER                                  = "DEBUG"
-}
-
-configmaps_fatransaction = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famstransaction"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_TRANSACTION                               = "DEBUG"
-}
-
-configmaps_faenrollment = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsenrollment"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_ENROLLMENT                                = "DEBUG"
-  MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
-}
-
-configmaps_fapaymentinstrument = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famspaymentinstrument"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_PAYMENT_INSTRUMENT                        = "DEBUG"
-}
-
-configmaps_famerchant = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsmerchant"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_MERCHANT                                  = "DEBUG"
-}
-
-configmaps_faonboardingmerchant = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsonboardingmerchant"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_ONBOARDING_MERCHANT                       = "DEBUG"
-}
-
-configmaps_fainvoicemanager = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsinvoicemanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_INVOICE_MANAGER                           = "DEBUG"
-  MS_AGENZIA_ENTRATE_HOST                                = "cstariobackendtest"
-  MS_AGENZIA_ENTRATE_URL                                 = "http://cstariobackendtest:8080"
-  # the two rows below are ignored if MS_AGENZIA_ENTRATE_URL has already been set
-  MS_AGENZIA_ENTRATE_PORT   = ""
-  MS_AGENZIA_ENTRATE_SCHEMA = "https"
-}
-
-configmaps_fainvoiceprovider = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsinvoiceprovider"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_INVOICE_PROVIDER                          = "DEBUG"
-}
-
-configmaps_fatransactionerrormanager = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famstransactionerrormanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_TRANSACTION                               = "DEBUG"
-}
-
-configmaps_fanotificationmanager = {
-  JAVA_TOOL_OPTIONS                                      = "-Xms128m -Xmx2g -javaagent:/applicationinsights-agent.jar"
-  APPLICATIONINSIGHTS_ROLE_NAME                          = "famsnotificationmanager"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "OFF"
-  APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
-  POSTGRES_POOLSIZE                                      = "2"
-  POSTGRES_SHOW_SQL                                      = "true"
-  LOG_LEVEL_FA_NOTIFICATION_MANAGER                      = "DEBUG"
-  NOTIFICATION_SERVICE_TTL                               = "3600"
-  URL_BACKEND_IO                                         = "https://api.io.italia.it"
-}
-
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD     = true
   SPLITTER_LINE_THRESHOLD = 2000000
@@ -381,101 +273,15 @@ configmaps_rtdpieventprocessor = {
   KAFKA_RTD_SPLIT_PARTITION_COUNT                        = 1
 }
 
-autoscaling_specs = {
-
-  # map key must be the name of a deployment
-  bpdmscitizen = {
-
-    namespace = "bpd" # namespace of the deployment in the map key
-
-    max_replicas = 5
-    min_replicas = 1
-
-    # Support for multiple metrics per autoscaler
-    metrics = [
-      {
-        type = "Resource"
-        resource = {
-
-          name = "cpu"
-
-          target = {
-            type                = "Utilization"
-            average_utilization = 85
-          }
-        }
-      }
-    ]
-  }
-  bpdmscitizenbatch = {
-
-    namespace = "bpd"
-
-    max_replicas = 5
-    min_replicas = 1
-
-    metrics = [
-      {
-        type = "Resource"
-        resource = {
-
-          name = "cpu"
-
-          target = {
-            type                = "Utilization"
-            average_utilization = 85
-          }
-        }
-      }
-    ]
-  }
-}
+autoscaling_specs = {}
 
 secrets_to_be_read_from_kv = [
   "appinsights-instrumentation-key",
-  "db-administrator-login",
-  "db-bpd-login",
-  "db-bpd-user-password",
-  "db-fa-login",
-  "db-fa-user-password",
-  "db-rtd-login",
-  "db-rtd-user-password",
-  "evh-bpd-winner-outcome-award-winner-key",
-  "evh-bpd-citizen-trx-bpd-citizen-key",
-  "evh-bpd-citizen-trx-bpd-payment-instrument-key",
-  "evh-bpd-trx-bpd-citizen-key",
-  "evh-bpd-trx-bpd-payment-instrument-key",
-  "evh-bpd-trx-bpd-point-processor-key",
-  "evh-bpd-trx-cashback-bpd-point-processor-key",
-  "evh-bpd-trx-cashback-bpd-winning-transaction-key",
-  "evh-bpd-trx-error-bpd-payment-instrument-key",
-  "evh-bpd-trx-error-bpd-point-processor-key",
-  "evh-bpd-trx-error-bpd-transaction-error-manager-key",
-  "evh-bpd-winner-outcome-award-winner-key",
-  "evh-bpd-winner-outcome-award-winner-integration-key",
-  "evh-rtd-trx-bpd-payment-instrument-key",
-  "evh-rtd-trx-rtd-csv-connector-key",
-  "notification-sftp-private-key",
-  "notification-service-notify-winners-public-key",
-  "notification-sftp-password",
   "pagopa-checkiban-apikey",
   "storageaccount-cstarblob-key",
   "url-backend-io-token-value",
-  # FA
-  "evh-fa-trx-customer-fa-trx-customer-consumer-key-fa-01",
-  "evh-fa-trx-merchant-fa-trx-merchant-producer-key-fa-01",
   "evh-rtd-trx-rtd-trx-consumer-key",
-  "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
-  "evh-fa-trx-fa-trx-consumer-key-fa-01",
-  "evh-fa-trx-error-fa-trx-error-producer-key-fa-01",
-  "evh-fa-trx-merchant-fa-trx-merchant-consumer-key-fa-01",
-  "evh-fa-trx-fa-trx-producer-key-fa-01",
-  "evh-fa-trx-error-fa-trx-error-consumer-key-fa-01",
-  "evh-fa-trx-fa-trx-producer-key-fa-01",
-  "evh-fa-trx-customer-fa-trx-customer-producer-key-fa-01",
   "evh-rtd-trx-rtd-trx-producer-key",
-  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-consumer-key-fa-01",
-  "evh-fa-trx-payment-instrument-fa-trx-payment-instrument-producer-key-fa-01",
   "evh-rtd-platform-events-rtd-platform-events-sub-key",
   "rtdtransactionfilter-hpan-service-api-key",
   "rtdtransactionfilter-hpan-service-key-store-password",
@@ -516,7 +322,7 @@ enable = {
     enrolled_payment_instrument         = true
     mongodb_storage                     = true
   }
-  fa = {
-    api = true
+  bpd = {
+    api = false
   }
 }

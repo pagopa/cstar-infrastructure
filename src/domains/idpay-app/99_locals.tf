@@ -19,6 +19,7 @@ locals {
 
   apim_rg_name                  = "cstar-${var.env_short}-api-rg"
   apim_name                     = "cstar-${var.env_short}-apim"
+  apim_logger_id                = "${data.azurerm_api_management.apim_core.id}/loggers/${local.apim_name}-logger"
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
   # DOMAINS
@@ -49,5 +50,11 @@ locals {
     }
   }
 
-  domain_aks_hostname = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
+  domain_aks_hostname                      = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
+  rtd_domain_aks_hostname                  = var.env == "prod" ? "${var.instance}.rtd.internal.cstar.pagopa.it" : "${var.instance}.rtd.internal.${var.env}.cstar.pagopa.it"
+  rtd_ingress_load_balancer_hostname_https = "https://${local.rtd_domain_aks_hostname}"
+  initiative_storage_fqdn                  = "${module.idpay_initiative_storage.name}.blob.core.windows.net"
+  reward_storage_fqdn                      = "${module.idpay_refund_storage.name}.blob.core.windows.net"
+
+  ingress_load_balancer_https = "https://${var.ingress_load_balancer_hostname}"
 }

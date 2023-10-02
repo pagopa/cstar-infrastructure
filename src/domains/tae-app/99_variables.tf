@@ -187,3 +187,14 @@ variable "alerts_conf" {
     max_days_just_into_ade_in = 3
   }
 }
+
+variable "aks_cluster_domain_name" {
+  type        = string
+  description = "Name of the aks cluster domain. eg: dev01"
+}
+
+variable "tae_blob_storage" {
+  type = object({
+    enable = bool
+  })
+}

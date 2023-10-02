@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "sftp" {
 }
 
 module "sftp" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v4.3.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.17.0"
 
   name                = replace("${local.project}-sftp", "-", "")
   resource_group_name = azurerm_resource_group.sftp.name
@@ -18,8 +18,10 @@ module "sftp" {
   account_replication_type      = var.sftp_account_replication_type
   access_tier                   = "Hot"
   is_hns_enabled                = true
+  is_sftp_enabled               = true
   advanced_threat_protection    = true
   enable_low_availability_alert = false
+  public_network_access_enabled = true
 
   network_rules = {
     default_action             = var.sftp_disable_network_rules ? "Allow" : "Deny"
@@ -60,15 +62,9 @@ resource "azurerm_eventgrid_system_topic" "sftp" {
   location               = azurerm_resource_group.sftp.location
   source_arm_resource_id = module.sftp.id
   topic_type             = "Microsoft.Storage.StorageAccounts"
-}
 
-resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
-  name                 = "${local.project}-sftp-subscription"
-  system_topic         = azurerm_eventgrid_system_topic.sftp.name
-  resource_group_name  = azurerm_resource_group.sftp.name
-  eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub.id
-  subject_filter {
-    subject_begins_with = "/blobServices/default/containers/ade/blobs/"
+  identity {
+    type = "SystemAssigned"
   }
 }
 
@@ -104,4 +100,18 @@ resource "azurerm_role_assignment" "sftp_data_contributor_role" {
   depends_on = [
     module.sftp
   ]
+}
+
+resource "azurerm_storage_container" "consap" {
+  name                  = "consap"
+  storage_account_name  = module.sftp.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "consap_dirs" {
+  for_each               = toset(["Inbox"])
+  name                   = format("%s/.test", each.key)
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.consap.name
+  type                   = "Block"
 }

@@ -11,6 +11,7 @@ resource "kubernetes_config_map" "rtd-blob-storage-events-consumer" {
   data = {
     KAFKA_TOPIC_BLOB_STORAGE_EVENTS = "rtd-platform-events"
     KAFKA_BROKER                    = "${local.product}-evh-ns.servicebus.windows.net:9093"
+    KAFKA_BROKER_RTD                = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -23,6 +24,7 @@ resource "kubernetes_config_map" "rtd-trx-producer" {
 
   data = {
     KAFKA_TOPIC_RTD_TRX = "rtd-trx"
+    KAFKA_BROKER_RTD    = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
   }
 }
 
@@ -259,8 +261,44 @@ resource "kubernetes_config_map" "rtdpaymentinstrument" {
   data = merge({
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdpaymentinstrument"
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
-    KAFKA_TOPIC_MIGRATION_PI      = "migration-pi"
-    KAFKA_BROKER_PI               = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
     },
   var.configmaps_rtdpaymentinstrument)
+}
+
+#
+# RTD Exporter
+#
+resource "kubernetes_config_map" "rtdexporter" {
+  count = var.enable.exporter ? 1 : 0
+  metadata {
+    name      = "rtd-exporter"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdexporter"
+    MONGODB_NAME                  = "rtd"
+    CRON_EXPRESSION_BATCH         = "-"
+    READ_CHUNK_SIZE               = 10000
+    API_BLOB_BASE_URL             = replace("https://apim.internal.${var.env}.cstar.pagopa.it/storage", ".prod.", ".")
+    API_BLOB_CONTAINER_NAME       = "cstar-hashed-pans"
+    API_BLOB_CARD_FILENAME        = "hashedPansNew.zip"
+  }, var.configmaps_rtdexporter)
+}
+
+#
+# RTD Alternative Gateway
+#
+resource "kubernetes_config_map" "rtdalternativegateway" {
+  count = var.enable.alternative_gateway ? 1 : 0
+  metadata {
+    name      = "rtd-alternative-gateway"
+    namespace = var.domain
+  }
+
+  data = merge({
+    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
+    APPLICATIONINSIGHTS_ROLE_NAME = "rtdalternativegateway"
+  }, var.configmaps_rtdalternativegateway)
 }
