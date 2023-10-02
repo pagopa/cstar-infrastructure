@@ -224,7 +224,10 @@ module "backupstorage" {
   advanced_threat_protection      = true
   enable_low_availability_alert   = false
   public_network_access_enabled   = false
-  tags                            = var.tags
+
+  blob_delete_retention_days           = var.bkp_sa_soft_delete.blob
+  blob_container_delete_retention_days = var.bkp_sa_soft_delete.container
+  tags                                 = var.tags
 }
 
 resource "azurerm_private_endpoint" "backupstorage_private_endpoint" {
