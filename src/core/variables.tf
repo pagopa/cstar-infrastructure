@@ -899,3 +899,15 @@ variable "azdoa_agent_performance_vm_sku" {
   type        = string
   description = "Azure DevOps Agent performance VM SKU"
 }
+
+variable "bkp_sa_soft_delete" {
+  type = object({
+    blob      = number
+    container = number
+  })
+  default = {
+    blob      = 7
+    container = 7
+  }
+  description = "Set Retention Days of Deleted Blob and Containers on Backup Storage Account"
+}
