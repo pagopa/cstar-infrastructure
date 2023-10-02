@@ -70,6 +70,8 @@ module "aks" {
   ]
 
   alerts_enabled                                = var.aks_alerts_enabled
+  default_metric_alerts                         = null
+  custom_metric_alerts                          = null
   microsoft_defender_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_log_analytics_workspace.default[0].id : null
 
   outbound_ip_address_ids = azurerm_public_ip.aks_outbound.*.id
