@@ -72,8 +72,8 @@ selc_base_url = "https://api.uat.selfcare.pagopa.it"
 #
 # BE IO API
 #
-io_backend_base_url        = "https://api.io.italia.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
-io_manage_backend_base_url = "https://api.io.pagopa.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
+io_backend_base_url        = "https://api-io.uat.cstar.pagopa.it/idpay/mock" #"https://api.io.italia.it"
+io_manage_backend_base_url = "https://api.io.pagopa.it"                      #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
 
 #
 # ONE TRUST API
