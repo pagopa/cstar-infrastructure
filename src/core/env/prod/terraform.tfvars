@@ -688,3 +688,7 @@ azdoa_image_name               = "cstar-p-azdo-agent-ubuntu2204-image-v1"
 enable_azdoa_agent_performance = true
 azdoa_agent_performance_vm_sku = "Standard_B2s"
 
+bkp_sa_soft_delete = {
+  blob      = 7
+  container = 365
+}
