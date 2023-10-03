@@ -330,6 +330,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BRCODE
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string
@@ -505,6 +507,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BRCODE
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string

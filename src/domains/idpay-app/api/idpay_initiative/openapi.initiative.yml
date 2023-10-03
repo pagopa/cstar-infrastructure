@@ -3988,6 +3988,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BRCODE
         businessName:
           type: string
     InstrumentOperationDTO:
@@ -4130,6 +4132,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BRCODE
         businessName:
           type: string
     SuspendOperationDTO:
