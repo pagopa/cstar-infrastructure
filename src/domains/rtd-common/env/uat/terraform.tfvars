@@ -35,6 +35,7 @@ eventhub_rtd_namespace = {
   maximum_throughput_units = null
   auto_inflate_enabled     = false
   zone_redundant           = false
+  minimum_tls_version      = "1.2"
 }
 
 ### Eventhub Keyvault migration
