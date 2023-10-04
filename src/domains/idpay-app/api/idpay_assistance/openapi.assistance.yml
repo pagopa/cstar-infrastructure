@@ -2409,7 +2409,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED
@@ -3252,7 +3251,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED

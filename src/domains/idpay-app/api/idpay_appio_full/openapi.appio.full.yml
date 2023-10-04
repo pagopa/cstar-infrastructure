@@ -1906,7 +1906,6 @@ components:
             - UNSUBSCRIBED
             - INVITED
             - DEMANDED
-            - ELIGIBLE
             - SUSPENDED
           type: string
           description: >-
