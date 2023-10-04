@@ -92,7 +92,7 @@
 | <a name="input_enable"></a> [enable](#input\_enable) | n/a | <pre>object({<br>    enrolled_payment_instrument = bool<br>    payment_instrument          = bool<br>    rtd_df                      = bool<br><br>  })</pre> | <pre>{<br>  "enrolled_payment_instrument": false,<br>  "payment_instrument": false,<br>  "rtd_df": false<br>}</pre> | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
-| <a name="input_eventhub_rtd_namespace"></a> [eventhub\_rtd\_namespace](#input\_eventhub\_rtd\_namespace) | ## Eventhub | <pre>object({<br>    sku                      = string<br>    capacity                 = number<br>    maximum_throughput_units = number<br>    auto_inflate_enabled     = bool<br>    zone_redundant           = bool<br>  })</pre> | n/a | yes |
+| <a name="input_eventhub_rtd_namespace"></a> [eventhub\_rtd\_namespace](#input\_eventhub\_rtd\_namespace) | ## Eventhub | <pre>object({<br>    sku                      = string<br>    capacity                 = number<br>    maximum_throughput_units = number<br>    auto_inflate_enabled     = bool<br>    zone_redundant           = bool<br>    minimum_tls_version      = string<br>  })</pre> | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `"pagopa.it"` | no |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
