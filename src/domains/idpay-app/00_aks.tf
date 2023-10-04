@@ -10,8 +10,8 @@ data "azurerm_resources" "aks_mc_rg" {
 locals {
   aks_vmss_ids = {
     for pool in data.azurerm_resources.aks_mc_rg.resources :
-      pool.id => pool.name if can(index(split("/", pool.id), "virtualMachineScaleSets"))
-    }
+    pool.id => pool.name if can(index(split("/", pool.id), "virtualMachineScaleSets"))
+  }
 
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
 }
