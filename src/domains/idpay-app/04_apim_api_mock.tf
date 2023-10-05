@@ -197,7 +197,7 @@ resource "azurerm_api_management_api_operation" "idpay_mock_upload_service_logo"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock BE IO upload services logo"
-  method              = "POST"
+  method              = "PUT"
   url_template        = "/api/v1/manage/services/{serviceId}/logo"
   description         = "Endpoint for mock BE IO upload service logo"
   template_parameter {
