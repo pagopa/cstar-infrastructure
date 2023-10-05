@@ -124,6 +124,7 @@ variable "eventhub_rtd_namespace" {
     maximum_throughput_units = number
     auto_inflate_enabled     = bool
     zone_redundant           = bool
+    minimum_tls_version      = string
   })
 }
 
