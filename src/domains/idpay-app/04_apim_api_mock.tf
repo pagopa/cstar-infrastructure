@@ -237,7 +237,7 @@ resource "azurerm_api_management_api_operation" "idpay_mock_retrieve_service_tok
   }
 }
 
-resource "azurerm_api_management_api_operation_policy" "idpay_mock_retrieve_service_token" {
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_retrieve_service_token_policy" {
   api_name            = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.api_name
   api_management_name = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.api_management_name
   resource_group_name = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.resource_group_name
