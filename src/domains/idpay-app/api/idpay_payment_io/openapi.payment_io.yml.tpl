@@ -45,7 +45,7 @@ paths:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_NOT_FOUND_EXPIRED
-                message: Cannot find transaction with trxCode [trxCode]
+                message: 'Cannot find transaction with trxCode [trxCode]'
 components:
   schemas:
     TransactionErrorDTO:
