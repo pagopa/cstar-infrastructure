@@ -331,7 +331,7 @@ components:
             - RTD
             - QRCODE
             - IDPAYCODE
-            - BRCODE
+            - BARCODE
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string
@@ -508,7 +508,7 @@ components:
             - RTD
             - QRCODE
             - IDPAYCODE
-            - BRCODE
+            - BARCODE
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string

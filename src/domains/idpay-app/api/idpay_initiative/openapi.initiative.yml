@@ -3988,7 +3988,7 @@ components:
             - RTD
             - QRCODE
             - IDPAYCODE
-            - BRCODE
+            - BARCODE
         businessName:
           type: string
     InstrumentOperationDTO:
@@ -4132,7 +4132,7 @@ components:
             - RTD
             - QRCODE
             - IDPAYCODE
-            - BRCODE
+            - BARCODE
         businessName:
           type: string
     SuspendOperationDTO:

@@ -1797,6 +1797,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+  /payment/bar-code:
+    post:
+      tags:
+        - payment
+      summary: Create a transaction
+      operationId: createBarCodeTransaction
+      requestBody:
+        description: 'ENG: Id of the iniziative - IT: Identificativo dell''iniziativa'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionBarCodeRequest'
+            example:
+              initiativeId: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionBarCodeResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_REQUEST_NOT_VALID"
+                message: "Required initiativeId is not present"
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_FOUND_EXPIRED"
+                message: "Cannot find transaction with trxCode [trxCode]"
 components:
   schemas:
     IbanDTO:
@@ -2367,7 +2407,7 @@ components:
             - RTD
             - QRCODE
             - IDPAYCODE
-            - BRCODE
+            - BARCODE
           description: >-
             ENG: Channel from which the transaction takes place - IT: Canale da
             cui avviene la transazione
@@ -2561,7 +2601,7 @@ components:
             - RTD
             - QRCODE
             - IDPAYCODE
-            - BRCODE
+            - BARCODE
           description: >-
             ENG: Channel from which the transaction takes place - IT: Canale da
             cui avviene la transazione
@@ -3150,6 +3190,38 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    TransactionBarCodeRequest:
+      type: object
+      required:
+        - initiativeId
+      properties:
+        initiativeId:
+          type: string
+          description: 'ENG: Initiative ID - IT: Identificativo dell''iniziativa'
+    TransactionBarCodeResponse:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - trxDate
+        - status
+      properties:
+        id:
+          type: string
+        trxCode:
+          type: string
+        initiativeId:
+          type: string
+        trxDate:
+          type: string
+          format: date-time
+        trxExpirationMinutes:
+          type: number
+        status:
+          type: string
+          enum:
+            - CREATED
   securitySchemes:
     bearerAuth:
       type: http
