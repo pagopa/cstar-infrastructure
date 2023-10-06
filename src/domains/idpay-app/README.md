@@ -73,6 +73,7 @@
 | [azurerm_api_management_api_operation.idpay_mock_delete_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_notificator_messages](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_notificator_profiles](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
+| [azurerm_api_management_api_operation.idpay_mock_retrieve_service_token](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_tos_version](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_update_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_upload_service_logo](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
@@ -83,6 +84,7 @@
 | [azurerm_api_management_api_operation_policy.idpay_mock_delete_service_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_notificator_messages_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_notificator_profiles_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
+| [azurerm_api_management_api_operation_policy.idpay_mock_retrieve_service_token_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_tos_version_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_update_service_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_upload_service_logo_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
@@ -219,7 +221,6 @@
 | <a name="input_ingress_load_balancer_hostname"></a> [ingress\_load\_balancer\_hostname](#input\_ingress\_load\_balancer\_hostname) | n/a | `string` | n/a | yes |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
-| <a name="input_io_backend_base_url"></a> [io\_backend\_base\_url](#input\_io\_backend\_base\_url) | BE IO backend url | `string` | n/a | yes |
 | <a name="input_io_manage_backend_base_url"></a> [io\_manage\_backend\_base\_url](#input\_io\_manage\_backend\_base\_url) | BE IO manage backend url | `string` | n/a | yes |
 | <a name="input_k8s_kube_config_path_prefix"></a> [k8s\_kube\_config\_path\_prefix](#input\_k8s\_kube\_config\_path\_prefix) | n/a | `string` | `"~/.kube"` | no |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
