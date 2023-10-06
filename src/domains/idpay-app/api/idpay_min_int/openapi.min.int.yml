@@ -6,12 +6,12 @@ info:
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/minint/payment
 paths:
-  '/{transactionId}/idpay-code/user':
+  '/{transactionId}/user':
     put:
       tags:
         - payment
-      summary: 'ENG: Pre Authorize payment with IDPay Code - IT: Preautorizzazione pagamento tramite IDPay Code'
-      operationId: putPreAuthPaymentWithIDPayCode
+      summary: 'ENG: Pre Authorize payment - IT: Preautorizzazione pagamento'
+      operationId: putPreAuthPayment
       parameters:
         - name: transactionId
           in: path
