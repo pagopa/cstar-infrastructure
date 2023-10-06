@@ -1,0 +1,131 @@
+openapi: 3.0.1
+info:
+  title: IDPAY MIN INT API
+  description: IDPAY MIN INT
+  version: '1.0.1'
+servers:
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/minint/payment
+paths:
+  '/{transactionId}/idpay-code/user':
+    put:
+      tags:
+        - payment
+      summary: 'ENG: Pre Authorize payment with IDPay Code - IT: Preautorizzazione pagamento tramite IDPay Code'
+      operationId: putPreAuthPaymentWithIDPayCode
+      parameters:
+        - name: transactionId
+          in: path
+          description: 'ENG: The transaction''s id - IT: Id della transazione'
+          required: true
+          schema:
+            type: string
+        - name: Fiscal-Code
+          in: header
+          description: 'ENG: Fiscal code of citizen - IT: Codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreAuthResponseDTO'
+        '400':
+          description: Transaction is not CREATED or IDENTIFIED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Transaction is associated to another user, or transaction rejected'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+components:
+  schemas:
+    PreAuthResponseDTO:
+      type: object
+      required:
+        - id
+        - status
+      properties:
+        id:
+          type: string
+          description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IDENTIFIED
+          description: >-
+            ENG: Status of the payment [CREATED: Created, IDENTIFIED: User
+            related] - IT: Stato del pagamento [CREATED:
+            Creato, IDENTIFIED: Utente associato]
+    TransactionErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - PAYMENT_NOT_FOUND_EXPIRED
+            - PAYMENT_USER_NOT_VALID
+            - PAYMENT_STATUS_NOT_VALID
+            - PAYMENT_ALREADY_AUTHORIZED
+            - PAYMENT_BUDGET_EXHAUSTED
+            - PAYMENT_GENERIC_REJECTED
+            - PAYMENT_TOO_MANY_REQUESTS
+            - PAYMENT_GENERIC_ERROR
+            - PAYMENT_USER_SUSPENDED
+          description: >-
+            "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
+            or expired, PAYMENT_USER_NOT_VALID: user not valid,
+            PAYMENT_STATUS_NOT_VALID: status not valid,
+            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
+            PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
+            PAYMENT_GENERIC_REJECTED: generic rejected error,
+            PAYMENT_TOO_MANY_REQUESTS: too many request, PAYMENT_GENERIC_ERROR:
+            generic error, PAYMENT_USER_SUSPENDED: the user has been suspended
+            on the initiative - IT: Codice di errore PAYMENT_NOT_FOUND_EXPIRED:
+            transazione non trovata oppure caducata, PAYMENT_USER_NOT_VALID:
+            utente no valido, PAYMENT_STATUS_NOT_VALID: stato non valido,
+            PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
+            PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
+            errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
+            richieste, PAYMENT_GENERIC_ERROR: errore generico,
+            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+security:
+  - Bearer: []
