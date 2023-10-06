@@ -11,7 +11,9 @@ info:
 
     IDPAY Wallet IO
 
-    IDPAY Payment CIT
+    IDPAY Payment QRCODE IO
+
+    IDPAY Payment IO
 servers:
   - url: 'https://api-io.dev.cstar.pagopa.it/idpay'
 security:

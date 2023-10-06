@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment CIT API
-  description: IDPAY Payment CIT
+  title: IDPAY Payment QRCODE IO
+  description: IDPAY Payment QRCODE IO
   version: '1.0'
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/payment/qr-code

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Payment API
-  description: IDPAY Payment
+  title: IDPAY Payment IO
+  description: IDPAY Payment IO
   version: '1.0'
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/payment
