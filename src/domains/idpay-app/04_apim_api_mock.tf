@@ -79,14 +79,9 @@ resource "azurerm_api_management_api_operation" "idpay_mock_notificator_profiles
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock notificator profiles"
-  method              = "GET"
-  url_template        = "/api/v1/profiles/{fiscal_code}"
+  method              = "POST"
+  url_template        = "/api/v1/profiles"
   description         = "Endpoint for mock notificator profiles api"
-  template_parameter {
-    name     = "fiscal_code"
-    type     = "string"
-    required = true
-  }
 }
 
 resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_profiles_policy" {
