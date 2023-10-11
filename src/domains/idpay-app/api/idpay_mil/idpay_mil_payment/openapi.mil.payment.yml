@@ -25,12 +25,6 @@ paths:
             type: string
             example: acquirer-id
           required: true
-        - name: x-apim-request-id
-          in: header
-          schema:
-            type: string
-            example: idTrxIssuer
-          required: true
       requestBody:
         description: General information about Transaction
         content:
