@@ -69,7 +69,7 @@ module "idpay_mil" {
 module "idpay_mil_payment" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
-  name                = "${var.env_short}-idpay-mil"
+  name                = "${var.env_short}-idpay-mil-payment"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -81,7 +81,7 @@ module "idpay_mil_payment" {
   service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_mil_payment/openapi.mil.payment.yml")
+  content_value  = file("./api/idpay_mil/idpay_mil_payment/openapi.mil.payment.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -94,7 +94,7 @@ module "idpay_mil_payment" {
 module "idpay_mil_merchant" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
 
-  name                = "${var.env_short}-idpay-mil"
+  name                = "${var.env_short}-idpay-mil-merchant"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -106,7 +106,7 @@ module "idpay_mil_merchant" {
   service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/merchant"
 
   content_format = "openapi"
-  content_value  = file("./api/idpay_mil_merchant/openapi.mil.merchant.yml")
+  content_value  = file("./api/idpay_mil/idpay_mil_merchant/openapi.mil.merchant.yml")
 
   xml_content = file("./api/base_policy.xml")
 
@@ -117,14 +117,14 @@ module "idpay_mil_merchant" {
     {
       operation_id = "getMerchantInitiativeList"
 
-      xml_content = templatefile("./api/idpay_mil_merchant/get-merchant-initiatives-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_merchant/get-merchant-initiatives-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
       operation_id = "uploadMerchantList"
 
-      xml_content = templatefile("./api/idpay_mil_merchant/put-merchant-upload-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_merchant/put-merchant-upload-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
