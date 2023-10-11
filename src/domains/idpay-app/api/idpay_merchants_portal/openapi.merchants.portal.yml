@@ -255,7 +255,7 @@ paths:
       tags:
         - merchant-transactions
       summary: 'ENG: Authorize payment - IT: Autorizzazione pagamento'
-      operationId: AuthPaymentBarCode
+      operationId: authPaymentBarCode
       parameters:
         - name: trxCode
           in: path
