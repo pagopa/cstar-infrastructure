@@ -18,8 +18,13 @@
                 <value>application/json</value>
             </set-header>
             <set-body>@{
-                return new JObject(
-                    new JProperty("sender_allowed", "true")
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            string primaryKey = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
+            string secondaryKey = new string(Enumerable.Repeat(chars, 26).Select(s => s[random.Next(s.Length)]).ToArray());
+            return new JObject(
+                    new JProperty("primary_key", "MOCK"+"${env}"+primaryKey),
+                    new JProperty("secondary_key", "MOCK"+"${env}"+secondaryKey)
             ).ToString();
           }</set-body>
         </return-response>

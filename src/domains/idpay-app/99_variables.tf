@@ -172,11 +172,6 @@ variable "one_trust_privacynotice_base_url" {
   description = "OneTrust PrivacyNotice Base Url"
 }
 
-variable "io_backend_base_url" {
-  type        = string
-  description = "BE IO backend url"
-}
-
 variable "io_manage_backend_base_url" {
   type        = string
   description = "BE IO manage backend url"

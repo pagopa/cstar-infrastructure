@@ -13,7 +13,7 @@
 <policies>
     <inbound>
         <return-response>
-            <set-status code="200" reason="OK" />
+            <set-status code="204" reason="OK" />
             <set-header name="Content-Type" exists-action="override">
                 <value>application/json</value>
             </set-header>
