@@ -78,7 +78,7 @@ module "idpay_mil_payment" {
   path         = "idpay/mil/payment"
   protocols    = ["https"]
 
-  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment"
+  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/mil/payment"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_mil/idpay_mil_payment/openapi.mil.payment.yml")
@@ -87,6 +87,16 @@ module "idpay_mil_payment" {
 
   product_ids           = [module.idpay_api_mil_product.product_id]
   subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "createGenericTransaction"
+
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/post-create-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
 
 }
 
