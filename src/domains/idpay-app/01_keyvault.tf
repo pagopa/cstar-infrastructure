@@ -42,3 +42,45 @@ data "azurerm_key_vault_secret" "alert-slack-idpay" {
   name         = "alert-idpay-notification-slack"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+resource "azurerm_key_vault_key" "idpay-mil-key" {
+  name         = "idpay-mil-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  key_type     = "RSA"
+  key_size     = 2048
+  key_opts = [
+    "decrypt",
+    "encrypt"
+  ]
+}
+
+resource "azurerm_key_vault_key" "idpay-pinblock-key" {
+  name         = "idpay-pinblock-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  key_type     = "RSA"
+  key_size     = 2048
+  key_opts = [
+    "decrypt",
+    "encrypt"
+  ]
+}
+
+resource "azurerm_key_vault_secret" "idpay-mil-key-secret" {
+  name         = "idpay-mil-key-secret"
+  value        = azurerm_key_vault_key.idpay-mil-key.public_key_pem
+  content_type = "text/plain"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+resource "azurerm_api_management_named_value" "idpay-mil-named-value" {
+
+  name                = format("%s-idpay-mil-named-value", var.env_short)
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  display_name = "idpay-mil-named-value"
+  secret       = true
+  value_from_key_vault {
+    secret_id = azurerm_key_vault_secret.idpay-mil-key-secret.versionless_id
+  }
+
+}
