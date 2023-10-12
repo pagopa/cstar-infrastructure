@@ -46,4 +46,13 @@ module "idpay_min_int" {
   product_ids           = [module.idpay_api_min_int_product.product_id]
   subscription_required = true
 
+  api_operation_policies = [
+    {
+      operation_id = "putAssociateUserTrx"
+
+      xml_content = templatefile("./api/idpay_min_int/put-associate-user-trx-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
 }

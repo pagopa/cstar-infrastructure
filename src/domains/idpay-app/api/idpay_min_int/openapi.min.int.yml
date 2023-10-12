@@ -10,8 +10,8 @@ paths:
     put:
       tags:
         - payment
-      summary: 'ENG: Pre Authorize payment - IT: Preautorizzazione pagamento'
-      operationId: putPreAuthPayment
+      summary: 'ENG: Associates payment and user - IT: Associazione pagamento a utente'
+      operationId: putAssociateUserTrx
       parameters:
         - name: transactionId
           in: path
@@ -31,7 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PreAuthResponseDTO'
+                $ref: '#/components/schemas/putAssociateUserTrxDTO'
         '400':
           description: Transaction is not CREATED or IDENTIFIED
           content:
@@ -66,7 +66,7 @@ paths:
                 $ref: '#/components/schemas/TransactionErrorDTO'
 components:
   schemas:
-    PreAuthResponseDTO:
+    putAssociateUserTrxDTO:
       type: object
       required:
         - id
