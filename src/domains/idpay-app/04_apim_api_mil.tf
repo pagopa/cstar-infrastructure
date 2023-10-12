@@ -95,6 +95,14 @@ module "idpay_mil_payment" {
       xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/post-create-transaction-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getPublicKey"
+
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/get-public-key-policy.xml.tpl", {
+        idpay-mil-key = "idpay-mil-key" // TODO use azurerm_key_vault_key.idpay-mil-key.name once IDP-1914 will be approved
+        keyvault-name = data.azurerm_key_vault.kv.name
+      })
     }
   ]
 

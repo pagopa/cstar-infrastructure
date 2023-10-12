@@ -187,6 +187,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+  '/publickey':
+    get:
+      tags:
+        - payment
+      summary: 'ENG: IdPay public key - IT: Chiave pubblica IdPay'
+      operationId: getPublicKey
+      parameters:
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyDTO'
+        '401':
+          description: Token not validated correctly
 components:
   schemas:
     InitiativeDTO:
@@ -584,6 +606,39 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    PublicKeyDTO:
+      type: object
+      required:
+        - kid
+        - kty
+        - key_ops
+        - n
+        - e
+        - iat
+      properties:
+        kid:
+          type: string
+          description: 'ENG: Key identifier.'
+        kty:
+          type: string
+          description: 'ENG: JsonWebKey Key Type (RSA)'
+        key_ops:
+          type: array
+          items:
+            type: string
+          description: 'ENG: Supported key operations (encrypt, decrypt).'
+        n:
+          type: string
+          description: 'ENG: RSA modulus.'
+        e:
+          type: string
+          description: 'ENG: RSA public exponent.'
+        iat:
+          type: number
+          description: 'ENG: Creation time in UTC.'
+        exp:
+          type: number
+          description: 'ENG: Expiry date in UTC.'
   securitySchemes:
     Bearer:
       type: apiKey
