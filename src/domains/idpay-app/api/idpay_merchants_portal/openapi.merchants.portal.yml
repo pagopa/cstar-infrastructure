@@ -716,6 +716,7 @@ components:
             - PAYMENT_TOO_MANY_REQUESTS
             - PAYMENT_GENERIC_ERROR
             - PAYMENT_USER_SUSPENDED
+            - PAYMENT_MERCHANT_NOT_FOUND
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
             or expired, PAYMENT_USER_NOT_VALID: user not valid,
@@ -732,7 +733,8 @@ components:
             PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
             errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
             richieste, PAYMENT_GENERIC_ERROR: errore generico,
-            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa"
+            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa,
+            PAYMENT_MERCHANT_NOT_FOUND: il merchant non è stato trovato"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'

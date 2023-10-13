@@ -37,6 +37,15 @@ paths:
               example:
                 code: PAYMENT_REQUEST_NOT_VALID
                 message: Required initiativeId is not present
+        '403':
+          description: User not onboarded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_USER_NOT_ONBOARDED
+                message: User not onboarded
         '404':
           description: Transaction not found
           content:
@@ -66,6 +75,7 @@ components:
             - PAYMENT_TOO_MANY_REQUESTS
             - PAYMENT_GENERIC_ERROR
             - PAYMENT_USER_SUSPENDED
+            - PAYMENT_USER_NOT_ONBOARDED
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
             or expired, PAYMENT_USER_NOT_VALID: user not valid,
@@ -82,7 +92,8 @@ components:
             PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
             errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
             richieste, PAYMENT_GENERIC_ERROR: errore generico,
-            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa"
+            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa,
+            PAYMENT_USER_NOT_ONBOARDED: l'utente non è iscritto all'iniziativa"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
