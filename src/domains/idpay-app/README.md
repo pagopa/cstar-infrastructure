@@ -25,6 +25,7 @@
 | <a name="module_idpay_api_issuer_product"></a> [idpay\_api\_issuer\_product](#module\_idpay\_api\_issuer\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_merchant_mock_product"></a> [idpay\_api\_merchant\_mock\_product](#module\_idpay\_api\_merchant\_mock\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_mil_product"></a> [idpay\_api\_mil\_product](#module\_idpay\_api\_mil\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
+| <a name="module_idpay_api_min_int_product"></a> [idpay\_api\_min\_int\_product](#module\_idpay\_api\_min\_int\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_mock_product"></a> [idpay\_api\_mock\_product](#module\_idpay\_api\_mock\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_portal_merchants_product"></a> [idpay\_api\_portal\_merchants\_product](#module\_idpay\_api\_portal\_merchants\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_portal_product"></a> [idpay\_api\_portal\_product](#module\_idpay\_api\_portal\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
@@ -41,6 +42,7 @@
 | <a name="module_idpay_mil"></a> [idpay\_mil](#module\_idpay\_mil) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_mil_merchant"></a> [idpay\_mil\_merchant](#module\_idpay\_mil\_merchant) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_mil_payment"></a> [idpay\_mil\_payment](#module\_idpay\_mil\_payment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
+| <a name="module_idpay_min_int"></a> [idpay\_min\_int](#module\_idpay\_min\_int) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_notification_email_api"></a> [idpay\_notification\_email\_api](#module\_idpay\_notification\_email\_api) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_onboarding_workflow_io"></a> [idpay\_onboarding\_workflow\_io](#module\_idpay\_onboarding\_workflow\_io) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_onboarding_workflow_issuer"></a> [idpay\_onboarding\_workflow\_issuer](#module\_idpay\_onboarding\_workflow\_issuer) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
@@ -103,6 +105,8 @@
 | [azurerm_key_vault_access_policy.apim](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_certificate.idpay_jwt_signing_cert](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_certificate.idpay_merchants_jwt_signing_cert](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_certificate) | resource |
+| [azurerm_key_vault_key.idpay-mil-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_key) | resource |
+| [azurerm_key_vault_key.idpay-pinblock-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_key) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.appinsights-instrumentation-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
