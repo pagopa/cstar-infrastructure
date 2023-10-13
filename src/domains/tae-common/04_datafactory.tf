@@ -105,8 +105,8 @@ resource "azurerm_kusto_database_principal_assignment" "df_as_ingestor" {
 
   count = var.dexp_db.enable ? 1 : 0
 
-  name                = "tae-df-as-ingestor"
-  
+  name = "tae-df-as-ingestor"
+
   resource_group_name = var.monitor_resource_group_name
   cluster_name        = data.azurerm_kusto_cluster.dexp_cluster[count.index].name
   database_name       = azurerm_kusto_database.database[count.index].name
