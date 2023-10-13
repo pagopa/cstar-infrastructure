@@ -169,6 +169,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_PINBLOCK"
+                message: ""
+
         '404':
           description: Transaction does not exist or is expired
           content:
@@ -468,9 +472,13 @@ components:
         id:
           type: string
           description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
+          example:
+            "1eec4867-0668-4029-9279-b60956889664_1697186296923"
         trxCode:
           type: string
-          description: 'ENG: Transaction code - IT: Codice della transazione'
+          description: 'ENG: Transaction code (8 alphanumeric character) - IT: Codice della  transazione (8 caratteri alfanumerici)'
+          example:
+            "s3bu7fnl"
         trxDate:
           type: string
           format: date-time
@@ -507,6 +515,9 @@ components:
           description: 'ENG: Residual budget - IT: Budget residuo'
         secondFactor:
           type: string
+          example:
+            00006fbdd98ab6dd
+          description: 'ENG: second factor (16 alphanumeric character) - IT: second factor (16 caratteri alfanumerici)'
     AuthPaymentResponseDTO:
       type: object
       required:
@@ -586,6 +597,7 @@ components:
             - PAYMENT_TOO_MANY_REQUESTS
             - PAYMENT_GENERIC_ERROR
             - PAYMENT_USER_SUSPENDED
+            - PAYMENT_INVALID_PINBLOCK
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
             or expired, PAYMENT_USER_NOT_VALID: user not valid,
