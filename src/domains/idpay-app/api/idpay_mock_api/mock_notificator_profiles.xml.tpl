@@ -19,7 +19,7 @@
             </set-header>
             <set-body>@{
                 return new JObject(
-                    new JProperty("senderAllowed", "true")
+                    new JProperty("sender_allowed", "true")
             ).ToString();
           }</set-body>
         </return-response>
