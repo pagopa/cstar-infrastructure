@@ -100,7 +100,7 @@ module "idpay_mil_payment" {
       operation_id = "getPublicKey"
 
       xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/get-public-key-policy.xml.tpl", {
-        idpay-mil-key = "idpay-mil-key" // TODO use azurerm_key_vault_key.idpay-mil-key.name once IDP-1914 will be approved
+        idpay-mil-key = azurerm_key_vault_key.idpay-mil-key.name
         keyvault-name = data.azurerm_key_vault.kv.name
       })
     }
