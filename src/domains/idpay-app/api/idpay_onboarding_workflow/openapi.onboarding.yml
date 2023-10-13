@@ -442,7 +442,6 @@ components:
             - UNSUBSCRIBED
             - INVITED
             - DEMANDED
-            - ELIGIBLE
             - SUSPENDED
           type: string
           description: "ENG: Actual status of the citizen onboarding for an initiative - IT: Stato attuale del cittadino rispetto ad un'iniziativa"
