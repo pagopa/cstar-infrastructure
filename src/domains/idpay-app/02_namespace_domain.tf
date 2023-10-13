@@ -16,6 +16,7 @@ module "domain_pod_identity" {
   namespace     = kubernetes_namespace.domain_namespace.metadata[0].name
   key_vault_id  = data.azurerm_key_vault.kv.id
 
+  key_permissions    = ["Get", "Decrypt"]
   secret_permissions = ["Get"]
 }
 
