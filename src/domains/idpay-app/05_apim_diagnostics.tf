@@ -18,7 +18,8 @@ locals {
     module.idpay_qr_code_payment_acquirer.name,
     module.idpay_qr_code_payment_io.name,
     module.idpay_payment_io.name,
-    module.idpay_mil.name
+    module.idpay_mil.name,
+    module.idpay_min_int.name
   ]
 }
 
