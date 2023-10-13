@@ -3505,7 +3505,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED
@@ -3988,6 +3987,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BARCODE
         businessName:
           type: string
     InstrumentOperationDTO:
@@ -4130,6 +4131,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BARCODE
         businessName:
           type: string
     SuspendOperationDTO:
@@ -4223,7 +4226,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED
@@ -4308,7 +4310,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED

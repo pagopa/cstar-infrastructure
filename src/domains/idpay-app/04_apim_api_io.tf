@@ -357,7 +357,7 @@ module "idpay_payment_io" {
   service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/idpay_payment/openapi.payment.yml.tpl", {})
+  content_value  = templatefile("./api/idpay_payment_io/openapi.payment_io.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 

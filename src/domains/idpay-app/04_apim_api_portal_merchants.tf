@@ -189,6 +189,13 @@ module "idpay_merchants_portal" {
       xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "authPaymentBarCode"
+
+      xml_content = templatefile("./api/idpay_merchants_portal/put-bar-code-authorize-merchant-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 

@@ -47,6 +47,15 @@
       "description": {
         "append": true
       }
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_payment_io/openapi.payment_io.yml.tpl",
+      "pathModification": {
+        "prepend": "/payment"
+      },
+      "description": {
+        "append": true
+      }
     }
   ],
   "output": "../../src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml"
