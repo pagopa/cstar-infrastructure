@@ -1,0 +1,660 @@
+openapi: 3.0.1
+info:
+  title: IDPAY MIL PAYMENT API
+  description: IDPAY MIL PAYMENT API
+  version: '1.0.1'
+servers:
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/mil/payment
+paths:
+  /:
+    post:
+      tags:
+        - payment
+      summary: Create a transaction
+      operationId: createGenericTransaction
+      parameters:
+        - name: x-merchant-fiscalcode
+          in: header
+          schema:
+            type: string
+            example: merchant-fiscalcode
+          required: true
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+      requestBody:
+        description: General information about Transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionCreationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionGenericResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: "INVALID_REQUEST"
+                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  '/idpay-code/{transactionId}/preview':
+    put:
+      tags:
+        - payment
+      summary: 'ENG: Pre Authorize payment Preview - IT: Preautorizzazione pagamento'
+      operationId: putPreviewPreAuthPayment
+      parameters:
+        - name: transactionId
+          in: path
+          description: 'ENG: The transaction''s id - IT: Id della transazione'
+          required: true
+          schema:
+            type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+        - name: x-merchant-fiscalcode
+          in: header
+          schema:
+            type: string
+            example: merchant-fiscalcode
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreAuthPaymentResponseDTO'
+        '400':
+          description: Transaction is not CREATED or IDENTIFIED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Transaction is associated to another user, or transaction rejected'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+  '/idpay-code/{transactionId}/authorize':
+    put:
+      tags:
+        - payment
+      summary: 'ENG: Authorize payment - IT: Autorizzazione pagamento'
+      operationId: putAuthPayment
+      parameters:
+        - name: transactionId
+          in: path
+          description: 'ENG: The transaction''s id - IT: Id della transazione'
+          required: true
+          schema:
+            type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+        - name: x-merchant-fiscalcode
+          in: header
+          schema:
+            type: string
+            example: merchant-fiscalcode
+          required: true
+      requestBody:
+        description: PinBlock
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PinBlockDTO'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthPaymentResponseDTO'
+        '400':
+          description: Transaction is not IDENTIFIED or AUTHORIZE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Transaction is associated to another user, or transaction rejected'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_PINBLOCK"
+                message: ""
+
+        '404':
+          description: Transaction does not exist or is expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+  '/publickey':
+    get:
+      tags:
+        - payment
+      summary: 'ENG: IdPay public key - IT: Chiave pubblica IdPay'
+      operationId: getPublicKey
+      parameters:
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeyDTO'
+        '401':
+          description: Token not validated correctly
+components:
+  schemas:
+    InitiativeDTO:
+      type: object
+      required:
+        - initiativeId
+        - initiativeName
+        - organizationName
+        - status
+        - startDate
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        organizationName:
+          type: string
+        status:
+          type: string
+          enum:
+            - PUBLISHED
+            - CLOSED
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        serviceId:
+          type: string
+        enabled:
+          type: boolean
+    TransactionCreationRequest:
+      type: object
+      required:
+        - initiativeId
+        - amountCents
+        - idTrxAcquirer
+      properties:
+        initiativeId:
+          type: string
+        amountCents:
+          type: integer
+          format: int64
+        mcc:
+          type: string
+        idTrxAcquirer:
+          type: string
+    TransactionResponse:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - merchantId
+        - idTrxAcquirer
+        - trxDate
+        - amountCents
+        - amountCurrency
+        - acquirerId
+        - status
+        - qrCodePngUrl
+        - qrCodeTxtUrl
+      properties:
+        id:
+          type: string
+        trxCode:
+          type: string
+        initiativeId:
+          type: string
+        merchantId:
+          type: string
+        idTrxAcquirer:
+          type: string
+        trxDate:
+          type: string
+          format: date-time
+        trxExpirationMinutes:
+          type: number
+        amountCents:
+          type: integer
+          format: int64
+        amountCurrency:
+          type: string
+        mcc:
+          type: string
+        acquirerId:
+          type: string
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REWARDED
+            - REJECTED
+        merchantFiscalCode:
+          type: string
+        vat:
+          type: string
+        splitPayment:
+          type: boolean
+        residualAmountCents:
+          type: integer
+          format: int64
+        qrCodePngUrl:
+          type: string
+        qrCodeTxtUrl:
+          type: string
+    TransactionGenericResponse:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - merchantId
+        - idTrxAcquirer
+        - trxDate
+        - amountCents
+        - amountCurrency
+        - acquirerId
+        - status
+      properties:
+        id:
+          type: string
+        trxCode:
+          type: string
+        initiativeId:
+          type: string
+        merchantId:
+          type: string
+        idTrxAcquirer:
+          type: string
+        trxDate:
+          type: string
+          format: date-time
+        trxExpirationMinutes:
+          type: number
+        amountCents:
+          type: integer
+          format: int64
+        amountCurrency:
+          type: string
+        mcc:
+          type: string
+        acquirerId:
+          type: string
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+            - REWARDED
+            - REJECTED
+        merchantFiscalCode:
+          type: string
+        vat:
+          type: string
+        splitPayment:
+          type: boolean
+        residualAmountCents:
+          type: integer
+          format: int64
+        trxPngUrl:
+          type: string
+        trxTxtUrl:
+          type: string
+    SyncTrxStatus:
+      type: object
+      required:
+        - id
+        - idTrxIssuer
+        - trxCode
+        - trxDate
+        - operationType
+        - amountCents
+        - amountCurrency
+        - acquirerId
+        - merchantId
+        - initiativeId
+        - status
+      properties:
+        id:
+          type: string
+        idTrxIssuer:
+          type: string
+        trxCode:
+          type: string
+        trxDate:
+          type: string
+          format: date-time
+        authDate:
+          type: string
+          format: date-time
+        operationType:
+          type: string
+          enum: [CHARGE, REFUND]
+        amountCents:
+          type: integer
+          format: int64
+        amountCurrency:
+          type: string
+        mcc:
+          type: string
+        acquirerId:
+          type: string
+        merchantId:
+          type: string
+        initiativeId:
+          type: string
+        rewardCents:
+          type: integer
+          format: int64
+        rejectionReasons:
+          type: array
+          items:
+            type: string
+          description: The list of rejection reasons
+        status:
+          type: string
+          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+    MerchantUpdateDTO:
+      type: object
+      properties:
+        status:
+          type: string
+          description: "ENG: Upload file status <br>IT: Stato di caricamento del file"
+        errorRow:
+          type: integer
+          format: int32
+          description: "ENG: Row where an error occurs during file uploading <br>IT: Riga alla quale c'è stato un errore durante il caricamento del file"
+        errorKey:
+          type: string
+          description: "ENG: Error Key: <ul><li>merchant.invalid.file.format: file format not valid</li><li>merchant.invalid.file.empty: empty file</li><li>merchant.invalid.file.size: file size exceeds limit</li><li>merchant.invalid.file.acquirer.wrong: inserted acquirer Id doesn't correspond to the one expected</li><li>merchant.invalid.file.vat.wrong: VAT Number or fiscal code not valid</li><li>merchant.invalid.file.iban.wrong: IBAN not valid</li></ul><br>IT: Chiave di errore: <ul><li>merchant.invalid.file.format: formato del file non valido</li><li>merchant.invalid.file.empty: file vuoto</li><li>merchant.invalid.file.size: la dimensione del file supera il limite consentito<li>merchant.invalid.file.acquirer.wrong: l'acquirer Id inserito non corrisponde a quello atteso</li></li><li>merchant.invalid.file.vat.wrong: partita IVA o CF non valido</li><li>merchant.invalid.file.iban.wrong: IBAN non valido</li></ul>"
+        elabTimeStamp:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of file elaboration <br>IT: Data e ora dell'elaborazione del file"
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PreAuthPaymentResponseDTO:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - status
+        - amountCents
+        - secondFactor
+      properties:
+        id:
+          type: string
+          description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
+          example:
+            "1eec4867-0668-4029-9279-b60956889664_1697186296923"
+        trxCode:
+          type: string
+          description: 'ENG: Transaction code (8 alphanumeric character) - IT: Codice della  transazione (8 caratteri alfanumerici)'
+          example:
+            "s3bu7fnl"
+        trxDate:
+          type: string
+          format: date-time
+          description: 'ENG: Transaction date - IT: Data della transazione'
+        initiativeId:
+          type: string
+          description: 'ENG: Id of the initiative - IT: Identificativo dell''iniziativa'
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome della iniziativa'
+        businessName:
+          type: string
+          description: 'ENG: Business name - IT: Nome dell''esercente'
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+          description: >-
+            ENG: Status of the payment [CREATED: Created, IDENTIFIED: User
+            related, AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED:
+            Creato, IDENTIFIED: Utente associato, AUTHORIZED: autorizzato]
+        reward:
+          type: integer
+          format: int64
+          description: 'ENG: Reward - IT: Premio generato'
+        amountCents:
+          type: integer
+          format: int64
+          description: 'ENG: Amount cents - IT: Importo in centessimi'
+        residualBudget:
+          type: number
+          description: 'ENG: Residual budget - IT: Budget residuo'
+        secondFactor:
+          type: string
+          example:
+            00006fbdd98ab6dd
+          description: 'ENG: second factor (16 alphanumeric character) - IT: second factor (16 caratteri alfanumerici)'
+    AuthPaymentResponseDTO:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - status
+        - amountCents
+      properties:
+        id:
+          type: string
+          description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
+        trxCode:
+          type: string
+          description: 'ENG: Transaction code - IT: Codice della transazione'
+        trxDate:
+          type: string
+          format: date-time
+          description: 'ENG: Transaction date - IT: Data della transazione'
+        initiativeId:
+          type: string
+          description: 'ENG: Id of the initiative - IT: Identificativo dell''iniziativa'
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome della iniziativa'
+        businessName:
+          type: string
+          description: 'ENG: Business name - IT: Nome dell''esercente'
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IDENTIFIED
+            - AUTHORIZED
+          description: >-
+            ENG: Status of the payment [CREATED: Created, IDENTIFIED: User
+            related, AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED:
+            Creato, IDENTIFIED: Utente associato, AUTHORIZED: autorizzato]
+        reward:
+          type: integer
+          format: int64
+          description: 'ENG: Reward - IT: Premio generato'
+        amountCents:
+          type: integer
+          format: int64
+          description: 'ENG: Amount cents - IT: Importo in centessimi'
+        residualBudget:
+          type: number
+          description: 'ENG: Residual budget - IT: Budget residuo'
+    PinBlockDTO:
+      type: object
+      required:
+        - pinBlock
+        - encryptedKey
+      properties:
+        pinBlock:
+          type: string
+          description: 'ENG: EncryptedPinBlock'
+        encryptedKey:
+          type: string
+          description: 'ENG: EncryptedKey'
+    TransactionErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - PAYMENT_NOT_FOUND_EXPIRED
+            - PAYMENT_USER_NOT_VALID
+            - PAYMENT_STATUS_NOT_VALID
+            - PAYMENT_ALREADY_AUTHORIZED
+            - PAYMENT_BUDGET_EXHAUSTED
+            - PAYMENT_GENERIC_REJECTED
+            - PAYMENT_TOO_MANY_REQUESTS
+            - PAYMENT_GENERIC_ERROR
+            - PAYMENT_USER_SUSPENDED
+            - PAYMENT_INVALID_PINBLOCK
+          description: >-
+            "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
+            or expired, PAYMENT_USER_NOT_VALID: user not valid,
+            PAYMENT_STATUS_NOT_VALID: status not valid,
+            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
+            PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
+            PAYMENT_GENERIC_REJECTED: generic rejected error,
+            PAYMENT_TOO_MANY_REQUESTS: too many request, PAYMENT_GENERIC_ERROR:
+            generic error, PAYMENT_USER_SUSPENDED: the user has been suspended
+            on the initiative - IT: Codice di errore PAYMENT_NOT_FOUND_EXPIRED:
+            transazione non trovata oppure caducata, PAYMENT_USER_NOT_VALID:
+            utente no valido, PAYMENT_STATUS_NOT_VALID: stato non valido,
+            PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
+            PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
+            errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
+            richieste, PAYMENT_GENERIC_ERROR: errore generico,
+            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
+    PublicKeyDTO:
+      type: object
+      required:
+        - kid
+        - kty
+        - key_ops
+        - n
+        - e
+        - iat
+      properties:
+        kid:
+          type: string
+          description: 'ENG: Key identifier.'
+        kty:
+          type: string
+          description: 'ENG: JsonWebKey Key Type (RSA)'
+        key_ops:
+          type: array
+          items:
+            type: string
+          description: 'ENG: Supported key operations (encrypt, decrypt).'
+        n:
+          type: string
+          description: 'ENG: RSA modulus.'
+        e:
+          type: string
+          description: 'ENG: RSA public exponent.'
+        iat:
+          type: number
+          description: 'ENG: Creation time in UTC.'
+        exp:
+          type: number
+          description: 'ENG: Expiry date in UTC.'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+security:
+  - Bearer: []
