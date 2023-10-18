@@ -215,43 +215,50 @@ components:
         code:
           type: string
           enum:
-          - PAYMENT_NOT_FOUND_EXPIRED
-          - PAYMENT_USER_NOT_VALID
-          - PAYMENT_STATUS_NOT_VALID
-          - PAYMENT_ALREADY_AUTHORIZED
-          - PAYMENT_BUDGET_EXHAUSTED
-          - PAYMENT_GENERIC_REJECTED
-          - PAYMENT_TOO_MANY_REQUESTS
-          - PAYMENT_GENERIC_ERROR
-          - PAYMENT_USER_SUSPENDED
-          - PAYMENT_USER_NOT_ONBOARDED
-          - PAYMENT_USER_UNSUBSCRIBED
+            - PAYMENT_NOT_FOUND_EXPIRED
+            - PAYMENT_USER_NOT_VALID
+            - PAYMENT_STATUS_NOT_VALID
+            - PAYMENT_ALREADY_AUTHORIZED
+            - PAYMENT_BUDGET_EXHAUSTED
+            - PAYMENT_GENERIC_REJECTED
+            - PAYMENT_TOO_MANY_REQUESTS
+            - PAYMENT_GENERIC_ERROR
+            - PAYMENT_USER_SUSPENDED
+            - PAYMENT_USER_NOT_ONBOARDED
+            - PAYMENT_USER_UNSUBSCRIBED
+            - PAYMENT_INITIATIVE_NOT_FOUND
+            - PAYMENT_INITIATIVE_INVALID_DATE
+            - PAYMENT_INITIATIVE_NOT_DISCOUNT
           description: >-
-               "ENG: Error code:
-               PAYMENT_NOT_FOUND_EXPIRED: transaction not found or expired,
-               PAYMENT_USER_NOT_VALID: user not valid,
-               PAYMENT_STATUS_NOT_VALID: status not valid,
-               PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
-               PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
-               PAYMENT_GENERIC_REJECTED: generic rejected error,
-               PAYMENT_TOO_MANY_REQUESTS: too many request,
-               PAYMENT_GENERIC_ERROR: generic error,
-               PAYMENT_USER_SUSPENDED: the user has been suspended on the initiative
-               PAYMENT_USER_NOT_ONBOARDED: the user has not been onboarded on the initiative,
-               PAYMENT_USER_UNSUBSCRIBED: the user unsubscribed from the initiative
-               - IT: Codice di errore
-               PAYMENT_NOT_FOUND_EXPIRED: transazione non trovata oppure caducata,
-               PAYMENT_USER_NOT_VALID: utente no valido,
-               PAYMENT_STATUS_NOT_VALID: stato non valido,
-               PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
-               PAYMENT_BUDGET_EXHAUSTED: budget esaurito,
-               PAYMENT_GENERIC_REJECTED: errore generico di rifiuto,
-               PAYMENT_TOO_MANY_REQUESTS: troppe richieste,
-               PAYMENT_GENERIC_ERROR: errore generico,
-               PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa,
-               PAYMENT_USER_NOT_ONBOARDED: l'utente non ha aderito all'iniziativa,
-               PAYMENT_USER_UNSUBSCRIBED: l'utente ha effettuato il recesso dall'iniziativa"
-        message:
+            "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
+            or expired, PAYMENT_USER_NOT_VALID: user not valid,
+            PAYMENT_STATUS_NOT_VALID: status not valid,
+            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
+            PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
+            PAYMENT_GENERIC_REJECTED: generic rejected error,
+            PAYMENT_TOO_MANY_REQUESTS: too many request, PAYMENT_GENERIC_ERROR:
+            generic error, PAYMENT_USER_SUSPENDED: the user has been suspended
+            on the initiative, PAYMENT_USER_NOT_ONBOARDED: the user has not been
+            onboarded on the initiative, PAYMENT_USER_UNSUBSCRIBED: the user
+            unsubscribed from the initiative, PAYMENT_INITIATIVE_NOT_FOUND: the
+            initiative is not found, PAYMENT_INITIATIVE_INVALID_DATE: the user
+            tried to create transaction outside initiative fruition period,
+            PAYMENT_INITIATIVE_NOT_DISCOUNT: the initiative type is not discount
+            - IT: Codice di errore PAYMENT_NOT_FOUND_EXPIRED: transazione non
+            trovata oppure caducata, PAYMENT_USER_NOT_VALID:utente no valido,
+            PAYMENT_STATUS_NOT_VALID: stato non valido,
+            PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
+            PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
+            errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
+            richieste, PAYMENT_GENERIC_ERROR: errore generico,
+            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa,
+            PAYMENT_USER_NOT_ONBOARDED: l'utente non ha aderito all'iniziativa,
+            PAYMENT_USER_UNSUBSCRIBED: l'utente ha effettuato il recesso
+            dall'iniziativa, PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non
+            trovata, PAYMENT_INITIATIVE_INVALID_DATE: l'utente ha provato a
+            creare una transazione al di fuori del periodo di fruizione,
+            PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non a sconto"
+          message:
           type: string
           description: "ENG: Error message- IT: Messaggio di errore"
   securitySchemes:

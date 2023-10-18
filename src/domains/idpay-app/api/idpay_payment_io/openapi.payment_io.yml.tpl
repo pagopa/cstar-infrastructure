@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionBarCodeErrorDTO'
+                $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_REQUEST_NOT_VALID
                 message: Required initiativeId is not present
@@ -42,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionBarCodeErrorDTO'
+                $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_USER_NOT_ONBOARDED
                 message: User not onboarded
@@ -51,13 +51,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionBarCodeErrorDTO'
+                $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_NOT_FOUND_EXPIRED
                 message: 'Cannot find transaction with trxCode [trxCode]'
 components:
   schemas:
-    TransactionBarCodeErrorDTO:
+    TransactionErrorDTO:
       type: object
       required:
         - code
