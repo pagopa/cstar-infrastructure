@@ -258,7 +258,7 @@ components:
             trovata, PAYMENT_INITIATIVE_INVALID_DATE: l'utente ha provato a
             creare una transazione al di fuori del periodo di fruizione,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non a sconto"
-          message:
+        message:
           type: string
           description: "ENG: Error message- IT: Messaggio di errore"
   securitySchemes:
