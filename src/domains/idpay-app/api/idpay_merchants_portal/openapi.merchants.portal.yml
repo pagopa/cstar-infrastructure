@@ -220,36 +220,6 @@ paths:
           description: Too many requests
         '500':
           description: Server error
-  /transactions/{transactionId}/confirm:
-    put:
-      tags:
-        - merchant-transactions
-      summary: Merchant confirms the payment and the event is notified to IDPay
-      operationId: confirmPaymentQRCode
-      parameters:
-        - name: transactionId
-          in: path
-          description: Transaction ID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '400':
-          description: Transaction is not AUTHORIZED
-        '403':
-          description: Merchant not allowed to operate on this transaction
-        '404':
-          description: Transaction does not exist
-        '429':
-          description: Too many Request
-        '500':
-          description: Server ERROR
   '/transactions/bar-code/{trxCode}/authorize':
     put:
       tags:
@@ -717,6 +687,14 @@ components:
             - PAYMENT_GENERIC_ERROR
             - PAYMENT_USER_SUSPENDED
             - PAYMENT_MERCHANT_NOT_FOUND
+            - PAYMENT_AMOUNT_NOT_VALID
+            - PAYMENT_USER_UNSUBSCRIBED
+            - PAYMENT_USER_NOT_ONBOARDED
+            - PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED
+            - PAYMENT_INITIATIVE_INVALID_DATE
+            - PAYMENT_TRANSACTION_EXPIRED
+            - PAYMENT_INITIATIVE_NOT_FOUND
+            - PAYMENT_INITIATIVE_NOT_DISCOUNT
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
             or expired, PAYMENT_USER_NOT_VALID: user not valid,
@@ -726,15 +704,33 @@ components:
             PAYMENT_GENERIC_REJECTED: generic rejected error,
             PAYMENT_TOO_MANY_REQUESTS: too many request, PAYMENT_GENERIC_ERROR:
             generic error, PAYMENT_USER_SUSPENDED: the user has been suspended
-            on the initiative - IT: Codice di errore PAYMENT_NOT_FOUND_EXPIRED:
-            transazione non trovata oppure caducata, PAYMENT_USER_NOT_VALID:
-            utente no valido, PAYMENT_STATUS_NOT_VALID: stato non valido,
+            on the initiative, PAYMENT_AMOUNT_NOT_VALID: Cannot authorize transaction
+            with invalid amount, PAYMENT_USER_UNSUBSCRIBED: the user unsubscribed
+            from the initiative, PAYMENT_USER_NOT_ONBOARDED: the user has not been
+            onboarded on the initiative, PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED: Requesting merchantId
+            (through acquirer) not allowed to operate on transaction, PAYMENT_INITIATIVE_INVALID_DATE:
+            Cannot create transaction out of valid period of the initiative,
+            PAYMENT_TRANSACTION_EXPIRED: Cannot cancel expired transaction,
+            PAYMENT_INITIATIVE_NOT_FOUND: Cannot find initiative,
+            PAYMENT_INITIATIVE_NOT_DISCOUNT:  Cannot find initiative - IT: Codice di errore
+            PAYMENT_NOT_FOUND_EXPIRED: transazione non trovata oppure caducata,
+            PAYMENT_USER_NOT_VALID: utente no valido, PAYMENT_STATUS_NOT_VALID: stato non valido,
             PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
             PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
             errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
             richieste, PAYMENT_GENERIC_ERROR: errore generico,
             PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa,
-            PAYMENT_MERCHANT_NOT_FOUND: il merchant non è stato trovato"
+            PAYMENT_MERCHANT_NOT_FOUND: il merchant non è stato trovato,
+            PAYMENT_AMOUNT_NOT_VALID: Non è possibile autorizzare una transazione
+            con un importo non valido, PAYMENT_USER_UNSUBSCRIBED: l'utente ha effettuato
+            il recesso dall'iniziativa, PAYMENT_USER_NOT_ONBOARDED: l'utente non ha
+            aderito all'iniziativa, PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED: Il
+            merchantId richiedente (o acquirer) non è autorizzato ad operare sulla
+            transazione, PAYMENT_INITIATIVE_INVALID_DATE: Non è possibile creare
+            una transazione fuori dal periodo di validità dell'iniziativa,
+            PAYMENT_TRANSACTION_EXPIRED: Non è possibile cancellare una transazione scaduta,
+            PAYMENT_INITIATIVE_NOT_FOUND: Non è possibile trovare l'iniziativa,
+            PAYMENT_INITIATIVE_NOT_DISCOUNT: Non è possibile trovare l'iniziativa"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
