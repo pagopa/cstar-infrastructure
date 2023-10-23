@@ -738,10 +738,15 @@ components:
       type: object
       required:
         - amountCents
+        - idTrxAcquirer
       properties:
         amountCents:
           type: integer
           format: int64
+          description: "ENG: Amount of transaction - IT: Importo della transazione"
+        idTrxAcquirer:
+          type: string
+          description: "ENG: Transaction acquirer ID- IT: Identificativo della transazione rispetto all'acquirer"
     ErrorDTO:
       type: object
       properties:
