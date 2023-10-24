@@ -103,6 +103,20 @@ module "idpay_mil_payment" {
         idpay-mil-key = azurerm_key_vault_key.idpay-mil-key.name
         keyvault-name = data.azurerm_key_vault.kv.name
       })
+    },
+    {
+      operation_id = "getStatusTransaction"
+
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/get-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "deleteTransaction"
+
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/delete-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
