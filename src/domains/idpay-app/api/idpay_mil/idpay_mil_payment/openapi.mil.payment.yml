@@ -91,39 +91,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_STATUS_NOT_VALID:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot relate transaction [%s] in status [%s]"
-                PAYMENT_STATUS_NOT_VALID_2:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot cancel a confirmed transaction"
-                PAYMENT_STATUS_NOT_VALID_3:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot unrelate a transaction not in status IDENTIFIED"
-                PAYMENT_STATUS_NOT_VALID_4:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Unexpected status for transaction with transactionId [%s]"
-                PAYMENT_STATUS_NOT_VALID_5:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot confirm transaction having id [%s]: actual status is [%s]"
-                PAYMENT_AMOUNT_NOT_VALID:
-                  value:
-                    code: "PAYMENT_AMOUNT_NOT_VALID"
-                    message: "Cannot create transaction with invalid amount: [%s]"
-                PAYMENT_AMOUNT_NOT_VALID_2:
-                  value:
-                    code: "PAYMENT_AMOUNT_NOT_VALID"
-                    message: "Cannot authorize transaction with invalid amount [%s]"
-                PAYMENT_TRANSACTION_EXPIRED:
-                  value:
-                    code: "PAYMENT_TRANSACTION_EXPIRED"
-                    message: "Cannot cancel expired transaction"
         '401':
           description: Token not validated correctly
         '403':
@@ -132,110 +99,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_BUDGET_EXHAUSTED:
-                  value:
-                    code: "PAYMENT_BUDGET_EXHAUSTED"
-                    message: "The budget related to the user on initiativeId [%s] was exhausted"
-                PAYMENT_GENERIC_REJECTED:
-                  value:
-                    code: "PAYMENT_GENERIC_REJECTED"
-                    message: "Transaction with trxCode [%s] is rejected"
-                PAYMENT_ALREADY_AUTHORIZED:
-                  value:
-                    code: "PAYMENT_ALREADY_AUTHORIZED"
-                    message: "Transaction with trxCode [%s] is already authorized"
-                PAYMENT_MERCHANT_NOT_ALLOWED:
-                  value:
-                    code: "PAYMENT_MERCHANT_NOT_ALLOWED"
-                    message: "Requesting merchant is not allowed to operate on the transaction"
-                PAYMENT_USER_SUSPENDED:
-                  value:
-                    code: "PAYMENT_USER_SUSPENDED"
-                    message: "The user has been suspended for initiative [%s]"
-                PAYMENT_USER_NOT_VALID:
-                  value:
-                    code: "PAYMENT_USER_NOT_VALID"
-                    message: "Requesting user is not allowed to operate on the transaction"
-                PAYMENT_USER_NOT_VALID_2:
-                  value:
-                    code: "PAYMENT_USER_NOT_VALID"
-                    message: "Transaction with trxCode [%s] is already assigned to another user"
-                PAYMENT_USER_NOT_VALID_3:
-                  value:
-                    code: "PAYMENT_USER_NOT_VALID"
-                    message: "User does not exist"
-                PAYMENT_USER_UNSUBSCRIBED:
-                  value:
-                    code: "PAYMENT_USER_UNSUBSCRIBED"
-                    message: "The user has unsubscribed from initiative [%s]"
-                PAYMENT_USER_NOT_ONBOARDED:
-                  value:
-                    code: "PAYMENT_USER_NOT_ONBOARDED"
-                    message: "The user is not onboarded on initiative [%s]"
-                PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED:
-                  value:
-                    code: "PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED"
-                    message: "The merchant id of the trx, is not equals to the merchant id"
-                PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED_2:
-                  value:
-                    code: "PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED"
-                    message: "Requesting merchantId (%s through acquirer %s) not allowed to operate on transaction"
-                PAYMENT_INVALID_PINBLOCK:
-                  value:
-                    code: "PAYMENT_INVALID_PINBLOCK"
-                    message: "The Pinblock is incorrect"
-                PAYMENT_INITIATIVE_INVALID_DATE:
-                  value:
-                    code: "PAYMENT_INITIATIVE_INVALID_DATE"
-                    message: "Cannot create transaction out of valid period. Initiative startDate: [%s] endDate: [%s]"
         '404':
           description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_NOT_FOUND_EXPIRED:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Cannot find transaction with trxCode [%s]"
-                PAYMENT_NOT_FOUND_EXPIRED_2:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Cannot find the transaction with the specified ID"
-                PAYMENT_NOT_FOUND_EXPIRED_3:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Cannot find the transaction with the specified code"
-                PAYMENT_NOT_FOUND_EXPIRED_4:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Transaction does not exist"
-                PAYMENT_NOT_FOUND_EXPIRED_5:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Resource not found on reward-calculator"
-                PAYMENT_NOT_FOUND_EXPIRED_6:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Transaction does not exist"
-                PAYMENT_MERCHANT_NOT_FOUND:
-                  value:
-                    code: "PAYMENT_MERCHANT_NOT_FOUND"
-                    message: "The merchant is not related with initiative [%s]"
-                PAYMENT_INITIATIVE_NOT_FOUND:
-                  value:
-                    code: "PAYMENT_INITIATIVE_NOT_FOUND"
-                    message: "Cannot find initiative with ID: [%s]"
-                PAYMENT_INITIATIVE_NOT_DISCOUNT:
-                  value:
-                    code: "PAYMENT_INITIATIVE_NOT_DISCOUNT"
-                    message: "Cannot find initiative with ID: [%s]"
-                PAYMENT_IDPAYCODE_NOT_FOUND:
-                  value:
-                    code: "PAYMENT_IDPAYCODE_NOT_FOUND"
-                    message: "There is not a idpaycode for the current user"
         '429':
           description: Too many Request
           content:
@@ -251,31 +120,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
+              example:
                 PAYMENT_GENERIC_ERROR:
                   value:
                     code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred during decryption"
-                PAYMENT_GENERIC_ERROR_2:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred during encryption"
-                PAYMENT_GENERIC_ERROR_3:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice merchant"
-                PAYMENT_GENERIC_ERROR_4:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
                     message: "An error occurred in the microservice reward-calculator"
-                PAYMENT_GENERIC_ERROR_5:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice wallet"
-                PAYMENT_GENERIC_ERROR_6:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice payment-instrument"
   '/idpay-code/{transactionId}/authorize':
     put:
       tags:
@@ -320,39 +169,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_STATUS_NOT_VALID:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot relate transaction [%s] in status [%s]"
-                PAYMENT_STATUS_NOT_VALID_2:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot cancel a confirmed transaction"
-                PAYMENT_STATUS_NOT_VALID_3:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot unrelate a transaction not in status IDENTIFIED"
-                PAYMENT_STATUS_NOT_VALID_4:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Unexpected status for transaction with transactionId [%s]"
-                PAYMENT_STATUS_NOT_VALID_5:
-                  value:
-                    code: "PAYMENT_STATUS_NOT_VALID"
-                    message: "Cannot confirm transaction having id [%s]: actual status is [%s]"
-                PAYMENT_AMOUNT_NOT_VALID:
-                  value:
-                    code: "PAYMENT_AMOUNT_NOT_VALID"
-                    message: "Cannot create transaction with invalid amount: [%s]"
-                PAYMENT_AMOUNT_NOT_VALID_2:
-                  value:
-                    code: "PAYMENT_AMOUNT_NOT_VALID"
-                    message: "Cannot authorize transaction with invalid amount [%s]"
-                PAYMENT_TRANSACTION_EXPIRED:
-                  value:
-                    code: "PAYMENT_TRANSACTION_EXPIRED"
-                    message: "Cannot cancel expired transaction"
         '401':
           description: Token not validated correctly
         '403':
@@ -361,110 +177,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_BUDGET_EXHAUSTED:
-                  value:
-                    code: "PAYMENT_BUDGET_EXHAUSTED"
-                    message: "The budget related to the user on initiativeId [%s] was exhausted"
-                PAYMENT_GENERIC_REJECTED:
-                  value:
-                    code: "PAYMENT_GENERIC_REJECTED"
-                    message: "Transaction with trxCode [%s] is rejected"
-                PAYMENT_ALREADY_AUTHORIZED:
-                  value:
-                    code: "PAYMENT_ALREADY_AUTHORIZED"
-                    message: "Transaction with trxCode [%s] is already authorized"
-                PAYMENT_MERCHANT_NOT_ALLOWED:
-                  value:
-                    code: "PAYMENT_MERCHANT_NOT_ALLOWED"
-                    message: "Requesting merchant is not allowed to operate on the transaction"
-                PAYMENT_USER_SUSPENDED:
-                  value:
-                    code: "PAYMENT_USER_SUSPENDED"
-                    message: "The user has been suspended for initiative [%s]"
-                PAYMENT_USER_NOT_VALID:
-                  value:
-                    code: "PAYMENT_USER_NOT_VALID"
-                    message: "Requesting user is not allowed to operate on the transaction"
-                PAYMENT_USER_NOT_VALID_2:
-                  value:
-                    code: "PAYMENT_USER_NOT_VALID"
-                    message: "Transaction with trxCode [%s] is already assigned to another user"
-                PAYMENT_USER_NOT_VALID_3:
-                  value:
-                    code: "PAYMENT_USER_NOT_VALID"
-                    message: "User does not exist"
-                PAYMENT_USER_UNSUBSCRIBED:
-                  value:
-                    code: "PAYMENT_USER_UNSUBSCRIBED"
-                    message: "The user has unsubscribed from initiative [%s]"
-                PAYMENT_USER_NOT_ONBOARDED:
-                  value:
-                    code: "PAYMENT_USER_NOT_ONBOARDED"
-                    message: "The user is not onboarded on initiative [%s]"
-                PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED:
-                  value:
-                    code: "PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED"
-                    message: "The merchant id of the trx, is not equals to the merchant id"
-                PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED_2:
-                  value:
-                    code: "PAYMENT_MERCHANT_OR_ACQUIRER_NOT_ALLOWED"
-                    message: "Requesting merchantId (%s through acquirer %s) not allowed to operate on transaction"
-                PAYMENT_INVALID_PINBLOCK:
-                  value:
-                    code: "PAYMENT_INVALID_PINBLOCK"
-                    message: "The Pinblock is incorrect"
-                PAYMENT_INITIATIVE_INVALID_DATE:
-                  value:
-                    code: "PAYMENT_INITIATIVE_INVALID_DATE"
-                    message: "Cannot create transaction out of valid period. Initiative startDate: [%s] endDate: [%s]"
         '404':
           description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_NOT_FOUND_EXPIRED:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Cannot find transaction with trxCode [%s]"
-                PAYMENT_NOT_FOUND_EXPIRED_2:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Cannot find the transaction with the specified ID"
-                PAYMENT_NOT_FOUND_EXPIRED_3:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Cannot find the transaction with the specified code"
-                PAYMENT_NOT_FOUND_EXPIRED_4:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Transaction does not exist"
-                PAYMENT_NOT_FOUND_EXPIRED_5:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Resource not found on reward-calculator"
-                PAYMENT_NOT_FOUND_EXPIRED_6:
-                  value:
-                    code: "PAYMENT_NOT_FOUND_EXPIRED"
-                    message: "Transaction does not exist"
-                PAYMENT_MERCHANT_NOT_FOUND:
-                  value:
-                    code: "PAYMENT_MERCHANT_NOT_FOUND"
-                    message: "The merchant is not related with initiative [%s]"
-                PAYMENT_INITIATIVE_NOT_FOUND:
-                  value:
-                    code: "PAYMENT_INITIATIVE_NOT_FOUND"
-                    message: "Cannot find initiative with ID: [%s]"
-                PAYMENT_INITIATIVE_NOT_DISCOUNT:
-                  value:
-                    code: "PAYMENT_INITIATIVE_NOT_DISCOUNT"
-                    message: "Cannot find initiative with ID: [%s]"
-                PAYMENT_IDPAYCODE_NOT_FOUND:
-                  value:
-                    code: "PAYMENT_IDPAYCODE_NOT_FOUND"
-                    message: "There is not a idpaycode for the current user"
         '429':
           description: Too many Request
           content:
@@ -480,31 +198,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
-              examples:
-                PAYMENT_GENERIC_ERROR:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred during decryption"
-                PAYMENT_GENERIC_ERROR_2:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred during encryption"
-                PAYMENT_GENERIC_ERROR_3:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice merchant"
-                PAYMENT_GENERIC_ERROR_4:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice reward-calculator"
-                PAYMENT_GENERIC_ERROR_5:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice wallet"
-                PAYMENT_GENERIC_ERROR_6:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice payment-instrument"
 
   '/publickey':
     get:
@@ -847,9 +540,11 @@ components:
         code:
           type: string
           enum:
-            - PAYMENT_NOT_FOUND_EXPIRED
-            - PAYMENT_USER_NOT_VALID
-            - PAYMENT_STATUS_NOT_VALID
+            - PAYMENT_NOT_FOUND_OR_EXPIRED
+            - PAYMENT_TRANSACTION_EXPIRED
+            - PAYMENT_INITIATIVE_NOT_FOUND
+            - PAYMENT_INITIATIVE_INVALID_DATE
+            - PAYMENT_INITIATIVE_NOT_DISCOUNT
             - PAYMENT_ALREADY_AUTHORIZED
             - PAYMENT_BUDGET_EXHAUSTED
             - PAYMENT_GENERIC_REJECTED
@@ -857,23 +552,66 @@ components:
             - PAYMENT_GENERIC_ERROR
             - PAYMENT_USER_SUSPENDED
             - PAYMENT_INVALID_PINBLOCK
+            - PAYMENT_IDPAYCODE_NOT_FOUND
+            - PAYMENT_USER_NOT_ONBOARDED
+            - PAYMENT_USER_UNSUBSCRIBED
+            - PAYMENT_ALREADY_ASSIGNED
+            - PAYMENT_NOT_ALLOWED_FOR_TRX_STATUS
+            - PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT
+            - PAYMENT_USER_NOT_ASSOCIATED
+            - PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS
+            - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
+            - PAYMENT_AMOUNT_NOT_VALID
+            - PAYMENT_MERCHANT_NOT_ONBOARDED
           description: >-
-            "ENG: Error code: PAYMENT_NOT_FOUND_EXPIRED: transaction not found
-            or expired, PAYMENT_USER_NOT_VALID: user not valid,
-            PAYMENT_STATUS_NOT_VALID: status not valid,
-            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
-            PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
-            PAYMENT_GENERIC_REJECTED: generic rejected error,
-            PAYMENT_TOO_MANY_REQUESTS: too many request, PAYMENT_GENERIC_ERROR:
-            generic error, PAYMENT_USER_SUSPENDED: the user has been suspended
-            on the initiative - IT: Codice di errore PAYMENT_NOT_FOUND_EXPIRED:
-            transazione non trovata oppure caducata, PAYMENT_USER_NOT_VALID:
-            utente no valido, PAYMENT_STATUS_NOT_VALID: stato non valido,
-            PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
-            PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
-            errore generico di rifiuto, PAYMENT_TOO_MANY_REQUESTS: troppe
-            richieste, PAYMENT_GENERIC_ERROR: errore generico,
-            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso sull'iniziativa"
+            "ENG: Error code:
+            PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not found or expired
+            PAYMENT_TRANSACTION_EXPIRED: transaction expired
+            PAYMENT_INITIATIVE_NOT_FOUND: initiative not found
+            PAYMENT_INITIATIVE_INVALID_DATE: initiative invalid date
+            PAYMENT_INITIATIVE_NOT_DISCOUNT: initiative is not of discount type
+            PAYMENT_ALREADY_AUTHORIZED: transaction already authorized
+            PAYMENT_BUDGET_EXHAUSTED: budget exhausted
+            PAYMENT_GENERIC_REJECTED: generic rejected error (transaction rejected)
+            PAYMENT_TOO_MANY_REQUESTS: too many request, retry
+            PAYMENT_GENERIC_ERROR: application error (connection microservice error)
+            PAYMENT_USER_SUSPENDED: the user has been suspended on the initiative
+            PAYMENT_IDPAYCODE_NOT_FOUND: idpayCode not found
+            PAYMENT_INVALID_PINBLOCK: the pinblock is invalid
+            PAYMENT_USER_NOT_ONBOARDED: user not onboarded
+            PAYMENT_USER_UNSUBSCRIBED: user unsubscribed
+            PAYMENT_ALREADY_ASSIGNED:  transaction already assigned
+            PAYMENT_NOT_ALLOWED_FOR_TRX_STATUS: operation on transaction not allowed due to status
+            PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT: operation on transaction not allowed due to merchant mismatched
+            PAYMENT_USER_NOT_ASSOCIATED: user not associated to the transaction
+            PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS: cancellation of transaction not allowed due to status
+            PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction not allowed due to status
+            PAYMENT_AMOUNT_NOT_VALID: amount of transaction not valid
+            PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded
+            IT: Codice di errore
+            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta
+            PAYMENT_TRANSACTION_EXPIRED: transazione scaduta
+            PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata
+            PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida
+            PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto
+            PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata
+            PAYMENT_BUDGET_EXHAUSTED: budget esaurito
+            PAYMENT_GENERIC_REJECTED: errore generico, transazione rigettata
+            PAYMENT_TOO_MANY_REQUESTS: troppe richieste, riprovare
+            PAYMENT_GENERIC_ERROR: errore generico (errore nella connessione ad un microservizio)
+            PAYMENT_USER_SUSPENDED: l'utente è stato sospeso dall'iniziativa
+            PAYMENT_IDPAYCODE_NOT_FOUND: idpayCode non trovato
+            PAYMENT_INVALID_PINBLOCK: il pinblock è invalido
+            PAYMENT_USER_NOT_ONBOARDED: utente non onboardato all'iniziativa
+            PAYMENT_USER_UNSUBSCRIBED: utente disiscritto dall'iniziativa
+            PAYMENT_ALREADY_ASSIGNED:  transazione già assegnata
+            PAYMENT_NOT_ALLOWED_FOR_TRX_STATUS: transazione non consentita a causa dello stato della transazione
+            PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT: transazione non consentita a causa della mancata corrispondenza del merchant
+            PAYMENT_USER_NOT_ASSOCIATED: utente non associato alla transazione
+            PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS: annullamento della transazione non consentito a causa dello stato della transazione
+            PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non consentita a causa dello stato della transazione
+            PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido
+            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
