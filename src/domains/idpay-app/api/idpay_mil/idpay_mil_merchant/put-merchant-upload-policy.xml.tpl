@@ -12,23 +12,32 @@
 -->
 <policies>
     <inbound>
-        <return-response>
-            <set-status code="200" reason="OK" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>@{
-                return new JObject(
-                    new JProperty("sender_allowed", "true")
-            ).ToString();
-          }</set-body>
-        </return-response>
+        <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaymerchant/" />
+        <rewrite-uri template="@("/idpay/merchant/acquirer/"+(String)context.Variables["acquirerId"]+"/initiative/{initiativeId}/upload")" />
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
         <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode == 413)">
+                <return-response>
+                    <set-status code="200" reason="OK" />
+                    <set-header name="Content-Type" exists-action="override">
+                        <value>application/json</value>
+                    </set-header>
+                    <set-body>@{
+                        return new JObject(
+                                new JProperty("status", "KO"),
+                                new JProperty("errorKey", "merchant.invalid.file.size"),
+                                new JProperty("elabTimeStamp", DateTime.Now)
+                            ).ToString();
+                    }</set-body>
+                </return-response>
+            </when>
+        </choose>
     </outbound>
     <on-error>
         <base />

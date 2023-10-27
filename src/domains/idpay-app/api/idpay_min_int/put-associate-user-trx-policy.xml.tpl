@@ -12,17 +12,9 @@
 -->
 <policies>
     <inbound>
-        <return-response>
-            <set-status code="200" reason="OK" />
-            <set-header name="Content-Type" exists-action="override">
-                <value>application/json</value>
-            </set-header>
-            <set-body>@{
-                return new JObject(
-                    new JProperty("sender_allowed", "true")
-            ).ToString();
-          }</set-body>
-        </return-response>
+        <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaypayment" />
+        <rewrite-uri template="@("/idpay/payment/idpay-code/{transactionId}/relate-user")" />
     </inbound>
     <backend>
         <base />

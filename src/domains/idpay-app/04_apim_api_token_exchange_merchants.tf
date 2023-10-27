@@ -94,6 +94,6 @@ resource "azurerm_api_management_api_operation_policy" "idpay_merchants_token_ex
     origins                     = local.origins.base
   })
 
-  depends_on = [azapi_resource.apim-merchant-id-retriever]
+  depends_on = [azapi_resource.apim-merchant-id-retriever, null_resource.upload_oidc_configuration]
 
 }

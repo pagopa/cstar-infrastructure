@@ -12,16 +12,24 @@
 -->
 <policies>
     <inbound>
+        <base />
+        <send-request mode="new" response-variable-name="responseObj" timeout="30" ignore-error="true">
+            <set-url>https://${keyvault-name}.vault.azure.net/keys/${idpay-mil-key}?api-version=7.4</set-url>
+            <set-method>GET</set-method>
+            <authentication-managed-identity resource="https://vault.azure.net" />
+        </send-request>
         <return-response>
-            <set-status code="200" reason="OK" />
             <set-header name="Content-Type" exists-action="override">
                 <value>application/json</value>
             </set-header>
-            <set-body>@{
-                return new JObject(
-                    new JProperty("sender_allowed", "true")
-            ).ToString();
-          }</set-body>
+            <set-body>
+                @{
+                    JObject getKeyResponse = ((IResponse)context.Variables["responseObj"]).Body.As<JObject>();
+                    getKeyResponse["key"]["iat"] = getKeyResponse["attributes"]["created"];
+                    getKeyResponse["key"]["exp"] = getKeyResponse["attributes"]["exp"];
+                    return getKeyResponse["key"].ToString();
+                }
+            </set-body>
         </return-response>
     </inbound>
     <backend>
