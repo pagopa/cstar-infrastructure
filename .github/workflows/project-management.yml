@@ -11,8 +11,6 @@ jobs:
         id: login
         uses: atlassian/gajira-login@master
         env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
       - uses: atlassian/gajira-find-issue-key@v3
         id: find
@@ -30,7 +28,6 @@ jobs:
         env:
           # need to add JIRA_API_TOKEN , see https://github.com/atlassian/gajira-cli/issues/2 
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          JIRA_PROJECT_KEY: "RTD"
         run: |
           jira_response=$(jira view "${{ steps.find.outputs.issue }}")
 
