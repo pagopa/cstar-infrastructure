@@ -240,6 +240,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
       responses:
         '200':
           description: Ok
@@ -264,6 +270,18 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-merchant-fiscalcode
+          in: header
+          description: Merchant fiscal code
+          required: true
+          schema:
+            type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
       responses:
         '200':
           description: Ok
