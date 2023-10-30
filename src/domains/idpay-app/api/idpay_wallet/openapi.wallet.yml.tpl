@@ -1009,7 +1009,7 @@ components:
           type: string
           enum:
             - CARD
-            - QRCODE
+            - APP_IO_PAYMENT
             - IDPAYCODE
         activationDate:
           type: string

@@ -39,7 +39,6 @@
 | <a name="module_idpay_merchants_notification_email_api"></a> [idpay\_merchants\_notification\_email\_api](#module\_idpay\_merchants\_notification\_email\_api) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_merchants_permission_portal"></a> [idpay\_merchants\_permission\_portal](#module\_idpay\_merchants\_permission\_portal) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_merchants_portal"></a> [idpay\_merchants\_portal](#module\_idpay\_merchants\_portal) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
-| <a name="module_idpay_mil"></a> [idpay\_mil](#module\_idpay\_mil) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_mil_merchant"></a> [idpay\_mil\_merchant](#module\_idpay\_mil\_merchant) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_mil_payment"></a> [idpay\_mil\_payment](#module\_idpay\_mil\_payment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_min_int"></a> [idpay\_min\_int](#module\_idpay\_min\_int) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |

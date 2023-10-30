@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaypayment" />
-        <rewrite-uri template="@("/idpay/payment/qr-code/merchant/{transactionId}/confirm")" />
+        <rewrite-uri template="@("/idpay/payment/{transactionId}")"/>
     </inbound>
     <backend>
         <base />
