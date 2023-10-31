@@ -2409,7 +2409,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED
@@ -2795,36 +2794,53 @@ components:
       type: object
       required:
         - instrumentId
-        - status
-        - activationDate
-        - channel
+        - instrumentType
       properties:
         idWallet:
           type: string
-          description: "ENG: Wallet's ID provided by the Payment manager - IT: Wallet ID provveduto dal Payment manager"
+          description: >-
+            ENG: Wallet's id provided by the Payment manager - IT:
+            Identificativo del portafoglio fornito dal gestore di pagamenti
         instrumentId:
           type: string
-          description: "ENG: Payment instrument ID - IT: ID dello strumento di pagamento"
+          description: >-
+            ENG: Payment instrument id - IT: Identificativo dello strumento di
+            pagamento
         maskedPan:
           type: string
-          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
+          description: 'ENG: Masked Pan - IT: Masked Pan'
         channel:
           type: string
-          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
+          description: 'ENG: Channel - IT: Canale di richiesta'
         brandLogo:
           type: string
-          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
+          description: >-
+            ENG: Card's brand logo URL - IT: URL del logo del marchio della
+            carta
+        brand:
+          type: string
+          description: >-
+            ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della
+            carta come mastercard, visa, ecc...
         status:
           enum:
             - ACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
           type: string
-          description: "ENG: One of the possible status of the instrument: ACTIVE: active instrument, PENDING_ENROLLMENT_REQUEST: the instrument enrollment request is in pending, PENDING_DEACTIVATION_REQUEST: the instrument deactivation request is in pending,  - IT: Uno dei possibili stati dello strumento di pagamento: ACTIVE: strumento di pagamento attivo , PENDING_ENROLLMENT_REQUEST: L'aggiunta dello strumento di pagamento è in attesa, PENDING_DEACTIVATION_REQUEST: La disattivazione dello strumento di pagamento è in attesa"
+          description: 'ENG: The status of the instrument - IT: Stato dello strumento'
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - APP_IO_PAYMENT
+            - IDPAYCODE
         activationDate:
           type: string
           format: date-time
-          description: "ENG: The instrument activation date - IT: La data di attivazione dello strumento di pagamento"
+          description: >-
+            ENG: Activation date of the instrument - IT: Data di attivazione
+            dello strumento
     OperationDTO:
       oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
@@ -2881,35 +2897,52 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - maskedPan
         - channel
       properties:
         operationId:
           type: string
-          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
+          description: 'ENG: Id of operation - IT: Identificativo dell''operazione'
         operationType:
           enum:
             - REJECTED_ADD_INSTRUMENT
             - REJECTED_DELETE_INSTRUMENT
+          description: >-
+            ENG: Operation type [REJECTED_ADD_INSTRUMENT: Rejected add
+            instrument, REJECTED_DELETE_INSTRUMENT: Rejected delete instrument]
+            - IT: Tipologia di operazione [REJECTED_ADD_INSTRUMENT: Respinto
+            l'inserimento dello strumento, REJECTED_DELETE_INSTRUMENT: Respinta
+            la cancellazione dello strumento]
           type: string
-          description: "ENG: Indicates one of the possible operation type: REJECTED_ADD_INSTRUMENT, REJECTED_DELETE_INSTRUMENT,  - IT: Indica uno dei possibili tipi di operazione: REJECTED_ADD_INSTRUMENT: Aggiunta dello strumento rifiutata, REJECTED_DELETE_INSTRUMENT: Cancellazione dello strumento rifiutata"
         operationDate:
           type: string
           format: date-time
-          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
+          description: 'ENG: Operation date - IT: Data dell''operazione'
         brandLogo:
           type: string
-          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
+          description: >-
+            ENG: Card's brand logo URL - IT: URL del logo del marchio della
+            carta
+        brand:
+          type: string
+          description: >-
+            ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della
+            carta come mastercard, visa, ecc...
         instrumentId:
           type: string
-          description: "ENG: Payment instrument ID - IT: ID dello strumento di pagamento"
+          description: 'ENG: Id instrument - IT: Identificativo dello strumento'
         maskedPan:
           type: string
-          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
+          description: 'ENG: masked PAN - IT: masked PAN'
         channel:
           type: string
-          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
+          description: >-
+            ENG: Channel from which the operation takes place - IT: Canale da
+            cui avviene l'operazione
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - IDPAYCODE
     TransactionDetailDTO:
       type: object
       required:
@@ -2921,35 +2954,45 @@ components:
       properties:
         operationId:
           type: string
-          description: "ENG: The ID of the operation - IT: L'ID dell'operazione"
+          description: 'ENG: Id of the operation - IT: Identificativo dell''operazione'
         operationType:
           enum:
             - TRANSACTION
             - REVERSAL
           type: string
-          description: "ENG: Indicates one of the possible operation type: TRANSACTION, REVERSAL,  - IT: Indica uno dei possibili tipi di operazione: TRANSACTION: Transazione, REVERSAL: Storno"
+          description: 'ENG: Operation type - IT: Tipologia di operazione'
         eventId:
           type: string
-          description: "ENG: Event ID - IT: Identificativo dell'evento"
         brandLogo:
           type: string
-          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
+          description: >-
+            ENG: Card's brand logo URL - IT: URL del logo del marchio della
+            carta
+        brand:
+          type: string
+          description: >-
+            ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della
+            carta come mastercard, visa, ecc...
         maskedPan:
           type: string
-          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
+          description: 'ENG: Masked Pan - IT: Masked Pan'
         amount:
           type: number
-          description: "ENG: The amount of transaction - IT: Il totale della transazione"
+          description: 'ENG: Transaction amount - IT: Importo della transazione'
         accrued:
           type: number
-          description: "ENG: Accrued benefits - IT: Benefici maturati"
+          description: 'ENG: Transaction accrued - IT: Importo accumulato'
         operationDate:
           type: string
           format: date-time
-          description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
-        brand:
+          description: 'ENG: Operation date - IT: Data dell''operazione'
+        circuitType:
           type: string
-          description: "ENG: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit - IT: 00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit"
+          description: >-
+            ENG: Circuit type - IT: Tipologia del circuito 00-> Bancomat,
+            01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay,
+            06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay,
+            10->PrivateCircuit
         idTrxIssuer:
           type: string
           description: >-
@@ -2960,9 +3003,29 @@ components:
           description: >-
             ENG: Transaction acquirer ID- IT: Identificativo della transazione
             rispetto all'acquirer
+        status:
+          type: string
+          enum:
+            - AUTHORIZED
+            - REWARDED
+            - CANCELLED
+          description: >-
+            ENG: Transaction status [AUTHORIZED: Transaction authorize,
+            REWARDED: Transaction rewarded, CANCELLED: Transaction cancelled]  -
+            IT: Stato della transazione [AUTHORIZED: Transazione autorizzata,
+            REWARDED: Transazione premiata, CANCELLED: transazione cancellata]
+        channel:
+          type: string
+          enum:
+            - RTD
+            - QRCODE
+            - IDPAYCODE
+            - BARCODE
+          description: >-
+            ENG: Channel from which the transaction takes place - IT: Canale da
+            cui avviene la transazione
         businessName:
           type: string
-          description: 'ENG: Business name - IT: Nome dell''esercente'
     InstrumentOperationDTO:
       type: object
       required:
@@ -3138,6 +3201,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BARCODE
           description: >-
             ENG: Channel from which the transaction takes place - IT: Canale da
             cui avviene la transazione
@@ -3250,7 +3315,6 @@ components:
             - ONBOARDING_KO
             - ELIGIBLE_KO
             - ONBOARDING_OK
-            - ELIGIBLE
             - INACTIVE
             - UNSUBSCRIBED
             - SUSPENDED

@@ -4,16 +4,9 @@
 
 locals {
   idpay_cdn_storage_account_name = replace(format("%s-%s-sa", local.project, "idpaycdn"), "-", "") #"cstardweuidpayidpaycdnsa"
-  idpay-oidc-config_url          = "https://${local.idpay_cdn_storage_account_name}.blob.core.windows.net/idpay-fe-oidc-config/openid-configuration.json"
   idpay-portal-hostname          = "welfare.${data.azurerm_dns_zone.public.name}"
+  idpay-oidc-config_url          = "https://${local.idpay-portal-hostname}/selfcare/openid-configuration.json"
   selfcare-issuer                = "https://${var.env != "prod" ? "${var.env}." : ""}selfcare.pagopa.it"
-}
-
-# Container for oidc configuration
-resource "azurerm_storage_container" "idpay_oidc_config" {
-  name                  = "idpay-fe-oidc-config"
-  storage_account_name  = local.idpay_cdn_storage_account_name
-  container_access_type = "blob"
 }
 
 ## Upload file for oidc configuration
@@ -28,12 +21,15 @@ resource "local_file" "oidc_configuration_file" {
 
 resource "null_resource" "upload_oidc_configuration" {
   triggers = {
-    "changes-in-config" : md5(local_file.oidc_configuration_file.content)
+    "changes-in-config" : filemd5("./api/idpay_token_exchange/openid-configuration.json.tpl")
+    "changes-in-issuer" : local.selfcare-issuer,
+    "changes-in-position" : local.idpay-oidc-config_url
   }
 
   provisioner "local-exec" {
     command = <<EOT
-              az storage azcopy blob upload --container ${azurerm_storage_container.idpay_oidc_config.name} --account-name ${replace(format("%s-%s-sa", local.project, "idpaycdn"), "-", "")} --source ${local_file.oidc_configuration_file.filename} --account-key ${data.azurerm_key_vault_secret.cdn_storage_access_secret.value}
+              result=$(az storage azcopy blob upload --container '$web' --account-name ${replace(format("%s-%s-sa", local.project, "idpaycdn"), "-", "")} --source ${local_file.oidc_configuration_file.filename} --account-key ${data.azurerm_key_vault_secret.cdn_storage_access_secret.value} --destination "selfcare/openid-configuration.json")
+              echo $result | grep "Final Job Status: Completed"
           EOT
   }
 }
@@ -126,6 +122,8 @@ resource "azurerm_api_management_api_operation" "idpay_token_exchange" {
 }
 
 resource "azurerm_api_management_api_operation_policy" "idpay_token_exchange_policy" {
+  depends_on = [null_resource.upload_oidc_configuration]
+
   api_name            = azurerm_api_management_api_operation.idpay_token_exchange.api_name
   api_management_name = azurerm_api_management_api_operation.idpay_token_exchange.api_management_name
   resource_group_name = azurerm_api_management_api_operation.idpay_token_exchange.resource_group_name

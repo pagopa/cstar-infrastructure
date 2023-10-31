@@ -675,10 +675,6 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
-        },
-        {
-          keys   = ["userId"]
-          unique = false
         }
       ]
     }
