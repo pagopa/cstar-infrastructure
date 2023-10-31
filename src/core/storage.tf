@@ -311,7 +311,7 @@ resource "azurerm_storage_account" "management_sa" {
   account_kind             = "StorageV2"
   account_replication_type = "GRS"
 
-  public_network_access_enabled = false
+  public_network_access_enabled   = false
   allow_nested_items_to_be_public = false
 
   tags = var.tags
@@ -320,7 +320,7 @@ resource "azurerm_storage_account" "management_sa" {
 
 
 resource "azurerm_private_endpoint" "managementstorage_private_endpoint" {
-  count               = var.env_short == "p" ? 1 : 0
+  count = var.env_short == "p" ? 1 : 0
 
   name                = "${local.project}-management-private-endpoint"
   location            = var.location

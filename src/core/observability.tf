@@ -222,7 +222,7 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
 }
 
 resource "azurerm_kusto_cluster_managed_private_endpoint" "management_sa_mgd_pe" {
-  count                        = var.env_short == "p" && var.dexp_params.enabled  ? 1 : 0
+  count                        = var.env_short == "p" && var.dexp_params.enabled ? 1 : 0
   name                         = "managementSAPrivateEndpoint"
   resource_group_name          = azurerm_resource_group.monitor_rg.name
   cluster_name                 = azurerm_kusto_cluster.data_explorer_cluster[0].name
