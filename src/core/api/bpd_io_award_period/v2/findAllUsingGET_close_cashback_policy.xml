@@ -12,27 +12,26 @@
 -->
 <policies>
     <inbound>
-            <base />
-            <cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" caching-type="internal" />
-            <choose>
-                    <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
-                            <return-response response-variable-name="awardPeriodsResponse" />
-                    </when>
-            </choose>
+        <base />
+        <!-- <cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" caching-type="internal" />
+        <choose>
+            <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
+                <return-response response-variable-name="awardPeriodsResponse" />
+            </when>
+        </choose> -->
     </inbound>
     <backend>
-            <base />
+        <base />
     </backend>
     <outbound>
-            <choose>
-                    <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
-                            <!-- Store result in cache -->
-                            <cache-store-value key="awardPeriodsResponseV2" value="@(context.Response)" duration="3600" caching-type="internal" />
-                    </when>
-            </choose>
-            <base />
+        <!--  <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <cache-store-value key="awardPeriodsResponseV2" value="@(context.Response)" duration="3600" caching-type="internal" />
+            </when> 
+        </choose> -->
+        <base />
     </outbound>
     <on-error>
-            <base />
+        <base />
     </on-error>
 </policies>
