@@ -59,7 +59,7 @@ resource "azurerm_data_factory_linked_service_kusto" "dexp_tae" {
 resource "azurerm_data_factory_linked_service_kusto" "dexp_tae_v2" {
 
   count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
-  
+
   name                     = replace("${local.product}_dexp_tae_linked_service", "-", "_")
   data_factory_id          = data.azurerm_data_factory.datafactory.id
   kusto_endpoint           = data.azurerm_kusto_cluster.dexp_cluster[count.index].uri
