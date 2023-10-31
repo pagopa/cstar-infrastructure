@@ -220,3 +220,14 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
 
   tags = var.tags
 }
+
+resource "azurerm_kusto_cluster_managed_private_endpoint" "management_sa_mgd_pe" {
+  count                        = var.env_short == "p" && var.dexp_params.enabled  ? 1 : 0
+  name                         = "managementSAPrivateEndpoint"
+  resource_group_name          = azurerm_resource_group.monitor_rg.name
+  cluster_name                 = azurerm_kusto_cluster.data_explorer_cluster[0].name
+  private_link_resource_id     = azurerm_storage_account.management_sa[0].id
+  private_link_resource_region = azurerm_storage_account.management_sa[0].location
+  group_id                     = "blob"
+  request_message              = "Please Approve"
+}
