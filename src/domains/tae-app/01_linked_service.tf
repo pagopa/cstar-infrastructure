@@ -43,6 +43,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "sftp_ls" {
   storage_kind         = "StorageV2" # not supported in v 2.99 of the azurerm provider
 }
 
+# TO BE REMOVED
 resource "azurerm_data_factory_linked_service_kusto" "dexp_tae" {
 
   count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
@@ -53,6 +54,18 @@ resource "azurerm_data_factory_linked_service_kusto" "dexp_tae" {
   kusto_endpoint       = data.azurerm_kusto_cluster.dexp_cluster[count.index].uri
   kusto_database_name  = data.azurerm_kusto_database.tae_db[count.index].name
   use_managed_identity = true
+}
+
+resource "azurerm_data_factory_linked_service_kusto" "dexp_tae_v2" {
+
+  count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
+  
+  name                     = replace("${local.product}_dexp_tae_linked_service", "-", "_")
+  data_factory_id          = data.azurerm_data_factory.datafactory.id
+  kusto_endpoint           = data.azurerm_kusto_cluster.dexp_cluster[count.index].uri
+  kusto_database_name      = data.azurerm_kusto_database.tae_db[count.index].name
+  integration_runtime_name = "AutoResolveIntegrationRuntime"
+  use_managed_identity     = true
 }
 
 resource "azurerm_kusto_database_principal_assignment" "tae_principal_assignment" {
