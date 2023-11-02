@@ -2794,36 +2794,53 @@ components:
       type: object
       required:
         - instrumentId
-        - status
-        - activationDate
-        - channel
+        - instrumentType
       properties:
         idWallet:
           type: string
-          description: "ENG: Wallet's ID provided by the Payment manager - IT: Wallet ID provveduto dal Payment manager"
+          description: >-
+            ENG: Wallet's id provided by the Payment manager - IT:
+            Identificativo del portafoglio fornito dal gestore di pagamenti
         instrumentId:
           type: string
-          description: "ENG: Payment instrument ID - IT: ID dello strumento di pagamento"
+          description: >-
+            ENG: Payment instrument id - IT: Identificativo dello strumento di
+            pagamento
         maskedPan:
           type: string
-          description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
+          description: 'ENG: Masked Pan - IT: Masked Pan'
         channel:
           type: string
-          description: "ENG: Is the operation's channel: ISSUER: third parties channel, APP_IO,  - IT: È il canale da cui proviene l'operazione: ISSUER: canale di terze parti, APP_IO"
+          description: 'ENG: Channel - IT: Canale di richiesta'
         brandLogo:
           type: string
-          description: "ENG: The logo card's brand as mastercard, visa, etc. - IT: Il logo del brand della carta: mastercard, visa, ecc."
+          description: >-
+            ENG: Card's brand logo URL - IT: URL del logo del marchio della
+            carta
+        brand:
+          type: string
+          description: >-
+            ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della
+            carta come mastercard, visa, ecc...
         status:
           enum:
             - ACTIVE
             - PENDING_ENROLLMENT_REQUEST
             - PENDING_DEACTIVATION_REQUEST
           type: string
-          description: "ENG: One of the possible status of the instrument: ACTIVE: active instrument, PENDING_ENROLLMENT_REQUEST: the instrument enrollment request is in pending, PENDING_DEACTIVATION_REQUEST: the instrument deactivation request is in pending,  - IT: Uno dei possibili stati dello strumento di pagamento: ACTIVE: strumento di pagamento attivo , PENDING_ENROLLMENT_REQUEST: L'aggiunta dello strumento di pagamento è in attesa, PENDING_DEACTIVATION_REQUEST: La disattivazione dello strumento di pagamento è in attesa"
+          description: 'ENG: The status of the instrument - IT: Stato dello strumento'
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - APP_IO_PAYMENT
+            - IDPAYCODE
         activationDate:
           type: string
           format: date-time
-          description: "ENG: The instrument activation date - IT: La data di attivazione dello strumento di pagamento"
+          description: >-
+            ENG: Activation date of the instrument - IT: Data di attivazione
+            dello strumento
     OperationDTO:
       oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
