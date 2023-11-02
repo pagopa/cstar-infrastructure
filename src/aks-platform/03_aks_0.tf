@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_aks" {
 
 # k8s cluster subnet
 module "snet_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.20.0"
   name   = "${local.project}-aks-snet"
 
   resource_group_name  = data.azurerm_resource_group.vnet_aks_rg.name
@@ -27,7 +27,7 @@ module "snet_aks" {
 
 module "aks" {
   count  = var.aks_enabled ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.10.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=k8s-fix-outputs"
 
   name                                          = local.aks_cluster_name
   location                                      = azurerm_resource_group.rg_aks.location
@@ -140,5 +140,5 @@ resource "azurerm_role_assignment" "aks_to_acr" {
 }
 
 module "aks_storage_class" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.19.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.20.0"
 }
