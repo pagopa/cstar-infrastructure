@@ -26,7 +26,7 @@ module "snet_aks" {
 
 
 module "aks" {
-  count = var.aks_enabled ? 1 : 0
+  count  = var.aks_enabled ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.10.0"
 
   name                                          = local.aks_cluster_name
