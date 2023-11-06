@@ -13,29 +13,30 @@
 <policies>
     <inbound>
         <base />
-        <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
-        <cache-lookup-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" variable-name="getCitizenResponse"  />
+        <!-- <set-variable name="v_GetCitizenKey" value="@((string)context.Variables["fiscalCode"])" />
+        <cache-lookup-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" variable-name="getCitizenResponse" />
         <choose>
-            <!-- If API Management find it in the cache, make a request for it and store it -->
             <when condition="@(context.Variables.ContainsKey("getCitizenResponse"))">
                 <return-response response-variable-name="getCitizenResponse" />
             </when>
             <otherwise>
                 <rewrite-uri template="@("/"+ (string)context.Variables["fiscalCode"]+"?isIssuer=false")" />
             </otherwise>
-        </choose>
+        </choose> -->
+        <return-response>
+            <set-status code="404" reason="Not Found" />
+        </return-response>
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
-        <set-variable name="cs1" value="IBAN" />
+        <!-- <set-variable name="cs1" value="IBAN" />
         <choose>
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
-                <!-- Store result in cache -->
-                <cache-store-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" value="@(context.Response)" duration="1800"  />
+                <cache-store-value key="@((string)context.Variables["v_GetCitizenKey"] + "-getcitizen")" value="@(context.Response)" duration="1800" />
             </when>
-        </choose>
+        </choose> -->
         <base />
     </outbound>
     <on-error>
