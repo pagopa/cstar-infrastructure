@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_aks" {
 
 # k8s cluster subnet
 module "snet_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.20.0"
   name   = "${local.project}-aks-snet"
 
   resource_group_name  = data.azurerm_resource_group.vnet_aks_rg.name
@@ -26,9 +26,8 @@ module "snet_aks" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v6.2.1"
-
-  count = var.aks_enabled ? 1 : 0
+  count  = var.aks_enabled ? 1 : 0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=k8s-fix-outputs"
 
   name                                          = local.aks_cluster_name
   location                                      = azurerm_resource_group.rg_aks.location
@@ -122,6 +121,15 @@ module "aks" {
 }
 
 #
+# Pod identity permissions
+#
+resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
+  scope                = azurerm_resource_group.rg_aks.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = module.aks[0].identity_principal_id
+}
+
+#
 # ACR connection
 #
 # add the role to the identity the kubernetes cluster was assigned
@@ -129,4 +137,8 @@ resource "azurerm_role_assignment" "aks_to_acr" {
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = module.aks[0].kubelet_identity_id
+}
+
+module "aks_storage_class" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.20.0"
 }
