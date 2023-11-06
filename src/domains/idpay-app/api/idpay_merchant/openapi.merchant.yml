@@ -584,6 +584,9 @@ components:
         initiativeId:
           type: string
           description: "ENG: The ID of the initiative <br> IT: L'ID' dell'iniziativa"
+        initiativeName:
+          type: string
+          description: "ENG: The name of the initiative <br> IT: Il nome dell'iniziativa"
         businessName:
           type: string
           description: "ENG: The name of the merchant <br> IT: La ragione sociale dell'esercente"
