@@ -177,16 +177,16 @@ module "idpay_merchants_portal" {
       })
     },
     {
-      operation_id = "confirmPaymentQRCode"
+      operation_id = "deleteTransaction"
 
-      xml_content = templatefile("./api/idpay_merchants_portal/put-confirm-merchant-transaction-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "deleteTransaction"
+      operation_id = "authPaymentBarCode"
 
-      xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_merchants_portal/put-bar-code-authorize-merchant-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }

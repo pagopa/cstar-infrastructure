@@ -77,10 +77,9 @@ components:
             ORDINARIO: 5000
             MINORENNE: 6000
             UNIVERSITARIO: 7000
-            SOCIOSANITARIO: 8000
+            SOCIO_SANITARIO: 8000
             DOTTORATO: 9000
             RESIDENZIALE: 10000
-            CORRENTE: 1000
     ErrorDTO:
       type: object
       properties:
