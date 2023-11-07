@@ -71,8 +71,15 @@ monitor_resource_group_name                 = "cstar-u-monitor-rg"
 log_analytics_workspace_name                = "cstar-u-law"
 log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
 
-##Eventhub
-ehns_sku_name = "Standard"
+### Eventhub
+eventhub_idpay_namespace = {
+  sku                      = "Standard"
+  capacity                 = null
+  maximum_throughput_units = null
+  auto_inflate_enabled     = false
+  zone_redundant           = false
+  minimum_tls_version      = "1.2"
+}
 
 eventhubs_idpay_00 = [
   {
