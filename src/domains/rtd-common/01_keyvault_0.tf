@@ -84,8 +84,8 @@ resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = data.azuread_service_principal.platform_iac_sp.object_id
 
+key_permissions = ["Get", "List", "Import", ]
   secret_permissions = ["Get", "List", "Set", ]
-
   certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", "Import"]
 
   storage_permissions = []
@@ -101,8 +101,8 @@ resource "azurerm_key_vault_access_policy" "iac_sp_plan_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = data.azuread_service_principal.iac_sp_plan.object_id
 
+key_permissions = ["Get", "List", "Import", ]
   secret_permissions = ["Get", "List", "Set", ]
-
   certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", "Import"]
 
   storage_permissions = []
