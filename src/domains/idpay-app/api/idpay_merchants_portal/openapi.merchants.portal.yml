@@ -728,6 +728,7 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
+            - PAYMENT_INVALID_REQUEST
           description: >-
             "ENG: Error code:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not found or expired
@@ -751,6 +752,7 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction not allowed due to status
             PAYMENT_AMOUNT_NOT_VALID: amount of transaction not valid
             PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded
+            PAYMENT_INVALID_REQUEST: request validation error
             IT: Codice di errore
             PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta
             PAYMENT_TRANSACTION_EXPIRED: transazione scaduta
@@ -773,6 +775,7 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non consentita a causa dello stato della transazione
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido
             PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
