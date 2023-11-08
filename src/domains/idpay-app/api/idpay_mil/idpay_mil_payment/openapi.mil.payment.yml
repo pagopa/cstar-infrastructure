@@ -364,9 +364,9 @@ components:
         residualAmountCents:
           type: integer
           format: int64
-        trxPngUrl:
+        qrcodePngUrl:
           type: string
-        trxTxtUrl:
+        qrcodeTxtUrl:
           type: string
     SyncTrxStatus:
       type: object
@@ -422,6 +422,10 @@ components:
         status:
           type: string
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+        qrcodePngUrl:
+          type: string
+        qrcodeTxtUrl:
+          type: string
     ErrorDTO:
       type: object
       properties:
