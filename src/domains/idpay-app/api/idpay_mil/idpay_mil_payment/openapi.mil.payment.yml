@@ -43,16 +43,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: "INVALID_REQUEST"
-                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
-        '404':
-          description: Transaction not found
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
+        '403':
+          description: 'Forbidden'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "String"
   '/idpay-code/{transactionId}/preview':
     put:
       tags:
@@ -121,10 +144,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                PAYMENT_GENERIC_ERROR:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice reward-calculator"
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "String"
   '/idpay-code/{transactionId}/authorize':
     put:
       tags:
@@ -285,12 +306,44 @@ paths:
       responses:
         '200':
           description: Ok
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+        '401':
+          description: Token not validated correctly
         '403':
-          description: Merchant not allowed to operate on this transaction
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
         '404':
-          description: Transaction does not exist
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
         '429':
           description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "String"
 components:
   schemas:
     TransactionCreationRequest:
@@ -425,13 +478,6 @@ components:
         qrcodePngUrl:
           type: string
         qrcodeTxtUrl:
-          type: string
-    ErrorDTO:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
           type: string
     PreAuthPaymentResponseDTO:
       type: object
