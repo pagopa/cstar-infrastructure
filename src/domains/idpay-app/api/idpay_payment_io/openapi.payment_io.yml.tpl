@@ -55,6 +55,25 @@ paths:
               example:
                 code: PAYMENT_NOT_FOUND_EXPIRED
                 message: 'Cannot find transaction with trxCode [trxCode]'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: 'Too many requests'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_GENERIC_ERROR
+                message: 'application error (connection microservice
+            error)'
 components:
   schemas:
     TransactionErrorDTO:
