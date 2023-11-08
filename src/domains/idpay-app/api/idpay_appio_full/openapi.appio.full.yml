@@ -1856,7 +1856,7 @@ paths:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_TOO_MANY_REQUESTS
-                message: 'Too many requests'
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -1865,7 +1865,7 @@ paths:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_GENERIC_ERROR
-                message: 'application error (connection microservice error)'
+                message: application error (connection microservice error)
 components:
   schemas:
     IbanDTO:
