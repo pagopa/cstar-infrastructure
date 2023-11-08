@@ -1865,8 +1865,7 @@ paths:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: PAYMENT_GENERIC_ERROR
-                message: 'application error (connection microservice
-            error)'
+                message: 'application error (connection microservice error)'
 components:
   schemas:
     IbanDTO:
