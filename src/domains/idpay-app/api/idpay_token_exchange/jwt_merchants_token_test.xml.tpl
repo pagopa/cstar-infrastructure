@@ -13,11 +13,11 @@
 <policies>
     <inbound>
         <!--base: Begin Global scope-->
-        <cors allow-credentials="true" terminate-unmatched-request="false">
+        <cors allow-credentials="true">
             <allowed-origins>
-                <origin>https://portal.dev.cstar.pagopa.it</origin>
-                <origin>https://management.dev.cstar.pagopa.it</origin>
-                <origin>https://cstar-d-apim.developer.azure-api.net</origin>
+              %{ for origin in origins ~}
+              <origin>${origin}</origin>
+              %{ endfor ~}
             </allowed-origins>
             <allowed-methods preflight-result-max-age="300">
                 <method>*</method>
