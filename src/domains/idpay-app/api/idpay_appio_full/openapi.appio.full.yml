@@ -3218,10 +3218,10 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction
             not allowed due to status, PAYMENT_AMOUNT_NOT_VALID: amount of
             transaction not valid, PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant
-            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error - IT: Codice di errore:
-            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure
-            scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
-            PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
+            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error
+            - IT: Codice di errore: PAYMENT_NOT_FOUND_OR_EXPIRED: transazione
+            non trovata oppure scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione
+            scaduta, PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
             PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto,
             PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
