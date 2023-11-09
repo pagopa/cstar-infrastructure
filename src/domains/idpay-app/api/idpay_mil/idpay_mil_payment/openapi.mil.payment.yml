@@ -304,8 +304,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SyncTrxStatus'
-        '403':
-          description: Forbidden
         '404':
           description: The requested resource was not found
           content:
