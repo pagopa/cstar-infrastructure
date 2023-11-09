@@ -1674,8 +1674,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_INVALID_REQUEST'
-                message: 'Required trxCode is not present'
+                code: PAYMENT_INVALID_REQUEST
+                message: Required trxCode is not present
         '401':
           description: Token not validated correctly
         '403':
@@ -1685,8 +1685,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_USER_UNSUBSCRIBED'
-                message: 'The user has unsubscribed from initiative'
+                code: PAYMENT_USER_UNSUBSCRIBED
+                message: The user has unsubscribed from initiative
         '404':
           description: Transaction does not exist or is expired
           content:
@@ -1694,8 +1694,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_NOT_FOUND_OR_EXPIRED'
-                message: 'transaction not found or expired'
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: transaction not found or expired
         '429':
           description: Too many Request
           content:
@@ -1703,8 +1703,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_TOO_MANY_REQUESTS'
-                message: 'Too many requests'
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -1712,8 +1712,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_GENERIC_ERROR'
-                message: 'application error (connection microservice error)'
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
   '/payment/qr-code/{trxCode}/authorize':
     put:
       tags:
@@ -1741,8 +1741,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_INVALID_REQUEST'
-                message: 'Required trxCode is not present'
+                code: PAYMENT_INVALID_REQUEST
+                message: Required trxCode is not present
         '401':
           description: Token not validated correctly
         '403':
@@ -1752,8 +1752,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_ALREADY_ASSIGNED'
-                message: 'transaction already assigned'
+                code: PAYMENT_ALREADY_ASSIGNED
+                message: transaction already assigned
         '404':
           description: Transaction does not exist or is expired
           content:
@@ -1761,8 +1761,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_NOT_FOUND_OR_EXPIRED'
-                message: 'transaction not found or expired'
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: transaction not found or expired
         '429':
           description: Too many Request
           content:
@@ -1770,8 +1770,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_TOO_MANY_REQUESTS'
-                message: 'Too many requests'
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -1779,8 +1779,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_GENERIC_ERROR'
-                message: 'application error (connection microservice error)'
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
   '/payment/qr-code/{trxCode}':
     delete:
       tags:
@@ -1804,8 +1804,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS'
-                message: 'unrelate transaction not allowed due to status'
+                code: PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
+                message: unrelate transaction not allowed due to status
         '401':
           description: Token not validated correctly
         '403':
@@ -1815,8 +1815,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_ALREADY_ASSIGNED'
-                message: 'transaction already assigned'
+                code: PAYMENT_ALREADY_ASSIGNED
+                message: transaction already assigned
         '404':
           description: Transaction does not exist or is expired
           content:
@@ -1824,8 +1824,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_NOT_FOUND_OR_EXPIRED'
-                message: 'transaction not found or expired'
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: transaction not found or expired
         '429':
           description: Too many Request
           content:
@@ -1833,8 +1833,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_TOO_MANY_REQUESTS'
-                message: 'Too many requests'
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -1842,8 +1842,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: 'PAYMENT_GENERIC_ERROR'
-                message: 'application error (connection microservice error)'
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
   /payment/bar-code:
     post:
       tags:
