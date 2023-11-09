@@ -67,6 +67,9 @@ module "redis_snet" {
 
 # k8s cluster subnet
 module "k8s_snet" {
+
+  count = var.enable.core.aks ? 1 : 0
+
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   name                                      = format("%s-k8s-snet", local.project)
   address_prefixes                          = var.cidr_subnet_k8s
@@ -80,6 +83,11 @@ module "k8s_snet" {
     "Microsoft.AzureCosmosDB",
     "Microsoft.EventHub"
   ]
+}
+
+moved {
+  from = module.k8s_snet
+  to   = module.k8s_snet[0]
 }
 
 ## Subnet jumpbox
