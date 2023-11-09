@@ -644,7 +644,7 @@ enable_blob_storage_event_grid_integration = true
 enable = {
   core = {
     private_endpoints_subnet = true
-    aks                      = true
+    aks                      = false
   }
   bpd = {
     db     = true

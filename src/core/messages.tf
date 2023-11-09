@@ -51,10 +51,6 @@ module "event_hub" {
             ignore_missing_virtual_network_service_endpoint = false
           },
           {
-            subnet_id                                       = module.k8s_snet.id
-            ignore_missing_virtual_network_service_endpoint = false
-          },
-          {
             subnet_id                                       = module.private_endpoint_snet[0].id
             ignore_missing_virtual_network_service_endpoint = false
           },
