@@ -35,7 +35,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_REQUEST_NOT_VALID
+                code: PAYMENT_INVALID_REQUEST
                 message: Required initiativeId is not present
         '403':
           description: User not onboarded
