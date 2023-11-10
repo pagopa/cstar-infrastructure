@@ -10,7 +10,7 @@ paths:
     get:
       tags:
         - merchant-initiatives
-      summary: Returns the list of initiatives of a specific merchant
+      summary: "ENG: Returns the list of initiatives of a specific merchant - IT: Ritorna la lista delle iniziative di uno specifico merchant"
       description: Returns the list of initiatives of a specific merchant
       operationId: getMerchantInitiativeList
       responses:
@@ -29,7 +29,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The merchant ID was not found
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
           content:
             application/json:
               schema:
@@ -38,7 +50,7 @@ paths:
     get:
       tags:
         - merchant-initiative-statistics
-      summary: Returns the merchant statistics on the initiative
+      summary: "ENG: Returns the merchant statistics on the initiative - IT: Ritorna le statistiche dell'esercente sull'iniziativa"
       description: Returns the merchant statistics on the initiative
       operationId: getMerchantInitiativeStatistics
       parameters:
@@ -56,13 +68,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/MerchantStatisticsDTO'
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was Not Found
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Generic error
           content:
             application/json:
               schema:
@@ -71,7 +95,7 @@ paths:
     post:
       tags:
         - merchant-transactions
-      summary: Merchant create transaction
+      summary: "ENG: Merchant create transaction - IT: Creazione transazione da parte dell'esercente"
       operationId: createTransaction
       requestBody:
         description: General information about Transaction
@@ -86,20 +110,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INITIATIVE_INVALID_DATE"
+                message: "Cannot create transaction out of valid period. Initiative startDate: %s endDate: %s"
         '404':
-          description: Transaction not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: "PAYMENT_INITIATIVE_NOT_FOUND"
-                message: "Initiative not found"
+                message: "Cannot find initiative with id [%s]"
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   /transactions/{transactionId}:
     delete:
       tags:
         - merchant-transactions
-      summary: Merchant delete transaction
+      summary: "ENG: Merchant delete transaction - IT: Cancellazione transazione da parte dell'esercente"
       operationId: deleteTransaction
       parameters:
         - name: transactionId
@@ -111,17 +173,58 @@ paths:
       responses:
         '200':
           description: Ok
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
         '403':
-          description: Merchant not allowed to operate on this transaction
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT"
+                message: "The merchant with id [%s] associated to the transaction is not equal to the merchant with id [%s]"
         '404':
-          description: Transaction does not exist
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
+                message: "Cannot find transaction with transactionId [%s]"
         '429':
-          description: Too many Request
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   /initiatives/{initiativeId}/transactions:
     get:
       tags:
         - merchant-transactions
-      summary: Returns the list of in progress transactions associated to a merchant
+      summary: "ENG: Returns the list of in progress transactions associated to a merchant - IT: Ritorna la lista delle transazioni in corso associate ad un esercente"
       description: "ENG: Returns the list of in progress transactions associated to a merchant <br> IT: Ritorna la lista delle transazioni in corso associate ad un esercente"
       operationId: getMerchantTransactions
       parameters:
@@ -162,19 +265,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MerchantTransactionsListDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
           description: Autentication failed
-        '404':
-          description: Merchant not found
         '429':
           description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
-          description: Server error
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   /initiatives/{initiativeId}/transactions/processed:
     get:
       tags:
         - merchant-transactions
-      summary: Returns the list of processed transactions associated to a merchant
+      summary: "ENG: Returns the list of processed transactions associated to a merchant - IT: Ritorna la lista delle transazioni processate associate ad un esercente"
       description: "ENG: Returns the list of processed transactions associated to a merchant <br> IT: Ritorna la lista delle transazioni processate associate ad un esercente"
       operationId: getMerchantTransactionsProcessed
       parameters:
@@ -218,11 +342,11 @@ paths:
         '401':
           description: Autentication failed
         '404':
-          description: Merchant not found
+          description: The requested resource was not found
         '429':
           description: Too many requests
         '500':
-          description: Server error
+          description: Generic error
   '/transactions/bar-code/{trxCode}/authorize':
     put:
       tags:
@@ -250,18 +374,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
         '400':
-          description: Transaction is not CREATED or AUTHORIZED
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_STATUS_NOT_VALID"
-                message: "Cannot relate transaction [trxCode] in status [status]"
+                code: "PAYMENT_AMOUNT_NOT_VALID"
+                message: "Cannot authorize transaction with invalid amount [%s]"
         '401':
-          description: Token not validated correctly
+          description: Authentication failed
         '403':
-          description: 'Transaction is already AUTHORIZED or transaction has been rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -270,7 +394,7 @@ paths:
                 code: "PAYMENT_ALREADY_AUTHORIZED"
                 message: "Transaction with trxCode [trxCode] is already authorized"
         '404':
-          description: Transaction does not exist or is expired
+          description: The requested resource was not found
           content:
             application/json:
               schema:
@@ -279,7 +403,7 @@ paths:
                 code: "PAYMENT_NOT_FOUND_EXPIRED"
                 message: "Cannot find transaction with trxCode [trxCode]"
         '429':
-          description: Too many Request
+          description: Too many requests
           content:
             application/json:
               schema:
@@ -300,7 +424,7 @@ paths:
     get:
       tags:
         - merchant-detail
-      summary: Returns the merchants detail on initiative
+      summary: "ENG: Returns the merchant detail on initiative - IT: Ritorna il dettaglio dell' esercente sull'iniziativa"
       description: "ENG: Returns the merchant detail on initiative <br> IT: Dettaglio dell' esercente sull'iniziativa"
       operationId: getMerchantDetail
       parameters:
@@ -324,19 +448,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '429':
-          description: Too many Request
+          description: Too many requests
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '500':
-          description: Server ERROR
+          description: Generic error
           content:
             application/json:
               schema:
@@ -728,6 +852,8 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
+            - PAYMENT_INVALID_REQUEST
+            - PAYMENT_STATUS_NOT_VALID
           description: >-
             "ENG: Error code:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not found or expired
@@ -751,6 +877,8 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction not allowed due to status
             PAYMENT_AMOUNT_NOT_VALID: amount of transaction not valid
             PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded
+            PAYMENT_INVALID_REQUEST: request validation error
+            PAYMENT_STATUS_NOT_VALID: transaction status not valid
             IT: Codice di errore
             PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta
             PAYMENT_TRANSACTION_EXPIRED: transazione scaduta
@@ -773,6 +901,8 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non consentita a causa dello stato della transazione
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido
             PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta
+            PAYMENT_STATUS_NOT_VALID: stato della transazione non valido"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
