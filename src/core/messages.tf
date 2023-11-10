@@ -25,7 +25,7 @@ module "event_hub" {
   public_network_access_enabled = true
 
   virtual_network_ids = [module.vnet_integration.id, module.vnet.id]
-  subnet_id           = module.eventhub_snet.id
+  subnet_id           = module.eventhub_snet[0].id
 
   eventhubs = []
 
