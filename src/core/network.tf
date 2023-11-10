@@ -148,6 +148,9 @@ module "apim_snet" {
 
 ## Eventhub subnet
 module "eventhub_snet" {
+
+  count = 1
+
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   name                                      = format("%s-eventhub-snet", local.project)
   address_prefixes                          = var.cidr_subnet_eventhub
@@ -155,6 +158,11 @@ module "eventhub_snet" {
   virtual_network_name                      = module.vnet_integration.name
   service_endpoints                         = ["Microsoft.EventHub"]
   private_endpoint_network_policies_enabled = false
+}
+
+moved {
+  from = module.eventhub_snet
+  to   = module.eventhub_snet[0]
 }
 
 # Subnet for Azure Data Factory
@@ -586,7 +594,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.apim_snet.id, module.eventhub_snet.id]
+  subnet_ids = [module.apim_snet.id]
 
   routes = [
     {
