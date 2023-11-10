@@ -131,6 +131,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
+              example:
+                code: "TIMELINE_DETAIL_NOT_FOUND"
+                message: "Detail of Timeline not found"
         '429':
           description: Too many Request
           content:
