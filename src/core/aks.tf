@@ -1,4 +1,7 @@
 resource "azurerm_resource_group" "rg_aks" {
+
+  count = var.enable.core.aks ? 1 : 0
+
   name     = format("%s-aks-rg", local.project)
   location = var.location
   tags     = var.tags
@@ -10,9 +13,9 @@ module "aks" {
   count = var.enable.core.aks ? 1 : 0
 
   name                = format("%s-aks", local.project)
-  location            = azurerm_resource_group.rg_aks.location
+  location            = azurerm_resource_group.rg_aks[count.index].location
   dns_prefix          = format("%s-aks", local.project)
-  resource_group_name = azurerm_resource_group.rg_aks.name
+  resource_group_name = azurerm_resource_group.rg_aks[count.index].name
 
   kubernetes_version         = var.kubernetes_version
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
@@ -47,7 +50,7 @@ module "aks" {
   addon_azure_pod_identity_enabled = false
 
   vnet_id        = module.vnet.id
-  vnet_subnet_id = module.k8s_snet.id
+  vnet_subnet_id = module.k8s_snet[count.index].id
 
   network_profile = {
     docker_bridge_cidr = "172.17.0.1/16"
@@ -90,8 +93,8 @@ module "acr" {
 
   source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v6.2.1"
   name                = replace(format("%s-acr", local.project), "-", "")
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  location            = azurerm_resource_group.rg_aks.location
+  resource_group_name = azurerm_resource_group.rg_aks[count.index].name
+  location            = azurerm_resource_group.rg_aks[count.index].location
   admin_enabled       = false
 
   private_endpoint = {
