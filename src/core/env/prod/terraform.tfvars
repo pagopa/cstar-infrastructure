@@ -67,6 +67,7 @@ aks_enable_auto_scaling = true
 aks_min_node_count      = 1
 aks_max_node_count      = 6
 aks_vm_size             = "Standard_D8S_v3"
+aks_num_outbound_ips    = 0
 
 aks_availability_zones = [1, 2, 3]
 aks_node_count         = 6
@@ -644,7 +645,7 @@ enable_blob_storage_event_grid_integration = true
 enable = {
   core = {
     private_endpoints_subnet = true
-    aks                      = true
+    aks                      = false
   }
   bpd = {
     db     = true

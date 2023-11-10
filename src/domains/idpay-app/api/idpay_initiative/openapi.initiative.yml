@@ -3578,7 +3578,7 @@ components:
           type: integer
           format: int32
         accruedRewards:
-          type: string
+          type: number
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
       type: object

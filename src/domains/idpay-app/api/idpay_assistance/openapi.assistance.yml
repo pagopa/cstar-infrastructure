@@ -2496,7 +2496,7 @@ components:
           format: int32
           description: "ENG: The counter of onboarded citizen - IT: Il contatore dei cittadini onboardati"
         accruedRewards:
-          type: string
+          type: number
           description: "ENG: The total budget spent (accrued bonus) - IT: Il budget totale speso (bonus maturato)"
     PageRewardExportsDTO:
       title: PageRewardExportsDTO

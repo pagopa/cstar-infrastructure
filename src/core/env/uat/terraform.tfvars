@@ -65,6 +65,8 @@ aks_min_node_count      = 1
 aks_max_node_count      = 3
 aks_alerts_enabled      = false
 aks_node_count          = 1
+aks_num_outbound_ips    = 0
+
 aks_metric_alerts = {
   node_cpu = {
     aggregation      = "Average"

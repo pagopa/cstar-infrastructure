@@ -64,10 +64,12 @@ aks_networks = [
 ]
 aks_availability_zones = []
 
+# old aks
 aks_enable_auto_scaling = true
 aks_min_node_count      = 1
 aks_max_node_count      = 2
 aks_vm_size             = "Standard_B4ms"
+aks_num_outbound_ips    = 0
 aks_alerts_enabled      = false
 aks_metric_alerts = {
   node_cpu = {
