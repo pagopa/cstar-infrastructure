@@ -68,7 +68,7 @@ module "redis_snet" {
 # k8s cluster subnet
 module "k8s_snet" {
 
-  count = var.enable.core.aks ? 1 : 0
+  count = 0
 
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   name                                      = format("%s-k8s-snet", local.project)
@@ -567,21 +567,6 @@ module "app_gw_maz" {
     }
 
   }
-
-  tags = var.tags
-}
-
-
-resource "azurerm_public_ip" "aks_outbound" {
-  count = var.aks_num_outbound_ips
-
-  name                = format("%s-aksoutbound-pip-%02d", local.project, count.index + 1)
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  location            = azurerm_resource_group.rg_vnet.location
-  sku                 = "Standard"
-  allocation_method   = "Static"
-
-  zones = [1, 2, 3]
 
   tags = var.tags
 }
