@@ -10,7 +10,7 @@ paths:
     post:
       tags:
         - payment
-      summary: Create a transaction
+      summary: "ENG: Create a transaction - IT: Creazione di una transazione"
       operationId: createGenericTransaction
       parameters:
         - name: x-merchant-fiscalcode
@@ -43,16 +43,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "INVALID_REQUEST"
-                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
-        '404':
-          description: Transaction not found
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INITIATIVE_INVALID_DATE"
+                message: "Cannot create transaction out of valid period. Initiative startDate: %s endDate: %s"
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INITIATIVE_NOT_FOUND"
+                message: "Cannot find initiative with id [%s]"
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   '/idpay-code/{transactionId}/preview':
     put:
       tags:
@@ -86,34 +118,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/PreAuthPaymentResponseDTO'
         '400':
-          description: Transaction is not CREATED or IDENTIFIED
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
-          description: Token not validated correctly
+          description: Authentication failed
         '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INITIATIVE_INVALID_DATE"
+                message: "Cannot create transaction out of valid period. Initiative startDate: %s endDate: %s"
         '404':
-          description: Transaction does not exist or is expired
+          description: The requested resource was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INITIATIVE_NOT_FOUND"
+                message: "Cannot find initiative with id [%s]"
         '429':
-          description: Too many Request
+          description: Too many requests
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "too many requests"
+                message: "Too many requests"
         '500':
           description: Generic error
           content:
@@ -121,10 +162,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                PAYMENT_GENERIC_ERROR:
-                  value:
-                    code: "PAYMENT_GENERIC_ERROR"
-                    message: "An error occurred in the microservice reward-calculator"
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   '/idpay-code/{transactionId}/authorize':
     put:
       tags:
@@ -164,40 +203,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
         '400':
-          description: Transaction is not CREATED or IDENTIFIED
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
-          description: Token not validated correctly
+          description: Authentication failed
         '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_PINBLOCK"
+                message: "The Pinblock is incorrect"
         '404':
-          description: Transaction does not exist or is expired
+          description: The requested resource was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
+                message: "Cannot find transaction with transactionId [%s]"
         '429':
-          description: Too many Request
+          description: Too many requests
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
                 code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "too many requests"
+                message: "Too many requests"
         '500':
           description: Generic error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
 
   '/publickey':
     get:
@@ -220,12 +271,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PublicKeyDTO'
         '401':
-          description: Token not validated correctly
+          description: Authentication failed
   /{transactionId}/status:
     get:
       tags:
         - payment
-      summary: Returns the detail of a transaction
+      summary: "ENG: Returns the detail of a transaction - IT: Ritorna il dettaglio di una transazione"
       operationId: getStatusTransaction
       parameters:
         - name: transactionId
@@ -253,10 +304,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SyncTrxStatus'
-        '403':
-          description: Transaction is associated to another user
         '404':
-          description: Transaction does not exist
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
+                message: "Cannot find transaction with transactionId [%s]"
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   /{transactionId}:
     delete:
       tags:
@@ -285,12 +359,53 @@ paths:
       responses:
         '200':
           description: Ok
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
         '403':
-          description: Merchant not allowed to operate on this transaction
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT"
+                message: "The merchant with id [%s] associated to the transaction is not equal to the merchant with id [%s]"
         '404':
-          description: Transaction does not exist
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
+                message: "Cannot find transaction with transactionId [%s]"
         '429':
-          description: Too many Request
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
 components:
   schemas:
     TransactionCreationRequest:
@@ -364,9 +479,9 @@ components:
         residualAmountCents:
           type: integer
           format: int64
-        trxPngUrl:
+        qrcodePngUrl:
           type: string
-        trxTxtUrl:
+        qrcodeTxtUrl:
           type: string
     SyncTrxStatus:
       type: object
@@ -422,12 +537,9 @@ components:
         status:
           type: string
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
-    ErrorDTO:
-      type: object
-      properties:
-        code:
+        qrcodePngUrl:
           type: string
-        message:
+        qrcodeTxtUrl:
           type: string
     PreAuthPaymentResponseDTO:
       type: object
@@ -581,6 +693,8 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
+            - PAYMENT_INVALID_REQUEST
+            - PAYMENT_STATUS_NOT_VALID
           description: >-
             "ENG: Error code:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not found or expired,
@@ -605,7 +719,9 @@ components:
             PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS: cancellation of transaction not allowed due to status,
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction not allowed due to status,
             PAYMENT_AMOUNT_NOT_VALID: amount of transaction not valid,
-            PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded
+            PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded,
+            PAYMENT_INVALID_REQUEST: request validation error,
+            PAYMENT_STATUS_NOT_VALID: transaction status not valid
             - IT: Codice di errore:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta,
             PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
@@ -629,7 +745,9 @@ components:
             PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS: annullamento della transazione non consentito a causa dello stato della transazione,
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non consentita a causa dello stato della transazione,
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido,
-            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato"
+            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato,
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta,
+            PAYMENT_STATUS_NOT_VALID: stato della transazione non valido"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
