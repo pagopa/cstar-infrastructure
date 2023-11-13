@@ -632,7 +632,6 @@ components:
             - ONBOARDING_INITIATIVE_ENDED
             - ONBOARDING_BUDGET_EXHAUSTED
             - ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED
-            - ONBOARDING_INITIATIVE_SUSPENDED
             - ONBOARDING_GENERIC_ERROR
             - ONBOARDING_USER_NOT_ONBOARDED
             - ONBOARDING_INITIATIVE_NOT_FOUND
@@ -653,7 +652,6 @@ components:
             ONBOARDING_INITIATIVE_ENDED: The initiative ended,
             ONBOARDING_BUDGET_EXHAUSTED: Budget exhausted for initiative,
             ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: The initiative is not active,
-            ONBOARDING_INITIATIVE_SUSPENDED: The initiative is suspended,
             ONBOARDING_GENERIC_ERROR: Application error,
             ONBOARDING_USER_NOT_ONBOARDED: The current user is not onboarded on initiative,
             ONBOARDING_INITIATIVE_NOT_FOUND: Cannot find initiative,
@@ -674,7 +672,6 @@ components:
             ONBOARDING_INITIATIVE_ENDED: L'iniziativa è terminata,
             ONBOARDING_BUDGET_EXHAUSTED: Il budget dell'iniziativa è esaurito,
             ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: L'iniziativa non è attiva,
-            ONBOARDING_INITIATIVE_SUSPENDED: L'iniziativa è sospesa,
             ONBOARDING_GENERIC_ERROR: Errore applicativo,
             ONBOARDING_USER_NOT_ONBOARDED: Utente non onboardato all'iniziativa,
             ONBOARDING_INITIATIVE_NOT_FOUND: Iniziativa non trovata,
