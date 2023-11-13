@@ -267,7 +267,7 @@ locals {
           unique = false
         },
         {
-          keys   = ["onboardingInitiatives"],
+          keys   = ["onboardedInitiatives"],
           unique = false
         }
       ]
