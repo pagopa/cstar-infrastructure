@@ -265,6 +265,10 @@ locals {
         {
           keys   = ["userId"]
           unique = false
+        },
+        {
+          keys   = ["onboardingInitiatives"],
+          unique = false
         }
       ]
     },
