@@ -17,39 +17,51 @@
         </set-header>
 
         <set-variable name="acquirerId" value="@(context.Request.Headers.GetValueOrDefault("x-acquirer-id", ""))" />
+        <set-variable name="isMerchantIdRequired" value="@(context.Variables.GetValueOrDefault("isMerchantIdRequired", "true"))" />
         <choose>
           <when condition="@(context.Variables["acquirerId"] == "")">
-          <return-response>
-            <set-status code="400" />
-            <set-body>@{
-              return new JObject(
-                new JProperty("code", "INVALID_REQUEST"),
-                new JProperty("message", "Required request header 'x-acquirer-id' for method parameter type String is not present")
-              ).ToString();
-            }</set-body>
-          </return-response>
-        </when>
-        <otherwise>
-          <set-variable name="merchantFiscalCode" value="@(context.Request.Headers.GetValueOrDefault("x-merchant-fiscalcode",""))" />
-          <choose>
-            <when condition="@(context.Variables["merchantFiscalCode"] != "")">
-              <include-fragment fragment-id="idpay-merchant-id-retriever" />
-              <choose>
-                <when condition="@(context.Variables["merchantId"] == null)">
-                  <return-response>
-                    <set-status code="403" reason="Unauthorized" />
-                  </return-response>
-                </when>
-                <otherwise>
-                  <set-header name="x-merchant-id" exists-action="override">
-                    <value>@((String)context.Variables["merchantId"])</value>
-                  </set-header>
-                </otherwise>
-              </choose>
-            </when>
-          </choose>
-        </otherwise>
-      </choose>
+            <return-response>
+              <set-status code="400" />
+              <set-body>@{
+                return new JObject(
+                  new JProperty("code", "INVALID_REQUEST"),
+                  new JProperty("message", "Required request header 'x-acquirer-id' is not present")
+                ).ToString();
+              }</set-body>
+            </return-response>
+          </when>
+          <when condition="@(context.Variables["isMerchantIdRequired"] == "true")">
+            <set-variable name="merchantFiscalCode" value="@(context.Request.Headers.GetValueOrDefault("x-merchant-fiscalcode",""))" />
+            <choose>
+              <when condition="@(context.Variables["merchantFiscalCode"] == "")">
+                <return-response>
+                  <set-status code="400" />
+                  <set-body>@{
+                    return new JObject(
+                    new JProperty("code", "INVALID_REQUEST"),
+                    new JProperty("message", "Required request header 'x-merchant-fiscalcode' is not present")
+                    ).ToString();
+                    }</set-body>
+                </return-response>
+              </when>
+              <otherwise>
+                <include-fragment fragment-id="idpay-merchant-id-retriever" />
+                <choose>
+                  <when condition="@(context.Variables["merchantId"] == null)">
+                    <return-response>
+                      <set-status code="403" reason="Unauthorized" />
+                    </return-response>
+                  </when>
+                  <otherwise>
+                    <set-header name="x-merchant-id" exists-action="override">
+                      <value>@((String)context.Variables["merchantId"])</value>
+                    </set-header>
+                  </otherwise>
+                </choose>
+              </otherwise>
+            </choose>
+          </when>
+        </choose>
     </inbound>
     <backend>
         <base />
