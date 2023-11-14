@@ -2275,36 +2275,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
   /{initiativeId}/reward/readmit:
     put:
       tags:
@@ -2333,36 +2351,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
   /{initiativeId}/reward/exports/{filename}:
     get:
       tags:
