@@ -357,7 +357,7 @@ paths:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
                 code: ONBOARDING_INITIATIVE_NOT_FOUND
-                message: Cannot find initiative [%s]'
+                message: 'Cannot find initiative [%s]'
         '429':
           description: Too many Requests
           content:
