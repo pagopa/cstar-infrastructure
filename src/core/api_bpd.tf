@@ -109,12 +109,12 @@ module "api_bpd_pm_payment_instrument" {
   })
 
   # mock delete api only for dev and uat
-  api_operation_policies = var.env_short == "d" || var.env_short == "u" ? [
+  api_operation_policies = [
     {
       operation_id = "delete"
       xml_content  = file("./api/bpd_pm_payment_instrument/mock_delete_policy.xml")
     }
-  ] : []
+  ]
 
   xml_content = file("./api/base_policy.xml")
 
