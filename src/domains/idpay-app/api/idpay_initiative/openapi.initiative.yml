@@ -356,45 +356,43 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimelineDTO'
-        '400':
-          description: Bad request
+                $ref: '#/components/schemas/IbanDTO'
+        '401':
+          description: Authentication failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimelineErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
-                code: "TIMELINE_INVALID_REQUEST"
-                message: "Something went wrong handling request"
-        '401':
-          description: Authentication failed
+                code: 0
+                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimelineErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
-                code: "TIMELINE_USER_NOT_FOUND"
-                message: "Timeline for the current user not found"
+                code: 0
+                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimelineErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
-                code: "TIMELINE_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: 0
+                message: string
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimelineErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
               example:
-                code: "TIMELINE_GENERIC_ERROR"
-                message: "Application error"
+                code: 0
+                message: string
   '/{initiativeId}/beneficiary/timeline':
     get:
       tags:
@@ -455,46 +453,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: "Parameter [size] must be less than or equal to 10"
+                code: "TIMELINE_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_USER_NOT_FOUND"
+                message: "Timeline for the current user not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
   '/{initiativeId}/beneficiary/timeline/{operationId}':
     get:
       tags:
