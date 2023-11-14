@@ -106,5 +106,8 @@ reverse_proxy_rtd = "10.1.0.250"
 #
 # SMTP Server
 #
-mail_server_host    = "smtp.google.com"
+mail_server_host     = "smtp.google.com"
+mail_server_port     = "465"
+mail_server_protocol = "smtps"
+
 idpay_alert_enabled = true
