@@ -1,0 +1,84 @@
+cp-kafka-connect:
+  enabled: true
+  replicaCount: 1
+
+  image: cstardcommonacr.azurecr.io/kafka-connect-mongo-cf
+  imageTag: "latest"
+  imagePullPolicy: IfNotPresent
+
+  resources:
+    requests:
+      cpu: 400m
+      memory: 512Mi
+    limits:
+      cpu: 600m
+      memory: 640Mi
+  ## You can list load balanced service endpoint, or list of all brokers (which is hard in K8s).  e.g.:
+  ## bootstrapServers: "PLAINTEXT://dozing-prawn-kafka-headless:9092"
+  kafka:
+    bootstrapServers: "SASL_SSL://idpay-poc-cdc.servicebus.windows.net:9093"
+  ## Kafka Connect properties
+  ## ref: https://docs.confluent.io/current/connect/userguide.html#configuring-workers
+  configurationOverrides:
+    group.id: "poc-cdc-cluster"
+    offset.storage.topic: "poc-cdc-cluster-offsets"
+    config.storage.topic: "poc-cdc-cluster-configs"
+    status.storage.topic: "poc-cdc-cluster-status"
+    config.storage.replication.factor: "3"
+    offset.storage.replication.factor: "3"
+    status.storage.replication.factor: "3"
+    rest.advertised.host.name: "connect"
+    offset.flush.interval.ms: 10000
+    key.converter: "org.apache.kafka.connect.json.JsonConverter"
+    value.converter: "org.apache.kafka.connect.json.JsonConverter"
+    internal.key.converter: "org.apache.kafka.connect.json.JsonConverter"
+    internal.value.converter: "org.apache.kafka.connect.json.JsonConverter"
+    internal.key.converter.schemas.enable: false
+    internal.value.converter.schemas.enable: false
+    security.protocol: "SASL_SSL"
+    sasl.mechanism: "PLAIN"
+    producer.security.protocol: SASL_SSL
+    producer.sasl.mechanism: PLAIN
+    consumer.security.protocol: SASL_SSL
+    consumer.sasl.mechanism: PLAIN
+
+    # config compliance to azure broker
+    metadata.max.age.ms: 180000
+    connections.max.idle.ms: 180000
+    max.request.size: "1000000"
+
+  ## Kafka Connect JVM Heap Option
+  heapOptions: "-Xms512M -Xmx512M"
+
+  prometheus:
+    jmx.enabled: false
+
+  customEnv:
+    KAFKA_OPTS: "-Djava.security.auth.login.config=/jaas-config/kafka_jaas.conf"
+
+  volumeMounts:
+    - name: jaas-config
+      mountPath: /jaas-config
+
+  volumes:
+    - name: jaas-config
+      secret:
+        secretName: ${jaas-secret-name}
+
+cp-schema-registry:
+  enabled: false
+
+cp-kafka:
+  enabled: false
+
+cp-zookeeper:
+  enabled: false
+
+cp-ksql-server:
+  enabled: false
+
+cp-control-center:
+  enabled: false
+
+cp-kafka-rest:
+  enabled: false
