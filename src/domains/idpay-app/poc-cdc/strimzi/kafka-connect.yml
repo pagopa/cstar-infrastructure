@@ -1,0 +1,43 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: my-cluster-connect
+  namespace: strimzi
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+spec:
+  replicas: 1
+  image: cstardcommonacr.azurecr.io/strimzi-connectors
+  imagePullPolicy: Always
+  # mention your kafka enabled azure eventhub here as a broker
+  bootstrapServers: idpay-poc-cdc.servicebus.windows.net:9093
+  config:
+    group.id: poc-connect-cluster
+    offset.storage.topic: "poc-cdc-cluster-offsets"
+    config.storage.topic: "poc-cdc-cluster-configs"
+    status.storage.topic: "poc-cdc-cluster-status"
+    config.storage.replication.factor: "3"
+    offset.storage.replication.factor: "3"
+    status.storage.replication.factor: "3"
+    key.converter: "org.apache.kafka.connect.json.JsonConverter"
+    value.converter: "org.apache.kafka.connect.json.JsonConverter"
+    internal.key.converter: "org.apache.kafka.connect.json.JsonConverter"
+    internal.value.converter: "org.apache.kafka.connect.json.JsonConverter"
+    internal.key.converter.schemas.enable: false
+    internal.value.converter.schemas.enable: false
+
+    # config compliance to azure broker
+    metadata.max.age.ms: 180000
+    connections.max.idle.ms: 180000
+    max.request.size: "1000000"
+  # this is the most important part of the setup, this will connect to Eventhub with its connection string
+  authentication:
+    type: plain
+    tls: true
+    username: $$ConnectionString
+    passwordSecret:
+      secretName: strimzi-evh-connectionstring
+      password: eventhubspassword
+  # it took edges for me to find out that even if there is no tls, we need to mention this property else it wont connect to azure eventhub
+  tls:
+    trustedCertificates: []

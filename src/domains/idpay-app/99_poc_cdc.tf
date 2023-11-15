@@ -1,5 +1,6 @@
 locals {
-  enable_poc = var.env_short == "d" ? 1 : 0
+  enable_poc         = var.env_short == "d" ? 1 : 0
+  enable_poc_strimzi = var.env_short == "d" ? 1 : 0
 }
 
 # eventhub for POC
@@ -64,4 +65,35 @@ resource "kubernetes_secret" "kafka_connect_jaas" {
       EOF
     )
   }
+}
+
+
+# POC 1 Alt: Strimzi
+# Install strimzi as k8s operator
+resource "helm_release" "strimzi" {
+  count = local.enable_poc_strimzi
+
+  repository = "https://strimzi.io/charts/"
+  chart      = "strimzi-kafka-operator"
+  name       = "strimzi"
+
+  namespace = "strimzi"
+}
+
+resource "kubernetes_secret" "strimzi_evh_connectionstring" {
+  count = local.enable_poc_strimzi
+  metadata {
+    name      = "strimzi-evh-connectionstring"
+    namespace = "idpay"
+  }
+
+  data = {
+    eventhubsusername : "$ConnectionString"
+    eventhubspassword : azurerm_eventhub_namespace_authorization_rule.poc_cdc_evh_access_key[count.index].primary_connection_string
+  }
+}
+
+resource "kubernetes_manifest" "strimzi_kafka_connect" {
+  count    = local.enable_poc_strimzi
+  manifest = yamldecode(file("./poc-cdc/strimzi/kafka-connect.yml"))
 }

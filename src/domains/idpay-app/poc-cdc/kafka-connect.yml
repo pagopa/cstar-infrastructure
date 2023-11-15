@@ -1,24 +1,19 @@
 cp-kafka-connect:
   enabled: true
-  replicaCount: 1
+  replicaCount: 2
 
   image: cstardcommonacr.azurecr.io/kafka-connect-mongo-cf
   imageTag: "latest"
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
 
-  resources:
-    requests:
-      cpu: 400m
-      memory: 512Mi
-    limits:
-      cpu: 600m
-      memory: 640Mi
-  ## You can list load balanced service endpoint, or list of all brokers (which is hard in K8s).  e.g.:
-  ## bootstrapServers: "PLAINTEXT://dozing-prawn-kafka-headless:9092"
   kafka:
     bootstrapServers: "SASL_SSL://idpay-poc-cdc.servicebus.windows.net:9093"
-  ## Kafka Connect properties
-  ## ref: https://docs.confluent.io/current/connect/userguide.html#configuring-workers
+
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - topologyKey: "kubernetes.io/hostname"
+
   configurationOverrides:
     group.id: "poc-cdc-cluster"
     offset.storage.topic: "poc-cdc-cluster-offsets"
@@ -49,6 +44,14 @@ cp-kafka-connect:
 
   ## Kafka Connect JVM Heap Option
   heapOptions: "-Xms512M -Xmx512M"
+
+  resources:
+    requests:
+      cpu: 400m
+      memory: 512Mi
+    limits:
+      cpu: 600m
+      memory: 640Mi
 
   prometheus:
     jmx.enabled: false

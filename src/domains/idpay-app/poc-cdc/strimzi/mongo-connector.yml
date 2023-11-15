@@ -1,0 +1,33 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: mongodb-source-connector
+  namespace: strimzi
+  labels:
+    strimzi.io/cluster: my-cluster-connect
+spec:
+  class: com.mongodb.kafka.connect.MongoSourceConnector
+  tasksMax: 1
+  config:
+    topics: poc-cdc-events
+    connection.uri: "<connection_uri>"
+    database: rtd
+    collection: poc-cdc
+    topic.namespace.map: >
+      {"rtd.poc-cdc": "idpay.poc-cdc"}
+    server.api.version: "4.2"
+    copy.existing: false
+    key.converter: org.apache.kafka.connect.json.JsonConverter
+    key.converter.schemas.enable: false
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter.schemas.enable: false
+    publish.full.document.only: true
+    output.json.formatter: com.mongodb.kafka.connect.source.json.formatter.SimplifiedJson
+    heartbeat.interval.ms: 5000
+    mongo.errors.log.enable: true
+    output.format.value: json
+    output.format.key: schema
+    output.schema.key: >
+      {"type":"record","name":"keySchema","fields":[{"name":"fullDocument.stream_id","type":"string"}]}
+    pipeline: >
+      [{"$match":{"operationType":{"$in":["insert","update","replace"]}}},{"$project":{"_id":1,"fullDocument":1,"ns":1,"documentKey":1}}]
