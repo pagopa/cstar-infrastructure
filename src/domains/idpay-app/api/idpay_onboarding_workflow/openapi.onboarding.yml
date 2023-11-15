@@ -98,8 +98,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
         '403':
@@ -109,8 +109,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_BUDGET_EXHAUSTED"
-                message: "Budget exhausted for initiative [%s]"
+                code: ONBOARDING_BUDGET_EXHAUSTED
+                message: 'Budget exhausted for initiative [%s]'
         '404':
           description: The requested resource was not found
           content:
@@ -118,8 +118,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INITIATIVE_NOT_FOUND"
-                message: "Cannot find initiative [%s]"
+                code: ONBOARDING_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative [%s]'
         '429':
           description: Too many Requests
           content:
@@ -127,8 +127,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
@@ -136,8 +136,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_GENERIC_ERROR"
-                message: "An error occurred in the microservice admissibility"
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   /initiative:
     put:
       tags:
@@ -180,8 +180,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
         '403':
@@ -191,8 +191,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_BUDGET_EXHAUSTED"
-                message: "Budget exhausted for initiative [%s]"
+                code: ONBOARDING_BUDGET_EXHAUSTED
+                message: 'Budget exhausted for initiative [%s]'
         '404':
           description: The requested resource was not found
           content:
@@ -200,8 +200,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INITIATIVE_NOT_FOUND"
-                message: "Cannot find initiative [%s]"
+                code: ONBOARDING_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative [%s]'
         '429':
           description: Too many Requests
           content:
@@ -209,8 +209,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
@@ -218,8 +218,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_GENERIC_ERROR"
-                message: "An error occurred in the microservice admissibility"
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   /consent:
     put:
       tags:
@@ -256,8 +256,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
         '403':
@@ -267,8 +267,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_BUDGET_EXHAUSTED"
-                message: "Budget exhausted for initiative [%s]"
+                code: ONBOARDING_BUDGET_EXHAUSTED
+                message: 'Budget exhausted for initiative [%s]'
         '404':
           description: The requested resource was not found
           content:
@@ -276,8 +276,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INITIATIVE_NOT_FOUND"
-                message: "Cannot find initiative [%s]"
+                code: ONBOARDING_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative [%s]'
         '429':
           description: Too many Requests
           content:
@@ -285,8 +285,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
@@ -294,8 +294,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_GENERIC_ERROR"
-                message: "An error occurred in the microservice admissibility"
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   '/{initiativeId}/status':
     get:
       tags:
@@ -331,8 +331,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
         '404':
@@ -342,8 +342,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_USER_NOT_ONBOARDED"
-                message: "The current user is not onboarded on initiative [%s]"
+                code: ONBOARDING_USER_NOT_ONBOARDED
+                message: 'The current user is not onboarded on initiative [%s]'
         '500':
           description: Server ERROR
           content:
@@ -351,8 +351,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: "ONBOARDING_GENERIC_ERROR"
-                message: "An error occurred in the microservice admissibility"
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
 components:
   schemas:
     ConsentPutDTO:

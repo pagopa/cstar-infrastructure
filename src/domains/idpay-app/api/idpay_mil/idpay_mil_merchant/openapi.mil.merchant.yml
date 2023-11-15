@@ -42,8 +42,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
               example:
-                code: "INVALID_REQUEST"
-                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
+                code: INVALID_REQUEST
+                message: Required request header x-acquirer-id for method parameter type String is not present
         '404':
           description: The merchant ID was not found
           content:
@@ -95,8 +95,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
               example:
-                code: "INVALID_REQUEST"
-                message: "Required request header 'x-acquirer-id' for method parameter type String is not present"
+                code: INVALID_REQUEST
+                message: Required request header 'x-acquirer-id' for method parameter type String is not present
         '401':
           description: Authentication failed
           content:

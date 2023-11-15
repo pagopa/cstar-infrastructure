@@ -48,8 +48,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_USER_NOT_ONBOARDED"
-                      message: "User not onboarded on this initiative"
+                      code: WALLET_USER_NOT_ONBOARDED
+                      message: User not onboarded on this initiative
               '429':
                 description: Too many Request
                 content:
@@ -57,8 +57,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_TOO_MANY_REQUESTS"
-                      message: "Too many requests"
+                      code: WALLET_TOO_MANY_REQUESTS
+                      message: Too many requests
               '500':
                 description: Server ERROR
                 content:
@@ -66,8 +66,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_GENERIC_ERROR"
-                      message: "Application error"
+                      code: WALLET_GENERIC_ERROR
+                      message: Application error
   /{initiativeId}/iban:
     put:
       tags:
@@ -112,8 +112,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_INVALID_REQUEST"
-                      message: "Something went wrong handling the request"
+                      code: WALLET_INVALID_REQUEST
+                      message: Something went wrong handling the request
               '401':
                 description: Authentication failed
               '403':
@@ -123,9 +123,9 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE"
-                      message: "It is not possible enroll
-                  an iban for a discount type initiative"
+                      code: WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
+                      message: It is not possible enroll
+                  an iban for a discount type initiative
               '429':
                 description: Too many Request
                 content:
@@ -133,8 +133,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_TOO_MANY_REQUESTS"
-                      message: "Too many requests"
+                      code: WALLET_TOO_MANY_REQUESTS
+                      message: Too many requests
               '500':
                 description: Server ERROR
                 content:
@@ -142,8 +142,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_GENERIC_ERROR"
-                      message: "Application error"
+                      code: WALLET_GENERIC_ERROR
+                      message: Application error
   /{initiativeId}/instruments:
     put:
       tags:
@@ -182,8 +182,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_INVALID_REQUEST"
-                      message: "Something went wrong handling the request"
+                      code: WALLET_INVALID_REQUEST
+                      message: Something went wrong handling the request
               '401':
                 description: Authentication failed
               '403':
@@ -193,8 +193,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_INSTRUMENT_ALREADY_ASSOCIATED"
-                      message: "Payment Instrument is already associated to another user"
+                      code: WALLET_INSTRUMENT_ALREADY_ASSOCIATED
+                      message: Payment Instrument is already associated to another user
               '404':
                 description: The requested resource was not found
                 content:
@@ -202,8 +202,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_INSTRUMENT_NOT_FOUND"
-                      message: "The selected payment instrument has not been found for the current user"
+                      code: WALLET_INSTRUMENT_NOT_FOUND
+                      message: The selected payment instrument has not been found for the current user
               '429':
                 description: Too many Request
                 content:
@@ -211,8 +211,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_TOO_MANY_REQUESTS"
-                      message: "Too many requests"
+                      code: WALLET_TOO_MANY_REQUESTS
+                      message: Too many requests
               '500':
                 description: Server ERROR
                 content:
@@ -220,8 +220,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_GENERIC_ERROR"
-                      message: "An error occurred in the microservice payment instrument"
+                      code: WALLET_GENERIC_ERROR
+                      message: An error occurred in the microservice payment instrument
     get:
       tags:
         - wallet
@@ -332,8 +332,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_INVALID_REQUEST"
-                      message: "Something went wrong handling the request"
+                      code: WALLET_INVALID_REQUEST
+                      message: Something went wrong handling the request
               '401':
                 description: Authentication failed
               '403':
@@ -343,8 +343,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_USER_NOT_ONBOARDED"
-                      message: "User not onboarded on this initiative"
+                      code: WALLET_USER_NOT_ONBOARDED
+                      message: User not onboarded on this initiative
               '429':
                 description: Too many Request
                 content:
@@ -352,8 +352,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                      code: "WALLET_TOO_MANY_REQUESTS"
-                      message: "Too many requests"
+                      code: WALLET_TOO_MANY_REQUESTS
+                      message: Too many requests
               '500':
                 description: Server ERROR
                 content:
@@ -361,8 +361,8 @@ paths:
                     schema:
                       $ref: '#/components/schemas/WalletErrorDTO'
                     example:
-                        code: "WALLET_GENERIC_ERROR"
-                        message: "Application error"
+                        code: WALLET_GENERIC_ERROR
+                        message: Application error
 components:
   schemas:
     IbanPutDTO:

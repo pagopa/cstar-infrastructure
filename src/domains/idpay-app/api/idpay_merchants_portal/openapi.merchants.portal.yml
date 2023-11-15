@@ -117,8 +117,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: PAYMENT_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
         '403':
@@ -128,8 +128,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_INITIATIVE_INVALID_DATE"
-                message: "Cannot create transaction out of valid period. Initiative startDate: %s endDate: %s"
+                code: PAYMENT_INITIATIVE_INVALID_DATE
+                message: 'Cannot create transaction out of valid period. Initiative startDate: %s endDate: %s'
         '404':
           description: The requested resource was not found
           content:
@@ -137,8 +137,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_INITIATIVE_NOT_FOUND"
-                message: "Cannot find initiative with id [%s]"
+                code: PAYMENT_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative with id [%s]'
         '429':
           description: Too many requests
           content:
@@ -146,8 +146,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -155,8 +155,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_GENERIC_ERROR"
-                message: "Application error"
+                code: PAYMENT_GENERIC_ERROR
+                message: Application error
   /transactions/{transactionId}:
     delete:
       tags:
@@ -180,8 +180,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: PAYMENT_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
         '403':
@@ -191,8 +191,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT"
-                message: "The merchant with id [%s] associated to the transaction is not equal to the merchant with id [%s]"
+                code: PAYMENT_NOT_ALLOWED_MISMATCHED_MERCHANT
+                message: 'The merchant with id [%s] associated to the transaction is not equal to the merchant with id [%s]'
         '404':
           description: The requested resource was not found
           content:
@@ -200,8 +200,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
-                message: "Cannot find transaction with transactionId [%s]"
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: 'Cannot find transaction with transactionId [%s]'
         '429':
           description: Too many requests
           content:
@@ -209,8 +209,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -218,8 +218,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_GENERIC_ERROR"
-                message: "Application error"
+                code: PAYMENT_GENERIC_ERROR
+                message: Application error
   /initiatives/{initiativeId}/transactions:
     get:
       tags:
@@ -272,8 +272,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_INVALID_REQUEST"
-                message: "Something went wrong handling the request"
+                code: PAYMENT_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Autentication failed
         '429':
@@ -283,8 +283,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -292,8 +292,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_GENERIC_ERROR"
-                message: "Application error"
+                code: PAYMENT_GENERIC_ERROR
+                message: Application error
   /initiatives/{initiativeId}/transactions/processed:
     get:
       tags:
@@ -380,8 +380,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_AMOUNT_NOT_VALID"
-                message: "Cannot authorize transaction with invalid amount [%s]"
+                code: PAYMENT_AMOUNT_NOT_VALID
+                message: 'Cannot authorize transaction with invalid amount [%s]'
         '401':
           description: Authentication failed
         '403':
@@ -391,8 +391,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_ALREADY_AUTHORIZED"
-                message: "Transaction with trxCode [trxCode] is already authorized"
+                code: PAYMENT_ALREADY_AUTHORIZED
+                message: 'Transaction with trxCode [trxCode] is already authorized'
         '404':
           description: The requested resource was not found
           content:
@@ -400,8 +400,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_NOT_FOUND_EXPIRED"
-                message: "Cannot find transaction with trxCode [trxCode]"
+                code: PAYMENT_NOT_FOUND_EXPIRED
+                message: 'Cannot find transaction with trxCode [trxCode]'
         '429':
           description: Too many requests
           content:
@@ -409,8 +409,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "Too many request on the ms reward calculator"
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many request on the ms reward calculator
         '500':
           description: Generic error
           content:
@@ -418,8 +418,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_GENERIC_ERROR"
-                message: "A generic error occured"
+                code: PAYMENT_GENERIC_ERROR
+                message: A generic error occured
   /initiatives/{initiativeId}:
     get:
       tags:

@@ -39,8 +39,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_STATUS_NOT_VALID"
-                message: "Cannot operate on transaction with transactionId [%s] in status %s"
+                code: PAYMENT_STATUS_NOT_VALID
+                message: 'Cannot operate on transaction with transactionId [%s] in status %s'
         '401':
           description: Authentication failed
         '403':
@@ -50,8 +50,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_USER_SUSPENDED"
-                message: "The user has been suspended for initiative [%s]"
+                code: PAYMENT_USER_SUSPENDED
+                message: 'The user has been suspended for initiative [%s]'
         '404':
           description: The requested resource was not found
           content:
@@ -59,8 +59,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
-                message: "Cannot find transaction with transactionId [%s]"
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: 'Cannot find transaction with transactionId [%s]'
         '429':
           description: Too many requests
           content:
@@ -68,8 +68,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
@@ -77,8 +77,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: "PAYMENT_INVALID_REQUEST"
-                message: "Application error"
+                code: PAYMENT_INVALID_REQUEST
+                message: Application error
 components:
   schemas:
     putAssociateUserTrxDTO:
