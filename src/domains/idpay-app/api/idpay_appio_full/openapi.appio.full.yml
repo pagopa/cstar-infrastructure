@@ -244,7 +244,7 @@ paths:
         '204':
           description: Acceptance successful
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -310,7 +310,7 @@ paths:
             default: it-IT
           required: true
       requestBody:
-        description: 'ENG: Id of the iniziative - IT: Identificatico dell''iniziativa'
+        description: 'ENG: Id of the initiative - IT: Identificatico dell''iniziativa'
         required: true
         content:
           application/json:
@@ -328,7 +328,7 @@ paths:
         '202':
           description: Accepted - Request Taken Over
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -408,7 +408,7 @@ paths:
         '202':
           description: Accepted - Request Taken Over
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -508,7 +508,7 @@ paths:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
                 code: ONBOARDING_USER_NOT_ONBOARDED
-                message: The current user is not onboarded on initiative [%s]'
+                message: 'The current user is not onboarded on initiative [%s]'
         '500':
           description: Server ERROR
           content:
@@ -869,7 +869,7 @@ paths:
         '200':
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -889,8 +889,9 @@ paths:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
                 code: WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
-                message: It is not possible enroll
-                  an iban for a discount type initiative
+                message: >-
+                  It is not possible enroll an iban for a discount type
+                  initiative
         '429':
           description: Too many Request
           content:
@@ -944,7 +945,7 @@ paths:
         '200':
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -963,8 +964,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED
-                message: The instrument IDPayCode is never generated for the current user
+                code: WALLET_INSTRUMENT_ALREADY_ASSOCIATED
+                message: Payment Instrument is already associated to another user
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletErrorDTO'
+              example:
+                code: WALLET_INSTRUMENT_NOT_FOUND
+                message: >-
+                  The selected payment instrument has not been found for the
+                  current user
         '429':
           description: Too many Request
           content:
@@ -1086,7 +1098,7 @@ paths:
         '200':
           description: Delete OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -1106,7 +1118,9 @@ paths:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
                 code: WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
-                message: It's not possible to delete an instrument of AppIO payment types
+                message: >-
+                  It's not possible to delete an instrument of AppIO payment
+                  types
         '404':
           description: The requested resource was not found
           content:
@@ -1115,7 +1129,9 @@ paths:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
                 code: WALLET_INSTRUMENT_NOT_FOUND
-                message: The selected payment instrument has not been found for the current user
+                message: >-
+                  The selected payment instrument has not been found for the
+                  current user
         '429':
           description: Too many Request
           content:
@@ -1134,7 +1150,6 @@ paths:
               example:
                 code: WALLET_GENERIC_ERROR
                 message: An error occurred in the microservice payment instrument
-
   '/wallet/{initiativeId}/unsubscribe':
     delete:
       tags:
@@ -1160,7 +1175,7 @@ paths:
         '204':
           description: Unsubscribe OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -1310,7 +1325,9 @@ paths:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
                 code: WALLET_INSTRUMENT_NOT_FOUND
-                message: The selected payment instrument has not been found for the current user
+                message: >-
+                  The selected payment instrument has not been found for the
+                  current user
         '429':
           description: Too many Request
           content:
@@ -1329,7 +1346,6 @@ paths:
               example:
                 code: WALLET_GENERIC_ERROR
                 message: An error occurred in the microservice payment instrument
-
   /wallet/code/status:
     get:
       tags:
@@ -1469,7 +1485,7 @@ paths:
         '200':
           description: Enrollment OK
           content:
-            application/json: { }
+            application/json: {}
         '400':
           description: Bad request
           content:
@@ -1489,7 +1505,9 @@ paths:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
                 code: WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED
-                message: The instrument IDPayCode is never generated for the current user
+                message: >-
+                  The instrument IDPayCode is never generated for the current
+                  user
         '429':
           description: Too many Request
           content:
@@ -2077,37 +2095,6 @@ components:
           description: >-
             ENG: Indicates self-consent values - IT: Indica i valori per gli
             auto consensi
-    PrerequisitesErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-        - details
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: 'ENG: Error code - IT: Codice d''errore'
-        message:
-          type: string
-          description: 'ENG: Error message - IT: Messaggio di errore'
-        details:
-          type: string
-          enum:
-            - INITIATIVE_NOT_STARTED
-            - INITIATIVE_END
-            - BUDGET_TERMINATED
-            - INITIATIVE_SUSPENDED
-            - GENERIC_ERROR
-          description: >-
-            ENG: Error details [INITIATIVE_NOT_STARTED: Initiative not started,
-            INITIATIVE_END: Initiative ended, BUDGET_TERMINATED: Budget
-            terminated, INITIATIVE_SUSPENDED: Initiative suspended,
-            GENERIC_ERROR: Generic errors] - IT: Dettagli dell'errore
-            [INITIATIVE_NOT_STARTED: Initiativa non iniziata, INITIATIVE_END:
-            Iniziativa finalizzata, BUDGET_TERMINATED: Budget esaurito,
-            INITIATIVE_SUSPENDED: Iniziativa sospesa, GENERIC_ERROR: Errore
-            generico
     InitiativeDataDTO:
       type: object
       required:
@@ -2153,6 +2140,79 @@ components:
           description: >-
             ENG: URL for the initiative's logo image - IT: URL del logo
             dell'iniziativa
+    OnboardingErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - ONBOARDING_USER_UNSUBSCRIBED
+            - ONBOARDING_PAGE_SIZE_NOT_ALLOWED
+            - ONBOARDING_PDND_CONSENT_DENIED
+            - ONBOARDING_SELF_DECLARATION_NOT_VALID
+            - ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
+            - ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
+            - ONBOARDING_INVALID_REQUEST
+            - ONBOARDING_USER_NOT_IN_WHITELIST
+            - ONBOARDING_INITIATIVE_NOT_STARTED
+            - ONBOARDING_INITIATIVE_ENDED
+            - ONBOARDING_BUDGET_EXHAUSTED
+            - ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED
+            - ONBOARDING_GENERIC_ERROR
+            - ONBOARDING_USER_NOT_ONBOARDED
+            - ONBOARDING_INITIATIVE_NOT_FOUND
+            - ONBOARDING_TOO_MANY_REQUESTS
+          description: >-
+            "ENG: Error code: ONBOARDING_USER_UNSUBSCRIBED: The user has
+            unsubscribed from initiative, ONBOARDING_PAGE_SIZE_NOT_ALLOWED: Page
+            size not allowed, ONBOARDING_PDND_CONSENT_DENIED: The PDND consent
+            was denied by the user for the initiative,
+            ONBOARDING_SELF_DECLARATION_NOT_VALID: The self-declaration criteria
+            are not valid for the initiative or those inserted by the user do
+            not match those required by the initiative,
+            ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not
+            possible to suspend the user on initiative,
+            ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not
+            possible to readmit the user on initiative,
+            ONBOARDING_INVALID_REQUEST: Something went wrong handling the
+            request, ONBOARDING_USER_NOT_IN_WHITELIST: The current user is not
+            allowed to participate to the initiative,
+            ONBOARDING_INITIATIVE_NOT_STARTED: The initiative has not yet begun,
+            ONBOARDING_INITIATIVE_ENDED: The initiative ended,
+            ONBOARDING_BUDGET_EXHAUSTED: Budget exhausted for initiative,
+            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: The initiative is not
+            active, ONBOARDING_GENERIC_ERROR: Application error,
+            ONBOARDING_USER_NOT_ONBOARDED: The current user is not onboarded on
+            initiative, ONBOARDING_INITIATIVE_NOT_FOUND: Cannot find initiative,
+            ONBOARDING_TOO_MANY_REQUESTS: Too many requests - IT: Codice di
+            errore: ONBOARDING_USER_UNSUBSCRIBED: L'utente si è disiscritto
+            dall'iniziativa, ONBOARDING_PAGE_SIZE_NOT_ALLOWED: Dimensione pagina
+            non permessa, ONBOARDING_PDND_CONSENT_DENIED: Il consenso PDND per
+            l'iniziativa è stato negato dall'utente,
+            ONBOARDING_SELF_DECLARATION_NOT_VALID: I criteri di
+            autodichiarazione non sono validi per l'iniziativa o quelli inseriti
+            dall'utente non corrispondono con quelli richiesti dall'iniziativa,
+            ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            sospendere l'utente dall'iniziativa,
+            ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            riammettere l'utente all'iniziativa, ONBOARDING_INVALID_REQUEST:
+            Qualcosa è andato storto durante l'invio della richiesta,
+            ONBOARDING_USER_NOT_IN_WHITELIST: L'utente corrente non ha il
+            permesso di partecipare all'iniziativa,
+            ONBOARDING_INITIATIVE_NOT_STARTED: L'iniziativa non è ancora
+            partita, ONBOARDING_INITIATIVE_ENDED: L'iniziativa è terminata,
+            ONBOARDING_BUDGET_EXHAUSTED: Il budget dell'iniziativa è esaurito,
+            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: L'iniziativa non è
+            attiva, ONBOARDING_GENERIC_ERROR: Errore applicativo,
+            ONBOARDING_USER_NOT_ONBOARDED: Utente non onboardato all'iniziativa,
+            ONBOARDING_INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+            ONBOARDING_TOO_MANY_REQUESTS: Troppe richieste"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
     OperationDTO:
       oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
@@ -2643,6 +2703,38 @@ components:
           type: string
           format: date-time
           description: 'ENG: Operation date - IT: Data dell''operazione'
+    TimelineErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - TIMELINE_DETAIL_NOT_FOUND
+            - TIMELINE_USER_NOT_FOUND
+            - TIMELINE_REFUNDS_NOT_FOUND
+            - TIMELINE_INVALID_REQUEST
+            - TIMELINE_TOO_MANY_REQUESTS
+            - TIMELINE_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: TIMELINE_DETAIL_NOT_FOUND: Detail of Timeline not
+            found,
+             TIMELINE_USER_NOT_FOUND: Timeline for the current user not found,
+             TIMELINE_REFUNDS_NOT_FOUND: Refund for current initiative not found,
+             TIMELINE_INVALID_REQUEST: Something went wrong handling request,
+             TIMELINE_TOO_MANY_REQUESTS: Too many requests,
+             TIMELINE_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             TIMELINE_DETAIL_NOT_FOUND: Dettaglio della Timeline non trovato,
+             TIMELINE_USER_NOT_FOUND: Timeline per utente corrente non trovata,
+             TIMELINE_REFUNDS_NOT_FOUND:  Rimborso per la corrente iniziativa non trovato,
+             TIMELINE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             TIMELINE_TOO_MANY_REQUESTS: Troppe richieste,
+             TIMELINE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
     CheckEnrollmentDTO:
       type: object
       properties:
@@ -3038,6 +3130,84 @@ components:
         rewardValue:
           type: number
           description: 'ENG: Reward value - IT: Valore di reward'
+    WalletErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - WALLET_USER_UNSUBSCRIBED
+            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
+            - WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
+            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE
+            - WALLET_INITIATIVE_ENDED
+            - WALLET_USER_NOT_ONBOARDED
+            - WALLET_IBAN_NOT_ITALIAN
+            - WALLET_INSTRUMENT_ALREADY_ASSOCIATED
+            - WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
+            - WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED
+            - WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
+            - WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
+            - WALLET_INSTRUMENT_NOT_FOUND
+            - WALLET_GENERIC_ERROR
+            - WALLET_INVALID_REQUEST
+            - WALLET_TOO_MANY_REQUESTS
+          description: >-
+            "ENG: Error code: WALLET_USER_UNSUBSCRIBED: The user has
+            unsubscribed from initiative,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: It is
+            not possible to enroll a payment instrument for a discount
+            initiative, WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE:
+            It is not possible enroll an iban for a discount type initiative,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: It is
+            not possible to enroll a IDPayCode for a refund type initiative,
+            WALLET_INITIATIVE_ENDED: The operation is not allowed because the
+            initiative has already ended, WALLET_USER_NOT_ONBOARDED: User not
+            onboarded on this initiative, WALLET_IBAN_NOT_ITALIAN: Iban is not
+            italian, WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is
+            already associated to another user,
+            WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: It's not possible to delete an
+            instrument of AppIO payment types,
+            WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED: The instrument IDPayCode
+            is never generated for the current user,
+            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to
+            suspend the user on initiative,
+            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible
+            to readmit the user on initiative, WALLET_INSTRUMENT_NOT_FOUND: The
+            selected payment instrument has not been found for the current user,
+            WALLET_GENERIC_ERROR: Application error, WALLET_INVALID_REQUEST:
+            Something went wrong handling the request, WALLET_TOO_MANY_REQUESTS:
+            Too many requests on the ms - IT: Codice di errore:
+            WALLET_USER_UNSUBSCRIBED: L'utente si è disiscritto dall'iniziativa,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è
+            possibile associare uno strumento di pagamento per un'iniziativa di
+            tipo a sconto,
+            WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è
+            possibile associare un iban per un'iniziativa di tipo a sconto,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: Non è
+            possibile associare un IDPayCode per una iniziativa di tipo a
+            rimborso, WALLET_INITIATIVE_ENDED: L'operazione non è consentita
+            perché l'iniziativa è scaduta, WALLET_USER_NOT_ONBOARDED: Utente non
+            onboardato all'inziativa, WALLET_IBAN_NOT_ITALIAN: L'Iban non è
+            italiano, WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di
+            pagamento è già associato ad un altro utente,
+            WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno
+            strumento di tipo AppIO, WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED:
+            Lo strumento IDPayCode non è mai stato generato per l'utente
+            corrente, WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è
+            possibile sospendere l'utente dall'iniziativa,
+            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            riammettere l'utente all'iniziativa, WALLET_INSTRUMENT_NOT_FOUND: Lo
+            strumento di pagamento selezionato non è stato trovato per l'utente
+            corrente, WALLET_GENERIC_ERROR: Errore generico,
+            WALLET_INVALID_REQUEST: Qualcosa è andato storto durante l'invio
+            della richiesta, WALLET_TOO_MANY_REQUESTS: Troppe richieste"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
     AuthPaymentResponseDTO:
       type: object
       required:
@@ -3172,37 +3342,6 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
-    TimelineErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          enum:
-            - TIMELINE_DETAIL_NOT_FOUND
-            - TIMELINE_USER_NOT_FOUND
-            - TIMELINE_REFUNDS_NOT_FOUND
-            - TIMELINE_INVALID_REQUEST
-            - TIMELINE_TOO_MANY_REQUESTS
-            - TIMELINE_GENERIC_ERROR
-          description: >-
-            "ENG: Error code: TIMELINE_DETAIL_NOT_FOUND: Detail of Timeline not found,
-             TIMELINE_USER_NOT_FOUND: Timeline for the current user not found,
-             TIMELINE_REFUNDS_NOT_FOUND: Refund for current initiative not found,
-             TIMELINE_INVALID_REQUEST: Something went wrong handling request,
-             TIMELINE_TOO_MANY_REQUESTS: Too many requests,
-             TIMELINE_GENERIC_ERROR: Application Error - IT: Codice di errore:
-             TIMELINE_DETAIL_NOT_FOUND: Dettaglio della Timeline non trovato,
-             TIMELINE_USER_NOT_FOUND: Timeline per utente corrente non trovata,
-             TIMELINE_REFUNDS_NOT_FOUND:  Rimborso per la corrente iniziativa non trovato,
-             TIMELINE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
-             TIMELINE_TOO_MANY_REQUESTS: Troppe richieste,
-             TIMELINE_GENERIC_ERROR: Errore generico"
-        message:
-          type: string
-          description: "ENG: Error message - IT: Messaggio di errore"
     TransactionBarCodeRequest:
       type: object
       required:
@@ -3235,146 +3374,6 @@ components:
           type: string
           enum:
             - CREATED
-    WalletErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          enum:
-            - WALLET_USER_UNSUBSCRIBED
-            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
-            - WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
-            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE
-            - WALLET_INITIATIVE_ENDED
-            - WALLET_USER_NOT_ONBOARDED
-            - WALLET_IBAN_NOT_ITALIAN
-            - WALLET_INSTRUMENT_ALREADY_ASSOCIATED
-            - WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
-            - WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED
-            - WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
-            - WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
-            - WALLET_INSTRUMENT_NOT_FOUND
-            - WALLET_GENERIC_ERROR
-            - WALLET_INVALID_REQUEST
-            - WALLET_TOO_MANY_REQUESTS
-          description: >-
-            "ENG: Error code:
-            WALLET_USER_UNSUBSCRIBED: The user has unsubscribed from initiative,
-            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: It is not possible to
-            enroll a payment instrument for a discount initiative,
-            WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: It is not possible enroll
-            an iban for a discount type initiative,
-            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: It is not possible to enroll
-            a IDPayCode for a refund type initiative,
-            WALLET_INITIATIVE_ENDED: The operation is not allowed because the initiative has already ended,
-            WALLET_USER_NOT_ONBOARDED: User not onboarded on this initiative,
-            WALLET_IBAN_NOT_ITALIAN: Iban is not italian,
-            WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is already associated to another user,
-            WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: It's not possible to delete an instrument of AppIO payment types,
-            WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED: The instrument IDPayCode is never generated for the current user,
-            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to suspend the
-            user on initiative,
-            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to readmit
-            the user on initiative,
-            WALLET_INSTRUMENT_NOT_FOUND: The selected payment instrument has not been found for the current user,
-            WALLET_GENERIC_ERROR: Application error,
-            WALLET_INVALID_REQUEST: Something went wrong handling the request,
-            WALLET_TOO_MANY_REQUESTS: Too many requests on the ms
-            - IT: Codice di errore:
-            WALLET_USER_UNSUBSCRIBED: L'utente si è disiscritto dall'iniziativa,
-            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è possibile associare
-            uno strumento di pagamento per un'iniziativa di tipo a sconto,
-            WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è possibile associare un iban per un'iniziativa di tipo a sconto,
-            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: Non è possibile associare un
-            IDPayCode per una iniziativa di tipo a rimborso,
-            WALLET_INITIATIVE_ENDED: L'operazione non è consentita perché l'iniziativa è scaduta,
-            WALLET_USER_NOT_ONBOARDED: Utente non onboardato all'inziativa,
-            WALLET_IBAN_NOT_ITALIAN: L'Iban non è italiano,
-            WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di pagamento è già associato
-            ad un altro utente,
-            WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno strumento di tipo AppIO,
-            WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED: Lo strumento IDPayCode non è mai stato generato per l'utente corrente,
-            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile sospendere l'utente dall'iniziativa,
-            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile riammettere
-            l'utente all'iniziativa,
-            WALLET_INSTRUMENT_NOT_FOUND: Lo strumento di pagamento selezionato non è stato trovato per l'utente corrente,
-            WALLET_GENERIC_ERROR: Errore generico,
-            WALLET_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
-            WALLET_TOO_MANY_REQUESTS: Troppe richieste"
-        message:
-          type: string
-          description: 'ENG: Error message- IT: Messaggio di errore'
-    OnboardingErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          enum:
-            - ONBOARDING_USER_UNSUBSCRIBED
-            - ONBOARDING_PAGE_SIZE_NOT_ALLOWED
-            - ONBOARDING_PDND_CONSENT_DENIED
-            - ONBOARDING_SELF_DECLARATION_NOT_VALID
-            - ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
-            - ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
-            - ONBOARDING_INVALID_REQUEST
-            - ONBOARDING_USER_NOT_IN_WHITELIST
-            - ONBOARDING_INITIATIVE_NOT_STARTED
-            - ONBOARDING_INITIATIVE_ENDED
-            - ONBOARDING_BUDGET_EXHAUSTED
-            - ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED
-            - ONBOARDING_GENERIC_ERROR
-            - ONBOARDING_USER_NOT_ONBOARDED
-            - ONBOARDING_INITIATIVE_NOT_FOUND
-            - ONBOARDING_TOO_MANY_REQUESTS
-          description: >-
-            "ENG: Error code:
-            ONBOARDING_USER_UNSUBSCRIBED: The user has unsubscribed from initiative,
-            ONBOARDING_PAGE_SIZE_NOT_ALLOWED: Page size not allowed,
-            ONBOARDING_PDND_CONSENT_DENIED: The PDND consent was denied by the user for the initiative,
-            ONBOARDING_SELF_DECLARATION_NOT_VALID: The self-declaration criteria are not
-            valid for the initiative or those inserted by the user do not match those required by the initiative,
-            ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to suspend
-            the user on initiative,
-            ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to readmit the user on initiative,
-            ONBOARDING_INVALID_REQUEST: Something went wrong handling the request,
-            ONBOARDING_USER_NOT_IN_WHITELIST: The current user is not allowed to participate to the initiative,
-            ONBOARDING_INITIATIVE_NOT_STARTED: The initiative has not yet begun,
-            ONBOARDING_INITIATIVE_ENDED: The initiative ended,
-            ONBOARDING_BUDGET_EXHAUSTED: Budget exhausted for initiative,
-            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: The initiative is not active,
-            ONBOARDING_GENERIC_ERROR: Application error,
-            ONBOARDING_USER_NOT_ONBOARDED: The current user is not onboarded on initiative,
-            ONBOARDING_INITIATIVE_NOT_FOUND: Cannot find initiative,
-            ONBOARDING_TOO_MANY_REQUESTS: Too many requests
-            - IT: Codice di errore:
-            ONBOARDING_USER_UNSUBSCRIBED: L'utente si è disiscritto dall'iniziativa,
-            ONBOARDING_PAGE_SIZE_NOT_ALLOWED: Dimensione pagina non permessa,
-            ONBOARDING_PDND_CONSENT_DENIED: Il consenso PDND per l'iniziativa è stato negato dall'utente,
-            ONBOARDING_SELF_DECLARATION_NOT_VALID: I criteri di autodichiarazione non sono
-            validi per l'iniziativa o quelli inseriti dall'utente
-            non corrispondono con quelli richiesti dall'iniziativa,
-            ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile sospendere
-            l'utente dall'iniziativa,
-            ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile riammettere l'utente all'iniziativa,
-            ONBOARDING_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
-            ONBOARDING_USER_NOT_IN_WHITELIST: L'utente corrente non ha il permesso di partecipare all'iniziativa,
-            ONBOARDING_INITIATIVE_NOT_STARTED: L'iniziativa non è ancora partita,
-            ONBOARDING_INITIATIVE_ENDED: L'iniziativa è terminata,
-            ONBOARDING_BUDGET_EXHAUSTED: Il budget dell'iniziativa è esaurito,
-            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: L'iniziativa non è attiva,
-            ONBOARDING_GENERIC_ERROR: Errore applicativo,
-            ONBOARDING_USER_NOT_ONBOARDED: Utente non onboardato all'iniziativa,
-            ONBOARDING_INITIATIVE_NOT_FOUND: Iniziativa non trovata,
-            ONBOARDING_TOO_MANY_REQUESTS: Troppe richieste"
-        message:
-          type: string
-          description: 'ENG: Error message- IT: Messaggio di errore'
   securitySchemes:
     bearerAuth:
       type: http
