@@ -58,8 +58,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_INVALID_REQUEST
-                message: Something went wrong handling request
+                code: "TIMELINE_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
         '404':
@@ -69,8 +69,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_USER_NOT_FOUND
-                message: Timeline for the current user not found
+                code: "TIMELINE_USER_NOT_FOUND"
+                message: "Timeline for the current user not found"
         '429':
           description: Too many Request
           content:
@@ -78,8 +78,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_TOO_MANY_REQUESTS
-                message: Too many requests
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
@@ -87,8 +87,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_GENERIC_ERROR
-                message: Application error
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
   '/{initiativeId}/{operationId}':
     get:
       tags:
@@ -132,8 +132,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_DETAIL_NOT_FOUND
-                message: Detail of Timeline not found
+                code: "TIMELINE_DETAIL_NOT_FOUND"
+                message: "Detail of Timeline not found"
         '429':
           description: Too many Request
           content:
@@ -141,8 +141,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_TOO_MANY_REQUESTS
-                message: Too many requests
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
@@ -150,8 +150,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_GENERIC_ERROR
-                message: Application error
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
 components:
   schemas:
     OperationDTO:

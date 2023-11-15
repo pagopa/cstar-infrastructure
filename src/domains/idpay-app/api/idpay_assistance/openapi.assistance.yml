@@ -334,8 +334,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_INVALID_REQUEST
-                message: Something went wrong handling request
+                code: "TIMELINE_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
         '404':
@@ -345,8 +345,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_USER_NOT_FOUND
-                message: Timeline for the current user not found
+                code: "TIMELINE_USER_NOT_FOUND"
+                message: "Timeline for the current user not found"
         '429':
           description: Too many Request
           content:
@@ -354,8 +354,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_TOO_MANY_REQUESTS
-                message: Too many requests
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
@@ -363,8 +363,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_GENERIC_ERROR
-                message: Application error
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
   '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/timeline/{operationId}':
     get:
       tags:
@@ -413,8 +413,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_DETAIL_NOT_FOUND
-                message: Detail of Timeline not found
+                code: "TIMELINE_DETAIL_NOT_FOUND"
+                message: "Detail of Timeline not found"
         '429':
           description: Too many Request
           content:
@@ -422,8 +422,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_TOO_MANY_REQUESTS
-                message: Too many requests
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
@@ -431,8 +431,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: TIMELINE_GENERIC_ERROR
-                message: Application error
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
   '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/wallet':
     get:
       tags:
@@ -475,8 +475,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: WALLET_USER_NOT_ONBOARDED
-                message: User not onboarded on this initiative
+                code: "WALLET_USER_NOT_ONBOARDED"
+                message: "User not onboarded on this initiative"
         '429':
           description: Too many Request
           content:
@@ -484,8 +484,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: WALLET_TOO_MANY_REQUESTS
-                message: Too many requests
+                code: "WALLET_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
@@ -493,8 +493,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: WALLET_GENERIC_ERROR
-                message: Application error
+                code: "WALLET_GENERIC_ERROR"
+                message: "Application error"
   '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/instruments':
     get:
       tags:
@@ -697,8 +697,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: ONBOARDING_INVALID_REQUEST
-                message: Something went wrong handling the request
+                code: "ONBOARDING_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
         '404':
@@ -708,8 +708,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: ONBOARDING_USER_NOT_ONBOARDED
-                message: 'The current user is not onboarded on initiative [%s]'
+                code: "ONBOARDING_USER_NOT_ONBOARDED"
+                message: "The current user is not onboarded on initiative [%s]"
         '500':
           description: Server ERROR
           content:
@@ -717,8 +717,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: ONBOARDING_GENERIC_ERROR
-                message: An error occurred in the microservice admissibility
+                code: "ONBOARDING_GENERIC_ERROR"
+                message: "An error occurred in the microservice admissibility"
   /organization/{organizationId}/initiative/{initiativeId}/ranking/exports:
     get:
       tags:
@@ -1778,8 +1778,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_INVALID_REQUEST
-                message: Something went wrong handling the request
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
           description: Autentication failed
         '429':
@@ -1789,8 +1789,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_TOO_MANY_REQUESTS
-                message: Too many requests
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Generic error
           content:
@@ -1798,8 +1798,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_GENERIC_ERROR
-                message: Application error
+                code: "PAYMENT_GENERIC_ERROR"
+                message: "Application error"
   /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}/transactions/processed:
     get:
       tags:
