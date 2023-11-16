@@ -1,11 +1,12 @@
 locals {
-  enable_poc         = var.env_short == "d" ? 1 : 0
+  enable_evh         = 1
+  enable_poc         = 0
   enable_poc_strimzi = var.env_short == "d" ? 1 : 0
 }
 
 # eventhub for POC
 resource "azurerm_eventhub_namespace" "poc_cdc_evh" {
-  count               = local.enable_poc
+  count               = local.enable_evh
   name                = "idpay-poc-cdc"
   location            = var.location
   resource_group_name = "cstar-d-idpay-msg-rg"
@@ -19,7 +20,7 @@ resource "azurerm_eventhub_namespace" "poc_cdc_evh" {
 
 # access key for kafka connect with manage access
 resource "azurerm_eventhub_namespace_authorization_rule" "poc_cdc_evh_access_key" {
-  count               = local.enable_poc
+  count               = local.enable_evh
   name                = "kafka-connect-access-key"
   namespace_name      = azurerm_eventhub_namespace.poc_cdc_evh[count.index].name
   resource_group_name = "cstar-d-idpay-msg-rg"
