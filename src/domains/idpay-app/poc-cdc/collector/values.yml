@@ -1,0 +1,29 @@
+mode: deployment
+image:
+  pullPolicy: Always
+
+config:
+  receivers:
+    jaeger: null
+    prometheus: null
+    zipkin: null
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+
+  exporters:
+    azuremonitor:
+      connection_string: ${azure_monitor_connection_string}
+
+  service:
+    pipelines:
+      traces:
+        receivers: [otlp]
+        exporters: [debug, azuremonitor]
+      metrics:
+        receivers: [otlp]
+        exporter: [debug, azuremonitor]
+      logs:
+        receivers: [otlp]
+        exporter: [azuremonitor]

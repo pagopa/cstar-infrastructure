@@ -67,6 +67,12 @@ resource "kubernetes_secret" "kafka_connect_jaas" {
   }
 }
 
+resource "kubernetes_namespace" "strimzi" {
+  count = local.enable_poc_strimzi
+  metadata {
+    name = "strimzi"
+  }
+}
 
 # POC 1 Alt: Strimzi
 # Install strimzi as k8s operator
@@ -75,16 +81,17 @@ resource "helm_release" "strimzi" {
 
   repository = "https://strimzi.io/charts/"
   chart      = "strimzi-kafka-operator"
-  name       = "strimzi"
+  name       = "strimzi-kafka-operator"
+  version    = "0.38.0"
 
-  namespace = "strimzi"
+  namespace = kubernetes_namespace.strimzi[count.index].metadata[0].name
 }
 
 resource "kubernetes_secret" "strimzi_evh_connectionstring" {
   count = local.enable_poc_strimzi
   metadata {
     name      = "strimzi-evh-connectionstring"
-    namespace = "idpay"
+    namespace = kubernetes_namespace.strimzi[count.index].metadata[0].name
   }
 
   data = {
@@ -93,7 +100,25 @@ resource "kubernetes_secret" "strimzi_evh_connectionstring" {
   }
 }
 
-resource "kubernetes_manifest" "strimzi_kafka_connect" {
-  count    = local.enable_poc_strimzi
-  manifest = yamldecode(file("./poc-cdc/strimzi/kafka-connect.yml"))
+#resource "kubernetes_manifest" "strimzi_kafka_connect" {
+#  count    = local.enable_poc_strimzi
+#  manifest = yamldecode(file("./poc-cdc/strimzi/kafka-connect.yml"))
+#}
+
+
+# OpenTelemetry Collector
+resource "helm_release" "opentelemetry_collecotr" {
+  count      = 0
+  chart      = "opentelemetry-collector"
+  name       = "opentelemetry-collector"
+  repository = "https://open-telemetry.github.io/opentelemetry-helm-charts"
+  version    = "0.73.1"
+
+  namespace = kubernetes_namespace.strimzi[count.index].metadata[0].name
+
+  values = [
+    templatefile("./poc-cdc/collector/values.yml", {
+      azure_monitor_connection_string : ""
+    })
+  ]
 }
