@@ -34,13 +34,6 @@ cosmos_dbms_params = {
   additional_geo_locations          = []
   is_virtual_network_filter_enabled = true
 
-  additional_geo_locations = [{
-    failover_priority = 1
-    location          = "northeurope"
-    zone_redundant    = false
-    }
-  ]
-
   backup_continuous_enabled = true
 }
 
