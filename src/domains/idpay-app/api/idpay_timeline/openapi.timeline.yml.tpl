@@ -177,6 +177,7 @@ components:
         - $ref: '#/components/schemas/RefundDetailDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -223,6 +224,7 @@ components:
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -600,6 +602,25 @@ components:
         operationType:
           enum:
             - READMITTED
+          type: string
+          description: "ENG: Operation type - IT: Tipologia dell'operazione"
+        operationDate:
+          type: string
+          format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
+    UnsubscribeOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
+        operationType:
+          enum:
+            - UNSUBSCRIBE
           type: string
           description: "ENG: Operation type - IT: Tipologia dell'operazione"
         operationDate:
