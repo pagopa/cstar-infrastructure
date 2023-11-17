@@ -39,8 +39,8 @@ public_ip_aksoutbound_name = "cstar-p-weu-prod01-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = true
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.26.6"
-aks_sku_tier                = "Paid"
+aks_kubernetes_version      = "1.27.3"
+aks_sku_tier                = "Standard"
 aks_system_node_pool = {
   name            = "cstprod01sys",
   vm_size         = "Standard_D2ds_v5",
@@ -58,8 +58,8 @@ aks_user_node_pool = {
   vm_size         = "Standard_D8ds_v5",
   os_disk_type    = "Ephemeral",
   os_disk_size_gb = 300,
-  node_count_min  = 0,
-  node_count_max  = 0,
+  node_count_min  = 2,
+  node_count_max  = 3,
   zones           = [1, 2, 3]
   node_labels     = { node_name : "aks-prod01-user", node_type : "user" },
   node_taints     = [],
@@ -84,40 +84,6 @@ reloader_helm = {
   chart_version = "v1.0.30"
   image_name    = "stakater/reloader"
   image_tag     = "v1.0.30"
-}
-
-# chart releases: https://github.com/prometheus-community/helm-charts/releases?q=tag%3Aprometheus-15&expanded=true
-# quay.io/prometheus/alertmanager image tags: https://quay.io/repository/prometheus/alertmanager?tab=tags
-# jimmidyson/configmap-reload image tags: https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-# quay.io/prometheus/node-exporter image tags: https://quay.io/repository/prometheus/node-exporter?tab=tags
-# quay.io/prometheus/prometheus image tags: https://quay.io/repository/prometheus/prometheus?tab=tags
-# prom/pushgateway image tags:https://hub.docker.com/r/prom/pushgateway/tags
-prometheus_helm = {
-  chart_version = "15.18.0"
-  alertmanager = {
-    image_name = "quay.io/prometheus/alertmanager"
-    image_tag  = "v0.25.0"
-  }
-  configmap_reload_prometheus = {
-    image_name = "jimmidyson/configmap-reload"
-    image_tag  = "v0.9.0"
-  }
-  configmap_reload_alertmanager = {
-    image_name = "jimmidyson/configmap-reload"
-    image_tag  = "v0.9.0"
-  }
-  node_exporter = {
-    image_name = "quay.io/prometheus/node-exporter"
-    image_tag  = "v1.6.1"
-  }
-  server = {
-    image_name = "quay.io/prometheus/prometheus"
-    image_tag  = "v2.45.0"
-  }
-  pushgateway = {
-    image_name = "prom/pushgateway"
-    image_tag  = "v1.6.0"
-  }
 }
 
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
