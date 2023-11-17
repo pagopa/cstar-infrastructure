@@ -13,8 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://dev01.idpay.internal.dev.cstar.pagopa.it/idpayrewardnotification" />
-        <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/notification/byExternalId/{eventId}")" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
+                <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/reward/notification/byExternalId/{eventId}")" />
     </inbound>
     <backend>
         <base />
@@ -24,13 +24,17 @@
             <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
                 <choose>
                     <when condition="@((string)context.Response.Body.As<JObject>(preserveContent: true)["beneficiaryType"] == "CITIZEN")">
-                        <retry condition="@((context.Variables["responsePDV"] == null) || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))" count="3" interval="5" max-interval="15" delta="1" first-fast-retry="false">
-                            <send-request mode="new" response-variable-name="responsePDV" timeout="15" ignore-error="true">
-                                <set-url>@("https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1/tokens/"+context.Response.Body.As<JObject>(preserveContent: true)["userId"]+"/pii")</set-url>
-                                <set-method>GET</set-method>
-                                <set-header name="x-api-key" exists-action="override">
-                                    <value>{{pdv-api-key}}</value>
-                                </set-header>
+                        <retry condition="@((context.Variables["responsePDV"] == null)  || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))"
+                                               count="${pdv_retry_count}" interval="${pdv_retry_interval}"
+                                               max-interval="${pdv_retry_max_interval}"
+                                               delta="${pdv_retry_delta}"
+                                               first-fast-retry="false">
+                            <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
+                            <set-url>@("${pdv_tokenizer_url}/tokens/"+context.Response.Body.As<JObject>(preserveContent: true)["userId"]+"/pii")</set-url>
+                            <set-method>GET</set-method>
+                            <set-header name="x-api-key" exists-action="override">
+                               <value>{{pdv-api-key}}</value>
+                            </set-header>
                             </send-request>
                         </retry>
                         <choose>
