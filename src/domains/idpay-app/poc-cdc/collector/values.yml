@@ -5,7 +5,20 @@ image:
 config:
   receivers:
     jaeger: null
-    prometheus: null
+    prometheus:
+      config:
+        scrape_configs:
+          - job_name: kafka-connect-collector
+            scrape_interval: 10s
+            kubernetes_sd_configs:
+              - role: pod
+                namespaces:
+                  names:
+                    - strimzi
+                selectors:
+                  - role: "pod"
+                    label: "strimzi.io/controller=strimzipodset"
+
     zipkin: null
     otlp:
       protocols:
@@ -14,7 +27,7 @@ config:
 
   exporters:
     azuremonitor:
-      connection_string: ${azure_monitor_connection_string}
+      instrumentation_key: ${azure_monitor_connection_string}
 
   service:
     pipelines:
@@ -22,8 +35,8 @@ config:
         receivers: [otlp]
         exporters: [debug, azuremonitor]
       metrics:
-        receivers: [otlp]
-        exporter: [debug, azuremonitor]
+        receivers: [otlp, prometheus]
+        exporters: [debug, azuremonitor]
       logs:
         receivers: [otlp]
-        exporter: [azuremonitor]
+        exporters: [azuremonitor]

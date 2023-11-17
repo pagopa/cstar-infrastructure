@@ -1,18 +1,17 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnect
 metadata:
-  name: my-cluster-connect
+  name: poc-cdc-cluster
   namespace: strimzi
   annotations:
     strimzi.io/use-connector-resources: "true"
 spec:
   replicas: 1
-  image: cstardcommonacr.azurecr.io/strimzi-connectors
-  imagePullPolicy: Always
+  image: cstardcommonacr.azurecr.io/strimzi-connectors:latest@sha256:4f42c4fe59d807c75d413a1f5242924eb1d2de12a93fd8307e5cf0ca4b773343
   # mention your kafka enabled azure eventhub here as a broker
-  bootstrapServers: idpay-poc-cdc.servicebus.windows.net:9093
+  bootstrapServers: "idpay-poc-cdc.servicebus.windows.net:9093"
   config:
-    group.id: poc-connect-cluster
+    group.id: "poc-cdc-cluster"
     offset.storage.topic: "poc-cdc-cluster-offsets"
     config.storage.topic: "poc-cdc-cluster-configs"
     status.storage.topic: "poc-cdc-cluster-status"
@@ -25,19 +24,65 @@ spec:
     internal.value.converter: "org.apache.kafka.connect.json.JsonConverter"
     internal.key.converter.schemas.enable: false
     internal.value.converter.schemas.enable: false
+    offset.flush.interval.ms: 10000
 
     # config compliance to azure broker
     metadata.max.age.ms: 180000
     connections.max.idle.ms: 180000
     max.request.size: "1000000"
+
+    # allows to inject secrets from enviroments
+    config.providers: env
+    config.providers.env.class: io.strimzi.kafka.EnvVarConfigProvider
+
   # this is the most important part of the setup, this will connect to Eventhub with its connection string
   authentication:
     type: plain
-    tls: true
     username: $$ConnectionString
     passwordSecret:
       secretName: strimzi-evh-connectionstring
       password: eventhubspassword
-  # it took edges for me to find out that even if there is no tls, we need to mention this property else it wont connect to azure eventhub
   tls:
-    trustedCertificates: []
+    trustedCertificates: [ ]
+
+  externalConfiguration:
+    env:
+      - name: "RTD_MONGO_CONNECTION_STRING"
+        valueFrom:
+          secretKeyRef:
+            name: rtd-cosmos-connection-string
+            key: uri
+
+  metricsConfig:
+    type: jmxPrometheusExporter
+    valueFrom:
+      configMapKeyRef:
+        name: kafka-conect-jmx-config
+        key: "config.yml"
+
+  jmxOptions:
+    authentication:
+      type: password
+
+  tracing:
+    type: "opentelemetry"
+
+  template:
+    connectContainer:
+      env:
+        - name: OTEL_SERVICE_NAME
+          value: strimzi-kafka-connect
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://opentelemetry-collector.strimzi.svc.cluster.local:4317"
+        - name: OTEL_PROPAGATORS
+          value: "tracecontext"
+        - name: OTEL_INSTRUMENTATION_MONGO_ENABLED
+          value: "true"
+
+  resources:
+    requests:
+      cpu: 400m
+      memory: 512Mi
+    limits:
+      cpu: 600m
+      memory: 640Mi

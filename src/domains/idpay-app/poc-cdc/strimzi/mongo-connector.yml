@@ -4,13 +4,13 @@ metadata:
   name: mongodb-source-connector
   namespace: strimzi
   labels:
-    strimzi.io/cluster: my-cluster-connect
+    strimzi.io/cluster: poc-cdc-cluster
 spec:
   class: com.mongodb.kafka.connect.MongoSourceConnector
   tasksMax: 1
   config:
     topics: poc-cdc-events
-    connection.uri: "<connection_uri>"
+    connection.uri: "${env:RTD_MONGO_CONNECTION_STRING}"
     database: rtd
     collection: poc-cdc
     topic.namespace.map: >
