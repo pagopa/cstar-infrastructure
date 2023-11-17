@@ -312,6 +312,12 @@ variable "mail_server_port" {
   description = "SMTP server port"
 }
 
+variable "mail_server_protocol" {
+  type        = string
+  default     = "smtp"
+  description = "mail protocol"
+}
+
 # p7m self-signed certificate
 variable "enable_p7m_self_sign" {
   type    = bool

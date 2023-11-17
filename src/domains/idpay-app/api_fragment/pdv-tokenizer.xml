@@ -1,0 +1,45 @@
+<!--
+This policy performs anonymization using PDV.
+You can use this policy like a function which require an argument called "pii" and return a response as "response_pdv".
+- The data to be anonymized must be set as the variable "pii".
+- The anonymized response is available on the variable "response_pdv".
+This policy also performs application logging in case of error by PDV, which is useful for tracing.
+-->
+<fragment>
+  <send-request mode="new" response-variable-name="response_pdv" timeout="${pdv_timeout_sec}" ignore-error="true">
+    <set-url>${pdv_tokenizer_url}/tokens</set-url>
+    <set-method>PUT</set-method>
+    <set-header name="x-api-key" exists-action="override">
+      <value>{{pdv-api-key}}</value>
+    </set-header>
+    <set-body>@{
+      return new JObject(
+        new JProperty("pii", ((string)context.Variables["pii"])
+      )).ToString();
+    }</set-body>
+  </send-request>
+  <choose>
+    <when condition="@(context.Variables["response_pdv"] == null)">
+      <trace source="pdv_tokenize" severity="error">
+        <message>PDV Tokenize no response</message>
+        <message name="Service">PDV</message>
+      </trace>
+    </when>
+    <when condition="@(((IResponse)context.Variables["response_pdv"]).StatusCode >= 400)">
+      <trace source="pdv_tokenize" severity="error">
+        <message>PDV Tokenize error</message>
+        <message name="Service">PDV</message>
+        <metadata name="StatusCode" value="@(((IResponse)context.Variables["response_pdv"]).StatusCode.ToString())" />
+        <metadata name="StatusReason" value="@(((IResponse)context.Variables["response_pdv"]).StatusReason)" />
+      </trace>
+    </when>
+    <otherwise>
+      <trace source="pdv_tokenize" severity="information">
+        <message>PDV Tokenize info</message>
+        <message name="Service">PDV</message>
+        <metadata name="StatusCode" value="@(((IResponse)context.Variables["response_pdv"]).StatusCode.ToString())" />
+        <metadata name="StatusReason" value="@(((IResponse)context.Variables["response_pdv"]).StatusReason)" />
+      </trace>
+    </otherwise>
+  </choose>
+</fragment>

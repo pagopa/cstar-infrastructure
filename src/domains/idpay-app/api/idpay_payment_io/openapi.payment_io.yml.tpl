@@ -35,7 +35,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_REQUEST_NOT_VALID
+                code: PAYMENT_INVALID_REQUEST
                 message: Required initiativeId is not present
         '403':
           description: User not onboarded
@@ -55,6 +55,24 @@ paths:
               example:
                 code: PAYMENT_NOT_FOUND_EXPIRED
                 message: 'Cannot find transaction with trxCode [trxCode]'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: 'Too many requests'
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_GENERIC_ERROR
+                message: 'application error (connection microservice error)'
 components:
   schemas:
     TransactionErrorDTO:
@@ -87,6 +105,7 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
+            - PAYMENT_INVALID_REQUEST
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not
             found or expired, PAYMENT_TRANSACTION_EXPIRED: transaction expired,
@@ -111,10 +130,10 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction
             not allowed due to status, PAYMENT_AMOUNT_NOT_VALID: amount of
             transaction not valid, PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant
-            is not onboarded - IT: Codice di errore:
-            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure
-            scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
-            PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
+            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error
+            - IT: Codice di errore: PAYMENT_NOT_FOUND_OR_EXPIRED: transazione
+            non trovata oppure scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione
+            scaduta, PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
             PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto,
             PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
@@ -136,7 +155,8 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non
             consentita a causa dello stato della transazione,
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido,
-            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato"
+            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato,
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'

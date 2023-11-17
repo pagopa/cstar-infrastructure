@@ -67,6 +67,9 @@ module "redis_snet" {
 
 # k8s cluster subnet
 module "k8s_snet" {
+
+  count = 0
+
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   name                                      = format("%s-k8s-snet", local.project)
   address_prefixes                          = var.cidr_subnet_k8s
@@ -80,6 +83,11 @@ module "k8s_snet" {
     "Microsoft.AzureCosmosDB",
     "Microsoft.EventHub"
   ]
+}
+
+moved {
+  from = module.k8s_snet
+  to   = module.k8s_snet[0]
 }
 
 ## Subnet jumpbox
@@ -140,6 +148,9 @@ module "apim_snet" {
 
 ## Eventhub subnet
 module "eventhub_snet" {
+
+  count = 1
+
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   name                                      = format("%s-eventhub-snet", local.project)
   address_prefixes                          = var.cidr_subnet_eventhub
@@ -147,6 +158,11 @@ module "eventhub_snet" {
   virtual_network_name                      = module.vnet_integration.name
   service_endpoints                         = ["Microsoft.EventHub"]
   private_endpoint_network_policies_enabled = false
+}
+
+moved {
+  from = module.eventhub_snet
+  to   = module.eventhub_snet[0]
 }
 
 # Subnet for Azure Data Factory
@@ -555,21 +571,6 @@ module "app_gw_maz" {
   tags = var.tags
 }
 
-
-resource "azurerm_public_ip" "aks_outbound" {
-  count = var.aks_num_outbound_ips
-
-  name                = format("%s-aksoutbound-pip-%02d", local.project, count.index + 1)
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  location            = azurerm_resource_group.rg_vnet.location
-  sku                 = "Standard"
-  allocation_method   = "Static"
-
-  zones = [1, 2, 3]
-
-  tags = var.tags
-}
-
 module "route_table_peering_sia" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//route_table?ref=v6.2.1"
 
@@ -578,7 +579,7 @@ module "route_table_peering_sia" {
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
 
-  subnet_ids = [module.apim_snet.id, module.eventhub_snet.id]
+  subnet_ids = [module.apim_snet.id]
 
   routes = [
     {

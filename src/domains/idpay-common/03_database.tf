@@ -265,6 +265,10 @@ locals {
         {
           keys   = ["userId"]
           unique = false
+        },
+        {
+          keys   = ["onboardedInitiatives"],
+          unique = false
         }
       ]
     },
@@ -654,6 +658,14 @@ locals {
         },
         {
           keys   = ["initiativeList.initiativeId"]
+          unique = false
+        },
+        {
+          keys   = ["fiscalCode"]
+          unique = false
+        },
+        {
+          keys   = ["acquirerId"]
           unique = false
         }
       ]

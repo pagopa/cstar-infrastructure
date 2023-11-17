@@ -221,6 +221,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_link_to_pair" {
 #
 # When BPD queue will be removed this zone will be destroyed.
 # THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
+
+resource "azurerm_private_dns_zone" "ehub" {
+  count = 1
+
+  name                = "privatelink.servicebus.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
 data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
   resource_group_name = azurerm_resource_group.rg_vnet.name
