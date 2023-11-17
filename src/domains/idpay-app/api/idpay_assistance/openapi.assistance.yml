@@ -3472,6 +3472,7 @@ components:
         - trxCode
         - trxId
         - effectiveAmount
+        - trxExpirationMinutes
         - status
       properties:
         trxCode:

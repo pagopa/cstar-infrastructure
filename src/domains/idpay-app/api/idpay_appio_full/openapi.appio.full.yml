@@ -3346,24 +3346,42 @@ components:
         - id
         - trxCode
         - initiativeId
+        - initiativeName
         - trxDate
+        - trxExpirationMinutes
+        - residualBudget
         - status
       properties:
         id:
           type: string
+          description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
         trxCode:
           type: string
+          description: 'ENG: Transaction code - IT: Codice della transazione'
         initiativeId:
           type: string
+          description: 'ENG: Id of the initiative - IT: Identificativo dell''iniziativa'
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome dell''iniziativa'
         trxDate:
           type: string
           format: date-time
+          description: 'ENG: Transaction date - IT: Data della transazione'
         trxExpirationMinutes:
           type: number
+          description: "ENG: Expiration time of the transaction, in minutes - IT: Scadenza della transazione, in minuti"
+        residualBudget:
+          type: integer
+          format: int64
+          description: 'ENG: Residual budget in cents - IT: Budget residuo in centesimi'
         status:
           type: string
           enum:
             - CREATED
+          description: >-
+            ENG: Status of the payment [CREATED: Created] - IT: Stato del pagamento [CREATED:
+            Creato]
   securitySchemes:
     bearerAuth:
       type: http

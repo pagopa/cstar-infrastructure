@@ -536,6 +536,7 @@ components:
         - trxCode
         - trxId
         - effectiveAmount
+        - trxExpirationMinutes
         - status
       properties:
         trxCode:
@@ -721,6 +722,7 @@ components:
         - merchantId
         - idTrxAcquirer
         - trxDate
+        - trxExpirationMinutes
         - amountCents
         - amountCurrency
         - acquirerId

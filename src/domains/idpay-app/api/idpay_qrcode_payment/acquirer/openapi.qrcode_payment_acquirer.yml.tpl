@@ -153,6 +153,7 @@ components:
         - merchantId
         - idTrxAcquirer
         - trxDate
+        - trxExpirationMinutes
         - amountCents
         - amountCurrency
         - acquirerId
