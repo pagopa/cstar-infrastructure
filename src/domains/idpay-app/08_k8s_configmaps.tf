@@ -132,8 +132,9 @@ resource "kubernetes_config_map" "notification-email" {
   }
 
   data = {
-    mail_server_host = var.mail_server_host
-    mail_server_port = var.mail_server_port
+    mail_server_host          = var.mail_server_host
+    mail_server_port          = var.mail_server_port
+    mail_server_port_protocol = var.mail_server_protocol
   }
 }
 

@@ -34,20 +34,13 @@ cosmos_dbms_params = {
   additional_geo_locations          = []
   is_virtual_network_filter_enabled = true
 
-  additional_geo_locations = [{
-    failover_priority = 1
-    location          = "northeurope"
-    zone_redundant    = false
-    }
-  ]
-
   backup_continuous_enabled = true
 }
 
 cosmos_db_aggregates_params = {
   enable_serverless  = false
   enable_autoscaling = true
-  max_throughput     = 50000
+  max_throughput     = 10000
   throughput         = 1000
 }
 
