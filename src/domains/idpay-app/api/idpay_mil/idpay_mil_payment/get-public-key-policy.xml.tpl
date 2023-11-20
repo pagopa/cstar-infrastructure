@@ -12,6 +12,7 @@
 -->
 <policies>
     <inbound>
+        <set-variable name="isMerchantIdRequired" value="false" />
         <base />
         <send-request mode="new" response-variable-name="responseObj" timeout="30" ignore-error="true">
             <set-url>https://${keyvault-name}.vault.azure.net/keys/${idpay-mil-key}?api-version=7.4</set-url>
