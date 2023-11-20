@@ -3370,7 +3370,9 @@ components:
           description: 'ENG: Transaction date - IT: Data della transazione'
         trxExpirationMinutes:
           type: number
-          description: "ENG: Expiration time of the transaction, in minutes - IT: Scadenza della transazione, in minuti"
+          description: >-
+            ENG: Expiration time of the transaction, in minutes - IT: Scadenza
+            della transazione, in minuti
         residualBudgetCents:
           type: integer
           format: int64
@@ -3380,8 +3382,8 @@ components:
           enum:
             - CREATED
           description: >-
-            ENG: Status of the payment [CREATED: Created] - IT: Stato del pagamento [CREATED:
-            Creato]
+            ENG: Status of the payment [CREATED: Created] - IT: Stato del
+            pagamento [CREATED: Creato]
   securitySchemes:
     bearerAuth:
       type: http
