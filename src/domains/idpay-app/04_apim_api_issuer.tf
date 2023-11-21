@@ -18,8 +18,8 @@ module "idpay_api_issuer_product" {
   subscriptions_limit = 50
 
   policy_xml = templatefile("./api_product/app_issuer/policy_issuer.xml.tpl", {
-    env_short         = var.env_short
-    rtd_ingress_ip    = var.reverse_proxy_rtd
+    env_short      = var.env_short
+    rtd_ingress_ip = var.reverse_proxy_rtd
   })
 
   groups = ["developers"]

@@ -18,9 +18,9 @@ module "idpay_api_io_product" {
   subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/app_io/policy_io.xml.tpl", {
-    env_short              = var.env_short
-    ingress_load_balancer  = local.rtd_ingress_load_balancer_hostname_https
-    appio_timeout_sec      = var.appio_timeout_sec
+    env_short             = var.env_short
+    ingress_load_balancer = local.rtd_ingress_load_balancer_hostname_https
+    appio_timeout_sec     = var.appio_timeout_sec
   })
 
   groups = ["developers"]
