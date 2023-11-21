@@ -62,26 +62,11 @@
         <choose>
             <!-- If API Management doesn’t find it in the cache, make a request for it and store it -->
             <when condition="@(!context.Variables.ContainsKey("tokenPDV"))">
-                <send-request mode="new" response-variable-name="responsePDV" timeout="${appio_timeout_sec}" ignore-error="true">
-                    <set-url>${pdv_tokenizer_url}/tokens</set-url>
-                    <set-method>PUT</set-method>
-                    <set-header name="x-api-key" exists-action="override">
-                        <value>{{pdv-api-key}}</value>
-                    </set-header>
-                    <set-body>@{
-                            return new JObject(
-                                    new JProperty("pii", (string)context.Variables["fiscalCode"])
-                                    ).ToString();
-                        }</set-body>
-                </send-request>
+                <set-variable name="pii" value="@((string)context.Variables["fiscalCode"])" />
+                <include-fragment fragment-id="idpay-pdv-tokenizer" />
                 <choose>
-                    <when condition="@(context.Variables["responsePDV"] == null)">
-                        <return-response>
-                            <set-status code="504" reason="PDV Timeout" />
-                        </return-response>
-                    </when>
-                    <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
-                        <set-variable name="tokenPDV" value="@((string)((IResponse)context.Variables["responsePDV"]).Body.As<JObject>()["token"])" />
+                    <when condition="@(context.Variables["pdv_token"] != null)">
+                        <set-variable name="tokenPDV" value="@((string)context.Variables["pdv_token"])" />
                         <cache-store-value key="@((string)context.Variables["fiscalCode"])" value="@((string)context.Variables["tokenPDV"])" duration="900" />
                     </when>
                     <otherwise>
