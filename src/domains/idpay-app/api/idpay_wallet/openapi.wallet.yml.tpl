@@ -133,8 +133,8 @@ paths:
                 $ref: '#/components/schemas/InitiativeDTO'
         '401':
           description: Authentication failed
-        '403':
-          description: Forbidden
+        '404':
+          description: The requested resource was not found
           content:
             application/json:
               schema:
@@ -479,8 +479,8 @@ paths:
                 message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
-        '403':
-          description: Forbidden
+        '404':
+          description: The requested resource was not found
           content:
             application/json:
               schema:
@@ -548,8 +548,8 @@ paths:
                 message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
-        '403':
-          description: Forbidden
+        '404':
+          description: The requested resource was not found
           content:
             application/json:
               schema:
