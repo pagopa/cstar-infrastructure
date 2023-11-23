@@ -548,6 +548,66 @@ paths:
               example:
                 code: "PAYMENT_INSTRUMENT_GENERIC_ERROR"
                 message: "Something gone wrong while send RTD instrument notify"
+  '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/family':
+    get:
+      tags:
+        - beneficiary
+      summary: "ENG: Returns the family unit composition - IT: Restituisce la composizione del nucleo familiare"
+      operationId: getFamilyComposition
+      parameters:
+        - name: Fiscal-Code
+          in: header
+          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
+          schema:
+            type: string
+            example: Fiscal-Code
+          required: true
+        - name: organizationId
+          in: path
+          description: "ENG: The ID of the organization - IT: L'ID dell'organizzazione"
+          required: true
+          schema:
+            type: string
+        - name: initiativeId
+          in: path
+          description: "ENG: The ID of the initiative - IT: L'ID dell'iniziativa"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyUnitCompositionDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string                
   /organization/{organizationId}/initiative/{initiativeId}/onboardings:
     get:
       tags:
@@ -3938,6 +3998,47 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    FamilyUnitCompositionDTO:
+      type: object
+      required:
+        - usersList
+      properties:
+        usersList:
+          type: array
+          items:
+            $ref: '#/components/schemas/OnboardingDetailDTO'
+          description: "ENG: List of citizens belonging to family <br> IT: Lista dei membri appartenenti al nucleo familiare"
+    OnboardingDetailDTO:
+      type: object
+      required:
+        - code
+        - message
+        - details
+      properties:
+        fiscalCode:
+          type: string
+          description: "ENG: Citizen fiscal code <br> IT: Codice fiscale del cittadino"
+        familyId:
+          type: string
+          description: "ENG: Family id <br> IT: Id del nucleo familiare"
+        onboardingDate:
+          type: string
+          format: date
+          description: "ENG: Date of onboarding <br> IT: Data dell'adesione"
+        status:
+          enum:
+            - INVITED
+            - ACCEPTED_TC
+            - DEMANDED
+            - ON_EVALUATION
+            - ONBOARDING_KO
+            - ELIGIBLE_KO
+            - ONBOARDING_OK
+            - INACTIVE
+            - UNSUBSCRIBED
+            - SUSPENDED
+          type: string
+          description: "ENG: Status of the citizen onboarding <br> IT: Stato dell'onboarding del cittadino"
   securitySchemes:
     Bearer:
       type: apiKey
