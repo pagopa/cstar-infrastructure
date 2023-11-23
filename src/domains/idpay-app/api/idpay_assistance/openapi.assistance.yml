@@ -3519,6 +3519,7 @@ components:
         - trxCode
         - trxId
         - effectiveAmount
+        - trxExpirationSeconds
         - status
       properties:
         trxCode:
@@ -3540,9 +3541,9 @@ components:
           type: string
           format: date-time
           description: "ENG: The date of the transaction - IT: La data della transazione"
-        trxExpirationMinutes:
+        trxExpirationSeconds:
           type: number
-          description: "ENG: Expiration time of the transaction, in minutes - IT: Scadenza della transazione, in minuti"
+          description: "ENG: Expiration time of the transaction, in seconds - IT: Scadenza della transazione, in secondi"
         updateDate:
           type: string
           format: date-time

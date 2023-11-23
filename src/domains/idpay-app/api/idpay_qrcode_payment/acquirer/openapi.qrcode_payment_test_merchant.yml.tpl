@@ -153,6 +153,7 @@ components:
         - merchantId
         - idTrxAcquirer
         - trxDate
+        - trxExpirationSeconds
         - amountCents
         - amountCurrency
         - acquirerId
@@ -173,7 +174,7 @@ components:
         trxDate:
           type: string
           format: date-time
-        trxExpirationMinutes:
+        trxExpirationSeconds:
           type: number
         amountCents:
           type: integer
