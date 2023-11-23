@@ -509,6 +509,15 @@ paths:
               example:
                 code: ONBOARDING_USER_NOT_ONBOARDED
                 message: 'The current user is not onboarded on initiative [%s]'
+        '429':
+          description: Too many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
