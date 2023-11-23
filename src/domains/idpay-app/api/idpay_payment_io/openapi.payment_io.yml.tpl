@@ -53,7 +53,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_NOT_FOUND_EXPIRED
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
                 message: 'Cannot find transaction with trxCode [trxCode]'
         '429':
           description: Too many Request
