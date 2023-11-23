@@ -13,18 +13,27 @@
 <policies>
     <inbound>
         <base />
-        <set-variable name="pii" value="@(context.Request.Headers.GetValueOrDefault("Fiscal-Code"))" />
-        <include-fragment fragment-id="idpay-pdv-tokenizer" />
         <choose>
-          <when condition="@(context.Variables["pdv_token"] != null)">
-            <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-            <rewrite-uri template="@("/idpay/wallet/{initiativeId}/"+(context.Variables["pdv_token"]))" />
-          </when>
-          <otherwise>
-            <return-response>
-                <set-status code="401" reason="Unauthorized" />
-            </return-response>
-          </otherwise>
+            <when condition="@(context.Request.Headers.ContainsKey("Fiscal-Code") == true)">
+                <set-variable name="pii" value="@(context.Request.Headers.GetValueOrDefault("Fiscal-Code"))" />
+                <include-fragment fragment-id="idpay-pdv-tokenizer" />
+                <choose>
+                    <when condition="@(context.Variables["pdv_token"] != null)">
+                        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
+                        <rewrite-uri template="@("/idpay/onboarding/{initiativeId}/"+(context.Variables["pdv_token"])+"/family")" />
+                    </when>
+                    <otherwise>
+                        <return-response>
+                            <set-status code="401" reason="Unauthorized" />
+                        </return-response>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="400" reason="Missing Fiscal-Code" />
+                </return-response>
+            </otherwise>
         </choose>
     </inbound>
     <backend>
