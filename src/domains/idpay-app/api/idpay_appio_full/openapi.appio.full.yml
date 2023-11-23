@@ -2796,7 +2796,7 @@ components:
           description: 'ENG: Id of the operation - IT: Identificativo dell''operazione'
         operationType:
           enum:
-            - UNSUBSCRIBE
+            - UNSUBSCRIBED
           type: string
           description: 'ENG: Operation type - IT: Tipologia dell''operazione'
         operationDate:
@@ -3348,7 +3348,7 @@ components:
         - initiativeId
         - initiativeName
         - trxDate
-        - trxExpirationMinutes
+        - trxExpirationSeconds
         - residualBudgetCents
         - status
       properties:
@@ -3368,9 +3368,11 @@ components:
           type: string
           format: date-time
           description: 'ENG: Transaction date - IT: Data della transazione'
-        trxExpirationMinutes:
+        trxExpirationSeconds:
           type: number
-          description: "ENG: Expiration time of the transaction, in minutes - IT: Scadenza della transazione, in minuti"
+          description: >-
+            ENG: Expiration time of the transaction, in seconds - IT: Scadenza
+            della transazione, in secondi
         residualBudgetCents:
           type: integer
           format: int64
@@ -3380,8 +3382,8 @@ components:
           enum:
             - CREATED
           description: >-
-            ENG: Status of the payment [CREATED: Created] - IT: Stato del pagamento [CREATED:
-            Creato]
+            ENG: Status of the payment [CREATED: Created] - IT: Stato del
+            pagamento [CREATED: Creato]
   securitySchemes:
     bearerAuth:
       type: http
