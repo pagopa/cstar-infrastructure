@@ -3348,7 +3348,7 @@ components:
         - initiativeId
         - initiativeName
         - trxDate
-        - trxExpirationMinutes
+        - trxExpirationSeconds
         - residualBudgetCents
         - status
       properties:
@@ -3368,11 +3368,11 @@ components:
           type: string
           format: date-time
           description: 'ENG: Transaction date - IT: Data della transazione'
-        trxExpirationMinutes:
+        trxExpirationSeconds:
           type: number
           description: >-
-            ENG: Expiration time of the transaction, in minutes - IT: Scadenza
-            della transazione, in minuti
+            ENG: Expiration time of the transaction, in seconds - IT: Scadenza
+            della transazione, in secondi
         residualBudgetCents:
           type: integer
           format: int64
