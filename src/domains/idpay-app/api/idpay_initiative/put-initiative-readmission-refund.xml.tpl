@@ -13,33 +13,18 @@
 <policies>
     <inbound>
         <base />
-        <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
-          <set-url>${pdv_tokenizer_url}/tokens</set-url>
-          <set-method>PUT</set-method>
-          <set-header name="x-api-key" exists-action="override">
-              <value>{{pdv-api-key}}</value>
-          </set-header>
-          <set-body>@{
-                  return new JObject(
-                          new JProperty("pii", context.Request.Headers.GetValueOrDefault("Fiscal-Code")
-                          )).ToString();
-              }</set-body>
-        </send-request>
+        <set-variable name="pii" value="@(context.Request.Headers.GetValueOrDefault("Fiscal-Code"))" />
+        <include-fragment fragment-id="idpay-pdv-tokenizer" />
         <choose>
-          <when condition="@(context.Variables["responsePDV"] == null)">
-              <return-response>
-                  <set-status code="504" reason="PDV Timeout" />
-              </return-response>
-          </when>
-          <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
-            <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
-            <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/user/"+(string)((IResponse)context.Variables["responsePDV"]).Body.As<JObject>()["token"]+"/readmit")" />
-          </when>
-          <otherwise>
-            <return-response>
-              <set-status code="401" reason="Unauthorized" />
-            </return-response>
-          </otherwise>
+            <when condition="@(context.Variables["pdv_token"] != null)">
+                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayrewardnotification" />
+                <rewrite-uri template="@("/idpay/organization/"+((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_id", "")+"/initiative/{initiativeId}/user/"+(context.Variables["pdv_token"])+"/readmit")" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Unauthorized" />
+                </return-response>
+            </otherwise>
         </choose>
     </inbound>
     <backend>

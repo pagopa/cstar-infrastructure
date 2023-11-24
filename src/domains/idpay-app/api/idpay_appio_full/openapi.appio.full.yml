@@ -2301,6 +2301,7 @@ components:
         - $ref: '#/components/schemas/RefundDetailDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -2352,6 +2353,7 @@ components:
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -2776,6 +2778,25 @@ components:
         operationType:
           enum:
             - READMITTED
+          type: string
+          description: 'ENG: Operation type - IT: Tipologia dell''operazione'
+        operationDate:
+          type: string
+          format: date-time
+          description: 'ENG: Operation date - IT: Data dell''operazione'
+    UnsubscribeOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+          description: 'ENG: Id of the operation - IT: Identificativo dell''operazione'
+        operationType:
+          enum:
+            - UNSUBSCRIBED
           type: string
           description: 'ENG: Operation type - IT: Tipologia dell''operazione'
         operationDate:
@@ -3325,24 +3346,44 @@ components:
         - id
         - trxCode
         - initiativeId
+        - initiativeName
         - trxDate
+        - trxExpirationSeconds
+        - residualBudgetCents
         - status
       properties:
         id:
           type: string
+          description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
         trxCode:
           type: string
+          description: 'ENG: Transaction code - IT: Codice della transazione'
         initiativeId:
           type: string
+          description: 'ENG: Id of the initiative - IT: Identificativo dell''iniziativa'
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome dell''iniziativa'
         trxDate:
           type: string
           format: date-time
-        trxExpirationMinutes:
+          description: 'ENG: Transaction date - IT: Data della transazione'
+        trxExpirationSeconds:
           type: number
+          description: >-
+            ENG: Expiration time of the transaction, in seconds - IT: Scadenza
+            della transazione, in secondi
+        residualBudgetCents:
+          type: integer
+          format: int64
+          description: 'ENG: Residual budget in cents - IT: Budget residuo in centesimi'
         status:
           type: string
           enum:
             - CREATED
+          description: >-
+            ENG: Status of the payment [CREATED: Created] - IT: Stato del
+            pagamento [CREATED: Creato]
   securitySchemes:
     bearerAuth:
       type: http

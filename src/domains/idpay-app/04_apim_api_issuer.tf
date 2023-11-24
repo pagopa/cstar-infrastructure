@@ -18,10 +18,8 @@ module "idpay_api_issuer_product" {
   subscriptions_limit = 50
 
   policy_xml = templatefile("./api_product/app_issuer/policy_issuer.xml.tpl", {
-    env_short         = var.env_short
-    rtd_ingress_ip    = var.reverse_proxy_rtd
-    appio_timeout_sec = var.appio_timeout_sec
-    pdv_tokenizer_url = var.pdv_tokenizer_url
+    env_short      = var.env_short
+    rtd_ingress_ip = var.reverse_proxy_rtd
   })
 
   groups = ["developers"]
