@@ -1,5 +1,5 @@
 locals {
-  enable_poc_strimzi              = var.env_short == "d" ? 1 : 0
+  enable_poc_strimzi              = 0
   mongodb_connection_uri_template = "mongodb://%s:%s@%s.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@%s@"
 }
 
@@ -38,7 +38,7 @@ resource "kubernetes_secret" "strimzi_evh_connectionstring" {
 
 # create a resource for kafka-connect. Strimzi will provide to create it
 resource "kubernetes_manifest" "strimzi_kafka_connect" {
-  count    = local.enable_poc_strimzi
+  count    = 0
   manifest = yamldecode(file("./poc-cdc/strimzi/kafka-connect.yml"))
 
   depends_on = [
