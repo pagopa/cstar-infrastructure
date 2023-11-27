@@ -44,10 +44,12 @@ jobs:
 #          expected_result: PASSED
 
       - name: Install diff library
-        run: npm install openapi-diff --save-dev
+        run: npm i -g openapi-diff
 
       - name: Run script check-diff
-        run: openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-
+        with:
+          first_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
+          second_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+        run: npx openapi-diff $first_file_path $second_file_path
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
