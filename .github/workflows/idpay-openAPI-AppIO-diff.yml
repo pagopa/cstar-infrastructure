@@ -27,9 +27,10 @@ jobs:
       - name: Run script merge
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
-      - name: Run script check-diff
-        run: npx openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-
+#      - name: Run script check-diff
+#        run: npx openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+      - name: Run git diff
+        run: git diff HEAD:./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 #      - uses: LouisBrunner/diff-action@v0.2.0
 #        id: diff
 #        with:
