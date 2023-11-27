@@ -37,11 +37,11 @@ jobs:
 #          tolerance: same
 #          output: passed
 
-      - uses: GuillaumeFalourd/diff-action@v1
-        with:
-          first_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-          second_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-          expected_result: PASSED
+      - name: Install diff library
+        run: npm install openapi-diff --save-dev
+
+      - name: Run script check-diff
+        run: openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
