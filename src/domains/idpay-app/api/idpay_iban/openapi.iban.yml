@@ -133,6 +133,7 @@ components:
     IbanDTO:
       type: object
       required:
+        - test
         - iban
         - checkIbanStatus
         - description

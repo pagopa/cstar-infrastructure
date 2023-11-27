@@ -3232,10 +3232,8 @@ components:
             - CREATED
             - IDENTIFIED
             - AUTHORIZED
-          description: >-
-            ENG: Status of the payment [CREATED: Created, IDENTIFIED: User
-            related, AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED:
-            Creato, IDENTIFIED: Utente associato, AUTHORIZED: autorizzato]
+            - TEST
+          description: "ENG: Status of the payment [CREATED: Created, IDENTIFIED: User related, AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED: Creato, IDENTIFIED: Utente associato, AUTHORIZED: autorizzato]"
         reward:
           type: integer
           format: int64
@@ -3379,6 +3377,7 @@ components:
           description: 'ENG: Residual budget in cents - IT: Budget residuo in centesimi'
         status:
           type: string
+
           enum:
             - CREATED
           description: >-
@@ -3388,3 +3387,8 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+
+    TestDTO:
+      type: object
+      required:
+        - id

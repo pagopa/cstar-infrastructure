@@ -602,7 +602,6 @@ components:
         operationType:
           enum:
             - READMITTED
-            - TEST
           type: string
           description: "ENG: Operation type - IT: Tipologia dell'operazione"
         operationDate:
