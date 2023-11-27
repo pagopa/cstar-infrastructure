@@ -3278,7 +3278,6 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
-            -
             - PAYMENT_INVALID_REQUEST
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not
@@ -3390,8 +3389,3 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-
-    TestDTO:
-      type: object
-      required:
-        - id
