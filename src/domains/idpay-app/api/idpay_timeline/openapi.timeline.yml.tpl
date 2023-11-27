@@ -627,12 +627,12 @@ components:
           type: string
           format: date-time
           description: "ENG: Operation date - IT: Data dell'operazione"
-          TEST
     ErrorDTO:
       type: object
       required:
         - code
         - message
+        - test
       properties:
         code:
           type: integer
