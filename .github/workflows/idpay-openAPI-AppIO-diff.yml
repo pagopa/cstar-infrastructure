@@ -22,11 +22,13 @@ jobs:
           node-version: 18.16.x
 
       - name: Install library
-        run: npm i -g openapi-merge-cli
+        run: npm i -g openapi-merge-cli && npm i openapi-diff
         #The.json file containing the inputs for the merge is inside the path "scripts/idpay-script/openapi-merge.json"
       - name: Run script merge
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
+      - name: Run script check-diff
+        run: npx openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 
 #      - uses: LouisBrunner/diff-action@v0.2.0
 #        id: diff
@@ -43,13 +45,5 @@ jobs:
 #          second_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 #          expected_result: PASSED
 
-      - name: Install diff library
-        run: npm i -g openapi-diff
-
-      - name: Run script check-diff
-        with:
-          OLD: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-          NEW: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-        run: npx openapi-diff $OLD $NEW
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
