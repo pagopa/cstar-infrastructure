@@ -137,7 +137,6 @@ components:
         - checkIbanStatus
         - description
         - channel
-        - -test
       properties:
         iban:
           type: string

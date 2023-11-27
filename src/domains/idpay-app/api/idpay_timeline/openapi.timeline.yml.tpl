@@ -632,7 +632,6 @@ components:
       required:
         - code
         - message
-        - test
       properties:
         code:
           type: integer
@@ -650,6 +649,3 @@ security:
 tags:
   - name: timeline
     description: ''
-    TESTDTO:
-          type: object
-          required:
