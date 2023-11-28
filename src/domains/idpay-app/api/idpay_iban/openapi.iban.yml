@@ -185,3 +185,27 @@ security:
 tags:
   - name: iban
     description: ''
+
+    TEST:
+      type: object
+      required:
+        - iban
+        - checkIbanStatus
+        - description
+        - channel
+      properties:
+        iban:
+          type: string
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
+        checkIbanStatus:
+          type: string
+          description: "ENG: Status of checkIban - IT: Stato del checkIban"
+        holderBank:
+          type: string
+          description: "ENG: Holder Bank name - IT: Nome della banca"
+        description:
+          type: string
+          description: "ENG: General description associated with the iban - IT: Descrizione generale associata alll'IBAN"
+        channel:
+          type: string
+          description: "ENG: Channel from which the IBAN has been inserted - IT: Canale da cui l'IBAN è stato inserito"

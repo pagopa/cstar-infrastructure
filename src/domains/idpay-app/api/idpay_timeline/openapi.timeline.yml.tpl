@@ -617,7 +617,7 @@ components:
       properties:
         operationId:
           type: string
-          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
+          description: "ENG: Id of the operation - IT:  Identificativo dell'operazione"
         operationType:
           enum:
             - UNSUBSCRIBED
@@ -627,6 +627,7 @@ components:
           type: string
           format: date-time
           description: "ENG: Operation date - IT: Data dell'operazione"
+
     ErrorDTO:
       type: object
       required:
