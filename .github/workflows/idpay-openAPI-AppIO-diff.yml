@@ -20,6 +20,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.16.x
+          FORCE_COLOR: "1"
+
 
       - name: Install library
         run: npm i -g openapi-merge-cli
