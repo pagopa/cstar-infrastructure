@@ -22,29 +22,16 @@ jobs:
           node-version: 18.16.x
 
       - name: Install library
-        run: npm i -g openapi-merge-cli && npm i openapi-diff
+        run: npm i -g openapi-merge-cli
         #The.json file containing the inputs for the merge is inside the path "scripts/idpay-script/openapi-merge.json"
       - name: Run script merge
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
-#      - name: Run script check-diff
-#        run: npx openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-      - name: Run git diff
-        run: git diff HEAD:./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-#      - uses: LouisBrunner/diff-action@v0.2.0
-#        id: diff
-#        with:
-#          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-#          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-#          mode: addition
-#          tolerance: same
-#          output: passed
 
-#      - uses: GuillaumeFalourd/diff-action@v1
-#        with:
-#          first_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-#          second_file_path: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-#          expected_result: PASSED
+      - name: install package
+        run: snap install yq --channel=v3/stable
+      - name: run yq compare
+        run: yq compare ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
