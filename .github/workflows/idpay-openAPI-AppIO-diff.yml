@@ -28,10 +28,7 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - name: install package
-        run: npm i openapi-diff
-      - name: run script
-        run: npx openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-
+      - name: diff
+        run: diff <(./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml) <(./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml)
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
