@@ -35,7 +35,7 @@ jobs:
           sudo apt install yq -y
       - name: run yq compare
         run: |
-          diff <(yq -P ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml) <(yq -P ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml)
+          diff <(yq -P "./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml") <(yq -P "./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml")
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
