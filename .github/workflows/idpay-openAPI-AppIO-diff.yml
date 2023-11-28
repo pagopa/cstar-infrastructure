@@ -28,7 +28,7 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - name: diff
-        run: diff --color -u ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+      - name: check-diff
+        run: diff -y --suppress-common-lines ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
