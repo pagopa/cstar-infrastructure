@@ -29,7 +29,10 @@ jobs:
         run: npx openapi-merge-cli
 
       - name: install package
-        run: snap install yq --channel=v3/stable
+        run: |
+          sudo add-apt-repository ppa:rmescandon/yq
+          sudo apt update
+          sudo apt install yq -y
       - name: run yq compare
         run: yq compare ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 
