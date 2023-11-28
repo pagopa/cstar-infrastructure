@@ -29,6 +29,6 @@ jobs:
         run: npx openapi-merge-cli
 
       - name: diff
-        run: diff -c ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml | colordiff
+        run: diff -c --color ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
