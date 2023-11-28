@@ -32,8 +32,8 @@ jobs:
 
       - name: check-diff
         run: |
-              diff -U 0 ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml | grep -v ^@ | wc -l >number.txt
-              echo "Number of mismatch is:" && cat number.txt
+              diff -U 0 ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml |wc -l >number.txt
+              echo -n "Number of mismatch is: " && cat number.txt
               diff -w -y --left-column --color=always ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
