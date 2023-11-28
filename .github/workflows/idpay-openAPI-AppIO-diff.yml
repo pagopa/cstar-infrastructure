@@ -29,13 +29,9 @@ jobs:
         run: npx openapi-merge-cli
 
       - name: install package
-        run: |
-          sudo add-apt-repository ppa:rmescandon/yq
-          sudo apt update
-          sudo apt install yq -y
-      - name: run yq compare
-        run: |
-          diff <(yq -P "./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml") <(yq -P "./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml")
+        run: npm i openapi-diff
+      - name: run script
+        run: npx openapi-diff ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
