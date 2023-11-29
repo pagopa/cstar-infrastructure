@@ -166,7 +166,6 @@ components:
     ErrorDTO:
       type: object
       required:
-        - code
         - message
       properties:
         code:
@@ -175,7 +174,7 @@ components:
           description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
-          description: "ENG: Error message - IT: Messaggio di errore"
+          description: 'ENG: Error message - IT: Messaggio di errore'
   securitySchemes:
     bearerAuth:
       type: http
@@ -185,3 +184,8 @@ security:
 tags:
   - name: iban
     description: ''
+    ErrorDTO:
+      type: object
+      required:
+        - code
+        - message
