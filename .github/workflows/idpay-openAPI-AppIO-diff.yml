@@ -28,20 +28,8 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - name: Summary
-        run: |
-          diff -u -s ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml > ./src/domains/idpay-app/api/idpay_appio_full/diff_file.txt
-          | add_lines= cat ./src/domains/idpay-app/api/idpay_appio_full/diff_file.txt | grep ^+ | wc -l
-          | del_lines= cat ./src/domains/idpay-app/api/idpay_appio_full/diff_file.txt | grep ^- | wc -l
-          | at_lines= cat ./src/domains/idpay-app/api/idpay_appio_full/diff_file.txt | grep ^@ | wc -l
-          | chg_lines= cat ./src/domains/idpay-app/api/idpay_appio_full/diff_file.txt  | wc -l
-          | chg_lines= expr $chg_lines - $add_lines - $del_lines - $at_lines
-          | add_lines= expr $add_lines - 1
-          | del_lines= expr $del_lines - 1
-          | total_change= expr $chg_lines + $add_lines + $del_lines
-
-
       - name: check-diff
-        run: diff -w -y --left-column --color=always ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+        run: diff -w -y --left-column --color=always ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml | cat -n | grep -v -e '($'
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
