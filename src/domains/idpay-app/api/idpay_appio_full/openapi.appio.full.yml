@@ -3281,7 +3281,6 @@ components:
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not
             found or expired, PAYMENT_TRANSACTION_EXPIRED: transaction expired,
-            PAYMENT_INITIATIVE_NOT_FOUND: initiative not found,
             PAYMENT_INITIATIVE_INVALID_DATE: initiative invalid date,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: initiative is not of discount type,
             PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
