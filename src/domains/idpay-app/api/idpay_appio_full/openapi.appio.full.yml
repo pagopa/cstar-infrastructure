@@ -3232,7 +3232,6 @@ components:
             - CREATED
             - IDENTIFIED
             - AUTHORIZED
-            - TEST
           description: >-
             ENG: Status of the payment [CREATED: Created, IDENTIFIED: User
             related, AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED:
@@ -3388,13 +3387,4 @@ components:
   securitySchemes:
     bearerAuth:
       type: http
-
       scheme: bearer
-    TESTDTO:
-      type: object
-      required:
-        - initiativeId
-      properties:
-        initiativeId:
-          type: string
-          description: 'ENG: Initiative ID - IT: Identificativo dell''iniziativa'

@@ -627,7 +627,6 @@ components:
           type: string
           format: date-time
           description: "ENG: Operation date - IT: Data dell'operazione"
-
     ErrorDTO:
       type: object
       required:
