@@ -601,6 +601,7 @@ components:
           description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
         operationType:
           enum:
+            - READMITTED
           type: string
           description: "ENG: Operation type - IT: Tipologia dell'operazione"
         operationDate:

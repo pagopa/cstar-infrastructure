@@ -3375,7 +3375,8 @@ components:
         residualBudgetCents:
           type: integer
           format: int64
-          description: 'ENG: Residual budget in cents - IT: Budget residuo in centesimi'
+          description: >-
+            ENG: Residual budget in cents - IT: Budget residuo in centesimi
         status:
           type: string
           enum:
@@ -3387,3 +3388,15 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+
+    TESTDTO:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - initiativeName
+        - trxDate
+        - trxExpirationSeconds
+        - residualBudgetCents
+        - status

@@ -162,6 +162,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/IbanDTO'
+          description: "ENG: The list of IBAN associated to a citizen - IT: Lista di IBAN associati ad un cittadino"
     ErrorDTO:
       type: object
       required:
