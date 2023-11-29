@@ -228,7 +228,6 @@ variable "enable" {
     tae_api                             = bool
     tae_blob_containers                 = bool
     sender_auth                         = bool
-    csv_transaction_apis                = bool
     mock_io_api                         = bool
     rtd_df                              = bool
   })
@@ -253,7 +252,6 @@ variable "enable" {
     tae_api                             = false
     tae_blob_containers                 = false
     sender_auth                         = false
-    csv_transaction_apis                = false
     mock_io_api                         = false
     rtd_df                              = false
   }
