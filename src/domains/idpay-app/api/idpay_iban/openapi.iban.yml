@@ -185,3 +185,8 @@ security:
 tags:
   - name: iban
     description: ''
+
+    TestistDTO:
+      type: object
+      required:
+        - ibanList
