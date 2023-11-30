@@ -92,6 +92,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IbanListDTO'
+              example:
+                message: "test"
         '401':
           description: Authentication failed
           content:
@@ -137,11 +139,10 @@ components:
         - checkIbanStatus
         - description
         - channel
-        - TEST
       properties:
         iban:
           type: string
-          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
+          description: 'ENG: IBAN of the citizen - IT: IBAN del cittadino'
         checkIbanStatus:
           type: string
           description: "ENG: Status of checkIban - IT: Stato del checkIban"
@@ -173,6 +174,7 @@ components:
         code:
           type: integer
           format: int32
+          description: "ENG: Error code - IT: Codice di errore"
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
@@ -185,4 +187,8 @@ security:
 tags:
   - name: iban
     description: ''
-#TEST
+TestDTO:
+  type: object
+  required:
+    -code
+    -message
