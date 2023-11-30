@@ -3373,7 +3373,6 @@ components:
           description: >-
             ENG: Expiration time of the transaction, in seconds - IT: Scadenza
             della transazione, in secondi
-
         residualBudgetCents:
           type: integer
           format: int64
