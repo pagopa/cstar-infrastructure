@@ -2778,6 +2778,7 @@ components:
         operationType:
           enum:
             - READMITTED
+            - TEST
           type: string
           description: 'ENG: Operation type - IT: Tipologia dell''operazione'
         operationDate:
@@ -2828,7 +2829,6 @@ components:
       type: object
       required:
         - iban
-        - description
       properties:
         iban:
           type: string
@@ -3388,3 +3388,14 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+    TransactionBarCodeResponse:
+      type: object
+      required:
+        - id
+        - trxCode
+        - initiativeId
+        - initiativeName
+        - trxDate
+        - trxExpirationSeconds
+        - residualBudgetCents
+        - status

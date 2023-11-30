@@ -598,6 +598,7 @@ components:
       properties:
         operationId:
           type: string
+          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
         operationType:
           enum:
             - READMITTED
