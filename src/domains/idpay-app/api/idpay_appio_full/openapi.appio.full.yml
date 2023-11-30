@@ -3376,7 +3376,7 @@ components:
         residualBudgetCents:
           type: integer
           format: int64
-          description: 'ENG: Residual budget in cents - IT: Budget residuo in centesimi'
+          description: "ENG: Residual budget in cents - IT: Budget residuo in centesimi"
         status:
           type: string
           enum:
