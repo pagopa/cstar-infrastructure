@@ -46,7 +46,7 @@ resource "azapi_resource" "apim-validate-token-mil" {
       description = "idpay-validate-token-mil"
       format      = "rawxml"
       value = templatefile("./api_fragment/validate-token-mil.xml", {
-        openid-config-url-mil   = var.openid_config_url_mil
+        openid-config-url-mil = var.openid_config_url_mil
       })
     }
   })
