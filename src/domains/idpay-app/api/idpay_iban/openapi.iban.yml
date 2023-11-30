@@ -92,8 +92,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IbanListDTO'
-              example:
-                message: "test"
         '401':
           description: Authentication failed
           content:
@@ -142,7 +140,7 @@ components:
       properties:
         iban:
           type: string
-          description: 'ENG: IBAN of the citizen - IT: IBAN del cittadino'
+          description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
         checkIbanStatus:
           type: string
           description: "ENG: Status of checkIban - IT: Stato del checkIban"
@@ -187,8 +185,3 @@ security:
 tags:
   - name: iban
     description: ''
-TestDTO:
-  type: object
-  required:
-    -code
-    -message
