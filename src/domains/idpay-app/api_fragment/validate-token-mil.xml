@@ -5,7 +5,7 @@ This policy validate content and sign of MIL JWT token reading the fiscal code
   <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="milToken">
     <openid-config url="${openid-config-url-mil}" />
   </validate-jwt>
-  <set-variable name="idpayPortalToken" value="@{
+  <set-variable name="fiscalCode" value="@{
                     Jwt token = (Jwt)context.Variables["milToken"];
                     return token.Claims.GetValueOrDefault("fiscalCode", "");
                 }" />
