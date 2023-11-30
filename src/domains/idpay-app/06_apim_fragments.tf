@@ -31,3 +31,19 @@ resource "azapi_resource" "apim-pdv-tokenizer" {
     }
   })
 }
+
+resource "azapi_resource" "apim-validate-token-mil" {
+  type      = "Microsoft.ApiManagement/service/policyFragments@2021-12-01-preview"
+  name      = "idpay-validate-token-mil"
+  parent_id = data.azurerm_api_management.apim_core.id
+
+  body = jsonencode({
+    properties = {
+      description = "idpay-validate-token-mil"
+      format      = "rawxml"
+      value = templatefile("./api_fragment/validate-token-mil.xml", {
+        openid-config-url-mil   = var.openid_config_url_mil
+      })
+    }
+  })
+}
