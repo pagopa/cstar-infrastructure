@@ -137,6 +137,7 @@ components:
         - checkIbanStatus
         - description
         - channel
+        - TEST
       properties:
         iban:
           type: string
@@ -168,7 +169,6 @@ components:
       required:
         - code
         - message
-        - TEST
       properties:
         code:
           type: integer
