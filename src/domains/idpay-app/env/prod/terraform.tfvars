@@ -63,7 +63,9 @@ pm_backend_url      = "https://api.platform.pagopa.it"
 #
 # MIL
 #
-openid_config_url_mil = "https://mil-u-apim.azure-api.net/mil-auth/.well-known/openid-configuration"
+#NOT VALID, NEED TO CHANGE
+openid_config_url_mil = "https://mil-p-apim.azure-api.net/mil-auth/.well-known/openid-configuration"
+
 
 #
 # Check IBAN
