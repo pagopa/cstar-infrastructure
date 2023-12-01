@@ -61,6 +61,7 @@ resource "azurerm_cosmosdb_sql_database" "transaction_aggregate" {
 
   lifecycle {
     ignore_changes = [
+      throughput,
       autoscale_settings
     ]
   }
