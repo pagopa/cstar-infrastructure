@@ -20,12 +20,6 @@ paths:
             example: it-IT
             default: it-IT
           required: true
-        - name: Fiscal-Code
-          in: header
-          description: The ID of the citizen
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Id of the iniziative
         required: true
@@ -113,12 +107,6 @@ paths:
             example: it-IT
             default: it-IT
           required: true
-        - name: Fiscal-Code
-          in: header
-          description: The ID of the citizen
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Id of the initiative
         required: true
@@ -200,12 +188,6 @@ paths:
             example: it-IT
             default: it-IT
           required: true
-        - name: Fiscal-Code
-          in: header
-          description: The ID of the citizen
-          required: true
-          schema:
-            type: string
       requestBody:
         description: >-
           ENG: Unique identifier of the subscribed initiative, flag for PDND
@@ -295,12 +277,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: Fiscal-Code
-          in: header
-          description: The ID of the citizen
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Check successful
@@ -308,6 +284,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OnboardingStatusDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '404':
+          description: The requested ID was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+              example:
+                code: 0
+                message: string
+  /initiatives:
+    get:
+      tags:
+        - initiative
+      summary: Returns the list of published initiatives
+      operationId: getInitiativeList
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeListDTO'
         '400':
           description: Bad Request
           content:
@@ -590,12 +623,87 @@ components:
             - INITIATIVE_SUSPENDED
             - GENERIC_ERROR
           description: "ENG: Error details [INITIATIVE_NOT_STARTED: Initiative not started, INITIATIVE_END: Initiative ended, BUDGET_TERMINATED: Budget terminated, INITIATIVE_SUSPENDED: Initiative suspended, GENERIC_ERROR: Generic errors] - IT: Dettagli dell'errore [INITIATIVE_NOT_STARTED: Initiativa non iniziata, INITIATIVE_END: Iniziativa finalizzata, BUDGET_TERMINATED: Budget esaurito, INITIATIVE_SUSPENDED: Iniziativa sospesa, GENERIC_ERROR: Errore generico"
+    InitiativeListDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/InitiativeDTO'
+      description: List of published initiatives
+    InitiativeDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+          description: Unique identifier of the subscribed initiative
+        initiativeName:
+          type: string
+          description: Name of the subscribed initiative
+        organizationId:
+          type: string
+          description: Unique identifier of the organization
+        organizationName:
+          type: string
+          description: Organization name of a initiative
+        descriptionMap:
+          type: array
+          items:
+            $ref: '#/components/schemas/DescriptionMapDTO'
+          example:
+            it: it
+        onboardingStartDate:
+          type: string
+          format: date
+          description: Start of period of participation/adhesion in an initiative
+        onboardingEndDate:
+          type: string
+          format: date
+          description: End of period of participation/adhesion in an initiative
+        fruitionStartDate:
+          type: string
+          format: date
+          description: Start of period of spending funds in an initiative
+        fruitionEndDate:
+          type: string
+          format: date
+          description: End of period of spending funds in an initiative
+        initiativeRewardType:
+          type: string
+          enum:
+            - REFUND
+            - DISCOUNT
+        beneficiaryType:
+          type: string
+          enum:
+            - PF
+            - PG
+            - NF
+        rankingEnabled:
+          type: boolean
+          description: Flag of period of participation/adhesion in an initiative
+        beneficiaryKnown:
+          type: boolean
+          description: Flag that indicates the presence of a whitelist
+        tcLink:
+          type: string
+        privacyLink:
+          type: string
+          description: Privacy link of the subscribed initiative
+        logoUrl:
+          type: string
+          description: The url of the logo of the subscribed initiative
+    DescriptionMapDTO:
+      type: object
+      required:
+        - type
+        - contact
+      properties:
+        it:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-  security:
-    - bearerAuth: [ ]
-  tags:
-    - name: onboarding
-      description: ''
+security:
+  - bearerAuth: [ ]
+tags:
+  - name: onboarding
+    description: ''
