@@ -633,71 +633,60 @@ components:
       properties:
         initiativeId:
           type: string
-          description: Unique identifier of the subscribed initiative
+          description: "ENG: Unique identifier of the subscribed initiative - IT: Identificativo univoco dell'iniziativa sottoscritta"
         initiativeName:
           type: string
-          description: Name of the subscribed initiative
+          description: "ENG: Name of the subscribed initiative - IT: Nome dell'iniziativa sottoscritta"
         organizationId:
           type: string
-          description: Unique identifier of the organization
+          description: "ENG: Unique identifier of the organization - IT: Identificativo univoco dell'organizzazione"
         organizationName:
           type: string
-          description: Organization name of a initiative
-        descriptionMap:
-          type: array
-          items:
-            $ref: '#/components/schemas/DescriptionMapDTO'
-          example:
-            it: it
+          description: "ENG: Organization name of a initiative - IT: Nome dell'organizzazione associata all'iniziativa"
         onboardingStartDate:
           type: string
           format: date
-          description: Start of period of participation/adhesion in an initiative
+          description: "ENG: Start of period of adhesion to an initiative - IT: Inizio del periodo di adesione all'iniziativa"
         onboardingEndDate:
           type: string
           format: date
-          description: End of period of participation/adhesion in an initiative
+          description: "ENG: End of period of adhesion to an initiative - IT: Termine del periodo di adesione all'iniziativa"
         fruitionStartDate:
           type: string
           format: date
-          description: Start of period of spending funds in an initiative
+          description: "ENG: Start of period of spending funds for an initiative - IT: Inizio del periodo di fruizione dei fondi per l'iniziativa"
         fruitionEndDate:
           type: string
           format: date
-          description: End of period of spending funds in an initiative
+          description: "ENG: End of period of spending funds for an initiative - IT: Termine del periodo di fruizione dei fondi per l'iniziativa"
         initiativeRewardType:
           type: string
+          description: "ENG: Reward type of an initiative (refund or discount) - IT: Tipologia di ricompensa dell'iniziativa (a rimborso o a sconto)"
           enum:
             - REFUND
             - DISCOUNT
         beneficiaryType:
           type: string
+          description: "ENG: Beneficiary type of an initiative (natural person, family unit) - IT: Tipologia di beneficiario dell'iniziativa (persona fisica, nucleo familiare)"
           enum:
             - PF
             - PG
             - NF
         rankingEnabled:
           type: boolean
-          description: Flag of period of participation/adhesion in an initiative
+          description: "ENG: Flag indicating the presence of ranking - IT: Flag che indica la presenza di graduatoria"
         beneficiaryKnown:
           type: boolean
-          description: Flag that indicates the presence of a whitelist
+          description: "ENG: Flag indicating the presence of whitelist - IT: Flag che indica la presenza di whitelist"
         tcLink:
           type: string
+          description: "ENG: Terms and Conditions link of the subscribed initiative - IT: Link relativo ai termini e condizioni dell'l'iniziativa sottoscritta"
         privacyLink:
           type: string
-          description: Privacy link of the subscribed initiative
+          description: "ENG: Privacy link of the subscribed initiative - IT: Link relativo alla privacy dell'iniziativa sottoscritta"
         logoUrl:
           type: string
-          description: The url of the logo of the subscribed initiative
-    DescriptionMapDTO:
-      type: object
-      required:
-        - type
-        - contact
-      properties:
-        it:
-          type: string
+          description: "ENG: The URL of the logo of the subscribed initiative - IT: Link del logo dekl'iniziativa sottoscritta"
   securitySchemes:
     bearerAuth:
       type: http
