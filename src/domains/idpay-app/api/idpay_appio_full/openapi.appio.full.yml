@@ -3190,9 +3190,8 @@ components:
             WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: It's not possible to delete an
             instrument of AppIO payment types,
             WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND: idpayCode is not found for
-            the current user,
-            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to
-            suspend the user on initiative,
+            the current user, WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It
+            is not possible to suspend the user on initiative,
             WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible
             to readmit the user on initiative, WALLET_INSTRUMENT_NOT_FOUND: The
             selected payment instrument has not been found for the current user,
@@ -3215,8 +3214,8 @@ components:
             WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno
             strumento di tipo AppIO, WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND:
             L'idpayCode non è stato trovato per l'utente corrente,
-            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è
-            possibile sospendere l'utente dall'iniziativa,
+            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            sospendere l'utente dall'iniziativa,
             WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
             riammettere l'utente all'iniziativa, WALLET_INSTRUMENT_NOT_FOUND: Lo
             strumento di pagamento selezionato non è stato trovato per l'utente
