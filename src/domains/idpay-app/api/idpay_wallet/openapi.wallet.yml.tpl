@@ -773,15 +773,15 @@ paths:
                 message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
-        '403':
-          description: Forbidden
+        '404':
+          description: The requested resource was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: "WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED"
-                message: "The instrument IDPayCode is never generated for the current user"
+                code: "WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND"
+                message: "idpayCode is not found for the current user"
         '429':
           description: Too many Request
           content:
@@ -1160,7 +1160,7 @@ components:
             - WALLET_IBAN_NOT_ITALIAN
             - WALLET_INSTRUMENT_ALREADY_ASSOCIATED
             - WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
-            - WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED
+            - WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND
             - WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
             - WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
             - WALLET_INSTRUMENT_NOT_FOUND
@@ -1181,7 +1181,7 @@ components:
             WALLET_IBAN_NOT_ITALIAN: Iban is not italian,
             WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is already associated to another user,
             WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: It's not possible to delete an instrument of AppIO payment types,
-            WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED: The instrument IDPayCode is never generated for the current user,
+            WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND: idpayCode is not found for the current user,
             WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to suspend the
             user on initiative,
             WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible to readmit
@@ -1203,7 +1203,7 @@ components:
             WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di pagamento è già associato
             ad un altro utente,
             WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno strumento di tipo AppIO,
-            WALLET_INSTRUMENT_IDPAYCODE_NOT_GENERATED: Lo strumento IDPayCode non è mai stato generato per l'utente corrente,
+            WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND: L'idpayCode non è stato trovato per l'utente corrente,
             WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile sospendere l'utente dall'iniziativa,
             WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile riammettere
             l'utente all'iniziativa,
