@@ -695,7 +695,7 @@ paths:
                 $ref: '#/components/schemas/InitiativeDTO'
         '401':
           description: Authentication failed
-        '403':
+        '404':
           description: Forbidden
           content:
             application/json:
