@@ -13,9 +13,9 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
         <choose>
             <when condition="@(((string)context.Variables["groups"]).Contains("OnboardToIDPay"))">
+                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
                 <rewrite-uri template="@("idpay/onboarding/{initiativeId}/"+ (string)context.Variables["tokenPDV"]+"/status")" />
             </when>
             <otherwise>

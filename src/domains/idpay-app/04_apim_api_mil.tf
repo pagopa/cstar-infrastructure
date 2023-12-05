@@ -39,7 +39,7 @@ module "idpay_api_mil_citizen_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/mil_api/policy_mil_citizen.xml.tpl")
+  policy_xml = file("./api_product/mil_api/policy_mil_citizen.xml")
 
   groups = ["developers"]
 }
