@@ -63,6 +63,7 @@
 |------|------|
 | [azapi_resource.apim-merchant-id-retriever](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.apim-pdv-tokenizer](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.apim-validate-token-mil](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_audit_log_table](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_refund_storage_topic_event_subscription](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_workbook](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
@@ -237,6 +238,7 @@
 | <a name="input_mail_server_protocol"></a> [mail\_server\_protocol](#input\_mail\_server\_protocol) | mail protocol | `string` | `"smtp"` | no |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_one_trust_privacynotice_base_url"></a> [one\_trust\_privacynotice\_base\_url](#input\_one\_trust\_privacynotice\_base\_url) | OneTrust PrivacyNotice Base Url | `string` | n/a | yes |
+| <a name="input_openid_config_url_mil"></a> [openid\_config\_url\_mil](#input\_openid\_config\_url\_mil) | Token MIL, OIDC URL | `string` | n/a | yes |
 | <a name="input_p7m_cert_validity_hours"></a> [p7m\_cert\_validity\_hours](#input\_p7m\_cert\_validity\_hours) | n/a | `number` | `87600` | no |
 | <a name="input_pdv_retry_count"></a> [pdv\_retry\_count](#input\_pdv\_retry\_count) | PDV max retry number | `number` | `3` | no |
 | <a name="input_pdv_retry_delta"></a> [pdv\_retry\_delta](#input\_pdv\_retry\_delta) | PDV delta | `number` | `1` | no |
