@@ -176,7 +176,10 @@ variable "io_manage_backend_base_url" {
   type        = string
   description = "BE IO manage backend url"
 }
-
+variable "openid_config_url_mil" {
+  type        = string
+  description = "Token MIL, OIDC URL"
+}
 variable "pdv_tokenizer_url" {
   type        = string
   default     = "127.0.0.1"
