@@ -13,14 +13,23 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
-        <set-body>@{
-            var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
-            requestToBeModified.Add(new JProperty("channel", context.Variables["senderCode"]));
-            return requestToBeModified.ToString();
-            }
-        </set-body>
-        <rewrite-uri template="@("idpay/onboarding/initiative/"+ (string)context.Variables["tokenPDV"])" />
+        <choose>
+            <when condition="@(((string)context.Variables["groups"]).Contains("OnboardToIDPay"))">
+                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
+                <set-body>@{
+                var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
+                requestToBeModified.Add(new JProperty("channel", "ATM"));
+                return requestToBeModified.ToString();
+                }
+                </set-body>
+                <rewrite-uri template="@("idpay/onboarding/initiative/"+ (string)context.Variables["tokenPDV"])" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Auth Unauthorized" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />
