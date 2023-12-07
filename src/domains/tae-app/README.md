@@ -30,11 +30,13 @@ No modules.
 | [azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
 | [azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_azure_blob_storage) | resource |
 | [azurerm_data_factory_linked_service_cosmosdb.cosmos_ls](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_cosmosdb) | resource |
+| [azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_kusto) | resource |
 | [azurerm_data_factory_linked_service_kusto.dexp_tae](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_linked_service_kusto) | resource |
 | [azurerm_data_factory_pipeline.ack_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.aggregates_ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.delete_aggregates_by_timestamp_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.invalidate_flow](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/data_factory_trigger_schedule) | resource |
@@ -109,12 +111,14 @@ No modules.
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
 | <a name="input_alerts_conf"></a> [alerts\_conf](#input\_alerts\_conf) | n/a | <pre>object({<br>    max_days_just_into_ade_in = number<br>  })</pre> | <pre>{<br>  "max_days_just_into_ade_in": 3<br>}</pre> | no |
 | <a name="input_bulk_delete_aggregates_conf"></a> [bulk\_delete\_aggregates\_conf](#input\_bulk\_delete\_aggregates\_conf) | n/a | <pre>object({<br>    interval                     = number<br>    frequency                    = string<br>    enable                       = bool<br>    hours                        = number<br>    minutes                      = number<br>    sink_thoughput_cap           = number<br>    sink_write_throughput_budget = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Day",<br>  "hours": 3,<br>  "interval": 1,<br>  "minutes": 0,<br>  "sink_thoughput_cap": 500,<br>  "sink_write_throughput_budget": 1000<br>}</pre> | no |
+| <a name="input_dexp_mgmt_tae_db_linkes_service"></a> [dexp\_mgmt\_tae\_db\_linkes\_service](#input\_dexp\_mgmt\_tae\_db\_linkes\_service) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_dexp_tae_db_linkes_service"></a> [dexp\_tae\_db\_linkes\_service](#input\_dexp\_tae\_db\_linkes\_service) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
+| <a name="input_flow_invalidator_conf"></a> [flow\_invalidator\_conf](#input\_flow\_invalidator\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
 | <a name="input_k8s_kube_config_path_prefix"></a> [k8s\_kube\_config\_path\_prefix](#input\_k8s\_kube\_config\_path\_prefix) | n/a | `string` | `"~/.kube"` | no |
