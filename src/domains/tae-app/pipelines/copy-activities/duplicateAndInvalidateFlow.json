@@ -1,0 +1,49 @@
+{
+  "name": "Duplicate and invalidate flow",
+  "description": "This activity takes a file name as parameter. Aggregates in the target file are duplicated with \"valid\" field set to false.",
+  "type": "Copy",
+  "dependsOn": [],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "AzureDataExplorerSource",
+      "query": {
+        "value": "Aggregates\n| where fileName == '@{pipeline().parameters.file}'\n| extend valid = false",
+        "type": "Expression"
+      },
+      "queryTimeout": "00:10:00",
+      "noTruncation": false
+    },
+    "sink": {
+      "type": "AzureDataExplorerSink"
+    },
+    "enableStaging": false,
+    "translator": {
+      "type": "TabularTranslator",
+      "typeConversion": true,
+      "typeConversionSettings": {
+        "allowDataTruncation": false,
+        "treatBooleanAsNumber": false
+      }
+    }
+  },
+  "inputs": [
+    {
+      "referenceName": "AggregatesLog",
+      "type": "DatasetReference"
+    }
+  ],
+  "outputs": [
+    {
+      "referenceName": "AggregatesLog",
+      "type": "DatasetReference"
+    }
+  ]
+}
