@@ -54,6 +54,10 @@ enable = {
 pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
 pdv_timeout_sec   = 5
 #
+# MIL
+#
+openid_config_url_mil = "https://mil-u-apim.azure-api.net/mil-auth/.well-known/openid-configuration"
+#
 # PM
 #
 pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"

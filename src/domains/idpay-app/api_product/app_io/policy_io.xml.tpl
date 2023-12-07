@@ -71,32 +71,10 @@
                             </when>
                             <otherwise>
                                 <set-variable name="pii" value="@((string)((IResponse)context.Variables["tokenstate"]).Body.As<JObject>()["fiscal_code"])" />
-                                <retry condition="@((context.Variables["responsePDV"] == null)  || (((IResponse)context.Variables["responsePDV"]).StatusCode == 429))"
-                                       count="${pdv_retry_count}" interval="${pdv_retry_interval}"
-                                       max-interval="${pdv_retry_max_interval}"
-                                       delta="${pdv_retry_delta}"
-                                       first-fast-retry="false">
-                                    <send-request mode="new" response-variable-name="responsePDV" timeout="${pdv_timeout_sec}" ignore-error="true">
-                                        <set-url>${pdv_tokenizer_url}/tokens</set-url>
-                                        <set-method>PUT</set-method>
-                                        <set-header name="x-api-key" exists-action="override">
-                                            <value>{{pdv-api-key}}</value>
-                                        </set-header>
-                                        <set-body>@{
-                                                return new JObject(
-                                                        new JProperty("pii", ((string)context.Variables["pii"])
-                                                        )).ToString();
-                                            }</set-body>
-                                    </send-request>
-                                </retry>
+                                <include-fragment fragment-id="idpay-pdv-tokenizer" />
                                 <choose>
-                                    <when condition="@(context.Variables["responsePDV"] == null)">
-                                        <return-response>
-                                            <set-status code="408" reason="PDV Timeout" />
-                                        </return-response>
-                                    </when>
-                                    <when condition="@(((IResponse)context.Variables["responsePDV"]).StatusCode == 200)">
-                                        <set-variable name="tokenPDV" value="@((string)((IResponse)context.Variables["responsePDV"]).Body.As<JObject>()["token"])" />
+                                    <when condition="@(context.Variables["pdv_token"] != null)">
+                                        <set-variable name="tokenPDV" value="@((string)context.Variables["pdv_token"])" />
                                         <set-variable name="bypassCacheStorage" value="true" />
                                     </when>
                                     <otherwise>

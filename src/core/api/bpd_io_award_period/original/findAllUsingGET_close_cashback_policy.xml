@@ -11,28 +11,27 @@
    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-  <inbound>
-    <base />
-    <cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" caching-type="internal" />
-    <choose>
-      <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
-        <return-response response-variable-name="awardPeriodsResponse" />
-      </when>
-    </choose>
-  </inbound>
-  <backend>
-    <base />
-  </backend>
-  <outbound>
-    <base />
-    <choose>
-      <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
-        <!-- Store result in cache -->
-        <cache-store-value key="awardPeriodsResponse" value="@(context.Response)" duration="3600" caching-type="internal" />
-      </when>
-    </choose>
-  </outbound>
-  <on-error>
-    <base />
-  </on-error>
+    <inbound>
+        <base />
+        <!-- <cache-lookup-value key="awardPeriodsResponse" variable-name="awardPeriodsResponse" caching-type="internal" />
+        <choose>
+            <when condition="@(context.Variables.ContainsKey("awardPeriodsResponse"))">
+                <return-response response-variable-name="awardPeriodsResponse" />
+            </when>
+        </choose> -->
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <!-- <choose>
+            <when condition="@(context.Response.StatusCode >= 200 &&  context.Response.StatusCode < 300)">
+                <cache-store-value key="awardPeriodsResponse" value="@(context.Response)" duration="1" caching-type="internal" />
+            </when>
+        </choose> -->
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
 </policies>

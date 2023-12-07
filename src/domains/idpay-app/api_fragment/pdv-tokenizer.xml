@@ -1,0 +1,62 @@
+<!--
+This policy performs anonymization using PDV.
+You can use this policy like a function which require an argument called "pii" and return a response as "response_pdv".
+- The data to be anonymized must be set as the variable "pii".
+- The anonymized response is available on the variable "response_pdv".
+This policy also performs application logging in case of error by PDV, which is useful for tracing.
+-->
+<fragment>
+  <retry condition="@((context.Variables["response_pdv"] == null)  || (((IResponse)context.Variables["response_pdv"]).StatusCode == 429))"
+    count="${pdv_retry_count}" interval="${pdv_retry_interval}"
+    max-interval="${pdv_retry_max_interval}"
+    delta="${pdv_retry_delta}"
+    first-fast-retry="false">
+    <send-request mode="new" response-variable-name="response_pdv" timeout="${pdv_timeout_sec}" ignore-error="true">
+      <set-url>${pdv_tokenizer_url}/tokens</set-url>
+      <set-method>PUT</set-method>
+      <set-header name="x-api-key" exists-action="override">
+        <value>{{pdv-api-key}}</value>
+      </set-header>
+      <set-body>@{
+        return new JObject(
+        new JProperty("pii", ((string)context.Variables["pii"])
+        )).ToString();
+        }</set-body>
+    </send-request>
+  </retry>
+  <choose>
+    <when condition="@(context.Variables["response_pdv"] == null)">
+      <trace source="pdv_tokenize" severity="error">
+        <message>PDV Tokenize no response</message>
+        <metadata name="Service" value="PDV" />
+      </trace>
+      <return-response>
+        <set-status code="504" reason="PDV Timeout" />
+      </return-response>
+    </when>
+    <when condition="@(((IResponse)context.Variables["response_pdv"]).StatusCode >= 400)">
+      <trace source="pdv_tokenize" severity="error">
+        <message>PDV Tokenize error</message>
+        <metadata name="Service" value="PDV" />
+        <metadata name="StatusCode" value="@(((IResponse)context.Variables["response_pdv"]).StatusCode.ToString())" />
+        <metadata name="StatusReason" value="@(((IResponse)context.Variables["response_pdv"]).StatusReason)" />
+      </trace>
+      <return-response>
+        <set-status code="500" reason="PDV Error" />
+      </return-response>
+    </when>
+    <otherwise>
+      <trace source="pdv_tokenize" severity="information">
+        <message>PDV Tokenize info</message>
+        <metadata name="Service" value="PDV" />
+        <metadata name="StatusCode" value="@(((IResponse)context.Variables["response_pdv"]).StatusCode.ToString())" />
+        <metadata name="StatusReason" value="@(((IResponse)context.Variables["response_pdv"]).StatusReason)" />
+      </trace>
+      <choose>
+        <when condition="@(((IResponse)context.Variables["response_pdv"]).StatusCode == 200)">
+          <set-variable name="pdv_token" value="@((string)((IResponse)context.Variables["response_pdv"]).Body.As<JObject>()["token"])" />
+        </when>
+      </choose>
+    </otherwise>
+  </choose>
+</fragment>
