@@ -114,7 +114,7 @@ resource "azurerm_kusto_database_principal_assignment" "df_as_ingestor" {
   tenant_id      = azurerm_data_factory.data_factory.identity[0].tenant_id
   principal_id   = azurerm_data_factory.data_factory.identity[0].principal_id
   principal_type = "App"
-  role           = "Ingestor"
+  role           = "Admin"
 }
 
 resource "azurerm_role_definition" "adf_pipeline_run_role" {
