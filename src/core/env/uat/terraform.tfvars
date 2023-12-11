@@ -174,10 +174,10 @@ dexp_params = {
     min_instances = 2
     max_instances = 3
   }
-  public_network_access_enabled = true
+  public_network_access_enabled = false
   double_encryption_enabled     = false
   disk_encryption_enabled       = true
-  purge_enabled                 = false
+  purge_enabled                 = true
 }
 
 enable_azdoa = true
