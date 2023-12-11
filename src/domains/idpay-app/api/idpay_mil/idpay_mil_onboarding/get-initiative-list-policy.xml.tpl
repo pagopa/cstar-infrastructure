@@ -14,9 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
-        <set-variable name="pii" value="@(context.Request.Headers.GetValueOrDefault("Fiscal-Code"))" />
-        <include-fragment fragment-id="idpay-pdv-tokenizer" />
-        <set-header name="user-id" exists-action="override">
+        <set-header name="x-user-id" exists-action="override">
             <value>@((string)context.Variables["tokenPDV"])</value>
         </set-header>
         <rewrite-uri template="@("/idpay/mil/initiatives")"/>
