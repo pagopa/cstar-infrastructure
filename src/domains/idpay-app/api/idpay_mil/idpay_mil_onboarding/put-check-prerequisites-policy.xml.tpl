@@ -26,7 +26,7 @@
             </when>
             <otherwise>
                 <return-response>
-                    <set-status code="401" reason="Auth Unauthorized" />
+                    <set-status code="401" reason="Operation Unauthorized" />
                 </return-response>
             </otherwise>
         </choose>
