@@ -1,79 +1,23 @@
-# cstar-infrastructure
-
-Cstar project infrastructure
-
 ## Requirements
 
-### 1. terraform
+No requirements.
 
-In order to manage the suitable version of terraform it is strongly recommended to install the following tool:
+## Providers
 
-- [tfenv](https://github.com/tfutils/tfenv): **Terraform** version manager inspired by rbenv.
+No providers.
 
-Once these tools have been installed, install the terraform version shown in:
+## Modules
 
-- .terraform-version
+No modules.
 
-After installation install terraform:
+## Resources
 
-```sh
-tfenv install
-```
+No resources.
 
-## Terraform modules
+## Inputs
 
-As PagoPA we build our standard Terraform modules, check available modules:
+No inputs.
 
-- [PagoPA Terraform modules](https://github.com/search?q=topic%3Aterraform-modules+org%3Apagopa&type=repositories)
+## Outputs
 
-## Apply changes
-
-To apply changes follow the standard terraform lifecycle once the code in this repository has been changed:
-
-```sh
-terraform.sh init [dev|uat|prod]
-
-terraform.sh plan [dev|uat|prod]
-
-terraform.sh apply [dev|uat|prod]
-```
-
-
-## Terraform lock.hcl
-
-We have both developers who work with your Terraform configuration on their Linux, macOS or Windows workstations and automated systems that apply the configuration while running on Linux.
-<https://www.terraform.io/docs/cli/commands/providers/lock.html#specifying-target-platforms>
-
-So we need to specify this in terraform lock providers:
-
-```sh
-terraform init
-
-rm .terraform.lock.hcl
-
-terraform providers lock \
-  -platform=windows_amd64 \
-  -platform=darwin_amd64 \
-  -platform=darwin_arm64 \
-  -platform=linux_amd64
-```
-
-## Precommit checks
-
-Check your code before commit.
-
-<https://github.com/antonbabenko/pre-commit-terraform#how-to-install>
-
-```sh
-pre-commit run -a
-```
-
-## CLI Updates
-
-To allow terraform to work as expected you need to update this tools
-
-```bash
-az extension update -n aks-preview
-
-az config set extension.use_dynamic_install=yes_without_prompt
-```
+No outputs.
