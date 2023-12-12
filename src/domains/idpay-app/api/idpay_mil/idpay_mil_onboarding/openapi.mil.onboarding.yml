@@ -324,42 +324,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InitiativeListDTO'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
+        '429':
+          description: Too Many Requests
         '500':
           description: Server ERROR
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
 components:
   schemas:
     ConsentPutDTO:
