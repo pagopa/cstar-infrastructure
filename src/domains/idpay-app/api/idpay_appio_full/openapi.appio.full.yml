@@ -1820,19 +1820,6 @@ components:
         message:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
-    ErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: 'ENG: Error code - IT: Codice di errore'
-        message:
-          type: string
-          description: 'ENG: Error message - IT: Messaggio di errore'
     ConsentPutDTO:
       title: ConsentPutDTO
       type: object
@@ -2084,6 +2071,19 @@ components:
           description: >-
             ENG: Indicates self-consent values - IT: Indica i valori per gli
             auto consensi
+    ErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: 'ENG: Error code - IT: Codice di errore'
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
     InitiativeDataDTO:
       type: object
       required:
