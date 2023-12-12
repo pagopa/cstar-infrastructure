@@ -359,40 +359,33 @@ paths:
                 $ref: '#/components/schemas/IbanDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "IBAN_NOT_FOUND"
+                message: "Iban not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "IBAN_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "IBAN_GENERIC_ERROR"
+                message: "Application error"
   '/{initiativeId}/beneficiary/timeline':
     get:
       tags:
@@ -3796,6 +3789,31 @@ components:
         checkIbanResponseDate:
           type: string
           format: date-time
+    IbanErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - IBAN_NOT_FOUND
+            - IBAN_INVALID_REQUEST
+            - IBAN_TOO_MANY_REQUESTS
+            - IBAN_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: IBAN_NOT_FOUND: Iban not found,
+             IBAN_INVALID_REQUEST: Something went wrong handling request,
+             IBAN_TOO_MANY_REQUESTS: Too many requests,
+             IBAN_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             IBAN_NOT_FOUND: Iban non trovato,
+             IBAN_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             IBAN_TOO_MANY_REQUESTS: Troppe richieste,
+             IBAN_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     WalletDTO:
       type: object
       required:
