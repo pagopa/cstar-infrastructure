@@ -73,13 +73,14 @@ resource "azurerm_data_factory_linked_service_kusto" "dexp_mgmt_tae" {
   count = var.dexp_mgmt_tae_db_linkes_service.enable ? 1 : 0
 
 
-  name                 = "${local.product}-dexp-mgmt-tae-linked-service"
-  data_factory_id      = data.azurerm_data_factory.datafactory.id
-  kusto_endpoint       = "https://ingest-${data.azurerm_kusto_cluster.dexp_cluster[count.index].name}.westeurope.kusto.windows.net"
-  kusto_database_name  = data.azurerm_kusto_database.tae_db[count.index].name
-  use_managed_identity = true
-} 
-  
+  name                     = "${local.product}-dexp-mgmt-tae-linked-service"
+  data_factory_id          = data.azurerm_data_factory.datafactory.id
+  kusto_endpoint           = "https://ingest-${data.azurerm_kusto_cluster.dexp_cluster[count.index].name}.westeurope.kusto.windows.net"
+  kusto_database_name      = data.azurerm_kusto_database.tae_db[count.index].name
+  integration_runtime_name = "AutoResolveIntegrationRuntime"
+  use_managed_identity     = true
+}
+
 resource "azurerm_kusto_database_principal_assignment" "tae_principal_assignment" {
 
   count = var.dexp_tae_db_linkes_service.enable ? 1 : 0
