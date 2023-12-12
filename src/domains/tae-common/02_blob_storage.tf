@@ -20,9 +20,8 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
   # storage_account_id             = var.sec_storage_id
   # log_analytics_destination_type = "Dedicated"
 
-  log {
+  enabled_log {
     category = "StorageRead"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -30,9 +29,8 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
     }
   }
 
-  log {
+  enabled_log {
     category = "StorageWrite"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -40,9 +38,8 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
     }
   }
 
-  log {
+  enabled_log {
     category = "StorageDelete"
-    enabled  = true
 
     retention_policy {
       enabled = true
