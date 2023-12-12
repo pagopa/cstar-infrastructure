@@ -69,8 +69,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: "IBAN_NOT_FOUND"
-                message: "Iban not found"
+                code: IBAN_NOT_FOUND
+                message: Iban not found
         '429':
           description: Too many Request
           content:
@@ -78,8 +78,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: "IBAN_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: IBAN_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
@@ -87,8 +87,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: "IBAN_GENERIC_ERROR"
-                message: "Application error"
+                code: IBAN_GENERIC_ERROR
+                message: Application error
   /iban/:
     get:
       tags:
@@ -122,8 +122,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: "IBAN_TOO_MANY_REQUESTS"
-                message: "Too many requests"
+                code: IBAN_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
@@ -131,8 +131,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: "IBAN_GENERIC_ERROR"
-                message: "Application error"
+                code: IBAN_GENERIC_ERROR
+                message: Application error
   '/onboarding/service/{serviceId}':
     get:
       tags:
@@ -1820,7 +1820,7 @@ components:
              IBAN_GENERIC_ERROR: Errore generico"
         message:
           type: string
-          description: "ENG: Error message - IT: Messaggio di errore"
+          description: 'ENG: Error message - IT: Messaggio di errore'
     ErrorDTO:
       type: object
       required:
