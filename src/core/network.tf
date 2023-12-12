@@ -686,3 +686,32 @@ resource "azurerm_private_endpoint" "blob_storage_pe" {
   }
 
 }
+
+resource "azurerm_private_endpoint" "dexp_pe" {
+
+  count = var.dexp_params.enabled ? 1 : 0
+
+  name                          = "${local.project}-dexp-priv-endpoint"
+  custom_network_interface_name = "${local.project}-dexp-priv-endpoint-nic"
+  location                      = azurerm_resource_group.monitor_rg.location
+  resource_group_name           = azurerm_resource_group.monitor_rg.name
+  subnet_id                     = module.private_endpoint_snet[count.index].id
+
+  private_service_connection {
+    name                           = "${local.project}-dexp-priv-endpoint"
+    private_connection_resource_id = azurerm_kusto_cluster.data_explorer_cluster[count.index].id
+    is_manual_connection           = false
+    subresource_names              = ["cluster"]
+  }
+
+  private_dns_zone_group {
+    name = "default"
+    private_dns_zone_ids = [
+      azurerm_private_dns_zone.kusto.id,
+      azurerm_private_dns_zone.storage_account.id,
+      azurerm_private_dns_zone.queue.id,
+      azurerm_private_dns_zone.table.id
+
+    ]
+  }
+}
