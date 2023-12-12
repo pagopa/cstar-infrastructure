@@ -1821,19 +1821,6 @@ components:
         message:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
-    ErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: 'ENG: Error code - IT: Codice di errore'
-        message:
-          type: string
-          description: 'ENG: Error message - IT: Messaggio di errore'
     ConsentPutDTO:
       title: ConsentPutDTO
       type: object
@@ -1857,6 +1844,19 @@ components:
           description: >-
             ENG: The list of accepted self-declared criteria - IT: Lista dei
             criteri autodichiarati
+    ErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: 'ENG: Error code - IT: Codice di errore'
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
     SelfConsentDTO:
       oneOf:
         - $ref: '#/components/schemas/SelfConsentBoolDTO'
