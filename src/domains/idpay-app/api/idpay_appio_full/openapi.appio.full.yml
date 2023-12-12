@@ -1809,13 +1809,14 @@ components:
             - IBAN_INVALID_REQUEST
             - IBAN_TOO_MANY_REQUESTS
             - IBAN_GENERIC_ERROR
-          description: >-
+          description: |-
             "ENG: Error code: IBAN_NOT_FOUND: Iban not found,
              IBAN_INVALID_REQUEST: Something went wrong handling request,
-             IBAN_TOO_MANY_REQUESTS: Too many requests, IBAN_GENERIC_ERROR:
-             Application Error - IT: Codice di errore: IBAN_NOT_FOUND: Iban non
-             trovato, IBAN_INVALID_REQUEST: Qualcosa è andato storto durante
-             l'invio della richiesta, IBAN_TOO_MANY_REQUESTS: Troppe richieste,
+             IBAN_TOO_MANY_REQUESTS: Too many requests,
+             IBAN_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             IBAN_NOT_FOUND: Iban non trovato,
+             IBAN_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             IBAN_TOO_MANY_REQUESTS: Troppe richieste,
              IBAN_GENERIC_ERROR: Errore generico"
         message:
           type: string
