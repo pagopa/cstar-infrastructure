@@ -687,27 +687,6 @@ resource "azurerm_private_endpoint" "blob_storage_pe" {
 
 }
 
-data "azurerm_private_dns_zone" "kusto" {
-  name                = "privatelink.westeurope.kusto.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-data "azurerm_private_dns_zone" "blob" {
-  name                = "privatelink.blob.core.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-data "azurerm_private_dns_zone" "queue" {
-  name                = "privatelink.queue.core.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-data "azurerm_private_dns_zone" "table" {
-  name                = "privatelink.table.core.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-
 resource "azurerm_private_endpoint" "dexp_pe" {
 
   count = var.dexp_params.enabled ? 1 : 0
@@ -728,10 +707,10 @@ resource "azurerm_private_endpoint" "dexp_pe" {
   private_dns_zone_group {
     name = "default"
     private_dns_zone_ids = [
-      data.azurerm_private_dns_zone.kusto.id,
-      data.azurerm_private_dns_zone.blob.id,
-      data.azurerm_private_dns_zone.queue.id,
-      data.azurerm_private_dns_zone.table.id
+      azurerm_private_dns_zone.kusto.id,
+      azurerm_private_dns_zone.storage_account.id,
+      azurerm_private_dns_zone.queue.id,
+      azurerm_private_dns_zone.table.id
 
     ]
   }
