@@ -43,43 +43,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_INVALID_REQUEST
+                message: Something went wrong handling request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '422':
-          description: Unprocessable Entity
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_NOT_FOUND
+                message: Cannot find current merchant
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred during file reading
   /initiative/{initiativeId}/merchants:
     get:
       tags:
@@ -126,28 +122,33 @@ paths:
                 $ref: '#/components/schemas/MerchantListDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_NOT_FOUND
+                message: Cannot find current merchant
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred during file reading
   /{merchantId}/initiative/{initiativeId}:
     get:
       tags:
@@ -177,28 +178,33 @@ paths:
                 $ref: '#/components/schemas/MerchantDetailDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_NOT_ONBOARDED
+                message: The current merchant is not onboarded on initiative
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred during file reading
   /{merchantId}/initiative/{initiativeId}/statistics:
     get:
       tags:
@@ -628,6 +634,36 @@ components:
           type: string
           format: date-time
           description: "ENG: Time and date of the last status update <br> IT: La data ed ora dell'ultimo aggiornamento dello stato"
+    MerchantErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - MERCHANT_NOT_FOUND
+            - MERCHANT_NOT_ONBOARDED
+            - MERCHANT_TOO_MANY_REQUESTS
+            - MERCHANT_INVALID_REQUEST
+            - MERCHANT_GENERIC_ERROR
+          description: >-
+            "ENG: Error code:<br>
+            MERCHANT_NOT_FOUND: The merchant was not found,<br>
+            MERCHANT_NOT_ONBOARDED: The merchant is not associated to the initiative,<br>
+            MERCHANT_TOO_MANY_REQUESTS: Too many requests,<br>
+            MERCHANT_INVALID_REQUEST: Something went wrong handling the request,<br>
+            MERCHANT_GENERIC_ERROR: Application error,<br>
+            - IT: Codice di errore:<br>
+            MERCHANT_NOT_FOUND: L'esercente non è stato trovato,<br>
+            MERCHANT_NOT_ONBOARDED: L'esercente non è associato all'iniziativa,<br>
+            MERCHANT_TOO_MANY_REQUESTS: Troppe richieste,<br>
+            MERCHANT_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,<br>
+            MERCHANT_GENERIC_ERROR: Errore applicativo"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
   securitySchemes:
     Bearer:
       type: apiKey
