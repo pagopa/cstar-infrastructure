@@ -80,7 +80,8 @@ selc_base_url = "https://api.selfcare.pagopa.it"
 #
 # BE IO API
 #
-io_manage_backend_base_url = "https://api.io.pagopa.it"
+io_manage_backend_base_url = "https://api.io.pagopa.it" 
+# STUB: "https://api-io.cstar.pagopa.it/idpay/mock" 
 
 #
 # ONE TRUST API
