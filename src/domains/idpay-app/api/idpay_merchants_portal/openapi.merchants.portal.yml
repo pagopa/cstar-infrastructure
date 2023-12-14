@@ -573,6 +573,13 @@ components:
             - AUTHORIZED
             - REJECTED
           description: "ENG: Status of the transaction - IT: Stato della transazione"
+        splitPayment:
+          type: boolean
+          description: "ENG: TRUE, if the authorized sum is less than the requested sum or FALSE, if the authorized sum is equal to the requested sum - IT: TRUE, se la somma autorizzata è inferiore alla somma richiesta o FALSE, se la somma autorizzata è uguale alla somma richiesta."
+        residualAmountCents:
+          type: integer
+          format: int64
+          description: "ENG: Remaining amount to be paid if the authorized sum is less than the requested sum - IT: Importo restante da pagare nel caso in cui la somma autorizzata sia inferiore alla somma richiesta."
         channel:
           type: string
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
