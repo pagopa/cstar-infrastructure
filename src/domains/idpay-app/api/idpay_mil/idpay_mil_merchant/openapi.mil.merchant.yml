@@ -46,15 +46,6 @@ paths:
                 message: Something went wrong handling request
         '401':
           description: Authentication failed
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MerchantErrorDTO'
-              example:
-                code: MERCHANT_NOT_FOUND
-                message: Cannot find current merchant
         '429':
           description: Too many Request
           content:
@@ -122,15 +113,6 @@ paths:
                 message: Something went wrong handling request
         '401':
           description: Authentication failed
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MerchantErrorDTO'
-              example:
-                code: MERCHANT_NOT_FOUND
-                message: Cannot find current merchant
         '429':
           description: Too many Request
           content:
