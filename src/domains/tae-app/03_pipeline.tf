@@ -483,7 +483,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   parameters = {
     file = "AGGADE.12345.20221231.010000.001.01000"
   }
-  activities_json = "[${file("pipelines/copy-activities/duplicateAndInvalidateFlow.json")},${templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
+  activities_json = "[${templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", { linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name })}, ${templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[count.index].name
   })}]"
 
