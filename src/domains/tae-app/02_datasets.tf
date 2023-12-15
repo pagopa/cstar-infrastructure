@@ -455,7 +455,7 @@ resource "azurerm_data_factory_custom_dataset" "aggregates_log" {
   type            = "AzureDataExplorerTable"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_kusto.dexp_tae[count.index].name
+    name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name
   }
 
   type_properties_json = <<JSON
@@ -550,7 +550,7 @@ resource "azurerm_data_factory_custom_dataset" "ack_log" {
   type            = "AzureDataExplorerTable"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_kusto.dexp_tae[count.index].name
+    name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name
   }
 
   type_properties_json = <<JSON
