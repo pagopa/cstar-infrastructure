@@ -13,19 +13,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: init_terraform_folders
-        env:
-          FOLDERS: >
-            src/core
-            src/k8s
-            src/aks-platform
-            src/psql
-            src/domains/idpay-app
-            src/domains/idpay-common
-            src/domains/tae-app
-            src/domains/tae-common
-            src/domains/rtd-app
-            src/domains/rtd-common
         run: |
+          FOLDERS=$(find . -type f -name '*.tf' -exec dirname {} \; | grep -v '\.terraform' | sort -u)
+          echo "FOLDERS=${FOLDERS}"
+          
           pids=()
 
           TAG=$(cat .terraform-version)
