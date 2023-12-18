@@ -1,5 +1,7 @@
 # cstar-infrastructure
 
+[![Static Analysis](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml/badge.svg)](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml)
+
 Cstar project infrastructure
 
 ## Requirements
