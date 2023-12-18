@@ -49,7 +49,15 @@ ack_ingestor_conf = {
   sink_write_throughput_budget = 2000
 }
 
+flow_invalidator_conf = {
+  enable = true
+}
+
 dexp_tae_db_linkes_service = {
+  enable = true
+}
+
+dexp_mgmt_tae_db_linkes_service = {
   enable = true
 }
 
