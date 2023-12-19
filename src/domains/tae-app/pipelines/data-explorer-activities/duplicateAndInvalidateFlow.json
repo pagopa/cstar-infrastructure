@@ -1,0 +1,25 @@
+{
+  "name": "Duplicate and invalidate flow",
+  "description": "This activity takes a file name as parameter. Aggregates in the target file are duplicated with \"valid\" field set to false.",
+  "type": "AzureDataExplorerCommand",
+  "dependsOn": [],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "command": {
+      "value": ".append Aggregates <|\nAggregates\n| where fileName == \"@{pipeline().parameters.file}\"\n| extend valid = false",
+      "type": "Expression"
+    },
+    "commandTimeout": "00:20:00"
+  },
+  "linkedServiceName": {
+    "referenceName": "${linked_service_name}",
+    "type": "LinkedServiceReference"
+  }
+}
