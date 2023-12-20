@@ -143,6 +143,15 @@ variable "ack_ingestor_conf" {
   }
 }
 
+variable "flow_invalidator_conf" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "zendesk_action_enabled" {
   type = object({
     enable = bool
@@ -174,6 +183,12 @@ variable "bulk_delete_aggregates_conf" {
 }
 
 variable "dexp_tae_db_linkes_service" {
+  type = object({
+    enable = bool
+  })
+}
+
+variable "dexp_mgmt_tae_db_linkes_service" {
   type = object({
     enable = bool
   })
