@@ -22,49 +22,24 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
 
   enabled_log {
     category = "StorageRead"
-
-    retention_policy {
-      enabled = true
-      days    = 90
-    }
   }
 
   enabled_log {
     category = "StorageWrite"
-
-    retention_policy {
-      enabled = true
-      days    = 90
-    }
   }
 
   enabled_log {
     category = "StorageDelete"
-
-    retention_policy {
-      enabled = true
-      days    = 90
-    }
   }
 
   metric {
     category = "Transaction"
     enabled  = false
-
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 
   metric {
     category = "Capacity"
     enabled  = false
-
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 }
 
@@ -76,53 +51,27 @@ resource "azurerm_monitor_diagnostic_setting" "log_sftp_sa" {
   # storage_account_id             = var.sec_storage_id
   # log_analytics_destination_type = "Dedicated"
 
-  log {
+  enabled_log {
     category = "StorageRead"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 90
-    }
   }
 
-  log {
+  enabled_log {
     category = "StorageWrite"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 90
-    }
   }
 
-  log {
+  enabled_log {
     category = "StorageDelete"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 90
-    }
   }
 
   metric {
     category = "Transaction"
     enabled  = false
 
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 
   metric {
     category = "Capacity"
     enabled  = false
 
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 }
