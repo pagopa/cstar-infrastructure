@@ -120,30 +120,17 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics_workspace.id
   log_analytics_destination_type = "AzureDiagnostics"
 
-  log {
+  enabled_log {
     category = "GatewayLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
-    category = "WebSocketConnectionLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  # enabled_log {
+  #   category = "WebSocketConnectionLogs"
+  # }
 
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 }
 
@@ -155,40 +142,22 @@ resource "azurerm_monitor_diagnostic_setting" "appgw_maz_diagnostic_settings" {
   target_resource_id         = module.app_gw_maz.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayAccessLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayPerformanceLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayFirewallLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
 
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 }
 
