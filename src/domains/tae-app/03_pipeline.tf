@@ -319,160 +319,79 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.log_analytics.id
   log_analytics_destination_type = "AzureDiagnostics"
 
-  log {
-    category       = "ActivityRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category       = "PipelineRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category       = "TriggerRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category = "SSISIntegrationRuntimeLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageEventMessageContext"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageEventMessages"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutableStatistics"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutionComponentPhases"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutionDataStatistics"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SandboxActivityRuns"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SandboxPipelineRuns"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 
-  log {
-    category = "AirflowDagProcessingLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  enabled_log {
+    category       = "ActivityRuns"
+    category_group = null
   }
 
-  log {
-    category = "AirflowSchedulerLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  enabled_log {
+    category       = "PipelineRuns"
+    category_group = null
   }
 
-  log {
-    category = "AirflowTaskLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  enabled_log {
+    category       = "TriggerRuns"
+    category_group = null
   }
 
-  log {
-    category = "AirflowWebLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  # enabled_log {
+  #   category = "SSISIntegrationRuntimeLogs"
+  # }
 
-  log {
-    category = "AirflowWorkerLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  # enabled_log {
+  #   category = "SSISPackageEventMessageContext"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageEventMessages"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutableStatistics"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutionComponentPhases"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutionDataStatistics"
+  # }
+
+  # enabled_log {
+  #   category = "SandboxActivityRuns"
+  # }
+
+  # enabled_log {
+  #   category = "SandboxPipelineRuns"
+  # }
+
+
+
+  # enabled_log {
+  #   category = "AirflowDagProcessingLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowSchedulerLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowTaskLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowWebLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowWorkerLogs"
+  # }
 }
 
 resource "azurerm_data_factory_pipeline" "invalidate_flow" {
