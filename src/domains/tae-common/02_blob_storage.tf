@@ -36,11 +36,6 @@ resource "azurerm_monitor_diagnostic_setting" "log_acquirer_sa" {
     category = "Transaction"
     enabled  = false
   }
-
-  metric {
-    category = "Capacity"
-    enabled  = false
-  }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "log_sftp_sa" {
@@ -66,12 +61,6 @@ resource "azurerm_monitor_diagnostic_setting" "log_sftp_sa" {
   metric {
     category = "Transaction"
     enabled  = false
-
   }
 
-  metric {
-    category = "Capacity"
-    enabled  = false
-
-  }
 }
