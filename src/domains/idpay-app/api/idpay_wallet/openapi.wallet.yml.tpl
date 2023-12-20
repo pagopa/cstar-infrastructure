@@ -78,31 +78,33 @@ paths:
                 $ref: '#/components/schemas/InitiativeDetailDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested inititative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                  code: "INITIATIVE_TOO_MANY_REQUESTS"
+                  message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
   '/{initiativeId}':
     get:
       tags:
@@ -1214,6 +1216,90 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    InitiativeErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - INITIATIVE_ROLLBACK_TO_PREVIOUS_STATUS
+            - INITIATIVE_WHITELIST_INVALID_PROPERTIES
+            - INITIATIVE_INVALID_LOCALE_FORMAT
+            - INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION
+            - INITIATIVE_CANNOT_BE_DELETED
+            - INITIATIVE_ADMIN_ROLE_NOT_ALLOWED
+            - INITIATIVE_STATUS_NOT_VALID
+            - INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING
+            - INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_EQUALS_OPERATOR
+            - INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ISEE_MISSING
+            - INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_TYPOLOGY_ISEE_MISSING
+            - INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_BENEFICIARY_NF_ISEE_MISSING
+            - INITIATIVE_VALIDATION_WIZARD_VIOLATIONS
+            - INITIATIVE_REWARD_RULES_NOT_VALID
+            - INITIATIVE_REFUND_RULES_NOT_VALID
+            - INITIATIVE_FAMILY_UNIT_COMPOSITION_NOT_VALID
+            - INITIATIVE_START_DATE_AND_END_DATE_NOT_VALID
+            - INITIATIVE_YEAR_VALUE_NOT_VALID
+            - INITIATIVE_INVALID_REQUEST
+            - INITIATIVE_NOT_FOUND
+            - INITIATIVE_PRIMARY_AND_SECONDARY_TOKEN_IO_NOT_FOUND
+            - INITIATIVE_LOGO_ERROR
+            - INITIATIVE_TOO_MANY_REQUESTS
+            - INITIATIVE_GENERIC_ERROR
+          description: >-
+           "ENG: Error code:
+            INITIATIVE_ROLLBACK_TO_PREVIOUS_STATUS: Error during the initiative publishing the status of the initiative will be returned to its previous state,
+            INITIATIVE_WHITELIST_INVALID_PROPERTIES: Initiative properties are not valid for this initiative with beneficiary known,
+            INITIATIVE_INVALID_LOCALE_FORMAT: Initiative not found due to invalid locale format,
+            INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION: Italian language required for initiative description,
+            INITIATIVE_CANNOT_BE_DELETED: Initiative with current status cannot be deleted,
+            INITIATIVE_ADMIN_ROLE_NOT_ALLOWED: This operation is not allowed for admin role,
+            INITIATIVE_STATUS_NOT_VALID: Initiative is unprocessable for status not valid,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING: Automated criteria for ranking initiative not valid because OrderDirection is missing,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_EQUALS_OPERATOR: Automated criteria for ranking initiative not valid because is used an equals operator,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ISEE_MISSING: Automated criteria for ranking initiative not valid because ISEE is missing,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_TYPOLOGY_ISEE_MISSING: Automated criteria not valid because typology ISEE is missing,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_BENEFICIARY_NF_ISEE_MISSING: Automated criteria for family initiative not valid because ISEE is missing,
+            INITIATIVE_VALIDATION_WIZARD_VIOLATIONS: Initiative validation failed caused by wizard violation,
+            INITIATIVE_REWARD_RULES_NOT_VALID: Reward rules is not valid,
+            INITIATIVE_REFUND_RULES_NOT_VALID: Refund rules is not valid,
+            INITIATIVE_FAMILY_UNIT_COMPOSITION_NOT_VALID: Family unit composition is not valid,
+            INITIATIVE_START_DATE_AND_END_DATE_NOT_VALID: The startDate and endDate inserted is not valid,
+            INITIATIVE_YEAR_VALUE_NOT_VALID: The year value inserted is not valid,
+            INITIATIVE_INVALID_REQUEST: Something went wrong handling the request,
+            INITIATIVE_NOT_FOUND: Initiative not found,
+            INITIATIVE_PRIMARY_AND_SECONDARY_TOKEN_IO_NOT_FOUND: Primary and secondary tokenIO not found,
+            INITIATIVE_LOGO_ERROR:An error occurred during the uploading logo,
+            INITIATIVE_TOO_MANY_REQUESTS: Too many requests,
+            INITIATIVE_GENERIC_ERROR: Application error,
+            - IT: Codice di errore:
+            INITIATIVE_ROLLBACK_TO_PREVIOUS_STATUS: Errore durante la pubblicazione dell'iniziativa lo stato dell'iniziativa sarà riportato al suo stato precedente,
+            INITIATIVE_WHITELIST_INVALID_PROPERTIES: Le proprietà dell'iniziativa non sono valide per iniziativa con beneficiario noto,
+            INITIATIVE_INVALID_LOCALE_FORMAT: Iniziativa non trovata a causa di format locale non valido,
+            INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION: Lingua italiana richiesta per la descrizione dell'iniziativa,
+            INITIATIVE_CANNOT_BE_DELETED: L'iniziativa con lo stato corrente non può essere eliminata,
+            INITIATIVE_ADMIN_ROLE_NOT_ALLOWED: Questa operazione non è concessa per il ruolo di admin,
+            INITIATIVE_STATUS_NOT_VALID: L'iniziativa non processabile per lo stato non valido,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca OrderDirection,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_EQUALS_OPERATOR: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché è utilizzato un operatore uguale,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ISEE_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca l'ISEE,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_TYPOLOGY_ISEE_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca la tipologia di ISEE,
+            INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_BENEFICIARY_NF_ISEE_MISSING: I criteri automatizzati per l'iniziativa di tipo nucleo familiare non sono validi perchè manca l'ISEE,
+            INITIATIVE_VALIDATION_WIZARD_VIOLATIONS: La validazione dell'iniziativa è fallita a causa delle violazioni durante la procedura,
+            INITIATIVE_REWARD_RULES_NOT_VALID: Regole sul tipo di premio non valide,
+            INITIATIVE_REFUND_RULES_NOT_VALID: Regole di rimborso non valide,
+            INITIATIVE_FAMILY_UNIT_COMPOSITION_NOT_VALID: La composizione del nucleo familiare non è valida,
+            INITIATIVE_START_DATE_AND_END_DATE_NOT_VALID: La data di inizio e di fine inserite non sono valide,
+            INITIATIVE_YEAR_VALUE_NOT_VALID: Il valore dell'anno inserito non è valido,
+            INITIATIVE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+            INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+            INITIATIVE_PRIMARY_AND_SECONDARY_TOKEN_IO_NOT_FOUND: token IO primario e secondario non trovati,
+            INITIATIVE_LOGO_ERROR: Qualcosa è andato storto durante il caricamento del logo,
+            INITIATIVE_TOO_MANY_REQUESTS: Troppe richieste,
+            INITIATIVE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     PaymentInstrumentErrorDTO:
       type: object
       required:
