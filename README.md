@@ -1,6 +1,6 @@
 # cstar-infrastructure
 
-[![Static Analysis](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml/badge.svg)](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml)
+[![Static Analysis](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml/badge.svg?branch=main&event=push)](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml)
 
 Cstar project infrastructure
 
