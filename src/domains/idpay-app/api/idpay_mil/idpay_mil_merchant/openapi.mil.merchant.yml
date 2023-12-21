@@ -193,6 +193,7 @@ components:
             - MERCHANT_NOT_ONBOARDED
             - MERCHANT_TOO_MANY_REQUESTS
             - MERCHANT_INVALID_REQUEST
+            - INVALID_REQUEST
             - MERCHANT_GENERIC_ERROR
           description: >-
             "ENG: Error code:<br>
@@ -200,12 +201,14 @@ components:
             MERCHANT_NOT_ONBOARDED: The merchant is not associated to the initiative,<br>
             MERCHANT_TOO_MANY_REQUESTS: Too many requests,<br>
             MERCHANT_INVALID_REQUEST: Something went wrong handling the request,<br>
+            INVALID_REQUEST: Something went wrong handling the request,<br>
             MERCHANT_GENERIC_ERROR: Application error,<br>
             - IT: Codice di errore:<br>
             MERCHANT_NOT_FOUND: L'esercente non è stato trovato,<br>
             MERCHANT_NOT_ONBOARDED: L'esercente non è associato all'iniziativa,<br>
             MERCHANT_TOO_MANY_REQUESTS: Troppe richieste,<br>
             MERCHANT_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,<br>
+            INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,<br>
             MERCHANT_GENERIC_ERROR: Errore applicativo"
         message:
           type: string
