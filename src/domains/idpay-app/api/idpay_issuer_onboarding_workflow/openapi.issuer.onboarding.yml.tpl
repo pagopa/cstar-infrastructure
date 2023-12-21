@@ -46,7 +46,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:

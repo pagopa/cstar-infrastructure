@@ -29,7 +29,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -80,7 +80,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -272,7 +272,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -374,7 +374,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -467,7 +467,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -528,7 +528,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -938,15 +938,6 @@ paths:
                 message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InitiativeErrorDTO'
-              example:
-                code: "string"
-                message: "string"
         '404':
           description: The requested initiative was not found
           content:
@@ -1248,7 +1239,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1310,7 +1301,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1373,7 +1364,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1435,7 +1426,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1495,7 +1486,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1555,7 +1546,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1611,7 +1602,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1667,7 +1658,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1723,7 +1714,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1823,7 +1814,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -1947,7 +1938,7 @@ paths:
         '401':
           description: Authentication failed
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2021,7 +2012,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2076,7 +2067,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2173,7 +2164,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2270,7 +2261,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2343,7 +2334,7 @@ paths:
                 code: 0
                 message: string
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2419,7 +2410,7 @@ paths:
                 code: 0
                 message: string
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2492,7 +2483,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2563,7 +2554,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2627,7 +2618,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2698,7 +2689,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2835,7 +2826,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2910,7 +2901,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
@@ -2967,7 +2958,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
