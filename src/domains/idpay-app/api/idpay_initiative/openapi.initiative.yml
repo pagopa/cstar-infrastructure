@@ -2061,37 +2061,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/RankingErrorDTO'
+              example:
+                code: "RANKING_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested initiative was not found
+          description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/RankingErrorDTO'
+              example:
+                code: "RANKING_INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/RankingErrorDTO'
+              example:
+                code: "RANKING_MANAGER_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/RankingErrorDTO'
+              example:
+                code: "RANKING_MANAGER_GENERIC_ERROR"
+                message: "Application error"
   /{initiativeId}/reward/exports:
     get:
       tags:
@@ -4675,6 +4677,34 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    RankingErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - RANKING_INITIATIVE_NOT_FOUND
+            - RANKING_INITIATIVE_NOT_RELATED
+            - RANKING_INVALID_REQUEST
+            - RANKING_TOO_MANY_REQUESTS
+            - RANKING_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: RANKING_INITIATIVE_NOT_FOUND: Initiative not found,
+             RANKING_INITIATIVE_NOT_RELATED: Initiative is not related with organization,
+             RANKING_INVALID_REQUEST: Something went wrong handling request,
+             RANKING_TOO_MANY_REQUESTS: Too many requests,
+             RANKING_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             RANKING_INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+             RANKING_INITIATIVE_NOT_RELATED: L'iniziativa non è correlata all'organizzazione,
+             RANKING_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             RANKING_TOO_MANY_REQUESTS: Troppe richieste,
+             RANKING_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     StatisticsErrorDTO:
       type: object
       required:
