@@ -1,5 +1,5 @@
 locals {
-  enable_evh = 1
+  enable_evh = 0 //var.env_short == "d" ? 1 : 0
   enable_poc = 0
 }
 
