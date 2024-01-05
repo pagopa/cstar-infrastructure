@@ -474,3 +474,20 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
     }
   }
 }
+
+resource "azurerm_data_factory_pipeline" "invalidate_flow" {
+  count = var.flow_invalidator_conf.enable ? 1 : 0
+
+  name            = "invalidate_flow"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    file = "AGGADE.12345.20221231.010000.001.01000"
+  }
+  activities_json = "[${templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", { linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name })}, ${templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[count.index].name
+  })}]"
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregates_log
+  ]
+}
