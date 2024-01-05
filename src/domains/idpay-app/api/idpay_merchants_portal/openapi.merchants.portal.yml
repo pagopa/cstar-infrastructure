@@ -77,25 +77,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_INVALID_REQUEST"
+                message: "Something went wrong handling request"
+        '401':
+          description: Authentication failed
         '404':
-          description: The requested resource was not found
+          description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_NOT_FOUND"
+                message: "Stats not found"
         '429':
-          description: Too many requests
+          description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
-          description: Generic error
+          description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_GENERIC_ERROR"
+                message: "Application error"
   /transactions:
     post:
       tags:
@@ -954,13 +968,31 @@ components:
         idTrxAcquirer:
           type: string
           description: "ENG: Transaction acquirer ID- IT: Identificativo della transazione rispetto all'acquirer"
-    ErrorDTO:
+    StatisticsErrorDTO:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
+          enum:
+            - STATISTICS_NOT_FOUND
+            - STATISTICS_INVALID_REQUEST
+            - STATISTICS_TOO_MANY_REQUESTS
+            - STATISTICS_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: STATISTICS_NOT_FOUND: Stats not found,
+             STATISTICS_INVALID_REQUEST: Something went wrong handling request,
+             STATISTICS_TOO_MANY_REQUESTS: Too many requests,
+             STATISTICS_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             STATISTICS_NOT_FOUND: Statistiche non trovate,
+             STATISTICS_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             STATISTICS_TOO_MANY_REQUESTS: Troppe richieste,
+             STATISTICS_GENERIC_ERROR: Errore generico"
         message:
           type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     MerchantErrorDTO:
       type: object
       required:

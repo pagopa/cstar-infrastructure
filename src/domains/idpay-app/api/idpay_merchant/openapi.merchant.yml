@@ -233,17 +233,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/MerchantStatisticsDTO'
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_INVALID_REQUEST"
+                message: "Something went wrong handling request"
+        '401':
+          description: Authentication failed
         '404':
-          description: The requested ID was Not Found
+          description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_NOT_FOUND"
+                message: "Stats not found"
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_GENERIC_ERROR"
+                message: "Application error"
   /{merchantId}/initiative/{initiativeId}/transactions:
     get:
       tags:
@@ -692,6 +718,31 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    StatisticsErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - STATISTICS_NOT_FOUND
+            - STATISTICS_INVALID_REQUEST
+            - STATISTICS_TOO_MANY_REQUESTS
+            - STATISTICS_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: STATISTICS_NOT_FOUND: Stats not found,
+             STATISTICS_INVALID_REQUEST: Something went wrong handling request,
+             STATISTICS_TOO_MANY_REQUESTS: Too many requests,
+             STATISTICS_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             STATISTICS_NOT_FOUND: Statistiche non trovate,
+             STATISTICS_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             STATISTICS_TOO_MANY_REQUESTS: Troppe richieste,
+             STATISTICS_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     TransactionErrorDTO:
       type: object
       required:
