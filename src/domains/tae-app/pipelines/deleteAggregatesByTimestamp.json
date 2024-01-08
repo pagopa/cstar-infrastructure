@@ -27,7 +27,7 @@
         "typeProperties": {
           "variableName": "ts_min",
           "value": {
-            "value": "@addSeconds(pipeline().parameters.start_ing, mul(sub(div(ticks(pipeline().parameters.schedule_time),10000000), div(ticks(pipeline().parameters.start_cleaning),10000000)), pipeline().parameters.coeff))",
+            "value": "@addSeconds(pipeline().parameters.start_ing, mul(sub(div(ticks(pipeline().parameters.schedule_time),10000000), div(ticks(pipeline().parameters.start_cleaning),10000000)), int(pipeline().parameters.coeff)))",
             "type": "Expression"
           }
         }
