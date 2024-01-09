@@ -20,7 +20,7 @@
   "userProperties": [],
   "typeProperties": {
     "command": {
-      "value": ".purge table Aggregates records in database tae  with (noregrets='true') <|\nwhere fileName == '@{pipeline().parameters.file}' and isnull(valid)",
+      "value": ".purge table Aggregates records in database tae  with (noregrets='true') <|\nwhere fileName == '@{item()}' and isnull(valid)",
       "type": "Expression"
     },
     "commandTimeout": "00:20:00"
