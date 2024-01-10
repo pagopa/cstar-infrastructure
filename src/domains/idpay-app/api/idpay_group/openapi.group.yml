@@ -53,7 +53,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GroupErrorDTO'
         '422':
-          description: The initiative have status not valid
+          description: Unprocessable entity
           content:
             application/json:
               schema:
