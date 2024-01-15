@@ -78,31 +78,33 @@ paths:
                 $ref: '#/components/schemas/InitiativeDetailDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested inititative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                  code: "INITIATIVE_TOO_MANY_REQUESTS"
+                  message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
   '/{initiativeId}':
     get:
       tags:
@@ -1214,6 +1216,33 @@ components:
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
+    InitiativeErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - INITIATIVE_INVALID_LOCALE_FORMAT
+            - INITIATIVE_INVALID_REQUEST
+            - INITIATIVE_NOT_FOUND
+            - INITIATIVE_TOO_MANY_REQUESTS
+            - INITIATIVE_GENERIC_ERROR
+          description: >-
+           "ENG: Error code:
+            INITIATIVE_INVALID_LOCALE_FORMAT: Initiative not found due to invalid locale format,
+            INITIATIVE_INVALID_REQUEST: Something went wrong handling the request,
+            INITIATIVE_NOT_FOUND: Initiative not found,
+            INITIATIVE_TOO_MANY_REQUESTS: Too many requests,
+            INITIATIVE_GENERIC_ERROR: Application error,
+            - IT: Codice di errore:
+            INITIATIVE_INVALID_LOCALE_FORMAT: Iniziativa non trovata a causa di format locale non valido,
+            INITIATIVE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+            INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+            INITIATIVE_TOO_MANY_REQUESTS: Troppe richieste,
+            INITIATIVE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     PaymentInstrumentErrorDTO:
       type: object
       required:

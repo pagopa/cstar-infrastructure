@@ -25,33 +25,47 @@ paths:
                     name: string
                     mode: string
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_NOT_FOUND"
+                message: "Permissions not found"
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_GENERIC_ERROR"
+                message: "Application error"
   "/consent":
     get:
       tags:
-      - PortalConsent
+        - PortalConsent
       summary: Retrieve portal consent (ToS)
       operationId: getPortalConsent
       responses:
@@ -62,32 +76,37 @@ paths:
               schema:
                 "$ref": "#/components/schemas/PortalConsentDTO"
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
-          description: Authentication Failed
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+          description: Authentication failed
         '429':
-          description: Too Many Request
+          description: Too many Request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_GENERIC_ERROR"
+                message: "Application error"
     post:
       tags:
-      - PortalConsent
+        - PortalConsent
       summary: Save portal consent
       operationId: savePortalConsent
       requestBody:
@@ -100,29 +119,43 @@ paths:
         '200':
           description: Ok
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_VERSION_NOT_MATCHED"
+                message: "The version id does not match"
         '401':
           description: Authentication failed
+        '404':
+          description: The requested ID was not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_NOT_FOUND"
+                message: "Permissions not found"
         '429':
-          description: Too Many Request
+          description: Too many Request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ErrorDTO"
+                $ref: '#/components/schemas/PermissionErrorDTO'
+              example:
+                code: "ROLE_PERMISSION_GENERIC_ERROR"
+                message: "Application error"
 components:
   schemas:
     UserPermissionDTO:
@@ -152,13 +185,34 @@ components:
           type: string
         firstAcceptance:
           type: boolean
-    ErrorDTO:
+    PermissionErrorDTO:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           type: string
+          enum:
+            - ROLE_PERMISSION_NOT_FOUND
+            - ROLE_PERMISSION_VERSION_NOT_MATCHED
+            - ROLE_PERMISSION_INVALID_REQUEST
+            - ROLE_PERMISSION_TOO_MANY_REQUESTS
+            - ROLE_PERMISSION_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: ROLE_PERMISSION_NOT_FOUND: Permissions not found,
+             ROLE_PERMISSION_VERSION_NOT_MATCHED:  The version id does not match,
+             ROLE_PERMISSION_INVALID_REQUEST: Something went wrong handling request,
+             ROLE_PERMISSION_TOO_MANY_REQUESTS: Too many requests,
+             ROLE_PERMISSION_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             ROLE_PERMISSION_NOT_FOUND: Permessi non trovati,
+             ROLE_PERMISSION_VERSION_NOT_MATCHED: Gli ID delle versioni non corrispondono,
+             ROLE_PERMISSION_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             ROLE_PERMISSION_TOO_MANY_REQUESTS: Troppe richieste,
+             ROLE_PERMISSION_GENERIC_ERROR: Errore generico"
         message:
           type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
   securitySchemes:
     Bearer:
       type: apiKey
