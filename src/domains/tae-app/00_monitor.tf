@@ -1049,7 +1049,12 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sender_ade
       AzureDiagnostics
       | where url_s has "file-register/sender-ade-ack"
       | where isRequestSuccess_b == "false"
-      | project TimeGenerated, backendResponseCode_d, apimSubscriptionId_s, todynamic(errors_s)[0]["message"]
+      | project
+          TimeGenerated,
+          backendResponseCode_d,
+          apimSubscriptionId_s,
+          lastError_reason_s,
+          todynamic(errors_s)[0]["message"]
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
