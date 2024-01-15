@@ -1,3 +1,19 @@
+locals {
+  invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
+  })
+
+  purge_activity_content = templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
+  })
+
+  invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
+    invalidate_activity = local.invalidate_activity_content,
+    purge_activity      = local.purge_activity_content
+  })
+
+}
+
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
@@ -371,8 +387,6 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   #   category = "SandboxPipelineRuns"
   # }
 
-
-
   # enabled_log {
   #   category = "AirflowDagProcessingLogs"
   # }
@@ -400,11 +414,9 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   name            = "invalidate_flow"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
-    file = "AGGADE.12345.20221231.010000.001.01000"
+    flows = "" # ["AGGADE.12345.20221231.010000.001.01000","AGGADE.54321.20221231.010000.001.01000"]
   }
-  activities_json = "[${templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", { linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name })}, ${templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
-    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[count.index].name
-  })}]"
+  activities_json = "[${local.invalidate_and_purge_activities}]"
 
   depends_on = [
     azurerm_data_factory_custom_dataset.aggregates_log
