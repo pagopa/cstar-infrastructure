@@ -417,7 +417,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   name            = "invalidate_flow"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
-    flows = "" # ["AGGADE.12345.20221231.010000.001.01000","AGGADE.54321.20221231.010000.001.01000"]
+    flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
   activities_json = "[${local.invalidate_and_purge_activities}]"
 
