@@ -7,9 +7,12 @@ locals {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
   })
 
+  set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
+
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
     invalidate_activity = local.invalidate_activity_content,
-    purge_activity      = local.purge_activity_content
+    purge_activity      = local.purge_activity_content,
+    set_ttl_activity    = local.set_ttl_activity
   })
 
 }
