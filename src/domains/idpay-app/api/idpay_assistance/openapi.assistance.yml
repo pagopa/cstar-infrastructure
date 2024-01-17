@@ -19,30 +19,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationListDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
   /organization/{organizationId}/summary:
     get:
       tags:
@@ -66,22 +80,24 @@ paths:
                 $ref: '#/components/schemas/InitiativeSummaryArrayDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
 
   /organization/{organizationId}/initiative/{initiativeId}/statistics:
     get:
@@ -114,31 +130,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_NOT_FOUND"
+                message: "Stats not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_GENERIC_ERROR"
+                message: "Application error"
   /organization/{organizationId}/initiative/{initiativeId}:
     get:
       tags:
@@ -168,28 +192,33 @@ paths:
                 $ref: '#/components/schemas/InitiativeDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested inititative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
   '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/{iban}':
     get:
       tags:
@@ -231,40 +260,33 @@ paths:
                 $ref: '#/components/schemas/IbanDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "IBAN_NOT_FOUND"
+                message: "Iban not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "IBAN_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "IBAN_GENERIC_ERROR"
+                message: "Application error"
   '/organization/{organizationId}/initiative/{initiativeId}/beneficiary/timeline':
     get:
       tags:
@@ -690,30 +712,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OnboardingDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
   /organization/{organizationId}/initiative/{initiativeId}/onboarding/status:
     get:
       tags:
@@ -835,28 +871,33 @@ paths:
                 $ref: '#/components/schemas/PageOnboardingRankingsDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_NOT_FOUND"
+                message: "Initiative not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: "INITIATIVE_GENERIC_ERROR"
+                message: "Application error"
   /organization/{organizationId}/initiative/{initiativeId}/ranking/exports/{filename}:
     get:
       tags:
@@ -1179,18 +1220,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SasToken'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '401':
-          description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '403':
           description: Forbidden
           content:
@@ -1642,30 +1671,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MerchantListDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_INVALID_REQUEST
+                message: Something went wrong handling request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred during file reading
   /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}:
     get:
       tags:
@@ -1699,30 +1733,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MerchantDetailDTO'
-        '401':
-          description: Authentication failed
+        '400':
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_INVALID_REQUEST
+                message: Something went wrong handling request
+        '401':
+          description: Authentication failed
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_NOT_ONBOARDED
+                message: The current merchant is not onboarded on initiative
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred during file reading
   /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}/statistics:
     get:
       tags:
@@ -1757,17 +1805,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/MerchantStatisticsDTO'
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_INVALID_REQUEST"
+                message: "Something went wrong handling request"
+        '401':
+          description: Authentication failed
         '404':
-          description: The requested ID was Not Found
+          description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_NOT_FOUND"
+                message: "Stats not found"
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsErrorDTO'
+              example:
+                code: "STATISTICS_MANAGER_GENERIC_ERROR"
+                message: "Application error"
   /organization/{organizationId}/initiative/{initiativeId}/merchant/{merchantId}/transactions:
     get:
       tags:
@@ -2778,6 +2852,31 @@ components:
           type: string
           format: date-time
           description: "ENG: The date-time of check iban - IT: La data-ora del check iban"
+    IbanErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - IBAN_NOT_FOUND
+            - IBAN_INVALID_REQUEST
+            - IBAN_TOO_MANY_REQUESTS
+            - IBAN_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: IBAN_NOT_FOUND: Iban not found,
+             IBAN_INVALID_REQUEST: Something went wrong handling request,
+             IBAN_TOO_MANY_REQUESTS: Too many requests,
+             IBAN_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             IBAN_NOT_FOUND: Iban non trovato,
+             IBAN_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             IBAN_TOO_MANY_REQUESTS: Troppe richieste,
+             IBAN_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     WalletDTO:
       type: object
       required:
@@ -3651,6 +3750,31 @@ components:
         refunded:
           type: number
           description: "ENG: Amount refunded - IT: Importo rimborsato"
+    StatisticsErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - STATISTICS_NOT_FOUND
+            - STATISTICS_INVALID_REQUEST
+            - STATISTICS_TOO_MANY_REQUESTS
+            - STATISTICS_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: STATISTICS_NOT_FOUND: Stats not found,
+             STATISTICS_INVALID_REQUEST: Something went wrong handling request,
+             STATISTICS_TOO_MANY_REQUESTS: Too many requests,
+             STATISTICS_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             STATISTICS_NOT_FOUND: Statistiche non trovate,
+             STATISTICS_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             STATISTICS_TOO_MANY_REQUESTS: Troppe richieste,
+             STATISTICS_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     TimelineErrorDTO:
       type: object
       required:
@@ -4028,6 +4152,52 @@ components:
           items:
             $ref: '#/components/schemas/OnboardingDetailDTO'
           description: "ENG: List of citizens belonging to family <br> IT: Lista dei membri appartenenti al nucleo familiare"
+    InitiativeErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - INITIATIVE_ADMIN_ROLE_NOT_ALLOWED
+            - INITIATIVE_INVALID_REQUEST
+            - INITIATIVE_NOT_FOUND
+            - INITIATIVE_TOO_MANY_REQUESTS
+            - INITIATIVE_GENERIC_ERROR
+          description: >-
+            "ENG: Error code:
+             INITIATIVE_ADMIN_ROLE_NOT_ALLOWED: This operation is not allowed for admin role,
+             INITIATIVE_INVALID_REQUEST: Something went wrong handling the request,
+             INITIATIVE_NOT_FOUND: Initiative not found,
+             INITIATIVE_TOO_MANY_REQUESTS: Too many requests,
+             INITIATIVE_GENERIC_ERROR: Application error,
+             - IT: Codice di errore:
+             INITIATIVE_ROLLBACK_TO_PREVIOUS_STATUS: Errore durante la pubblicazione dell'iniziativa lo stato dell'iniziativa sarà riportato al suo stato precedente,
+             INITIATIVE_WHITELIST_INVALID_PROPERTIES: Le proprietà dell'iniziativa non sono valide per iniziativa con beneficiario noto,
+             INITIATIVE_INVALID_LOCALE_FORMAT: Iniziativa non trovata a causa di format locale non valido,
+             INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION: Lingua italiana richiesta per la descrizione dell'iniziativa,
+             INITIATIVE_CANNOT_BE_DELETED: L'iniziativa con lo stato corrente non può essere eliminata,
+             INITIATIVE_ADMIN_ROLE_NOT_ALLOWED: Questa operazione non è concessa per il ruolo di admin,
+             INITIATIVE_STATUS_NOT_VALID: L'iniziativa non processabile per lo stato non valido,
+             INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca OrderDirection,
+             INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_EQUALS_OPERATOR: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché è utilizzato un operatore uguale,
+             INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ISEE_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca l'ISEE,
+             INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_TYPOLOGY_ISEE_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca la tipologia di ISEE,
+             INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_BENEFICIARY_NF_ISEE_MISSING: I criteri automatizzati per l'iniziativa di tipo nucleo familiare non sono validi perchè manca l'ISEE,
+             INITIATIVE_VALIDATION_WIZARD_VIOLATIONS: La validazione dell'iniziativa è fallita a causa delle violazioni durante la procedura,
+             INITIATIVE_REWARD_RULES_NOT_VALID: Regole sul tipo di premio non valide,
+             INITIATIVE_REFUND_RULES_NOT_VALID: Regole di rimborso non valide,
+             INITIATIVE_FAMILY_UNIT_COMPOSITION_NOT_VALID: La composizione del nucleo familiare non è valida,
+             INITIATIVE_START_DATE_AND_END_DATE_NOT_VALID: La data di inizio e di fine inserite non sono valide,
+             INITIATIVE_YEAR_VALUE_NOT_VALID: Il valore dell'anno inserito non è valido,
+             INITIATIVE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+             INITIATIVE_PRIMARY_AND_SECONDARY_TOKEN_IO_NOT_FOUND: token IO primario e secondario non trovati,
+             INITIATIVE_LOGO_ERROR: Qualcosa è andato storto durante il caricamento del logo,
+             INITIATIVE_TOO_MANY_REQUESTS: Troppe richieste,
+             INITIATIVE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: "ENG: Error message - IT: Messaggio di errore"
     OnboardingDetailDTO:
       type: object
       required:
@@ -4059,6 +4229,36 @@ components:
             - SUSPENDED
           type: string
           description: "ENG: Status of the citizen onboarding <br> IT: Stato dell'onboarding del cittadino"
+    MerchantErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - MERCHANT_NOT_FOUND
+            - MERCHANT_NOT_ONBOARDED
+            - MERCHANT_TOO_MANY_REQUESTS
+            - MERCHANT_INVALID_REQUEST
+            - MERCHANT_GENERIC_ERROR
+          description: >-
+            "ENG: Error code:<br>
+            MERCHANT_NOT_FOUND: The merchant was not found,<br>
+            MERCHANT_NOT_ONBOARDED: The merchant is not associated to the initiative,<br>
+            MERCHANT_TOO_MANY_REQUESTS: Too many requests,<br>
+            MERCHANT_INVALID_REQUEST: Something went wrong handling the request,<br>
+            MERCHANT_GENERIC_ERROR: Application error,<br>
+            - IT: Codice di errore:<br>
+            MERCHANT_NOT_FOUND: L'esercente non è stato trovato,<br>
+            MERCHANT_NOT_ONBOARDED: L'esercente non è associato all'iniziativa,<br>
+            MERCHANT_TOO_MANY_REQUESTS: Troppe richieste,<br>
+            MERCHANT_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,<br>
+            MERCHANT_GENERIC_ERROR: Errore applicativo"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
   securitySchemes:
     Bearer:
       type: apiKey
