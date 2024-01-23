@@ -161,26 +161,6 @@ eventhubs_idpay_00 = [
     ]
   },
   {
-    name              = "idpay-timeline"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-timeline-consumer-group"]
-    keys = [
-      {
-        name   = "idpay-timeline-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-timeline-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "idpay-notification-request"
     partitions        = 3
     message_retention = 1
@@ -398,6 +378,26 @@ eventhubs_idpay_01 = [
       },
       {
         name   = "idpay-commands-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
+  {
+    name              = "idpay-timeline"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-timeline-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-timeline-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-timeline-consumer"
         listen = true
         send   = false
         manage = false

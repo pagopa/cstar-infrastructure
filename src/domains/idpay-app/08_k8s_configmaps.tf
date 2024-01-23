@@ -24,7 +24,6 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     kafka_security_protocol                            = "SASL_SSL"
     idpay-checkiban-eval-consumer-group                = "idpay-checkiban-eval-consumer-group"
     idpay-checkiban-outcome-consumer-group             = "idpay-checkiban-outcome-consumer-group"
-    idpay-timeline-consumer-group                      = "idpay-timeline-consumer-group"
     idpay-onboarding-notification-consumer-group       = "idpay-onboarding-notification-consumer-group"
     idpay-onboarding-outcome-onboarding-consumer-group = "idpay-onboarding-outcome-onboarding-consumer-group"
     idpay-onboarding-outcome-wallet-consumer-group     = "idpay-onboarding-outcome-wallet-consumer-group"
@@ -36,7 +35,6 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_onboarding_notification_topic                = "idpay-onboarding-notification"
     idpay_checkiban_evaluation_topic                   = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic                      = "idpay-checkiban-outcome"
-    idpay_timeline_topic                               = "idpay-timeline"
     idpay-onboarding-ranking-request                   = "idpay-onboarding-ranking-request"
   }
 
@@ -55,6 +53,7 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_transaction_consumer_group         = "idpay-transaction-consumer-group"
     idpay_transaction_wallet_consumer_group  = "idpay-transaction-wallet-consumer-group"
     idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
+    idpay-timeline-consumer-group            = "idpay-timeline-consumer-group"
 
     idpay_transaction_topic                           = "idpay-transaction"
     idpay_reward_error_topic                          = "idpay-reward-error"
@@ -67,6 +66,7 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_reward_notification_response_topic          = "idpay-reward-notification-response"
     idpay_reward_notification_storage_events_topic    = "idpay-reward-notification-storage-events"
     idpay_commands_topic                              = "idpay-commands"
+    idpay_timeline_topic                              = "idpay-timeline"
   }
 
 }
