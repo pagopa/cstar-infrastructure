@@ -10,10 +10,10 @@ resource "null_resource" "cosmos_connector" {
       -H "Content-Type: application/json" \
       --data '{
         "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
-        "connection.uri": "${var.COSMOS_CONNECTION_STRING}",
-        "database": "<db>",
-        "collection": "<collection>",
-        "topic.namespace.map": "{\"<db>.<collection>\": \"<topic_you_want>\"}",
+        "connection.uri": "${kubernetes_secret.kafka_connect_secret[count.index].data.COSMOS_CONNECTION_STRING}",
+        "database": "idpay",
+        "collection": "transaction_in_progress",
+        "topic.namespace.map": "{\"idpay.transaction_in_progress\": \"idpay-transactions-cdc\"}",
         "server.api.version": "4.2",
         "copy.existing": false,
         "key.converter": "org.apache.kafka.connect.json.JsonConverter",
