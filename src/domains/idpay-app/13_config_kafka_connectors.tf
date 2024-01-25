@@ -1,19 +1,19 @@
-resource "null_resource" "cosmos_connector" {
-  #TODO: DA VEDERE COME SCATENARE IL TRIGGER
-  triggers = {
-    always_run = timestamp()
-  }
+data "azurerm_cosmosdb_account" "idpay_cosmos_db" {
+  name                = "cstar-${var.env_short}-cosmos-mongo-db-account"
+  resource_group_name = "cstar-${var.env_short}-db-rg"
+}
 
+resource "null_resource" "cosmos_connector" {
   provisioner "local-exec" {
     command = <<-EOT
-      curl -X PUT {host}/connectors/cosmos-connector/config \
+      curl -X PUT /idpaykafkaconnect/connectors/cosmos-connector/config \
       -H "Content-Type: application/json" \
       --data '{
         "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
-        "connection.uri": "${kubernetes_secret.kafka_connect_secret[count.index].data.COSMOS_CONNECTION_STRING}",
+        "connection.uri": "${format(local.mongodb_connection_uri_template, data.azurerm_cosmosdb_account.idpay_cosmos_db.name, data.azurerm_cosmosdb_account.idpay_cosmos_db.primary_readonly_key, data.azurerm_cosmosdb_account.idpay_cosmos_db.name, data.azurerm_cosmosdb_account.idpay_cosmos_db.name)}",
         "database": "idpay",
         "collection": "transaction_in_progress",
-        "topic.namespace.map": "{\"idpay.transaction_in_progress\": \"idpay-transactions-cdc\"}",
+        "topic.namespace.map": "{\"idpay.transaction_in_progress\": \"idpay-transactions\"}",
         "server.api.version": "4.2",
         "copy.existing": false,
         "key.converter": "org.apache.kafka.connect.json.JsonConverter",
