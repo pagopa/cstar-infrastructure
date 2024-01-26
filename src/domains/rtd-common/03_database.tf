@@ -26,7 +26,6 @@ module "cosmosdb_account_mongodb" {
   enable_provisioned_throughput_exceeded_alert = false
 
   allowed_virtual_network_subnet_ids = [
-    data.azurerm_subnet.aks_old_subnet.id,
     data.azurerm_subnet.adf_snet.id
   ]
 
