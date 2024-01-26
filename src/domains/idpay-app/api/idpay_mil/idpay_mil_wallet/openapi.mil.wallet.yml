@@ -1247,7 +1247,6 @@ components:
           enum:
             - TIMELINE_DETAIL_NOT_FOUND
             - TIMELINE_USER_NOT_FOUND
-            - TIMELINE_REFUNDS_NOT_FOUND
             - TIMELINE_INVALID_REQUEST
             - TIMELINE_TOO_MANY_REQUESTS
             - TIMELINE_GENERIC_ERROR
@@ -1255,13 +1254,11 @@ components:
             "ENG: Error code: TIMELINE_DETAIL_NOT_FOUND: Detail of Timeline not
             found,
              TIMELINE_USER_NOT_FOUND: Timeline for the current user not found,
-             TIMELINE_REFUNDS_NOT_FOUND: Refund for current initiative not found,
              TIMELINE_INVALID_REQUEST: Something went wrong handling request,
              TIMELINE_TOO_MANY_REQUESTS: Too many requests,
              TIMELINE_GENERIC_ERROR: Application Error - IT: Codice di errore:
              TIMELINE_DETAIL_NOT_FOUND: Dettaglio della Timeline non trovato,
              TIMELINE_USER_NOT_FOUND: Timeline per utente corrente non trovata,
-             TIMELINE_REFUNDS_NOT_FOUND:  Rimborso per la corrente iniziativa non trovato,
              TIMELINE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
              TIMELINE_TOO_MANY_REQUESTS: Troppe richieste,
              TIMELINE_GENERIC_ERROR: Errore generico"
@@ -1469,15 +1466,11 @@ components:
             - WALLET_USER_UNSUBSCRIBED
             - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
             - WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
-            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE
             - WALLET_INITIATIVE_ENDED
             - WALLET_USER_NOT_ONBOARDED
             - WALLET_IBAN_NOT_ITALIAN
             - WALLET_INSTRUMENT_ALREADY_ASSOCIATED
             - WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
-            - WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND
-            - WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
-            - WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
             - WALLET_INSTRUMENT_NOT_FOUND
             - WALLET_GENERIC_ERROR
             - WALLET_INVALID_REQUEST
@@ -1489,20 +1482,13 @@ components:
             not possible to enroll a payment instrument for a discount
             initiative, WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE:
             It is not possible enroll an iban for a discount type initiative,
-            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: It is
-            not possible to enroll a IDPayCode for a refund type initiative,
             WALLET_INITIATIVE_ENDED: The operation is not allowed because the
             initiative has already ended, WALLET_USER_NOT_ONBOARDED: User not
             onboarded on this initiative, WALLET_IBAN_NOT_ITALIAN: Iban is not
             italian, WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is
             already associated to another user,
             WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: It's not possible to delete an
-            instrument of AppIO payment types,
-            WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND: idpayCode is not found for
-            the current user, WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It
-            is not possible to suspend the user on initiative,
-            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible
-            to readmit the user on initiative, WALLET_INSTRUMENT_NOT_FOUND: The
+            instrument of AppIO payment types, WALLET_INSTRUMENT_NOT_FOUND: The
             selected payment instrument has not been found for the current user,
             WALLET_GENERIC_ERROR: Application error, WALLET_INVALID_REQUEST:
             Something went wrong handling the request, WALLET_TOO_MANY_REQUESTS:
@@ -1513,20 +1499,13 @@ components:
             tipo a sconto,
             WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è
             possibile associare un iban per un'iniziativa di tipo a sconto,
-            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: Non è
-            possibile associare un IDPayCode per una iniziativa di tipo a
-            rimborso, WALLET_INITIATIVE_ENDED: L'operazione non è consentita
+            WALLET_INITIATIVE_ENDED: L'operazione non è consentita
             perché l'iniziativa è scaduta, WALLET_USER_NOT_ONBOARDED: Utente non
             onboardato all'inziativa, WALLET_IBAN_NOT_ITALIAN: L'Iban non è
             italiano, WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di
             pagamento è già associato ad un altro utente,
             WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno
-            strumento di tipo AppIO, WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND:
-            L'idpayCode non è stato trovato per l'utente corrente,
-            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
-            sospendere l'utente dall'iniziativa,
-            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
-            riammettere l'utente all'iniziativa, WALLET_INSTRUMENT_NOT_FOUND: Lo
+            strumento di tipo AppIO, WALLET_INSTRUMENT_NOT_FOUND: Lo
             strumento di pagamento selezionato non è stato trovato per l'utente
             corrente, WALLET_GENERIC_ERROR: Errore generico,
             WALLET_INVALID_REQUEST: Qualcosa è andato storto durante l'invio
@@ -1543,64 +1522,12 @@ components:
         code:
           type: string
           enum:
-            - PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID
-            - PAYMENT_INSTRUMENT_INVALID_REQUEST
-            - PAYMENT_INSTRUMENT_ALREADY_ASSOCIATED
-            - PAYMENT_INSTRUMENT_DELETE_NOT_ALLOWED
-            - PAYMENT_INSTRUMENT_ENCRYPTION_ERROR
-            - PAYMENT_INSTRUMENT_DECRYPTION_ERROR
-            - PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE
-            - PAYMENT_INSTRUMENT_INITIATIVE_ENDED
-            - PAYMENT_INSTRUMENT_USER_UNSUBSCRIBED
-            - PAYMENT_INSTRUMENT_NOT_FOUND
-            - PAYMENT_INSTRUMENT_IDPAYCODE_NOT_FOUND
-            - PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED
             - PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS
             - PAYMENT_INSTRUMENT_GENERIC_ERROR
           description: >-
-            "ENG: Error code: PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID: Pin
-            length is not valid, PAYMENT_INSTRUMENT_INVALID_REQUEST: Something
-            went wrong handling the request,
-            PAYMENT_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is already
-            associated to another user, PAYMENT_INSTRUMENT_DELETE_NOT_ALLOWED:
-            It's not possible to delete an instrument of AppIO payment types,
-            PAYMENT_INSTRUMENT_ENCRYPTION_ERROR: Something went wrong creating
-            SHA256 digest, PAYMENT_INSTRUMENT_DECRYPTION_ERROR: Something gone
-            wrong while extracting datablock from pinblock,
-            PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE: It is
-            not possible to enroll a idpayCode for a refund type initiative,
-            PAYMENT_INSTRUMENT_INITIATIVE_ENDED: The operation is not allowed
-            because the initiative has already ended,
-            PAYMENT_INSTRUMENT_USER_UNSUBSCRIBED: The user has unsubscribed from
-            initiative, PAYMENT_INSTRUMENT_NOT_FOUND: The selected payment
-            instrument has not been found for the current user,
-            PAYMENT_INSTRUMENT_IDPAYCODE_NOT_FOUND: idpayCode is not found for
-            the current user, PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED: The current
-            user is not onboarded on initiative,
-            PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS: Too many requests,
+            "ENG: Error code: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS: Too many requests,
             PAYMENT_INSTRUMENT_GENERIC_ERROR Application error: - IT: Codice di
-            errore: PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID: Lunghezza del pin
-            non valida, PAYMENT_INSTRUMENT_INVALID_REQUEST: Qualcosa è andato
-            storto durante l'invio della richiesta,
-            PAYMENT_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di pagamento è
-            già associato ad un altro utente,
-            PAYMENT_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno
-            strumento di pagamento di tipo AppIO,
-            PAYMENT_INSTRUMENT_ENCRYPTION_ERROR: Qualcosa è andato storto
-            durante la creazione del digest SHA256,
-            PAYMENT_INSTRUMENT_DECRYPTION_ERROR: Qualcosa è andato storto
-            durante l'estrazione del datablock dal pinblock,
-            PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE: Non è
-            possibile enrollare un idpayCode per un'iniziativa di tipo a
-            rimborso, PAYMENT_INSTRUMENT_INITIATIVE_ENDED: L'operazione non è
-            consentita perché l'iniziativa è scaduta,
-            PAYMENT_INSTRUMENT_USER_UNSUBSCRIBED: L'utente si è disiscritto
-            dall'iniziativa, PAYMENT_INSTRUMENT_NOT_FOUND:  Lo strumento di
-            pagamento selezionato non è stato trovato per l'utente corrente,
-            PAYMENT_INSTRUMENT_IDPAYCODE_NOT_FOUND: L'idpayCode non è stato
-            trovato per l'utente corrente,
-            PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED: L'utente corrente non è
-            onboardato all'iniziativa, PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS:
+            errore: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS:
             Troppe richieste, PAYMENT_INSTRUMENT_GENERIC_ERROR: Errore generico"
         message:
           type: string
