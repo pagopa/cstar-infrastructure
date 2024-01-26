@@ -37,7 +37,7 @@ resource "azurerm_eventhub_namespace_authorization_rule" "evh_namespace_access_k
 }
 
 resource "azurerm_key_vault_secret" "event_hub_root_key_idpay_00" {
-  name         = "evh-root-jaas-config-idpay-00"
+  name         = "evh-root-sasl-jaas-config-idpay-00"
   value        = format(local.jaas_config_template_idpay, azurerm_eventhub_namespace_authorization_rule.evh_namespace_access_key_00[0].primary_connection_string)
   content_type = "text/plain"
 
