@@ -36,6 +36,11 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_checkiban_evaluation_topic                   = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic                      = "idpay-checkiban-outcome"
     idpay-onboarding-ranking-request                   = "idpay-onboarding-ranking-request"
+    idpay_transaction_consumer_group                   = "idpay-transaction-consumer-group"
+    idpay_transaction_wallet_consumer_group            = "idpay-transaction-wallet-consumer-group"
+
+    idpay_transaction_topic                            = "idpay-transaction"
+
   }
 
 }
@@ -50,11 +55,14 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     kafka_broker                             = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
     kafka_sasl_mechanism                     = "PLAIN"
     kafka_security_protocol                  = "SASL_SSL"
+    //TODO: Da eliminare una volta in funzione idpay-transaction su evh 00
     idpay_transaction_consumer_group         = "idpay-transaction-consumer-group"
+    //TODO: Da eliminare una volta in funzione idpay-transaction su evh 00
     idpay_transaction_wallet_consumer_group  = "idpay-transaction-wallet-consumer-group"
     idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
     idpay-timeline-consumer-group            = "idpay-timeline-consumer-group"
 
+    //TODO: Da eliminare una volta in funzione idpay-transaction su evh 00
     idpay_transaction_topic                           = "idpay-transaction"
     idpay_reward_error_topic                          = "idpay-reward-error"
     idpay_hpan_update_topic                           = "idpay-hpan-update"
