@@ -273,6 +273,9 @@ components:
           format: date-time
         fileName:
           type: string
+        beneficiariesReached:
+          type: integer
+          format: int32
         errorMessage:
           type: string
     CitizenStatusDTO:
