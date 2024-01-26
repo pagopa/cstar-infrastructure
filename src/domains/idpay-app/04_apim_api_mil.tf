@@ -197,6 +197,101 @@ module "idpay_mil_onboarding" {
       xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/get-initiative-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getInitiativeBeneficiaryDetail"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/get-initiative-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
+
+
+## IDPAY MIL WALLET API ##
+module "idpay_mil_wallet" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  name                = "${var.env_short}-idpay-mil-wallet"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY MIL WALLET"
+  display_name = "IDPAY MIL WALLET API"
+  path         = "idpay/mil/wallet"
+  protocols    = ["https"]
+
+  service_url = "${local.ingress_load_balancer_https}/idpaywallet/idpay/wallet"
+
+  content_format = "openapi"
+  content_value  = file("./api/idpay_mil/idpay_mil_wallet/openapi.mil.wallet.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_mil_citizen_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "getWallet"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-wallet-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getWalletDetail"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-wallet-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "enrollIban"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/put-enroll-iban-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "enrollInstrument"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/put-enroll-instrument-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getInstrumentList"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-instrument-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "deleteInstrument"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/delete-instrument-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "unsubscribe"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/put-unsubscribe-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getIban"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-iban-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getTimeline"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-timeline-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getTimelineDetail"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-timeline-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 

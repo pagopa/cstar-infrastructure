@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: IDPAY MIL ONBOARDING API
-  description: IDPAY MIL MERCHANT
+  description: IDPAY MIL ONBOARDING
   version: '1.0.1'
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/mil/onboarding
@@ -307,7 +307,7 @@ paths:
     get:
       tags:
         - initiative
-      summary: Returns the list of published initiatives
+      summary: "ENG: Returns the list of published initiatives - IT: Ritorna la lista delle iniziative pubblicate"
       operationId: getInitiativeList
       parameters:
         - name: Accept-Language
@@ -330,6 +330,63 @@ paths:
           description: Too Many Requests
         '500':
           description: Server ERROR
+  /initiatives/{initiativeId}/detail:
+    get:
+      tags:
+        - initiative
+      summary: "ENG: Returns the detail of an initiative - IT: Ritorna i dettagli dell'iniziativa"
+      operationId: getInitiativeBeneficiaryDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: 'ENG: The initiative ID - IT: Identificativo dell''iniziativa'
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          description: 'ENG: Language - IT: Lingua'
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDetailDTO'
+        '401':
+          description: Authentication failed
+        '404':
+          description: The requested inititative was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_NOT_FOUND
+                message: Initiative not found
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_GENERIC_ERROR
+                message: Application error
 components:
   schemas:
     ConsentPutDTO:
@@ -540,42 +597,6 @@ components:
         value:
           type: string
           description: "ENG: Indicates self-consent values - IT: Indica i valori per gli auto consensi"
-    ErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: "ENG: Error code - IT: Codice di errore"
-        message:
-          type: string
-          description: "ENG: Error message - IT: Messaggio di errore"
-    PrerequisitesErrorDTO:
-      type: object
-      required:
-        - code
-        - message
-        - details
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: "ENG: Error code - IT: Codice d'errore"
-        message:
-          type: string
-          description: "ENG: Error message - IT: Messaggio di errore"
-        details:
-          type: string
-          enum:
-            - INITIATIVE_NOT_STARTED
-            - INITIATIVE_END
-            - BUDGET_TERMINATED
-            - INITIATIVE_SUSPENDED
-            - GENERIC_ERROR
-          description: "ENG: Error details [INITIATIVE_NOT_STARTED: Initiative not started, INITIATIVE_END: Initiative ended, BUDGET_TERMINATED: Budget terminated, INITIATIVE_SUSPENDED: Initiative suspended, GENERIC_ERROR: Generic errors] - IT: Dettagli dell'errore [INITIATIVE_NOT_STARTED: Initiativa non iniziata, INITIATIVE_END: Iniziativa finalizzata, BUDGET_TERMINATED: Budget esaurito, INITIATIVE_SUSPENDED: Iniziativa sospesa, GENERIC_ERROR: Errore generico"
     OnboardingErrorDTO:
       type: object
       required:
@@ -714,6 +735,162 @@ components:
         logoUrl:
           type: string
           description: "ENG: The URL of the logo of the subscribed initiative - IT: Link del logo dekl'iniziativa sottoscritta"
+    InitiativeDetailDTO:
+      type: object
+      properties:
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome dell''iniziativa'
+        status:
+          type: string
+          description: 'ENG: Status of the initiative - IT: Stato dell''iniziativa'
+        description:
+          type: string
+          description: 'ENG: Description of the initiative - IT: Descrizione dell''iniziativa'
+        ruleDescription:
+          type: string
+          description: 'ENG: Description of the rules - IT: Descrizione delle regole'
+        onboardingStartDate:
+          type: string
+          format: date
+          description: >-
+            ENG: Start date for the initiative's onboarding time window - IT:
+            Data di inizio della finestra temporale in cui si può aderire
+            all'iniziativa
+        onboardingEndDate:
+          type: string
+          format: date
+          description: >-
+            ENG: End date for the initiative's onboarding time window - IT: Data
+            di fine della finestra temporale in cui si può aderire
+            all'iniziativa
+        fruitionStartDate:
+          type: string
+          format: date
+          description: >-
+            ENG: Start date of the time window in which it is possible to use
+            the initiative's rewards - IT: Data di inizio della finestra
+            temporale in cui si usufruire dei premi dell'iniziativa
+        fruitionEndDate:
+          type: string
+          format: date
+          description: >-
+            ENG: End date of the time window in which it is possible to use the
+            initiative's rewards - IT: Data di fine della finestra temporale in
+            cui si usufruire dei premi dell'iniziativa
+        rewardRule:
+          $ref: '#/components/schemas/RewardValueDTO'
+        refundRule:
+          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        privacyLink:
+          type: string
+          description: >-
+            ENG: URL that redirects to the privacy policy - IT: URL che
+            reindirizza all informativa della privacy
+        tcLink:
+          type: string
+          description: >-
+            ENG: URL that redirects to the terms and conditions - IT: URL che
+            porta ai termini e condizioni
+        logoURL:
+          type: string
+          description: 'ENG: Url of the logo - IT: Url del logo'
+        updateDate:
+          type: string
+          format: date-time
+          description: 'ENG: Update date - IT: Data di aggiornamento dell''iniziativa'
+        serviceId:
+          type: string
+          description: 'ENG: The service ID - IT: Identificativo del service'
+    InitiativeRefundRuleDTO:
+      type: object
+      properties:
+        accumulatedAmount:
+          $ref: '#/components/schemas/AccumulatedAmountDTO'
+        timeParameter:
+          $ref: '#/components/schemas/TimeParameterDTO'
+    AccumulatedAmountDTO:
+      required:
+        - accumulatedType
+      type: object
+      properties:
+        accumulatedType:
+          type: string
+          enum:
+            - BUDGET_EXHAUSTED
+            - THRESHOLD_REACHED
+          description: >-
+            ENG: Accumulated type [BUDGET_EXHAUSTED: budget exhausted,
+            THRESHOLD_REACHED: threshold reached] - IT: Tipologia di
+            accumulazione [BUDGET_EXHAUSTED: Budget esaurito, THRESHOLD_REACHED:
+            Soglia raggiunta]
+        refundThreshold:
+          type: number
+          description: 'ENG: Refund threshold - IT: Soglia di rimborso'
+    TimeParameterDTO:
+      required:
+        - timeType
+      type: object
+      properties:
+        timeType:
+          type: string
+          enum:
+            - CLOSED
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - QUARTERLY
+          description: >-
+            ENG: Time type [CLOSED: At the end of the initiative, DAILY: Daily,
+            WEEKLY: Weekly, MONTHLY: Monthly, QUARTERLY: Quarterly] - IT:
+            Tipologia di tesmpistiche di rimborso [CLOSED: Alla chiusura
+            dell'iniziativa, DAILY: Giornaliero, WEEKLY: Settimanale, MONTHLY:
+            Mensile, QUARTERLY: Trimestrale]
+    RewardValueDTO:
+      required:
+        - rewardValueType
+        - rewardValue
+      type: object
+      properties:
+        rewardValueType:
+          type: string
+          enum:
+            - PERCENTAGE
+            - ABSOLUTE
+          description: >-
+            ENG: Reward value type [PERCENTAGE: Percentage, ABSOLUTE: Absolute]-
+            IT: Tipologia di premio [PERCENTAGE: Percentuale, ABSOLUTE:
+            Assoluto]
+        rewardValue:
+          type: number
+          description: 'ENG: Reward value - IT: Valore di reward'
+    InitiativeErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - INITIATIVE_INVALID_LOCALE_FORMAT
+            - INITIATIVE_INVALID_REQUEST
+            - INITIATIVE_NOT_FOUND
+            - INITIATIVE_TOO_MANY_REQUESTS
+            - INITIATIVE_GENERIC_ERROR
+          description: |-
+            "ENG: Error code:
+             INITIATIVE_INVALID_LOCALE_FORMAT: Initiative not found due to invalid locale format,
+             INITIATIVE_INVALID_REQUEST: Something went wrong handling the request,
+             INITIATIVE_NOT_FOUND: Initiative not found,
+             INITIATIVE_TOO_MANY_REQUESTS: Too many requests,
+             INITIATIVE_GENERIC_ERROR: Application error,
+             - IT: Codice di errore:
+             INITIATIVE_INVALID_LOCALE_FORMAT: Iniziativa non trovata a causa di format locale non valido,
+             INITIATIVE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+             INITIATIVE_TOO_MANY_REQUESTS: Troppe richieste,
+             INITIATIVE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
   securitySchemes:
     bearerAuth:
       type: http
