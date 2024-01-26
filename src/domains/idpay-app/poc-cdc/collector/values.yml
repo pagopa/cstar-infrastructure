@@ -1,0 +1,42 @@
+mode: deployment
+image:
+  pullPolicy: Always
+
+config:
+  receivers:
+    jaeger: null
+    prometheus:
+      config:
+        scrape_configs:
+          - job_name: kafka-connect-collector
+            scrape_interval: 10s
+            kubernetes_sd_configs:
+              - role: pod
+                namespaces:
+                  names:
+                    - strimzi
+                selectors:
+                  - role: "pod"
+                    label: "strimzi.io/controller=strimzipodset"
+
+    zipkin: null
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+
+  exporters:
+    azuremonitor:
+      instrumentation_key: ${azure_monitor_connection_string}
+
+  service:
+    pipelines:
+      traces:
+        receivers: [otlp]
+        exporters: [debug, azuremonitor]
+      metrics:
+        receivers: [otlp, prometheus]
+        exporters: [debug, azuremonitor]
+      logs:
+        receivers: [otlp]
+        exporters: [azuremonitor]

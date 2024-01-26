@@ -1,0 +1,22 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: mongodb-debezium-connector
+  namespace: strimzi
+  labels:
+    strimzi.io/cluster: poc-cdc-cluster
+spec:
+  class: io.debezium.connector.mongodb.MongoDbConnector
+  tasksMax: 1
+  config:
+    topics: poc-cdc
+    mongodb.connection.string: "${env:RTD_MONGO_CONNECTION_STRING}"
+    capture.mode: "change_streams_update_full"
+    topic.prefix: "idpay."
+    collection.include.list: "rtd.poc-cdc"
+    filters.match.mode: "literal"
+    capture.scope: "database"
+    capture.target: "rtd.poc-cdc"
+    snapshot.mode: "never"
+    cursor.pipeline.order: "user_only"
+    cursor.pipeline: '[{"$match":{"operationType":{"$in":["insert","update","replace"]}}},{"$project":{"_id":1,"fullDocument":1,"ns":1,"documentKey":1}}]'
