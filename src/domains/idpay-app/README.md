@@ -198,9 +198,9 @@
 | [azurerm_private_dns_zone.storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/private_dns_zone) | data source |
 | [azurerm_resource_group.apim_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/resource_group) | data source |
+| [azurerm_resources.aks_mc_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/resources) | data source |
 | [azurerm_subnet.private_endpoint_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/subscription) | data source |
-| [azurerm_virtual_machine_scale_set.idpay_audit_resource_vmss](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/virtual_machine_scale_set) | data source |
 
 ## Inputs
 
