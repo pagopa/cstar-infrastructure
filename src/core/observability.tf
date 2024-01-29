@@ -120,30 +120,17 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics_workspace.id
   log_analytics_destination_type = "AzureDiagnostics"
 
-  log {
+  enabled_log {
     category = "GatewayLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
-    category = "WebSocketConnectionLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  # enabled_log {
+  #   category = "WebSocketConnectionLogs"
+  # }
 
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 }
 
@@ -155,40 +142,22 @@ resource "azurerm_monitor_diagnostic_setting" "appgw_maz_diagnostic_settings" {
   target_resource_id         = module.app_gw_maz.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayAccessLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayPerformanceLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayFirewallLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
 
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 }
 
@@ -214,6 +183,7 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   }
 
   auto_stop_enabled             = false
+  purge_enabled                 = var.dexp_params.purge_enabled
   public_network_access_enabled = var.dexp_params.public_network_access_enabled
   double_encryption_enabled     = var.dexp_params.double_encryption_enabled
   engine                        = "V3"

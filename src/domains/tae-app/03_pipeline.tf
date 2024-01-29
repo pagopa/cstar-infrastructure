@@ -1,3 +1,22 @@
+locals {
+  invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
+  })
+
+  purge_activity_content = templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
+  })
+
+  set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
+
+  invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
+    invalidate_activity = local.invalidate_activity_content,
+    purge_activity      = local.purge_activity_content,
+    set_ttl_activity    = local.set_ttl_activity
+  })
+
+}
+
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
@@ -319,158 +338,90 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.log_analytics.id
   log_analytics_destination_type = "AzureDiagnostics"
 
-  log {
-    category       = "ActivityRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category       = "PipelineRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category       = "TriggerRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category = "SSISIntegrationRuntimeLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageEventMessageContext"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageEventMessages"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutableStatistics"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutionComponentPhases"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutionDataStatistics"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SandboxActivityRuns"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SandboxPipelineRuns"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 
-  log {
-    category = "AirflowDagProcessingLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  enabled_log {
+    category       = "ActivityRuns"
+    category_group = null
   }
 
-  log {
-    category = "AirflowSchedulerLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  enabled_log {
+    category       = "PipelineRuns"
+    category_group = null
   }
 
-  log {
-    category = "AirflowTaskLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  enabled_log {
+    category       = "TriggerRuns"
+    category_group = null
   }
 
-  log {
-    category = "AirflowWebLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  # enabled_log {
+  #   category = "SSISIntegrationRuntimeLogs"
+  # }
 
-  log {
-    category = "AirflowWorkerLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  # enabled_log {
+  #   category = "SSISPackageEventMessageContext"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageEventMessages"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutableStatistics"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutionComponentPhases"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutionDataStatistics"
+  # }
+
+  # enabled_log {
+  #   category = "SandboxActivityRuns"
+  # }
+
+  # enabled_log {
+  #   category = "SandboxPipelineRuns"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowDagProcessingLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowSchedulerLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowTaskLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowWebLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowWorkerLogs"
+  # }
+}
+
+resource "azurerm_data_factory_pipeline" "invalidate_flow" {
+  count = var.flow_invalidator_conf.enable ? 1 : 0
+
+  name            = "invalidate_flow"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
+  activities_json = "[${local.invalidate_and_purge_activities}]"
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregates_log
+  ]
 }

@@ -221,6 +221,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_link_to_pair" {
 #
 # When BPD queue will be removed this zone will be destroyed.
 # THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
+
+resource "azurerm_private_dns_zone" "ehub" {
+  count = 1
+
+  name                = "privatelink.servicebus.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
 data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
   name                = "privatelink.servicebus.windows.net"
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -275,4 +283,18 @@ resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_aks
   virtual_network_id    = module.vnet_aks[each.key].id
 }
 
+# Private DNS zones for Data Explorer
+resource "azurerm_private_dns_zone" "kusto" {
+  name                = "privatelink.westeurope.kusto.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
 
+resource "azurerm_private_dns_zone" "queue" {
+  name                = "privatelink.queue.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone" "table" {
+  name                = "privatelink.table.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}

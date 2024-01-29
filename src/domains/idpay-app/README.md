@@ -8,7 +8,7 @@
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.21.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.40.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.5.1 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.11.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.25.2 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | = 4.0.4 |
 
@@ -24,7 +24,8 @@
 | <a name="module_idpay_api_io_product"></a> [idpay\_api\_io\_product](#module\_idpay\_api\_io\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_issuer_product"></a> [idpay\_api\_issuer\_product](#module\_idpay\_api\_issuer\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_merchant_mock_product"></a> [idpay\_api\_merchant\_mock\_product](#module\_idpay\_api\_merchant\_mock\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
-| <a name="module_idpay_api_mil_product"></a> [idpay\_api\_mil\_product](#module\_idpay\_api\_mil\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
+| <a name="module_idpay_api_mil_citizen_product"></a> [idpay\_api\_mil\_citizen\_product](#module\_idpay\_api\_mil\_citizen\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
+| <a name="module_idpay_api_mil_merchant_product"></a> [idpay\_api\_mil\_merchant\_product](#module\_idpay\_api\_mil\_merchant\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_min_int_product"></a> [idpay\_api\_min\_int\_product](#module\_idpay\_api\_min\_int\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_mock_product"></a> [idpay\_api\_mock\_product](#module\_idpay\_api\_mock\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
 | <a name="module_idpay_api_portal_merchants_product"></a> [idpay\_api\_portal\_merchants\_product](#module\_idpay\_api\_portal\_merchants\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
@@ -40,6 +41,7 @@
 | <a name="module_idpay_merchants_permission_portal"></a> [idpay\_merchants\_permission\_portal](#module\_idpay\_merchants\_permission\_portal) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_merchants_portal"></a> [idpay\_merchants\_portal](#module\_idpay\_merchants\_portal) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_mil_merchant"></a> [idpay\_mil\_merchant](#module\_idpay\_mil\_merchant) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
+| <a name="module_idpay_mil_onboarding"></a> [idpay\_mil\_onboarding](#module\_idpay\_mil\_onboarding) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_mil_payment"></a> [idpay\_mil\_payment](#module\_idpay\_mil\_payment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_min_int"></a> [idpay\_min\_int](#module\_idpay\_min\_int) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_notification_email_api"></a> [idpay\_notification\_email\_api](#module\_idpay\_notification\_email\_api) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
@@ -55,6 +57,7 @@
 | <a name="module_idpay_timeline_issuer"></a> [idpay\_timeline\_issuer](#module\_idpay\_timeline\_issuer) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_wallet_io"></a> [idpay\_wallet\_io](#module\_idpay\_wallet\_io) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
 | <a name="module_idpay_wallet_issuer"></a> [idpay\_wallet\_issuer](#module\_idpay\_wallet\_issuer) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
+| <a name="module_kubernetes_service_account"></a> [kubernetes\_service\_account](#module\_kubernetes\_service\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_service_account | v7.50.0 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker | v6.15.2 |
 
 ## Resources
@@ -62,6 +65,8 @@
 | Name | Type |
 |------|------|
 | [azapi_resource.apim-merchant-id-retriever](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.apim-pdv-tokenizer](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.apim-validate-token-mil](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_audit_log_table](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_refund_storage_topic_event_subscription](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_workbook](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
@@ -70,6 +75,7 @@
 | [azurerm_api_management_api.idpay_token_exchange](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api) | resource |
 | [azurerm_api_management_api_diagnostic.idpay_apim_api_diagnostics](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_diagnostic) | resource |
 | [azurerm_api_management_api_operation.idpay_merchants_token_exchange](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
+| [azurerm_api_management_api_operation.idpay_merchants_token_exchange_test](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_create_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_delete_service](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_mock_notificator_messages](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
@@ -81,6 +87,7 @@
 | [azurerm_api_management_api_operation.idpay_token_exchange](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation.idpay_token_exchange_test](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_merchants_token_exchange_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
+| [azurerm_api_management_api_operation_policy.idpay_merchants_token_exchange_policy_test](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_create_service_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_delete_service_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
 | [azurerm_api_management_api_operation_policy.idpay_mock_notificator_messages_policy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_api_operation_policy) | resource |
@@ -144,18 +151,17 @@
 | [azurerm_storage_container.idpay_ranking_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.idpay_refund_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/2.5.1/docs/resources/release) | resource |
-| [kubernetes_config_map.appinsights-config](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_config_map.idpay-common](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_config_map.idpay-eventhub-00](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_config_map.idpay-eventhub-01](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_config_map.notification-email](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_config_map.rest-client](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_config_map.rtd-eventhub](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/config_map) | resource |
-| [kubernetes_namespace.domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/namespace) | resource |
-| [kubernetes_namespace.system_domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/namespace) | resource |
-| [kubernetes_role_binding.deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/role_binding) | resource |
-| [kubernetes_role_binding.system_deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/role_binding) | resource |
-| [kubernetes_service_account.azure_devops](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/resources/service_account) | resource |
+| [kubernetes_config_map.appinsights-config](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_config_map.idpay-common](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_config_map.idpay-eventhub-00](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_config_map.idpay-eventhub-01](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_config_map.notification-email](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rest-client](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_config_map.rtd-eventhub](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/config_map) | resource |
+| [kubernetes_namespace.domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/namespace) | resource |
+| [kubernetes_namespace.system_domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/namespace) | resource |
+| [kubernetes_role_binding.deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/role_binding) | resource |
+| [kubernetes_role_binding.system_deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/role_binding) | resource |
 | [local_file.idpay_audit_dcr_file_tmp](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [local_file.oidc_configuration_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [null_resource.idpay_audit_dce](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
@@ -231,8 +237,10 @@
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_mail_server_host"></a> [mail\_server\_host](#input\_mail\_server\_host) | SMTP server hostname | `string` | n/a | yes |
 | <a name="input_mail_server_port"></a> [mail\_server\_port](#input\_mail\_server\_port) | SMTP server port | `string` | `"587"` | no |
+| <a name="input_mail_server_protocol"></a> [mail\_server\_protocol](#input\_mail\_server\_protocol) | mail protocol | `string` | `"smtp"` | no |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_one_trust_privacynotice_base_url"></a> [one\_trust\_privacynotice\_base\_url](#input\_one\_trust\_privacynotice\_base\_url) | OneTrust PrivacyNotice Base Url | `string` | n/a | yes |
+| <a name="input_openid_config_url_mil"></a> [openid\_config\_url\_mil](#input\_openid\_config\_url\_mil) | Token MIL, OIDC URL | `string` | n/a | yes |
 | <a name="input_p7m_cert_validity_hours"></a> [p7m\_cert\_validity\_hours](#input\_p7m\_cert\_validity\_hours) | n/a | `number` | `87600` | no |
 | <a name="input_pdv_retry_count"></a> [pdv\_retry\_count](#input\_pdv\_retry\_count) | PDV max retry number | `number` | `3` | no |
 | <a name="input_pdv_retry_delta"></a> [pdv\_retry\_delta](#input\_pdv\_retry\_delta) | PDV delta | `number` | `1` | no |

@@ -25,9 +25,6 @@ resource "azurerm_eventhub_namespace" "event_hub_rtd_namespace" {
       subnet_id = data.azurerm_subnet.aks_domain_subnet.id
     }
     virtual_network_rule {
-      subnet_id = data.azurerm_subnet.aks_old_subnet.id
-    }
-    virtual_network_rule {
       subnet_id = data.azurerm_subnet.private_endpoint_snet.id
     }
     trusted_service_access_enabled = true

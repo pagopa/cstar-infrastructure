@@ -33,37 +33,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/putAssociateUserTrxDTO'
         '400':
-          description: Transaction is not CREATED or IDENTIFIED
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_STATUS_NOT_VALID"
+                message: "Cannot operate on transaction with transactionId [%s] in status %s"
         '401':
-          description: Token not validated correctly
+          description: Authentication failed
         '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_USER_SUSPENDED"
+                message: "The user has been suspended for initiative [%s]"
         '404':
-          description: Transaction does not exist or is expired
+          description: The requested resource was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_NOT_FOUND_OR_EXPIRED"
+                message: "Cannot find transaction with transactionId [%s]"
         '429':
-          description: Too many Request
+          description: Too many requests
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Generic error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: "PAYMENT_INVALID_REQUEST"
+                message: "Application error"
 components:
   schemas:
     putAssociateUserTrxDTO:
@@ -114,6 +129,8 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
+            - PAYMENT_INVALID_REQUEST
+            - PAYMENT_STATUS_NOT_VALID
           description: >-
             "ENG: Error code:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not found or expired,
@@ -136,7 +153,9 @@ components:
             PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS: cancellation of transaction not allowed due to status,
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction not allowed due to status,
             PAYMENT_AMOUNT_NOT_VALID: amount of transaction not valid,
-            PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded
+            PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded,
+            PAYMENT_INVALID_REQUEST: request validation error,
+            PAYMENT_STATUS_NOT_VALID: transaction status not valid
             - IT: Codice di errore:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta,
             PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
@@ -158,7 +177,9 @@ components:
             PAYMENT_DELETE_NOT_ALLOWED_FOR_TRX_STATUS: annullamento della transazione non consentito a causa dello stato della transazione,
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non consentita a causa dello stato della transazione,
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido,
-            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato"
+            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato,
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta,
+            PAYMENT_STATUS_NOT_VALID: stato della transazione non valido"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'

@@ -153,6 +153,7 @@ components:
         - merchantId
         - idTrxAcquirer
         - trxDate
+        - trxExpirationSeconds
         - amountCents
         - amountCurrency
         - acquirerId
@@ -173,7 +174,7 @@ components:
         trxDate:
           type: string
           format: date-time
-        trxExpirationMinutes:
+        trxExpirationSeconds:
           type: number
         amountCents:
           type: integer
@@ -261,6 +262,17 @@ components:
         status:
           type: string
           enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+        splitPayment:
+          type: boolean
+          description: "ENG: TRUE, if the authorized sum is less than the requested sum or FALSE, if the authorized sum is equal to the requested sum - IT: TRUE, se la somma autorizzata è inferiore alla somma richiesta o FALSE, se la somma autorizzata è uguale alla somma richiesta."
+        residualAmountCents:
+          type: integer
+          format: int64
+          description: "ENG: Remaining amount to be paid if the authorized sum is less than the requested sum - IT: Importo restante da pagare nel caso in cui la somma autorizzata sia inferiore alla somma richiesta."
+        qrcodePngUrl:
+          type: string
+        qrcodeTxtUrl:
+          type: string
     ErrorDTO:
       type: object
       required:

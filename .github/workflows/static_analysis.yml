@@ -2,7 +2,7 @@ name: Static Analysis
 
 on:
   push:
-    branches-ignore:
+    branches:
       - main
 
 jobs:
@@ -10,25 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
 
       - name: init_terraform_folders
-        env:
-          FOLDERS: >
-            src/core
-            src/k8s
-            src/aks-platform
-            src/psql
-            src/domains/idpay-app
-            src/domains/idpay-common
-            src/domains/tae-app
-            src/domains/tae-common
-            src/domains/rtd-app
-            src/domains/rtd-common
         run: |
+          FOLDERS=$(find . -type f -name '*.tf' -exec dirname {} \; | grep -v '\.terraform' | sort -u)
+          echo "FOLDERS=${FOLDERS}"
+
           pids=()
 
           TAG=$(cat .terraform-version)
+          docker pull hashicorp/terraform:$TAG
+          
           for f in $FOLDERS; do
             pushd "$(pwd)/${f}"
               sed -i -e 's/  backend "azurerm" {}//g' 99_main.tf # use local backend

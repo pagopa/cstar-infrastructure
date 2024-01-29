@@ -20,6 +20,7 @@ locals {
     module.idpay_payment_io.name,
     module.idpay_mil_payment.name,
     module.idpay_mil_merchant.name,
+    module.idpay_mil_onboarding.name,
     module.idpay_min_int.name
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "name": "Invalidate each flow",
+  "description": "This activity sequentially cycles through an array of flows given as pipeline's parameter. Each flow is invalidated.",
+  "type": "ForEach",
+  "dependsOn": [],
+  "userProperties": [],
+  "typeProperties": {
+    "items": {
+      "value": "@pipeline().parameters.flows",
+      "type": "Expression"
+    },
+    "isSequential": true,
+    "activities": [
+      ${invalidate_activity},
+      ${purge_activity},
+      ${set_ttl_activity}
+    ]
+  }
+}

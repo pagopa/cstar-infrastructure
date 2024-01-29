@@ -62,40 +62,33 @@ paths:
                 $ref: '#/components/schemas/IbanDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: IBAN_NOT_FOUND
+                message: Iban not found
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: IBAN_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: IBAN_GENERIC_ERROR
+                message: Application error
   /iban/:
     get:
       tags:
@@ -122,40 +115,24 @@ paths:
                 $ref: '#/components/schemas/IbanListDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: IBAN_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/IbanErrorDTO'
               example:
-                code: 0
-                message: string
+                code: IBAN_GENERIC_ERROR
+                message: Application error
   '/onboarding/service/{serviceId}':
     get:
       tags:
@@ -192,37 +169,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
               example:
-                code: 0
-                message: string
+                code: INITIATIVE_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested initiative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
               example:
-                code: 0
-                message: string
+                code: INITIATIVE_NOT_FOUND
+                message: Initiative not found
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
               example:
-                code: 0
-                message: string
+                code: INITIATIVE_GENERIC_ERROR
+                message: Application error
   /onboarding/:
     put:
       tags:
@@ -257,56 +236,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '403':
           description: This onboarding is forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
-                details: GENERIC_ERROR
+                code: ONBOARDING_BUDGET_EXHAUSTED
+                message: 'Budget exhausted for initiative [%s]'
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative [%s]'
         '429':
-          description: Too many Request
+          description: Too many Requests
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   /onboarding/initiative:
     put:
       tags:
@@ -325,7 +296,7 @@ paths:
             default: it-IT
           required: true
       requestBody:
-        description: 'ENG: Id of the iniziative - IT: Identificatico dell''iniziativa'
+        description: 'ENG: Id of the initiative - IT: Identificatico dell''iniziativa'
         required: true
         content:
           application/json:
@@ -349,56 +320,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '403':
           description: This onboarding is forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
-                details: GENERIC_ERROR
+                code: ONBOARDING_BUDGET_EXHAUSTED
+                message: 'Budget exhausted for initiative [%s]'
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative [%s]'
         '429':
-          description: Too many Request
+          description: Too many Requests
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   /onboarding/consent:
     put:
       tags:
@@ -437,56 +400,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '403':
           description: This onboarding is forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PrerequisitesErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
-                details: GENERIC_ERROR
+                code: ONBOARDING_BUDGET_EXHAUSTED
+                message: 'Budget exhausted for initiative [%s]'
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INITIATIVE_NOT_FOUND
+                message: 'Cannot find initiative [%s]'
         '429':
-          description: Too many Request
+          description: Too many Requests
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   '/onboarding/{initiativeId}/status':
     get:
       tags:
@@ -525,37 +480,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_USER_NOT_ONBOARDED
+                message: 'The current user is not onboarded on initiative [%s]'
+        '429':
+          description: Too many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: ONBOARDING_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/OnboardingErrorDTO'
               example:
-                code: 0
-                message: string
+                code: ONBOARDING_GENERIC_ERROR
+                message: An error occurred in the microservice admissibility
   '/timeline/{initiativeId}':
     get:
       tags:
@@ -610,46 +567,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: 'Parameter [size] must be less than or equal to 10'
+                code: TIMELINE_INVALID_REQUEST
+                message: Something went wrong handling request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: TIMELINE_USER_NOT_FOUND
+                message: Timeline for the current user not found
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: TIMELINE_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: TIMELINE_GENERIC_ERROR
+                message: Application error
   '/timeline/{initiativeId}/{operationId}':
     get:
       tags:
@@ -688,40 +638,33 @@ paths:
                 $ref: '#/components/schemas/OperationDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: TIMELINE_DETAIL_NOT_FOUND
+                message: Detail of Timeline not found
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: TIMELINE_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: TIMELINE_GENERIC_ERROR
+                message: Application error
   /wallet/:
     get:
       tags:
@@ -748,31 +691,24 @@ paths:
                 $ref: '#/components/schemas/WalletDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: Application error
   '/wallet/{initiativeId}/detail':
     get:
       tags:
@@ -805,31 +741,33 @@ paths:
                 $ref: '#/components/schemas/InitiativeDetailDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested inititative was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_NOT_FOUND
+                message: Initiative not found
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_GENERIC_ERROR
+                message: Application error
   '/wallet/{initiativeId}':
     get:
       tags:
@@ -862,40 +800,33 @@ paths:
                 $ref: '#/components/schemas/InitiativeDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_USER_NOT_ONBOARDED
+                message: User not onboarded on this initiative
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: Application error
   '/wallet/{initiativeId}/iban':
     put:
       tags:
@@ -941,55 +872,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
+                code: WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
+                message: >-
+                  It is not possible enroll an iban for a discount type
+                  initiative
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: Application error
   '/wallet/{initiativeId}/instruments/{idWallet}':
     put:
       tags:
@@ -1031,55 +948,50 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INSTRUMENT_ALREADY_ASSOCIATED
+                message: Payment Instrument is already associated to another user
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INSTRUMENT_NOT_FOUND
+                message: >-
+                  The selected payment instrument has not been found for the
+                  current user
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: An error occurred in the microservice payment instrument
   '/wallet/{initiativeId}/instruments':
     get:
       tags:
@@ -1113,40 +1025,24 @@ paths:
                 $ref: '#/components/schemas/InstrumentListDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_GENERIC_ERROR
+                message: Something gone wrong while send RTD instrument notify
   '/wallet/{initiativeId}/instruments/{instrumentId}':
     delete:
       tags:
@@ -1189,55 +1085,52 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
+                message: >-
+                  It's not possible to delete an instrument of AppIO payment
+                  types
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INSTRUMENT_NOT_FOUND
+                message: >-
+                  The selected payment instrument has not been found for the
+                  current user
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: An error occurred in the microservice payment instrument
   '/wallet/{initiativeId}/unsubscribe':
     delete:
       tags:
@@ -1269,55 +1162,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_USER_NOT_ONBOARDED
+                message: User not onboarded on this initiative
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: An error occurred in the microservice onboarding
   '/wallet/{initiativeId}/status':
     get:
       tags:
@@ -1351,50 +1228,43 @@ paths:
               example:
                 status: NOT_REFUNDABLE_ONLY_IBAN
         '400':
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_USER_NOT_ONBOARDED
+                message: User not onboarded on this initiative
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: Application error
   '/wallet/instrument/{idWallet}/initiatives':
     get:
       tags:
@@ -1428,31 +1298,35 @@ paths:
                 $ref: '#/components/schemas/InitiativesWithInstrumentDTO'
         '401':
           description: Authentication failed
+        '404':
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INSTRUMENT_NOT_FOUND
+                message: >-
+                  The selected payment instrument has not been found for the
+                  current user
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: An error occurred in the microservice payment instrument
   /wallet/code/status:
     get:
       tags:
@@ -1470,40 +1344,24 @@ paths:
                 $ref: '#/components/schemas/CheckEnrollmentDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '404':
-          description: The requested ID was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '429':
           description: Too many requests
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_GENERIC_ERROR
+                message: An error occurred in the microservice payment instrument
   /wallet/code/generate:
     post:
       tags:
@@ -1529,42 +1387,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenerateCodeRespDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
+              example:
+                code: PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID
+                message: Pin length is not valid
         '401':
           description: Authentication failed
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE
+                message: >-
+                  It is not possible to enroll a idpayCode for a refund type
+                  initiative
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED
+                message: The current user is not onboarded on initiative
         '429':
           description: Too many requests
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS
+                message: Too many requests on the ms  Payment Instrument
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/PaymentInstrumentErrorDTO'
               example:
-                code: 0
-                message: string
+                code: PAYMENT_INSTRUMENT_GENERIC_ERROR
+                message: An error occurred in the microservice wallet
   '/wallet/{initiativeId}/code/instruments':
     put:
       tags:
@@ -1598,55 +1469,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INVALID_REQUEST
+                message: Something went wrong handling the request
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
-          description: The requested ID was not found
+          description: The requested resource was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND
+                message: idpayCode is not found for the current user
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/WalletErrorDTO'
               example:
-                code: 0
-                message: string
+                code: WALLET_GENERIC_ERROR
+                message: An error occurred in the microservice payment instrument
   '/payment/qr-code/{trxCode}/relate-user':
     put:
       tags:
@@ -1668,37 +1523,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
         '400':
-          description: Transaction is not CREATED or IDENTIFIED
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_INVALID_REQUEST
+                message: Required trxCode is not present
         '401':
           description: Token not validated correctly
         '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_USER_UNSUBSCRIBED
+                message: The user has unsubscribed from initiative
         '404':
           description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: transaction not found or expired
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
   '/payment/qr-code/{trxCode}/authorize':
     put:
       tags:
@@ -1720,37 +1590,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthPaymentResponseDTO'
         '400':
-          description: Transaction is not IDENTIFIED or AUTHORIZE
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_INVALID_REQUEST
+                message: Required trxCode is not present
         '401':
           description: Token not validated correctly
         '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_ALREADY_ASSIGNED
+                message: transaction already assigned
         '404':
           description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: transaction not found or expired
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
   '/payment/qr-code/{trxCode}':
     delete:
       tags:
@@ -1768,37 +1653,52 @@ paths:
         '200':
           description: Cancel Ok
         '400':
-          description: Transaction is not IDENTIFIED
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
+                message: unrelate transaction not allowed due to status
         '401':
           description: Token not validated correctly
         '403':
-          description: 'Transaction is associated to another user, or transaction rejected'
+          description: Forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_ALREADY_ASSIGNED
+                message: transaction already assigned
         '404':
           description: Transaction does not exist or is expired
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
+                message: transaction not found or expired
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
         '500':
           description: Generic error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
   /payment/bar-code:
     post:
       tags:
@@ -1828,7 +1728,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_REQUEST_NOT_VALID
+                code: PAYMENT_INVALID_REQUEST
                 message: Required initiativeId is not present
         '403':
           description: User not onboarded
@@ -1846,8 +1746,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionErrorDTO'
               example:
-                code: PAYMENT_NOT_FOUND_EXPIRED
+                code: PAYMENT_NOT_FOUND_OR_EXPIRED
                 message: 'Cannot find transaction with trxCode [trxCode]'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Generic error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionErrorDTO'
+              example:
+                code: PAYMENT_GENERIC_ERROR
+                message: application error (connection microservice error)
 components:
   schemas:
     IbanDTO:
@@ -1889,16 +1807,28 @@ components:
           description: >-
             ENG: The list of IBAN associated to a citizen - IT: Lista di IBAN
             associati ad un cittadino
-    ErrorDTO:
+    IbanErrorDTO:
       type: object
       required:
         - code
         - message
       properties:
         code:
-          type: integer
-          format: int32
-          description: 'ENG: Error code - IT: Codice di errore'
+          type: string
+          enum:
+            - IBAN_NOT_FOUND
+            - IBAN_INVALID_REQUEST
+            - IBAN_TOO_MANY_REQUESTS
+            - IBAN_GENERIC_ERROR
+          description: |-
+            "ENG: Error code: IBAN_NOT_FOUND: Iban not found,
+             IBAN_INVALID_REQUEST: Something went wrong handling request,
+             IBAN_TOO_MANY_REQUESTS: Too many requests,
+             IBAN_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             IBAN_NOT_FOUND: Iban non trovato,
+             IBAN_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             IBAN_TOO_MANY_REQUESTS: Troppe richieste,
+             IBAN_GENERIC_ERROR: Errore generico"
         message:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
@@ -2153,37 +2083,19 @@ components:
           description: >-
             ENG: Indicates self-consent values - IT: Indica i valori per gli
             auto consensi
-    PrerequisitesErrorDTO:
+    ErrorDTO:
       type: object
       required:
         - code
         - message
-        - details
       properties:
         code:
           type: integer
           format: int32
-          description: 'ENG: Error code - IT: Codice d''errore'
+          description: 'ENG: Error code - IT: Codice di errore'
         message:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
-        details:
-          type: string
-          enum:
-            - INITIATIVE_NOT_STARTED
-            - INITIATIVE_END
-            - BUDGET_TERMINATED
-            - INITIATIVE_SUSPENDED
-            - GENERIC_ERROR
-          description: >-
-            ENG: Error details [INITIATIVE_NOT_STARTED: Initiative not started,
-            INITIATIVE_END: Initiative ended, BUDGET_TERMINATED: Budget
-            terminated, INITIATIVE_SUSPENDED: Initiative suspended,
-            GENERIC_ERROR: Generic errors] - IT: Dettagli dell'errore
-            [INITIATIVE_NOT_STARTED: Initiativa non iniziata, INITIATIVE_END:
-            Iniziativa finalizzata, BUDGET_TERMINATED: Budget esaurito,
-            INITIATIVE_SUSPENDED: Iniziativa sospesa, GENERIC_ERROR: Errore
-            generico
     InitiativeDataDTO:
       type: object
       required:
@@ -2229,6 +2141,115 @@ components:
           description: >-
             ENG: URL for the initiative's logo image - IT: URL del logo
             dell'iniziativa
+    InitiativeErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - INITIATIVE_INVALID_LOCALE_FORMAT
+            - INITIATIVE_INVALID_REQUEST
+            - INITIATIVE_NOT_FOUND
+            - INITIATIVE_TOO_MANY_REQUESTS
+            - INITIATIVE_GENERIC_ERROR
+          description: |-
+            "ENG: Error code:
+             INITIATIVE_INVALID_LOCALE_FORMAT: Initiative not found due to invalid locale format,
+             INITIATIVE_INVALID_REQUEST: Something went wrong handling the request,
+             INITIATIVE_NOT_FOUND: Initiative not found,
+             INITIATIVE_TOO_MANY_REQUESTS: Too many requests,
+             INITIATIVE_GENERIC_ERROR: Application error,
+             - IT: Codice di errore:
+             INITIATIVE_INVALID_LOCALE_FORMAT: Iniziativa non trovata a causa di format locale non valido,
+             INITIATIVE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+             INITIATIVE_TOO_MANY_REQUESTS: Troppe richieste,
+             INITIATIVE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+    OnboardingErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - ONBOARDING_USER_UNSUBSCRIBED
+            - ONBOARDING_PAGE_SIZE_NOT_ALLOWED
+            - ONBOARDING_PDND_CONSENT_DENIED
+            - ONBOARDING_SELF_DECLARATION_NOT_VALID
+            - ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
+            - ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
+            - ONBOARDING_INVALID_REQUEST
+            - ONBOARDING_USER_NOT_IN_WHITELIST
+            - ONBOARDING_INITIATIVE_NOT_STARTED
+            - ONBOARDING_INITIATIVE_ENDED
+            - ONBOARDING_BUDGET_EXHAUSTED
+            - ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED
+            - ONBOARDING_TECHNICAL_ERROR
+            - ONBOARDING_UNSATISFIED_REQUIREMENTS
+            - ONBOARDING_GENERIC_ERROR
+            - ONBOARDING_USER_NOT_ONBOARDED
+            - ONBOARDING_INITIATIVE_NOT_FOUND
+            - ONBOARDING_TOO_MANY_REQUESTS
+          description: >-
+            "ENG: Error code: ONBOARDING_USER_UNSUBSCRIBED: The user has
+            unsubscribed from initiative, ONBOARDING_PAGE_SIZE_NOT_ALLOWED: Page
+            size not allowed, ONBOARDING_PDND_CONSENT_DENIED: The PDND consent
+            was denied by the user for the initiative,
+            ONBOARDING_SELF_DECLARATION_NOT_VALID: The self-declaration criteria
+            are not valid for the initiative or those inserted by the user do
+            not match those required by the initiative,
+            ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It is not
+            possible to suspend the user on initiative,
+            ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not
+            possible to readmit the user on initiative,
+            ONBOARDING_INVALID_REQUEST: Something went wrong handling the
+            request, ONBOARDING_USER_NOT_IN_WHITELIST: The current user is not
+            allowed to participate to the initiative,
+            ONBOARDING_INITIATIVE_NOT_STARTED: The initiative has not yet begun,
+            ONBOARDING_INITIATIVE_ENDED: The initiative ended,
+            ONBOARDING_BUDGET_EXHAUSTED: Budget exhausted for initiative,
+            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: The initiative is not
+            active, ONBOARDING_TECHNICAL_ERROR: A technical error occurred
+            during the onboarding process, ONBOARDING_UNSATISFIED_REQUIREMENTS:
+            The user does not satisfy the requirements set for the initiative,
+            ONBOARDING_GENERIC_ERROR: Application error,
+            ONBOARDING_USER_NOT_ONBOARDED: The current user is not onboarded on
+            initiative, ONBOARDING_INITIATIVE_NOT_FOUND: Cannot find initiative,
+            ONBOARDING_TOO_MANY_REQUESTS: Too many requests - IT: Codice di
+            errore: ONBOARDING_USER_UNSUBSCRIBED: L'utente si è disiscritto
+            dall'iniziativa, ONBOARDING_PAGE_SIZE_NOT_ALLOWED: Dimensione pagina
+            non permessa, ONBOARDING_PDND_CONSENT_DENIED: Il consenso PDND per
+            l'iniziativa è stato negato dall'utente,
+            ONBOARDING_SELF_DECLARATION_NOT_VALID: I criteri di
+            autodichiarazione non sono validi per l'iniziativa o quelli inseriti
+            dall'utente non corrispondono con quelli richiesti dall'iniziativa,
+            ONBOARDING_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            sospendere l'utente dall'iniziativa,
+            ONBOARDING_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            riammettere l'utente all'iniziativa, ONBOARDING_INVALID_REQUEST:
+            Qualcosa è andato storto durante l'invio della richiesta,
+            ONBOARDING_USER_NOT_IN_WHITELIST: L'utente corrente non ha il
+            permesso di partecipare all'iniziativa,
+            ONBOARDING_INITIATIVE_NOT_STARTED: L'iniziativa non è ancora
+            partita, ONBOARDING_INITIATIVE_ENDED: L'iniziativa è terminata,
+            ONBOARDING_BUDGET_EXHAUSTED: Il budget dell'iniziativa è esaurito,
+            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: L'iniziativa non è
+            attiva, ONBOARDING_TECHNICAL_ERROR: Si è verificato un errore
+            tecnico durante il processo di adesione,
+            ONBOARDING_UNSATISFIED_REQUIREMENTS: L'utente non soddisfa i
+            requisiti che sono stati richiesti per l'iniziativa,
+            ONBOARDING_GENERIC_ERROR: Errore applicativo,
+            ONBOARDING_USER_NOT_ONBOARDED: Utente non onboardato all'iniziativa,
+            ONBOARDING_INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+            ONBOARDING_TOO_MANY_REQUESTS: Troppe richieste"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
     OperationDTO:
       oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
@@ -2238,6 +2259,7 @@ components:
         - $ref: '#/components/schemas/RefundDetailDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -2289,6 +2311,7 @@ components:
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
@@ -2719,6 +2742,57 @@ components:
           type: string
           format: date-time
           description: 'ENG: Operation date - IT: Data dell''operazione'
+    TimelineErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - TIMELINE_DETAIL_NOT_FOUND
+            - TIMELINE_USER_NOT_FOUND
+            - TIMELINE_REFUNDS_NOT_FOUND
+            - TIMELINE_INVALID_REQUEST
+            - TIMELINE_TOO_MANY_REQUESTS
+            - TIMELINE_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: TIMELINE_DETAIL_NOT_FOUND: Detail of Timeline not
+            found,
+             TIMELINE_USER_NOT_FOUND: Timeline for the current user not found,
+             TIMELINE_REFUNDS_NOT_FOUND: Refund for current initiative not found,
+             TIMELINE_INVALID_REQUEST: Something went wrong handling request,
+             TIMELINE_TOO_MANY_REQUESTS: Too many requests,
+             TIMELINE_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             TIMELINE_DETAIL_NOT_FOUND: Dettaglio della Timeline non trovato,
+             TIMELINE_USER_NOT_FOUND: Timeline per utente corrente non trovata,
+             TIMELINE_REFUNDS_NOT_FOUND:  Rimborso per la corrente iniziativa non trovato,
+             TIMELINE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             TIMELINE_TOO_MANY_REQUESTS: Troppe richieste,
+             TIMELINE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+    UnsubscribeOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+          description: 'ENG: Id of the operation - IT: Identificativo dell''operazione'
+        operationType:
+          enum:
+            - UNSUBSCRIBED
+          type: string
+          description: 'ENG: Operation type - IT: Tipologia dell''operazione'
+        operationDate:
+          type: string
+          format: date-time
+          description: 'ENG: Operation date - IT: Data dell''operazione'
     CheckEnrollmentDTO:
       type: object
       properties:
@@ -3114,6 +3188,154 @@ components:
         rewardValue:
           type: number
           description: 'ENG: Reward value - IT: Valore di reward'
+    WalletErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - WALLET_USER_UNSUBSCRIBED
+            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
+            - WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE
+            - WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE
+            - WALLET_INITIATIVE_ENDED
+            - WALLET_USER_NOT_ONBOARDED
+            - WALLET_IBAN_NOT_ITALIAN
+            - WALLET_INSTRUMENT_ALREADY_ASSOCIATED
+            - WALLET_INSTRUMENT_DELETE_NOT_ALLOWED
+            - WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND
+            - WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS
+            - WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS
+            - WALLET_INSTRUMENT_NOT_FOUND
+            - WALLET_GENERIC_ERROR
+            - WALLET_INVALID_REQUEST
+            - WALLET_TOO_MANY_REQUESTS
+          description: >-
+            "ENG: Error code: WALLET_USER_UNSUBSCRIBED: The user has
+            unsubscribed from initiative,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: It is
+            not possible to enroll a payment instrument for a discount
+            initiative, WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE:
+            It is not possible enroll an iban for a discount type initiative,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: It is
+            not possible to enroll a IDPayCode for a refund type initiative,
+            WALLET_INITIATIVE_ENDED: The operation is not allowed because the
+            initiative has already ended, WALLET_USER_NOT_ONBOARDED: User not
+            onboarded on this initiative, WALLET_IBAN_NOT_ITALIAN: Iban is not
+            italian, WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is
+            already associated to another user,
+            WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: It's not possible to delete an
+            instrument of AppIO payment types,
+            WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND: idpayCode is not found for
+            the current user, WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: It
+            is not possible to suspend the user on initiative,
+            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: It is not possible
+            to readmit the user on initiative, WALLET_INSTRUMENT_NOT_FOUND: The
+            selected payment instrument has not been found for the current user,
+            WALLET_GENERIC_ERROR: Application error, WALLET_INVALID_REQUEST:
+            Something went wrong handling the request, WALLET_TOO_MANY_REQUESTS:
+            Too many requests on the ms - IT: Codice di errore:
+            WALLET_USER_UNSUBSCRIBED: L'utente si è disiscritto dall'iniziativa,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è
+            possibile associare uno strumento di pagamento per un'iniziativa di
+            tipo a sconto,
+            WALLET_ENROLL_IBAN_NOT_ALLOWED_FOR_DISCOUNT_INITIATIVE: Non è
+            possibile associare un iban per un'iniziativa di tipo a sconto,
+            WALLET_ENROLL_INSTRUMENT_NOT_ALLOWED_FOR_REFUND_INITIATIVE: Non è
+            possibile associare un IDPayCode per una iniziativa di tipo a
+            rimborso, WALLET_INITIATIVE_ENDED: L'operazione non è consentita
+            perché l'iniziativa è scaduta, WALLET_USER_NOT_ONBOARDED: Utente non
+            onboardato all'inziativa, WALLET_IBAN_NOT_ITALIAN: L'Iban non è
+            italiano, WALLET_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di
+            pagamento è già associato ad un altro utente,
+            WALLET_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno
+            strumento di tipo AppIO, WALLET_INSTRUMENT_IDPAYCODE_NOT_FOUND:
+            L'idpayCode non è stato trovato per l'utente corrente,
+            WALLET_SUSPENSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            sospendere l'utente dall'iniziativa,
+            WALLET_READMISSION_NOT_ALLOWED_FOR_USER_STATUS: Non è possibile
+            riammettere l'utente all'iniziativa, WALLET_INSTRUMENT_NOT_FOUND: Lo
+            strumento di pagamento selezionato non è stato trovato per l'utente
+            corrente, WALLET_GENERIC_ERROR: Errore generico,
+            WALLET_INVALID_REQUEST: Qualcosa è andato storto durante l'invio
+            della richiesta, WALLET_TOO_MANY_REQUESTS: Troppe richieste"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
+    PaymentInstrumentErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID
+            - PAYMENT_INSTRUMENT_INVALID_REQUEST
+            - PAYMENT_INSTRUMENT_ALREADY_ASSOCIATED
+            - PAYMENT_INSTRUMENT_DELETE_NOT_ALLOWED
+            - PAYMENT_INSTRUMENT_ENCRYPTION_ERROR
+            - PAYMENT_INSTRUMENT_DECRYPTION_ERROR
+            - PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE
+            - PAYMENT_INSTRUMENT_INITIATIVE_ENDED
+            - PAYMENT_INSTRUMENT_USER_UNSUBSCRIBED
+            - PAYMENT_INSTRUMENT_NOT_FOUND
+            - PAYMENT_INSTRUMENT_IDPAYCODE_NOT_FOUND
+            - PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED
+            - PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS
+            - PAYMENT_INSTRUMENT_GENERIC_ERROR
+          description: >-
+            "ENG: Error code: PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID: Pin
+            length is not valid, PAYMENT_INSTRUMENT_INVALID_REQUEST: Something
+            went wrong handling the request,
+            PAYMENT_INSTRUMENT_ALREADY_ASSOCIATED: Payment Instrument is already
+            associated to another user, PAYMENT_INSTRUMENT_DELETE_NOT_ALLOWED:
+            It's not possible to delete an instrument of AppIO payment types,
+            PAYMENT_INSTRUMENT_ENCRYPTION_ERROR: Something went wrong creating
+            SHA256 digest, PAYMENT_INSTRUMENT_DECRYPTION_ERROR: Something gone
+            wrong while extracting datablock from pinblock,
+            PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE: It is
+            not possible to enroll a idpayCode for a refund type initiative,
+            PAYMENT_INSTRUMENT_INITIATIVE_ENDED: The operation is not allowed
+            because the initiative has already ended,
+            PAYMENT_INSTRUMENT_USER_UNSUBSCRIBED: The user has unsubscribed from
+            initiative, PAYMENT_INSTRUMENT_NOT_FOUND: The selected payment
+            instrument has not been found for the current user,
+            PAYMENT_INSTRUMENT_IDPAYCODE_NOT_FOUND: idpayCode is not found for
+            the current user, PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED: The current
+            user is not onboarded on initiative,
+            PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS: Too many requests,
+            PAYMENT_INSTRUMENT_GENERIC_ERROR Application error: - IT: Codice di
+            errore: PAYMENT_INSTRUMENT_PIN_LENGTH_NOT_VALID: Lunghezza del pin
+            non valida, PAYMENT_INSTRUMENT_INVALID_REQUEST: Qualcosa è andato
+            storto durante l'invio della richiesta,
+            PAYMENT_INSTRUMENT_ALREADY_ASSOCIATED: Lo strumento di pagamento è
+            già associato ad un altro utente,
+            PAYMENT_INSTRUMENT_DELETE_NOT_ALLOWED: Non è possibile eliminare uno
+            strumento di pagamento di tipo AppIO,
+            PAYMENT_INSTRUMENT_ENCRYPTION_ERROR: Qualcosa è andato storto
+            durante la creazione del digest SHA256,
+            PAYMENT_INSTRUMENT_DECRYPTION_ERROR: Qualcosa è andato storto
+            durante l'estrazione del datablock dal pinblock,
+            PAYMENT_INSTRUMENT_ENROLL_NOT_ALLOWED_FOR_REFUND_INITIATIVE: Non è
+            possibile enrollare un idpayCode per un'iniziativa di tipo a
+            rimborso, PAYMENT_INSTRUMENT_INITIATIVE_ENDED: L'operazione non è
+            consentita perché l'iniziativa è scaduta,
+            PAYMENT_INSTRUMENT_USER_UNSUBSCRIBED: L'utente si è disiscritto
+            dall'iniziativa, PAYMENT_INSTRUMENT_NOT_FOUND:  Lo strumento di
+            pagamento selezionato non è stato trovato per l'utente corrente,
+            PAYMENT_INSTRUMENT_IDPAYCODE_NOT_FOUND: L'idpayCode non è stato
+            trovato per l'utente corrente,
+            PAYMENT_INSTRUMENT_USER_NOT_ONBOARDED: L'utente corrente non è
+            onboardato all'iniziativa, PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS:
+            Troppe richieste, PAYMENT_INSTRUMENT_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
     AuthPaymentResponseDTO:
       type: object
       required:
@@ -3193,6 +3415,7 @@ components:
             - PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
+            - PAYMENT_INVALID_REQUEST
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not
             found or expired, PAYMENT_TRANSACTION_EXPIRED: transaction expired,
@@ -3217,10 +3440,10 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction
             not allowed due to status, PAYMENT_AMOUNT_NOT_VALID: amount of
             transaction not valid, PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant
-            is not onboarded - IT: Codice di errore:
-            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure
-            scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
-            PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
+            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error
+            - IT: Codice di errore: PAYMENT_NOT_FOUND_OR_EXPIRED: transazione
+            non trovata oppure scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione
+            scaduta, PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
             PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto,
             PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
@@ -3242,7 +3465,8 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: disassociazione non
             consentita a causa dello stato della transazione,
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido,
-            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato"
+            PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato,
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
@@ -3260,24 +3484,44 @@ components:
         - id
         - trxCode
         - initiativeId
+        - initiativeName
         - trxDate
+        - trxExpirationSeconds
+        - residualBudgetCents
         - status
       properties:
         id:
           type: string
+          description: 'ENG: Id of the payment - IT: Identificativo del pagamento'
         trxCode:
           type: string
+          description: 'ENG: Transaction code - IT: Codice della transazione'
         initiativeId:
           type: string
+          description: 'ENG: Id of the initiative - IT: Identificativo dell''iniziativa'
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome dell''iniziativa'
         trxDate:
           type: string
           format: date-time
-        trxExpirationMinutes:
+          description: 'ENG: Transaction date - IT: Data della transazione'
+        trxExpirationSeconds:
           type: number
+          description: >-
+            ENG: Expiration time of the transaction, in seconds - IT: Scadenza
+            della transazione, in secondi
+        residualBudgetCents:
+          type: integer
+          format: int64
+          description: 'ENG: Residual budget in cents - IT: Budget residuo in centesimi'
         status:
           type: string
           enum:
             - CREATED
+          description: >-
+            ENG: Status of the payment [CREATED: Created] - IT: Stato del
+            pagamento [CREATED: Creato]
   securitySchemes:
     bearerAuth:
       type: http

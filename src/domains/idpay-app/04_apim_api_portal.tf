@@ -223,8 +223,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension-refund.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -232,8 +230,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission-refund.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -241,8 +237,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension-discount.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -250,8 +244,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission-discount.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     //CONFIG
@@ -357,8 +349,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-iban.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -366,8 +356,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -375,8 +363,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -384,8 +370,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-wallet.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -393,8 +377,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -402,8 +384,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-family-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -411,8 +391,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-instruments.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     //REFUND DETAIL

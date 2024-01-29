@@ -2,12 +2,12 @@
 # IDPAY PRODUCTS
 #
 
-module "idpay_api_mil_product" {
+module "idpay_api_mil_merchant_product" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
 
-  product_id   = "idpay_api_mil_product"
-  display_name = "IDPAY_APP_MIL_PRODUCT"
-  description  = "IDPAY_APP_MIL_PRODUCT"
+  product_id   = "idpay_api_mil_merchant_product"
+  display_name = "IDPAY_APP_MIL_MERCHANT_PRODUCT"
+  description  = "IDPAY_APP_MIL_MERCHANT_PRODUCT"
 
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
@@ -18,7 +18,28 @@ module "idpay_api_mil_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/mil_api/policy_mil.xml")
+  policy_xml = file("./api_product/mil_api/policy_mil_merchant.xml")
+
+  groups = ["developers"]
+}
+
+module "idpay_api_mil_citizen_product" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+
+  product_id   = "idpay_api_mil_citizen_product"
+  display_name = "IDPAY_APP_MIL_CITIZEN_PRODUCT"
+  description  = "IDPAY_APP_MIL_CITIZEN_PRODUCT"
+
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  published             = true
+  subscription_required = true
+  approval_required     = true
+
+  subscriptions_limit = 50
+
+  policy_xml = file("./api_product/mil_api/policy_mil_citizen.xml")
 
   groups = ["developers"]
 }
@@ -43,7 +64,7 @@ module "idpay_mil_payment" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_mil_product.product_id]
+  product_ids           = [module.idpay_api_mil_merchant_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -100,7 +121,7 @@ module "idpay_mil_merchant" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.idpay_api_mil_product.product_id]
+  product_ids           = [module.idpay_api_mil_merchant_product.product_id]
   subscription_required = true
 
   api_operation_policies = [
@@ -115,6 +136,65 @@ module "idpay_mil_merchant" {
       operation_id = "uploadMerchantList"
 
       xml_content = templatefile("./api/idpay_mil/idpay_mil_merchant/put-merchant-upload-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
+
+
+## IDPAY MIL ONBOARDING API ##
+module "idpay_mil_onboarding" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+
+  name                = "${var.env_short}-idpay-mil-onboarding"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "IDPAY MIL ONBOARDING"
+  display_name = "IDPAY MIL ONBOARDING API"
+  path         = "idpay/mil/onboarding"
+  protocols    = ["https"]
+
+  service_url = "${local.ingress_load_balancer_https}/idpayonboardingworkflow/idpay/onboarding"
+
+  content_format = "openapi"
+  content_value  = file("./api/idpay_mil/idpay_mil_onboarding/openapi.mil.onboarding.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.idpay_api_mil_citizen_product.product_id]
+  subscription_required = true
+
+  api_operation_policies = [
+    {
+      operation_id = "onboardingCitizen"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/put-terms-conditions-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "checkPrerequisites"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/put-check-prerequisites-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "onboardingStatus"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/get-onboarding-status-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "consentOnboarding"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/put-consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getInitiativeList"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_onboarding/get-initiative-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
