@@ -201,7 +201,6 @@
 | [azurerm_resources.aks_mc_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/resources) | data source |
 | [azurerm_subnet.private_endpoint_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/subscription) | data source |
-| [kubernetes_secret.azure_devops_secret](https://registry.terraform.io/providers/hashicorp/kubernetes/2.11.0/docs/data-sources/secret) | data source |
 
 ## Inputs
 
