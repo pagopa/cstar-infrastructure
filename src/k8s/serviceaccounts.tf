@@ -6,6 +6,7 @@ resource "kubernetes_service_account" "azure_devops" {
   automount_service_account_token = false
 }
 
+
 resource "kubernetes_cluster_role" "cluster_deployer" {
   metadata {
     name = "cluster-deployer"
