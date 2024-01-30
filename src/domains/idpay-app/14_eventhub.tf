@@ -1,7 +1,7 @@
 locals {
-  enable_evh = 1 //var.env_short == "d" ? 1 : 0
+  enable_evh                      = 1 //var.env_short == "d" ? 1 : 0
   mongodb_connection_uri_template = "mongodb://%s:%s@%s.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@%s@"
-  jaas_config_template_idpay = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
+  jaas_config_template_idpay      = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
 }
 
 

@@ -108,6 +108,7 @@
 | [azurerm_api_management_product_api.idpay_mock_product_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_product_api) | resource |
 | [azurerm_api_management_subscription.idpay_apim_subscription_mocked_acquirer](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_subscription) | resource |
 | [azurerm_eventgrid_system_topic.idpay_refund_storage_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/eventgrid_system_topic) | resource |
+| [azurerm_eventhub_namespace_authorization_rule.evh_namespace_access_key_00](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/eventhub_namespace_authorization_rule) | resource |
 | [azurerm_key_vault_access_policy.apim](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_certificate.idpay_jwt_signing_cert](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_certificate) | resource |
 | [azurerm_key_vault_certificate.idpay_merchants_jwt_signing_cert](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_certificate) | resource |
@@ -118,6 +119,7 @@
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.enrolled_pi_producer_connection_uri](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.event_hub_root_key_idpay_00](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.initiative_storage_access_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.initiative_storage_blob_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.initiative_storage_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
@@ -164,6 +166,7 @@
 | [kubernetes_role_binding.system_deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/role_binding) | resource |
 | [local_file.idpay_audit_dcr_file_tmp](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [local_file.oidc_configuration_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+| [null_resource.cosmos_connector](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_dce](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_dcr](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_dcra](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
@@ -180,6 +183,7 @@
 | [azurerm_api_management_user.idpay_apim_user_mocked_acquirer](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/api_management_user) | data source |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/client_config) | data source |
+| [azurerm_cosmosdb_account.idpay_cosmos_db](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/cosmosdb_account) | data source |
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/dns_zone) | data source |
 | [azurerm_eventhub.eventhub_idpay_reward_notification_storage_events](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/eventhub) | data source |
 | [azurerm_eventhub_namespace.evh_01_namespace](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/eventhub_namespace) | data source |
