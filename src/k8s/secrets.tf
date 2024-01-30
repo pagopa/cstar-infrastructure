@@ -6,7 +6,3 @@ module "key_vault_secrets_query" {
   # This list should be specialized for environment
   secrets = var.secrets_to_be_read_from_kv
 }
-
-# allow to retrieve secrets from RTD domain kv. This MUST be deleted
-# when cluster migrate to new one.
-
