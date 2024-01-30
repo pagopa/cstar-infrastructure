@@ -10,6 +10,7 @@
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.5.1 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.25.2 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.1 |
+| <a name="requirement_terracurl"></a> [terracurl](#requirement\_terracurl) | 1.0.1 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | = 4.0.4 |
 
 ## Modules
@@ -166,12 +167,12 @@
 | [kubernetes_role_binding.system_deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/role_binding) | resource |
 | [local_file.idpay_audit_dcr_file_tmp](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [local_file.oidc_configuration_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [null_resource.cosmos_connector](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_dce](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_dcr](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_dcra](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_lh](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.upload_oidc_configuration](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
+| [terracurl_request.cosmos_connector](https://registry.terraform.io/providers/devops-rob/terracurl/1.0.1/docs/resources/request) | resource |
 | [tls_private_key.p7m_key](https://registry.terraform.io/providers/hashicorp/tls/4.0.4/docs/resources/private_key) | resource |
 | [tls_self_signed_cert.p7m_self_signed_cert](https://registry.terraform.io/providers/hashicorp/tls/4.0.4/docs/resources/self_signed_cert) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
