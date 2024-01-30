@@ -6,7 +6,7 @@ data "azurerm_cosmosdb_account" "idpay_cosmos_db" {
 resource "null_resource" "cosmos_connector" {
   provisioner "local-exec" {
     command = <<-EOT
-      curl -X PUT https://${var.ingress_load_balancer_hostname}/idpaykafkaconnect/connectors/cosmos-connector/config \
+      curl -X PUT https://${var.ingress_load_balancer_hostname}/idpay/kafkaconnect/idpaykafkaconnect/connectors/cosmos-connector/config \
       -H "Content-Type: application/json" \
       --data '{
         "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
