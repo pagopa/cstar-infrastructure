@@ -13,8 +13,17 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/instruments/{idWallet}")" />
+        <choose>
+            <when condition="@(((string)context.Variables["groups"]).Contains("EnrollToIDPay"))">
+                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
+                <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/instruments/{idWallet}")" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Operation Unauthorized" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />
