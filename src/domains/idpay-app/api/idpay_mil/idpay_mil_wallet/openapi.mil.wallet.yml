@@ -1522,12 +1522,16 @@ components:
         code:
           type: string
           enum:
+            - PAYMENT_INSTRUMENT_INVALID_REQUEST
             - PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS
             - PAYMENT_INSTRUMENT_GENERIC_ERROR
           description: >-
-            "ENG: Error code: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS: Too many requests,
+            "ENG: Error code:
+            PAYMENT_INSTRUMENT_INVALID_REQUEST: Something went wrong handling the request,
+            PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS: Too many requests,
             PAYMENT_INSTRUMENT_GENERIC_ERROR Application error: - IT: Codice di
-            errore: PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS:
+            errore: PAYMENT_INSTRUMENT_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+            PAYMENT_INSTRUMENT_TOO_MANY_REQUESTS:
             Troppe richieste, PAYMENT_INSTRUMENT_GENERIC_ERROR: Errore generico"
         message:
           type: string
