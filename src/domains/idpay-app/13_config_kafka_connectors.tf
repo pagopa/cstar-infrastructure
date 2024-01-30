@@ -22,11 +22,10 @@ resource "null_resource" "cosmos_connector" {
         "value.converter.schemas.enable": false,
         "publish.full.document.only": true,
         "output.json.formatter": "com.mongodb.kafka.connect.source.json.formatter.SimplifiedJson",
-        "heartbeat.interval.ms": 5000,
         "mongo.errors.log.enable": true,
         "output.format.value": "json",
         "output.format.key": "schema",
-        "output.schema.key": "{\"type\":\"record\",\"name\":\"keySchema\",\"fields\":[{\"name\":\"fullDocument.stream_id\",\"type\":\"string\"}]}",
+        "output.schema.key": "{\"type\":\"record\",\"name\":\"keySchema\",\"fields\":[{\"name\":\"fullDocument.userId\",\"type\":\"string\"}]}",
         "pipeline": "[{\"$match\":{\"operationType\":{\"$in\":[\"insert\",\"update\",\"replace\"]}}},{\"$project\":{\"_id\":1,\"fullDocument\":1,\"ns\":1,\"documentKey\":1}},{\"$match\":{\"fullDocument.status\":{\"$in\":[\"AUTHORIZED\",\"CANCELED\",\"REWARDED\"]}}}]"
       }'
     EOT
