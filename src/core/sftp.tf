@@ -102,6 +102,24 @@ resource "azurerm_role_assignment" "sftp_data_contributor_role" {
   ]
 }
 
+resource "azurerm_storage_management_policy" "ack_archive" {
+  storage_account_id = module.sftp.id
+
+  rule {
+    name    = "ade-ack-archive"
+    enabled = true
+    filters {
+      prefix_match = ["ade/ack"]
+      blob_types   = ["blockBlob"]
+    }
+    actions {
+      base_blob {
+        tier_to_archive_after_days_since_creation_greater_than = var.sftp_ade_ack_archive_policy.to_archive_days
+      }
+    }
+  }
+}
+
 resource "azurerm_storage_container" "consap" {
   name                  = "consap"
   storage_account_name  = module.sftp.name
