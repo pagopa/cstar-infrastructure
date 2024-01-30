@@ -24,6 +24,20 @@ provider "registry.terraform.io/azure/azapi" {
   ]
 }
 
+provider "registry.terraform.io/devops-rob/terracurl" {
+  version     = "1.0.1"
+  constraints = "1.0.1"
+  hashes = [
+    "h1:sRBXd8+bYfpPaA5/VGkZAB0yEB2oIGyG4Ptv0QfBL5g=",
+    "zh:26a9abe60e6dd097ae004135ed0e39b6a3abd6ec2574d266c1f25a378fced46b",
+    "zh:7146747c533928b078f7767e1af80e551dc7999ce22c262e9bacba375557342f",
+    "zh:746ec7fb7855aad5c631ede36b5953d25f084e4fe7af434a40aad6998aa3130b",
+    "zh:84079152ed864572e3883c01e43152a37b26d945c7069b4af06da1b555eb3605",
+    "zh:c37eea4030c91422f07541766e0d3e28c95fb4e5d472d505e68afd023fa6f20a",
+    "zh:d50f94c0872dcbd38d25629ed4b4caa495ab5b1ec4977bb8af7b33f984de82ff",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/azuread" {
   version     = "2.21.0"
   constraints = "2.21.0"

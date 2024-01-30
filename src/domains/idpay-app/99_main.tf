@@ -31,6 +31,10 @@ terraform {
     local = {
       source = "hashicorp/local"
     }
+    terracurl = {
+      source  = "devops-rob/terracurl"
+      version = "1.0.1"
+    }
   }
 
   backend "azurerm" {}
