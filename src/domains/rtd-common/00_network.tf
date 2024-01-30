@@ -3,12 +3,6 @@ data "azurerm_virtual_network" "vnet_core" {
   resource_group_name = local.vnet_core_resource_group_name
 }
 
-data "azurerm_subnet" "aks_old_subnet" {
-  name                 = "${var.prefix}-${var.env_short}-k8s-snet"
-  resource_group_name  = local.vnet_core_resource_group_name
-  virtual_network_name = local.vnet_core_name
-}
-
 data "azurerm_subnet" "private_endpoint_snet" {
   name                 = "private-endpoint-snet"
   virtual_network_name = local.vnet_core_name

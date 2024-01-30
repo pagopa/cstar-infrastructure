@@ -12,7 +12,8 @@
     "isSequential": true,
     "activities": [
       ${invalidate_activity},
-      ${purge_activity}
+      ${purge_activity},
+      ${set_ttl_activity}
     ]
   }
 }

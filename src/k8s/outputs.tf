@@ -1,9 +1,9 @@
 output "azure_devops_sa_token" {
-  value     = data.kubernetes_secret.azure_devops_secret.binary_data["token"]
+  value     = module.kubernetes_service_account.sa_token
   sensitive = true
 }
 
 output "azure_devops_sa_cacrt" {
-  value     = data.kubernetes_secret.azure_devops_secret.binary_data["ca.crt"]
+  value     = module.kubernetes_service_account.sa_ca_cert
   sensitive = true
 }
