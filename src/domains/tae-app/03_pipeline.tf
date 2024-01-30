@@ -7,9 +7,12 @@ locals {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
   })
 
+  set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
+
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
     invalidate_activity = local.invalidate_activity_content,
-    purge_activity      = local.purge_activity_content
+    purge_activity      = local.purge_activity_content,
+    set_ttl_activity    = local.set_ttl_activity
   })
 
 }
@@ -414,7 +417,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   name            = "invalidate_flow"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
-    flows = "" # ["AGGADE.12345.20221231.010000.001.01000","AGGADE.54321.20221231.010000.001.01000"]
+    flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
   activities_json = "[${local.invalidate_and_purge_activities}]"
 

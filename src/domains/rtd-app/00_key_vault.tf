@@ -32,5 +32,5 @@ data "azurerm_key_vault_secret" "rtd_pm_client-certificate-thumbprint" {
 data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
   count        = var.enable.csv_transaction_apis ? 1 : 0
   name         = "cstarblobstorage-public-key"
-  key_vault_id = data.azurerm_key_vault.key_vault.id
+  key_vault_id = data.azurerm_key_vault.kv.id
 }

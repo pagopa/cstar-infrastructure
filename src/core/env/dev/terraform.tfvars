@@ -268,3 +268,7 @@ bkp_sa_soft_delete = {
   blob      = 7
   container = 7
 }
+
+sftp_ade_ack_archive_policy = {
+  to_archive_days = 1
+}

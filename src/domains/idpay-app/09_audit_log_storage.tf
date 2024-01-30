@@ -124,19 +124,19 @@ resource "null_resource" "idpay_audit_dcr" {
   depends_on = [local_file.idpay_audit_dcr_file_tmp]
 }
 
-# Data Collection Rule Association
-data "azurerm_virtual_machine_scale_set" "idpay_audit_resource_vmss" {
-  name                = var.aks_vmss_name
-  resource_group_name = "MC_${var.aks_resource_group_name}_${var.aks_name}_${var.location}"
-}
-
 resource "null_resource" "idpay_audit_dcra" {
+
+  for_each = local.aks_vmss_ids
   provisioner "local-exec" {
     command = <<EOC
-      az monitor data-collection rule association create --subscription ${local.subscription_id} --name ${local.audit_dcra_name} --resource ${data.azurerm_virtual_machine_scale_set.idpay_audit_resource_vmss.id} --rule-id ${local.audit_dcr_id}
+      az monitor data-collection rule association create \
+      --subscription ${local.subscription_id} \
+      --name "${local.audit_dcra_name}-${each.value}" \
+      --resource ${each.key} \
+      --rule-id ${local.audit_dcr_id}
       EOC
   }
-  depends_on = [null_resource.idpay_audit_dcr, data.azurerm_virtual_machine_scale_set.idpay_audit_resource_vmss]
+  depends_on = [null_resource.idpay_audit_dcr]
 }
 
 # Audit Log Table

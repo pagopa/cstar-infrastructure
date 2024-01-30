@@ -1,0 +1,73 @@
+{
+  "name": "Delete invalid aggregates from CosmosDB",
+  "type": "Copy",
+  "dependsOn": [],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "CosmosDbSqlApiSource",
+      "query": {
+        "value": "SELECT c.id, c.terminalId, 10 as ttl FROM c WHERE c.sourceFileName = \"@{item()}\"",
+        "type": "Expression"
+      },
+      "preferredRegions": [],
+      "detectDatetime": false
+    },
+    "sink": {
+      "type": "CosmosDbSqlApiSink",
+      "writeBatchSize": 1000,
+      "writeBehavior": "upsert",
+      "disableMetricsCollection": false
+    },
+    "enableStaging": false,
+    "translator": {
+      "type": "TabularTranslator",
+      "mappings": [
+        {
+          "source": {
+            "path": "$['id']"
+          },
+          "sink": {
+            "path": "id"
+          }
+        },
+        {
+          "source": {
+            "path": "$['terminalId']"
+          },
+          "sink": {
+            "path": "terminalId"
+          }
+        },
+        {
+          "source": {
+            "path": "$['ttl']"
+          },
+          "sink": {
+            "path": "ttl"
+          }
+        }
+      ],
+      "collectionReference": ""
+    }
+  },
+  "inputs": [
+    {
+      "referenceName": "Aggregate",
+      "type": "DatasetReference"
+    }
+  ],
+  "outputs": [
+    {
+      "referenceName": "Aggregate",
+      "type": "DatasetReference"
+    }
+  ]
+}
