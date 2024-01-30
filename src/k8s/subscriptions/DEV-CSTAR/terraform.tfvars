@@ -297,21 +297,6 @@ secrets_to_be_read_from_kv = [
   "evh-tkm-write-update-token-tkm-write-update-token-sub-key"
 ]
 
-secrets_from_rtd_domain_kv = {
-  keyvault       = "cstar-d-rtd-kv"
-  resource_group = "cstar-d-rtd-sec-rg"
-  secrets = [
-    "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
-    "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
-    "pagopa-platform-apim-api-key-primary",
-    "pagopa-platform-apim-api-key-primary-tkm"
-  ]
-}
-
 enable = {
   rtd = {
     blob_storage_event_grid_integration = true
