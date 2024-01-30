@@ -4459,6 +4459,7 @@ components:
             - INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION
             - INITIATIVE_CANNOT_BE_DELETED
             - INITIATIVE_ADMIN_ROLE_NOT_ALLOWED
+            - INITIATIVE_ORGANIZATION_ROLE_NOT_ALLOWED
             - INITIATIVE_PUBLICATION_NOT_ALLOWED_FOR_DATES
             - INITIATIVE_STATUS_NOT_VALID
             - INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING
@@ -4485,6 +4486,7 @@ components:
              INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION: Italian language required for initiative description,
              INITIATIVE_CANNOT_BE_DELETED: Initiative with current status cannot be deleted,
              INITIATIVE_ADMIN_ROLE_NOT_ALLOWED: This operation is not allowed for admin role,
+             INITIATIVE_ORGANIZATION_ROLE_NOT_ALLOWED: This operation is not allowed for organization role,
              INITIATIVE_PUBLICATION_NOT_ALLOWED_FOR_DATES: Initiative unprocessable because the end date has passed,
              INITIATIVE_STATUS_NOT_VALID: Initiative is unprocessable for status not valid,
              INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING: Automated criteria for ranking initiative not valid because OrderDirection is missing,
@@ -4510,6 +4512,7 @@ components:
              INITIATIVE_ITALIAN_LANGUAGE_REQUIRED_FOR_DESCRIPTION: Lingua italiana richiesta per la descrizione dell'iniziativa,
              INITIATIVE_CANNOT_BE_DELETED: L'iniziativa con lo stato corrente non può essere eliminata,
              INITIATIVE_ADMIN_ROLE_NOT_ALLOWED: Questa operazione non è concessa per il ruolo di admin,
+             INITIATIVE_ORGANIZATION_ROLE_NOT_ALLOWED: Questa operazione non è concessa per il ruolo dell'ente,
              INITIATIVE_PUBLICATION_NOT_ALLOWED_FOR_DATES: Iniziativa non processabile perchè la data di fine è trascorsa,
              INITIATIVE_STATUS_NOT_VALID: L'iniziativa non processabile per lo stato non valido,
              INITIATIVE_AUTOMATED_CRITERIA_NOT_VALID_ORDER_DIRECTION_MISSING: I criteri automatizzati per l'iniziativa di tipo ranking non sono validi perché manca OrderDirection,
