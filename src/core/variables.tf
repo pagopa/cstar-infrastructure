@@ -779,3 +779,13 @@ variable "bkp_sa_soft_delete" {
   }
   description = "Set Retention Days of Deleted Blob and Containers on Backup Storage Account"
 }
+
+variable "sftp_ade_ack_archive_policy" {
+  type = object({
+    to_archive_days = number
+  })
+  default = {
+    to_archive_days = 1
+  }
+  description = "Set Archive Policy for Blobs contained in ade/ack dir in SFTP server"
+}

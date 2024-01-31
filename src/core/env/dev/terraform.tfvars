@@ -269,6 +269,10 @@ bkp_sa_soft_delete = {
   container = 7
 }
 
+sftp_ade_ack_archive_policy = {
+  to_archive_days = 1
+}
+
 #
 # DNS forwarder VMSS + Load Balancer
 #
