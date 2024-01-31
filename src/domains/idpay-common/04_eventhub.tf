@@ -17,11 +17,12 @@ module "event_hub_idpay_00" {
   name                     = "${local.product}-${var.domain}-evh-ns-00"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
-  auto_inflate_enabled     = var.ehns_auto_inflate_enabled
-  sku                      = var.ehns_sku_name
-  capacity                 = var.ehns_capacity
-  maximum_throughput_units = var.ehns_maximum_throughput_units
-  zone_redundant           = var.ehns_zone_redundant
+  auto_inflate_enabled     = var.eventhub_idpay_namespace.auto_inflate_enabled
+  sku                      = var.eventhub_idpay_namespace.sku
+  capacity                 = var.eventhub_idpay_namespace.capacity
+  maximum_throughput_units = var.eventhub_idpay_namespace.maximum_throughput_units
+  zone_redundant           = var.eventhub_idpay_namespace.zone_redundant
+  minimum_tls_version      = var.eventhub_idpay_namespace.minimum_tls_version
 
   virtual_network_ids = [
     data.azurerm_virtual_network.vnet_integration.id,
@@ -122,11 +123,12 @@ module "event_hub_idpay_01" {
   name                     = "${local.product}-${var.domain}-evh-ns-01"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
-  auto_inflate_enabled     = var.ehns_auto_inflate_enabled
-  sku                      = var.ehns_sku_name
-  capacity                 = var.ehns_capacity
-  maximum_throughput_units = var.ehns_maximum_throughput_units
-  zone_redundant           = var.ehns_zone_redundant
+  auto_inflate_enabled     = var.eventhub_idpay_namespace.auto_inflate_enabled
+  sku                      = var.eventhub_idpay_namespace.sku
+  capacity                 = var.eventhub_idpay_namespace.capacity
+  maximum_throughput_units = var.eventhub_idpay_namespace.maximum_throughput_units
+  zone_redundant           = var.eventhub_idpay_namespace.zone_redundant
+  minimum_tls_version      = var.eventhub_idpay_namespace.minimum_tls_version
 
   virtual_network_ids = [
     data.azurerm_virtual_network.vnet_integration.id,
