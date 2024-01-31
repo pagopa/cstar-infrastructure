@@ -330,8 +330,6 @@ secrets_to_be_read_from_kv = [
   "evh-bpd-trx-error-bpd-transaction-error-manager-key",
   "evh-bpd-winner-outcome-award-winner-key",
   "evh-bpd-winner-outcome-award-winner-integration-key",
-  "evh-rtd-trx-bpd-payment-instrument-key",
-  "evh-rtd-trx-rtd-csv-connector-key",
   "notification-sftp-private-key",
   "notification-service-notify-winners-public-key",
   "bpd-notificator-sftp-user",
@@ -349,20 +347,6 @@ secrets_to_be_read_from_kv = [
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
 ]
-
-secrets_from_rtd_domain_kv = {
-  keyvault       = "cstar-p-rtd-kv"
-  resource_group = "cstar-p-rtd-sec-rg"
-  secrets = [
-    "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
-    "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
-    "pagopa-platform-apim-api-key-primary"
-  ]
-}
 
 enable = {
   rtd = {
