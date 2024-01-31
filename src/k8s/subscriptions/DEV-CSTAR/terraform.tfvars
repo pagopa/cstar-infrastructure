@@ -280,9 +280,6 @@ secrets_to_be_read_from_kv = [
   "pagopa-checkiban-apikey",
   "storageaccount-cstarblob-key",
   "url-backend-io-token-value",
-  "evh-rtd-trx-rtd-trx-consumer-key",
-  "evh-rtd-trx-rtd-trx-producer-key",
-  "evh-rtd-platform-events-rtd-platform-events-sub-key",
   "rtdtransactionfilter-hpan-service-api-key",
   "rtdtransactionfilter-hpan-service-key-store-password",
   "rtdtransactionfilter-hpan-service-trust-store-password",
@@ -294,23 +291,7 @@ secrets_to_be_read_from_kv = [
   "cstarblobstorage-private-key-passphrase",
   "rtd-internal-api-product-subscription-key",
   "mongo-db-connection-uri",
-  "evh-tkm-write-update-token-tkm-write-update-token-sub-key"
 ]
-
-secrets_from_rtd_domain_kv = {
-  keyvault       = "cstar-d-rtd-kv"
-  resource_group = "cstar-d-rtd-sec-rg"
-  secrets = [
-    "evh-rtd-pi-from-app-rtd-pi-from-app-consumer-policy-rtd",
-    "evh-rtd-pi-to-app-rtd-pi-to-app-producer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-consumer-policy-rtd",
-    "evh-rtd-split-by-pi-rtd-split-by-pi-producer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-consumer-policy-rtd",
-    "evh-rtd-file-register-projector-rtd-file-register-projector-producer-policy-rtd",
-    "pagopa-platform-apim-api-key-primary",
-    "pagopa-platform-apim-api-key-primary-tkm"
-  ]
-}
 
 enable = {
   rtd = {
