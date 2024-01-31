@@ -272,3 +272,10 @@ bkp_sa_soft_delete = {
 sftp_ade_ack_archive_policy = {
   to_archive_days = 1
 }
+
+#
+# DNS forwarder VMSS + Load Balancer
+#
+
+dns_forwarder_vmss_cidr = "10.1.199.16/29"
+dns_forwarder_lb_cidr   = "10.1.199.8/29"

@@ -13,3 +13,5 @@ tags = {
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
+
+dns_forwarder_image_version = "v1"
