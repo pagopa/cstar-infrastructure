@@ -13,17 +13,8 @@
 <policies>
     <inbound>
         <base />
-        <choose>
-            <when condition="@(((string)context.Variables["groups"]).Contains("EnrollToIDPay"))">
-                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
-                <rewrite-uri template="@("idpay/onboarding/"+ (string)context.Variables["tokenPDV"])" />
-            </when>
-          <otherwise>
-              <return-response>
-                  <set-status code="401" reason="Operation Unauthorized" />
-              </return-response>
-          </otherwise>
-        </choose>
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaytimeline" />
+        <rewrite-uri template="@("idpay/timeline/{initiativeId}/{operationId}/"+ (string)context.Variables["tokenPDV"])" />
     </inbound>
     <backend>
         <base />
