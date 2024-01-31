@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <choose>
-            <when condition="@(((string)context.Variables["groups"]).Contains("OnboardToIDPay"))">
+            <when condition="@(((string)context.Variables["groups"]).Contains("EnrollToIDPay"))">
                 <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
                 <set-body>@{
                 var requestToBeModified = context.Request.Body.As<JObject>(preserveContent: true);
