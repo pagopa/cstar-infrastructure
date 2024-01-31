@@ -35,6 +35,9 @@ locals {
   azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
   azuredevops_rg_name             = "${local.project}-azdoa-rg"
   azuredevops_subnet_name         = "${local.project}-azdoa-snet"
+
+  # Dns Forwarder
+  dns_forwarder_vm_image_name = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
 }
 
 variable "location" {
@@ -139,6 +142,16 @@ variable "cidr_subnet_dnsforwarder" {
 variable "cidr_subnet_pair_dnsforwarder" {
   type        = list(string)
   description = "DNS Forwarder network address space."
+}
+
+variable "dns_forwarder_vmss_cidr" {
+  type        = string
+  description = "DNS Forwarder VMSS network address space."
+}
+
+variable "dns_forwarder_lb_cidr" {
+  type        = string
+  description = "DNS Forwarder load balancer network address space."
 }
 
 variable "cidr_subnet_cosmos_mongodb" {
