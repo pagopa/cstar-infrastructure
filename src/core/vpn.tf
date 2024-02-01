@@ -122,3 +122,25 @@ module "vpn_pair_dns_forwarder" {
   subnet_id           = module.dns_forwarder_pair_subnet.id
   tags                = var.tags
 }
+
+# DNS FORWARDER WITH VMSS + LOAD BALANCER
+
+#
+# DNS Forwarder
+#
+
+module "dns_forwarder_lb_vmss" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss?ref=v7.50.1"
+
+  name                  = local.project
+  virtual_network_name  = module.vnet.name
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  location              = var.location
+  subscription_id       = data.azurerm_subscription.current.subscription_id
+  tenant_id             = data.azurerm_client_config.current.tenant_id
+  key_vault_id          = module.key_vault.id
+  source_image_name     = local.dns_forwarder_vm_image_name
+  address_prefixes_vmss = var.dns_forwarder_vmss_cidr
+  address_prefixes_lb   = var.dns_forwarder_lb_cidr
+  tags                  = var.tags
+}
