@@ -1,10 +1,11 @@
 {
+  "change.stream.full.document": "updateLookup",
   "collection": "transaction_in_progress",
   "connection.uri": "${env:COSMOS_CONNECTION_STRING}",
   "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
   "copy.existing": false,
   "database": "idpay",
-  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
   "key.converter.schemas.enable": false,
   "mongo.errors.log.enable": true,
   "output.format.key": "schema",
@@ -15,6 +16,9 @@
   "publish.full.document.only": true,
   "server.api.version": "4.2",
   "topic.namespace.map": "{\"idpay.transaction_in_progress\": \"idpay-transaction\"}",
-  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "transforms": "ExtractPartitionKey",
+  "transforms.ExtractPartitionKey.field": "fullDocument.userId",
+  "transforms.ExtractPartitionKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
+  "value.converter": "org.apache.kafka.connect.storage.StringConverter",
   "value.converter.schemas.enable": false
 }
