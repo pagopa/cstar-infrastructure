@@ -222,28 +222,7 @@ eventhubs_idpay_00 = [
   },
 ]
 
-//TODO: Da eliminare una volta in funzione idpay-transaction su evh 00
 eventhubs_idpay_01 = [
-  {
-    name              = "idpay-transaction"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group"]
-    keys = [
-      {
-        name   = "idpay-transaction-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-transaction-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
   {
     name              = "idpay-rule-update"
     partitions        = 3
