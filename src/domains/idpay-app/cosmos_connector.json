@@ -11,7 +11,7 @@
   "output.format.value": "json",
   "output.json.formatter": "com.mongodb.kafka.connect.source.json.formatter.SimplifiedJson",
   "output.schema.key": "{\"type\":\"record\",\"name\":\"keySchema\",\"fields\":[{\"name\":\"fullDocument.userId\",\"type\":\"string\"}]}",
-  "pipeline": "[{\"$match\":{\"operationType\":{\"$in\":[\"insert\",\"update\",\"replace\"]}}},{\"$project\":{\"_id\":0,\"key\":\"$fullDocument.userId\",\"value\":{\"operationType\":1,\"fullDocument\":1,\"ns\":1,\"documentKey\":1}}},{\"$match\":{\"fullDocument.status\":{\"$in\":[\"AUTHORIZED\",\"CANCELED\",\"REWARDED\"]}}}]",
+  "pipeline": "[{\"$match\":{\"operationType\":{\"$in\":[\"insert\",\"update\",\"replace\"]}}},{\"$project\":{\"_id\":1,\"fullDocument\":1,\"ns\":1,\"documentKey\":1}},{\"$match\":{\"fullDocument.status\":{\"$in\":[\"AUTHORIZED\",\"CANCELED\",\"REWARDED\"]}}}]",
   "publish.full.document.only": true,
   "server.api.version": "4.2",
   "topic.namespace.map": "{\"idpay.transaction_in_progress\": \"idpay-transaction\"}",
