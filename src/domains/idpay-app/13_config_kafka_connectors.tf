@@ -17,12 +17,6 @@ resource "azurerm_key_vault_secret" "event_hub_root_key_idpay_00" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
-
-data "azurerm_cosmosdb_account" "idpay_cosmos_db" {
-  name                = "cstar-${var.env_short}-cosmos-mongo-db-account"
-  resource_group_name = "cstar-${var.env_short}-db-rg"
-}
-
 resource "terracurl_request" "cosmos_connector" {
   name         = "cosmos_connector"
   url          = "https://${var.ingress_load_balancer_hostname}/idpaykafkaconnect/connectors/cosmos-connector/config"
