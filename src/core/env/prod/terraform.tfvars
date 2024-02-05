@@ -272,3 +272,5 @@ sftp_ade_ack_archive_policy = {
 
 dns_forwarder_vmss_cidr = "10.1.199.16/29"
 dns_forwarder_lb_cidr   = "10.1.199.8/29"
+
+law_retention_in_days = 90
