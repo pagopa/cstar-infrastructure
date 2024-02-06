@@ -458,10 +458,19 @@ resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
   activated = var.pending_flows_conf.enable
   time_zone = "UTC"
 
-  annotations = ["PendingFlows"]
-  description = format("The trigger fires every %s %s s", var.ack_ingestor_conf.interval, var.pending_flows_conf.frequency)
+  schedule {
+    minutes = [var.pending_flows_conf.schedule_minutes]
+    hours   = [var.pending_flows_conf.schedule_hours]
+    monthly {
+      weekday = var.pending_flows_conf.monthlyOccurrences_day
+      week    = 1
+    }
+  }
 
-  pipeline_name = azurerm_data_factory_pipeline.ack_ingestor.name
+  annotations = ["PendingFlows"]
+  description = format("The trigger fires every %s %s", var.pending_flows_conf.interval, var.pending_flows_conf.frequency)
+
+  pipeline_name = azurerm_data_factory_pipeline.pending_files_in_Cosmos[0].name
   pipeline_parameters = {
     min_days_old = 7
   }
