@@ -1,0 +1,109 @@
+{
+  "name": "Collect pending filenames to file",
+  "type": "Copy",
+  "dependsOn": [
+    {
+      "activity": "For each pending file in Cosmos",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "DelimitedTextSource",
+      "storeSettings": {
+        "type": "AzureBlobStorageReadSettings",
+        "recursive": true,
+        "wildcardFolderPath": {
+          "value": "@concat(utcNow('yyyy-MM-dd'),'_',pipeline().RunId)",
+          "type": "Expression"
+        },
+        "wildcardFileName": {
+          "value": "*",
+          "type": "Expression"
+        },
+        "enablePartitionDiscovery": false
+      },
+      "formatSettings": {
+        "type": "DelimitedTextReadSettings"
+      }
+    },
+    "sink": {
+      "type": "DelimitedTextSink",
+      "storeSettings": {
+        "type": "AzureBlobStorageWriteSettings",
+        "copyBehavior": "MergeFiles"
+      },
+      "formatSettings": {
+        "type": "DelimitedTextWriteSettings",
+        "quoteAllText": true,
+        "fileExtension": ".txt"
+      }
+    },
+    "enableStaging": false,
+    "translator": {
+      "type": "TabularTranslator",
+      "mappings": [
+        {
+          "source": {
+            "name": "filename",
+            "type": "String"
+          },
+          "sink": {
+            "name": "filename"
+          }
+        },
+        {
+          "source": {
+            "name": "transmission_date",
+            "type": "Date"
+          },
+          "sink": {
+            "name": "transmission_date"
+          }
+        },
+        {
+          "source": {
+            "name": "validity",
+            "type": "String"
+          },
+          "sink": {
+            "name": "validity"
+          }
+        }
+      ],
+      "typeConversion": true,
+      "typeConversionSettings": {
+        "allowDataTruncation": true,
+        "treatBooleanAsNumber": false
+      }
+    }
+  },
+  "inputs": [
+    {
+      "referenceName": "PendingFiles",
+      "type": "DatasetReference",
+      "parameters": {
+        "filename": "cosmos_pending_files.csv"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "referenceName": "PendingFiles",
+      "type": "DatasetReference",
+      "parameters": {
+        "filename": "cosmos_pending_files.csv"
+      }
+    }
+  ]
+}
