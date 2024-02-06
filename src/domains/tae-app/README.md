@@ -39,9 +39,11 @@ No modules.
 | [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.delete_aggregates_by_timestamp_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.invalidate_flow](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.pending_files_in_Cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_schedule) | resource |
+| [azurerm_data_factory_trigger_schedule.pending_flows_trigger](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_schedule) | resource |
 | [azurerm_kusto_database_principal_assignment.tae_principal_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/kusto_database_principal_assignment) | resource |
 | [azurerm_kusto_script.create_tables](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/kusto_script) | resource |
 | [azurerm_monitor_action_group.send_to_operations](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
@@ -130,6 +132,7 @@ No modules.
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Specifies the name of the Log Analytics Workspace. | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
+| <a name="input_pending_flows_conf"></a> [pending\_flows\_conf](#input\_pending\_flows\_conf) | Triggers every first Monday of the month at 10:00 UTC | <pre>object({<br>    enable                        = bool<br>    interval                      = number<br>    frequency                     = string<br>    schedule_hours                = number<br>    schedule_minutes              = number<br>    monthlyOccurrences_day        = string<br>    monthlyOccurrences_occurrence = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Month",<br>  "interval": 1,<br>  "monthlyOccurrences_day": "Monday",<br>  "monthlyOccurrences_occurrence": 1,<br>  "schedule_hours": 10,<br>  "schedule_minutes": 0<br>}</pre> | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_tae_blob_storage"></a> [tae\_blob\_storage](#input\_tae\_blob\_storage) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |

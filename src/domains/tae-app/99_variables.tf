@@ -152,6 +152,28 @@ variable "flow_invalidator_conf" {
   }
 }
 
+//Triggers every first Monday of the month at 10:00 UTC
+variable "pending_flows_conf" {
+  type = object({
+    enable                        = bool
+    interval                      = number
+    frequency                     = string
+    schedule_hours                = number
+    schedule_minutes              = number
+    monthlyOccurrences_day        = string
+    monthlyOccurrences_occurrence = number
+  })
+  default = {
+    enable                        = false
+    interval                      = 1
+    frequency                     = "Month"
+    schedule_hours                = 10
+    schedule_minutes              = 0
+    monthlyOccurrences_day        = "Monday"
+    monthlyOccurrences_occurrence = 1
+  }
+}
+
 variable "zendesk_action_enabled" {
   type = object({
     enable = bool

@@ -15,6 +15,12 @@ locals {
     set_ttl_activity    = local.set_ttl_activity
   })
 
+  extract_pending_files_activity = file("pipelines/lookup-activities/extractPendingFilesInCosmos.json")
+
+  for_each_pending_file_activity = file("pipelines/foreach-activities/forEachPendingFileInCosmos.json")
+
+  collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
+
 }
 
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
@@ -423,5 +429,45 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
 
   depends_on = [
     azurerm_data_factory_custom_dataset.aggregates_log
+  ]
+}
+
+resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
+  count = var.pending_flows_conf.enable ? 1 : 0
+
+  name            = "pending_files_in_Cosmos"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    min_days_old = 7
+  }
+  activities_json = "[${local.extract_pending_files_activity},${local.for_each_pending_file_activity}, ${local.collect_pending_filenames_activity}]"
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.pending_file,
+    azurerm_storage_container.pending_for_ack_extraction_container
+  ]
+}
+
+resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
+
+  name            = format("%s-pending-flows", local.project)
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  interval  = var.pending_flows_conf.interval
+  frequency = var.pending_flows_conf.frequency
+  activated = var.pending_flows_conf.enable
+  time_zone = "UTC"
+
+  annotations = ["PendingFlows"]
+  description = format("The trigger fires every %s %s s", var.ack_ingestor_conf.interval, var.pending_flows_conf.frequency)
+
+  pipeline_name = azurerm_data_factory_pipeline.ack_ingestor.name
+  pipeline_parameters = {
+    min_days_old = 7
+  }
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.pending_file,
+    azurerm_data_factory_pipeline.pending_files_in_Cosmos
   ]
 }
