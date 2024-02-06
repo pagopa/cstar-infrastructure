@@ -117,7 +117,7 @@
               ],
               "outputs": [
                 {
-                  "referenceName": "PendingFiles",
+                  "referenceName": "PendingFile",
                   "type": "DatasetReference",
                   "parameters": {
                     "filename": {
@@ -292,7 +292,7 @@
               ],
               "outputs": [
                 {
-                  "referenceName": "PendingFiles",
+                  "referenceName": "PendingFile",
                   "type": "DatasetReference",
                   "parameters": {
                     "filename": {
@@ -489,7 +489,7 @@
         ],
         "outputs": [
           {
-            "referenceName": "PendingFiles",
+            "referenceName": "PendingFile",
             "type": "DatasetReference",
             "parameters": {
               "filename": {

@@ -90,7 +90,7 @@
   },
   "inputs": [
     {
-      "referenceName": "PendingFiles",
+      "referenceName": "PendingFile",
       "type": "DatasetReference",
       "parameters": {
         "filename": "cosmos_pending_files.csv"
@@ -99,7 +99,7 @@
   ],
   "outputs": [
     {
-      "referenceName": "PendingFiles",
+      "referenceName": "PendingFile",
       "type": "DatasetReference",
       "parameters": {
         "filename": "cosmos_pending_files.csv"
