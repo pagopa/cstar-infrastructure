@@ -204,7 +204,7 @@ eventhubs_idpay_00 = [
     name              = "idpay-transaction"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group"]
+    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group", "idpay-reward-calculator-consumer-group"]
     keys = [
       {
         name   = "idpay-transaction-producer"
