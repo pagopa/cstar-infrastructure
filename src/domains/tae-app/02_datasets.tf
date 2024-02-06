@@ -623,6 +623,10 @@ resource "azurerm_data_factory_custom_dataset" "pending_file" {
   description = "Pending file in TAE CosmosDB."
   annotations = ["PendingFile"]
 
+  parameters = {
+    filename = "cosmos_pending_files.csv"
+  }
+
   schema_json = <<JSON
   [
     {
