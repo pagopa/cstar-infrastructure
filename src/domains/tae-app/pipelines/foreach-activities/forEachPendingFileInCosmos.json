@@ -277,7 +277,7 @@
                         "path": "$['validity']"
                       },
                       "sink": {
-                        "name": "validiy",
+                        "name": "validity",
                         "type": "String"
                       }
                     }
