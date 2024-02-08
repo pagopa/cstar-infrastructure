@@ -16,6 +16,9 @@
         <choose>
             <when condition="@(((string)context.Variables["groups"]).Contains("EnrollToIDPay"))">
                 <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
+                <set-header name="channel" exists-action="override">
+                    <value>ATM</value>
+                </set-header>
                 <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/code/instruments")" />
             </when>
             <otherwise>
