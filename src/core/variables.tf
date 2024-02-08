@@ -768,6 +768,16 @@ variable "azdoa_agent_performance_vm_sku" {
   description = "Azure DevOps Agent performance VM SKU"
 }
 
+variable "azdoa_agent_app_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent APP VM SKU"
+}
+
+variable "azdoa_agent_infra_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent INFRA VM SKU"
+}
+
 variable "bkp_sa_soft_delete" {
   type = object({
     blob      = number

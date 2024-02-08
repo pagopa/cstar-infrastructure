@@ -260,7 +260,9 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 azdoa_image_name               = "cstar-u-azdo-agent-ubuntu2204-image-v1"
 enable_azdoa_agent_performance = true
-azdoa_agent_performance_vm_sku = "Standard_B2s"
+azdoa_agent_performance_vm_sku = "Standard_B2ms"
+azdoa_agent_app_vm_sku = "Standard_B2ms"
+azdoa_agent_infra_vm_sku = "Standard_B2ms"
 
 bkp_sa_soft_delete = {
   blob      = 7
