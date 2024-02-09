@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "azdo_rg" {
 }
 
 module "azdoa_vmss_ubuntu_app" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v6.14.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.50.1"
   count  = var.enable_azdoa ? 1 : 0
 
   name                = local.azuredevops_agent_vm_app_name
@@ -17,12 +17,13 @@ module "azdoa_vmss_ubuntu_app" {
   subscription_id     = data.azurerm_subscription.current.subscription_id
   location            = var.location
   source_image_name   = var.azdoa_image_name
+  vm_sku              = var.azdoa_agent_app_vm_sku
 
   tags = var.tags
 }
 
 module "azdoa_vmss_ubuntu_infra" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v6.14.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.50.1"
   count  = var.enable_azdoa ? 1 : 0
 
   name                = local.azuredevops_agent_vm_infra_name
@@ -32,12 +33,13 @@ module "azdoa_vmss_ubuntu_infra" {
   subscription_id     = data.azurerm_subscription.current.subscription_id
   location            = var.location
   source_image_name   = var.azdoa_image_name
+  vm_sku              = var.azdoa_agent_infra_vm_sku
 
   tags = var.tags
 }
 
 module "azdoa_agent_vmss_ubuntu_perf" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.2.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.50.1"
   count  = var.enable_azdoa_agent_performance ? 1 : 0
 
   name                = local.azuredevops_agent_vm_perf_name

@@ -20,5 +20,8 @@
   "transforms.ExtractPartitionKey.field": "fullDocument.userId",
   "transforms.ExtractPartitionKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
   "value.converter": "org.apache.kafka.connect.storage.StringConverter",
-  "value.converter.schemas.enable": false
+  "value.converter.schemas.enable": false,
+  "errors.tolerance": "all",
+  "errors.log.enable":true,
+  "errors.log.include.messages":true
 }

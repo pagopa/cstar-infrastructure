@@ -27,10 +27,10 @@
 | <a name="module_app_gw_maz"></a> [app\_gw\_maz](#module\_app\_gw\_maz) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v6.2.1 |
 | <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
-| <a name="module_azdoa_agent_vmss_ubuntu_perf"></a> [azdoa\_agent\_vmss\_ubuntu\_perf](#module\_azdoa\_agent\_vmss\_ubuntu\_perf) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.2.0 |
+| <a name="module_azdoa_agent_vmss_ubuntu_perf"></a> [azdoa\_agent\_vmss\_ubuntu\_perf](#module\_azdoa\_agent\_vmss\_ubuntu\_perf) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.50.1 |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.2.1 |
-| <a name="module_azdoa_vmss_ubuntu_app"></a> [azdoa\_vmss\_ubuntu\_app](#module\_azdoa\_vmss\_ubuntu\_app) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.14.1 |
-| <a name="module_azdoa_vmss_ubuntu_infra"></a> [azdoa\_vmss\_ubuntu\_infra](#module\_azdoa\_vmss\_ubuntu\_infra) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v6.14.1 |
+| <a name="module_azdoa_vmss_ubuntu_app"></a> [azdoa\_vmss\_ubuntu\_app](#module\_azdoa\_vmss\_ubuntu\_app) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.50.1 |
+| <a name="module_azdoa_vmss_ubuntu_infra"></a> [azdoa\_vmss\_ubuntu\_infra](#module\_azdoa\_vmss\_ubuntu\_infra) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.50.1 |
 | <a name="module_backupstorage"></a> [backupstorage](#module\_backupstorage) | git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account | v6.2.1 |
 | <a name="module_bpd_api_product"></a> [bpd\_api\_product](#module\_bpd\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.2.1 |
 | <a name="module_bpd_io_award_period_original"></a> [bpd\_io\_award\_period\_original](#module\_bpd\_io\_award\_period\_original) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.2.1 |
@@ -307,6 +307,8 @@
 | <a name="input_app_gw_load_client_certificate"></a> [app\_gw\_load\_client\_certificate](#input\_app\_gw\_load\_client\_certificate) | Load client certificate in app gateway | `bool` | `true` | no |
 | <a name="input_appio_timeout_sec"></a> [appio\_timeout\_sec](#input\_appio\_timeout\_sec) | AppIo timeout (sec) | `number` | `5` | no |
 | <a name="input_azdo_sp_tls_cert_enabled"></a> [azdo\_sp\_tls\_cert\_enabled](#input\_azdo\_sp\_tls\_cert\_enabled) | Enable Azure DevOps connection for TLS cert management | `string` | `false` | no |
+| <a name="input_azdoa_agent_app_vm_sku"></a> [azdoa\_agent\_app\_vm\_sku](#input\_azdoa\_agent\_app\_vm\_sku) | Azure DevOps Agent APP VM SKU | `string` | n/a | yes |
+| <a name="input_azdoa_agent_infra_vm_sku"></a> [azdoa\_agent\_infra\_vm\_sku](#input\_azdoa\_agent\_infra\_vm\_sku) | Azure DevOps Agent INFRA VM SKU | `string` | n/a | yes |
 | <a name="input_azdoa_agent_performance_vm_sku"></a> [azdoa\_agent\_performance\_vm\_sku](#input\_azdoa\_agent\_performance\_vm\_sku) | Azure DevOps Agent performance VM SKU | `string` | n/a | yes |
 | <a name="input_azdoa_image_name"></a> [azdoa\_image\_name](#input\_azdoa\_image\_name) | Azure DevOps Agent image name for scaleset | `string` | n/a | yes |
 | <a name="input_bkp_sa_soft_delete"></a> [bkp\_sa\_soft\_delete](#input\_bkp\_sa\_soft\_delete) | Set Retention Days of Deleted Blob and Containers on Backup Storage Account | <pre>object({<br>    blob      = number<br>    container = number<br>  })</pre> | <pre>{<br>  "blob": 7,<br>  "container": 7<br>}</pre> | no |
