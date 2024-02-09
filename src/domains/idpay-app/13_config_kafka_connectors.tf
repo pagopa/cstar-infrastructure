@@ -17,11 +17,11 @@ resource "azurerm_key_vault_secret" "event_hub_root_key_idpay_00" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
-resource "terracurl_request" "cosmos_connector" {
-  name         = "cosmos_connector"
-  url          = "https://${var.ingress_load_balancer_hostname}/idpaykafkaconnect/connectors/cosmos-connector/config"
+resource "terracurl_request" "transaction_in_progress_connector" {
+  name         = "transaction_in_progress_connector"
+  url          = "https://${var.ingress_load_balancer_hostname}/idpaykafkaconnect/connectors/transaction-in-progress-connector/config"
   method       = "PUT"
-  request_body = file("cosmos_connector.json")
+  request_body = file("kafka-connectors/transaction_in_progress_connector.json")
   response_codes = [
     200,
     201,
