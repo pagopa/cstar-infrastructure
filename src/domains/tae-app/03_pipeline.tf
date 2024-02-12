@@ -452,6 +452,7 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
   name            = "pending_files_in_Cosmos"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
+    // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
     min_days_old = 7
   }
   activities_json = "[${local.extract_pending_files_activity},${local.for_each_pending_file_activity}, ${local.collect_pending_filenames_activity}]"
@@ -486,6 +487,7 @@ resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
 
   pipeline_name = azurerm_data_factory_pipeline.pending_files_in_Cosmos[0].name
   pipeline_parameters = {
+    // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
     min_days_old = 7
   }
 
