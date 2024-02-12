@@ -17,12 +17,13 @@
     },
     "isSequential": true,
     "activities": [
+      ${check_flow_validity_activity},
       {
-        "name": "If the flow is not valid",
+        "name": "If file is not valid",
         "type": "IfCondition",
         "dependsOn": [
           {
-            "activity": "Check file validity",
+            "activity": "Check validity",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -31,7 +32,7 @@
         "userProperties": [],
         "typeProperties": {
           "expression": {
-            "value": "@equals(activity('Check file validity').output.firstRow.valid,false) ",
+            "value": "@equals(activity('Check validity').output.firstRow.valid,false)",
             "type": "Expression"
           },
           "ifFalseActivities": [
@@ -131,86 +132,6 @@
           ],
           "ifTrueActivities": [
             {
-              "name": "Delete invalid aggregates from CosmosDB",
-              "type": "Copy",
-              "dependsOn": [
-                {
-                  "activity": "Write pending invalid filenames to file",
-                  "dependencyConditions": [
-                    "Succeeded"
-                  ]
-                }
-              ],
-              "policy": {
-                "timeout": "0.12:00:00",
-                "retry": 0,
-                "retryIntervalInSeconds": 30,
-                "secureOutput": false,
-                "secureInput": false
-              },
-              "userProperties": [],
-              "typeProperties": {
-                "source": {
-                  "type": "CosmosDbSqlApiSource",
-                  "query": {
-                    "value": "SELECT c.id, c.terminalId, 10 as ttl FROM c WHERE c.sourceFileName = \"@{item().sourceFileName}\"",
-                    "type": "Expression"
-                  },
-                  "preferredRegions": [],
-                  "detectDatetime": false
-                },
-                "sink": {
-                  "type": "CosmosDbSqlApiSink",
-                  "writeBatchSize": 1000,
-                  "writeBehavior": "upsert",
-                  "disableMetricsCollection": false
-                },
-                "enableStaging": false,
-                "translator": {
-                  "type": "TabularTranslator",
-                  "mappings": [
-                    {
-                      "source": {
-                        "path": "$['id']"
-                      },
-                      "sink": {
-                        "path": "id"
-                      }
-                    },
-                    {
-                      "source": {
-                        "path": "$['terminalId']"
-                      },
-                      "sink": {
-                        "path": "terminalId"
-                      }
-                    },
-                    {
-                      "source": {
-                        "path": "$['ttl']"
-                      },
-                      "sink": {
-                        "path": "ttl"
-                      }
-                    }
-                  ],
-                  "collectionReference": ""
-                }
-              },
-              "inputs": [
-                {
-                  "referenceName": "Aggregate",
-                  "type": "DatasetReference"
-                }
-              ],
-              "outputs": [
-                {
-                  "referenceName": "Aggregate",
-                  "type": "DatasetReference"
-                }
-              ]
-            },
-            {
               "name": "Write pending invalid filenames to file",
               "type": "Copy",
               "dependsOn": [],
@@ -302,203 +223,38 @@
                   }
                 }
               ]
-            }
-          ]
-        }
-      },
-      {
-        "name": "Check file validity",
-        "type": "Lookup",
-        "dependsOn": [
-          {
-            "activity": "If file validity is mixed",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ],
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureOutput": false,
-          "secureInput": false
-        },
-        "userProperties": [],
-        "typeProperties": {
-          "source": {
-            "type": "AzureDataExplorerSource",
-            "query": {
-              "value": "Aggregates\n| where fileName == \"@{item().sourceFileName}\"\n| distinct valid",
-              "type": "Expression"
             },
-            "queryTimeout": "01:00:00",
-            "noTruncation": false
-          },
-          "dataset": {
-            "referenceName": "AggregatesLog",
-            "type": "DatasetReference"
-          }
-        }
-      },
-      {
-        "name": "Check mixed validity",
-        "type": "Lookup",
-        "dependsOn": [],
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureOutput": false,
-          "secureInput": false
-        },
-        "userProperties": [],
-        "typeProperties": {
-          "source": {
-            "type": "AzureDataExplorerSource",
-            "query": {
-              "value": "Aggregates\n| where fileName == \"@{item().sourceFileName}\"\n| distinct valid\n| count ",
-              "type": "Expression"
-            },
-            "queryTimeout": "01:00:00",
-            "noTruncation": true
-          },
-          "dataset": {
-            "referenceName": "AggregatesLog",
-            "type": "DatasetReference"
-          }
-        }
-      },
-      {
-        "name": "If file validity is mixed",
-        "type": "IfCondition",
-        "dependsOn": [
-          {
-            "activity": "Check mixed validity",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ],
-        "userProperties": [],
-        "typeProperties": {
-          "expression": {
-            "value": "@equals(activity('Check mixed validity').output.firstRow.Count, 2)",
-            "type": "Expression"
-          },
-          "ifTrueActivities": [
             {
-              "name": "Fail for mixed validity",
-              "type": "Fail",
-              "dependsOn": [],
+              "name": "Execute invalidate_flow pipeline",
+              "type": "ExecutePipeline",
+              "dependsOn": [
+                {
+                  "activity": "Write pending invalid filenames to file",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ],
+              "policy": {
+                "secureInput": false
+              },
               "userProperties": [],
               "typeProperties": {
-                "message": "Mixed validity",
-                "errorCode": "1"
+                "pipeline": {
+                  "referenceName": "invalidate_flow",
+                  "type": "PipelineReference"
+                },
+                "waitOnCompletion": true,
+                "parameters": {
+                  "flows": {
+                    "value": "@array(item().sourceFileName)",
+                    "type": "Expression"
+                  }
+                }
               }
             }
           ]
         }
-      },
-      {
-        "name": "Write pending filenames to file mixed validity",
-        "type": "Copy",
-        "dependsOn": [
-          {
-            "activity": "If file validity is mixed",
-            "dependencyConditions": [
-              "Failed"
-            ]
-          }
-        ],
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureOutput": false,
-          "secureInput": false
-        },
-        "userProperties": [],
-        "typeProperties": {
-          "source": {
-            "type": "CosmosDbSqlApiSource",
-            "additionalColumns": [
-              {
-                "name": "validity",
-                "value": "flow_with_mixed_validity_inquire"
-              }
-            ],
-            "query": {
-              "value": "@concat('SELECT DISTINCT c.sourceFileName, c.transmissionDate FROM c where c.sourceFileName = \"', item().sourceFileName,'\"')\n",
-              "type": "Expression"
-            },
-            "preferredRegions": [],
-            "detectDatetime": true
-          },
-          "sink": {
-            "type": "DelimitedTextSink",
-            "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings",
-              "copyBehavior": "PreserveHierarchy"
-            },
-            "formatSettings": {
-              "type": "DelimitedTextWriteSettings",
-              "quoteAllText": true,
-              "fileExtension": ".txt"
-            }
-          },
-          "enableStaging": false,
-          "translator": {
-            "type": "TabularTranslator",
-            "mappings": [
-              {
-                "source": {
-                  "path": "$['sourceFileName']"
-                },
-                "sink": {
-                  "name": "filename",
-                  "type": "String"
-                }
-              },
-              {
-                "source": {
-                  "path": "$['transmissionDate']"
-                },
-                "sink": {
-                  "name": "transmission_date",
-                  "type": "Date"
-                }
-              },
-              {
-                "source": {
-                  "path": "$['validity']"
-                },
-                "sink": {
-                  "name": "validity",
-                  "type": "String"
-                }
-              }
-            ]
-          }
-        },
-        "inputs": [
-          {
-            "referenceName": "Aggregate",
-            "type": "DatasetReference"
-          }
-        ],
-        "outputs": [
-          {
-            "referenceName": "PendingFile",
-            "type": "DatasetReference",
-            "parameters": {
-              "filename": {
-                "value": "@concat(pipeline().RunId,'_',item().sourceFileName,'.csv')",
-                "type": "Expression"
-              }
-            }
-          }
-        ]
       }
     ]
   }

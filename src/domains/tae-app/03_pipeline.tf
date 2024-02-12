@@ -17,7 +17,10 @@ locals {
 
   extract_pending_files_activity = file("pipelines/lookup-activities/extractPendingFilesInCosmos.json")
 
-  for_each_pending_file_activity = file("pipelines/foreach-activities/forEachPendingFileInCosmos.json")
+  for_each_pending_file_activity = templatefile("pipelines/foreach-activities/forEachPendingFileInCosmos.json", {
+    check_flow_validity_activity = file("pipelines/lookup-activities/checkFlowValidity.json"),
+  })
+
 
   collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
 
