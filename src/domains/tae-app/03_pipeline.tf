@@ -1,4 +1,5 @@
 locals {
+  // Invalidate flows whole activities
   invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
   })
@@ -15,10 +16,20 @@ locals {
     set_ttl_activity    = local.set_ttl_activity
   })
 
+  // Pending flows whole activities
   extract_pending_files_activity = file("pipelines/lookup-activities/extractPendingFilesInCosmos.json")
 
+  if_file_is_not_valid_activity = templatefile("pipelines/if-activities/ifFileIsNotValid.json", {
+    write_pending_filename_to_file_activity         = file("pipelines/copy-activities/writePendingFilenameToFile.json"),
+    write_pending_invalid_filename_to_file_activity = file("pipelines/copy-activities/writePendingInvalidFilenameToFile.json"),
+    execute_invalidate_flow_pipeline_activity       = file("pipelines/execute-pipeline-activity/executeInvalidateFlowPipeline.json")
+  })
+
+
+
   for_each_pending_file_activity = templatefile("pipelines/foreach-activities/forEachPendingFileInCosmos.json", {
-    check_flow_validity_activity = file("pipelines/lookup-activities/checkFlowValidity.json"),
+    check_flow_validity_activity  = file("pipelines/lookup-activities/checkFlowValidity.json"),
+    if_file_is_not_valid_activity = local.if_file_is_not_valid_activity
   })
 
 
