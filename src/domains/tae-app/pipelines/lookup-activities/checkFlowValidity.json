@@ -22,7 +22,8 @@
     },
     "dataset": {
       "referenceName": "AggregatesLog",
-      "type": "DatasetReference"
+      "type": "DatasetReference",
+      "parameters": {}
     }
   }
 }

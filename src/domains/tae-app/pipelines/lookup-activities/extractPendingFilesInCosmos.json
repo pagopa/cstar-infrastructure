@@ -22,7 +22,8 @@
     },
     "dataset": {
       "referenceName": "Aggregate",
-      "type": "DatasetReference"
+      "type": "DatasetReference",
+      "parameters": {}
     },
     "firstRowOnly": false
   }
