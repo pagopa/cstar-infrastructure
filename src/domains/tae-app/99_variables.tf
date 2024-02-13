@@ -164,7 +164,7 @@ variable "pending_flows_conf" {
     monthlyOccurrences_occurrence = number
   })
   default = {
-    enable                        = true
+    enable                        = false
     interval                      = 1
     frequency                     = "Month"
     schedule_hours                = 10

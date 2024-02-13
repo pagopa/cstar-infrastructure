@@ -447,7 +447,6 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
 }
 
 resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
-  count = var.pending_flows_conf.enable ? 1 : 0
 
   name            = "pending_files_in_Cosmos"
   data_factory_id = data.azurerm_data_factory.datafactory.id
@@ -485,7 +484,7 @@ resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
   annotations = ["PendingFlows"]
   description = format("The trigger fires every %s %s", var.pending_flows_conf.interval, var.pending_flows_conf.frequency)
 
-  pipeline_name = azurerm_data_factory_pipeline.pending_files_in_Cosmos[0].name
+  pipeline_name = azurerm_data_factory_pipeline.pending_files_in_Cosmos.name
   pipeline_parameters = {
     // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
     min_days_old = 7
