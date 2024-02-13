@@ -3390,8 +3390,8 @@ components:
             - AUTHORIZATION_REQUESTED
             - AUTHORIZED
           description: >-
-            ENG: Status of the payment [CREATED: Created, IDENTIFIED:
-            User related, AUTHORIZATION_REQUESTED: Authorization Requested,
+            ENG: Status of the payment [CREATED: Created, IDENTIFIED:User
+            related, AUTHORIZATION_REQUESTED: Authorization Requested,
             AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED: Creato,
             IDENTIFIED: Utente associato, AUTHORIZATION_REQUESTED:
             autorizzazione richiesta, AUTHORIZED: autorizzato]
@@ -3463,12 +3463,12 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction
             not allowed due to status, PAYMENT_AMOUNT_NOT_VALID: amount of
             transaction not valid, PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant
-            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error
+            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error,
             PAYMENT_TRANSACTION_VERSION_MISMATCH: The transaction version
             mismatch, PAYMENT_TRANSACTION_VERSION_PENDING: The transaction
             version is actually locked, - IT: Codice di errore:
-            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta,
-            PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
+            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure
+            scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione scaduta,
             PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
             PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto,
