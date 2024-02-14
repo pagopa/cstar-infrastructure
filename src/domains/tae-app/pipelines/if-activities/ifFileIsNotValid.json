@@ -12,7 +12,7 @@
   "userProperties": [],
   "typeProperties": {
     "expression": {
-      "value": "@equals(activity('Check validity').output.firstRow.valid,false)",
+      "value": "@or(bool(not(contains(activity('Check validity').output, 'firstRow'))),equals(activity('Check validity').output.firstRow.valid,false))",
       "type": "Expression"
     },
     "ifFalseActivities": [
