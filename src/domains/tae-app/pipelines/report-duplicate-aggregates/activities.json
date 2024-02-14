@@ -1,0 +1,187 @@
+[
+  {
+    "name": "Create data ranges",
+    "type": "ForEach",
+    "dependsOn": [
+      {
+        "activity": "Set starting date",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "userProperties": [],
+    "typeProperties": {
+      "items": {
+        "value": "@range(\n    0, \n    div(\n        add(sub(\n                ticks(utcNow(concat(pipeline().parameters.year, '-12-31'))),\n                ticks(utcNow(concat(pipeline().parameters.year, '-01-01')))\n            ),864000000000),\n        864000000000\n    )\n)",
+        "type": "Expression"
+      },
+      "isSequential": false,
+      "batchCount": 50,
+      "activities": [
+        {
+          "name": "Calculate and append dates",
+          "type": "AppendVariable",
+          "dependsOn": [],
+          "userProperties": [],
+          "typeProperties": {
+            "variableName": "month_start_dates",
+            "value": {
+              "value": "{\n    \"start\": \"@{addDays(variables('startingDate'), item())}\",\n    \"end\": \"@{addMinutes(addDays(variables('startingDate'), item()), 1439)}\"\n}",
+              "type": "Expression"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Set data explorer target table",
+    "description": "Compute the name of target table where the pipeline is going to export the data.",
+    "type": "SetVariable",
+    "dependsOn": [],
+    "policy": {
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "variableName": "exportTableName",
+      "value": {
+        "value": "@concat('DuplicatesReport', pipeline().parameters.year)",
+        "type": "Expression"
+      }
+    }
+  },
+  {
+    "name": "Clean up report table",
+    "type": "AzureDataExplorerCommand",
+    "dependsOn": [
+      {
+        "activity": "Set data explorer target table",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "policy": {
+      "timeout": "0.12:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "command": {
+        "value": ".drop table @{variables('exportTableName')} ifexists",
+        "type": "Expression"
+      },
+      "commandTimeout": "00:20:00"
+    },
+    "linkedServiceName": {
+      "referenceName": "${data_explorer_linked_service}",
+      "type": "LinkedServiceReference"
+    }
+  },
+  {
+    "name": "Set starting date",
+    "type": "SetVariable",
+    "dependsOn": [],
+    "policy": {
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "variableName": "startingDate",
+      "value": {
+        "value": "@utcNow(concat(string(utcNow(pipeline().parameters.year)), '-01-01'))",
+        "type": "Expression"
+      }
+    }
+  },
+  {
+    "name": "Export each date",
+    "type": "ForEach",
+    "dependsOn": [
+      {
+        "activity": "Clean up report table",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      },
+      {
+        "activity": "Create data ranges",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "userProperties": [],
+    "typeProperties": {
+      "items": {
+        "value": "@variables('month_start_dates')",
+        "type": "Expression"
+      },
+      "isSequential": false,
+      "batchCount": 2,
+      "activities": [
+        {
+          "name": "Export data from Aggregates",
+          "description": "2022 require union with Aggregates2022 and also a normalization of totalAmout field due to overflow.",
+          "type": "AzureDataExplorerCommand",
+          "dependsOn": [],
+          "policy": {
+            "timeout": "0.12:00:00",
+            "retry": "${data_explorer_retry_count}",
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+          },
+          "userProperties": [],
+          "typeProperties": {
+            "command": {
+              "value": ".set-or-append async @{variables('exportTableName')} <|\n    set notruncation;\n    let start = datetime(@{json(item()).start});\n    let end = datetime(@{json(item()).end});\n    Aggregates\n    @{if(equals(pipeline().parameters.year, '2022'), '| union (Aggregates2022 | where accountingDate between (start..end) and isnull(valid) | extend totalAmount = iff(isempty(totalAmount32), totalAmount, totalAmount32))', '')}\n    | where accountingDate between (start..end) and isnull(valid)\n    | extend  muniqueKey = hash_md5(strcat(accountingDate, acquirerId,terminalId, merchantId, numTrx, operationType, totalAmount, fiscalCode, vat))\n    | project accountingDate, muniqueKey, senderCode, fileName\n    | summarize hint.shufflekey=muniqueKey duplicateCount=count(), files=make_set(fileName) by bin(accountingDate, 1d), muniqueKey, senderCode\n    | where duplicateCount > 1\n    | summarize totalDuplicateRecords=sum(duplicateCount), files=make_set(files) by bin(accountingDate, 1d), senderCode;",
+              "type": "Expression"
+            },
+            "commandTimeout": "00:20:00"
+          },
+          "linkedServiceName": {
+            "referenceName": "${data_explorer_linked_service}",
+            "type": "LinkedServiceReference"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Output exported dates",
+    "type": "SetVariable",
+    "dependsOn": [
+      {
+        "activity": "Create data ranges",
+        "dependencyConditions": [
+          "Succeeded"
+        ]
+      }
+    ],
+    "policy": {
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "variableName": "pipelineReturnValue",
+      "value": [
+        {
+          "key": "exportedDates",
+          "value": {
+            "type": "Expression",
+            "content": "@variables('month_start_dates')"
+          }
+        }
+      ]
+    }
+  }
+]

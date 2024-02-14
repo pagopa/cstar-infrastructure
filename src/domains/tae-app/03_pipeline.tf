@@ -425,3 +425,25 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
     azurerm_data_factory_custom_dataset.aggregates_log
   ]
 }
+
+resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
+  name            = "report_duplicate_aggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  activities_json = templatefile("./pipelines/report-duplicate-aggregates/activities.json", {
+    data_explorer_linked_service : azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name,
+    data_explorer_retry_count : 3
+  })
+
+  parameters = {
+    year = "2022"
+  }
+
+  variables = {
+    exportTableName   = ""
+    month_start_dates = ""
+    startingDate      = ""
+  }
+
+  concurrency = 1
+}

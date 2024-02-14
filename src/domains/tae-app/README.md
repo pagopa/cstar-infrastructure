@@ -38,6 +38,7 @@ No modules.
 | [azurerm_data_factory_pipeline.aggregates_ingestor_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.delete_aggregates_by_timestamp_pipeline](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.invalidate_flow](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.report_duplicate_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_schedule) | resource |
