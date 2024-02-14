@@ -19,7 +19,7 @@
                 <set-header name="channel" exists-action="override">
                     <value>ATM</value>
                 </set-header>
-                <rewrite-uri template="@("/idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/unsubscribe")" />
+                <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"] + "/code/instruments")" />
             </when>
             <otherwise>
                 <return-response>

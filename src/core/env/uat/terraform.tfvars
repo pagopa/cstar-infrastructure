@@ -36,6 +36,9 @@ cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 
+dns_forwarder_vmss_cidr = "10.1.199.16/29"
+dns_forwarder_lb_cidr   = "10.1.199.8/29"
+
 
 # integration vnet
 # https://www.davidc.net/sites/default/subnets/subnets.html?network=10.230.7.0&mask=24&division=7.31
@@ -260,7 +263,9 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 azdoa_image_name               = "cstar-u-azdo-agent-ubuntu2204-image-v1"
 enable_azdoa_agent_performance = true
-azdoa_agent_performance_vm_sku = "Standard_B2s"
+azdoa_agent_performance_vm_sku = "Standard_B2ms"
+azdoa_agent_app_vm_sku         = "Standard_B2ms"
+azdoa_agent_infra_vm_sku       = "Standard_B2ms"
 
 bkp_sa_soft_delete = {
   blob      = 7
@@ -270,11 +275,5 @@ bkp_sa_soft_delete = {
 sftp_ade_ack_archive_policy = {
   to_archive_days = 1
 }
-#
-# DNS forwarder VMSS + Load Balancer
-#
-
-dns_forwarder_vmss_cidr = "10.1.199.16/29"
-dns_forwarder_lb_cidr   = "10.1.199.8/29"
 
 law_retention_in_days = 30

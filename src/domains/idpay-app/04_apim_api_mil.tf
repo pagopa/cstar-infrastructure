@@ -270,6 +270,30 @@ module "idpay_mil_wallet" {
       })
     },
     {
+      operation_id = "getIdpayCodeStatus"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/get-code-status-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "generateCode"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/post-generate-idpaycode-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "enrollInstrumentCode"
+      xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/put-enroll-instrument-idpaycode-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
       operation_id = "unsubscribe"
       xml_content = templatefile("./api/idpay_mil/idpay_mil_wallet/put-unsubscribe-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
