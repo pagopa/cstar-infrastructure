@@ -3390,7 +3390,7 @@ components:
             - AUTHORIZATION_REQUESTED
             - AUTHORIZED
           description: >-
-            ENG: Status of the payment [CREATED: Created, IDENTIFIED:User
+            ENG: Status of the payment [CREATED: Created, IDENTIFIED: User
             related, AUTHORIZATION_REQUESTED: Authorization Requested,
             AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED: Creato,
             IDENTIFIED: Utente associato, AUTHORIZATION_REQUESTED:

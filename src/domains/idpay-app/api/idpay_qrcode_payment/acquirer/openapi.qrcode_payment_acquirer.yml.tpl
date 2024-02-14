@@ -190,6 +190,7 @@ components:
           enum:
             - CREATED
             - IDENTIFIED
+            - AUTHORIZATION_REQUESTED
             - AUTHORIZED
             - REWARDED
             - REJECTED

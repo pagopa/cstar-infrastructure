@@ -106,6 +106,8 @@ components:
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
             - PAYMENT_INVALID_REQUEST
+            - PAYMENT_TRANSACTION_VERSION_MISMATCH
+            - PAYMENT_TRANSACTION_VERSION_PENDING
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not
             found or expired, PAYMENT_TRANSACTION_EXPIRED: transaction expired,
@@ -130,9 +132,12 @@ components:
             PAYMENT_UNRELATE_NOT_ALLOWED_FOR_TRX_STATUS: unrelate transaction
             not allowed due to status, PAYMENT_AMOUNT_NOT_VALID: amount of
             transaction not valid, PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant
-            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error
-            - IT: Codice di errore: PAYMENT_NOT_FOUND_OR_EXPIRED: transazione
-            non trovata oppure scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione
+            is not onboarded, PAYMENT_INVALID_REQUEST: request validation error,
+            PAYMENT_TRANSACTION_VERSION_MISMATCH: The transaction version
+            mismatch, PAYMENT_TRANSACTION_VERSION_PENDING: The transaction
+            version is actually locked, - IT: Codice di errore:
+            PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure
+            scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione
             scaduta, PAYMENT_INITIATIVE_NOT_FOUND: iniziativa non trovata,
             PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto,
@@ -156,7 +161,10 @@ components:
             consentita a causa dello stato della transazione,
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido,
             PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato,
-            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta"
+            PAYMENT_INVALID_REQUEST: errore di validazione della richiesta,
+            PAYMENT_TRANSACTION_VERSION_MISMATCH: La versione del contatore non
+            corrisponde, PAYMENT_TRANSACTION_VERSION_PENDING: La versione del
+            contatore è attualmente bloccata"
         message:
           type: string
           description: 'ENG: Error message- IT: Messaggio di errore'
