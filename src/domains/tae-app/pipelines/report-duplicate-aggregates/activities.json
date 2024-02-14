@@ -25,7 +25,7 @@
           "dependsOn": [],
           "userProperties": [],
           "typeProperties": {
-            "variableName": "month_start_dates",
+            "variableName": "timeRanges",
             "value": {
               "value": "{\n    \"start\": \"@{addDays(variables('startingDate'), item())}\",\n    \"end\": \"@{addMinutes(addDays(variables('startingDate'), item()), 1439)}\"\n}",
               "type": "Expression"
@@ -66,7 +66,7 @@
     ],
     "policy": {
       "timeout": "0.12:00:00",
-      "retry": 0,
+      "retry": 3,
       "retryIntervalInSeconds": 30,
       "secureOutput": false,
       "secureInput": false
@@ -121,7 +121,7 @@
     "userProperties": [],
     "typeProperties": {
       "items": {
-        "value": "@variables('month_start_dates')",
+        "value": "@variables('timeRanges')",
         "type": "Expression"
       },
       "isSequential": false,
@@ -134,7 +134,7 @@
           "dependsOn": [],
           "policy": {
             "timeout": "0.12:00:00",
-            "retry": "${data_explorer_retry_count}",
+            "retry": ${data_explorer_retry_count},
             "retryIntervalInSeconds": 30,
             "secureOutput": false,
             "secureInput": false
@@ -142,7 +142,7 @@
           "userProperties": [],
           "typeProperties": {
             "command": {
-              "value": ".set-or-append async @{variables('exportTableName')} <|\n    set notruncation;\n    let start = datetime(@{json(item()).start});\n    let end = datetime(@{json(item()).end});\n    Aggregates\n    @{if(equals(pipeline().parameters.year, '2022'), '| union (Aggregates2022 | where accountingDate between (start..end) and isnull(valid) | extend totalAmount = iff(isempty(totalAmount32), totalAmount, totalAmount32))', '')}\n    | where accountingDate between (start..end) and isnull(valid)\n    | extend  muniqueKey = hash_md5(strcat(accountingDate, acquirerId,terminalId, merchantId, numTrx, operationType, totalAmount, fiscalCode, vat))\n    | project accountingDate, muniqueKey, senderCode, fileName\n    | summarize hint.shufflekey=muniqueKey duplicateCount=count(), files=make_set(fileName) by bin(accountingDate, 1d), muniqueKey, senderCode\n    | where duplicateCount > 1\n    | summarize totalDuplicateRecords=sum(duplicateCount), files=make_set(files) by bin(accountingDate, 1d), senderCode;",
+              "value": ".set-or-append async @{variables('exportTableName')} <|\n    set notruncation;\n    let start = datetime(@{json(item()).start});\n    let end = datetime(@{json(item()).end});\n    Aggregates\n    @{if(or(equals(pipeline().parameters.year, '2022'), equals(pipeline().parameters.year, '2023')), '| union (Aggregates2022 | where accountingDate between (start..end) and isnull(valid) | extend totalAmount = iff(isempty(totalAmount32), totalAmount, totalAmount32))', '')}\n    | where accountingDate between (start..end) and isnull(valid)\n    | extend  muniqueKey = hash_md5(strcat(accountingDate, acquirerId,terminalId, merchantId, numTrx, operationType, totalAmount, fiscalCode, vat))\n    | project accountingDate, muniqueKey, senderCode, fileName\n    | summarize hint.shufflekey=muniqueKey duplicateCount=count(), files=make_set(fileName) by bin(accountingDate, 1d), muniqueKey, senderCode\n    | where duplicateCount > 1\n    | summarize totalDuplicateRecords=sum(duplicateCount), files=make_set(files) by bin(accountingDate, 1d), senderCode;",
               "type": "Expression"
             },
             "commandTimeout": "00:20:00"
@@ -150,35 +150,6 @@
           "linkedServiceName": {
             "referenceName": "${data_explorer_linked_service}",
             "type": "LinkedServiceReference"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "name": "Output exported dates",
-    "type": "SetVariable",
-    "dependsOn": [
-      {
-        "activity": "Create data ranges",
-        "dependencyConditions": [
-          "Succeeded"
-        ]
-      }
-    ],
-    "policy": {
-      "secureOutput": false,
-      "secureInput": false
-    },
-    "userProperties": [],
-    "typeProperties": {
-      "variableName": "pipelineReturnValue",
-      "value": [
-        {
-          "key": "exportedDates",
-          "value": {
-            "type": "Expression",
-            "content": "@variables('month_start_dates')"
           }
         }
       ]

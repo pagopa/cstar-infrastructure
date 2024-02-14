@@ -439,11 +439,16 @@ resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
     year = "2022"
   }
 
-  variables = {
-    exportTableName   = ""
-    month_start_dates = ""
-    startingDate      = ""
-  }
-
   concurrency = 1
+
+  // Actually is not possible to specify variable type, so ignore variables changes.
+  // see https://github.com/hashicorp/terraform-provider-azurerm/issues/13131
+  variables = {
+    exportTableName = "" // typeof string
+    timeRanges      = "" // should be typeof array
+    startingDate    = "" // typeof string
+  }
+  lifecycle {
+    ignore_changes = ["variables"]
+  }
 }
