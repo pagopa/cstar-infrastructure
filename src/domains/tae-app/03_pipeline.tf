@@ -444,6 +444,10 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   depends_on = [
     azurerm_data_factory_custom_dataset.aggregates_log
   ]
+
+  lifecycle {
+    ignore_changes = ["parameters"]
+  }
 }
 
 resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
@@ -460,6 +464,10 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
     azurerm_data_factory_custom_dataset.pending_file,
     azurerm_storage_container.pending_for_ack_extraction_container
   ]
+
+  lifecycle {
+    ignore_changes = ["parameters"]
+  }
 }
 
 resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
