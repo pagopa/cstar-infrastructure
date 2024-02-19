@@ -84,6 +84,21 @@ resource "azurerm_monitor_action_group" "send_to_zendesk" {
 
 }
 
+resource "azurerm_monitor_action_group" "send_to_opsgenie" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "send_to_opsgenie"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  short_name          = "send_to_gen"
+
+  webhook_receiver {
+    name                    = "send_to_opsgenie"
+    service_uri             = data.azurerm_key_vault_secret.opsgenie_webhook_url[count.index].value
+    use_common_alert_schema = true
+  }
+}
+
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
 
   count = var.env_short == "p" ? 1 : 0
@@ -95,7 +110,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   evaluation_frequency = "P1D"
   window_duration      = "P2D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       let today = StorageBlobLogs
@@ -135,14 +150,14 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "In the last 24h at least one sender didn't submitted files"
-  display_name                     = "${var.domain}-${var.env_short}-a-sender-didnt-send-#ACQ"
+  display_name                     = "${var.domain}-${var.env_short}-a-sender-doesnt-send-#ACQ"
   enabled                          = false
   #query_time_range_override        = "PT1H"
   skip_query_validation = false
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -166,7 +181,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppRequests
@@ -196,7 +211,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -220,7 +235,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppRequests
@@ -250,7 +265,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -274,7 +289,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_e
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       let created = StorageBlobLogs
@@ -311,7 +326,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_e
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -335,7 +350,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -370,7 +385,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -394,7 +409,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppRequests
@@ -426,7 +441,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -450,7 +465,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppRequests
@@ -482,7 +497,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -506,7 +521,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ade_removes_ack_file"
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       StorageBlobLogs
@@ -535,7 +550,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ade_removes_ack_file"
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -559,7 +574,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "not_all_chunks_are_ve
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 3
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -587,7 +602,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "not_all_chunks_are_ve
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -611,7 +626,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_decryption" {
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 3
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -639,7 +654,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_decryption" {
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -663,7 +678,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "no_data_in_decryted_f
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 3
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -691,7 +706,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "no_data_in_decryted_f
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -715,7 +730,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "wrong_name_format" {
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -743,7 +758,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "wrong_name_format" {
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -767,7 +782,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 3
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -796,7 +811,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -820,7 +835,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 3
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -850,7 +865,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -874,7 +889,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_a
   evaluation_frequency = "P1D"
   window_duration      = "P1D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       let blobsPastDaysIn = StorageBlobLogs
@@ -914,7 +929,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_a
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+
     ]
     custom_properties = {
       key  = "value"
@@ -938,7 +954,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sas_token_
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -991,7 +1007,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -1019,7 +1035,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1043,7 +1059,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sender_ade
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -1076,7 +1092,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sender_ade
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1100,7 +1116,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -1134,7 +1150,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1158,7 +1174,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_no_co
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -1192,7 +1208,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_no_co
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1216,7 +1232,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_conte
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -1250,7 +1266,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_conte
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1274,7 +1290,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
   evaluation_frequency = "P1D"
   window_duration      = "P1D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 0
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AzureDiagnostics
@@ -1302,7 +1318,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1322,7 +1338,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-cl
   evaluation_frequency = "P1D"
   window_duration      = "P2D"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 2
+  severity             = 4
   criteria {
     query                   = <<-QUERY
       AppRequests
@@ -1355,7 +1371,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-cl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_zendesk[0].id
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
