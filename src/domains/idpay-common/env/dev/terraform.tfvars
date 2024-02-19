@@ -212,7 +212,8 @@ eventhubs_idpay_00 = [
       "idpay-transaction-consumer-group",
       "idpay-transaction-wallet-consumer-group",
       "idpay-rewards-notification-transaction-group",
-      "idpay-initiative-rewards-statistics-group"
+      "idpay-initiative-rewards-statistics-group",
+      "idpay-reward-calculator-consumer-group"
     ]
     keys = [
       {

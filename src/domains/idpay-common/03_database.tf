@@ -285,6 +285,10 @@ locals {
         {
           keys   = ["initiativeId"]
           unique = false
+        },
+        {
+          keys   = ["pendingTrx.id"]
+          unique = false
         }
       ]
     },
