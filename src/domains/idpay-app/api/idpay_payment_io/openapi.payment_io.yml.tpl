@@ -106,7 +106,6 @@ components:
             - PAYMENT_AMOUNT_NOT_VALID
             - PAYMENT_MERCHANT_NOT_ONBOARDED
             - PAYMENT_INVALID_REQUEST
-            - PAYMENT_TRANSACTION_VERSION_MISMATCH
             - PAYMENT_TRANSACTION_VERSION_PENDING
           description: >-
             "ENG: Error code: PAYMENT_NOT_FOUND_OR_EXPIRED: transaction not
@@ -133,8 +132,7 @@ components:
             not allowed due to status, PAYMENT_AMOUNT_NOT_VALID: amount of
             transaction not valid, PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant
             is not onboarded, PAYMENT_INVALID_REQUEST: request validation error,
-            PAYMENT_TRANSACTION_VERSION_MISMATCH: The transaction version
-            mismatch, PAYMENT_TRANSACTION_VERSION_PENDING: The transaction
+            PAYMENT_TRANSACTION_VERSION_PENDING: The transaction
             version is actually locked, - IT: Codice di errore:
             PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure
             scaduta, PAYMENT_TRANSACTION_EXPIRED: transazione
@@ -162,8 +160,7 @@ components:
             PAYMENT_AMOUNT_NOT_VALID: importo nella transazione non valido,
             PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato,
             PAYMENT_INVALID_REQUEST: errore di validazione della richiesta,
-            PAYMENT_TRANSACTION_VERSION_MISMATCH: La versione del contatore non
-            corrisponde, PAYMENT_TRANSACTION_VERSION_PENDING: La versione del
+            PAYMENT_TRANSACTION_VERSION_PENDING: La versione del
             contatore è attualmente bloccata"
         message:
           type: string

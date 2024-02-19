@@ -421,24 +421,6 @@ paths:
               example:
                 code: "PAYMENT_NOT_FOUND_EXPIRED"
                 message: "Cannot find transaction with trxCode [trxCode]"
-        '412':
-          description: The transaction version mismatch
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-              example:
-                code: 'PAYMENT_TRANSACTION_VERSION_MISMATCH'
-                message: 'The transaction version mismatch'
-        '423':
-          description: The transaction version is actually locked
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionErrorDTO'
-              example:
-                code: 'PAYMENT_TRANSACTION_VERSION_PENDING'
-                message: 'The transaction version is actually locked'
         '429':
           description: Too many requests
           content:
@@ -925,7 +907,6 @@ components:
             - PAYMENT_MERCHANT_NOT_ONBOARDED
             - PAYMENT_INVALID_REQUEST
             - PAYMENT_STATUS_NOT_VALID
-            - PAYMENT_TRANSACTION_VERSION_MISMATCH
             - PAYMENT_TRANSACTION_VERSION_PENDING
           description: >-
             "ENG: Error code:<br>
@@ -952,7 +933,6 @@ components:
             PAYMENT_MERCHANT_NOT_ONBOARDED: the merchant is not onboarded<br>
             PAYMENT_INVALID_REQUEST: request validation error<br>
             PAYMENT_STATUS_NOT_VALID: transaction status not valid<br>
-            PAYMENT_TRANSACTION_VERSION_MISMATCH: The transaction version mismatch<br>
             PAYMENT_TRANSACTION_VERSION_PENDING: The transaction version is actually locked<br>
             IT: Codice di errore<br>
             PAYMENT_NOT_FOUND_OR_EXPIRED: transazione non trovata oppure scaduta<br>
@@ -978,7 +958,6 @@ components:
             PAYMENT_MERCHANT_NOT_ONBOARDED: il merchant non è onboardato<br>
             PAYMENT_INVALID_REQUEST: errore di validazione della richiesta<br>
             PAYMENT_STATUS_NOT_VALID: stato della transazione non valido"<br>
-            PAYMENT_TRANSACTION_VERSION_MISMATCH: La versione del contatore non corrisponde<br>
             PAYMENT_TRANSACTION_VERSION_PENDING: La versione del contatore è attualmente bloccata
         message:
           type: string
