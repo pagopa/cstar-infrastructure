@@ -1,0 +1,24 @@
+{
+  "name": "For each pending file in Cosmos",
+  "type": "ForEach",
+  "dependsOn": [
+    {
+      "activity": "Extract pending files in Cosmos",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "userProperties": [],
+  "typeProperties": {
+    "items": {
+      "value": "@activity('Extract pending files in Cosmos').output.value",
+      "type": "Expression"
+    },
+    "isSequential": true,
+    "activities": [
+      ${check_flow_validity_activity},
+      ${if_file_is_not_valid_activity}
+    ]
+  }
+}

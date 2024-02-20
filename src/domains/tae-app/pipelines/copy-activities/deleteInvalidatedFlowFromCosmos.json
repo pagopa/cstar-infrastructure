@@ -61,13 +61,15 @@
   "inputs": [
     {
       "referenceName": "Aggregate",
-      "type": "DatasetReference"
+      "type": "DatasetReference",
+      "parameters": {}
     }
   ],
   "outputs": [
     {
       "referenceName": "Aggregate",
-      "type": "DatasetReference"
+      "type": "DatasetReference",
+      "parameters": {}
     }
   ]
 }

@@ -1,4 +1,5 @@
 locals {
+  // Invalidate flows whole activities
   invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
   })
@@ -14,6 +15,25 @@ locals {
     purge_activity      = local.purge_activity_content,
     set_ttl_activity    = local.set_ttl_activity
   })
+
+  // Pending flows whole activities
+  extract_pending_files_activity = file("pipelines/lookup-activities/extractPendingFilesInCosmos.json")
+
+  if_file_is_not_valid_activity = templatefile("pipelines/if-activities/ifFileIsNotValid.json", {
+    write_pending_filename_to_file_activity         = file("pipelines/copy-activities/writePendingFilenameToFile.json"),
+    write_pending_invalid_filename_to_file_activity = file("pipelines/copy-activities/writePendingInvalidFilenameToFile.json"),
+    execute_invalidate_flow_pipeline_activity       = file("pipelines/execute-pipeline-activity/executeInvalidateFlowPipeline.json")
+  })
+
+
+
+  for_each_pending_file_activity = templatefile("pipelines/foreach-activities/forEachPendingFileInCosmos.json", {
+    check_flow_validity_activity  = file("pipelines/lookup-activities/checkFlowValidity.json"),
+    if_file_is_not_valid_activity = local.if_file_is_not_valid_activity
+  })
+
+
+  collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
 
 }
 
@@ -423,5 +443,63 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
 
   depends_on = [
     azurerm_data_factory_custom_dataset.aggregates_log
+  ]
+
+  lifecycle {
+    ignore_changes = ["parameters"]
+  }
+}
+
+resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
+
+  name            = "pending_files_in_Cosmos"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
+    min_days_old = 7
+  }
+  activities_json = "[${local.extract_pending_files_activity},${local.for_each_pending_file_activity}, ${local.collect_pending_filenames_activity}]"
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.pending_file,
+    azurerm_storage_container.pending_for_ack_extraction_container
+  ]
+
+  lifecycle {
+    ignore_changes = ["parameters"]
+  }
+}
+
+resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
+
+  name            = format("%s-pending-flows", local.project)
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  interval  = var.pending_flows_conf.interval
+  frequency = var.pending_flows_conf.frequency
+  activated = var.pending_flows_conf.enable
+  time_zone = "UTC"
+
+  schedule {
+    minutes = [var.pending_flows_conf.schedule_minutes]
+    hours   = [var.pending_flows_conf.schedule_hours]
+    monthly {
+      weekday = var.pending_flows_conf.monthlyOccurrences_day
+      week    = 1
+    }
+  }
+
+  annotations = ["PendingFlows"]
+  description = format("The trigger fires every %s %s", var.pending_flows_conf.interval, var.pending_flows_conf.frequency)
+
+  pipeline_name = azurerm_data_factory_pipeline.pending_files_in_Cosmos.name
+  pipeline_parameters = {
+    // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
+    min_days_old = 7
+  }
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.pending_file,
+    azurerm_data_factory_pipeline.pending_files_in_Cosmos
   ]
 }
