@@ -1,0 +1,30 @@
+{
+  "name": "Extract pending files in Cosmos",
+  "type": "Lookup",
+  "dependsOn": [],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "CosmosDbSqlApiSource",
+      "query": {
+        "value": "@concat('SELECT DISTINCT c.sourceFileName FROM c where c.transmissionDate < \"',formatDateTime(subtractFromTime(utcNow(), pipeline().parameters.min_days_old, 'Day'), 'yyyy-MM-dd'), '\"')",
+        "type": "Expression"
+      },
+      "preferredRegions": [],
+      "detectDatetime": true
+    },
+    "dataset": {
+      "referenceName": "Aggregate",
+      "type": "DatasetReference",
+      "parameters": {}
+    },
+    "firstRowOnly": false
+  }
+}

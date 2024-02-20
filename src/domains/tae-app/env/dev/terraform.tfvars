@@ -61,6 +61,16 @@ dexp_mgmt_tae_db_linkes_service = {
   enable = true
 }
 
+pending_flows_conf = {
+  enable                        = false
+  interval                      = 1
+  frequency                     = "Month"
+  schedule_hours                = 10
+  schedule_minutes              = 0
+  monthlyOccurrences_day        = "Monday"
+  monthlyOccurrences_occurrence = 1
+}
+
 zendesk_action_enabled = {
   enable = false
 }

@@ -1,0 +1,29 @@
+{
+  "name": "Execute invalidate_flow pipeline",
+  "type": "ExecutePipeline",
+  "dependsOn": [
+    {
+      "activity": "Write pending invalid filename to file",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "policy": {
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "pipeline": {
+      "referenceName": "invalidate_flow",
+      "type": "PipelineReference"
+    },
+    "waitOnCompletion": true,
+    "parameters": {
+      "flows": {
+        "value": "@array(item().sourceFileName)",
+        "type": "Expression"
+      }
+    }
+  }
+}
