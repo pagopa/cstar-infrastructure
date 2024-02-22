@@ -1,0 +1,94 @@
+{
+  "name": "Write pending filenames to file",
+  "type": "Copy",
+  "dependsOn": [],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "CosmosDbSqlApiSource",
+      "additionalColumns": [
+        {
+          "name": "validity",
+          "value": "flow_still_valid_inquire"
+        }
+      ],
+      "query": {
+        "value": "@concat('SELECT DISTINCT c.sourceFileName, c.transmissionDate FROM c where c.sourceFileName = \"', item().sourceFileName,'\"')\n",
+        "type": "Expression"
+      },
+      "preferredRegions": [],
+      "detectDatetime": true
+    },
+    "sink": {
+      "type": "DelimitedTextSink",
+      "storeSettings": {
+        "type": "AzureBlobStorageWriteSettings",
+        "copyBehavior": "PreserveHierarchy"
+      },
+      "formatSettings": {
+        "type": "DelimitedTextWriteSettings",
+        "quoteAllText": true,
+        "fileExtension": ".txt"
+      }
+    },
+    "enableStaging": false,
+    "translator": {
+      "type": "TabularTranslator",
+      "mappings": [
+        {
+          "source": {
+            "path": "$['sourceFileName']"
+          },
+          "sink": {
+            "name": "filename",
+            "type": "String"
+          }
+        },
+        {
+          "source": {
+            "path": "$['transmissionDate']"
+          },
+          "sink": {
+            "name": "transmission_date",
+            "type": "Date"
+          }
+        },
+        {
+          "source": {
+            "path": "$['validity']"
+          },
+          "sink": {
+            "name": "validity",
+            "type": "String"
+          }
+        }
+      ]
+    }
+  },
+  "inputs": [
+    {
+      "referenceName": "Aggregate",
+      "type": "DatasetReference",
+      "parameters": {}
+    }
+  ],
+  "outputs": [
+    {
+      "referenceName": "PendingFile",
+      "type": "DatasetReference",
+      "parameters": {
+        "filename": {
+          "value": "@concat(pipeline().RunId,'_',item().sourceFileName,'.csv')",
+          "type": "Expression"
+        }
+      }
+    }
+  ]
+}
