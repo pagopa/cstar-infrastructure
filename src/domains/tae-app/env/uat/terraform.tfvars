@@ -72,7 +72,7 @@ pending_flows_conf = {
 }
 
 report_merchants_pipeline = {
-  enable = true
+  enable = false
 }
 
 zendesk_action_enabled = {
