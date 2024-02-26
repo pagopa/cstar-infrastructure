@@ -427,6 +427,8 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
 }
 
 resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
+  count = var.report_duplicates_conf.enable ? 1 : 0
+
   name            = "report_duplicate_aggregates"
   data_factory_id = data.azurerm_data_factory.datafactory.id
 
