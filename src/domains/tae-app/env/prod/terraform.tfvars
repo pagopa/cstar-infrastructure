@@ -79,10 +79,6 @@ zendesk_action_enabled = {
   enable = true
 }
 
-cosmos_sink_throughput = {
-  cap = 10000
-}
-
 alerts_conf = {
   max_days_just_into_ade_in = 3
 }

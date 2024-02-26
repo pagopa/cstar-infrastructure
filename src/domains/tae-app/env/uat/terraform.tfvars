@@ -79,10 +79,6 @@ zendesk_action_enabled = {
   enable = false
 }
 
-cosmos_sink_throughput = {
-  cap = 1500
-}
-
 bulk_delete_aggregates_conf = {
   interval                     = 1
   frequency                    = "Day"
