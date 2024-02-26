@@ -71,12 +71,12 @@ pending_flows_conf = {
   monthlyOccurrences_occurrence = 1
 }
 
-zendesk_action_enabled = {
+report_merchants_pipeline = {
   enable = false
 }
 
-cosmos_sink_throughput = {
-  cap = 1500
+zendesk_action_enabled = {
+  enable = false
 }
 
 bulk_delete_aggregates_conf = {

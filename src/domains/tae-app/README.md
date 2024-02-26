@@ -41,6 +41,7 @@ No modules.
 | [azurerm_data_factory_pipeline.invalidate_flow](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.pending_files_in_Cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_pipeline.report_duplicate_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
+| [azurerm_data_factory_pipeline.report_merchants](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_pipeline) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_blob_event.acquirer_aggregate_testing](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_blob_event) | resource |
 | [azurerm_data_factory_trigger_schedule.ade_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_trigger_schedule) | resource |
@@ -136,6 +137,7 @@ No modules.
 | <a name="input_pending_flows_conf"></a> [pending\_flows\_conf](#input\_pending\_flows\_conf) | Triggers every first Monday of the month at 10:00 UTC | <pre>object({<br>    enable                        = bool<br>    interval                      = number<br>    frequency                     = string<br>    schedule_hours                = number<br>    schedule_minutes              = number<br>    monthlyOccurrences_day        = string<br>    monthlyOccurrences_occurrence = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Month",<br>  "interval": 1,<br>  "monthlyOccurrences_day": "Monday",<br>  "monthlyOccurrences_occurrence": 1,<br>  "schedule_hours": 10,<br>  "schedule_minutes": 0<br>}</pre> | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_report_duplicates_conf"></a> [report\_duplicates\_conf](#input\_report\_duplicates\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
+| <a name="input_report_merchants_pipeline"></a> [report\_merchants\_pipeline](#input\_report\_merchants\_pipeline) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 | <a name="input_tae_blob_storage"></a> [tae\_blob\_storage](#input\_tae\_blob\_storage) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
 | <a name="input_zendesk_action_enabled"></a> [zendesk\_action\_enabled](#input\_zendesk\_action\_enabled) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |

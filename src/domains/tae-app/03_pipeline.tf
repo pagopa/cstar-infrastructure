@@ -446,7 +446,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   ]
 
   lifecycle {
-    ignore_changes = ["parameters"]
+    ignore_changes = [parameters]
   }
 }
 
@@ -466,7 +466,7 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
   ]
 
   lifecycle {
-    ignore_changes = ["parameters"]
+    ignore_changes = [parameters]
   }
 }
 
@@ -529,6 +529,31 @@ resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
     startingDate    = "" // typeof string
   }
   lifecycle {
-    ignore_changes = ["variables"]
+    ignore_changes = [variables]
+  }
+}
+
+resource "azurerm_data_factory_pipeline" "report_merchants" {
+  count = var.report_merchants_pipeline.enable ? 1 : 0
+
+  name            = "report_merchants"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  activities_json = templatefile("./pipelines/report-merchants/activities.json", {
+    data_explorer_linked_service : azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name,
+    data_explorer_retry_count : 3
+  })
+
+  parameters = {
+    year = "2022"
+  }
+
+  concurrency = 1
+
+  variables = {
+    exportTableName = ""   // typeof string
+    startingDate    = ""   // typeof string
+    endingDate      = ""   // typeof string
+    timeSpanInDays  = "7d" // typeof string
   }
 }

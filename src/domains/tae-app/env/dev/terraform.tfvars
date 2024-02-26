@@ -71,6 +71,10 @@ pending_flows_conf = {
   monthlyOccurrences_occurrence = 1
 }
 
+report_merchants_pipeline = {
+  enable = false
+}
+
 zendesk_action_enabled = {
   enable = false
 }
