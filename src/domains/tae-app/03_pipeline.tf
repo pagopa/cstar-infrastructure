@@ -551,9 +551,9 @@ resource "azurerm_data_factory_pipeline" "report_merchants" {
   concurrency = 1
 
   variables = {
-    exportTableName = "" // typeof string
-    startingDate    = "" // typeof string
-    endingDate      = "" // typeof string
+    exportTableName = ""   // typeof string
+    startingDate    = ""   // typeof string
+    endingDate      = ""   // typeof string
     timeSpanInDays  = "7d" // typeof string
   }
 }
