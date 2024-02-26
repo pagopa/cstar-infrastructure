@@ -253,5 +253,3 @@ variable "tae_blob_storage" {
     enable = bool
   })
 }
-
-variable "  " {}
