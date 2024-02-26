@@ -61,12 +61,22 @@ dexp_mgmt_tae_db_linkes_service = {
   enable = true
 }
 
-zendesk_action_enabled = {
+pending_flows_conf = {
+  enable                        = true
+  interval                      = 1
+  frequency                     = "Month"
+  schedule_hours                = 10
+  schedule_minutes              = 0
+  monthlyOccurrences_day        = "Monday"
+  monthlyOccurrences_occurrence = 1
+}
+
+report_merchants_pipeline = {
   enable = true
 }
 
-cosmos_sink_throughput = {
-  cap = 10000
+zendesk_action_enabled = {
+  enable = true
 }
 
 alerts_conf = {
@@ -74,5 +84,9 @@ alerts_conf = {
 }
 
 tae_blob_storage = {
+  enable = true
+}
+
+report_duplicates_conf = {
   enable = true
 }
