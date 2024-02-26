@@ -550,15 +550,10 @@ resource "azurerm_data_factory_pipeline" "report_merchants" {
 
   concurrency = 1
 
-  // Actually is not possible to specify variable type, so ignore variables changes.
-  // see https://github.com/hashicorp/terraform-provider-azurerm/issues/13131
   variables = {
     exportTableName = "" // typeof string
     startingDate    = "" // typeof string
     endingDate      = "" // typeof string
-    timeSpanInDays  = "" // typeof string
-  }
-  lifecycle {
-    ignore_changes = [variables]
+    timeSpanInDays  = "7d" // typeof string
   }
 }
