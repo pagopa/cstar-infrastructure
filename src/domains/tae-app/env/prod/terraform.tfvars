@@ -90,3 +90,7 @@ alerts_conf = {
 tae_blob_storage = {
   enable = true
 }
+
+report_duplicates_conf = {
+  enable = true
+}
