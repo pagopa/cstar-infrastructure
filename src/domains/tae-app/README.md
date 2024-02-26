@@ -111,7 +111,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_  "></a> [  ](#input\_  ) | n/a | `any` | n/a | yes |
 | <a name="input_ack_ingestor_conf"></a> [ack\_ingestor\_conf](#input\_ack\_ingestor\_conf) | n/a | <pre>object({<br>    interval                     = number<br>    frequency                    = string<br>    enable                       = bool<br>    sink_thoughput_cap           = number<br>    sink_write_throughput_budget = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Minute",<br>  "interval": 15,<br>  "sink_thoughput_cap": 500,<br>  "sink_write_throughput_budget": 1000<br>}</pre> | no |
 | <a name="input_aggregates_ingestor_conf"></a> [aggregates\_ingestor\_conf](#input\_aggregates\_ingestor\_conf) | n/a | <pre>object({<br>    enable                               = bool<br>    copy_activity_retries                = number<br>    copy_activity_retry_interval_seconds = number<br>  })</pre> | <pre>{<br>  "copy_activity_retries": 3,<br>  "copy_activity_retry_interval_seconds": 1800,<br>  "enable": false<br>}</pre> | no |
 | <a name="input_aks_cluster_domain_name"></a> [aks\_cluster\_domain\_name](#input\_aks\_cluster\_domain\_name) | Name of the aks cluster domain. eg: dev01 | `string` | n/a | yes |
