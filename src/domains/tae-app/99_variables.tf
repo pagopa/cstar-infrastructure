@@ -174,6 +174,15 @@ variable "pending_flows_conf" {
   }
 }
 
+variable "report_duplicates_conf" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "zendesk_action_enabled" {
   type = object({
     enable = bool
