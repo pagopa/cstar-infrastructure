@@ -446,7 +446,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   ]
 
   lifecycle {
-    ignore_changes = ["parameters"]
+    ignore_changes = [parameters]
   }
 }
 
@@ -466,7 +466,7 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
   ]
 
   lifecycle {
-    ignore_changes = ["parameters"]
+    ignore_changes = [parameters]
   }
 }
 
@@ -529,7 +529,7 @@ resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
     startingDate    = "" // typeof string
   }
   lifecycle {
-    ignore_changes = ["variables"]
+    ignore_changes = [variables]
   }
 }
 
@@ -559,6 +559,6 @@ resource "azurerm_data_factory_pipeline" "report_merchants" {
     timeSpanInDays  = "" // typeof string
   }
   lifecycle {
-    ignore_changes = ["variables"]
+    ignore_changes = [variables]
   }
 }
