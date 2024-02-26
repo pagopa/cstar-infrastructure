@@ -1,0 +1,211 @@
+{
+  "name": "report_merchants",
+  "properties": {
+    "activities": [
+      {
+        "name": "Set data explorer target table",
+        "description": "Compute the name of target table where the pipeline is going to export the data.",
+        "type": "SetVariable",
+        "dependsOn": [],
+        "policy": {
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "variableName": "exportTableName",
+          "value": {
+            "value": "@concat('MerchantsReport', pipeline().parameters.year)",
+            "type": "Expression"
+          }
+        }
+      },
+      {
+        "name": "Clean up report table",
+        "type": "AzureDataExplorerCommand",
+        "dependsOn": [
+          {
+            "activity": "Set data explorer target table",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": ${data_explorer_retry_count},
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "command": {
+            "value": ".drop table @{variables('exportTableName')} ifexists",
+            "type": "Expression"
+          },
+          "commandTimeout": "00:20:00"
+        },
+        "linkedServiceName": {
+          "referenceName": "${data_explorer_linked_service}",
+          "type": "LinkedServiceReference"
+        }
+      },
+      {
+        "name": "Set starting date",
+        "type": "SetVariable",
+        "dependsOn": [],
+        "policy": {
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "variableName": "startingDate",
+          "value": {
+            "value": "@utcNow(concat(string(utcNow(pipeline().parameters.year)), '-01-01'))",
+            "type": "Expression"
+          }
+        }
+      },
+      {
+        "name": "Export each date",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "Clean up report table",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Calculate dates",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Calculate dates').output.value",
+            "type": "Expression"
+          },
+          "isSequential": false,
+          "batchCount": 2,
+          "activities": [
+            {
+              "name": "Export data from Aggregates",
+              "description": "2022 require union with Aggregates2022.",
+              "type": "AzureDataExplorerCommand",
+              "dependsOn": [],
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": ${data_explorer_retry_count},
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "userProperties": [],
+              "typeProperties": {
+                "command": {
+                  "value": ".set-or-append async @{variables('exportTableName')} <|\n    set notruncation;\n    let start = datetime(@{item().accountingDate});\n    let end = datetime(@{addSeconds(addDays(utcNow(item().accountingDate), int(replace(variables('timeSpanInDays'), 'd', ''))), -1)});\n    let timeSpan = timespan(@{variables('timeSpanInDays')});\n    Aggregates\n    @{if(or(equals(pipeline().parameters.year, '2022'), equals(pipeline().parameters.year, '2023')), '| union (Aggregates2022 | where accountingDate between (start..end) and isnull(valid))', '')}\n    | where accountingDate between (start..end) and isnull(valid)\n    | summarize dcount(merchantId) by bin_at(accountingDate, timeSpan, start), senderCode;",
+                  "type": "Expression"
+                },
+                "commandTimeout": "00:20:00"
+              },
+              "linkedServiceName": {
+                "referenceName": "${data_explorer_linked_service}",
+                "type": "LinkedServiceReference"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Calculate dates",
+        "type": "Lookup",
+        "dependsOn": [
+          {
+            "activity": "Set ending date",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set starting date",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": ${data_explorer_retry_count},
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "AzureDataExplorerSource",
+            "query": {
+              "value": "range accountingDate from datetime('@{variables('startingDate')}') to datetime('@{variables('endingDate')}') step timespan('@{variables('timeSpanInDays')}')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "noTruncation": true
+          },
+          "dataset": {
+            "referenceName": "AggregatesLog",
+            "type": "DatasetReference"
+          },
+          "firstRowOnly": false
+        }
+      },
+      {
+        "name": "Set ending date",
+        "type": "SetVariable",
+        "dependsOn": [],
+        "policy": {
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "variableName": "endingDate",
+          "value": {
+            "value": "@utcNow(concat(string(utcNow(pipeline().parameters.year)), '-12-31'))",
+            "type": "Expression"
+          }
+        }
+      }
+    ],
+    "concurrency": 1,
+    "parameters": {
+      "year": {
+        "type": "String",
+        "defaultValue": "2022"
+      }
+    },
+    "variables": {
+      "exportTableName": {
+        "type": "String"
+      },
+      "startingDate": {
+        "type": "String"
+      },
+      "endingDate": {
+        "type": "String"
+      },
+      "timeSpanInDays": {
+        "type": "String",
+        "defaultValue": "7d"
+      }
+    },
+    "annotations": [],
+    "lastPublishTime": "2024-02-22T12:06:05Z"
+  },
+  "type": "Microsoft.DataFactory/factories/pipelines"
+}

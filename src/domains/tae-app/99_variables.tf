@@ -174,6 +174,15 @@ variable "pending_flows_conf" {
   }
 }
 
+variable "report_merchants_pipeline" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "zendesk_action_enabled" {
   type = object({
     enable = bool
@@ -235,3 +244,5 @@ variable "tae_blob_storage" {
     enable = bool
   })
 }
+
+variable "  " {}
