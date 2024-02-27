@@ -71,6 +71,10 @@ pending_flows_conf = {
   monthlyOccurrences_occurrence = 1
 }
 
+report_merchants_pipeline = {
+  enable = false
+}
+
 zendesk_action_enabled = {
   enable = false
 }
@@ -87,4 +91,8 @@ bulk_delete_aggregates_conf = {
 
 tae_blob_storage = {
   enable = true
+}
+
+report_duplicates_conf = {
+  enable = false
 }
