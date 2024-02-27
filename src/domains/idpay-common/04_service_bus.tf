@@ -25,7 +25,7 @@ resource "azurerm_key_vault_secret" "idpay-service-bus-ns-manager-sas-key" {
   key_vault_id = module.key_vault_idpay.id
 }
 
-#QUEUE
+#QUEUE Onboarding Request
 resource "azurerm_servicebus_queue" "idpay-onboarding-request" {
   name                                    = "idpay-onboarding-request"
   namespace_id                            = azurerm_servicebus_namespace.idpay-service-bus-ns.id
@@ -69,6 +69,37 @@ resource "azurerm_key_vault_secret" "idpay-onboarding-request-processor-sas-key"
 
   name         = "idpay-onboarding-request-processor-sas-key"
   value        = azurerm_servicebus_queue_authorization_rule.idpay-onboarding-request-processor.primary_connection_string
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_idpay.id
+}
+
+
+#QUEUE Payment Timeout
+
+resource "azurerm_servicebus_queue" "idpay-payment-timeout" {
+  name                                    = "idpay-payment-timeout"
+  namespace_id                            = azurerm_servicebus_namespace.idpay-service-bus-ns.id
+  requires_duplicate_detection            = true
+  duplicate_detection_history_time_window = "P1D"
+  dead_lettering_on_message_expiration    = true
+  #  enable_partitioning = true # default false
+}
+
+
+resource "azurerm_servicebus_queue_authorization_rule" "idpay-payment-timeout-consumer" {
+  name     = "idpay-payment-timeout-consumer"
+  queue_id = azurerm_servicebus_queue.idpay-payment-timeout.id
+
+  listen = true
+  send   = false
+  manage = false
+}
+
+resource "azurerm_key_vault_secret" "idpay-payment-timeout-consumer-sas-key" {
+
+  name         = "idpay-payment-timeout-consumer-sas-key"
+  value        = azurerm_servicebus_queue_authorization_rule.idpay-payment-timeout-consumer.primary_connection_string
   content_type = "text/plain"
 
   key_vault_id = module.key_vault_idpay.id

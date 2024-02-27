@@ -1,0 +1,26 @@
+{
+  "name": "If file is not valid",
+  "type": "IfCondition",
+  "dependsOn": [
+    {
+      "activity": "Check validity",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "userProperties": [],
+  "typeProperties": {
+    "expression": {
+      "value": "@or(bool(not(contains(activity('Check validity').output, 'firstRow'))),equals(activity('Check validity').output.firstRow.valid,false))",
+      "type": "Expression"
+    },
+    "ifFalseActivities": [
+      ${write_pending_filename_to_file_activity}
+    ],
+    "ifTrueActivities": [
+      ${write_pending_invalid_filename_to_file_activity},
+      ${execute_invalidate_flow_pipeline_activity}
+    ]
+  }
+}

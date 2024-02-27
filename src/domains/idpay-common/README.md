@@ -40,6 +40,7 @@
 | [azurerm_key_vault_secret.event_hub_keys_idpay_01](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay-onboarding-request-processor-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay-onboarding-request-producer-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.idpay-payment-timeout-consumer-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay-service-bus-ns-manager-sas-key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay_redis_00_primary_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.idpay_redis_00_primary_connection_url](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/key_vault_secret) | resource |
@@ -58,8 +59,10 @@
 | [azurerm_servicebus_namespace.idpay-service-bus-ns](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_namespace) | resource |
 | [azurerm_servicebus_namespace_authorization_rule.idpay-service-bus-ns-manager](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_namespace_authorization_rule) | resource |
 | [azurerm_servicebus_queue.idpay-onboarding-request](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_queue) | resource |
+| [azurerm_servicebus_queue.idpay-payment-timeout](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_queue) | resource |
 | [azurerm_servicebus_queue_authorization_rule.idpay-onboarding-request-processor](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_queue_authorization_rule) | resource |
 | [azurerm_servicebus_queue_authorization_rule.idpay-onboarding-request-producer](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_queue_authorization_rule) | resource |
+| [azurerm_servicebus_queue_authorization_rule.idpay-payment-timeout-consumer](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/servicebus_queue_authorization_rule) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
