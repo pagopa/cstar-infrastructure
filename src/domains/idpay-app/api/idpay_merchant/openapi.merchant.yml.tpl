@@ -537,6 +537,7 @@ components:
           enum:
             - CREATED
             - IDENTIFIED
+            - AUTHORIZATION_REQUESTED
             - AUTHORIZED
             - REJECTED
           description: "ENG: Status of the transaction - IT: Stato della transazione"
