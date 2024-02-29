@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: IDPAY Welfare Portal Merchant API
-  description: IDPAY Welfare Portal Merchant
+  title: IDPAY Welfare Organization Portal Merchant API
+  description: IDPAY Welfare Organization Portal Merchant API
   version: '1.0'
 servers:
   - url: https://api-io.dev.cstar.pagopa.it/idpay/merchant
