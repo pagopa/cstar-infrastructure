@@ -474,7 +474,7 @@ module "app_gw_maz" {
       webhook_properties = null
     },
     {
-      action_group_id    = azurerm_monitor_action_group.email.id
+      action_group_id    = azurerm_monitor_action_group.slack.id
       webhook_properties = null
     }
   ]
@@ -487,7 +487,7 @@ module "app_gw_maz" {
       description   = "Abnormal compute units usage, probably an high traffic peak"
       frequency     = "PT5M"
       window_size   = "PT5M"
-      severity      = 2
+      severity      = 4
       auto_mitigate = true
 
       criteria = []
@@ -528,7 +528,7 @@ module "app_gw_maz" {
       description   = "Traffic is raising"
       frequency     = "PT5M"
       window_size   = "PT15M"
-      severity      = 3
+      severity      = 4
       auto_mitigate = true
 
       criteria = []
