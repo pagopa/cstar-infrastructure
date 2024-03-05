@@ -79,14 +79,9 @@ resource "azurerm_api_management_api_operation" "idpay_mock_notificator_profiles
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock notificator profiles"
-  method              = "GET"
-  url_template        = "/api/v1/profiles/{fiscal_code}"
+  method              = "POST"
+  url_template        = "/api/v1/profiles"
   description         = "Endpoint for mock notificator profiles api"
-  template_parameter {
-    name     = "fiscal_code"
-    type     = "string"
-    required = true
-  }
 }
 
 resource "azurerm_api_management_api_operation_policy" "idpay_mock_notificator_profiles_policy" {
@@ -110,7 +105,7 @@ resource "azurerm_api_management_api_operation" "idpay_mock_create_service" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock BE IO create services"
   method              = "POST"
-  url_template        = "/api/v1/services"
+  url_template        = "/api/v1/manage/services"
   description         = "Endpoint for mock BE IO create services api"
 }
 
@@ -128,6 +123,37 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_create_servic
 
 }
 
+## IDPAY MOCK BE IO - delete service ##
+resource "azurerm_api_management_api_operation" "idpay_mock_delete_service" {
+  operation_id        = "idpay_mock_delete_service"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock BE IO delete services"
+  method              = "DELETE"
+  url_template        = "/api/v1/manage/services/{serviceId}"
+  description         = "Endpoint for mock BE IO delete services api"
+  template_parameter {
+    name     = "serviceId"
+    type     = "string"
+    required = true
+  }
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_delete_service_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_delete_service.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_delete_service.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_delete_service.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_delete_service.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_delete_service.xml.tpl", {
+    env = var.env
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_delete_service]
+
+}
+
 ## IDPAY MOCK BE IO - update service ##
 resource "azurerm_api_management_api_operation" "idpay_mock_update_service" {
   operation_id        = "idpay_mock_update_service"
@@ -136,7 +162,7 @@ resource "azurerm_api_management_api_operation" "idpay_mock_update_service" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock BE IO update services"
   method              = "PUT"
-  url_template        = "/api/v1/services/{serviceId}"
+  url_template        = "/api/v1/manage/services/{serviceId}"
   description         = "Endpoint for mock BE IO update services api"
   template_parameter {
     name     = "serviceId"
@@ -166,8 +192,8 @@ resource "azurerm_api_management_api_operation" "idpay_mock_upload_service_logo"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   display_name        = "IDPAY Mock BE IO upload services logo"
-  method              = "POST"
-  url_template        = "/api/v1/services/{serviceId}/logo"
+  method              = "PUT"
+  url_template        = "/api/v1/manage/services/{serviceId}/logo"
   description         = "Endpoint for mock BE IO upload service logo"
   template_parameter {
     name     = "serviceId"
@@ -186,6 +212,37 @@ resource "azurerm_api_management_api_operation_policy" "idpay_mock_upload_servic
   })
 
   depends_on = [azurerm_api_management_api_operation.idpay_mock_upload_service_logo]
+
+}
+
+## IDPAY MOCK BE IO - retrieve service token ##
+resource "azurerm_api_management_api_operation" "idpay_mock_retrieve_service_token" {
+  operation_id        = "idpay_mock_retrieve_service_token"
+  api_name            = azurerm_api_management_api.idpay_mock_api.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  display_name        = "IDPAY Mock BE IO retrieve service token"
+  method              = "GET"
+  url_template        = "/api/v1/manage/services/{serviceId}/keys"
+  description         = "Endpoint for mock BE IO retrieve service token api"
+  template_parameter {
+    name     = "serviceId"
+    type     = "string"
+    required = true
+  }
+}
+
+resource "azurerm_api_management_api_operation_policy" "idpay_mock_retrieve_service_token_policy" {
+  api_name            = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.api_name
+  api_management_name = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.api_management_name
+  resource_group_name = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.resource_group_name
+  operation_id        = azurerm_api_management_api_operation.idpay_mock_retrieve_service_token.operation_id
+
+  xml_content = templatefile("./api/idpay_mock_api/mock_retrieve_service_token.xml.tpl", {
+    env = var.env
+  })
+
+  depends_on = [azurerm_api_management_api_operation.idpay_mock_retrieve_service_token]
 
 }
 

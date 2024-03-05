@@ -1,0 +1,29 @@
+{
+  "name": "Check validity",
+  "type": "Lookup",
+  "dependsOn": [],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "AzureDataExplorerSource",
+      "query": {
+        "value": "Aggregates\n| where fileName == \"@{item().sourceFileName}\"\n| distinct valid\n| order by valid desc",
+        "type": "Expression"
+      },
+      "queryTimeout": "01:00:00",
+      "noTruncation": true
+    },
+    "dataset": {
+      "referenceName": "AggregatesLog",
+      "type": "DatasetReference",
+      "parameters": {}
+    }
+  }
+}

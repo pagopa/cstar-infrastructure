@@ -1,3 +1,42 @@
+locals {
+  // Invalidate flows whole activities
+  invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
+  })
+
+  purge_activity_content = templatefile("pipelines/data-explorer-activities/purgeInvalidFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
+  })
+
+  set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
+
+  invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
+    invalidate_activity = local.invalidate_activity_content,
+    purge_activity      = local.purge_activity_content,
+    set_ttl_activity    = local.set_ttl_activity
+  })
+
+  // Pending flows whole activities
+  extract_pending_files_activity = file("pipelines/lookup-activities/extractPendingFilesInCosmos.json")
+
+  if_file_is_not_valid_activity = templatefile("pipelines/if-activities/ifFileIsNotValid.json", {
+    write_pending_filename_to_file_activity         = file("pipelines/copy-activities/writePendingFilenameToFile.json"),
+    write_pending_invalid_filename_to_file_activity = file("pipelines/copy-activities/writePendingInvalidFilenameToFile.json"),
+    execute_invalidate_flow_pipeline_activity       = file("pipelines/execute-pipeline-activity/executeInvalidateFlowPipeline.json")
+  })
+
+
+
+  for_each_pending_file_activity = templatefile("pipelines/foreach-activities/forEachPendingFileInCosmos.json", {
+    check_flow_validity_activity  = file("pipelines/lookup-activities/checkFlowValidity.json"),
+    if_file_is_not_valid_activity = local.if_file_is_not_valid_activity
+  })
+
+
+  collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
+
+}
+
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
@@ -319,158 +358,202 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.log_analytics.id
   log_analytics_destination_type = "AzureDiagnostics"
 
-  log {
-    category       = "ActivityRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category       = "PipelineRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category       = "TriggerRuns"
-    category_group = null
-    enabled        = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
-  }
-
-  log {
-    category = "SSISIntegrationRuntimeLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageEventMessageContext"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageEventMessages"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutableStatistics"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutionComponentPhases"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SSISPackageExecutionDataStatistics"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SandboxActivityRuns"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  log {
-    category = "SandboxPipelineRuns"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
+  }
+
+  enabled_log {
+    category       = "ActivityRuns"
+    category_group = null
+  }
+
+  enabled_log {
+    category       = "PipelineRuns"
+    category_group = null
+  }
+
+  enabled_log {
+    category       = "TriggerRuns"
+    category_group = null
+  }
+
+  # enabled_log {
+  #   category = "SSISIntegrationRuntimeLogs"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageEventMessageContext"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageEventMessages"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutableStatistics"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutionComponentPhases"
+  # }
+
+  # enabled_log {
+  #   category = "SSISPackageExecutionDataStatistics"
+  # }
+
+  # enabled_log {
+  #   category = "SandboxActivityRuns"
+  # }
+
+  # enabled_log {
+  #   category = "SandboxPipelineRuns"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowDagProcessingLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowSchedulerLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowTaskLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowWebLogs"
+  # }
+
+  # enabled_log {
+  #   category = "AirflowWorkerLogs"
+  # }
+}
+
+resource "azurerm_data_factory_pipeline" "invalidate_flow" {
+  count = var.flow_invalidator_conf.enable ? 1 : 0
+
+  name            = "invalidate_flow"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
+  }
+  activities_json = "[${local.invalidate_and_purge_activities}]"
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.aggregates_log
+  ]
+
+  lifecycle {
+    ignore_changes = [parameters]
+  }
+}
+
+resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
+
+  name            = "pending_files_in_Cosmos"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
+    min_days_old = 7
+  }
+  activities_json = "[${local.extract_pending_files_activity},${local.for_each_pending_file_activity}, ${local.collect_pending_filenames_activity}]"
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.pending_file,
+    azurerm_storage_container.pending_for_ack_extraction_container
+  ]
+
+  lifecycle {
+    ignore_changes = [parameters]
+  }
+}
+
+resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
+
+  name            = format("%s-pending-flows", local.project)
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  interval  = var.pending_flows_conf.interval
+  frequency = var.pending_flows_conf.frequency
+  activated = var.pending_flows_conf.enable
+  time_zone = "UTC"
+
+  schedule {
+    minutes = [var.pending_flows_conf.schedule_minutes]
+    hours   = [var.pending_flows_conf.schedule_hours]
+    monthly {
+      weekday = var.pending_flows_conf.monthlyOccurrences_day
+      week    = 1
     }
   }
 
-  log {
-    category = "AirflowDagProcessingLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  annotations = ["PendingFlows"]
+  description = format("The trigger fires every %s %s", var.pending_flows_conf.interval, var.pending_flows_conf.frequency)
+
+  pipeline_name = azurerm_data_factory_pipeline.pending_files_in_Cosmos.name
+  pipeline_parameters = {
+    // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
+    min_days_old = 7
   }
 
-  log {
-    category = "AirflowSchedulerLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  depends_on = [
+    azurerm_data_factory_custom_dataset.pending_file,
+    azurerm_data_factory_pipeline.pending_files_in_Cosmos
+  ]
+}
+
+resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
+  count = var.report_duplicates_conf.enable ? 1 : 0
+
+  name            = "report_duplicate_aggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  activities_json = templatefile("./pipelines/report-duplicate-aggregates/activities.json", {
+    data_explorer_linked_service : azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name,
+    data_explorer_retry_count : 3
+  })
+
+  parameters = {
+    year = "2022"
   }
 
-  log {
-    category = "AirflowTaskLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  concurrency = 1
+
+  // Actually is not possible to specify variable type, so ignore variables changes.
+  // see https://github.com/hashicorp/terraform-provider-azurerm/issues/13131
+  variables = {
+    exportTableName = "" // typeof string
+    timeRanges      = "" // should be typeof array
+    startingDate    = "" // typeof string
+  }
+  lifecycle {
+    ignore_changes = [variables]
+  }
+}
+
+resource "azurerm_data_factory_pipeline" "report_merchants" {
+  count = var.report_merchants_pipeline.enable ? 1 : 0
+
+  name            = "report_merchants"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+
+  activities_json = templatefile("./pipelines/report-merchants/activities.json", {
+    data_explorer_linked_service : azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name,
+    data_explorer_retry_count : 3
+  })
+
+  parameters = {
+    year = "2022"
   }
 
-  log {
-    category = "AirflowWebLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  concurrency = 1
 
-  log {
-    category = "AirflowWorkerLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
+  variables = {
+    exportTableName = ""   // typeof string
+    startingDate    = ""   // typeof string
+    endingDate      = ""   // typeof string
+    timeSpanInDays  = "7d" // typeof string
   }
 }

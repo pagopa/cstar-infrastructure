@@ -56,46 +56,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: 'Parameter [size] must be less than or equal to 10'
+                code: "TIMELINE_INVALID_REQUEST"
+                message: "Something went wrong handling request"
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_USER_NOT_FOUND"
+                message: "Timeline for the current user not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
   '/{initiativeId}/{operationId}':
     get:
       tags:
@@ -132,40 +125,33 @@ paths:
                 $ref: '#/components/schemas/OperationDTO'
         '401':
           description: Authentication failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-              example:
-                code: 0
-                message: string
         '404':
           description: The requested ID was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_DETAIL_NOT_FOUND"
+                message: "Detail of Timeline not found"
         '429':
           description: Too many Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_TOO_MANY_REQUESTS"
+                message: "Too many requests"
         '500':
           description: Server ERROR
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/TimelineErrorDTO'
               example:
-                code: 0
-                message: string
+                code: "TIMELINE_GENERIC_ERROR"
+                message: "Application error"
 components:
   schemas:
     OperationDTO:
@@ -177,6 +163,7 @@ components:
         - $ref: '#/components/schemas/RefundDetailDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     TimelineDTO:
       type: object
       required:
@@ -223,15 +210,13 @@ components:
         - $ref: '#/components/schemas/RefundOperationDTO'
         - $ref: '#/components/schemas/SuspendOperationDTO'
         - $ref: '#/components/schemas/ReadmittedOperationDTO'
+        - $ref: '#/components/schemas/UnsubscribeOperationDTO'
     RejectedInstrumentOperationDTO:
       type: object
       required:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
         - channel
       properties:
         operationId:
@@ -264,6 +249,11 @@ components:
         channel:
           type: string
           description: "ENG: Channel from which the operation takes place - IT: Canale da cui avviene l'operazione"
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - IDPAYCODE
     TransactionDetailDTO:
       type: object
       required:
@@ -328,6 +318,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BARCODE
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string
@@ -337,9 +329,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - brandLogo
-        - brand
-        - maskedPan
+        - instrumentType
         - channel
       properties:
         operationId:
@@ -367,6 +357,11 @@ components:
         channel:
           type: string
           description: "ENG: Channel from which the operation takes place - IT: Canale da cui avviene l'operazione"
+        instrumentType:
+          type: string
+          enum:
+            - CARD
+            - IDPAYCODE
     IbanOperationDTO:
       type: object
       required:
@@ -500,6 +495,8 @@ components:
           enum:
             - RTD
             - QRCODE
+            - IDPAYCODE
+            - BARCODE
           description: "ENG: Channel from which the transaction takes place - IT: Canale da cui avviene la transazione"
         businessName:
           type: string
@@ -597,19 +594,56 @@ components:
           type: string
           format: date-time
           description: "ENG: Operation date - IT: Data dell'operazione"
-    ErrorDTO:
+    TimelineErrorDTO:
       type: object
       required:
         - code
         - message
       properties:
         code:
-          type: integer
-          format: int32
-          description: "ENG: Error code - IT: Codice di errore"
+          type: string
+          enum:
+            - TIMELINE_DETAIL_NOT_FOUND
+            - TIMELINE_USER_NOT_FOUND
+            - TIMELINE_REFUNDS_NOT_FOUND
+            - TIMELINE_INVALID_REQUEST
+            - TIMELINE_TOO_MANY_REQUESTS
+            - TIMELINE_GENERIC_ERROR
+          description: >-
+           "ENG: Error code: TIMELINE_DETAIL_NOT_FOUND: Detail of Timeline not found,
+            TIMELINE_USER_NOT_FOUND: Timeline for the current user not found,
+            TIMELINE_REFUNDS_NOT_FOUND: Refund for current initiative not found,
+            TIMELINE_INVALID_REQUEST: Something went wrong handling request,
+            TIMELINE_TOO_MANY_REQUESTS: Too many requests,
+            TIMELINE_GENERIC_ERROR: Application Error - IT: Codice di errore:
+            TIMELINE_DETAIL_NOT_FOUND: Dettaglio della Timeline non trovato,
+            TIMELINE_USER_NOT_FOUND: Timeline per utente corrente non trovata,
+            TIMELINE_REFUNDS_NOT_FOUND:  Rimborso per la corrente iniziativa non trovato,
+            TIMELINE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+            TIMELINE_TOO_MANY_REQUESTS: Troppe richieste,
+            TIMELINE_GENERIC_ERROR: Errore generico"
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
+    UnsubscribeOperationDTO:
+      type: object
+      required:
+        - operationId
+        - operationType
+        - operationDate
+      properties:
+        operationId:
+          type: string
+          description: "ENG: Id of the operation - IT: Identificativo dell'operazione"
+        operationType:
+          enum:
+            - UNSUBSCRIBED
+          type: string
+          description: "ENG: Operation type - IT: Tipologia dell'operazione"
+        operationDate:
+          type: string
+          format: date-time
+          description: "ENG: Operation date - IT: Data dell'operazione"
   securitySchemes:
     bearerAuth:
       type: http

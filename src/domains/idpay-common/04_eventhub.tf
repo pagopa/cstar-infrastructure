@@ -36,7 +36,7 @@ module "event_hub_idpay_00" {
     name = [data.azurerm_private_dns_zone.ehub.name]
   }
   private_dns_zone_record_A_name  = "eventhubidpay00"
-  private_dns_zone_resource_group = "${local.product}-msg-rg"
+  private_dns_zone_resource_group = data.azurerm_private_dns_zone.ehub.resource_group_name
 
   alerts_enabled = var.ehns_alerts_enabled
   metric_alerts  = var.ehns_metric_alerts
@@ -83,7 +83,7 @@ module "event_hub_idpay_00" {
 resource "azurerm_private_endpoint" "event_hub_idpay_00_private_endpoint" {
   # disabled in PROD
   count               = var.enable.idpay.eventhub_idpay_00 && var.env_short != "p" ? 1 : 0
-  name                = format("%s-evh-00-private-endpoint", local.project)
+  name                = "${local.project}-evh-00-private-endpoint"
   location            = var.location
   resource_group_name = local.vnet_core_resource_group_name
   subnet_id           = data.azurerm_subnet.private_endpoint_snet.id
@@ -96,7 +96,7 @@ resource "azurerm_private_endpoint" "event_hub_idpay_00_private_endpoint" {
   }
 
   private_service_connection {
-    name                           = format("%s-evh-00-private-service-connection", local.project)
+    name                           = "${local.project}-evh-00-private-service-connection"
     is_manual_connection           = false
     private_connection_resource_id = module.event_hub_idpay_00[count.index].namespace_id
     subresource_names              = ["namespace"]
@@ -141,7 +141,7 @@ module "event_hub_idpay_01" {
     name = [data.azurerm_private_dns_zone.ehub.name]
   }
   private_dns_zone_record_A_name  = "eventhubidpay01"
-  private_dns_zone_resource_group = "${local.product}-msg-rg"
+  private_dns_zone_resource_group = data.azurerm_private_dns_zone.ehub.resource_group_name
 
   alerts_enabled = var.ehns_alerts_enabled
   metric_alerts  = var.ehns_metric_alerts
@@ -187,7 +187,7 @@ module "event_hub_idpay_01" {
 resource "azurerm_private_endpoint" "event_hub_idpay_01_private_endpoint" {
   # disabled in PROD
   count               = var.enable.idpay.eventhub_idpay_00 && var.env_short != "p" ? 1 : 0
-  name                = format("%s-evh-01-private-endpoint", local.project)
+  name                = "${local.project}-evh-01-private-endpoint"
   location            = var.location
   resource_group_name = local.vnet_core_resource_group_name
   subnet_id           = data.azurerm_subnet.private_endpoint_snet.id
@@ -200,7 +200,7 @@ resource "azurerm_private_endpoint" "event_hub_idpay_01_private_endpoint" {
   }
 
   private_service_connection {
-    name                           = format("%s-evh-01-private-service-connection", local.project)
+    name                           = "${local.project}-evh-01-private-service-connection"
     is_manual_connection           = false
     private_connection_resource_id = module.event_hub_idpay_01[count.index].namespace_id
     subresource_names              = ["namespace"]

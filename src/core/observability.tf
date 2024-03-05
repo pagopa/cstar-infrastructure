@@ -112,54 +112,6 @@ resource "azurerm_monitor_action_group" "error" {
   tags = var.tags
 }
 
-resource "azurerm_monitor_diagnostic_setting" "activity_log" {
-  count                      = var.env_short == "p" ? 1 : 0
-  name                       = "SecurityLogs"
-  target_resource_id         = format("/subscriptions/%s", data.azurerm_subscription.current.subscription_id)
-  log_analytics_workspace_id = data.azurerm_key_vault_secret.sec_workspace_id[0].value
-  storage_account_id         = data.azurerm_key_vault_secret.sec_storage_id[0].value
-
-  log {
-    category = "Administrative"
-    enabled  = true
-  }
-
-  log {
-    category = "Security"
-    enabled  = true
-  }
-
-  log {
-    category = "Alert"
-    enabled  = true
-  }
-
-  log {
-    category = "Autoscale"
-    enabled  = false
-  }
-
-  log {
-    category = "Policy"
-    enabled  = false
-  }
-
-  log {
-    category = "Recommendation"
-    enabled  = false
-  }
-
-  log {
-    category = "ResourceHealth"
-    enabled  = false
-  }
-
-  log {
-    category = "ServiceHealth"
-    enabled  = false
-  }
-}
-
 resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
@@ -168,30 +120,17 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.log_analytics_workspace.id
   log_analytics_destination_type = "AzureDiagnostics"
 
-  log {
+  enabled_log {
     category = "GatewayLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
-    category = "WebSocketConnectionLogs"
-    enabled  = false
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
+  # enabled_log {
+  #   category = "WebSocketConnectionLogs"
+  # }
 
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 }
 
@@ -203,40 +142,22 @@ resource "azurerm_monitor_diagnostic_setting" "appgw_maz_diagnostic_settings" {
   target_resource_id         = module.app_gw_maz.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayAccessLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayPerformanceLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "ApplicationGatewayFirewallLog"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
 
   metric {
     category = "AllMetrics"
     enabled  = false
-    retention_policy {
-      enabled = false
-    }
   }
 }
 
@@ -262,9 +183,21 @@ resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   }
 
   auto_stop_enabled             = false
+  purge_enabled                 = var.dexp_params.purge_enabled
   public_network_access_enabled = var.dexp_params.public_network_access_enabled
   double_encryption_enabled     = var.dexp_params.double_encryption_enabled
   engine                        = "V3"
 
   tags = var.tags
+}
+
+resource "azurerm_kusto_cluster_managed_private_endpoint" "management_sa_mgd_pe" {
+  count                        = var.env_short == "p" && var.dexp_params.enabled ? 1 : 0
+  name                         = "managementSAPrivateEndpoint"
+  resource_group_name          = azurerm_resource_group.monitor_rg.name
+  cluster_name                 = azurerm_kusto_cluster.data_explorer_cluster[0].name
+  private_link_resource_id     = azurerm_storage_account.management_sa[0].id
+  private_link_resource_region = azurerm_storage_account.management_sa[0].location
+  group_id                     = "blob"
+  request_message              = "Please Approve"
 }

@@ -124,6 +124,7 @@ variable "eventhub_rtd_namespace" {
     maximum_throughput_units = number
     auto_inflate_enabled     = bool
     zone_redundant           = bool
+    minimum_tls_version      = string
   })
 }
 
@@ -166,7 +167,6 @@ variable "cosmos_mongo_db_params" {
     })
     main_geo_location_zone_redundant = bool
     enable_free_tier                 = bool
-    main_geo_location_zone_redundant = bool
     additional_geo_locations = list(object({
       location          = string
       failover_priority = number

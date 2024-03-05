@@ -1,0 +1,13 @@
+<!--
+This policy validate content and sign of MIL JWT token reading the fiscal code
+-->
+<fragment>
+  <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="milToken">
+    <openid-config url="https://mil-u-apim.azure-api.net/mil-auth/.well-known/openid-configuration" />
+    <issuers>
+      <issuer>https://mil-u-apim.azure-api.net/mil-auth</issuer>
+    </issuers>
+  </validate-jwt>
+  <set-variable name="fiscalCode" value="@((string)((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("fiscalCode", ""))" />
+  <set-variable name="groups" value="@(((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("groups", ""))" />
+</fragment>

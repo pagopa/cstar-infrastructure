@@ -40,9 +40,9 @@ module "idpay_permission_portal" {
   description  = "IDPAY Welfare Portal User Permission"
   display_name = "IDPAY Welfare Portal User Permission API"
   path         = "idpay/authorization"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
+  service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_role_permission/openapi.role-permission.yml")
@@ -86,9 +86,9 @@ module "idpay_initiative_portal" {
   description  = "IDPAY Welfare Portal Initiative"
   display_name = "IDPAY Welfare Portal Initiative API"
   path         = "idpay/initiative"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
+  service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_initiative/openapi.initiative.yml")
@@ -219,21 +219,31 @@ module "idpay_initiative_portal" {
       })
     },
     {
-      operation_id = "suspendUser"
+      operation_id = "suspendUserRefund"
 
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension-refund.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
-      operation_id = "readmitUser"
+      operation_id = "readmitUserRefund"
 
-      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission.xml.tpl", {
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission-refund.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "suspendUserDiscount"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-suspension-discount.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "readmitUserDiscount"
+
+      xml_content = templatefile("./api/idpay_initiative/put-initiative-readmission-discount.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     //CONFIG
@@ -309,7 +319,7 @@ module "idpay_initiative_portal" {
       operation_id = "getRewardFileDownload"
 
       xml_content = templatefile("./api/idpay_initiative/get-reward-download.xml.tpl", {
-        refund-storage-account-name = module.idpay_refund_storage.name
+        refund-storage-account-name = local.reward_storage_fqdn
       })
     },
     {
@@ -339,8 +349,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-iban.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -348,8 +356,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -357,8 +363,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-timeline-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -366,8 +370,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-wallet.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -375,8 +377,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -384,8 +384,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-onboarding-family-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -393,8 +391,6 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/get-beneficiary-instruments.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     //REFUND DETAIL
@@ -476,7 +472,7 @@ module "idpay_group_portal" {
   path         = "idpay/group"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaygroup/"
+  service_url = "${local.ingress_load_balancer_https}/idpaygroup/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_group/openapi.group.yml")
@@ -518,7 +514,7 @@ module "idpay_merchant_portal" {
   path         = "idpay/merchant"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaymerchant/"
+  service_url = "${local.ingress_load_balancer_https}/idpaymerchant/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_merchant/openapi.merchant.yml")
@@ -588,7 +584,7 @@ module "idpay_notification_email_api" {
   path         = "idpay/email-notification"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaynotificationemail/"
+  service_url = "${local.ingress_load_balancer_https}/idpaynotificationemail/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_notification_email/openapi.notification.email.yml")

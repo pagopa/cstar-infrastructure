@@ -35,6 +35,9 @@ locals {
   azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
   azuredevops_rg_name             = "${local.project}-azdoa-rg"
   azuredevops_subnet_name         = "${local.project}-azdoa-snet"
+
+  # Dns Forwarder
+  dns_forwarder_vm_image_name = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
 }
 
 variable "location" {
@@ -100,11 +103,6 @@ variable "cidr_subnet_db" {
   description = "Database network address space."
 }
 
-variable "cidr_subnet_flex_dbms" {
-  type        = list(string)
-  description = "Postgres Flexible Server network address space."
-}
-
 variable "cidr_subnet_redis" {
   type        = list(string)
   description = "Redis network address space."
@@ -144,6 +142,16 @@ variable "cidr_subnet_dnsforwarder" {
 variable "cidr_subnet_pair_dnsforwarder" {
   type        = list(string)
   description = "DNS Forwarder network address space."
+}
+
+variable "dns_forwarder_vmss_cidr" {
+  type        = string
+  description = "DNS Forwarder VMSS network address space."
+}
+
+variable "dns_forwarder_lb_cidr" {
+  type        = string
+  description = "DNS Forwarder load balancer network address space."
 }
 
 variable "cidr_subnet_cosmos_mongodb" {
@@ -285,49 +293,6 @@ variable "ingress_load_balancer_ip" {
 variable "ingress_load_balancer_hostname" {
   type        = string
   description = "AKS load balancer internal hostname."
-}
-
-variable "aks_num_outbound_ips" {
-  type        = number
-  default     = 1
-  description = "How many outbound ips allocate for AKS cluster"
-}
-
-variable "aks_metric_alerts" {
-  default = {}
-
-  description = <<EOD
-Map of name = criteria objects
-EOD
-
-  type = map(object({
-    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
-    aggregation = string
-    # "Insights.Container/pods" "Insights.Container/nodes"
-    metric_namespace = string
-    metric_name      = string
-    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
-    operator  = string
-    threshold = number
-    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
-    frequency = string
-    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
-    window_size = string
-
-    dimension = list(object(
-      {
-        name     = string
-        operator = string
-        values   = list(string)
-      }
-    ))
-  }))
-}
-
-variable "aks_alerts_enabled" {
-  type        = bool
-  default     = true
-  description = "Aks alert enabled?"
 }
 
 variable "aks_networks" {
@@ -599,121 +564,6 @@ EOD
   }))
 }
 
-# Postgres Flexible
-variable "pgres_flex_params" {
-  type = object({
-    enabled                      = bool
-    sku_name                     = string
-    db_version                   = string
-    storage_mb                   = string
-    zone                         = number
-    backup_retention_days        = number
-    geo_redundant_backup_enabled = bool
-    create_mode                  = string
-  })
-
-}
-
-## Event hub
-variable "ehns_sku_name" {
-  type        = string
-  description = "Defines which tier to use."
-  default     = "Basic"
-}
-
-variable "ehns_capacity" {
-  type        = number
-  description = "Specifies the Capacity / Throughput Units for a Standard SKU namespace."
-  default     = null
-}
-
-variable "ehns_maximum_throughput_units" {
-  type        = number
-  description = "Specifies the maximum number of throughput units when Auto Inflate is Enabled"
-  default     = null
-}
-
-variable "ehns_auto_inflate_enabled" {
-  type        = bool
-  description = "Is Auto Inflate enabled for the EventHub Namespace?"
-  default     = false
-}
-
-variable "ehns_zone_redundant" {
-  type        = bool
-  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
-  default     = false
-}
-
-variable "eventhubs" {
-  description = "A list of event hubs to add to namespace for BPD application."
-  type = list(object({
-    name              = string
-    partitions        = number
-    message_retention = number
-    consumers         = list(string)
-    keys = list(object({
-      name   = string
-      listen = bool
-      send   = bool
-      manage = bool
-    }))
-  }))
-  default = []
-}
-
-variable "eventhubs_fa" {
-  description = "A list of event hubs to add to namespace for FA application."
-  type = list(object({
-    name              = string
-    partitions        = number
-    message_retention = number
-    consumers         = list(string)
-    keys = list(object({
-      name   = string
-      listen = bool
-      send   = bool
-      manage = bool
-    }))
-  }))
-  default = []
-}
-
-variable "ehns_alerts_enabled" {
-  type        = bool
-  default     = true
-  description = "Event hub alerts enabled?"
-}
-variable "ehns_metric_alerts" {
-  default = {}
-
-  description = <<EOD
-Map of name = criteria objects
-EOD
-
-  type = map(object({
-    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
-    aggregation = string
-    metric_name = string
-    description = string
-    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
-    operator  = string
-    threshold = number
-    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
-    frequency = string
-    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
-    window_size = string
-
-    dimension = list(object(
-      {
-        name     = string
-        operator = string
-        values   = list(string)
-      }
-    ))
-  }))
-}
-
 ## Redis cache
 variable "redis_capacity" {
   type    = number
@@ -821,7 +671,6 @@ variable "enable" {
   type = object({
     core = object({
       private_endpoints_subnet = bool
-      aks                      = bool
     })
     bpd = object({
       db     = bool
@@ -917,4 +766,36 @@ variable "enable_azdoa_agent_performance" {
 variable "azdoa_agent_performance_vm_sku" {
   type        = string
   description = "Azure DevOps Agent performance VM SKU"
+}
+
+variable "azdoa_agent_app_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent APP VM SKU"
+}
+
+variable "azdoa_agent_infra_vm_sku" {
+  type        = string
+  description = "Azure DevOps Agent INFRA VM SKU"
+}
+
+variable "bkp_sa_soft_delete" {
+  type = object({
+    blob      = number
+    container = number
+  })
+  default = {
+    blob      = 7
+    container = 7
+  }
+  description = "Set Retention Days of Deleted Blob and Containers on Backup Storage Account"
+}
+
+variable "sftp_ade_ack_archive_policy" {
+  type = object({
+    to_archive_days = number
+  })
+  default = {
+    to_archive_days = 1
+  }
+  description = "Set Archive Policy for Blobs contained in ade/ack dir in SFTP server"
 }

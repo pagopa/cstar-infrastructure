@@ -11,9 +11,9 @@ location_pair       = "northeurope"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
-  Owner       = "DevOps"
-  Source      = "https://github.com/pagopa/devopslab-infra"
+  Environment = "DEV"
+  Owner       = "CSTAR"
+  Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
@@ -43,7 +43,7 @@ public_ip_aksoutbound_name = "cstar-d-weu-dev01-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.25.11"
+aks_kubernetes_version      = "1.27.3"
 aks_system_node_pool = {
   name            = "cstdev01sys",
   vm_size         = "Standard_B2ms",
@@ -57,11 +57,11 @@ aks_system_node_pool = {
 aks_user_node_pool = {
   enabled         = true,
   name            = "cstdev01usr",
-  vm_size         = "Standard_B4ms",
+  vm_size         = "Standard_B8ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
-  node_count_min  = 3,
-  node_count_max  = 5,
+  node_count_min  = 1,
+  node_count_max  = 3,
   node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },

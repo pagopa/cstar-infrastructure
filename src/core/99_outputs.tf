@@ -10,23 +10,6 @@ output "vnet_address_space" {
   value = module.vnet.address_space
 }
 
-
-output "aks_cluster_name" {
-  value = one(module.aks[*].name)
-}
-
-output "aks_fqdn" {
-  value = one(module.aks[*].fqdn)
-}
-
-output "aks_private_fqdn" {
-  value = one(module.aks[*].private_fqdn)
-}
-
-output "aks_outbound_ips" {
-  value = azurerm_public_ip.aks_outbound.*.ip_address
-}
-
 ## key vault ##
 output "key_vault_uri" {
   value = module.key_vault.vault_uri
@@ -34,20 +17,6 @@ output "key_vault_uri" {
 
 output "key_vault_name" {
   value = module.key_vault.name
-}
-
-## Container registry ##
-output "container_registry_login_server" {
-  value = one(module.acr[*].login_server)
-}
-
-output "container_registry_admin_username" {
-  value = one(module.acr[*].admin_username)
-}
-
-output "container_registry_admin_password" {
-  value     = one(module.acr[*].admin_password)
-  sensitive = true
 }
 
 ## Api management ##
@@ -62,14 +31,6 @@ output "apim_private_ip_addresses" {
 output "apim_public_ip_addresses" {
   value = module.apim.public_ip_addresses
 }
-
-# output "apim_gateway_url" {
-#   value = format("https://%s", azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name)
-# }
-
-# output "apim_gateway_hostname" {
-#   value = azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-# }
 
 output "app_gateway_maz_public_ip" {
   value = azurerm_public_ip.appgateway_public_ip.ip_address
@@ -116,36 +77,6 @@ output "postgresql_replica_fqdn" {
   value = one(module.postgresql[*].replica_fqdn)
 }
 
-# Postgres flexible server
-
-output "pgres_flex_fqdn" {
-  value = module.postgres_flexible_server.*.fqdn
-}
-
-output "pgres_flex_public_access_enabled" {
-  value = module.postgres_flexible_server.*.public_access_enabled
-}
-
-# To enable outputs related to redis cache, please uncomment the following lines
-## Redis cache
-# output "redis_primary_access_key" {
-#   value     = module.redis.primary_access_key
-#   sensitive = true
-# }
-
-# output "redis_hostname" {
-#   value = module.redis.hostname
-# }
-
-# output "redis_port" {
-#   value = module.redis.port
-# }
-
-# output "redis_ssl_port" {
-#   value = module.redis.ssl_port
-# }
-
-
 # Blob storage
 output "primary_blob_host" {
   value = module.cstarblobstorage.primary_blob_host
@@ -157,19 +88,6 @@ output "backup_storage_account_name" {
 
 output "primary_web_host" {
   value = module.cstarblobstorage.primary_web_host
-}
-
-# Event Hub
-output "event_hub_keys_ids" {
-  value       = module.event_hub.key_ids
-  description = "List of event hub key ids."
-  sensitive   = true
-}
-
-output "event_hub_keys" {
-  value       = module.event_hub.keys
-  description = "Map of hubs with keys => primary_key / secondary_key mapping."
-  sensitive   = true
 }
 
 # APIM internal subscription key

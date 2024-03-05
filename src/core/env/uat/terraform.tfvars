@@ -32,10 +32,12 @@ cidr_subnet_jumpbox          = ["10.1.131.0/24"]
 cidr_subnet_vpn              = ["10.1.132.0/24"]
 cidr_subnet_dnsforwarder     = ["10.1.133.0/29"]
 cidr_subnet_adf              = ["10.1.135.0/24"]
-cidr_subnet_flex_dbms        = ["10.1.136.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
+
+dns_forwarder_vmss_cidr = "10.1.199.16/29"
+dns_forwarder_lb_cidr   = "10.1.199.8/29"
 
 
 # integration vnet
@@ -59,205 +61,6 @@ aks_networks = [
     vnet_cidr   = ["10.11.0.0/16"]
   }
 ]
-aks_availability_zones = []
-
-aks_enable_auto_scaling = true
-aks_min_node_count      = 1
-aks_max_node_count      = 3
-aks_alerts_enabled      = false
-aks_node_count          = 1
-aks_metric_alerts = {
-  node_cpu = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/nodes"
-    metric_name      = "cpuUsagePercentage"
-    operator         = "GreaterThan"
-    threshold        = 80
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "host"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ],
-  }
-  node_memory = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/nodes"
-    metric_name      = "memoryWorkingSetPercentage"
-    operator         = "GreaterThan"
-    threshold        = 80
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "host"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ],
-  }
-  node_disk = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/nodes"
-    metric_name      = "DiskUsedPercentage"
-    operator         = "GreaterThan"
-    threshold        = 80
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "host"
-        operator = "Include"
-        values   = ["*"]
-      },
-      {
-        name     = "device"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ],
-  }
-  node_not_ready = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/nodes"
-    metric_name      = "nodesCount"
-    operator         = "GreaterThan"
-    threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "status"
-        operator = "Include"
-        values   = ["NotReady"]
-      }
-    ],
-  }
-  pods_failed = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/pods"
-    metric_name      = "podCount"
-    operator         = "GreaterThan"
-    threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "phase"
-        operator = "Include"
-        values   = ["Failed"]
-      }
-    ]
-  }
-  pods_ready = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/pods"
-    metric_name      = "PodReadyPercentage"
-    operator         = "LessThan"
-    threshold        = 80
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "kubernetes namespace"
-        operator = "Include"
-        values   = ["*"]
-      },
-      {
-        name     = "controllerName"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ]
-  }
-  container_cpu = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/containers"
-    metric_name      = "cpuExceededPercentage"
-    operator         = "GreaterThan"
-    threshold        = 95
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "kubernetes namespace"
-        operator = "Include"
-        values   = ["*"]
-      },
-      {
-        name     = "controllerName"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ]
-  }
-  container_memory = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/containers"
-    metric_name      = "memoryWorkingSetExceededPercentage"
-    operator         = "GreaterThan"
-    threshold        = 95
-    frequency        = "PT1M"
-    window_size      = "PT5M"
-    dimension = [
-      {
-        name     = "kubernetes namespace"
-        operator = "Include"
-        values   = ["*"]
-      },
-      {
-        name     = "controllerName"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ]
-  }
-  container_oom = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/pods"
-    metric_name      = "oomKilledContainerCount"
-    operator         = "GreaterThan"
-    threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT1M"
-    dimension = [
-      {
-        name     = "kubernetes namespace"
-        operator = "Include"
-        values   = ["*"]
-      },
-      {
-        name     = "controllerName"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ]
-  }
-  container_restart = {
-    aggregation      = "Average"
-    metric_namespace = "Insights.Container/pods"
-    metric_name      = "restartingContainerCount"
-    operator         = "GreaterThan"
-    threshold        = 0
-    frequency        = "PT1M"
-    window_size      = "PT1M"
-    dimension = [
-      {
-        name     = "kubernetes namespace"
-        operator = "Include"
-        values   = ["*"]
-      },
-      {
-        name     = "controllerName"
-        operator = "Include"
-        values   = ["*"]
-      }
-    ]
-  }
-}
 
 devops_service_connection_object_id = "8d1b7de8-4f57-4ed6-8f44-b6cebee4c42b"
 azdo_sp_tls_cert_enabled            = false
@@ -349,20 +152,6 @@ db_metric_alerts = {
   }
 }
 
-pgres_flex_params = {
-
-  enabled    = false
-  sku_name   = "B_Standard_B1ms"
-  db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
-  # 2097152, 4194304, 8388608, 16777216, and 33554432.
-  storage_mb                   = 32768
-  zone                         = 1
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
-  create_mode                  = "Default"
-}
-
 ## DNS
 dns_zone_prefix         = "uat.cstar"
 dns_zone_welfare_prefix = "uat.welfare"
@@ -388,97 +177,13 @@ dexp_params = {
     min_instances = 2
     max_instances = 3
   }
-  public_network_access_enabled = true
+  public_network_access_enabled = false
   double_encryption_enabled     = false
   disk_encryption_enabled       = true
-  purge_enabled                 = false
-}
-
-#
-# EHNS
-#
-
-ehns_sku_name       = "Standard"
-ehns_alerts_enabled = false
-ehns_metric_alerts = {
-  no_trx = {
-    aggregation = "Total"
-    metric_name = "IncomingMessages"
-    description = "No transactions received from acquirer in the last 24h"
-    operator    = "LessThanOrEqual"
-    threshold   = 1000
-    frequency   = "PT1H"
-    window_size = "P1D"
-    dimension = [
-      {
-        name     = "EntityName"
-        operator = "Include"
-        values   = ["rtd-trx"]
-      }
-    ],
-  },
-  active_connections = {
-    aggregation = "Average"
-    metric_name = "ActiveConnections"
-    description = null
-    operator    = "LessThanOrEqual"
-    threshold   = 0
-    frequency   = "PT5M"
-    window_size = "PT15M"
-    dimension   = [],
-  },
-  error_trx = {
-    aggregation = "Total"
-    metric_name = "IncomingMessages"
-    description = "Transactions rejected from one acquirer file received. trx write on eventhub. check immediately"
-    operator    = "GreaterThan"
-    threshold   = 0
-    frequency   = "PT5M"
-    window_size = "PT30M"
-    dimension = [
-      {
-        name     = "EntityName"
-        operator = "Include"
-        values = ["bpd-trx-error",
-        "rtd-trx-error"]
-      }
-    ],
-  },
+  purge_enabled                 = true
 }
 
 enable_azdoa = true
-
-eventhubs = [
-  {
-    name              = "tkm-write-update-token"
-    partitions        = 1
-    message_retention = 1
-    consumers         = ["tkm-write-update-token-consumer-group", "rtd-ingestor-consumer-group", "rtd-pim-consumer-group"]
-    keys = [
-      {
-        # publisher
-        name   = "tkm-write-update-token-pub"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-sub"
-        listen = true
-        send   = true
-        manage = false
-      },
-      {
-        # subscriber
-        name   = "tkm-write-update-token-tests"
-        listen = true
-        send   = false
-        manage = false
-      },
-    ]
-  }
-]
 
 external_domain = "pagopa.it"
 
@@ -516,7 +221,6 @@ enable_blob_storage_event_grid_integration = true
 enable = {
   core = {
     private_endpoints_subnet = true
-    aks                      = false
   }
   bpd = {
     db     = false
@@ -559,5 +263,17 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 azdoa_image_name               = "cstar-u-azdo-agent-ubuntu2204-image-v1"
 enable_azdoa_agent_performance = true
-azdoa_agent_performance_vm_sku = "Standard_B2s"
+azdoa_agent_performance_vm_sku = "Standard_B2ms"
+azdoa_agent_app_vm_sku         = "Standard_B2ms"
+azdoa_agent_infra_vm_sku       = "Standard_B2ms"
 
+bkp_sa_soft_delete = {
+  blob      = 7
+  container = 7
+}
+
+sftp_ade_ack_archive_policy = {
+  to_archive_days = 1
+}
+
+law_retention_in_days = 30

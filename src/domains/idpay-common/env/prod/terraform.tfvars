@@ -43,7 +43,7 @@ cosmos_mongo_account_params = {
     max_interval_in_seconds = 300
     max_staleness_prefix    = 100000
   }
-  server_version                   = "4.0"
+  server_version                   = "4.2"
   main_geo_location_zone_redundant = false
   enable_free_tier                 = false
 
@@ -63,7 +63,7 @@ cosmos_mongo_account_params = {
 
 cosmos_mongo_db_idpay_params = {
   throughput     = null
-  max_throughput = 4000
+  max_throughput = null
 }
 
 service_bus_namespace = {
@@ -161,26 +161,6 @@ eventhubs_idpay_00 = [
     ]
   },
   {
-    name              = "idpay-timeline"
-    partitions        = 3
-    message_retention = 1
-    consumers         = ["idpay-timeline-consumer-group"]
-    keys = [
-      {
-        name   = "idpay-timeline-producer"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "idpay-timeline-consumer"
-        listen = true
-        send   = false
-        manage = false
-      }
-    ]
-  },
-  {
     name              = "idpay-notification-request"
     partitions        = 3
     message_retention = 1
@@ -220,15 +200,11 @@ eventhubs_idpay_00 = [
       }
     ]
   },
-]
-
-
-eventhubs_idpay_01 = [
   {
     name              = "idpay-transaction"
     partitions        = 3
     message_retention = 1
-    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group"]
+    consumers         = ["idpay-transaction-consumer-group", "idpay-transaction-wallet-consumer-group", "idpay-rewards-notification-transaction-group", "idpay-initiative-rewards-statistics-group", "idpay-reward-calculator-consumer-group"]
     keys = [
       {
         name   = "idpay-transaction-producer"
@@ -244,6 +220,9 @@ eventhubs_idpay_01 = [
       }
     ]
   },
+]
+
+eventhubs_idpay_01 = [
   {
     name              = "idpay-rule-update"
     partitions        = 3
@@ -404,6 +383,26 @@ eventhubs_idpay_01 = [
       }
     ]
   },
+  {
+    name              = "idpay-timeline"
+    partitions        = 3
+    message_retention = 1
+    consumers         = ["idpay-timeline-consumer-group"]
+    keys = [
+      {
+        name   = "idpay-timeline-producer"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "idpay-timeline-consumer"
+        listen = true
+        send   = false
+        manage = false
+      }
+    ]
+  },
 ]
 
 ### handle resource enable
@@ -444,3 +443,4 @@ aks_vnet = {
 
 idpay_cdn_sa_advanced_threat_protection_enabled = true
 redis_public_network_access_enabled             = false
+redis_sku_name                                  = "Standard"

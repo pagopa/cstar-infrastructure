@@ -40,9 +40,9 @@ module "idpay_merchants_permission_portal" {
   description  = "IDPAY Merchants Portal User Permission"
   display_name = "IDPAY Merchants Portal User Permission API"
   path         = "idpay/merchant/authorization"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackendrolepermission/idpay/welfare"
+  service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackendrolepermission/idpay/welfare"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_role_permission/openapi.role-permission.yml")
@@ -88,7 +88,7 @@ module "idpay_merchants_notification_email_api" {
   path         = "idpay/merchant/email-notification"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaynotificationemail/"
+  service_url = "${local.ingress_load_balancer_https}/idpaynotificationemail/"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_notification_email/openapi.notification.email.yml")
@@ -137,7 +137,7 @@ module "idpay_merchants_portal" {
   path         = "idpay/merchant/portal"
   protocols    = ["https"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/idpaymerchant/idpay/merchant/portal"
+  service_url = "${local.ingress_load_balancer_https}/idpaymerchant/idpay/merchant/portal"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_merchants_portal/openapi.merchants.portal.yml")
@@ -177,16 +177,16 @@ module "idpay_merchants_portal" {
       })
     },
     {
-      operation_id = "confirmPaymentQRCode"
+      operation_id = "deleteTransaction"
 
-      xml_content = templatefile("./api/idpay_merchants_portal/put-confirm-merchant-transaction-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "deleteTransaction"
+      operation_id = "authPaymentBarCode"
 
-      xml_content = templatefile("./api/idpay_merchants_portal/delete-merchant-transaction-policy.xml.tpl", {
+      xml_content = templatefile("./api/idpay_merchants_portal/put-bar-code-authorize-merchant-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }

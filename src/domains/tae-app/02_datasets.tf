@@ -455,7 +455,7 @@ resource "azurerm_data_factory_custom_dataset" "aggregates_log" {
   type            = "AzureDataExplorerTable"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_kusto.dexp_tae[count.index].name
+    name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name
   }
 
   type_properties_json = <<JSON
@@ -550,7 +550,7 @@ resource "azurerm_data_factory_custom_dataset" "ack_log" {
   type            = "AzureDataExplorerTable"
 
   linked_service {
-    name = azurerm_data_factory_linked_service_kusto.dexp_tae[count.index].name
+    name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[count.index].name
   }
 
   type_properties_json = <<JSON
@@ -583,6 +583,63 @@ resource "azurerm_data_factory_custom_dataset" "ack_log" {
     {
       "name": "pipelineRun",
       "type": "string"
+    }
+  ]
+  JSON
+}
+
+resource "azurerm_data_factory_custom_dataset" "pending_file" {
+
+  name            = "PendingFile"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "fileName": {
+          "value": "@dataset().filename",
+          "type": "Expression"
+      },
+      "folderPath": {
+          "value": "@concat(utcNow('yyyy-MM-dd'),'_',pipeline().RunId)",
+          "type": "Expression"
+      },
+      "container": "pending-for-ack"
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8",
+    "escapeChar": "\\",
+    "firstRowAsHeader": true,
+    "quoteChar": ""
+  }
+  JSON
+
+  description = "Pending file in TAE CosmosDB."
+  annotations = ["PendingFile"]
+
+  parameters = {
+    filename = "cosmos_pending_files.csv"
+  }
+
+  schema_json = <<JSON
+  [
+    {
+        "name": "filename",
+        "type": "String"
+    },
+    {
+      "name": "transmission_date",
+      "type": "Date"
+    },
+    {
+      "name": "validity",
+      "type": "String"
     }
   ]
   JSON

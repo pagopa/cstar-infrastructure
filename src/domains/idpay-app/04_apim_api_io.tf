@@ -18,15 +18,9 @@ module "idpay_api_io_product" {
   subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/app_io/policy_io.xml.tpl", {
-    env_short              = var.env_short
-    ingress_load_balancer  = local.rtd_ingress_load_balancer_hostname_https
-    appio_timeout_sec      = var.appio_timeout_sec
-    pdv_timeout_sec        = var.pdv_timeout_sec
-    pdv_tokenizer_url      = var.pdv_tokenizer_url
-    pdv_retry_count        = var.pdv_retry_count
-    pdv_retry_interval     = var.pdv_retry_interval
-    pdv_retry_max_interval = var.pdv_retry_max_interval
-    pdv_retry_delta        = var.pdv_retry_delta
+    env_short             = var.env_short
+    ingress_load_balancer = local.rtd_ingress_load_balancer_hostname_https
+    appio_timeout_sec     = var.appio_timeout_sec
   })
 
   groups = ["developers"]
@@ -70,9 +64,9 @@ module "idpay_onboarding_workflow_io" {
   description  = "IDPAY Onboarding Workflow IO"
   display_name = "IDPAY Onboarding Workflow IO API"
   path         = "idpay/onboarding"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
+  service_url = "${local.ingress_load_balancer_https}/idpayonboardingworkflow/idpay/onboarding"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_onboarding_workflow/openapi.onboarding.yml.tpl", {})
@@ -128,9 +122,9 @@ module "idpay_wallet_io" {
   description  = "IDPAY Wallet IO"
   display_name = "IDPAY Wallet IO API"
   path         = "idpay/wallet"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
+  service_url = "${local.ingress_load_balancer_https}/idpaywallet/idpay/wallet"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_wallet/openapi.wallet.yml.tpl", {})
@@ -167,6 +161,30 @@ module "idpay_wallet_io" {
     {
       operation_id = "enrollInstrument"
       xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "enrollInstrumentCode"
+      xml_content = templatefile("./api/idpay_wallet/put-enroll-instrument-idpaycode-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "generateCode"
+      xml_content = templatefile("./api/idpay_wallet/post-generate-idpaycode-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        env_short                      = var.env_short
+
+      })
+    },
+    {
+      operation_id = "getIdpayCodeStatus"
+      xml_content = templatefile("./api/idpay_wallet/get-code-status-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
         env_short                      = var.env_short
 
@@ -226,9 +244,9 @@ module "idpay_timeline_io" {
   description  = "IDPAY Timeline IO"
   display_name = "IDPAY Timeline IO API"
   path         = "idpay/timeline"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
+  service_url = "${local.ingress_load_balancer_https}/idpaytimeline/idpay/timeline"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_timeline/openapi.timeline.yml.tpl", {})
@@ -265,9 +283,9 @@ module "idpay_iban_io" {
   description  = "IDPAY IBAN IO"
   display_name = "IDPAY IBAN IO API"
   path         = "idpay/iban"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+  service_url = "${local.ingress_load_balancer_https}/idpayiban/idpay/iban"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})
@@ -304,9 +322,9 @@ module "idpay_qr_code_payment_io" {
   description  = "IDPAY QR-CODE PAYMENT IO"
   display_name = "IDPAY QR-CODE PAYMENT IO API"
   path         = "idpay/payment/qr-code"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment/qr-code"
+  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment/qr-code"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl", {})
@@ -328,12 +346,12 @@ module "idpay_payment_io" {
   description  = "IDPAY PAYMENT IO"
   display_name = "IDPAY PAYMENT IO API"
   path         = "idpay/payment"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "https://${var.ingress_load_balancer_hostname}/idpaypayment/idpay/payment"
+  service_url = "${local.ingress_load_balancer_https}/idpaypayment/idpay/payment"
 
   content_format = "openapi"
-  content_value  = templatefile("./api/idpay_payment/openapi.payment.yml.tpl", {})
+  content_value  = templatefile("./api/idpay_payment_io/openapi.payment_io.yml.tpl", {})
 
   xml_content = file("./api/base_policy.xml")
 

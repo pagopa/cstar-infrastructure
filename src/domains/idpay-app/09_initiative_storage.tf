@@ -15,7 +15,7 @@ module "idpay_initiative_storage" {
   resource_group_name             = azurerm_resource_group.rg_refund_storage.name
   location                        = var.location
   advanced_threat_protection      = var.storage_advanced_threat_protection
-  allow_nested_items_to_be_public = true
+  allow_nested_items_to_be_public = false
 
   blob_delete_retention_days    = var.storage_delete_retention_days
   public_network_access_enabled = var.storage_public_network_access_enabled
@@ -87,4 +87,14 @@ resource "azurerm_key_vault_secret" "initiative_storage_blob_connection_string" 
   content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+resource "azurerm_role_assignment" "initiative_storage_data_contributor" {
+  scope                = module.idpay_initiative_storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_api_management.apim_core.identity[0].principal_id
+
+  depends_on = [
+    module.idpay_initiative_storage
+  ]
 }

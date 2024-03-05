@@ -172,11 +172,14 @@ variable "one_trust_privacynotice_base_url" {
   description = "OneTrust PrivacyNotice Base Url"
 }
 
-variable "io_backend_base_url" {
+variable "io_manage_backend_base_url" {
   type        = string
-  description = "BE IO backend url"
+  description = "BE IO manage backend url"
 }
-
+variable "openid_config_url_mil" {
+  type        = string
+  description = "Token MIL, OIDC URL"
+}
 variable "pdv_tokenizer_url" {
   type        = string
   default     = "127.0.0.1"
@@ -310,6 +313,12 @@ variable "mail_server_port" {
   type        = string
   default     = "587"
   description = "SMTP server port"
+}
+
+variable "mail_server_protocol" {
+  type        = string
+  default     = "smtp"
+  description = "mail protocol"
 }
 
 # p7m self-signed certificate

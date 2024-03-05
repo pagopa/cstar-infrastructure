@@ -18,10 +18,8 @@ module "idpay_api_issuer_product" {
   subscriptions_limit = 50
 
   policy_xml = templatefile("./api_product/app_issuer/policy_issuer.xml.tpl", {
-    env_short         = var.env_short
-    rtd_ingress_ip    = var.reverse_proxy_rtd
-    appio_timeout_sec = var.appio_timeout_sec
-    pdv_tokenizer_url = var.pdv_tokenizer_url
+    env_short      = var.env_short
+    rtd_ingress_ip = var.reverse_proxy_rtd
   })
 
   groups = ["developers"]
@@ -48,7 +46,7 @@ module "idpay_onboarding_workflow_issuer" {
   path         = "idpay/hb/onboarding"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayonboardingworkflow/idpay/onboarding"
+  service_url = "${local.ingress_load_balancer_https}/idpayonboardingworkflow/idpay/onboarding"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_onboarding_workflow/openapi.issuer.onboarding.yml.tpl", {})
@@ -99,7 +97,7 @@ module "idpay_wallet_issuer" {
   path         = "idpay/hb/wallet"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaywallet/idpay/wallet"
+  service_url = "${local.ingress_load_balancer_https}/idpaywallet/idpay/wallet"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_wallet/openapi.issuer.wallet.yml.tpl", {})
@@ -158,7 +156,7 @@ module "idpay_timeline_issuer" {
   path         = "idpay/hb/timeline"
   protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpaytimeline/idpay/timeline"
+  service_url = "${local.ingress_load_balancer_https}/idpaytimeline/idpay/timeline"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_issuer_timeline/openapi.issuer.timeline.yml.tpl", {})
@@ -189,9 +187,9 @@ module "idpay_iban_io" {
   description  = "IDPAY IBAN IO"
   display_name = "IDPAY IBAN IO API"
   path         = "idpay/iban"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayiban/idpay/iban"
+  service_url = "${local.ingress_load_balancer_https}/idpayiban/idpay/iban"
 
   content_format = "openapi"
   content_value  = templatefile("./api/idpay_iban/openapi.iban.yml.tpl", {})

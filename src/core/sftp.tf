@@ -68,34 +68,6 @@ resource "azurerm_eventgrid_system_topic" "sftp" {
   }
 }
 
-resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
-  count                = var.env_short == "p" ? 1 : 0
-  name                 = "${local.project}-sftp-subscription"
-  system_topic         = azurerm_eventgrid_system_topic.sftp.name
-  resource_group_name  = azurerm_resource_group.sftp.name
-  eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub[count.index].id
-  subject_filter {
-    subject_begins_with = "/blobServices/default/containers/ade/blobs/"
-  }
-
-  delivery_identity {
-    type = "SystemAssigned"
-  }
-
-  depends_on = [
-    azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events
-  ]
-}
-
-# Assign role to event grid topic to publish over rtd-platform-events
-resource "azurerm_role_assignment" "event_grid_sender_role_sftp_on_rtd_platform_events" {
-  count                = var.env_short == "p" ? 1 : 0
-  role_definition_name = "Azure Event Hubs Data Sender"
-  principal_id         = azurerm_eventgrid_system_topic.sftp.identity[0].principal_id
-  scope                = data.azurerm_eventhub.rtd_platform_eventhub[count.index].id
-}
-
-
 resource "azurerm_storage_container" "ade" {
   name                  = "ade"
   storage_account_name  = module.sftp.name
@@ -128,6 +100,24 @@ resource "azurerm_role_assignment" "sftp_data_contributor_role" {
   depends_on = [
     module.sftp
   ]
+}
+
+resource "azurerm_storage_management_policy" "ack_archive" {
+  storage_account_id = module.sftp.id
+
+  rule {
+    name    = "ade-ack-archive"
+    enabled = true
+    filters {
+      prefix_match = ["ade/ack"]
+      blob_types   = ["blockBlob"]
+    }
+    actions {
+      base_blob {
+        tier_to_archive_after_days_since_creation_greater_than = var.sftp_ade_ack_archive_policy.to_archive_days
+      }
+    }
+  }
 }
 
 resource "azurerm_storage_container" "consap" {

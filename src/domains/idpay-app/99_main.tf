@@ -22,7 +22,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "= 2.11.0"
+      version = "= 2.25.2"
     }
     helm = {
       source  = "hashicorp/helm"
@@ -30,6 +30,10 @@ terraform {
     }
     local = {
       source = "hashicorp/local"
+    }
+    terracurl = {
+      source  = "devops-rob/terracurl"
+      version = "1.0.1"
     }
   }
 

@@ -35,6 +35,7 @@ eventhub_rtd_namespace = {
   auto_inflate_enabled     = true
   maximum_throughput_units = 5
   zone_redundant           = true
+  minimum_tls_version      = "1.2"
 }
 
 ### Eventhub Keyvault migration
@@ -62,7 +63,7 @@ cosmos_mongo_db_params = {
     max_interval_in_seconds = 5
     max_staleness_prefix    = 100
   }
-  server_version                   = "4.0"
+  server_version                   = "4.2"
   main_geo_location_zone_redundant = true
   enable_free_tier                 = false
 

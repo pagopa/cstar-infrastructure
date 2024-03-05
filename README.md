@@ -1,5 +1,7 @@
 # cstar-infrastructure
 
+[![Static Analysis](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml/badge.svg?branch=main&event=push)](https://github.com/pagopa/cstar-infrastructure/actions/workflows/static_analysis.yml)
+
 Cstar project infrastructure
 
 ## Requirements
@@ -37,7 +39,6 @@ terraform.sh plan [dev|uat|prod]
 
 terraform.sh apply [dev|uat|prod]
 ```
-
 
 ## Terraform lock.hcl
 

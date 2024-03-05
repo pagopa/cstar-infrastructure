@@ -49,7 +49,29 @@ ack_ingestor_conf = {
   sink_write_throughput_budget = 2000
 }
 
+flow_invalidator_conf = {
+  enable = true
+}
+
 dexp_tae_db_linkes_service = {
+  enable = true
+}
+
+dexp_mgmt_tae_db_linkes_service = {
+  enable = true
+}
+
+pending_flows_conf = {
+  enable                        = true
+  interval                      = 1
+  frequency                     = "Month"
+  schedule_hours                = 10
+  schedule_minutes              = 0
+  monthlyOccurrences_day        = "Monday"
+  monthlyOccurrences_occurrence = 1
+}
+
+report_merchants_pipeline = {
   enable = true
 }
 
@@ -57,14 +79,14 @@ zendesk_action_enabled = {
   enable = true
 }
 
-cosmos_sink_throughput = {
-  cap = 10000
-}
-
 alerts_conf = {
   max_days_just_into_ade_in = 3
 }
 
 tae_blob_storage = {
+  enable = true
+}
+
+report_duplicates_conf = {
   enable = true
 }

@@ -7,7 +7,7 @@ on:
       - edited
       - synchronize
     paths:
-      - 'src/domains/idpay-app/**'
+      - 'src/domains/idpay-app/api/**'
 
 jobs:
   main:
@@ -28,14 +28,12 @@ jobs:
         working-directory: ./scripts/idpay-script
         run: npx openapi-merge-cli
 
-      - uses: LouisBrunner/diff-action@v0.2.0
-        id: diff
-        with:
-          old: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml
-          new: ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
-          mode: addition
-          tolerance: same
-          output: passed
+      - name: Check-diff
+        run: |
+          git diff --shortstat HEAD:./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+          git diff --color=always HEAD:./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml
+            nChange=$(diff -y --suppress-common-lines ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.yml ./src/domains/idpay-app/api/idpay_appio_full/openapi.appio.full.merged.yml | wc -l)
+            if [ $nChange != 0 ]; then exit 1; else exit 0; fi
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

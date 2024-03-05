@@ -1,0 +1,888 @@
+openapi: 3.0.1
+info:
+  title: IDPAY MIL ONBOARDING API
+  description: IDPAY MIL ONBOARDING
+  version: '1.0.1'
+servers:
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/mil/onboarding
+paths:
+  /initiative:
+    put:
+      tags:
+        - onboarding
+      summary: "ENG: Checks the initiative prerequisites - IT: Verifica i prerequisiti dell'iniziativa"
+      operationId: checkPrerequisites
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: "ENG: Language - IT: Lingua"
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: "ENG: Id of the initiative - IT: Identificatico dell'iniziativa"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingPutDTO'
+            example:
+              initiativeId: string
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredCriteriaDTO'
+        '202':
+          description: Accepted - Request Taken Over
+          content:
+            application/json: { }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_BUDGET_EXHAUSTED"
+                message: "Budget exhausted for initiative [%s]"
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INITIATIVE_NOT_FOUND"
+                message: "Cannot find initiative [%s]"
+        '429':
+          description: Too many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_GENERIC_ERROR"
+                message: "An error occurred in the microservice admissibility"
+  /:
+    put:
+      tags:
+        - onboarding
+      summary: "ENG: Acceptance of Terms & Conditions - IT: Accettazione dei Termini e condizioni"
+      operationId: onboardingCitizen
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: "ENG: Language - IT: Lingua"
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: "ENG: Id of the initiative IT: Identificativo dell'iniziativa"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingPutDTO'
+      responses:
+        '204':
+          description: Acceptance successful
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_BUDGET_EXHAUSTED"
+                message: "Budget exhausted for initiative [%s]"
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INITIATIVE_NOT_FOUND"
+                message: "Cannot find initiative [%s]"
+        '429':
+          description: Too many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_GENERIC_ERROR"
+                message: "An error occurred in the microservice admissibility"
+  /consent:
+    put:
+      tags:
+        - onboarding
+      summary: "ENG: Saves the consensus of both PDND and self-declaration - IT: Salva i consensi di PDND e le autodichiarazioni"
+      operationId: consentOnboarding
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: >-
+          ENG: Unique identifier of the subscribed initiative, flag for PDND
+          acceptation and the list of accepted self-declared criteria - IT: Identificativo univoco dell'iniziativa sottoscritta, flag per l'accettazione PDND e l'elenco dei criteri autodichiarati accettati
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentPutDTO'
+      responses:
+        '202':
+          description: Accepted - Request Taken Over
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
+        '403':
+          description: This onboarding is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_BUDGET_EXHAUSTED"
+                message: "Budget exhausted for initiative [%s]"
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INITIATIVE_NOT_FOUND"
+                message: "Cannot find initiative [%s]"
+        '429':
+          description: Too many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_GENERIC_ERROR"
+                message: "An error occurred in the microservice admissibility"
+  /{initiativeId}/status:
+    get:
+      tags:
+        - onboarding
+      summary: "ENG: Returns the actual onboarding status along with the date on which that status changed and, if present, the date upon which the onboarding successfully went through - IT: Ritorna lo stato attuale dell'adesione insieme alla data in cui quello stato è cambiato e, se presente, la data in cui l'adesione è avvenuta con successo"
+      operationId: onboardingStatus
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: "ENG: Language - IT: Lingua"
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: initiativeId
+          in: path
+          description: "ENG: The initiative ID - IT: Identificativo dell'iniziativa"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingStatusDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_INVALID_REQUEST"
+                message: "Something went wrong handling the request"
+        '401':
+          description: Authentication failed
+        '404':
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_USER_NOT_ONBOARDED"
+                message: "The current user is not onboarded on initiative [%s]"
+        '429':
+          description: Too many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_TOO_MANY_REQUESTS"
+                message: "Too many requests"
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingErrorDTO'
+              example:
+                code: "ONBOARDING_GENERIC_ERROR"
+                message: "An error occurred in the microservice admissibility"
+  /initiatives:
+    get:
+      tags:
+        - initiative
+      summary: "ENG: Returns the list of published initiatives - IT: Ritorna la lista delle iniziative pubblicate"
+      operationId: getInitiativeList
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeListDTO'
+        '401':
+          description: Authentication failed
+        '429':
+          description: Too Many Requests
+        '500':
+          description: Server ERROR
+  /initiatives/{initiativeId}/detail:
+    get:
+      tags:
+        - initiative
+      summary: "ENG: Returns the detail of an initiative - IT: Ritorna i dettagli dell'iniziativa"
+      operationId: getInitiativeBeneficiaryDetail
+      parameters:
+        - name: initiativeId
+          in: path
+          description: 'ENG: The initiative ID - IT: Identificativo dell''iniziativa'
+          required: true
+          schema:
+            type: string
+        - name: Accept-Language
+          description: 'ENG: Language - IT: Lingua'
+          in: header
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeDetailDTO'
+        '401':
+          description: Authentication failed
+        '404':
+          description: The requested inititative was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_NOT_FOUND
+                message: Initiative not found
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiativeErrorDTO'
+              example:
+                code: INITIATIVE_GENERIC_ERROR
+                message: Application error
+components:
+  schemas:
+    ConsentPutDTO:
+      title: ConsentPutDTO
+      type: object
+      required:
+        - initiativeId
+        - pdndAccept
+        - selfDeclarationList
+      properties:
+        initiativeId:
+          type: string
+          description: "ENG: Unique identifier of the subscribed initiative - IT: Identificativo univoco dell'iniziativa sottoscritta"
+        pdndAccept:
+          type: boolean
+          description: "ENG: Flag for PDND acceptation - IT: Flag per l'accettazione PDND"
+        selfDeclarationList:
+          type: array
+          items:
+            $ref: "#/components/schemas/SelfConsentDTO"
+          description: "ENG: The list of accepted self-declared criteria - IT: Lista dei criteri autodichiarati"
+    SelfConsentDTO:
+      oneOf:
+        - $ref: '#/components/schemas/SelfConsentBoolDTO'
+        - $ref: '#/components/schemas/SelfConsentMultiDTO'
+    OnboardingPutDTO:
+      title: OnboardingPutDTO
+      type: object
+      required:
+        - initiativeId
+      properties:
+        initiativeId:
+          type: string
+          description: "ENG: Unique identifier of the subscribed initiative - IT: Identificativo univoco dell'iniziativa sottoscritta"
+    OnboardingStatusDTO:
+      title: OnboardingStatusDTO
+      type: object
+      required:
+        - status
+        - statusDate
+      properties:
+        status:
+          enum:
+            - ACCEPTED_TC
+            - ON_EVALUATION
+            - ONBOARDING_KO
+            - ELIGIBLE_KO
+            - ONBOARDING_OK
+            - UNSUBSCRIBED
+            - INVITED
+            - DEMANDED
+            - SUSPENDED
+          type: string
+          description: "ENG: Actual status of the citizen onboarding for an initiative - IT: Stato attuale del cittadino rispetto ad un'iniziativa"
+        statusDate:
+          type: string
+          format: date-time
+          description: "ENG: Date on which the status changed to the current one - IT: Data in cui lo stato è cambiato allo stato attuale"
+        onboardingOkDate:
+          type: string
+          format: date-time
+          description: "ENG: Date on which the onboarding successfully went through - IT: Data in cui l'adesione è avvenuta con successo"
+    RequiredCriteriaDTO:
+      type: object
+      required:
+        - pdndCriteria
+        - selfDeclarationList
+      properties:
+        pdndCriteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/PDNDCriteriaDTO'
+          description: "ENG: The list of checks made on the PDND platform - IT: Lista dei controlli effettutati dalla piattaforma PDND"
+        selfDeclarationList:
+          type: array
+          items:
+            $ref: "#/components/schemas/SelfDeclarationDTO"
+          description: "ENG: The list of required self-declared criteria - IT: Lista dei criteri richiesti da autodichiarare"
+    SelfDeclarationDTO:
+      oneOf:
+        - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
+        - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
+    PDNDCriteriaDTO:
+      type: object
+      required:
+        - code
+        - description
+        - value
+        - authority
+      properties:
+        code:
+          type: string
+          enum:
+            - ISEE
+            - BIRTHDATE
+            - RESIDENCE
+          description: "ENG: A code that identifies the type of criteria - IT: Codice che identifica il tipo di criterio"
+        description:
+          type: string
+          description: "ENG: Description of the criteria - IT: Descrizione del criterio"
+        value:
+          type: string
+          description: >-
+            "ENG: The expected value for the criteria. It is used in conjunction with
+            the operator to define a range or an equality over that criteria. - IT: Valore atteso dal criterio. E' usato insieme al campo operator per definire un insieme di valori o un'uguaglianza con un valore"
+        value2:
+          type: string
+          description: >-
+            "ENG: In situations where the operator expects two values (e.g BETWEEN)
+            this field is populated - IT: Popolato quando il campo operator si aspetta due valori (e.g BETWEEN)"
+        operator:
+          type: string
+          description: "ENG: Represents the relation between the criteria and the value field - IT: Rappresenta la relazione tra il criterio ed il campo value"
+          enum:
+            - EQ
+            - NOT_EQ
+            - LT
+            - LE
+            - GT
+            - GE
+            - BTW_CLOSED
+            - BTW_OPEN
+        authority:
+          type: string
+          description: "ENG: Authority to request PDND criteria value - IT: Autorità a cui richiedere il valore dei criteri PDND"
+          enum:
+            - INPS
+            - AGID
+    SelfDeclarationBoolDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          description: "ENG: Self-declaration boolean type - IT: Autodichiarazione di tipo boolean"
+          enum:
+            - boolean
+        code:
+          type: string
+          description: "ENG: Self-declaration code - IT: Codice dell'autodichiarazione"
+        description:
+          type: string
+          description: "ENG: Self-declaration description - IT: Descrizione dell'autodichiarazione"
+        value:
+          type: boolean
+          description: "ENG: Indicates whether the self-declaration is accepted or not - IT: Indica se l'autodichiarazione è accettata o no"
+    SelfDeclarationMultiDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          description: "ENG: Self-declaration value type - IT: Autodichiarazione di tipo multipli"
+          enum:
+            - multi
+        code:
+          type: string
+          description: "ENG: Self-declaration code - IT: Codice dell'autodichiarazione"
+        description:
+          type: string
+          description: "ENG: Self-declaration description - IT: Descrizione dell'autodichiarazione"
+        value:
+          type: array
+          items:
+            type: string
+          description: "ENG: Indicates self-declaration values - IT: Indica i valori per l'autodichiarazione"
+    SelfConsentBoolDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - accepted
+      properties:
+        _type:
+          type: string
+          enum:
+            - boolean
+          description: "ENG: Self-consent boolean type - IT: Auto consenso di tipo boolean"
+        code:
+          type: string
+          description: "ENG: Self-consent code - IT: Codice dell'auto consenso"
+        accepted:
+          type: boolean
+          description: "ENG: Indicates whether the self-consent is accepted or not - IT: Indica se l'auto consenso è accettato o no"
+    SelfConsentMultiDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - multi
+          description: "ENG: Self-consent value type - IT: Auto consenso di tipo multipli"
+        code:
+          type: string
+          description: "ENG: Self-consent code - IT: Codice dell'auto consenso"
+        value:
+          type: string
+          description: "ENG: Indicates self-consent values - IT: Indica i valori per gli auto consensi"
+    OnboardingErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - ONBOARDING_USER_UNSUBSCRIBED
+            - ONBOARDING_PDND_CONSENT_DENIED
+            - ONBOARDING_SELF_DECLARATION_NOT_VALID
+            - ONBOARDING_INVALID_REQUEST
+            - ONBOARDING_USER_NOT_IN_WHITELIST
+            - ONBOARDING_INITIATIVE_NOT_STARTED
+            - ONBOARDING_INITIATIVE_ENDED
+            - ONBOARDING_BUDGET_EXHAUSTED
+            - ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED
+            - ONBOARDING_TECHNICAL_ERROR
+            - ONBOARDING_UNSATISFIED_REQUIREMENTS
+            - ONBOARDING_GENERIC_ERROR
+            - ONBOARDING_USER_NOT_ONBOARDED
+            - ONBOARDING_INITIATIVE_NOT_FOUND
+            - ONBOARDING_TOO_MANY_REQUESTS
+          description: >-
+            "ENG: Error code:
+            ONBOARDING_USER_UNSUBSCRIBED: The user has unsubscribed from initiative,
+            ONBOARDING_PDND_CONSENT_DENIED: The PDND consent was denied by the user for the initiative,
+            ONBOARDING_SELF_DECLARATION_NOT_VALID: The self-declaration criteria are not
+            valid for the initiative or those inserted by the user do not match those required by the initiative,
+            ONBOARDING_INVALID_REQUEST: Something went wrong handling the request,
+            ONBOARDING_USER_NOT_IN_WHITELIST: The current user is not allowed to participate to the initiative,
+            ONBOARDING_INITIATIVE_NOT_STARTED: The initiative has not yet begun,
+            ONBOARDING_INITIATIVE_ENDED: The initiative ended,
+            ONBOARDING_BUDGET_EXHAUSTED: Budget exhausted for initiative,
+            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: The initiative is not active,
+            ONBOARDING_TECHNICAL_ERROR: A technical error occurred during the onboarding process,
+            ONBOARDING_UNSATISFIED_REQUIREMENTS: The user does not satisfy the requirements set for the initiative,
+            ONBOARDING_GENERIC_ERROR: Application error,
+            ONBOARDING_USER_NOT_ONBOARDED: The current user is not onboarded on initiative,
+            ONBOARDING_INITIATIVE_NOT_FOUND: Cannot find initiative,
+            ONBOARDING_TOO_MANY_REQUESTS: Too many requests
+            - IT: Codice di errore:
+            ONBOARDING_USER_UNSUBSCRIBED: L'utente si è disiscritto dall'iniziativa,
+            ONBOARDING_PDND_CONSENT_DENIED: Il consenso PDND per l'iniziativa è stato negato dall'utente,
+            ONBOARDING_SELF_DECLARATION_NOT_VALID: I criteri di autodichiarazione non sono
+            validi per l'iniziativa o quelli inseriti dall'utente
+            non corrispondono con quelli richiesti dall'iniziativa,
+            ONBOARDING_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+            ONBOARDING_USER_NOT_IN_WHITELIST: L'utente corrente non ha il permesso di partecipare all'iniziativa,
+            ONBOARDING_INITIATIVE_NOT_STARTED: L'iniziativa non è ancora partita,
+            ONBOARDING_INITIATIVE_ENDED: L'iniziativa è terminata,
+            ONBOARDING_BUDGET_EXHAUSTED: Il budget dell'iniziativa è esaurito,
+            ONBOARDING_INITIATIVE_STATUS_NOT_PUBLISHED: L'iniziativa non è attiva,
+            ONBOARDING_TECHNICAL_ERROR: Si è verificato un errore tecnico durante il processo di adesione,
+            ONBOARDING_UNSATISFIED_REQUIREMENTS: L'utente non soddisfa i requisiti che sono stati richiesti per l'iniziativa,
+            ONBOARDING_GENERIC_ERROR: Errore applicativo,
+            ONBOARDING_USER_NOT_ONBOARDED: Utente non onboardato all'iniziativa,
+            ONBOARDING_INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+            ONBOARDING_TOO_MANY_REQUESTS: Troppe richieste"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
+    InitiativeListDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/InitiativeDTO'
+      description: List of published initiatives
+    InitiativeDTO:
+      type: object
+      properties:
+        initiativeId:
+          type: string
+          description: "ENG: Unique identifier of the subscribed initiative - IT: Identificativo univoco dell'iniziativa sottoscritta"
+        initiativeName:
+          type: string
+          description: "ENG: Name of the subscribed initiative - IT: Nome dell'iniziativa sottoscritta"
+        organizationId:
+          type: string
+          description: "ENG: Unique identifier of the organization - IT: Identificativo univoco dell'organizzazione"
+        organizationName:
+          type: string
+          description: "ENG: Organization name of a initiative - IT: Nome dell'organizzazione associata all'iniziativa"
+        onboardingStartDate:
+          type: string
+          format: date
+          description: "ENG: Start of period of adhesion to an initiative - IT: Inizio del periodo di adesione all'iniziativa"
+        onboardingEndDate:
+          type: string
+          format: date
+          description: "ENG: End of period of adhesion to an initiative - IT: Termine del periodo di adesione all'iniziativa"
+        fruitionStartDate:
+          type: string
+          format: date
+          description: "ENG: Start of period of spending funds for an initiative - IT: Inizio del periodo di fruizione dei fondi per l'iniziativa"
+        fruitionEndDate:
+          type: string
+          format: date
+          description: "ENG: End of period of spending funds for an initiative - IT: Termine del periodo di fruizione dei fondi per l'iniziativa"
+        initiativeRewardType:
+          type: string
+          description: "ENG: Reward type of an initiative (refund or discount) - IT: Tipologia di ricompensa dell'iniziativa (a rimborso o a sconto)"
+          enum:
+            - REFUND
+            - DISCOUNT
+        beneficiaryType:
+          type: string
+          description: "ENG: Beneficiary type of an initiative (natural person, family unit) - IT: Tipologia di beneficiario dell'iniziativa (persona fisica, nucleo familiare)"
+          enum:
+            - PF
+            - PG
+            - NF
+        rankingEnabled:
+          type: boolean
+          description: "ENG: Flag indicating the presence of ranking - IT: Flag che indica la presenza di graduatoria"
+        beneficiaryKnown:
+          type: boolean
+          description: "ENG: Flag indicating the presence of whitelist - IT: Flag che indica la presenza di whitelist"
+        tcLink:
+          type: string
+          description: "ENG: Terms and Conditions link of the subscribed initiative - IT: Link relativo ai termini e condizioni dell'l'iniziativa sottoscritta"
+        privacyLink:
+          type: string
+          description: "ENG: Privacy link of the subscribed initiative - IT: Link relativo alla privacy dell'iniziativa sottoscritta"
+        logoUrl:
+          type: string
+          description: "ENG: The URL of the logo of the subscribed initiative - IT: Link del logo dekl'iniziativa sottoscritta"
+    InitiativeDetailDTO:
+      type: object
+      properties:
+        initiativeName:
+          type: string
+          description: 'ENG: Name of the initiative - IT: Nome dell''iniziativa'
+        status:
+          type: string
+          description: 'ENG: Status of the initiative - IT: Stato dell''iniziativa'
+        description:
+          type: string
+          description: 'ENG: Description of the initiative - IT: Descrizione dell''iniziativa'
+        ruleDescription:
+          type: string
+          description: 'ENG: Description of the rules - IT: Descrizione delle regole'
+        onboardingStartDate:
+          type: string
+          format: date
+          description: >-
+            ENG: Start date for the initiative's onboarding time window - IT:
+            Data di inizio della finestra temporale in cui si può aderire
+            all'iniziativa
+        onboardingEndDate:
+          type: string
+          format: date
+          description: >-
+            ENG: End date for the initiative's onboarding time window - IT: Data
+            di fine della finestra temporale in cui si può aderire
+            all'iniziativa
+        fruitionStartDate:
+          type: string
+          format: date
+          description: >-
+            ENG: Start date of the time window in which it is possible to use
+            the initiative's rewards - IT: Data di inizio della finestra
+            temporale in cui si usufruire dei premi dell'iniziativa
+        fruitionEndDate:
+          type: string
+          format: date
+          description: >-
+            ENG: End date of the time window in which it is possible to use the
+            initiative's rewards - IT: Data di fine della finestra temporale in
+            cui si usufruire dei premi dell'iniziativa
+        rewardRule:
+          $ref: '#/components/schemas/RewardValueDTO'
+        refundRule:
+          $ref: '#/components/schemas/InitiativeRefundRuleDTO'
+        privacyLink:
+          type: string
+          description: >-
+            ENG: URL that redirects to the privacy policy - IT: URL che
+            reindirizza all informativa della privacy
+        tcLink:
+          type: string
+          description: >-
+            ENG: URL that redirects to the terms and conditions - IT: URL che
+            porta ai termini e condizioni
+        logoURL:
+          type: string
+          description: 'ENG: Url of the logo - IT: Url del logo'
+        updateDate:
+          type: string
+          format: date-time
+          description: 'ENG: Update date - IT: Data di aggiornamento dell''iniziativa'
+        serviceId:
+          type: string
+          description: 'ENG: The service ID - IT: Identificativo del service'
+    InitiativeRefundRuleDTO:
+      type: object
+      properties:
+        accumulatedAmount:
+          $ref: '#/components/schemas/AccumulatedAmountDTO'
+        timeParameter:
+          $ref: '#/components/schemas/TimeParameterDTO'
+    AccumulatedAmountDTO:
+      required:
+        - accumulatedType
+      type: object
+      properties:
+        accumulatedType:
+          type: string
+          enum:
+            - BUDGET_EXHAUSTED
+            - THRESHOLD_REACHED
+          description: >-
+            ENG: Accumulated type [BUDGET_EXHAUSTED: budget exhausted,
+            THRESHOLD_REACHED: threshold reached] - IT: Tipologia di
+            accumulazione [BUDGET_EXHAUSTED: Budget esaurito, THRESHOLD_REACHED:
+            Soglia raggiunta]
+        refundThreshold:
+          type: number
+          description: 'ENG: Refund threshold - IT: Soglia di rimborso'
+    TimeParameterDTO:
+      required:
+        - timeType
+      type: object
+      properties:
+        timeType:
+          type: string
+          enum:
+            - CLOSED
+            - DAILY
+            - WEEKLY
+            - MONTHLY
+            - QUARTERLY
+          description: >-
+            ENG: Time type [CLOSED: At the end of the initiative, DAILY: Daily,
+            WEEKLY: Weekly, MONTHLY: Monthly, QUARTERLY: Quarterly] - IT:
+            Tipologia di tesmpistiche di rimborso [CLOSED: Alla chiusura
+            dell'iniziativa, DAILY: Giornaliero, WEEKLY: Settimanale, MONTHLY:
+            Mensile, QUARTERLY: Trimestrale]
+    RewardValueDTO:
+      required:
+        - rewardValueType
+        - rewardValue
+      type: object
+      properties:
+        rewardValueType:
+          type: string
+          enum:
+            - PERCENTAGE
+            - ABSOLUTE
+          description: >-
+            ENG: Reward value type [PERCENTAGE: Percentage, ABSOLUTE: Absolute]-
+            IT: Tipologia di premio [PERCENTAGE: Percentuale, ABSOLUTE:
+            Assoluto]
+        rewardValue:
+          type: number
+          description: 'ENG: Reward value - IT: Valore di reward'
+    InitiativeErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - INITIATIVE_INVALID_REQUEST
+            - INITIATIVE_NOT_FOUND
+            - INITIATIVE_TOO_MANY_REQUESTS
+            - INITIATIVE_GENERIC_ERROR
+          description: |-
+            "ENG: Error code:
+             INITIATIVE_INVALID_REQUEST: Something went wrong handling the request,
+             INITIATIVE_NOT_FOUND: Initiative not found,
+             INITIATIVE_TOO_MANY_REQUESTS: Too many requests,
+             INITIATIVE_GENERIC_ERROR: Application error,
+             - IT: Codice di errore:
+             INITIATIVE_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
+             INITIATIVE_NOT_FOUND: Iniziativa non trovata,
+             INITIATIVE_TOO_MANY_REQUESTS: Troppe richieste,
+             INITIATIVE_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: [ ]
+tags:
+  - name: onboarding
+    description: ''

@@ -1,12 +1,3 @@
-data "azurerm_kubernetes_cluster" "aks" {
-  name                = local.aks_name
-  resource_group_name = local.aks_resource_group_name
-}
-
-locals {
-  aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
-}
-
 #tfsec:ignore:AZU023
 resource "azurerm_key_vault_secret" "aks_apiserver_url" {
   name         = "${local.aks_name}-apiserver-url"
@@ -41,4 +32,26 @@ data "azurerm_key_vault_secret" "alert-slack-idpay" {
 
   name         = "alert-idpay-notification-slack"
   key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+resource "azurerm_key_vault_key" "idpay-mil-key" {
+  name         = "idpay-mil-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  key_type     = "RSA"
+  key_size     = 2048
+  key_opts = [
+    "decrypt",
+    "encrypt"
+  ]
+}
+
+resource "azurerm_key_vault_key" "idpay-pinblock-key" {
+  name         = "idpay-pinblock-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  key_type     = "RSA"
+  key_size     = 2048
+  key_opts = [
+    "decrypt",
+    "encrypt"
+  ]
 }

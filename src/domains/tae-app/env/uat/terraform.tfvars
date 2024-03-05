@@ -49,16 +49,34 @@ ack_ingestor_conf = {
   sink_write_throughput_budget = 1000
 }
 
+flow_invalidator_conf = {
+  enable = true
+}
+
 dexp_tae_db_linkes_service = {
   enable = true
 }
 
-zendesk_action_enabled = {
+dexp_mgmt_tae_db_linkes_service = {
+  enable = true
+}
+
+pending_flows_conf = {
+  enable                        = false
+  interval                      = 1
+  frequency                     = "Month"
+  schedule_hours                = 10
+  schedule_minutes              = 0
+  monthlyOccurrences_day        = "Monday"
+  monthlyOccurrences_occurrence = 1
+}
+
+report_merchants_pipeline = {
   enable = false
 }
 
-cosmos_sink_throughput = {
-  cap = 1500
+zendesk_action_enabled = {
+  enable = false
 }
 
 bulk_delete_aggregates_conf = {
@@ -72,5 +90,9 @@ bulk_delete_aggregates_conf = {
 }
 
 tae_blob_storage = {
+  enable = true
+}
+
+report_duplicates_conf = {
   enable = true
 }

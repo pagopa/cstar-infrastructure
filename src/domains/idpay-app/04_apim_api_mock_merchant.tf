@@ -75,7 +75,7 @@ module "idpay_qr_code_payment_mock_merchant" {
   description  = "IDPAY QR-CODE PAYMENT MOCK MERCHANT"
   display_name = "IDPAY QR-CODE PAYMENT MOCK MERCHANT API"
   path         = "idpay/payment/qr-code/mock/merchant"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = "https://api-io.${data.azurerm_dns_zone.public.name}/idpay/payment/qr-code/merchant"
 

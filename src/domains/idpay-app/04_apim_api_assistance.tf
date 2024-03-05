@@ -38,9 +38,9 @@ module "idpay_api_assistance" {
   description  = "IDPAY Assistance"
   display_name = "IDPAY Assistance"
   path         = "idpay/assistance"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
-  service_url = "http://${var.ingress_load_balancer_hostname}/idpayportalwelfarebackeninitiative/idpay/initiative"
+  service_url = "${local.ingress_load_balancer_https}/idpayportalwelfarebackeninitiative/idpay/initiative"
 
   content_format = "openapi"
   content_value  = file("./api/idpay_assistance/openapi.assistance.yml")
@@ -134,8 +134,6 @@ module "idpay_api_assistance" {
 
       xml_content = templatefile("./api/idpay_assistance/get-beneficiary-iban.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -143,8 +141,6 @@ module "idpay_api_assistance" {
 
       xml_content = templatefile("./api/idpay_assistance/get-beneficiary-timeline.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -152,8 +148,6 @@ module "idpay_api_assistance" {
 
       xml_content = templatefile("./api/idpay_assistance/get-beneficiary-timeline-detail.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -161,8 +155,6 @@ module "idpay_api_assistance" {
 
       xml_content = templatefile("./api/idpay_assistance/get-beneficiary-wallet.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     {
@@ -170,8 +162,13 @@ module "idpay_api_assistance" {
 
       xml_content = templatefile("./api/idpay_assistance/get-beneficiary-onboarding-status.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
+      })
+    },
+    {
+      operation_id = "getFamilyComposition"
+
+      xml_content = templatefile("./api/idpay_assistance/get-beneficiary-onboarding-family-status.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
@@ -179,8 +176,6 @@ module "idpay_api_assistance" {
 
       xml_content = templatefile("./api/idpay_assistance/get-beneficiary-instruments.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
-        pdv_timeout_sec                = var.pdv_timeout_sec
-        pdv_tokenizer_url              = var.pdv_tokenizer_url
       })
     },
     //REFUND DETAIL

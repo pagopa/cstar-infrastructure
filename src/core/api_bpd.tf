@@ -11,7 +11,7 @@ module "api_bdp_info_privacy" {
   description  = ""
   display_name = "BPD Info Privacy"
   path         = "cstar-bpd"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("https://%s/%s",
     azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
@@ -54,7 +54,7 @@ module "api_bpd-io_payment_instrument" {
   description  = "Api and Models"
   display_name = "BPD IO Payment Instrument API"
   path         = "bpd/io/payment-instruments"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -99,7 +99,7 @@ module "api_bpd_pm_payment_instrument" {
   description  = ""
   display_name = "BPD PM Payment Instrument"
   path         = "bpd/pm/payment-instrument"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip)
 
@@ -109,12 +109,12 @@ module "api_bpd_pm_payment_instrument" {
   })
 
   # mock delete api only for dev and uat
-  api_operation_policies = var.env_short == "d" || var.env_short == "u" ? [
+  api_operation_policies = [
     {
       operation_id = "delete"
       xml_content  = file("./api/bpd_pm_payment_instrument/mock_delete_policy.xml")
     }
-  ] : []
+  ]
 
   xml_content = file("./api/base_policy.xml")
 
@@ -142,7 +142,7 @@ module "api_bpd_tc" {
   description  = "Api and Models"
   display_name = "BPD TC API"
   path         = "bpd/tc"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("https://%s/%s",
     azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
@@ -202,7 +202,7 @@ module "bpd_io_award_period_original" {
   description  = "findAll"
   display_name = "BPD IO Award Period API"
   path         = "bpd/io/award-periods"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
@@ -247,7 +247,7 @@ module "bpd_io_award_period_v2" {
   description  = "findAll"
   display_name = "BPD IO Award Period API"
   path         = "bpd/io/award-periods"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmsawardperiod/bpd/award-periods", var.reverse_proxy_ip)
 
@@ -302,7 +302,7 @@ module "bpd_io_citizen_original" {
   description  = "Api and Models"
   display_name = "BPD IO Citizen API"
   path         = "bpd/io/citizen"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
@@ -363,7 +363,7 @@ module "bpd_io_citizen_v2" {
   description  = "Api and Models"
   display_name = "BPD IO Citizen API"
   path         = "bpd/io/citizen"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmscitizen/bpd/citizens", var.reverse_proxy_ip)
 
@@ -440,7 +440,7 @@ module "bpd_io_winning_transactions_original" {
   description  = "Api and Models"
   display_name = "BPD IO Winning Transactions API"
   path         = "bpd/io/winning-transactions"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 
@@ -483,7 +483,7 @@ module "bpd_io_winning_transactions_v2" {
   description  = "Api and Models"
   display_name = "BPD IO Winning Transactions API"
   path         = "bpd/io/winning-transactions"
-  protocols    = ["https", "http"]
+  protocols    = ["https"]
 
   service_url = format("http://%s/bpdmswinningtransaction/bpd/winning-transactions", var.reverse_proxy_ip)
 

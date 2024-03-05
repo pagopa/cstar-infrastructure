@@ -1,0 +1,222 @@
+openapi: 3.0.1
+info:
+  title: IDPAY MIL MERCHANT API
+  description: IDPAY MIL MERCHANT
+  version: '1.0.1'
+servers:
+  - url: https://api-io.dev.cstar.pagopa.it/idpay/mil/merchant
+paths:
+  /initiatives:
+    get:
+      tags:
+        - merchant
+      summary: Returns the list of initiatives of a specific merchant
+      description: Returns the list of initiatives of a specific merchant
+      operationId: getMerchantInitiativeList
+      parameters:
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+        - name: x-merchant-fiscalcode
+          in: header
+          schema:
+            type: string
+            example: merchant-fiscalcode
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InitiativeDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_INVALID_REQUEST
+                message: Something went wrong handling request
+        '401':
+          description: Authentication failed
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred
+  /initiative/{initiativeId}/upload:
+    put:
+      tags:
+        - merchant
+      summary: Upload CSV file containing a list of merchants
+      description: "ENG: Upload CSV file containing a list of merchants <br> IT: Caricamento del file CSV conentente una lista di esercenti"
+      operationId: uploadMerchantList
+      parameters:
+        - name: initiativeId
+          in: path
+          description: The initiative ID
+          required: true
+          schema:
+            type: string
+        - name: x-acquirer-id
+          in: header
+          schema:
+            type: string
+            example: acquirer-id
+          required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantUpdateDTO'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_INVALID_REQUEST
+                message: Something went wrong handling request
+        '401':
+          description: Authentication failed
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantErrorDTO'
+              example:
+                code: MERCHANT_GENERIC_ERROR
+                message: An error occurred during file reading
+components:
+  schemas:
+    InitiativeDTO:
+      type: object
+      required:
+        - initiativeId
+        - initiativeName
+        - organizationName
+        - status
+        - startDate
+      properties:
+        initiativeId:
+          type: string
+        initiativeName:
+          type: string
+        organizationName:
+          type: string
+        status:
+          type: string
+          enum:
+            - PUBLISHED
+            - CLOSED
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        serviceId:
+          type: string
+        enabled:
+          type: boolean
+    MerchantUpdateDTO:
+      type: object
+      properties:
+        status:
+          type: string
+          description: "ENG: Upload file status <br>IT: Stato di caricamento del file"
+        errorRow:
+          type: integer
+          format: int32
+          description: "ENG: Row where an error occurs during file uploading <br>IT: Riga alla quale c'è stato un errore durante il caricamento del file"
+        errorKey:
+          type: string
+          description: "ENG: Error Key: <ul><li>merchant.invalid.file.format: file format not valid</li><li>merchant.invalid.file.empty: empty file</li><li>merchant.invalid.file.size: file size exceeds limit</li><li>merchant.invalid.file.acquirer.wrong: inserted acquirer Id doesn't correspond to the one expected</li><li>merchant.invalid.file.vat.wrong: VAT Number or fiscal code not valid</li><li>merchant.invalid.file.iban.wrong: IBAN not valid</li></ul><br>IT: Chiave di errore: <ul><li>merchant.invalid.file.format: formato del file non valido</li><li>merchant.invalid.file.empty: file vuoto</li><li>merchant.invalid.file.size: la dimensione del file supera il limite consentito<li>merchant.invalid.file.acquirer.wrong: l'acquirer Id inserito non corrisponde a quello atteso</li></li><li>merchant.invalid.file.vat.wrong: partita IVA o CF non valido</li><li>merchant.invalid.file.iban.wrong: IBAN non valido</li></ul>"
+        elabTimeStamp:
+          type: string
+          format: date-time
+          description: "ENG: Time and date of file elaboration <br>IT: Data e ora dell'elaborazione del file"
+    MerchantErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - MERCHANT_NOT_FOUND
+            - MERCHANT_NOT_ONBOARDED
+            - MERCHANT_TOO_MANY_REQUESTS
+            - MERCHANT_INVALID_REQUEST
+            - INVALID_REQUEST
+            - MERCHANT_GENERIC_ERROR
+          description: >-
+            "ENG: Error code:<br>
+            MERCHANT_NOT_FOUND: The merchant was not found,<br>
+            MERCHANT_NOT_ONBOARDED: The merchant is not associated to the initiative,<br>
+            MERCHANT_TOO_MANY_REQUESTS: Too many requests,<br>
+            MERCHANT_INVALID_REQUEST: Something went wrong handling the request,<br>
+            INVALID_REQUEST: Something went wrong handling the request,<br>
+            MERCHANT_GENERIC_ERROR: Application error,<br>
+            - IT: Codice di errore:<br>
+            MERCHANT_NOT_FOUND: L'esercente non è stato trovato,<br>
+            MERCHANT_NOT_ONBOARDED: L'esercente non è associato all'iniziativa,<br>
+            MERCHANT_TOO_MANY_REQUESTS: Troppe richieste,<br>
+            MERCHANT_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,<br>
+            INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,<br>
+            MERCHANT_GENERIC_ERROR: Errore applicativo"
+        message:
+          type: string
+          description: 'ENG: Error message- IT: Messaggio di errore'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+security:
+  - Bearer: []

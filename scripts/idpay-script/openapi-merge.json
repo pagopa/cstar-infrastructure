@@ -31,7 +31,7 @@
       }
     },
     {
-      "inputFile": "../../src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml",
+      "inputFile": "../../src/domains/idpay-app/api/idpay_wallet/openapi.wallet.yml.tpl",
       "pathModification": {
         "prepend": "/wallet"
       },
@@ -41,11 +41,17 @@
     },
     {
       "inputFile": "../../src/domains/idpay-app/api/idpay_qrcode_payment/io/openapi.qrcode_payment_io.yml.tpl",
-      "operationSelection" : {
-        "excludeTags" : ["mergeIgnore"]
-      },
       "pathModification": {
         "prepend": "/payment/qr-code"
+      },
+      "description": {
+        "append": true
+      }
+    },
+    {
+      "inputFile": "../../src/domains/idpay-app/api/idpay_payment_io/openapi.payment_io.yml.tpl",
+      "pathModification": {
+        "prepend": "/payment"
       },
       "description": {
         "append": true

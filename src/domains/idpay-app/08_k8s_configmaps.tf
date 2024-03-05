@@ -24,7 +24,6 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     kafka_security_protocol                            = "SASL_SSL"
     idpay-checkiban-eval-consumer-group                = "idpay-checkiban-eval-consumer-group"
     idpay-checkiban-outcome-consumer-group             = "idpay-checkiban-outcome-consumer-group"
-    idpay-timeline-consumer-group                      = "idpay-timeline-consumer-group"
     idpay-onboarding-notification-consumer-group       = "idpay-onboarding-notification-consumer-group"
     idpay-onboarding-outcome-onboarding-consumer-group = "idpay-onboarding-outcome-onboarding-consumer-group"
     idpay-onboarding-outcome-wallet-consumer-group     = "idpay-onboarding-outcome-wallet-consumer-group"
@@ -36,8 +35,12 @@ resource "kubernetes_config_map" "idpay-eventhub-00" {
     idpay_onboarding_notification_topic                = "idpay-onboarding-notification"
     idpay_checkiban_evaluation_topic                   = "idpay-checkiban-evaluation"
     idpay_checkiban_outcome_topic                      = "idpay-checkiban-outcome"
-    idpay_timeline_topic                               = "idpay-timeline"
     idpay-onboarding-ranking-request                   = "idpay-onboarding-ranking-request"
+    idpay_transaction_consumer_group                   = "idpay-transaction-consumer-group"
+    idpay_transaction_wallet_consumer_group            = "idpay-transaction-wallet-consumer-group"
+
+    idpay_transaction_topic = "idpay-transaction"
+
   }
 
 }
@@ -49,14 +52,13 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
   }
 
   data = {
-    kafka_broker                             = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
-    kafka_sasl_mechanism                     = "PLAIN"
-    kafka_security_protocol                  = "SASL_SSL"
-    idpay_transaction_consumer_group         = "idpay-transaction-consumer-group"
-    idpay_transaction_wallet_consumer_group  = "idpay-transaction-wallet-consumer-group"
-    idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
+    kafka_broker            = "${local.product}-${var.domain}-evh-ns-01.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism    = "PLAIN"
+    kafka_security_protocol = "SASL_SSL"
 
-    idpay_transaction_topic                           = "idpay-transaction"
+    idpay_hpan_update_outcome_consumer_group = "idpay-hpan-update-outcome-consumer-group"
+    idpay-timeline-consumer-group            = "idpay-timeline-consumer-group"
+
     idpay_reward_error_topic                          = "idpay-reward-error"
     idpay_hpan_update_topic                           = "idpay-hpan-update"
     idpay_hpan_update_outcome_topic                   = "idpay-hpan-update-outcome"
@@ -67,6 +69,7 @@ resource "kubernetes_config_map" "idpay-eventhub-01" {
     idpay_reward_notification_response_topic          = "idpay-reward-notification-response"
     idpay_reward_notification_storage_events_topic    = "idpay-reward-notification-storage-events"
     idpay_commands_topic                              = "idpay-commands"
+    idpay_timeline_topic                              = "idpay-timeline"
   }
 
 }
@@ -89,16 +92,17 @@ resource "kubernetes_config_map" "rest-client" {
     idpay-reward-calculator-baseurl  = "http://idpay-reward-calculator-microservice-chart:8080"
     admissibility_ms_base_url        = "http://idpay-admissibility-assessor-microservice-chart:8080"
     idpay_merchant_host              = "http://idpay-merchant-microservice-chart:8080"
+    idpay_mock_base_url              = "http://idpay-mock-microservice-chart:8080"
     checkiban_base_url               = var.checkiban_base_url
     checkiban_url                    = "/api/pagopa/banking/v4.0/utils/validate-account-holder"
     pdv_decrypt_base_url             = var.pdv_tokenizer_url
-    io_backend_base_url              = var.io_backend_base_url
     one_trust_privacynotice_base_url = var.one_trust_privacynotice_base_url
     io_backend_message_url           = "/api/v1/messages"
     io_backend_profile_url           = "/api/v1/profiles"
     io_backend_service_url           = "/api/v1/services"
     pm_service_base_url              = var.pm_service_base_url
     selc_base_url                    = var.selc_base_url
+    io_manage_backend_base_url       = var.io_manage_backend_base_url
   }
 
 }
@@ -131,8 +135,9 @@ resource "kubernetes_config_map" "notification-email" {
   }
 
   data = {
-    mail_server_host = var.mail_server_host
-    mail_server_port = var.mail_server_port
+    mail_server_host          = var.mail_server_host
+    mail_server_port          = var.mail_server_port
+    mail_server_port_protocol = var.mail_server_protocol
   }
 }
 

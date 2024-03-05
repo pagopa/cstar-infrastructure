@@ -221,12 +221,11 @@ resource "kubernetes_config_map" "rtddecrypter" {
   }
 
   data = merge({
-    JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
-    APPLICATIONINSIGHTS_ROLE_NAME = "rtddecrypter"
-    CSV_TRANSACTION_DECRYPT_HOST  = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
-    SPLITTER_LINE_THRESHOLD       = 2000000,
-    ENABLE_CHUNK_UPLOAD           = true,
-    CONSUMER_TIMEOUT_MS           = 600000 # 10m
+    JAVA_TOOL_OPTIONS            = ""
+    CSV_TRANSACTION_DECRYPT_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    SPLITTER_LINE_THRESHOLD      = 2000000,
+    ENABLE_CHUNK_UPLOAD          = true,
+    CONSUMER_TIMEOUT_MS          = 600000 # 10m
   }, var.configmaps_rtddecrypter)
 }
 
@@ -261,8 +260,6 @@ resource "kubernetes_config_map" "rtdpaymentinstrument" {
   data = merge({
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdpaymentinstrument"
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
-    KAFKA_TOPIC_MIGRATION_PI      = "migration-pi"
-    KAFKA_BROKER_PI               = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
     },
   var.configmaps_rtdpaymentinstrument)
 }

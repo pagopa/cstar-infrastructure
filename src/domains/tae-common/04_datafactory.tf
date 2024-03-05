@@ -78,6 +78,8 @@ resource "azurerm_data_factory_managed_private_endpoint" "managed_pe" {
   fqdns = each.value[1] == "" ? null : [each.value[1]]
 }
 
+# Permission and roles
+
 resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
   scope                = data.azurerm_storage_account.acquirer_sa.id
   role_definition_name = "Storage Blob Data Contributor"
@@ -87,6 +89,15 @@ resource "azurerm_role_assignment" "adf_data_contributor_role_on_sa" {
 resource "azurerm_role_assignment" "adf_data_contributor_role_on_sftp" {
   scope                = data.azurerm_storage_account.sftp_sa.id
   role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_data_factory.data_factory.identity[0].principal_id
+}
+
+resource "azurerm_role_assignment" "adf_reader_role_on_daexp" {
+
+  count = var.dexp_db.enable ? 1 : 0
+
+  scope                = data.azurerm_kusto_cluster.dexp_cluster[count.index].id
+  role_definition_name = "Reader"
   principal_id         = azurerm_data_factory.data_factory.identity[0].principal_id
 }
 

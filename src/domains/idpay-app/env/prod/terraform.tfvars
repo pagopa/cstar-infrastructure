@@ -61,6 +61,13 @@ pm_service_base_url = "https://api-io.cstar.pagopa.it"
 pm_backend_url      = "https://api.platform.pagopa.it"
 
 #
+# MIL
+#
+#TODO: TO CHANGE
+openid_config_url_mil = "https://mil-u-apim.azure-api.net/mil-auth/.well-known/openid-configuration"
+
+
+#
 # Check IBAN
 #
 checkiban_base_url = "https://bankingservices.pagopa.it"
@@ -73,7 +80,8 @@ selc_base_url = "https://api.selfcare.pagopa.it"
 #
 # BE IO API
 #
-io_backend_base_url = "https://api-io.cstar.pagopa.it/idpay/mock" # "https://api.io.italia.it"
+io_manage_backend_base_url = "https://api.io.pagopa.it"
+# STUB: "https://api-io.cstar.pagopa.it/idpay/mock" 
 
 #
 # ONE TRUST API
@@ -106,5 +114,8 @@ reverse_proxy_rtd = "10.1.0.250"
 #
 # SMTP Server
 #
-mail_server_host    = "smtp.google.com"
+mail_server_host     = "smtp.gmail.com"
+mail_server_port     = "465"
+mail_server_protocol = "smtps"
+
 idpay_alert_enabled = true
