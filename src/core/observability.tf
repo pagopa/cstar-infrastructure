@@ -117,7 +117,7 @@ resource "azurerm_monitor_action_group" "send_to_opsgenie" {
   count = var.env_short == "p" ? 1 : 0
 
   name                = "send_to_opsgenie"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  resource_group_name = azurerm_resource_group.monitor_rg.name
   short_name          = "send_to_gen"
 
   webhook_receiver {
