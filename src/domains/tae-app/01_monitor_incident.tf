@@ -1,17 +1,4 @@
-resource "azurerm_monitor_action_group" "send_to_opsgenie" {
 
-  count = var.env_short == "p" ? 1 : 0
-
-  name                = "send_to_opsgenie"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  short_name          = "send_to_gen"
-
-  webhook_receiver {
-    name                    = "send_to_opsgenie"
-    service_uri             = data.azurerm_key_vault_secret.opsgenie_webhook_url[count.index].value
-    use_common_alert_schema = true
-  }
-}
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cstar-ade-in-missing-files" {
 
