@@ -1,0 +1,7 @@
+
+<fragment>
+  <validate-content unspecified-content-type-action="detect" max-size="102400" size-exceeded-action="detect" errors-variable-name="requestBodyValidation">
+    <content-type-map missing-content-type-value="application/json" />
+    <content type="application/json" validate-as="json" action="detect"/>
+  </validate-content>
+</fragment>
