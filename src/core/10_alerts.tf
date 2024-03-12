@@ -29,6 +29,16 @@ locals {
     ## CDN custom domains ##
     # no cdn              ##
   ]
+alert_action_groups = [
+    {
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    },
+    {
+      action_group_id    = azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      webhook_properties = null
+    }
+  ]
 
 }
 
