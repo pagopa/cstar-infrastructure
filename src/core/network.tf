@@ -468,8 +468,17 @@ module "app_gw_maz" {
 
   alerts_enabled = var.app_gateway_alerts_enabled
 
-  action = slice(locals.alert_action_groups,0,var.env == "prod" ? 1 : 0 )
-
+  action = [
+    {
+      action_group_id    = azurerm_monitor_action_group.slack.id
+      webhook_properties = null
+    },
+    {
+      action_group_id    = azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      webhook_properties = null
+      
+    }
+  ]
 
   # metrics docs
   # https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkapplicationgateways
