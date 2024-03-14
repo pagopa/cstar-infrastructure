@@ -98,7 +98,7 @@ module "idpay_mil_payment" {
       })
     },
     {
-      operation_id = "authorizeTransaction"
+      operation_id = "putAuthPayment"
 
       xml_content = templatefile("./api/idpay_mil/idpay_mil_payment/put-authorize-transaction-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname

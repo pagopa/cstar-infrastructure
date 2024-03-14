@@ -359,7 +359,7 @@ module "idpay_payment_io" {
 
   api_operation_policies = [
     {
-      operation_id = "createBarcodeTransaction"
+      operation_id = "createBarCodeTransaction"
       xml_content = templatefile("./api/idpay_payment_io/post-create-barcode-transaction-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
