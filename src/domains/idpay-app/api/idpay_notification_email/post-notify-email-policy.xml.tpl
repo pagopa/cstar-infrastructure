@@ -13,6 +13,7 @@
 <policies>
     <inbound>
         <base />
+        <include-fragment fragment-id="idpay-validate-content-type" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaynotificationemail" />
         <rewrite-uri template="@("/idpay/email-notification/notify")" />
     </inbound>

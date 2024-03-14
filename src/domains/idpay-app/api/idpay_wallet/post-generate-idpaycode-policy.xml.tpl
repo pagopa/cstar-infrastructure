@@ -13,6 +13,7 @@
 <policies>
     <inbound>
         <base />
+        <include-fragment fragment-id="idpay-validate-content-type" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaypaymentinstrument" />
         <rewrite-uri template="@("idpay/instrument/generate-code/"+(string)context.Variables["tokenPDV"])" />
     </inbound>

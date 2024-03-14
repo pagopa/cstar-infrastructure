@@ -13,14 +13,12 @@
 <policies>
     <inbound>
         <base />
+        <include-fragment fragment-id="idpay-validate-content-type" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayportalwelfarebackendinitiative" />
         <set-variable name="varOrgNameFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_name", ""))" />
         <set-variable name="varOrgVatFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_vat", ""))" />
         <set-variable name="varUserIdFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("uid", ""))" />
         <set-variable name="varUserOrgRoleFromValidToken" value="@(((Jwt)context.Variables["validatedToken"]).Claims.GetValueOrDefault("org_role", ""))" />
-        <set-header name="Content-Type" exists-action="override">
-            <value>application/json</value>
-        </set-header>
         <set-header name="organization-user-id" exists-action="override">
             <value>@((string)context.Variables["varUserIdFromValidToken"])</value>
         </set-header>

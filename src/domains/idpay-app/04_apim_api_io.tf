@@ -357,4 +357,13 @@ module "idpay_payment_io" {
 
   product_ids = [module.idpay_api_io_product.product_id]
 
+  api_operation_policies = [
+    {
+      operation_id = "createBarcodeTransaction"
+      xml_content = templatefile("./api/idpay_payment_io/post-create-barcode-transaction-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
 }
