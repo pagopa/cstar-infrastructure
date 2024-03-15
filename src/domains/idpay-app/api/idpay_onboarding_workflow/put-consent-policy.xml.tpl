@@ -13,6 +13,7 @@
 <policies>
     <inbound>
         <base />
+        <include-fragment fragment-id="idpay-validate-content-type" />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
         <rewrite-uri template="@("idpay/onboarding/consent/"+ (string)context.Variables["tokenPDV"])" />
     </inbound>

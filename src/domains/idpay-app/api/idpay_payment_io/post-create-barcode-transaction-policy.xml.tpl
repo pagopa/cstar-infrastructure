@@ -14,8 +14,8 @@
     <inbound>
         <base />
         <include-fragment fragment-id="idpay-validate-content-type" />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayonboardingworkflow" />
-        <rewrite-uri template="@("idpay/onboarding/"+ (string)context.Variables["tokenPDV"])" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaypayment" />
+        <rewrite-uri template="@("/idpay/payment/bar-code")"/>
     </inbound>
     <backend>
         <base />

@@ -50,12 +50,6 @@
                 <claim name="org_name" match="all" />
             </required-claims>
         </validate-jwt>
-        <set-variable name="isContentTypeValidationRequired" value="@(context.Variables.GetValueOrDefault("isContentTypeValidationRequired", "true"))" />
-        <choose>
-          <when condition="@(context.Variables["isContentTypeValidationRequired"] == "true")">
-            <include-fragment fragment-id="idpay-validate-content-type" />
-          </when>
-        </choose>
     </inbound>
     <backend>
         <base />
