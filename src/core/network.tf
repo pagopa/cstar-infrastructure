@@ -225,7 +225,7 @@ resource "azurerm_public_ip" "appgateway_public_ip" {
 
 resource "azurerm_public_ip" "apim_v2_management_public_ip" {
   name                = "${local.project}-apim-management-pip"
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = var.location
   sku                 = "Standard"
   domain_name_label   = "apim-management-${var.env_short}-cstar"
@@ -393,7 +393,7 @@ resource "azurerm_private_endpoint" "dexp_pe" {
 resource "azurerm_network_security_group" "apim_v2_snet_nsg" {
   name                = "${local.project}-apimv2-snet-nsg"
   location            = var.location
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
 
@@ -402,7 +402,7 @@ resource "azurerm_network_security_rule" "apim_v2_snet_nsg_rules" {
 
   network_security_group_name = azurerm_network_security_group.apim_v2_snet_nsg.name
   name                        = var.apim_v2_subnet_nsg_security_rules[count.index].name
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  resource_group_name         = azurerm_resource_group.rg_vnet.name
   priority                    = var.apim_v2_subnet_nsg_security_rules[count.index].priority
   direction                   = var.apim_v2_subnet_nsg_security_rules[count.index].direction
   access                      = var.apim_v2_subnet_nsg_security_rules[count.index].access

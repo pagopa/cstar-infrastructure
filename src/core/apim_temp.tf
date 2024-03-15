@@ -11,7 +11,7 @@ module "apim_v2_temp_snet" {
 
 resource "azurerm_public_ip" "apimv2_public_ip_deleteme" {
   name                = "${local.project}-apim-pip-deleteme"
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = var.location
   sku                 = "Standard"
   domain_name_label   = "apim-${var.env_short}-cstar-deleteme"
