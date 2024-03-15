@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 # MAIN VNET
 module "vnet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
-  name                 = format("%s-vnet", local.project)
+  name                 = "${local.project}-vnet"
   location             = azurerm_resource_group.rg_vnet.location
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   address_space        = var.cidr_vnet
@@ -17,10 +17,43 @@ module "vnet" {
   tags = var.tags
 }
 
+## Peering between the vnet(main) and integration vnet
+module "vnet_peering" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
+
+  location = azurerm_resource_group.rg_vnet.location
+
+  source_resource_group_name       = azurerm_resource_group.rg_vnet.name
+  source_virtual_network_name      = module.vnet.name
+  source_remote_virtual_network_id = module.vnet.id
+  source_allow_gateway_transit     = true
+  # needed by vpn gateway for enabling routing from vnet to vnet_integration
+  target_resource_group_name       = azurerm_resource_group.rg_vnet.name
+  target_virtual_network_name      = module.vnet_integration.name
+  target_remote_virtual_network_id = module.vnet_integration.id
+  target_use_remote_gateways       = false # needed by vnet peering with SIA
+}
+
+# vnet integration
+module "vnet_integration" {
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
+  name                 = "${local.project}-integration-vnet"
+  location             = azurerm_resource_group.rg_vnet.location
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  address_space        = var.cidr_integration_vnet
+  ddos_protection_plan = var.ddos_protection_plan
+
+  tags = var.tags
+}
+
+#
+# Subnet
+#
+
 ## Database subnet
 module "db_snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-db-snet", local.project)
+  name                                      = "${local.project}-db-snet"
   address_prefixes                          = var.cidr_subnet_db
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
@@ -32,7 +65,7 @@ module "cosmos_mongodb_snet" {
   count = var.cosmos_mongo_db_params.enabled ? 1 : 0
 
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                 = format("%s-cosmos-mongodb-snet", local.project)
+  name                 = "${local.project}-cosmos-mongodb-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
   address_prefixes     = var.cidr_subnet_cosmos_mongodb
@@ -59,7 +92,7 @@ module "private_endpoint_snet" {
 module "redis_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
-  name                 = format("%s-redis-snet", local.project)
+  name                 = "${local.project}-redis-snet"
   address_prefixes     = var.cidr_subnet_redis
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -71,7 +104,7 @@ module "k8s_snet" {
   count = 0
 
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-k8s-snet", local.project)
+  name                                      = "${local.project}-k8s-snet"
   address_prefixes                          = var.cidr_subnet_k8s
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
@@ -93,7 +126,7 @@ moved {
 ## Subnet jumpbox
 module "jumpbox_snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-jumpbox-snet", local.project)
+  name                                      = "${local.project}-jumpbox-snet"
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
   address_prefixes                          = var.cidr_subnet_jumpbox
@@ -104,7 +137,7 @@ module "jumpbox_snet" {
 module "azdoa_snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
   count                                     = var.enable_azdoa ? 1 : 0
-  name                                      = format("%s-azdoa-snet", local.project)
+  name                                      = "${local.project}-azdoa-snet"
   address_prefixes                          = var.cidr_subnet_azdoa
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
@@ -114,29 +147,17 @@ module "azdoa_snet" {
 # Subnet to host the application gateway
 module "appgateway-snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-appgateway-snet", local.project)
+  name                                      = "${local.project}-appgateway-snet"
   address_prefixes                          = var.cidr_subnet_appgateway
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
   private_endpoint_network_policies_enabled = true
 }
 
-# vnet integration
-module "vnet_integration" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
-  name                 = format("%s-integration-vnet", local.project)
-  location             = azurerm_resource_group.rg_vnet.location
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  address_space        = var.cidr_integration_vnet
-  ddos_protection_plan = var.ddos_protection_plan
-
-  tags = var.tags
-}
-
 # APIM subnet
 module "apim_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                 = format("%s-apim-snet", local.project)
+  name                 = "${local.project}-apim-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet_integration.name
   address_prefixes     = var.cidr_subnet_apim
@@ -152,7 +173,7 @@ module "eventhub_snet" {
   count = 1
 
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-eventhub-snet", local.project)
+  name                                      = "${local.project}-eventhub-snet"
   address_prefixes                          = var.cidr_subnet_eventhub
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet_integration.name
@@ -172,7 +193,7 @@ module "adf_snet" {
 
 
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-adf-snet", local.project)
+  name                                      = "${local.project}-adf-snet"
   address_prefixes                          = var.cidr_subnet_adf
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
@@ -184,27 +205,13 @@ module "adf_snet" {
   ]
 }
 
-## Peering between the vnet(main) and integration vnet
-module "vnet_peering" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
-
-  location = azurerm_resource_group.rg_vnet.location
-
-  source_resource_group_name       = azurerm_resource_group.rg_vnet.name
-  source_virtual_network_name      = module.vnet.name
-  source_remote_virtual_network_id = module.vnet.id
-  source_allow_gateway_transit     = true
-  # needed by vpn gateway for enabling routing from vnet to vnet_integration
-  target_resource_group_name       = azurerm_resource_group.rg_vnet.name
-  target_virtual_network_name      = module.vnet_integration.name
-  target_remote_virtual_network_id = module.vnet_integration.id
-  target_use_remote_gateways       = false # needed by vnet peering with SIA
-}
-
+#
+# PUBLIC IP
+#
 
 ## Application gateway public ip ##
 resource "azurerm_public_ip" "appgateway_public_ip" {
-  name                = format("%s-appgateway-maz-pip", local.project)
+  name                = "${local.project}-appgateway-maz-pip"
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
   sku                 = "Standard"
@@ -216,365 +223,26 @@ resource "azurerm_public_ip" "appgateway_public_ip" {
   tags = var.tags
 }
 
+resource "azurerm_public_ip" "apim_v2_management_public_ip" {
+  name                = "${local.project}-apim-management-pip"
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  location            = var.location
+  sku                 = "Standard"
+  domain_name_label   = "apim-management-${var.env_short}-cstar"
+  allocation_method   = "Static"
 
-# new application gateway multi az
-module "app_gw_maz" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=v6.2.1"
-
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  location            = azurerm_resource_group.rg_vnet.location
-  name                = format("%s-app-gw-maz", local.project)
-
-  # SKU
-  sku_name = var.app_gateway_sku_name
-  sku_tier = var.app_gateway_sku_tier
-
-  # WAF
-  waf_enabled = var.app_gateway_waf_enabled
-  waf_disabled_rule_group = [
-    {
-      rule_group_name = "REQUEST-920-PROTOCOL-ENFORCEMENT"
-      rules           = ["920300", ]
-    }
-  ]
-
-  # Networking
-  subnet_id    = module.appgateway-snet.id
-  public_ip_id = azurerm_public_ip.appgateway_public_ip.id
-  zones        = [1, 2, 3]
-
-  # Configure backends
-  backends = {
-    apim = {
-      protocol                    = "Https"
-      host                        = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
-      port                        = 443
-      ip_addresses                = module.apim.private_ip_addresses
-      fqdns                       = [azurerm_dns_a_record.dns_a_appgw_api.fqdn]
-      probe                       = "/status-0123456789abcdef"
-      probe_name                  = "probe-apim"
-      request_timeout             = 60
-      pick_host_name_from_backend = false
-    }
-
-    portal = {
-      protocol     = "Https"
-      host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
-      port         = 443
-      ip_addresses = module.apim.private_ip_addresses
-      fqdns = [
-        azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn
-      ]
-      probe                       = "/signin"
-      probe_name                  = "probe-portal"
-      request_timeout             = 60
-      pick_host_name_from_backend = false
-    }
-
-    management = {
-      protocol     = "Https"
-      host         = trim(azurerm_dns_a_record.dns-a-managementcstar.fqdn, ".")
-      port         = 443
-      ip_addresses = module.apim.private_ip_addresses
-      fqdns = [
-        azurerm_dns_a_record.dns-a-managementcstar.fqdn
-      ]
-      probe                       = "/ServiceStatus"
-      probe_name                  = "probe-management"
-      request_timeout             = 60
-      pick_host_name_from_backend = false
-    }
-  }
-
-  ssl_profiles = [
-    {
-      name = format("%s-issuer-mauth-profile", local.project)
-      trusted_client_certificate_names = [
-        format("%s-issuer-chain", local.project)
-      ]
-      verify_client_cert_issuer_dn = true
-      ssl_policy = {
-        disabled_protocols = []
-        policy_type        = "Custom"
-        policy_name        = ""
-        # with Custom type set empty policy_name (not required by the provider)
-        cipher_suites = [
-          "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
-          "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-          "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
-          "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
-        ]
-        min_protocol_version = "TLSv1_2"
-      }
-    }
-  ]
-
-  trusted_client_certificates = [
-    {
-      secret_name  = format("cstar-%s-issuer-chain", var.env_short)
-      key_vault_id = module.key_vault.id
-    }
-  ]
-
-  # Configure listeners
-  listeners = {
-    app_io = {
-      protocol           = "Https"
-      host               = format("api-io.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port               = 443
-      ssl_profile_name   = null
-      firewall_policy_id = null
-
-      certificate = {
-        name = var.app_gateway_api_io_certificate_name
-        id = trimsuffix(
-          data.azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id,
-          data.azurerm_key_vault_certificate.app_gw_io_cstar[0].version
-        )
-      }
-    }
-
-    issuer_acquirer = {
-      protocol           = "Https"
-      host               = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port               = 443
-      ssl_profile_name   = format("%s-issuer-mauth-profile", local.project)
-      firewall_policy_id = null
-
-      certificate = {
-        name = var.app_gateway_api_certificate_name
-        id = trimsuffix(
-          data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
-          data.azurerm_key_vault_certificate.app_gw_cstar.version
-        )
-      }
-    }
-
-    portal = {
-      protocol           = "Https"
-      host               = format("portal.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port               = 443
-      ssl_profile_name   = null
-      firewall_policy_id = null
-
-      certificate = {
-        name = var.app_gateway_portal_certificate_name
-        id = trimsuffix(
-          data.azurerm_key_vault_certificate.portal_cstar.secret_id,
-          data.azurerm_key_vault_certificate.portal_cstar.version
-        )
-      }
-    }
-
-    management = {
-      protocol           = "Https"
-      host               = format("management.%s.%s", var.dns_zone_prefix, var.external_domain)
-      port               = 443
-      ssl_profile_name   = null
-      firewall_policy_id = null
-
-      certificate = {
-        name = var.app_gateway_management_certificate_name
-        id = trimsuffix(
-          data.azurerm_key_vault_certificate.management_cstar.secret_id,
-          data.azurerm_key_vault_certificate.management_cstar.version
-        )
-      }
-    }
-  }
-
-  # maps listener to backend
-  routes = {
-
-    api = {
-      listener              = "app_io"
-      backend               = "apim"
-      rewrite_rule_set_name = null
-      priority              = 10
-
-    }
-
-    broker = {
-      listener              = "issuer_acquirer"
-      backend               = "apim"
-      rewrite_rule_set_name = "rewrite-rule-set-broker-api"
-      priority              = 30
-
-    }
-
-    portal = {
-      listener              = "portal"
-      backend               = "portal"
-      priority              = 20
-      rewrite_rule_set_name = null
-    }
-
-    mangement = {
-      listener              = "management"
-      backend               = "management"
-      rewrite_rule_set_name = null
-      priority              = 40
-
-    }
-  }
-
-  rewrite_rule_sets = [
-    {
-      name = "rewrite-rule-set-broker-api"
-      rewrite_rules = [{
-        name          = "mauth-headers"
-        rule_sequence = 100
-        conditions    = []
-        request_header_configurations = [
-          {
-            header_name  = "X-Client-Certificate-Verification"
-            header_value = "{var_client_certificate_verification}"
-          },
-          {
-            header_name  = "X-Client-Certificate-End-Date"
-            header_value = "{var_client_certificate_end_date}"
-          }
-        ]
-        response_header_configurations = []
-        url                            = null
-        },
-        {
-          name          = "remove-tracing-headers"
-          rule_sequence = 10
-          conditions    = []
-          request_header_configurations = [
-            {
-              header_name  = "Ocp-Apim-Trace"
-              header_value = ""
-            }
-          ]
-          response_header_configurations = [
-            {
-              header_name  = "Ocp-Apim-Trace-Location"
-              header_value = ""
-            }
-          ]
-          url = null
-      }]
-    },
-  ]
-
-  # TLS
-  identity_ids = [azurerm_user_assigned_identity.appgateway.id]
-
-  # Scaling
-  app_gateway_min_capacity = var.app_gateway_min_capacity
-  app_gateway_max_capacity = var.app_gateway_max_capacity
-
-  alerts_enabled = var.app_gateway_alerts_enabled
-
-  action = [
-    {
-      action_group_id    = azurerm_monitor_action_group.slack.id
-      webhook_properties = null
-    },
-    {
-      action_group_id    = azurerm_monitor_action_group.email.id
-      webhook_properties = null
-    }
-  ]
-
-  # metrics docs
-  # https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkapplicationgateways
-  monitor_metric_alert_criteria = {
-
-    compute_units_usage = {
-      description   = "Abnormal compute units usage, probably an high traffic peak"
-      frequency     = "PT5M"
-      window_size   = "PT5M"
-      severity      = 2
-      auto_mitigate = true
-
-      criteria = []
-      dynamic_criteria = [
-        {
-          aggregation       = "Average"
-          metric_name       = "ComputeUnits"
-          operator          = "GreaterOrLessThan"
-          alert_sensitivity = "Low"
-          # todo after api app migration change to High
-          evaluation_total_count   = 2
-          evaluation_failure_count = 2
-          dimension                = []
-        }
-      ]
-    }
-
-    backend_pools_status = {
-      description   = "One or more backend pools are down, check Backend Health on Azure portal"
-      frequency     = "PT5M"
-      window_size   = "PT5M"
-      severity      = 0
-      auto_mitigate = true
-
-      criteria = [
-        {
-          aggregation = "Average"
-          metric_name = "UnhealthyHostCount"
-          operator    = "GreaterThan"
-          threshold   = 0
-          dimension   = []
-        }
-      ]
-      dynamic_criteria = []
-    }
-
-    total_requests = {
-      description   = "Traffic is raising"
-      frequency     = "PT5M"
-      window_size   = "PT15M"
-      severity      = 3
-      auto_mitigate = true
-
-      criteria = []
-      dynamic_criteria = [
-        {
-          aggregation              = "Total"
-          metric_name              = "TotalRequests"
-          operator                 = "GreaterThan"
-          alert_sensitivity        = "Medium"
-          evaluation_total_count   = 1
-          evaluation_failure_count = 1
-          dimension                = []
-        }
-      ]
-    }
-
-    failed_requests = {
-      description   = "Abnormal failed requests"
-      frequency     = "PT5M"
-      window_size   = "PT5M"
-      severity      = 1
-      auto_mitigate = true
-
-      criteria = []
-      dynamic_criteria = [
-        {
-          aggregation              = "Total"
-          metric_name              = "FailedRequests"
-          operator                 = "GreaterThan"
-          alert_sensitivity        = "Medium"
-          evaluation_total_count   = 2
-          evaluation_failure_count = 2
-          dimension                = []
-        }
-      ]
-    }
-
-  }
+  zones = var.apim_v2_zones
 
   tags = var.tags
 }
 
+#
+# ROUTING
+#
 module "route_table_peering_sia" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//route_table?ref=v6.2.1"
 
-  name                          = format("%s-sia-rt", local.project)
+  name                          = "${local.project}-sia-rt"
   location                      = azurerm_resource_group.rg_vnet.location
   resource_group_name           = azurerm_resource_group.rg_vnet.name
   disable_bgp_route_propagation = false
@@ -660,7 +328,7 @@ module "route_table_peering_sia" {
 # Azure Blob Storage subnet
 module "storage_account_snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
-  name                                      = format("%s-storage-account-snet", local.project)
+  name                                      = "${local.project}-storage-account-snet"
   address_prefixes                          = var.cidr_subnet_storage_account
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
@@ -668,8 +336,11 @@ module "storage_account_snet" {
   private_endpoint_network_policies_enabled = false
 }
 
+#
+# Private endpoint
+#
 resource "azurerm_private_endpoint" "blob_storage_pe" {
-  name                = format("%s-blob-storage-pe", local.project)
+  name                = "${local.project}-blob-storage-pe"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   subnet_id           = module.storage_account_snet.id
@@ -679,7 +350,7 @@ resource "azurerm_private_endpoint" "blob_storage_pe" {
     private_dns_zone_ids = [azurerm_private_dns_zone.storage_account.id]
   }
   private_service_connection {
-    name                           = format("%s-blob-storage-private-service-connection", local.project)
+    name                           = "${local.project}-blob-storage-private-service-connection"
     is_manual_connection           = false
     private_connection_resource_id = module.cstarblobstorage.id
     subresource_names              = ["blob"]
@@ -714,4 +385,35 @@ resource "azurerm_private_endpoint" "dexp_pe" {
 
     ]
   }
+}
+
+#
+# NSG
+#
+resource "azurerm_network_security_group" "apim_v2_snet_nsg" {
+  name                = "${local.project}-apimv2-snet-nsg"
+  location            = var.location
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+}
+
+
+resource "azurerm_network_security_rule" "apim_v2_snet_nsg_rules" {
+  count = length(var.apim_v2_subnet_nsg_security_rules)
+
+  network_security_group_name = azurerm_network_security_group.apim_v2_snet_nsg.name
+  name                        = var.apim_v2_subnet_nsg_security_rules[count.index].name
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  priority                    = var.apim_v2_subnet_nsg_security_rules[count.index].priority
+  direction                   = var.apim_v2_subnet_nsg_security_rules[count.index].direction
+  access                      = var.apim_v2_subnet_nsg_security_rules[count.index].access
+  protocol                    = var.apim_v2_subnet_nsg_security_rules[count.index].protocol
+  source_port_range           = var.apim_v2_subnet_nsg_security_rules[count.index].source_port_range
+  destination_port_range      = var.apim_v2_subnet_nsg_security_rules[count.index].destination_port_range
+  source_address_prefix       = var.apim_v2_subnet_nsg_security_rules[count.index].source_address_prefix
+  destination_address_prefix  = var.apim_v2_subnet_nsg_security_rules[count.index].destination_address_prefix
+}
+
+resource "azurerm_subnet_network_security_group_association" "apim_stv2_snet_link_nsg" {
+  subnet_id                 = module.apim_snet.id
+  network_security_group_id = azurerm_network_security_group.apim_v2_snet_nsg.id
 }
