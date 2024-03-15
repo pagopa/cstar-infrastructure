@@ -1,17 +1,17 @@
 resource "azurerm_resource_group" "rg_api" {
-  name     = format("%s-api-rg", local.project)
+  name     = "${local.project}-api-rg"
   location = var.location
 
   tags = var.tags
 }
 
 locals {
-  apim_cert_name_proxy_endpoint   = format("%s-proxy-endpoint-cert", local.project)
-  portal_cert_name_proxy_endpoint = format("%s-proxy-endpoint-cert", "portal")
+  apim_cert_name_proxy_endpoint   = "${local.project}-proxy-endpoint-cert"
+  portal_cert_name_proxy_endpoint = "portal-proxy-endpoint-cert"
 
-  api_domain        = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
-  portal_domain     = format("portal.%s.%s", var.dns_zone_prefix, var.external_domain)
-  management_domain = format("management.%s.%s", var.dns_zone_prefix, var.external_domain)
+  api_domain        = "api.${var.dns_zone_prefix}.${var.external_domain}"
+  portal_domain     = "portal.${var.dns_zone_prefix}.${var.external_domain}"
+  management_domain = "management.${var.dns_zone_prefix}.${var.external_domain}"
 }
 
 
@@ -21,15 +21,16 @@ locals {
 
 module "apim" {
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v7.69.1"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
-  name                 = format("%s-apim", local.project)
+  name                 = "${local.project}-apim"
   resource_group_name  = azurerm_resource_group.rg_api.name
   publisher_name       = var.apim_publisher_name
   publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
   sku_name             = var.apim_sku
   virtual_network_type = "Internal"
+  public_ip_address_id = azurerm_public_ip.apim_v2_management_public_ip.id
 
   # To enable external cache uncomment the following lines
   # redis_connection_string = module.redis.primary_connection_string
@@ -56,7 +57,7 @@ module "apim" {
     portal-domain         = local.portal_domain
     management-api-domain = local.management_domain
     cors-global-only      = false # if true only global policy will check cors, otherwise other cors policy can be defined. (UAT for FA POC)
-    apim-name             = format("%s-apim", local.project)
+    apim-name             = "${local.project}-apim"
   })
 
   tags = var.tags
@@ -119,7 +120,7 @@ resource "azurerm_api_management_notification_recipient_email" "email_assistenza
 ## monitor ##
 module "monitor" {
   source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
-  name                = format("%s-monitor", var.env_short)
+  name                = "${var.env_short}-monitor"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
 
