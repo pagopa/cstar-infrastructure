@@ -105,6 +105,11 @@ module "idpay_cdn" {
         action = "Append"
         name   = "X-Content-Type-Options"
         value  = "nosniff"
+      },
+      {
+        action = "Overwrite"
+        name   = "X-Frame-Options"
+        value  = "SAMEORIGIN"
       }
     ]
   }
