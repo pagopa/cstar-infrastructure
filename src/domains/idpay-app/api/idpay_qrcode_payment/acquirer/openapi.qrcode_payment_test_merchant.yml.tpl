@@ -190,6 +190,7 @@ components:
           enum:
             - CREATED
             - IDENTIFIED
+            - AUTHORIZATION_REQUESTED
             - AUTHORIZED
             - REWARDED
             - REJECTED
@@ -261,7 +262,7 @@ components:
           description: The list of rejection reasons
         status:
           type: string
-          enum: [CREATED, IDENTIFIED, AUTHORIZED, REWARDED, REJECTED]
+          enum: [CREATED, IDENTIFIED, AUTHORIZATION_REQUESTED, AUTHORIZED, REWARDED, REJECTED]
         splitPayment:
           type: boolean
           description: "ENG: TRUE, if the authorized sum is less than the requested sum or FALSE, if the authorized sum is equal to the requested sum - IT: TRUE, se la somma autorizzata è inferiore alla somma richiesta o FALSE, se la somma autorizzata è uguale alla somma richiesta."
