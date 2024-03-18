@@ -74,7 +74,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp_wallet" {
   resource_group_name  = "${local.product}-sftp-rg"
   eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub.id
   subject_filter {
-    subject_begins_with = "/blobServices/default/containers/wallet/blobs/"
+    subject_begins_with = "/blobServices/default/containers/nexi/blobs/"
   }
 
   delivery_identity {

@@ -33,7 +33,7 @@ resource "azurerm_storage_container" "sender_ade_ack" {
 
 resource "azurerm_storage_container" "wallet_contracts_decrypted" {
   count                 = var.enable.wallet_blob_containers ? 1 : 0
-  name                  = "in"
+  name                  = "wallet-contracts-decrypted"
   storage_account_name  = data.azurerm_storage_account.cstarblobstorage.name
   container_access_type = "private"
 }
