@@ -474,9 +474,9 @@ module "app_gw_maz" {
       webhook_properties = null
     },
     {
-      action_group_id    = azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      action_group_id    = azurerm_monitor_action_group.core_send_to_opsgenie.id # Opsgenie
       webhook_properties = null
-      
+
     }
   ]
 
