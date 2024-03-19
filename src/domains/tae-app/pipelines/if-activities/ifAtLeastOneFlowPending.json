@@ -1,0 +1,22 @@
+{
+  "name": "If at least one file is pending then collect reports",
+  "type": "IfCondition",
+  "dependsOn": [
+    {
+      "activity": "For each pending file in Cosmos",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "userProperties": [],
+  "typeProperties": {
+    "expression": {
+      "value": "@not(equals(activity('Extract pending files in Cosmos').output.count, 0))",
+      "type": "Expression"
+    },
+    "ifTrueActivities": [
+      ${collect_pending_filenames_activity}
+    ]
+  }
+}

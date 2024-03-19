@@ -35,6 +35,9 @@ locals {
 
   collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
 
+  if_at_least_one_flow_is_pending = templatefile("pipelines/if-activities/ifAtLeastOneFlowPending.json", {
+    collect_pending_filenames_activity = local.collect_pending_filenames_activity
+  })
 }
 
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
@@ -458,7 +461,7 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
     // min_days_old must be set to int after apply, Terraform doesn't currently support parameters other than String
     min_days_old = 7
   }
-  activities_json = "[${local.extract_pending_files_activity},${local.for_each_pending_file_activity}, ${local.collect_pending_filenames_activity}]"
+  activities_json = "[${local.extract_pending_files_activity},${local.for_each_pending_file_activity}, ${local.if_at_least_one_flow_is_pending}]"
 
   depends_on = [
     azurerm_data_factory_custom_dataset.pending_file,
