@@ -65,8 +65,8 @@ pending_flows_conf = {
   enable                        = false
   interval                      = 1
   frequency                     = "Month"
-  schedule_hours                = 10
-  schedule_minutes              = 0
+  schedule_hours                = 9
+  schedule_minutes              = 30
   monthlyOccurrences_day        = "Monday"
   monthlyOccurrences_occurrence = 1
 }
