@@ -69,7 +69,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
 
 resource "azurerm_eventgrid_system_topic_event_subscription" "sftp_wallet" {
   count                = var.enable.blob_storage_event_grid_integration ? 1 : 0
-  name                 = "${local.project}-sftp-subscription"
+  name                 = "${local.project}-sftp-wallet-subscription"
   system_topic         = data.azurerm_eventgrid_system_topic.sftp.name
   resource_group_name  = "${local.product}-sftp-rg"
   eventhub_endpoint_id = data.azurerm_eventhub.rtd_platform_eventhub.id
