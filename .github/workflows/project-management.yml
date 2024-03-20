@@ -1,0 +1,42 @@
+name: project-management
+run-name: ${{ github.actor }} is testing Project Management Guidelines 📋
+on: [push]
+
+jobs:
+  gajira-action:
+    runs-on: ubuntu-latest
+    environment: jira_action
+    steps:
+      - name: JIRA Login
+        id: login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      - uses: atlassian/gajira-find-issue-key@v3
+        id: find
+        name: Find JIRA ticket in PR name 
+        with:
+          from: branch
+      - name: Create annotation
+        run: echo "Issue ${{ steps.find.outputs.issue }} was found"
+      - name: Setup JIRA CLient
+        uses: atlassian/gajira-cli@v3
+        with:
+          version: 1.0.27
+      - name: Get Jira issue
+        id: get
+        env:
+          # need to add JIRA_API_TOKEN , see https://github.com/atlassian/gajira-cli/issues/2 
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          jira_response=$(jira view "${{ steps.find.outputs.issue }}")
+
+          project_check=$(echo "$jira_response" | grep -o "project: $JIRA_PROJECT_KEY" | wc -l)
+
+          if [[ $project_check -eq 0 ]]; then
+              echo "JIRA Ticket ${{ steps.find.outputs.issue }} is not part of the $JIRA_PROJECT_KEY project"
+              exit 1
+            fi
+          
+          echo "JIRA Ticket ${{ steps.find.outputs.issue }} exists and belongs to the $JIRA_PROJECT_KEY project"
+            exit 0
