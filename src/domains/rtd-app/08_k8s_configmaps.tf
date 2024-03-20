@@ -245,7 +245,7 @@ resource "kubernetes_config_map" "rtdfilereporter" {
   data = merge({
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdfilereporter"
-    STORAGE_ACCOUNT_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    STORAGE_ACCOUNT_HOST          = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
   }, var.configmaps_rtdfilereporter)
 }
 
