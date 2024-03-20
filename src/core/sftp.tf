@@ -133,3 +133,17 @@ resource "azurerm_storage_blob" "consap_dirs" {
   storage_container_name = azurerm_storage_container.consap.name
   type                   = "Block"
 }
+
+resource "azurerm_storage_container" "wallet" {
+  name                  = "nexi"
+  storage_account_name  = module.sftp.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "wallet_dirs" {
+  for_each               = toset(["in"])
+  name                   = format("%s/.test", each.key)
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.wallet.name
+  type                   = "Block"
+}
