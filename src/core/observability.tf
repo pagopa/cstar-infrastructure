@@ -120,7 +120,7 @@ resource "azurerm_monitor_action_group" "core_send_to_opsgenie" {
 
   webhook_receiver {
     name                    = "core_send_to_opsgenie"
-    service_uri             = data.azurerm_key_vault_secret.opsgenie_webhook_url[0].value
+    service_uri             = data.azurerm_key_vault_secret.opsgenie_webhook_url.value
     use_common_alert_schema = true
   }
 }
