@@ -14,12 +14,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-apim_notification_sender_email = "info@pagopa.it"
-cstar_support_email            = "cstar@assistenza.pagopa.it"
-pgp_put_limit_bytes            = 524288000 # 500MB
-apim_publisher_name            = "PagoPA Centro Stella PROD"
-apim_sku                       = "Premium_1"
-
 ddos_protection_plan = {
   id     = "/subscriptions/0da48c97-355f-4050-a520-f11a18b8be90/resourceGroups/sec-p-ddos/providers/Microsoft.Network/ddosProtectionPlans/sec-p-ddos-protection"
   enable = true
@@ -54,6 +48,85 @@ cidr_subnet_eventhub  = ["10.230.6.64/26"]
 #
 cidr_pair_vnet                = ["10.101.0.0/16"]
 cidr_subnet_pair_dnsforwarder = ["10.101.134.0/29"]
+
+### ☁️ APIM
+cidr_subnet_apim_temp = ["10.230.6.128/26"]
+
+apim_notification_sender_email = "info@pagopa.it"
+cstar_support_email            = "cstar@assistenza.pagopa.it"
+pgp_put_limit_bytes            = 524288000 # 500MB
+apim_publisher_name            = "PagoPA Centro Stella PROD"
+apim_sku                       = "Premium_1"
+apim_v2_zones                  = ["1", "2", "3"]
+apim_v2_subnet_nsg_security_rules = [
+  {
+    name                       = "inbound-management-3443"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "ApiManagement"
+    destination_port_range     = "3443"
+    destination_address_prefix = "VirtualNetwork"
+  },
+  {
+    name                       = "inbound-management-6390"
+    priority                   = 111
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "AzureLoadBalancer"
+    destination_port_range     = "6390"
+    destination_address_prefix = "VirtualNetwork"
+  },
+  {
+    name                       = "inbound-load-balancer"
+    priority                   = 120
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "AzureLoadBalancer"
+    destination_port_range     = "*"
+    destination_address_prefix = "VirtualNetwork"
+  },
+  {
+    name                       = "outbound-storage-443"
+    priority                   = 200
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_port_range     = "443"
+    destination_address_prefix = "Storage"
+  },
+  {
+    name                       = "outbound-sql-1433"
+    priority                   = 210
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_port_range     = "1433"
+    destination_address_prefix = "SQL"
+  },
+  {
+    name                       = "outbound-kv-433"
+    priority                   = 220
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_port_range     = "433"
+    destination_address_prefix = "AzureKeyVault"
+  }
+]
+
 
 #
 # ⛴ AKS Vnet
