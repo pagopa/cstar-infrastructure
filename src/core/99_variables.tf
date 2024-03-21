@@ -344,6 +344,26 @@ variable "apim_sku" {
   type = string
 }
 
+variable "apim_v2_subnet_nsg_security_rules" {
+  type = list(object({
+    name                       = string
+    priority                   = number
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
+  }))
+  description = "Network security rules for APIM subnet"
+}
+
+variable "apim_v2_zones" {
+  type        = list(string)
+  description = "(Required) Zones in which the apim will be deployed"
+}
+
 variable "internal_private_domain" {
   type    = string
   default = "internal.cstar.pagopa.it"
@@ -798,4 +818,12 @@ variable "sftp_ade_ack_archive_policy" {
     to_archive_days = 1
   }
   description = "Set Archive Policy for Blobs contained in ade/ack dir in SFTP server"
+}
+
+#
+# APIM TEMP
+#
+variable "cidr_subnet_apim_temp" {
+  type        = list(string)
+  description = "(Required) APIM v2 subnet cidr"
 }

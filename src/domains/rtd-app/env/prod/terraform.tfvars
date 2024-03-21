@@ -65,6 +65,7 @@ enable = {
   batch_service_api                   = true
   tae_api                             = true
   tae_blob_containers                 = true
+  wallet_blob_containers              = true
   sender_auth                         = true
   csv_transaction_apis                = true
   mock_io_api                         = false
@@ -293,6 +294,8 @@ configmaps_rtdfileregister = {
 configmaps_rtddecrypter = {
   ENABLE_CHUNK_UPLOAD                                    = true
   SPLITTER_LINE_THRESHOLD                                = 2000000
+  AGGREGATES_SPLITTER_LINE_THRESHOLD                     = 2000000
+  CONTRACTS_SPLITTER_LINE_THRESHOLD                      = 5000000
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL      = "INFO"
   APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED = "false"
 }
