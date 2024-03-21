@@ -54,7 +54,7 @@ pgp_put_limit_bytes            = 524288000 # 500MB
 apim_publisher_name            = "PagoPA Centro Stella UAT"
 apim_sku                       = "Developer_1"
 
-apim_v2_zones                  = ["1", "2", "3"]
+apim_v2_zones = ["1", "2", "3"]
 apim_v2_subnet_nsg_security_rules = [
   {
     name                       = "inbound-management-3443"

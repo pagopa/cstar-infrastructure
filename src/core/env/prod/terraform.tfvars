@@ -50,7 +50,7 @@ cidr_pair_vnet                = ["10.101.0.0/16"]
 cidr_subnet_pair_dnsforwarder = ["10.101.134.0/29"]
 
 ### ☁️ APIM
-cidr_subnet_apim_temp = ["10.230.11.128/26"]
+cidr_subnet_apim_temp = ["10.230.6.128/26"]
 
 apim_notification_sender_email = "info@pagopa.it"
 cstar_support_email            = "cstar@assistenza.pagopa.it"
