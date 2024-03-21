@@ -212,6 +212,7 @@
 | [azurerm_storage_account.management_sa](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_account) | resource |
 | [azurerm_storage_blob.ade_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_blob) | resource |
 | [azurerm_storage_blob.consap_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_blob) | resource |
+| [azurerm_storage_blob.wallet_dirs](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_blob) | resource |
 | [azurerm_storage_container.ade](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.apim_backup](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.bpd_terms_and_conditions](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
@@ -222,6 +223,7 @@
 | [azurerm_storage_container.fa_terms_and_conditions](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.info_privacy](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.rtd_transactions_decrypted](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
+| [azurerm_storage_container.wallet](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_management_policy.ack_archive](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_management_policy) | resource |
 | [azurerm_storage_management_policy.backups](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_management_policy) | resource |
 | [azurerm_subnet_network_security_group_association.apim_stv2_snet_link_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/subnet_network_security_group_association) | resource |

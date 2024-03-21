@@ -1,14 +1,7 @@
 {
   "name": "Collect pending filenames to file",
   "type": "Copy",
-  "dependsOn": [
-    {
-      "activity": "For each pending file in Cosmos",
-      "dependencyConditions": [
-        "Succeeded"
-      ]
-    }
-  ],
+  "dependsOn": [],
   "policy": {
     "timeout": "0.12:00:00",
     "retry": 0,

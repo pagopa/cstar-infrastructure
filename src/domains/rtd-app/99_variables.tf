@@ -227,6 +227,7 @@ variable "enable" {
     batch_service_api                   = bool
     tae_api                             = bool
     tae_blob_containers                 = bool
+    wallet_blob_containers              = bool
     sender_auth                         = bool
     mock_io_api                         = bool
     rtd_df                              = bool
@@ -251,6 +252,7 @@ variable "enable" {
     batch_service_api                   = false
     tae_api                             = false
     tae_blob_containers                 = false
+    wallet_blob_containers              = false
     sender_auth                         = false
     mock_io_api                         = false
     rtd_df                              = false
