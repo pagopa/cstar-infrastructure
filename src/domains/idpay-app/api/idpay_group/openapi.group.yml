@@ -246,7 +246,7 @@ components:
             GROUP_DELETE_FILE_FAILED: It's not possible remove this file,
             GROUP_SAVE_FILE_FAILED: Could not store the file,
             GROUP_LOAD_FILE_ERROR: Could not read the file,
-            GROUP_FOLDER_INITIALIZE_ERROR: Could not initialize folder for upload
+            GROUP_FOLDER_INITIALIZE_ERROR: Could not initialize folder for upload,
             - IT: Codice di errore:
             GROUP_NOT_FOUND: Gruppo non trovato,
             GROUP_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
