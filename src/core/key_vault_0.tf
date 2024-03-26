@@ -174,6 +174,14 @@ data "azurerm_key_vault_secret" "sec_storage_id" {
 }
 
 #
+# Ops Genie Url for core
+#
+data "azurerm_key_vault_secret" "opsgenie_webhook_url" {
+  name         = "opsgenie-tae-webhook-url"
+  key_vault_id = module.key_vault.id
+}
+
+#
 # RTD Domain KV
 #
 data "azurerm_key_vault" "rtd_domain_kv" {

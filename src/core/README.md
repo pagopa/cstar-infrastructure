@@ -141,6 +141,7 @@
 | [azurerm_kusto_cluster_managed_private_endpoint.management_sa_mgd_pe](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/kusto_cluster_managed_private_endpoint) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.core](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.core_send_to_opsgenie](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.error](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
@@ -273,6 +274,7 @@
 | [azurerm_key_vault_secret.db_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.opsgenie_webhook_url](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.pagopa_platform_api_tkm_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.pgres_flex_admin_login](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.pgres_flex_admin_pwd](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/data-sources/key_vault_secret) | data source |
