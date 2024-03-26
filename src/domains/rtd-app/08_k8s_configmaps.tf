@@ -221,11 +221,13 @@ resource "kubernetes_config_map" "rtddecrypter" {
   }
 
   data = merge({
-    JAVA_TOOL_OPTIONS            = ""
-    CSV_TRANSACTION_DECRYPT_HOST = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
-    SPLITTER_LINE_THRESHOLD      = 2000000,
-    ENABLE_CHUNK_UPLOAD          = true,
-    CONSUMER_TIMEOUT_MS          = 600000 # 10m
+    JAVA_TOOL_OPTIONS                  = ""
+    CSV_TRANSACTION_DECRYPT_HOST       = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
+    SPLITTER_LINE_THRESHOLD            = 2000000,
+    AGGREGATES_SPLITTER_LINE_THRESHOLD = 2000000,
+    CONTRACTS_SPLITTER_LINE_THRESHOLD  = 5000000,
+    ENABLE_CHUNK_UPLOAD                = true,
+    CONSUMER_TIMEOUT_MS                = 600000 # 10m
   }, var.configmaps_rtddecrypter)
 }
 
@@ -243,6 +245,7 @@ resource "kubernetes_config_map" "rtdfilereporter" {
   data = merge({
     JAVA_TOOL_OPTIONS             = "-javaagent:/app/applicationinsights-agent.jar"
     APPLICATIONINSIGHTS_ROLE_NAME = "rtdfilereporter"
+    STORAGE_ACCOUNT_HOST          = replace("apim.internal.${var.env}.cstar.pagopa.it", ".prod.", ".")
   }, var.configmaps_rtdfilereporter)
 }
 
