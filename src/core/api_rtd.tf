@@ -178,6 +178,36 @@ module "rtd_blob_internal" {
   api_operation_policies = []
 }
 
+module "rtd_sftp_blob_internal" {
+  count  = var.enable.rtd.internal_api ? 1 : 0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+
+  name                = format("%s-sftp-blob-internal", var.env_short)
+  api_management_name = module.apim.name
+  resource_group_name = azurerm_resource_group.rg_api.name
+
+  description  = "API for Internal Access to STFP Blob Storage"
+  display_name = "SFTP Blob Storage Internal"
+  path         = "sftp-storage"
+  protocols    = ["https"]
+
+  service_url = format("https://%s", azurerm_private_endpoint.sftp_blob[0].private_dns_zone_configs[0].record_sets[0].fqdn)
+
+  content_format = "openapi"
+  content_value = templatefile("./api/azureblob/sftp_internal.openapi.json", {
+    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name,
+
+  })
+
+  subscription_required = true
+
+  xml_content = file("./api/azureblob/azure_sftp_blob_policy.xml")
+
+  product_ids = [data.azurerm_api_management_product.rtd_api_product_internal.product_id]
+
+  api_operation_policies = []
+}
+
 module "rtd_fake_abi_to_fiscal_code" {
   count = var.enable.tae.api ? 1 : 0
 
