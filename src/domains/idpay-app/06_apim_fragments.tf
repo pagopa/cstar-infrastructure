@@ -51,19 +51,3 @@ resource "azapi_resource" "apim-validate-token-mil" {
     }
   })
 }
-
-resource "azapi_resource" "apim-rate-limiting" {
-  type      = "Microsoft.ApiManagement/service/policyFragments@2021-12-01-preview"
-  name      = "idpay-rate-limiting"
-  parent_id = data.azurerm_api_management.apim_core.id
-
-  body = jsonencode({
-    properties = {
-      description = "idpay-rate-limiting"
-      format      = "rawxml"
-      value = templatefile("./api_fragment/rate-limiting.xml", {
-        openid-config-url-mil = var.openid_config_url_mil
-      })
-    }
-  })
-}

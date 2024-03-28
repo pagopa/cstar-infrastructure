@@ -1,5 +1,6 @@
 <policies>
     <inbound>
+        <rate-limit calls="2000" renewal-period="60" />
         <include-fragment fragment-id="idpay-validate-token-mil" />
         <choose>
             <when condition="@(context.Variables["fiscalCode"] != null)">
