@@ -256,12 +256,12 @@ components:
             GROUP_GENERIC_ERROR: Errore generico,
             GROUP_BENEFICIARY_LIST_NOT_PROVIDED: Non è stata fornita una lista di beneficiari,
             GROUP_NOT_FOUND_OR_STATUS_NOT_VALID: Gruppo non trovato per l'iniziativa oppure lo stato non è valido,
-            GROUP_INITIATIVE_STATUS_NOT_VALID: Iniziativa non elaborabile per lo stato non valido",
+            GROUP_INITIATIVE_STATUS_NOT_VALID: Iniziativa non elaborabile per lo stato non valido,
             GROUP_DELETE_FILE_FAILED: Non è possibile rimuovere il file,
             GROUP_SAVE_FILE_FAILED: Non è possibile salvare il file,
             GROUP_LOAD_FILE_ERROR: Non è possibile leggere il file,
             GROUP_FOLDER_INITIALIZE_ERROR: Non è possibile inizializzare la cartella per il caricamento,
-            GROUP_PARALLEL_EXECUTION_ERROR: Errore durante l'esecuzione in parallelo
+            GROUP_PARALLEL_EXECUTION_ERROR: Errore durante l'esecuzione in parallelo"
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
