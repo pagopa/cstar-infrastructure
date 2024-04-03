@@ -1,4 +1,5 @@
 {
+  "name": "${audit_dcr_name}",
   "location" :"westeurope",
   "properties" : {
     "dataCollectionEndpointId": "${audit_dce_id}",
