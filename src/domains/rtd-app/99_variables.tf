@@ -231,6 +231,7 @@ variable "enable" {
     sender_auth                         = bool
     mock_io_api                         = bool
     rtd_df                              = bool
+    wallet_migration_integration        = bool
   })
   description = "Feature flags"
   default = {
@@ -256,6 +257,7 @@ variable "enable" {
     sender_auth                         = false
     mock_io_api                         = false
     rtd_df                              = false
+    wallet_migration_integration        = false
   }
 }
 

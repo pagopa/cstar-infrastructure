@@ -70,6 +70,7 @@ enable = {
   csv_transaction_apis                = true
   mock_io_api                         = false
   rtd_df                              = true
+  wallet_migration_integration        = true
 }
 #
 # Hashpan generation pipeline related variables
