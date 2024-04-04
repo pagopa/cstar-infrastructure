@@ -1,6 +1,6 @@
 <policies>
     <inbound>
-        <rate-limit calls="2500" renewal-period="60" />
+        <rate-limit calls="${rate_limit_io}" renewal-period="60" />
         <!-- Fix sender code for IO API -->
         <set-variable name="senderCode" value="APP_IO" />
         <!-- Extract Token from Authorization header parameter -->

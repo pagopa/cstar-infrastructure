@@ -12,7 +12,7 @@
 -->
 <policies>
     <inbound>
-        <rate-limit calls="2000" renewal-period="60" />
+        <rate-limit calls="${rate_limit_mil_merchant}" renewal-period="60" />
         <set-header name="x-apim-request-id" exists-action="override">
           <value>@(context.RequestId.ToString())</value>
         </set-header>

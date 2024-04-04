@@ -359,3 +359,51 @@ variable "enable" {
     mock_io_api = false
   }
 }
+
+variable "rate_limit_io_product" {
+  type        = number
+  description = "Rate limit for IO product"
+  default     = 2500
+}
+
+variable "rate_limit_issuer_product" {
+  type        = number
+  description = "Rate limit for Issuer product"
+  default     = 2000
+}
+
+variable "rate_limit_assistance_product" {
+  type        = number
+  description = "Rate limit for Assistance product"
+  default     = 1000
+}
+
+variable "rate_limit_mil_citizen_product" {
+  type        = number
+  description = "Rate limit for MIL citizen product"
+  default     = 2000
+}
+
+variable "rate_limit_mil_merchant_product" {
+  type        = number
+  description = "Rate limit for MIL merchant product"
+  default     = 2000
+}
+
+variable "rate_limit_minint_product" {
+  type        = number
+  description = "Rate limit for MIN INT product"
+  default     = 1000
+}
+
+variable "rate_limit_portal_product" {
+  type        = number
+  description = "Rate limit for institutions portal product"
+  default     = 2500
+}
+
+variable "rate_limit_merchants_portal_product" {
+  type        = number
+  description = "Rate limit for merchants portal product"
+  default     = 2500
+}

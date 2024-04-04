@@ -1,7 +1,7 @@
 <policies>
     <inbound>
         <base />
-        <rate-limit calls="2000" renewal-period="60" />
+        <rate-limit calls="${rate_limit_issuer}" renewal-period="60" />
         <!-- Extract Token from Fiscal-Code header parameter -->
         <set-variable name="fiscalCode" value="@(context.Request.Headers.GetValueOrDefault("Fiscal-Code", ""))" />
         <!-- The variable present in cache is the pii of the user obtaind with PDV  /-->
