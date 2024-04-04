@@ -255,6 +255,14 @@
 | <a name="input_pm_service_base_url"></a> [pm\_service\_base\_url](#input\_pm\_service\_base\_url) | PM Service uri. Endpoint to retrieve Payment Instruments information. | `string` | `"127.0.0.1"` | no |
 | <a name="input_pm_timeout_sec"></a> [pm\_timeout\_sec](#input\_pm\_timeout\_sec) | Payment manager timeout (sec) | `number` | `5` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
+| <a name="input_rate_limit_assistance_product"></a> [rate\_limit\_assistance\_product](#input\_rate\_limit\_assistance\_product) | Rate limit for Assistance product | `number` | `1000` | no |
+| <a name="input_rate_limit_io_product"></a> [rate\_limit\_io\_product](#input\_rate\_limit\_io\_product) | Rate limit for IO product | `number` | `2500` | no |
+| <a name="input_rate_limit_issuer_product"></a> [rate\_limit\_issuer\_product](#input\_rate\_limit\_issuer\_product) | Rate limit for Issuer product | `number` | `2000` | no |
+| <a name="input_rate_limit_merchants_portal_product"></a> [rate\_limit\_merchants\_portal\_product](#input\_rate\_limit\_merchants\_portal\_product) | Rate limit for merchants portal product | `number` | `2500` | no |
+| <a name="input_rate_limit_mil_citizen_product"></a> [rate\_limit\_mil\_citizen\_product](#input\_rate\_limit\_mil\_citizen\_product) | Rate limit for MIL citizen product | `number` | `2000` | no |
+| <a name="input_rate_limit_mil_merchant_product"></a> [rate\_limit\_mil\_merchant\_product](#input\_rate\_limit\_mil\_merchant\_product) | Rate limit for MIL merchant product | `number` | `2000` | no |
+| <a name="input_rate_limit_minint_product"></a> [rate\_limit\_minint\_product](#input\_rate\_limit\_minint\_product) | Rate limit for MIN INT product | `number` | `1000` | no |
+| <a name="input_rate_limit_portal_product"></a> [rate\_limit\_portal\_product](#input\_rate\_limit\_portal\_product) | Rate limit for institutions portal product | `number` | `2500` | no |
 | <a name="input_reverse_proxy_be_io"></a> [reverse\_proxy\_be\_io](#input\_reverse\_proxy\_be\_io) | AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller. | `string` | `"127.0.0.1"` | no |
 | <a name="input_reverse_proxy_rtd"></a> [reverse\_proxy\_rtd](#input\_reverse\_proxy\_rtd) | AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller. | `string` | `"127.0.0.1"` | no |
 | <a name="input_selc_base_url"></a> [selc\_base\_url](#input\_selc\_base\_url) | SelfCare api backend url | `string` | n/a | yes |

@@ -18,7 +18,10 @@ module "idpay_api_min_int_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/min_int/policy_min_int.xml")
+  policy_xml = templatefile("./api_product/min_int/policy_min_int.xml", {
+    rate_limit_minint = var.rate_limit_minint_product
+    }
+  )
 
   groups = ["developers"]
 }
