@@ -69,6 +69,7 @@
 | [azapi_resource.apim-merchant-id-retriever](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.apim-pdv-tokenizer](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.apim-validate-token-mil](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.idpay_audit_dcr](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_audit_log_table](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_refund_storage_topic_event_subscription](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azapi_resource.idpay_workbook](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
@@ -134,6 +135,9 @@
 | [azurerm_log_analytics_data_export_rule.idpay_audit_analytics_export_rule](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/log_analytics_data_export_rule) | resource |
 | [azurerm_log_analytics_linked_storage_account.idpay_audit_analytics_linked_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/log_analytics_linked_storage_account) | resource |
 | [azurerm_monitor_action_group.slackIdpay](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_data_collection_endpoint.idpay_audit_dce](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_data_collection_endpoint) | resource |
+| [azurerm_monitor_data_collection_rule_association.idpay_audit_dce_association](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_data_collection_rule_association) | resource |
+| [azurerm_monitor_data_collection_rule_association.idpay_audit_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_monitor_metric_alert.ErrorsTopic](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.Availability](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.CompleteOnboarding](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
@@ -150,6 +154,7 @@
 | [azurerm_role_assignment.event_grid_sender_role_on_refund_storage_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.initiative_storage_data_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.refund_storage_data_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/role_assignment) | resource |
+| [azurerm_storage_blob.oidc_configuration](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_blob) | resource |
 | [azurerm_storage_container.idpay_logo_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.idpay_merchant_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.idpay_ranking_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
@@ -166,13 +171,7 @@
 | [kubernetes_namespace.system_domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/namespace) | resource |
 | [kubernetes_role_binding.deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/role_binding) | resource |
 | [kubernetes_role_binding.system_deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.25.2/docs/resources/role_binding) | resource |
-| [local_file.idpay_audit_dcr_file_tmp](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [local_file.oidc_configuration_file](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [null_resource.idpay_audit_dce](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
-| [null_resource.idpay_audit_dcr](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
-| [null_resource.idpay_audit_dcra](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.idpay_audit_lh](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
-| [null_resource.upload_oidc_configuration](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [terracurl_request.transaction_in_progress_connector](https://registry.terraform.io/providers/devops-rob/terracurl/1.0.1/docs/resources/request) | resource |
 | [tls_private_key.p7m_key](https://registry.terraform.io/providers/hashicorp/tls/4.0.4/docs/resources/private_key) | resource |
 | [tls_self_signed_cert.p7m_self_signed_cert](https://registry.terraform.io/providers/hashicorp/tls/4.0.4/docs/resources/self_signed_cert) | resource |

@@ -93,50 +93,47 @@ resource "azurerm_log_analytics_data_export_rule" "idpay_audit_analytics_export_
 }
 
 # Data Collection Endpoint
-resource "null_resource" "idpay_audit_dce" {
-  provisioner "local-exec" {
-    command = <<EOC
-      az monitor data-collection endpoint create --name ${local.audit_dce_name} --resource-group ${data.azurerm_application_insights.application_insights.resource_group_name} --location ${var.location} --public-network-access Enabled
-      EOC
-  }
+resource "azurerm_monitor_data_collection_endpoint" "idpay_audit_dce" {
+  name                          = local.audit_dce_name
+  resource_group_name           = data.azurerm_application_insights.application_insights.resource_group_name
+  location                      = var.location
+  public_network_access_enabled = true
+  description                   = "audit dce"
 }
 
 # Data Collection Rule
-resource "local_file" "idpay_audit_dcr_file_tmp" {
-  filename = ".terraform/tmp/idpay-audit-dcr.json"
+resource "azapi_resource" "idpay_audit_dcr" {
+  type      = "Microsoft.Insights/dataCollectionRules@2021-09-01-preview"
+  name      = local.audit_dcr_name
+  parent_id = data.azurerm_resource_group.monitor_rg.id
 
-  content = templatefile("./dcr/idpay-audit-dcr.json.tpl", {
+  body = templatefile("./dcr/idpay-audit-dcr.json.tpl", {
     log_analytics_workspace_id   = data.azurerm_log_analytics_workspace.log_analytics.id
     log_analytics_workspace_name = data.azurerm_log_analytics_workspace.log_analytics.name
     audit_dce_id                 = local.audit_dce_id
+    audit_dcr_name               = local.audit_dcr_name
   })
-  depends_on = [null_resource.idpay_audit_dce]
+
+  depends_on = [azurerm_monitor_data_collection_endpoint.idpay_audit_dce]
 }
 
-resource "null_resource" "idpay_audit_dcr" {
-  provisioner "local-exec" {
-    command = "az rest --url ${local.az_rest_api_dcr} --method PUT --body @${local_file.idpay_audit_dcr_file_tmp.filename}"
-  }
+resource "azurerm_monitor_data_collection_rule_association" "idpay_audit_dcra" {
+  for_each                = local.aks_vmss_ids
+  name                    = "${local.audit_dcra_name}-${each.value}"
+  target_resource_id      = each.key
+  data_collection_rule_id = local.audit_dcr_id
+  description             = "idpay_audit_dcra"
 
-  triggers = {
-    data = md5(local_file.idpay_audit_dcr_file_tmp.content)
-  }
-  depends_on = [local_file.idpay_audit_dcr_file_tmp]
+  depends_on = [azapi_resource.idpay_audit_dcr]
 }
 
-resource "null_resource" "idpay_audit_dcra" {
+resource "azurerm_monitor_data_collection_rule_association" "idpay_audit_dce_association" {
+  for_each                    = local.aks_vmss_ids
+  target_resource_id          = each.key
+  data_collection_endpoint_id = local.audit_dce_id
+  description                 = "idpay_audit_dce_association"
 
-  for_each = local.aks_vmss_ids
-  provisioner "local-exec" {
-    command = <<EOC
-      az monitor data-collection rule association create \
-      --subscription ${local.subscription_id} \
-      --name "${local.audit_dcra_name}-${each.value}" \
-      --resource ${each.key} \
-      --rule-id ${local.audit_dcr_id}
-      EOC
-  }
-  depends_on = [null_resource.idpay_audit_dcr]
+  depends_on = [azurerm_monitor_data_collection_endpoint.idpay_audit_dce]
 }
 
 # Audit Log Table

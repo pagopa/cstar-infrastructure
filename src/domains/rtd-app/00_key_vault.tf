@@ -34,3 +34,15 @@ data "azurerm_key_vault_secret" "cstarblobstorage_public_key" {
   name         = "cstarblobstorage-public-key"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+
+resource "azurerm_key_vault_secret" "wallet_api_product_subscription_key" {
+  count        = var.enable.wallet_migration_integration ? 1 : 0
+  name         = "wallet-api-product-subscription-key"
+  content_type = "string"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  value        = ""
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
