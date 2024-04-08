@@ -113,5 +113,14 @@ mail_server_host = "smtp.ethereal.email"
 idpay_mocked_merchant_enable       = true
 idpay_mocked_acquirer_apim_user_id = "1"
 
-
-
+#
+# Rate limit
+#
+rate_limit_io_product               = 2500
+rate_limit_issuer_product           = 2000
+rate_limit_assistance_product       = 1000
+rate_limit_mil_citizen_product      = 2000
+rate_limit_mil_merchant_product     = 2000
+rate_limit_minint_product           = 1000
+rate_limit_portal_product           = 2500
+rate_limit_merchants_portal_product = 2500

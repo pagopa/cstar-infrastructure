@@ -187,6 +187,7 @@ resource "kubernetes_config_map" "rtdingestor" {
     KAFKA_TOPIC_RTD_DLQ_TRX       = "rtd-dlq-trx"
     MONGODB_NAME                  = "rtd"
     KAFKA_BROKER_DLQ              = "${var.prefix}-${var.env_short}-rtd-evh-ns.servicebus.windows.net:9093"
+    WALLET_HOST                   = replace("api.${var.env}.platform.pagopa.it", ".prod.", ".")
     },
   var.configmaps_rtdingestor)
 }

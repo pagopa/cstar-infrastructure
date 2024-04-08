@@ -70,6 +70,7 @@ enable = {
   csv_transaction_apis                = true
   mock_io_api                         = true
   rtd_df                              = false
+  wallet_migration_integration        = true
 }
 
 #

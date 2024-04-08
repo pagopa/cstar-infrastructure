@@ -96,7 +96,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_merchants_token_ex
 
   depends_on = [
     azapi_resource.apim-merchant-id-retriever,
-    null_resource.upload_oidc_configuration
+    azurerm_storage_blob.oidc_configuration
   ]
 }
 
