@@ -18,7 +18,7 @@ jobs:
         id: find
         name: Find JIRA ticket in PR name 
         with:
-          from: commits
+          string: ${{ github.event.pull_request.title }}
       - name: Create annotation
         run: echo "Issue ${{ steps.find.outputs.issue }} was found"
       - name: Setup JIRA CLient
