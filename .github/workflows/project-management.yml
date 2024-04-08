@@ -13,12 +13,12 @@ jobs:
         env:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ vars.JIRA_USER_MAIL }}
+          JIRA_USER_EMAIL: ${{ vars.JIRA_USER_MAIL }} 
       - uses: atlassian/gajira-find-issue-key@v3
         id: find
         name: Find JIRA ticket in PR name 
         with:
-          from: branch
+          string: ${{ github.event.pull_request.title }}
       - name: Create annotation
         run: echo "Issue ${{ steps.find.outputs.issue }} was found"
       - name: Setup JIRA CLient
