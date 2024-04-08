@@ -15,7 +15,14 @@ jobs:
           JIRA_USER_EMAIL: ${{ vars.JIRA_USER_MAIL }} 
         with:
           from: 'pull_request'
-          projects: ${{ vars.JIRA_PROJECT_KEY }}  
+          projects: ${{ vars.JIRA_PROJECT_KEY }}
+          # The Jira cloud base url including protocol i.e. 'https://company.atlassian.net'
+          # or use environment variable JIRA_BASE_URL
+          jira_base_url: $JIRA_BASE_URL
+          # The Jira cloud user email address or use environment variable JIRA_USER_EMAIL
+          jira_user_email: $JIRA_USER_MAIL
+          # The Jira cloud user api token or use environment variable JIRA_API_TOKEN
+          jira_api_token: $JIRA_API_TOKEN
       - name: JIRA Login
         id: login
         uses: atlassian/gajira-login@master
