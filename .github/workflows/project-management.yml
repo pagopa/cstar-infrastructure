@@ -7,22 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: jira_action
     steps:
-      - name: Find Jira Issue Keys In GitHub Event 
-        uses: bitflight-devops/github-action-jira-find-issue-keys@v1.0.12
-        env:
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ vars.JIRA_USER_MAIL }} 
-        with:
-          from: 'pull_request'
-          projects: ${{ vars.JIRA_PROJECT_KEY }}
-          # The Jira cloud base url including protocol i.e. 'https://company.atlassian.net'
-          # or use environment variable JIRA_BASE_URL
-          jira_base_url: $JIRA_BASE_URL
-          # The Jira cloud user email address or use environment variable JIRA_USER_EMAIL
-          jira_user_email: $JIRA_USER_MAIL
-          # The Jira cloud user api token or use environment variable JIRA_API_TOKEN
-          jira_api_token: $JIRA_API_TOKEN
       - name: JIRA Login
         id: login
         uses: atlassian/gajira-login@master
@@ -34,7 +18,7 @@ jobs:
         id: find
         name: Find JIRA ticket in PR name 
         with:
-          string: ${{ github.event.pull_request.title }}
+          from: pull_request
       - name: Create annotation
         run: echo "Issue ${{ steps.find.outputs.issue }} was found"
       - name: Setup JIRA CLient
