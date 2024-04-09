@@ -112,6 +112,19 @@ resource "azurerm_monitor_action_group" "error" {
   tags = var.tags
 }
 
+resource "azurerm_monitor_action_group" "core_send_to_opsgenie" {
+
+  name                = "core_send_to_opsgenie"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  short_name          = "core_to_gen"
+
+  webhook_receiver {
+    name                    = "core_send_to_opsgenie"
+    service_uri             = data.azurerm_key_vault_secret.opsgenie_webhook_url.value
+    use_common_alert_schema = true
+  }
+}
+
 resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 
