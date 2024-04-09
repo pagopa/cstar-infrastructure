@@ -18,7 +18,10 @@ module "idpay_api_assistance_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/assistance/policy_assistance.xml")
+  policy_xml = templatefile("./api_product/assistance/policy_assistance.xml", {
+    rate_limit_assistance = var.rate_limit_assistance_product
+    }
+  )
 
 }
 

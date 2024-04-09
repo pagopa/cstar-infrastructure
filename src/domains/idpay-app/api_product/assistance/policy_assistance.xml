@@ -1,6 +1,7 @@
 <policies>
   <inbound>
     <base />
+    <rate-limit calls="${rate_limit_assistance}" renewal-period="60" />
   </inbound>
   <backend>
     <base />

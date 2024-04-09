@@ -9,29 +9,17 @@ locals {
   selfcare-issuer                = "https://${var.env != "prod" ? "${var.env}." : ""}selfcare.pagopa.it"
 }
 
-## Upload file for oidc configuration
-resource "local_file" "oidc_configuration_file" {
-  filename = "./.terraform/tmp/openid-configuration.json"
+resource "azurerm_storage_blob" "oidc_configuration" {
+  name                   = "selfcare/openid-configuration.json"
+  storage_account_name   = replace(format("%s-%s-sa", local.project, "idpaycdn"), "-", "")
+  storage_container_name = "$web"
+  type                   = "Block"
+  content_type           = "application/json"
+  access_tier            = "Hot"
 
-  content = templatefile("./api/idpay_token_exchange/openid-configuration.json.tpl", {
+  source_content = templatefile("./api/idpay_token_exchange/openid-configuration.json.tpl", {
     selfcare-issuer = local.selfcare-issuer
   })
-
-}
-
-resource "null_resource" "upload_oidc_configuration" {
-  triggers = {
-    "changes-in-config" : filemd5("./api/idpay_token_exchange/openid-configuration.json.tpl")
-    "changes-in-issuer" : local.selfcare-issuer,
-    "changes-in-position" : local.idpay-oidc-config_url
-  }
-
-  provisioner "local-exec" {
-    command = <<EOT
-              result=$(az storage azcopy blob upload --container '$web' --account-name ${replace(format("%s-%s-sa", local.project, "idpaycdn"), "-", "")} --source ${local_file.oidc_configuration_file.filename} --account-key ${data.azurerm_key_vault_secret.cdn_storage_access_secret.value} --destination "selfcare/openid-configuration.json")
-              echo $result | grep "Final Job Status: Completed"
-          EOT
-  }
 }
 
 data "azurerm_key_vault_secret" "cdn_storage_access_secret" {
@@ -122,7 +110,7 @@ resource "azurerm_api_management_api_operation" "idpay_token_exchange" {
 }
 
 resource "azurerm_api_management_api_operation_policy" "idpay_token_exchange_policy" {
-  depends_on = [null_resource.upload_oidc_configuration]
+  depends_on = [azurerm_storage_blob.oidc_configuration]
 
   api_name            = azurerm_api_management_api_operation.idpay_token_exchange.api_name
   api_management_name = azurerm_api_management_api_operation.idpay_token_exchange.api_management_name

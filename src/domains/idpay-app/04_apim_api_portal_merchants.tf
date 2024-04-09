@@ -19,8 +19,9 @@ module "idpay_api_portal_merchants_product" {
   subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/portal_merchants_api/policy_merchants_portal.xml.tpl", {
-    jwt_cert_signing_kv_id = azurerm_api_management_certificate.idpay_merchants_token_exchange_cert_jwt.name,
-    origins                = local.origins.base
+    jwt_cert_signing_kv_id      = azurerm_api_management_certificate.idpay_merchants_token_exchange_cert_jwt.name,
+    origins                     = local.origins.base
+    rate_limit_merchants_portal = var.rate_limit_merchants_portal_product
   })
 
 }
