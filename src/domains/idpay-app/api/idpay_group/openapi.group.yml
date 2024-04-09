@@ -234,7 +234,6 @@ components:
             - GROUP_SAVE_FILE_FAILED
             - GROUP_LOAD_FILE_ERROR
             - GROUP_FOLDER_INITIALIZE_ERROR
-            - GROUP_PARALLEL_EXECUTION_ERROR
           description: >-
             "ENG: Error code:
             GROUP_NOT_FOUND: Group not found,
@@ -248,7 +247,6 @@ components:
             GROUP_SAVE_FILE_FAILED: Could not store the file,
             GROUP_LOAD_FILE_ERROR: Could not read the file,
             GROUP_FOLDER_INITIALIZE_ERROR: Could not initialize folder for upload,
-            GROUP_PARALLEL_EXECUTION_ERROR: Error occurred during parallel execution,
             - IT: Codice di errore:
             GROUP_NOT_FOUND: Gruppo non trovato,
             GROUP_INVALID_REQUEST: Qualcosa è andato storto durante l'invio della richiesta,
@@ -260,8 +258,7 @@ components:
             GROUP_DELETE_FILE_FAILED: Non è possibile rimuovere il file,
             GROUP_SAVE_FILE_FAILED: Non è possibile salvare il file,
             GROUP_LOAD_FILE_ERROR: Non è possibile leggere il file,
-            GROUP_FOLDER_INITIALIZE_ERROR: Non è possibile inizializzare la cartella per il caricamento,
-            GROUP_PARALLEL_EXECUTION_ERROR: Errore durante l'esecuzione in parallelo"
+            GROUP_FOLDER_INITIALIZE_ERROR: Non è possibile inizializzare la cartella per il caricamento"
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
