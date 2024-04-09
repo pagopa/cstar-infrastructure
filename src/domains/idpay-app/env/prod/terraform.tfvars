@@ -81,7 +81,7 @@ selc_base_url = "https://api.selfcare.pagopa.it"
 # BE IO API
 #
 io_manage_backend_base_url = "https://api.io.pagopa.it"
-# STUB: "https://api-io.cstar.pagopa.it/idpay/mock" 
+# STUB: "https://api-io.cstar.pagopa.it/idpay/mock"
 
 #
 # ONE TRUST API
@@ -119,3 +119,15 @@ mail_server_port     = "465"
 mail_server_protocol = "smtps"
 
 idpay_alert_enabled = true
+
+#
+# Rate limit
+#
+rate_limit_io_product               = 2500
+rate_limit_issuer_product           = 2000
+rate_limit_assistance_product       = 1000
+rate_limit_mil_citizen_product      = 2000
+rate_limit_mil_merchant_product     = 2000
+rate_limit_minint_product           = 1000
+rate_limit_portal_product           = 2500
+rate_limit_merchants_portal_product = 2500

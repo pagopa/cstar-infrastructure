@@ -18,7 +18,10 @@ module "idpay_api_mil_merchant_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/mil_api/policy_mil_merchant.xml")
+  policy_xml = templatefile("./api_product/mil_api/policy_mil_merchant.xml", {
+    rate_limit_mil_merchant = var.rate_limit_mil_merchant_product
+    }
+  )
 
   groups = ["developers"]
 }
@@ -39,7 +42,10 @@ module "idpay_api_mil_citizen_product" {
 
   subscriptions_limit = 50
 
-  policy_xml = file("./api_product/mil_api/policy_mil_citizen.xml")
+  policy_xml = templatefile("./api_product/mil_api/policy_mil_citizen.xml", {
+    rate_limit_mil_citizen = var.rate_limit_mil_citizen_product
+    }
+  )
 
   groups = ["developers"]
 }
