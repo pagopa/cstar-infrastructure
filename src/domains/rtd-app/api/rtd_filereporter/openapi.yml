@@ -85,7 +85,7 @@ components:
               - SENT_TO_AGENZIA_DELLE_ENTRATE
             example: "RECEIVED_BY_PAGOPA"
     FileReportV2:
-      title: FileReport
+      title: FileReportV2
       type: object
       properties:
         filesRecentlyUploaded:
@@ -93,7 +93,7 @@ components:
           items:
             $ref: '#/components/schemas/FileInformationV2'
     FileInformationV2:
-      title: FileInformation
+      title: FileInformationV2
       type: object
       properties:
         name:
