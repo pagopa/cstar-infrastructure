@@ -662,6 +662,12 @@ module "rtd_filereporter" {
       xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml", {
         rtd-ingress = local.ingress_load_balancer_hostname_https
       })
-    }
+    },
+    {
+      operation_id = "getFileReportV2"
+      xml_content = templatefile("./api/rtd_filereporter/get-file-report-policy.xml", {
+        rtd-ingress = local.ingress_load_balancer_hostname_https
+      })
+    },
   ]
 }
