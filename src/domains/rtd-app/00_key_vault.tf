@@ -46,3 +46,15 @@ resource "azurerm_key_vault_secret" "wallet_api_product_subscription_key" {
     ignore_changes = [value]
   }
 }
+
+resource "azurerm_key_vault_secret" "contract_id_obfuscation_hmac_key" {
+  count        = var.enable.wallet_migration_integration ? 1 : 0
+  name         = "contract-id-obfuscation-hmac-key"
+  content_type = "string"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  value        = ""
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
