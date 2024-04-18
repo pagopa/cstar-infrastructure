@@ -2677,8 +2677,8 @@ paths:
                 createDate: 2018-10-13
                 status: EXPORTED
                 successPercentage: '20'
-                totalAmount: 100
-                totalRefundedAmount: 10
+                totalAmountCents: 100
+                totalRefundedAmountCents: 10
                 totalRefunds: 20
         '400':
           description: Bad request
@@ -2775,43 +2775,43 @@ paths:
                 content:
                   - id: '1234'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '5678'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '9101'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '1121'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '3141'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '5161'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '7181'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '9200'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                   - id: '1222'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                   - id: '3242'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                 pageNo: 0
                 pageSize: 10
@@ -2882,7 +2882,7 @@ paths:
               schema:
                 '$ref': '#/components/schemas/RefundDetailDTO'
               example:
-                amount: 10
+                amountCents: 1000
                 endDate: 2022-10-15
                 fiscalCode: RSSMRA94C31F205K
                 iban: IT60X0542811101000000123456
@@ -3029,8 +3029,10 @@ components:
     InitiativeGeneralDTO:
       type: object
       properties:
-        budget:
-          type: number
+        budgetCents:
+          type: integer
+          format: int64
+          example: 1000
         beneficiaryType:
           enum:
             - PF
@@ -3044,8 +3046,10 @@ components:
           type: string
         beneficiaryKnown:
           type: boolean
-        beneficiaryBudget:
-          type: number
+        beneficiaryBudgetCents:
+          type: integer
+          format: int64
+          example: 100
         startDate:
           type: string
           description: Start date
@@ -3351,7 +3355,7 @@ components:
             - REFUND
             - DISCOUNT
         rewardRule:
-          oneOf:
+          anyOf:
             - $ref: '#/components/schemas/RewardGroupsDTO'
             - $ref: '#/components/schemas/RewardValueDTO'
         trxRule:
@@ -3428,10 +3432,12 @@ components:
     RewardGroupDTO:
       type: object
       properties:
-        from:
-          type: number
-        to:
-          type: number
+        fromCents:
+          type: integer
+          format: int64
+        toCents:
+          type: integer
+          format: int64
         rewardValue:
           maximum: 100
           minimum: 0
@@ -3456,8 +3462,9 @@ components:
             - WEEKLY
             - MONTHLY
             - YEARLY
-        rewardLimit:
-          type: number
+        rewardLimitCents:
+          type: integer
+          format: int64
     RewardValueDTO:
       type: object
       allOf:
@@ -3465,18 +3472,18 @@ components:
         - type: object
           properties:
             rewardValue:
-              maximum: 100
-              minimum: 0
               type: number
     ThresholdDTO:
       type: object
       properties:
-        from:
-          type: number
+        fromCents:
+          type: integer
+          format: int64
         fromIncluded:
           type: boolean
-        to:
-          type: number
+        toCents:
+          type: integer
+          format: int64
         toIncluded:
           type: boolean
     TrxCountDTO:
@@ -3511,8 +3518,10 @@ components:
           enum:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
-        refundThreshold:
-          type: number
+        refundThresholdCents:
+          type: integer
+          format: int64
+          example: 100
     TimeParameterDTO:
       required:
         - timeType
@@ -3640,8 +3649,10 @@ components:
         onboardedCitizenCount:
           type: integer
           format: int32
-        accruedRewards:
-          type: number
+        accruedRewardsCents:
+          type: integer
+          format: int64
+          example: 100
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
       type: object
@@ -4055,47 +4066,75 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
           type: string
+          description: 'ENG: Id of the operation - IT: Identificativo dell''operazione'
         operationType:
           enum:
             - TRANSACTION
             - REVERSAL
           type: string
+          description: 'ENG: Operation type - IT: Tipologia di operazione'
         eventId:
           type: string
         brandLogo:
           type: string
+          description: >-
+            ENG: Card's brand logo URL - IT: URL del logo del marchio della
+            carta
         brand:
           type: string
+          description: >-
+            ENG: Card's brand as mastercard, visa, ecc. - IT: Marchio della
+            carta come mastercard, visa, ecc...
         maskedPan:
           type: string
-        amount:
-          type: number
-        accrued:
-          type: number
+          description: 'ENG: Masked Pan - IT: Masked Pan'
+        amountCents:
+          type: integer
+          format: int64
+          description: 'ENG: Transaction amount - IT: Importo della transazione'
+          example: 100
+        accruedCents:
+          type: integer
+          format: int64
+          description: 'ENG: Transaction accrued - IT: Importo accumulato'
+          example: 100
         operationDate:
           type: string
           format: date-time
+          description: 'ENG: Operation date - IT: Data dell''operazione'
         circuitType:
           type: string
           description: >-
-            00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB,
-            05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay,
-            09->Satispay, 10->PrivateCircuit
+            ENG: Circuit type - IT: Tipologia del circuito 00-> Bancomat,
+            01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay,
+            06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay,
+            10->PrivateCircuit
         idTrxIssuer:
           type: string
+          description: >-
+            ENG: Transaction issuer ID - IT: Identificativo della transazione
+            rispetto all'issuer
         idTrxAcquirer:
           type: string
+          description: >-
+            ENG: Transaction acquirer ID- IT: Identificativo della transazione
+            rispetto all'acquirer
         status:
           type: string
           enum:
             - AUTHORIZED
             - REWARDED
             - CANCELLED
+          description: >-
+            ENG: Transaction status [AUTHORIZED: Transaction authorize,
+            REWARDED: Transaction rewarded, CANCELLED: Transaction cancelled]  -
+            IT: Stato della transazione [AUTHORIZED: Transazione autorizzata,
+            REWARDED: Transazione premiata, CANCELLED: transazione cancellata]
         channel:
           type: string
           enum:
@@ -4103,6 +4142,9 @@ components:
             - QRCODE
             - IDPAYCODE
             - BARCODE
+          description: >-
+            ENG: Channel from which the transaction takes place - IT: Canale da
+            cui avviene la transazione
         businessName:
           type: string
     InstrumentOperationDTO:
@@ -4180,7 +4222,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - amount
+        - amountCents
       properties:
         operationId:
           type: string
@@ -4194,17 +4236,21 @@ components:
         operationDate:
           type: string
           format: date
-        amount:
-          type: number
-        accrued:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
+          example: 100
+        accruedCents:
+          type: integer
+          format: int64
+          example: 100
     TransactionOperationDTO:
       type: object
       required:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -4223,10 +4269,14 @@ components:
           type: string
         maskedPan:
           type: string
-        amount:
-          type: number
-        accrued:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
+          example: 100
+        accruedCents:
+          type: integer
+          format: int64
+          example: 100
         circuitType:
           type: string
           description: '00-> Bancomat, 01->Visa, 02->Mastercard, 03->Amex, 04->JCB, 05->UnionPay, 06->Diners, 07->PostePay, 08->BancomatPay, 09->Satispay, 10->PrivateCircuit'
@@ -4313,10 +4363,12 @@ components:
         createDate:
           type: string
           format: date
-        totalAmount:
-          type: number
-        totalRefundedAmount:
-          type: number
+        totalAmountCents:
+          type: integer
+          format: int64
+        totalRefundedAmountCents:
+          type: integer
+          format: int64
         totalRefunds:
           type: integer
           format: int64
@@ -4377,8 +4429,9 @@ components:
       properties:
         iban:
           type: string
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
         status:
           type: string
         eventId:
@@ -4390,8 +4443,9 @@ components:
           type: string
         iban:
           type: string
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
         startDate:
           type: string
           format: date
