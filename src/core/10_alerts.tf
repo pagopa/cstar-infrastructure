@@ -14,18 +14,6 @@ locals {
       path                 = "",
       expected_http_status = 200
     },
-    {
-      # api.env.cstar.pagopa.it
-      host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, "."),
-      path                 = "",
-      expected_http_status = 400
-    },
-    {
-      # management.env.cstar.pagopa.it
-      host                 = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, "."),
-      path                 = "",
-      expected_http_status = 200
-    },
     ## CDN custom domains ##
     # no cdn              ##
   ]
@@ -55,3 +43,65 @@ module "web_test_availability_alert_rules_for_api" {
     },
   ]
 }
+
+resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_cstar" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+
+  name                = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  scopes = [
+    azurerm_application_insights.application_insights.id,
+    "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}",
+  ]
+  description = "Web availability check alert triggered when it fails."
+
+  auto_mitigate = false
+  severity      = 1
+  window_size   = "PT15M"
+
+  action {
+    action_group_id = azurerm_monitor_action_group.slack.id # Slack
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.core_send_to_opsgenie.id # Opsgenie
+  }
+
+  application_insights_web_test_location_availability_criteria {
+    component_id          = azurerm_application_insights.application_insights.id
+    failed_location_count = 1
+    web_test_id           = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
+  }
+}
+
+
+resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_app_io_cstar" {
+  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+
+  name                = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  scopes = [
+    azurerm_application_insights.application_insights.id,
+    "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}",
+  ]
+  description = "Web availability check alert triggered when it fails."
+
+  auto_mitigate = false
+  severity      = 1
+  window_size   = "PT15M"
+
+  action {
+    action_group_id = azurerm_monitor_action_group.slack.id # Slack
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.core_send_to_opsgenie.id # Opsgenie
+  }
+
+  application_insights_web_test_location_availability_criteria {
+    component_id          = azurerm_application_insights.application_insights.id
+    failed_location_count = 1
+    web_test_id           = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
+  }
+}
+
