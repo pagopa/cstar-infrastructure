@@ -3904,12 +3904,15 @@ components:
         endDate:
           type: string
           format: date
-        amount:
-          type: number
-        accrued:
-          type: number
-        refunded:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
+        accruedCents:
+          type: integer
+          format: int64
+        refundedCents:
+          type: integer
+          format: int64
         lastCounterUpdate:
           type: string
           format: date-time
