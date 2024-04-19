@@ -2884,54 +2884,6 @@ components:
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
-    WalletDTO:
-      type: object
-      required:
-        - initiativeId
-        - status
-        - endDate
-        - nInstr
-      properties:
-        initiativeId:
-          type: string
-          description: "ENG: The Id of the initiative - IT: L'ID dell'iniziativa"
-        initiativeName:
-          type: string
-          description: "ENG: The name of the initiative - IT: Il nome dell'iniziativa"
-        status:
-          enum:
-            - NOT_REFUNDABLE_ONLY_IBAN
-            - NOT_REFUNDABLE_ONLY_INSTRUMENT
-            - REFUNDABLE
-            - NOT_REFUNDABLE
-            - UNSUBSCRIBED
-            - SUSPENDED
-          type: string
-          description: "ENG: Actual status of the citizen wallet for an initiative:-NOT_REFUNDABLE: the beneficiary has neither IBAN nor Payment Instrument associated to the initiative, NOT_REFUNDABLE_ONLY_IBAN: the beneficiary has an IBAN, but no Payment Instrument associated to the initiative, NOT_REFUNDABLE_ONLY_INSTRUMENT: the beneficiary has at least one Payment Instrument, but no IBAN associated to the initiative, REFUNDABLE: the beneficiary has both IBAN and Payment Instrument associated to the initiative, SUSPENDED: the beneficiary has been suspended from the initiative, UNSUBSCRIBED: the beneficiary is unsubribed from the initiative,  - IT: Stato attuale del portafoglio di un cittadino su una iniziativa:-NOT_REFUNDABLE: Il beneficiario non ha IBAN né Strumenti di Pagamento associati all’iniziativa, NOT_REFUNDABLE_ONLY_IBAN: Il beneficiario ha un IBAN, ma non ha alcuno Strumento di Pagamento associato all’iniziativa, NOT_REFUNDABLE_ONLY_INSTRUMENT: Il beneficiario ha almeno uno Strumento di Pagamento, ma non ha alcun IBAN associato all’iniziativa, REFUNDABLE: Il beneficiario ha sia un IBAN che almeno uno Strumento di Pagamento associato all’iniziativa, SUSPENDED: il beneficiario è stato sospeso dall'iniziativa, UNSUBSCRIBED: il beneficiario ha fatto il recesso dall'iniziativa"
-        endDate:
-          type: string
-          format: date
-          description: "ENG: End date of the initiative - IT: Data del termine dell’iniziativa"
-        amount:
-          type: number
-          description: "ENG: Available balance: the maximum benefit net of all accrued benefits - IT: Saldo disponibile, ovvero il BENEFICIO/CAP MASSIMO previsto per quella iniziativa al netto di eventuali BENEFICI MATURATI"
-        accrued:
-          type: number
-          description: "ENG: Accrued benefits - IT: Benefici maturati"
-        refunded:
-          type: number
-          description: "ENG: Refunded benefits - IT: Beneficio rimborsato"
-        lastCounterUpdate:
-          type: string
-          format: date-time
-          description: "ENG: Last date of update of accrued/refunded benefits - IT: Ultima data dell’aggiornamento dei benefici maturati/rimborsati"
-        iban:
-          type: string
-          description: "ENG: IBAN associated to the initiative - IT: IBAN associato all'iniziativa"
-        nInstr:
-          type: integer
-          format: int32
-          description: "ENG: Number of Payment Instruments associated to the initiative - IT: Numero di strumenti di pagamento associati all'iniziativa"
     InstrumentListDTO:
       type: object
       required:
