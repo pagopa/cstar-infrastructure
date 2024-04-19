@@ -837,7 +837,7 @@ variable "metric_alert_api" {
   })
   default = {
     enable      = false
-    frequency   = "PT1M"
+    frequency   = "PT5M"
     window_size = "PT5M"
   }
   description = "Set frequency and window size for api certificate renovate alert"
@@ -852,7 +852,7 @@ variable "metric_alert_api_io" {
   })
   default = {
     enable      = false
-    frequency   = "PT1M"
+    frequency   = "PT5M"
     window_size = "PT5M"
   }
   description = "Set frequency and window size for api io certificate renovate alert"

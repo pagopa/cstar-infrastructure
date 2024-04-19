@@ -359,13 +359,13 @@ law_retention_in_days = 30
 # api.dev.cstar.pagopa.it
 metric_alert_api = {
   enable      = false
-  frequency   = "PT1H"
-  window_size = "PT6H"
+  frequency   = "PT5M"
+  window_size = "PT5M"
 }
 
 # api-io.dev.cstar.pagopa.it
 metric_alert_api_io = {
   enable      = false
-  frequency   = "PT1H"
-  window_size = "PT6H"
+  frequency   = "PT5M"
+  window_size = "PT5M"
 }
