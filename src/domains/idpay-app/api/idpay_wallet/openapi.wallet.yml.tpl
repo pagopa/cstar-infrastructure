@@ -948,14 +948,17 @@ components:
           type: string
           format: date
           description: "ENG: End date for the time window in which it is possible to use the initiative's rewards - IT: Data che indica la fine del periodo di fruizione dell'iniziativa"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Initiative total amount - IT: Importo totale dell'iniziativa"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Initiative accrued amount IT: Importo accumulato dell'iniziativa"
-        refunded:
-          type: number
+        refundedCents:
+          type: integer
+          format: int64
           description: "ENG: Refunded amount of the initiative - IT: Importo rimborsato dell'iniziativa"
         lastCounterUpdate:
           type: string
@@ -1112,8 +1115,9 @@ components:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
           description: "ENG: Accumulated type [BUDGET_EXHAUSTED: budget exhausted, THRESHOLD_REACHED: threshold reached] - IT: Tipologia di accumulazione [BUDGET_EXHAUSTED: Budget esaurito, THRESHOLD_REACHED: Soglia raggiunta]"
-        refundThreshold:
-          type: number
+        refundThresholdCents:
+          type: integer
+          format: int64
           description: "ENG: Refund threshold - IT: Soglia di rimborso"
     TimeParameterDTO:
       required:

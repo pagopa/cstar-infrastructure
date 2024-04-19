@@ -502,62 +502,66 @@ components:
       required:
         - trxCode
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - trxExpirationSeconds
         - status
       properties:
         trxCode:
-          type: string
-          description: "ENG: Transaction code - IT: Il codice della transazione"
+         type: string
+         description: "ENG: Transaction code - IT: Il codice della transazione"
         trxId:
-          type: string
-          description: "ENG: Transaction ID - IT: L'ID della transazione"
+         type: string
+         description: "ENG: Transaction ID - IT: L'ID della transazione"
         fiscalCode:
-          type: string
-          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
-          description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
-          description: "ENG: Reward amount - IT: Premio generato"
+         type: string
+         description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
+        effectiveAmountCents:
+         type: integer
+         format: int64
+         description: "ENG: Transaction amount - IT: Quantitativo della transazione"
+         example: 100
+        rewardAmountCents:
+         type: integer
+         format: int64
+         description: "ENG: Reward amount - IT: Premio generato"
+         example: 100
         trxDate:
-          type: string
-          format: date-time
-          description: "ENG: The date of the transaction - IT: La data della transazione"
+         type: string
+         format: date-time
+         description: "ENG: The date of the transaction - IT: La data della transazione"
         trxExpirationSeconds:
-          type: number
-          description: "ENG: Expiration time of the transaction, in seconds - IT: Scadenza della transazione, in secondi"
+         type: number
+         description: "ENG: Expiration time of the transaction, in seconds - IT: Scadenza della transazione, in secondi"
         updateDate:
-          type: string
-          format: date-time
-          description: "ENG: The date of the transaction update - IT: La data di aggiornamento della transazione"
+         type: string
+         format: date-time
+         description: "ENG: The date of the transaction update - IT: La data di aggiornamento della transazione"
         status:
-          type: string
-          enum:
-            - CREATED
-            - IDENTIFIED
-            - AUTHORIZATION_REQUESTED
-            - AUTHORIZED
-            - REJECTED
-          description: "ENG: Status of the transaction - IT: Stato della transazione"
+         type: string
+         enum:
+          - CREATED
+          - IDENTIFIED
+          - AUTHORIZATION_REQUESTED
+          - AUTHORIZED
+          - REJECTED
+         description: "ENG: Status of the transaction - IT: Stato della transazione"
         splitPayment:
-          type: boolean
-          description: "ENG: TRUE, if the authorized sum is less than the requested sum or FALSE, if the authorized sum is equal to the requested sum - IT: TRUE, se la somma autorizzata è inferiore alla somma richiesta o FALSE, se la somma autorizzata è uguale alla somma richiesta."
+         type: boolean
+         description: "ENG: TRUE, if the authorized sum is less than the requested sum or FALSE, if the authorized sum is equal to the requested sum - IT: TRUE, se la somma autorizzata è inferiore alla somma richiesta o FALSE, se la somma autorizzata è uguale alla somma richiesta."
         residualAmountCents:
-          type: integer
-          format: int64
-          description: "ENG: Remaining amount to be paid if the authorized sum is less than the requested sum - IT: Importo restante da pagare nel caso in cui la somma autorizzata sia inferiore alla somma richiesta."
+         type: integer
+         format: int64
+         description: "ENG: Remaining amount to be paid if the authorized sum is less than the requested sum - IT: Importo restante da pagare nel caso in cui la somma autorizzata sia inferiore alla somma richiesta."
         channel:
-          type: string
-          description: "ENG: Channel from which the transaction takes place - IT: Canale da
-            cui avviene la transazione"
+         type: string
+         description: "ENG: Channel from which the transaction takes place - IT: Canale da
+          cui avviene la transazione"
         qrcodePngUrl:
-          type: string
-          description: "ENG: Url to the QR code image - IT: Url all'immagine del QR code"
+         type: string
+         description: "ENG: Url to the QR code image - IT: Url all'immagine del QR code"
         qrcodeTxtUrl:
-          type: string
-          description: "ENG: Url of the QR code link - IT: Url del QR code"
+         type: string
+         description: "ENG: Url of the QR code link - IT: Url del QR code"
     MerchantTransactionsProcessedListDTO:
       type: object
       required:
@@ -591,39 +595,43 @@ components:
       type: object
       required:
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - status
       properties:
         trxId:
-          type: string
-          description: "ENG: Transaction ID - IT: L'ID della transazione"
+         type: string
+         description: "ENG: Transaction ID - IT: L'ID della transazione"
         fiscalCode:
-          type: string
-          description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
-          description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
-          description: "ENG: Reward amount - IT: Premio generato"
+         type: string
+         description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
+        effectiveAmountCents:
+         type: integer
+         format: int64
+         description: "ENG: Transaction amount - IT: Quantitativo della transazione"
+         example: 100
+        rewardAmountCents:
+         type: integer
+         format: int64
+         description: "ENG: Reward amount - IT: Premio generato"
+         example: 100
         trxDate:
-          type: string
-          format: date-time
-          description: "ENG: The date of the transaction - IT: La data della transazione"
+         type: string
+         format: date-time
+         description: "ENG: The date of the transaction - IT: La data della transazione"
         updateDate:
-          type: string
-          format: date-time
-          description: "ENG: The date of the transaction update - IT: La data di aggiornamento della transazione"
+         type: string
+         format: date-time
+         description: "ENG: The date of the transaction update - IT: La data di aggiornamento della transazione"
         status:
-          type: string
-          enum:
-            - REWARDED
-            - CANCELLED
-          description: "ENG: Status of the transaction - IT: Stato della transazione"
+         type: string
+         enum:
+          - REWARDED
+          - CANCELLED
+         description: "ENG: Status of the transaction - IT: Stato della transazione"
         channel:
-          type: string
-          description: "ENG: Channel from which the transaction takes place - IT: Canale da
-              cui avviene la transazione"
+         type: string
+         description: "ENG: Channel from which the transaction takes place - IT: Canale da
+           cui avviene la transazione"
     ErrorDTO:
       type: object
       properties:
@@ -634,12 +642,18 @@ components:
     MerchantStatisticsDTO:
       type: object
       properties:
-        amount:
-          type: number
-        accrued:
-          type: number
-        refunded:
-          type: number
+        amountCents:
+         type: integer
+         format: int64
+         example: 100
+        accruedCents:
+         type: integer
+         format: int64
+         example: 100
+        refundedCents:
+         type: integer
+         format: int64
+         example: 100
     MerchantDetailDTO:
       type: object
       properties:

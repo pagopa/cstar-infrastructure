@@ -532,12 +532,18 @@ components:
     MerchantStatisticsDTO:
       type: object
       properties:
-        amount:
-          type: number
-        accrued:
-          type: number
-        refunded:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
+          example: 100
+        accruedCents:
+          type: integer
+          format: int64
+          example: 100
+        refundedCents:
+          type: integer
+          format: int64
+          example: 100
     MerchantTransactionsListDTO:
       type: object
       required:
@@ -568,7 +574,7 @@ components:
       required:
         - trxCode
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - trxExpirationSeconds
         - status
       properties:
@@ -581,12 +587,16 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+          example: 100
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
+          example: 100
         trxDate:
           type: string
           format: date-time
@@ -656,7 +666,7 @@ components:
       type: object
       required:
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - status
       properties:
         trxId:
@@ -665,12 +675,16 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+          example: 100
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
+          example: 100
         trxDate:
           type: string
           format: date-time
@@ -857,7 +871,7 @@ components:
             AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED: Creato,
             IDENTIFIED: Utente associato, AUTHORIZATION_REQUESTED:
             autorizzazione richiesta, AUTHORIZED: autorizzato]
-        reward:
+        rewardCents:
           type: integer
           format: int64
           description: 'ENG: Reward - IT: Premio generato'
@@ -865,8 +879,9 @@ components:
           type: integer
           format: int64
           description: 'ENG: Amount cents - IT: Importo in centessimi'
-        residualBudget:
-          type: number
+        residualBudgetCents:
+          type: integer
+          format: int64
           description: 'ENG: Residual budget - IT: Budget residuo'
         splitPayment:
           type: boolean

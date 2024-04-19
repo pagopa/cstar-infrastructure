@@ -107,7 +107,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - amount
+        - amountCents
       properties:
         operationId:
           type: string
@@ -119,8 +119,9 @@ components:
         operationDate:
           type: string
           format: date
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
     ErrorDTO:
       type: object
       required:

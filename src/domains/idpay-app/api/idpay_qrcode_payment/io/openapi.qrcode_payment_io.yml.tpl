@@ -241,7 +241,7 @@ components:
           - AUTHORIZATION_REQUESTED
           - AUTHORIZED
           description: "ENG: Status of the payment [CREATED: Created, IDENTIFIED: User related, AUTHORIZATION_REQUESTED: Authorization Requested, AUTHORIZED: authorized] - IT: Stato del pagamento [CREATED: Creato, IDENTIFIED: Utente associato, AUTHORIZATION_REQUESTED: autorizzazione richiesta, AUTHORIZED: autorizzato]"
-        reward:
+        rewardCents:
           type: integer
           format: int64
           description: "ENG: Reward - IT: Premio generato"
@@ -249,8 +249,9 @@ components:
           type: integer
           format: int64
           description: "ENG: Amount cents - IT: Importo in centessimi"
-        residualBudget:
-          type: number
+        residualBudgetCents:
+          type: integer
+          format: int64
           description: "ENG: Residual budget - IT: Budget residuo"
     TransactionErrorDTO:
       type: object

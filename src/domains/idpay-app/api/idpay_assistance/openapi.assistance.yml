@@ -1353,8 +1353,8 @@ paths:
                 createDate: 2018-10-13
                 status: EXPORTED
                 successPercentage: '20'
-                totalAmount: 100
-                totalRefundedAmount: 10
+                totalAmountCents: 100
+                totalRefundedAmountCents: 10
                 totalRefunds: 20
         '400':
           description: Bad request
@@ -1459,43 +1459,43 @@ paths:
                 content:
                   - id: '1234'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '5678'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '9101'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '1121'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '3141'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '5161'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '7181'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '9200'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                   - id: '1222'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                   - id: '3242'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                 pageNo: 0
                 pageSize: 10
@@ -1572,7 +1572,7 @@ paths:
               schema:
                 '$ref': '#/components/schemas/RefundDetailDTO'
               example:
-                amount: 10
+                amountCents: 1000
                 endDate: 2022-10-15
                 fiscalCode: RSSMRA94C31F205K
                 iban: IT60X0542811101000000123456
@@ -2046,8 +2046,9 @@ components:
     InitiativeGeneralDTO:
       type: object
       properties:
-        budget:
-          type: number
+        budgetCents:
+          type: integer
+          format: int64
           description: "ENG: The budget for the initiative - IT: Il budget per l'iniziativa"
         beneficiaryType:
           enum:
@@ -2065,8 +2066,9 @@ components:
         beneficiaryKnown:
           type: boolean
           description: "ENG: Indicates if a list of fiscal code is uploaded or not - IT: Indica se verrà caricata una lista di codifi fiscali conosciuti oppure no"
-        beneficiaryBudget:
-          type: number
+        beneficiaryBudgetCents:
+          type: integer
+          format: int64
           description: "ENG: The budget for single beneficiary - IT: Budget per singolo beneficiario"
         startDate:
           type: string
@@ -2423,19 +2425,22 @@ components:
             - MONTHLY
             - YEARLY
           description: "ENG: The frequency to receive a reward - IT: La cadenza temporale per ricevere il premio"
-        rewardLimit:
-          type: number
+        rewardLimitCents:
+          type: integer
+          format: int64
           description: "ENG: The max value rewardable - IT: Il valore massimo premiabile"
     ThresholdDTO:
       type: object
       properties:
-        from:
-          type: number
+        fromCents:
+          type: integer
+          format: int64
           description: "ENG: Min spending threshold - IT: Soglia minima di spesa"
         fromIncluded:
           type: boolean
-        to:
-          type: number
+        toCents:
+          type: integer
+          format: int64
           description: "ENG: Max spending threshold - IT: Soglia massima di spesa"
         toIncluded:
           type: boolean
@@ -2474,8 +2479,9 @@ components:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
           description: "ENG: One of the possible accumulated type to do refund: BUDGET_EXHAUSTED, THRESHOLD_REACHED,  - IT: Una delle possibili tipologie di importo per erogare il rimborso: BUDGET_EXHAUSTED: Al raggiungimento dell'importo massimo, THRESHOLD_REACHED: Al raggiungimento di un certo importo"
-        refundThreshold:
-          type: number
+        refundThresholdCents:
+          type: integer
+          format: int64
           description: "ENG: The threshold to reach - IT: La soglia da raggiungere"
     TimeParameterDTO:
       required:
@@ -2633,8 +2639,9 @@ components:
           type: integer
           format: int32
           description: "ENG: The counter of onboarded citizen - IT: Il contatore dei cittadini onboardati"
-        accruedRewards:
-          type: number
+        accruedRewardsCents:
+          type: integer
+          format: int64
           description: "ENG: The total budget spent (accrued bonus) - IT: Il budget totale speso (bonus maturato)"
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
@@ -3097,7 +3104,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -3124,11 +3131,13 @@ components:
         maskedPan:
           type: string
           description: 'ENG: Masked Pan - IT: Masked Pan'
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: 'ENG: Transaction amount - IT: Importo della transazione'
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: 'ENG: Transaction accrued - IT: Importo accumulato'
         operationDate:
           type: string
@@ -3259,7 +3268,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - amount
+        - amountCents
       properties:
         operationId:
           type: string
@@ -3277,11 +3286,13 @@ components:
           type: string
           format: date
           description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of the refund - IT: Il totale del rimborso"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Accrued benefits - IT: Benefici maturati"
     TransactionOperationDTO:
       type: object
@@ -3289,7 +3300,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -3314,11 +3325,13 @@ components:
         maskedPan:
           type: string
           description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of transaction - IT: Il totale della transazione"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Accrued benefits - IT: Benefici maturati"
         circuitType:
           type: string
@@ -3428,11 +3441,13 @@ components:
           type: string
           format: date
           description: "ENG: The creation date of the refund file - IT: La data di creazione del file dei rimborsi"
-        totalAmount:
-          type: number
+        totalAmountCents:
+          type: integer
+          format: int64
           description: "ENG: The total of rewards present in the file - IT: Il totale dei premi presenti nel file"
-        totalRefundedAmount:
-          type: number
+        totalRefundedAmountCents:
+          type: integer
+          format: int64
           description: "ENG: The total of the rewards refunded present in the file - IT: Il totale dei premi rimborsati presenti nel file"
         totalRefunds:
           type: integer
@@ -3493,8 +3508,9 @@ components:
         iban:
           type: string
           description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of refund - IT: Il totale del rimborso"
         status:
           type: string
@@ -3511,8 +3527,9 @@ components:
         iban:
           type: string
           description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of refund - IT: Il totale del rimborso"
         startDate:
           type: string
@@ -3617,7 +3634,7 @@ components:
       required:
         - trxCode
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - trxExpirationSeconds
         - status
       properties:
@@ -3630,11 +3647,13 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
         trxDate:
           type: string
@@ -3706,7 +3725,7 @@ components:
       type: object
       required:
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - status
       properties:
         trxId:
@@ -3715,11 +3734,13 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
         trxDate:
           type: string
@@ -3742,14 +3763,17 @@ components:
     MerchantStatisticsDTO:
       type: object
       properties:
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Amount supplied - IT: Totale erogato"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Amount accrued - IT: Importo accumulato"
-        refunded:
-          type: number
+        refundedCents:
+          type: integer
+          format: int64
           description: "ENG: Amount refunded - IT: Importo rimborsato"
     StatisticsErrorDTO:
       type: object
