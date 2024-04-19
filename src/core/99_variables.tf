@@ -827,3 +827,33 @@ variable "cidr_subnet_apim_temp" {
   type        = list(string)
   description = "(Required) APIM v2 subnet cidr"
 }
+
+
+variable "metric_alert_api" {
+  type = object({
+    enable      = bool
+    frequency   = string
+    window_size = string
+  })
+  default = {
+    enable      = false
+    frequency   = "PT1M"
+    window_size = "PT5M"
+  }
+  description = "Set frequency and window size for api certificate renovate alert"
+}
+
+
+variable "metric_alert_api_io" {
+  type = object({
+    enable      = bool
+    frequency   = string
+    window_size = string
+  })
+  default = {
+    enable      = false
+    frequency   = "PT1M"
+    window_size = "PT5M"
+  }
+  description = "Set frequency and window size for api io certificate renovate alert"
+}

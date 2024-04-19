@@ -45,7 +45,7 @@ module "web_test_availability_alert_rules_for_api" {
 }
 
 resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_cstar" {
-  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+  count = var.metric_alert_api.enable ? 1 : 0
 
   name                = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
   resource_group_name = azurerm_resource_group.monitor_rg.name
@@ -56,8 +56,9 @@ resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_a
   description = "Web availability check alert triggered when it fails."
 
   auto_mitigate = false
-  severity      = 1
-  window_size   = "PT15M"
+  severity      = 2
+  frequency     = var.metric_alert_api.frequency
+  window_size   = var.metric_alert_api.window_size
 
   action {
     action_group_id = azurerm_monitor_action_group.slack.id # Slack
@@ -75,8 +76,8 @@ resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_a
 }
 
 
-resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_app_io_cstar" {
-  count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
+resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_io_cstar" {
+  count = var.metric_alert_api_io.enable ? 1 : 0
 
   name                = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
   resource_group_name = azurerm_resource_group.monitor_rg.name
@@ -87,8 +88,9 @@ resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_a
   description = "Web availability check alert triggered when it fails."
 
   auto_mitigate = false
-  severity      = 1
-  window_size   = "PT15M"
+  severity      = 2
+  frequency     = var.metric_alert_api_io.frequency
+  window_size   = var.metric_alert_api_io.window_size
 
   action {
     action_group_id = azurerm_monitor_action_group.slack.id # Slack
@@ -104,4 +106,3 @@ resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_a
     web_test_id           = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
   }
 }
-

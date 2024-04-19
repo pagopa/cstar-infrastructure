@@ -148,7 +148,7 @@
 | [azurerm_monitor_diagnostic_setting.apim_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.appgw_maz_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_metric_alert.web_test_availability_alert_rules_for_api_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.web_test_availability_alert_rules_for_app_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.web_test_availability_alert_rules_for_api_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_network_security_group.apim_v2_snet_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_rule.apim_v2_snet_nsg_rules](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/network_security_rule) | resource |
 | [azurerm_private_dns_a_record.private_dns_a_record_api](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/private_dns_a_record) | resource |
@@ -391,6 +391,8 @@
 | <a name="input_location_pair_short"></a> [location\_pair\_short](#input\_location\_pair\_short) | Pair (Secondary) location in short form (e.g. northeurope=neu) | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | Primary location in short form (e.g. westeurope=weu) | `string` | n/a | yes |
 | <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
+| <a name="input_metric_alert_api"></a> [metric\_alert\_api](#input\_metric\_alert\_api) | Set frequency and window size for api certificate renovate alert | <pre>object({<br>    enable      = bool<br>    frequency   = string<br>    window_size = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "PT1M",<br>  "window_size": "PT5M"<br>}</pre> | no |
+| <a name="input_metric_alert_api_io"></a> [metric\_alert\_api\_io](#input\_metric\_alert\_api\_io) | Set frequency and window size for api io certificate renovate alert | <pre>object({<br>    enable      = bool<br>    frequency   = string<br>    window_size = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "PT1M",<br>  "window_size": "PT5M"<br>}</pre> | no |
 | <a name="input_pagopa_platform_url"></a> [pagopa\_platform\_url](#input\_pagopa\_platform\_url) | PagoPA Platform APIM url | `string` | n/a | yes |
 | <a name="input_pgp_put_limit_bytes"></a> [pgp\_put\_limit\_bytes](#input\_pgp\_put\_limit\_bytes) | n/a | `number` | `10737418240` | no |
 | <a name="input_pm_backend_url"></a> [pm\_backend\_url](#input\_pm\_backend\_url) | Payment manager backend url | `string` | n/a | yes |
