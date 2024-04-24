@@ -2046,9 +2046,8 @@ components:
     InitiativeGeneralDTO:
       type: object
       properties:
-        budgetCents:
-          type: integer
-          format: int64
+        budget:
+          type: number
           description: "ENG: The budget for the initiative - IT: Il budget per l'iniziativa"
         beneficiaryType:
           enum:
@@ -2066,9 +2065,8 @@ components:
         beneficiaryKnown:
           type: boolean
           description: "ENG: Indicates if a list of fiscal code is uploaded or not - IT: Indica se verrà caricata una lista di codifi fiscali conosciuti oppure no"
-        beneficiaryBudgetCents:
-          type: integer
-          format: int64
+        beneficiaryBudget:
+          type: number
           description: "ENG: The budget for single beneficiary - IT: Budget per singolo beneficiario"
         startDate:
           type: string
@@ -2425,21 +2423,19 @@ components:
             - MONTHLY
             - YEARLY
           description: "ENG: The frequency to receive a reward - IT: La cadenza temporale per ricevere il premio"
-        rewardLimitCents:
-          type: integer
-          format: int64
+        rewardLimit:
+          type: number
           description: "ENG: The max value rewardable - IT: Il valore massimo premiabile"
     ThresholdDTO:
       type: object
       properties:
-        fromCents:
-          type: integer
-          format: int64
+        from:
+          type: number
           description: "ENG: Min spending threshold - IT: Soglia minima di spesa"
         fromIncluded:
           type: boolean
-        toCents:
-          type: integer
+        to:
+          type: number
           format: int64
           description: "ENG: Max spending threshold - IT: Soglia massima di spesa"
         toIncluded:
@@ -2479,9 +2475,8 @@ components:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
           description: "ENG: One of the possible accumulated type to do refund: BUDGET_EXHAUSTED, THRESHOLD_REACHED,  - IT: Una delle possibili tipologie di importo per erogare il rimborso: BUDGET_EXHAUSTED: Al raggiungimento dell'importo massimo, THRESHOLD_REACHED: Al raggiungimento di un certo importo"
-        refundThresholdCents:
-          type: integer
-          format: int64
+        refundThreshold:
+          type: number
           description: "ENG: The threshold to reach - IT: La soglia da raggiungere"
     TimeParameterDTO:
       required:

@@ -1115,9 +1115,8 @@ components:
             - BUDGET_EXHAUSTED
             - THRESHOLD_REACHED
           description: "ENG: Accumulated type [BUDGET_EXHAUSTED: budget exhausted, THRESHOLD_REACHED: threshold reached] - IT: Tipologia di accumulazione [BUDGET_EXHAUSTED: Budget esaurito, THRESHOLD_REACHED: Soglia raggiunta]"
-        refundThresholdCents:
-          type: integer
-          format: int64
+        refundThreshold:
+          type: number
           description: "ENG: Refund threshold - IT: Soglia di rimborso"
     TimeParameterDTO:
       required:
