@@ -20,9 +20,9 @@ locals {
 
   actions = flatten([
     {
-      action_group_id = azurerm_monitor_action_group.email.id,
+      action_group_id = azurerm_monitor_action_group.slack.id,
     },
-    var.env_short == "p" ? [{ action_group_id = azurerm_monitor_action_group.slack.id }] : []
+    var.env_short == "p" ? [{ action_group_id = azurerm_monitor_action_group.core_send_to_opsgenie.id }] : []
   ])
 }
 
@@ -65,7 +65,7 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
   timeout                 = 30
 
   request {
-    url       = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+    url       = "https://${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}"
     body      = null
     http_verb = "GET"
   }
@@ -129,7 +129,7 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
   timeout                 = 30
 
   request {
-    url       = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")
+    url       = "https://${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}"
     body      = null
     http_verb = "GET"
   }
