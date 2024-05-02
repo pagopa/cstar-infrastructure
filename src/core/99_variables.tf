@@ -828,6 +828,26 @@ variable "cidr_subnet_apim_temp" {
   description = "(Required) APIM v2 subnet cidr"
 }
 
+variable "web_test_api" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+  description = "Set params for web test api"
+}
+
+
+variable "web_test_api_io" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+  description = "Set params for web test api io"
+}
 
 variable "metric_alert_api" {
   type = object({
@@ -840,7 +860,7 @@ variable "metric_alert_api" {
     frequency   = "PT5M"
     window_size = "PT5M"
   }
-  description = "Set frequency and window size for api certificate renovate alert"
+  description = "Set params for metric alert api"
 }
 
 
@@ -855,5 +875,5 @@ variable "metric_alert_api_io" {
     frequency   = "PT5M"
     window_size = "PT5M"
   }
-  description = "Set frequency and window size for api io certificate renovate alert"
+  description = "Set params for metric alert api io"
 }

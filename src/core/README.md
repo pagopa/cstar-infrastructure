@@ -105,6 +105,8 @@
 | [azurerm_api_management_subscription.rtd_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_subscription) | resource |
 | [azurerm_api_management_user.user_internal](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/api_management_user) | resource |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/application_insights) | resource |
+| [azurerm_application_insights_standard_web_test.web_test_availability_for_api_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/application_insights_standard_web_test) | resource |
+| [azurerm_application_insights_standard_web_test.web_test_availability_for_api_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/application_insights_standard_web_test) | resource |
 | [azurerm_dns_a_record.dns-a-developer-production-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-developer-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns-a-management-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/dns_a_record) | resource |
@@ -391,8 +393,8 @@
 | <a name="input_location_pair_short"></a> [location\_pair\_short](#input\_location\_pair\_short) | Pair (Secondary) location in short form (e.g. northeurope=neu) | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | Primary location in short form (e.g. westeurope=weu) | `string` | n/a | yes |
 | <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
-| <a name="input_metric_alert_api"></a> [metric\_alert\_api](#input\_metric\_alert\_api) | Set frequency and window size for api certificate renovate alert | <pre>object({<br>    enable      = bool<br>    frequency   = string<br>    window_size = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "PT5M",<br>  "window_size": "PT5M"<br>}</pre> | no |
-| <a name="input_metric_alert_api_io"></a> [metric\_alert\_api\_io](#input\_metric\_alert\_api\_io) | Set frequency and window size for api io certificate renovate alert | <pre>object({<br>    enable      = bool<br>    frequency   = string<br>    window_size = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "PT5M",<br>  "window_size": "PT5M"<br>}</pre> | no |
+| <a name="input_metric_alert_api"></a> [metric\_alert\_api](#input\_metric\_alert\_api) | Set params for metric alert api | <pre>object({<br>    enable      = bool<br>    frequency   = string<br>    window_size = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "PT5M",<br>  "window_size": "PT5M"<br>}</pre> | no |
+| <a name="input_metric_alert_api_io"></a> [metric\_alert\_api\_io](#input\_metric\_alert\_api\_io) | Set params for metric alert api io | <pre>object({<br>    enable      = bool<br>    frequency   = string<br>    window_size = string<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "PT5M",<br>  "window_size": "PT5M"<br>}</pre> | no |
 | <a name="input_pagopa_platform_url"></a> [pagopa\_platform\_url](#input\_pagopa\_platform\_url) | PagoPA Platform APIM url | `string` | n/a | yes |
 | <a name="input_pgp_put_limit_bytes"></a> [pgp\_put\_limit\_bytes](#input\_pgp\_put\_limit\_bytes) | n/a | `number` | `10737418240` | no |
 | <a name="input_pm_backend_url"></a> [pm\_backend\_url](#input\_pm\_backend\_url) | Payment manager backend url | `string` | n/a | yes |
@@ -411,6 +413,8 @@
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
 | <a name="input_vpn_pip_sku"></a> [vpn\_pip\_sku](#input\_vpn\_pip\_sku) | VPN GW PIP SKU | `string` | `"Basic"` | no |
 | <a name="input_vpn_sku"></a> [vpn\_sku](#input\_vpn\_sku) | VPN Gateway SKU | `string` | `"VpnGw1"` | no |
+| <a name="input_web_test_api"></a> [web\_test\_api](#input\_web\_test\_api) | Set params for web test api | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
+| <a name="input_web_test_api_io"></a> [web\_test\_api\_io](#input\_web\_test\_api\_io) | Set params for web test api io | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 
 ## Outputs
 

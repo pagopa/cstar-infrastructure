@@ -362,9 +362,17 @@ metric_alert_api = {
   window_size = "PT1H"
 }
 
+web_test_api = {
+  enable = true
+}
+
 # api-io.uat.cstar.pagopa.it
 metric_alert_api_io = {
   enable      = true
   frequency   = "PT1H"
   window_size = "PT1H"
+}
+
+web_test_api_io = {
+  enable = true
 }

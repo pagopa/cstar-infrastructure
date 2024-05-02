@@ -18,6 +18,12 @@ locals {
     # no cdn              ##
   ]
 
+  actions = flatten([
+    {
+      action_group_id = azurerm_monitor_action_group.email.id,
+    },
+    var.env_short == "p" ? [{ action_group_id = azurerm_monitor_action_group.slack.id }] : []
+  ])
 }
 
 module "web_test_availability_alert_rules_for_api" {
@@ -44,65 +50,129 @@ module "web_test_availability_alert_rules_for_api" {
   ]
 }
 
+resource "azurerm_application_insights_standard_web_test" "web_test_availability_for_api_cstar" {
+  count = var.web_test_api.enable ? 1 : 0
+
+  name                    = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
+  resource_group_name     = azurerm_resource_group.monitor_rg.name
+  location                = azurerm_resource_group.monitor_rg.location
+  application_insights_id = azurerm_application_insights.application_insights.id
+  geo_locations           = ["emea-nl-ams-azr"]
+  description             = "HTTP Standard WebTests ${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name} running on: emea-nl-ams-azr"
+  frequency               = 300
+  enabled                 = true
+  retry_enabled           = false
+  timeout                 = 30
+
+  request {
+    url       = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+    body      = null
+    http_verb = "GET"
+  }
+
+}
+
+
 resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_cstar" {
-  count = var.metric_alert_api.enable ? 1 : 0
+  count = var.metric_alert_api_io.enable ? 1 : 0
 
   name                = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
   resource_group_name = azurerm_resource_group.monitor_rg.name
-  scopes = [
-    azurerm_application_insights.application_insights.id,
-    "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}",
+  scopes              = [azurerm_application_insights.application_insights.id]
+  description         = "Whenever the average availabilityresults/availabilitypercentage is less than 1"
+  severity            = 2
+  frequency           = var.metric_alert_api.frequency
+  auto_mitigate       = false
+  enabled             = true
+  window_size         = var.metric_alert_api.window_size
+
+
+  criteria {
+    metric_namespace = "microsoft.insights/components"
+    metric_name      = "availabilityResults/availabilityPercentage"
+    aggregation      = "Average"
+    operator         = "LessThan"
+    threshold        = 1
+
+    dimension {
+      name     = "availabilityResult/name"
+      operator = "Include"
+      values   = ["${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"]
+    }
+  }
+
+  dynamic "action" {
+    for_each = local.actions
+    content {
+      action_group_id = action.value["action_group_id"]
+    }
+  }
+
+  depends_on = [
+    azurerm_application_insights_standard_web_test.web_test_availability_for_api_cstar
   ]
-  description = "Web availability check alert triggered when it fails."
+}
 
-  auto_mitigate = false
-  severity      = 2
-  frequency     = var.metric_alert_api.frequency
-  window_size   = var.metric_alert_api.window_size
 
-  action {
-    action_group_id = azurerm_monitor_action_group.slack.id # Slack
+resource "azurerm_application_insights_standard_web_test" "web_test_availability_for_api_io_cstar" {
+  count = var.web_test_api_io.enable ? 1 : 0
+
+  name                    = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
+  resource_group_name     = azurerm_resource_group.monitor_rg.name
+  location                = azurerm_resource_group.monitor_rg.location
+  application_insights_id = azurerm_application_insights.application_insights.id
+  geo_locations           = ["emea-nl-ams-azr"]
+  description             = "HTTP Standard WebTests ${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name} running on: emea-nl-ams-azr"
+  frequency               = 300
+  enabled                 = true
+  retry_enabled           = false
+  timeout                 = 30
+
+  request {
+    url       = trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")
+    body      = null
+    http_verb = "GET"
   }
 
-  action {
-    action_group_id = azurerm_monitor_action_group.core_send_to_opsgenie.id # Opsgenie
-  }
-
-  application_insights_web_test_location_availability_criteria {
-    component_id          = azurerm_application_insights.application_insights.id
-    failed_location_count = 1
-    web_test_id           = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
-  }
 }
 
 
 resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_io_cstar" {
-  count = var.metric_alert_api_io.enable ? 1 : 0
+  count = var.web_test_api_io.enable ? 1 : 0
 
   name                = "${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
   resource_group_name = azurerm_resource_group.monitor_rg.name
-  scopes = [
-    azurerm_application_insights.application_insights.id,
-    "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}",
+  scopes              = [azurerm_application_insights.application_insights.id]
+  description         = "Whenever the average availabilityresults/availabilitypercentage is less than 1"
+  severity            = 2
+  frequency           = var.metric_alert_api_io.frequency
+  auto_mitigate       = false
+  enabled             = true
+  window_size         = var.metric_alert_api_io.window_size
+
+
+  criteria {
+    metric_namespace = "microsoft.insights/components"
+    metric_name      = "availabilityResults/availabilityPercentage"
+    aggregation      = "Average"
+    operator         = "LessThan"
+    threshold        = 1
+
+    dimension {
+      name     = "availabilityResult/name"
+      operator = "Include"
+      values   = ["${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"]
+    }
+  }
+
+  dynamic "action" {
+    for_each = local.actions
+    content {
+      action_group_id = action.value["action_group_id"]
+    }
+  }
+
+  depends_on = [
+    azurerm_application_insights_standard_web_test.web_test_availability_for_api_io_cstar
   ]
-  description = "Web availability check alert triggered when it fails."
-
-  auto_mitigate = false
-  severity      = 2
-  frequency     = var.metric_alert_api_io.frequency
-  window_size   = var.metric_alert_api_io.window_size
-
-  action {
-    action_group_id = azurerm_monitor_action_group.slack.id # Slack
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.core_send_to_opsgenie.id # Opsgenie
-  }
-
-  application_insights_web_test_location_availability_criteria {
-    component_id          = azurerm_application_insights.application_insights.id
-    failed_location_count = 1
-    web_test_id           = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourcegroups/${azurerm_resource_group.monitor_rg.name}/providers/microsoft.insights/webTests/${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}-test-avail-${azurerm_application_insights.application_insights.name}"
-  }
 }
