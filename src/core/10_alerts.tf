@@ -63,12 +63,21 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
   enabled                 = true
   retry_enabled           = false
   timeout                 = 30
+  tags = {
+    "hidden-link:/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/${azurerm_resource_group.monitor_rg.name}/providers/Microsoft.Insights/components/${azurerm_application_insights.application_insights.name}" : "Resource"
+  }
+  validation_rules {
+    expected_status_code        = 400
+    ssl_cert_remaining_lifetime = 7
+    ssl_check_enabled           = true
+  }
 
   request {
     url       = "https://${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}"
     body      = null
     http_verb = "GET"
   }
+
 
 }
 
@@ -127,7 +136,9 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
   enabled                 = true
   retry_enabled           = false
   timeout                 = 30
-
+  tags = {
+    "hidden-link:/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/${azurerm_resource_group.monitor_rg.name}/providers/Microsoft.Insights/components/${azurerm_application_insights.application_insights.name}" : "Resource"
+  }
   request {
     url       = "https://${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}"
     body      = null
