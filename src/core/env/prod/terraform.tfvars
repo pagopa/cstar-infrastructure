@@ -345,3 +345,31 @@ sftp_ade_ack_archive_policy = {
 }
 
 law_retention_in_days = 90
+
+
+#
+# Internal certificate alerts
+#
+
+# api.prod.cstar.pagopa.it
+metric_alert_api = {
+  enable      = true
+  frequency   = "PT1H"
+  window_size = "PT1H"
+}
+
+web_test_api = {
+  enable = true
+}
+
+
+# api-io.prod.cstar.pagopa.it
+metric_alert_api_io = {
+  enable      = true
+  frequency   = "PT1H"
+  window_size = "PT1H"
+}
+
+web_test_api_io = {
+  enable = true
+}

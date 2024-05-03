@@ -113,7 +113,6 @@ resource "azurerm_monitor_action_group" "error" {
 }
 
 resource "azurerm_monitor_action_group" "core_send_to_opsgenie" {
-
   name                = "core_send_to_opsgenie"
   resource_group_name = azurerm_resource_group.monitor_rg.name
   short_name          = "core_to_gen"
