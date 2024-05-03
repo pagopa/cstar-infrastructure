@@ -3641,10 +3641,9 @@ components:
         onboardedCitizenCount:
           type: integer
           format: int32
-        accruedRewardsCents:
-          type: integer
-          format: int64
-          example: 100
+        accruedRewards:
+          type: number
+          example: 1.00
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
       type: object

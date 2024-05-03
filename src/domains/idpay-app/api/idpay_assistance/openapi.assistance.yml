@@ -2634,9 +2634,8 @@ components:
           type: integer
           format: int32
           description: "ENG: The counter of onboarded citizen - IT: Il contatore dei cittadini onboardati"
-        accruedRewardsCents:
-          type: integer
-          format: int64
+        accruedRewards:
+          type: number
           description: "ENG: The total budget spent (accrued bonus) - IT: Il budget totale speso (bonus maturato)"
     PageRewardExportsDTO:
       title: PageRewardExportsDTO
