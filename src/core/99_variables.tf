@@ -827,3 +827,53 @@ variable "cidr_subnet_apim_temp" {
   type        = list(string)
   description = "(Required) APIM v2 subnet cidr"
 }
+
+variable "web_test_api" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+  description = "Set params for web test api"
+}
+
+
+variable "web_test_api_io" {
+  type = object({
+    enable = bool
+  })
+  default = {
+    enable = false
+  }
+  description = "Set params for web test api io"
+}
+
+variable "metric_alert_api" {
+  type = object({
+    enable      = bool
+    frequency   = string
+    window_size = string
+  })
+  default = {
+    enable      = false
+    frequency   = "PT5M"
+    window_size = "PT5M"
+  }
+  description = "Set params for metric alert api"
+}
+
+
+variable "metric_alert_api_io" {
+  type = object({
+    enable      = bool
+    frequency   = string
+    window_size = string
+  })
+  default = {
+    enable      = false
+    frequency   = "PT5M"
+    window_size = "PT5M"
+  }
+  description = "Set params for metric alert api io"
+}
