@@ -12,7 +12,7 @@ module "vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v8.9.1"
   name                 = "${local.aks_network_prefix}-${var.location_short}-${each.key}-vnet"
   location             = var.location
   resource_group_name  = azurerm_resource_group.rg_vnet_aks[each.key].name
@@ -55,7 +55,7 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
 #
 
 module "vnet_peering_core_2_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
@@ -73,7 +73,7 @@ module "vnet_peering_core_2_aks" {
 }
 
 module "vnet_integration_peering_2_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
@@ -91,7 +91,7 @@ module "vnet_integration_peering_2_aks" {
 }
 
 module "peering_vnet_pair_vs_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 

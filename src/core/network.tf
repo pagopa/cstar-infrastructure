@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 
 # MAIN VNET
 module "vnet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v8.9.1"
   name                 = "${local.project}-vnet"
   location             = azurerm_resource_group.rg_vnet.location
   resource_group_name  = azurerm_resource_group.rg_vnet.name
@@ -19,7 +19,7 @@ module "vnet" {
 
 ## Peering between the vnet(main) and integration vnet
 module "vnet_peering" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
   location = azurerm_resource_group.rg_vnet.location
 
@@ -36,7 +36,7 @@ module "vnet_peering" {
 
 # vnet integration
 module "vnet_integration" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v8.9.1"
   name                 = "${local.project}-integration-vnet"
   location             = azurerm_resource_group.rg_vnet.location
   resource_group_name  = azurerm_resource_group.rg_vnet.name
@@ -52,7 +52,7 @@ module "vnet_integration" {
 
 ## Database subnet
 module "db_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-db-snet"
   address_prefixes                          = var.cidr_subnet_db
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
@@ -64,7 +64,7 @@ module "db_snet" {
 module "cosmos_mongodb_snet" {
   count = var.cosmos_mongo_db_params.enabled ? 1 : 0
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                 = "${local.project}-cosmos-mongodb-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -77,7 +77,7 @@ module "cosmos_mongodb_snet" {
 module "private_endpoint_snet" {
   count = var.enable.core.private_endpoints_subnet ? 1 : 0
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                 = "private-endpoint-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -90,7 +90,7 @@ module "private_endpoint_snet" {
 }
 
 module "redis_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
   name                 = "${local.project}-redis-snet"
   address_prefixes     = var.cidr_subnet_redis
@@ -103,7 +103,7 @@ module "k8s_snet" {
 
   count = 0
 
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-k8s-snet"
   address_prefixes                          = var.cidr_subnet_k8s
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
@@ -125,7 +125,7 @@ moved {
 
 ## Subnet jumpbox
 module "jumpbox_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-jumpbox-snet"
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
   virtual_network_name                      = module.vnet.name
@@ -135,7 +135,7 @@ module "jumpbox_snet" {
 }
 
 module "azdoa_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   count                                     = var.enable_azdoa ? 1 : 0
   name                                      = "${local.project}-azdoa-snet"
   address_prefixes                          = var.cidr_subnet_azdoa
@@ -146,7 +146,7 @@ module "azdoa_snet" {
 
 # Subnet to host the application gateway
 module "appgateway-snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-appgateway-snet"
   address_prefixes                          = var.cidr_subnet_appgateway
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
@@ -156,7 +156,7 @@ module "appgateway-snet" {
 
 # APIM subnet
 module "apim_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                 = "${local.project}-apim-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet_integration.name
@@ -172,7 +172,7 @@ module "eventhub_snet" {
 
   count = 1
 
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-eventhub-snet"
   address_prefixes                          = var.cidr_subnet_eventhub
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
@@ -192,7 +192,7 @@ module "adf_snet" {
   count = var.enable.tae.adf ? 1 : 0
 
 
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-adf-snet"
   address_prefixes                          = var.cidr_subnet_adf
   resource_group_name                       = azurerm_resource_group.rg_vnet.name
@@ -240,7 +240,7 @@ resource "azurerm_public_ip" "apim_v2_management_public_ip" {
 # ROUTING
 #
 module "route_table_peering_sia" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//route_table?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//route_table?ref=v8.9.1"
 
   name                          = "${local.project}-sia-rt"
   location                      = azurerm_resource_group.rg_vnet.location
@@ -327,7 +327,7 @@ module "route_table_peering_sia" {
 
 # Azure Blob Storage subnet
 module "storage_account_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.2.1"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.9.1"
   name                                      = "${local.project}-storage-account-snet"
   address_prefixes                          = var.cidr_subnet_storage_account
   resource_group_name                       = azurerm_resource_group.rg_vnet.name

@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "azdo_rg" {
 }
 
 module "azdoa_vmss_ubuntu_app" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.50.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v8.9.1"
   count  = var.enable_azdoa ? 1 : 0
 
   name                = local.azuredevops_agent_vm_app_name
@@ -23,7 +23,7 @@ module "azdoa_vmss_ubuntu_app" {
 }
 
 module "azdoa_vmss_ubuntu_infra" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.50.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v8.9.1"
   count  = var.enable_azdoa ? 1 : 0
 
   name                = local.azuredevops_agent_vm_infra_name
@@ -39,7 +39,7 @@ module "azdoa_vmss_ubuntu_infra" {
 }
 
 module "azdoa_agent_vmss_ubuntu_perf" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v7.50.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v8.9.1"
   count  = var.enable_azdoa_agent_performance ? 1 : 0
 
   name                = local.azuredevops_agent_vm_perf_name

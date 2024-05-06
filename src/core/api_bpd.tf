@@ -3,7 +3,7 @@ module "api_bdp_info_privacy" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                = format("%s-bpd-info-privacy", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -45,7 +45,7 @@ module "api_bpd-io_payment_instrument" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
 
   name                = format("%s-bpd-io-payment-instrument-api", var.env_short)
   api_management_name = module.apim.name
@@ -90,7 +90,7 @@ module "api_bpd_pm_payment_instrument" {
 
   count = var.enable.bpd.api_pm ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
 
   name                = format("%s-bpd-pm-payment-instrument", var.env_short)
   api_management_name = module.apim.name
@@ -133,7 +133,7 @@ module "api_bpd_tc" {
   count = var.enable.bpd.api ? 1 : 0
 
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
 
   name                = format("%s-bpd-tc-api", var.env_short)
   api_management_name = module.apim.name
@@ -191,7 +191,7 @@ module "bpd_io_award_period_original" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                 = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name  = module.apim.name
   resource_group_name  = azurerm_resource_group.rg_api.name
@@ -235,7 +235,7 @@ module "bpd_io_award_period_v2" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                 = format("%s-bpd-io-award-period-api", var.env_short)
   api_management_name  = module.apim.name
   resource_group_name  = azurerm_resource_group.rg_api.name
@@ -293,7 +293,7 @@ module "bpd_io_citizen_original" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -353,7 +353,7 @@ module "bpd_io_citizen_v2" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                = format("%s-bpd-io-citizen-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -431,7 +431,7 @@ module "bpd_io_winning_transactions_original" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                = format("%s-bpd-io-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -473,7 +473,7 @@ module "bpd_io_winning_transactions_v2" {
 
   count = var.enable.bpd.api ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
   name                = format("%s-bpd-io-winning-transactions-api", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -520,7 +520,7 @@ moved {
 ## Products ##
 ##############
 module "bpd_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.9.1"
 
   product_id   = "bpd-api-product"
   display_name = "BPD_API_PRODUCT"
@@ -537,7 +537,7 @@ module "bpd_api_product" {
 }
 
 module "issuer_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.9.1"
 
   product_id   = "issuer-api-product"
   display_name = "Issuer_API_Product"
