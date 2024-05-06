@@ -21,8 +21,6 @@ module "vnet" {
 module "vnet_peering" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
-  location = azurerm_resource_group.rg_vnet.location
-
   source_resource_group_name       = azurerm_resource_group.rg_vnet.name
   source_virtual_network_name      = module.vnet.name
   source_remote_virtual_network_id = module.vnet.id

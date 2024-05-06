@@ -59,8 +59,6 @@ module "vnet_peering_core_2_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  location = var.location
-
   source_resource_group_name       = azurerm_resource_group.rg_vnet.name
   source_virtual_network_name      = module.vnet.name
   source_remote_virtual_network_id = module.vnet.id
@@ -77,8 +75,6 @@ module "vnet_integration_peering_2_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  location = var.location
-
   source_resource_group_name       = azurerm_resource_group.rg_vnet.name
   source_virtual_network_name      = module.vnet_integration.name
   source_remote_virtual_network_id = module.vnet_integration.id
@@ -94,8 +90,6 @@ module "peering_vnet_pair_vs_aks" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
-
-  location = var.location
 
   source_resource_group_name       = azurerm_resource_group.rg_pair_vnet.name
   source_virtual_network_name      = module.vnet_pair.name

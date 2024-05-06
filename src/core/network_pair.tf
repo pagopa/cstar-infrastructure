@@ -20,8 +20,6 @@ module "vnet_pair" {
 module "vnet_peering_pair_vs_core" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
 
-  location = azurerm_resource_group.rg_vnet.location
-
   source_resource_group_name       = azurerm_resource_group.rg_pair_vnet.name
   source_virtual_network_name      = module.vnet_pair.name
   source_remote_virtual_network_id = module.vnet_pair.id
@@ -39,8 +37,6 @@ module "vnet_peering_pair_vs_core" {
 
 module "vnet_peering_pair_vs_integration" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.9.1"
-
-  location = azurerm_resource_group.rg_vnet.location
 
   source_resource_group_name       = azurerm_resource_group.rg_pair_vnet.name
   source_virtual_network_name      = module.vnet_pair.name
