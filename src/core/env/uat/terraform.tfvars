@@ -139,7 +139,7 @@ azdo_sp_tls_cert_enabled            = false
 
 sftp_account_replication_type = "LRS"
 sftp_enable_private_endpoint  = true
-sftp_ip_rules                 = ["217.175.54.31", "217.175.48.25", "185.198.117.28", "185.198.118.28", "87.19.126.122"]
+sftp_ip_rules                 = ["217.175.54.31", "217.175.48.25", "185.198.117.28", "185.198.118.28"]
 
 
 db_sku_name       = "GP_Gen5_2"
