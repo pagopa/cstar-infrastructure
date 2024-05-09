@@ -422,12 +422,15 @@ components:
         - endDate
         - nInstr
       properties:
-        amount:
-          type: number
-        accrued:
-          type: number
-        refunded:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
+        accruedCents:
+          type: integer
+          format: int64
+        refundedCents:
+          type: integer
+          format: int64
     ErrorDTO:
       type: object
       required:
