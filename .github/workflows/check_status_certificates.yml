@@ -3,7 +3,9 @@ name: Check Certificate Expiry
 on:
   schedule:
     - cron: '*/1 * * * *'  # Esegui ogni minuto
-
+  push:
+    branches:
+      - IDP-2515-update-thumbprint
 jobs:
   check-certificate:
     runs-on: ubuntu-latest
