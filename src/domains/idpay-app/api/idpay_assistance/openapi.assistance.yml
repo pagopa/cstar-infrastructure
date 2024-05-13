@@ -1353,8 +1353,8 @@ paths:
                 createDate: 2018-10-13
                 status: EXPORTED
                 successPercentage: '20'
-                totalAmount: 100
-                totalRefundedAmount: 10
+                totalAmountCents: 100
+                totalRefundedAmountCents: 10
                 totalRefunds: 20
         '400':
           description: Bad request
@@ -1459,43 +1459,43 @@ paths:
                 content:
                   - id: '1234'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '5678'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '9101'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '1121'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_OK
                   - id: '3141'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '5161'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '7181'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: COMPLETED_KO
                   - id: '9200'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                   - id: '1222'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                   - id: '3242'
                     iban: IT60X0542811101000000123456
-                    amount: 10
+                    amountCents: 1000
                     status: EXPORTED
                 pageNo: 0
                 pageSize: 10
@@ -1572,7 +1572,7 @@ paths:
               schema:
                 '$ref': '#/components/schemas/RefundDetailDTO'
               example:
-                amount: 10
+                amountCents: 1000
                 endDate: 2022-10-15
                 fiscalCode: RSSMRA94C31F205K
                 iban: IT60X0542811101000000123456
@@ -2436,6 +2436,7 @@ components:
           type: boolean
         to:
           type: number
+          format: int64
           description: "ENG: Max spending threshold - IT: Soglia massima di spesa"
         toIncluded:
           type: boolean
@@ -2877,54 +2878,6 @@ components:
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
-    WalletDTO:
-      type: object
-      required:
-        - initiativeId
-        - status
-        - endDate
-        - nInstr
-      properties:
-        initiativeId:
-          type: string
-          description: "ENG: The Id of the initiative - IT: L'ID dell'iniziativa"
-        initiativeName:
-          type: string
-          description: "ENG: The name of the initiative - IT: Il nome dell'iniziativa"
-        status:
-          enum:
-            - NOT_REFUNDABLE_ONLY_IBAN
-            - NOT_REFUNDABLE_ONLY_INSTRUMENT
-            - REFUNDABLE
-            - NOT_REFUNDABLE
-            - UNSUBSCRIBED
-            - SUSPENDED
-          type: string
-          description: "ENG: Actual status of the citizen wallet for an initiative:-NOT_REFUNDABLE: the beneficiary has neither IBAN nor Payment Instrument associated to the initiative, NOT_REFUNDABLE_ONLY_IBAN: the beneficiary has an IBAN, but no Payment Instrument associated to the initiative, NOT_REFUNDABLE_ONLY_INSTRUMENT: the beneficiary has at least one Payment Instrument, but no IBAN associated to the initiative, REFUNDABLE: the beneficiary has both IBAN and Payment Instrument associated to the initiative, SUSPENDED: the beneficiary has been suspended from the initiative, UNSUBSCRIBED: the beneficiary is unsubribed from the initiative,  - IT: Stato attuale del portafoglio di un cittadino su una iniziativa:-NOT_REFUNDABLE: Il beneficiario non ha IBAN né Strumenti di Pagamento associati all’iniziativa, NOT_REFUNDABLE_ONLY_IBAN: Il beneficiario ha un IBAN, ma non ha alcuno Strumento di Pagamento associato all’iniziativa, NOT_REFUNDABLE_ONLY_INSTRUMENT: Il beneficiario ha almeno uno Strumento di Pagamento, ma non ha alcun IBAN associato all’iniziativa, REFUNDABLE: Il beneficiario ha sia un IBAN che almeno uno Strumento di Pagamento associato all’iniziativa, SUSPENDED: il beneficiario è stato sospeso dall'iniziativa, UNSUBSCRIBED: il beneficiario ha fatto il recesso dall'iniziativa"
-        endDate:
-          type: string
-          format: date
-          description: "ENG: End date of the initiative - IT: Data del termine dell’iniziativa"
-        amount:
-          type: number
-          description: "ENG: Available balance: the maximum benefit net of all accrued benefits - IT: Saldo disponibile, ovvero il BENEFICIO/CAP MASSIMO previsto per quella iniziativa al netto di eventuali BENEFICI MATURATI"
-        accrued:
-          type: number
-          description: "ENG: Accrued benefits - IT: Benefici maturati"
-        refunded:
-          type: number
-          description: "ENG: Refunded benefits - IT: Beneficio rimborsato"
-        lastCounterUpdate:
-          type: string
-          format: date-time
-          description: "ENG: Last date of update of accrued/refunded benefits - IT: Ultima data dell’aggiornamento dei benefici maturati/rimborsati"
-        iban:
-          type: string
-          description: "ENG: IBAN associated to the initiative - IT: IBAN associato all'iniziativa"
-        nInstr:
-          type: integer
-          format: int32
-          description: "ENG: Number of Payment Instruments associated to the initiative - IT: Numero di strumenti di pagamento associati all'iniziativa"
     InstrumentListDTO:
       type: object
       required:
@@ -3097,7 +3050,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -3124,11 +3077,13 @@ components:
         maskedPan:
           type: string
           description: 'ENG: Masked Pan - IT: Masked Pan'
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: 'ENG: Transaction amount - IT: Importo della transazione'
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: 'ENG: Transaction accrued - IT: Importo accumulato'
         operationDate:
           type: string
@@ -3259,7 +3214,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - amount
+        - amountCents
       properties:
         operationId:
           type: string
@@ -3277,11 +3232,13 @@ components:
           type: string
           format: date
           description: "ENG: The date-time of the operation - IT: La data-ora dell'operazione"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of the refund - IT: Il totale del rimborso"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Accrued benefits - IT: Benefici maturati"
     TransactionOperationDTO:
       type: object
@@ -3289,7 +3246,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -3314,11 +3271,13 @@ components:
         maskedPan:
           type: string
           description: "ENG: Masked Pan of the payment instrument - IT: Numero Pan della carta oscurato"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of transaction - IT: Il totale della transazione"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Accrued benefits - IT: Benefici maturati"
         circuitType:
           type: string
@@ -3428,11 +3387,13 @@ components:
           type: string
           format: date
           description: "ENG: The creation date of the refund file - IT: La data di creazione del file dei rimborsi"
-        totalAmount:
-          type: number
+        totalAmountCents:
+          type: integer
+          format: int64
           description: "ENG: The total of rewards present in the file - IT: Il totale dei premi presenti nel file"
-        totalRefundedAmount:
-          type: number
+        totalRefundedAmountCents:
+          type: integer
+          format: int64
           description: "ENG: The total of the rewards refunded present in the file - IT: Il totale dei premi rimborsati presenti nel file"
         totalRefunds:
           type: integer
@@ -3493,8 +3454,9 @@ components:
         iban:
           type: string
           description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of refund - IT: Il totale del rimborso"
         status:
           type: string
@@ -3511,8 +3473,9 @@ components:
         iban:
           type: string
           description: "ENG: IBAN of the citizen - IT: IBAN del cittadino"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: The amount of refund - IT: Il totale del rimborso"
         startDate:
           type: string
@@ -3617,7 +3580,7 @@ components:
       required:
         - trxCode
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - trxExpirationSeconds
         - status
       properties:
@@ -3630,11 +3593,13 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
         trxDate:
           type: string
@@ -3706,7 +3671,7 @@ components:
       type: object
       required:
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - status
       properties:
         trxId:
@@ -3715,11 +3680,13 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
         trxDate:
           type: string
@@ -3742,14 +3709,17 @@ components:
     MerchantStatisticsDTO:
       type: object
       properties:
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Amount supplied - IT: Totale erogato"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Amount accrued - IT: Importo accumulato"
-        refunded:
-          type: number
+        refundedCents:
+          type: integer
+          format: int64
           description: "ENG: Amount refunded - IT: Importo rimborsato"
     StatisticsErrorDTO:
       type: object

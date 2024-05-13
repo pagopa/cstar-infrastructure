@@ -948,14 +948,17 @@ components:
           type: string
           format: date
           description: "ENG: End date for the time window in which it is possible to use the initiative's rewards - IT: Data che indica la fine del periodo di fruizione dell'iniziativa"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Initiative total amount - IT: Importo totale dell'iniziativa"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Initiative accrued amount IT: Importo accumulato dell'iniziativa"
-        refunded:
-          type: number
+        refundedCents:
+          type: integer
+          format: int64
           description: "ENG: Refunded amount of the initiative - IT: Importo rimborsato dell'iniziativa"
         lastCounterUpdate:
           type: string

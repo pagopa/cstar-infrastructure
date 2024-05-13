@@ -260,7 +260,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -283,11 +283,13 @@ components:
         maskedPan:
           type: string
           description: "ENG: Masked Pan - IT: Masked Pan"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Importo della transazione"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction accrued - IT: Importo accumulato"
         operationDate:
           type: string
@@ -415,7 +417,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - amount
+        - amountCents
       properties:
         operationId:
           type: string
@@ -433,8 +435,9 @@ components:
           type: string
           format: date-time
           description: "ENG: Operation date - IT: Data dell'operazione"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Refund amount - IT: Importo da rimborsare"
     TransactionOperationDTO:
       type: object
@@ -442,7 +445,7 @@ components:
         - operationId
         - operationType
         - operationDate
-        - accrued
+        - accruedCents
         - status
       properties:
         operationId:
@@ -470,11 +473,13 @@ components:
         maskedPan:
           type: string
           description: "ENG: Masked PAN - IT: Masked PAN"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Importo della transazione"
-        accrued:
-          type: number
+        accruedCents:
+          type: integer
+          format: int64
           description: "ENG: Accrued amount - IT: Importo accumulato"
         circuitType:
           type: string
@@ -526,7 +531,7 @@ components:
         - operationType
         - eventId
         - operationDate
-        - amount
+        - amountCents
       properties:
         operationId:
           type: string
@@ -547,8 +552,9 @@ components:
           type: string
           format: date-time
           description: "ENG: Operation date - IT: Data dell'operazione"
-        amount:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
           description: "ENG: Refund amount - IT: Importo da rimborsare"
         status:
           type: string

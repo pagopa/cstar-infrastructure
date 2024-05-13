@@ -502,7 +502,7 @@ components:
       required:
         - trxCode
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - trxExpirationSeconds
         - status
       properties:
@@ -515,12 +515,16 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+          example: 100
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
+          example: 100
         trxDate:
           type: string
           format: date-time
@@ -591,7 +595,7 @@ components:
       type: object
       required:
         - trxId
-        - effectiveAmount
+        - effectiveAmountCents
         - status
       properties:
         trxId:
@@ -600,12 +604,16 @@ components:
         fiscalCode:
           type: string
           description: "ENG: Citizen fiscal code - IT: Codice fiscale del cittadino"
-        effectiveAmount:
-          type: number
+        effectiveAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Transaction amount - IT: Quantitativo della transazione"
-        rewardAmount:
-          type: number
+          example: 100
+        rewardAmountCents:
+          type: integer
+          format: int64
           description: "ENG: Reward amount - IT: Premio generato"
+          example: 100
         trxDate:
           type: string
           format: date-time
@@ -634,12 +642,18 @@ components:
     MerchantStatisticsDTO:
       type: object
       properties:
-        amount:
-          type: number
-        accrued:
-          type: number
-        refunded:
-          type: number
+        amountCents:
+          type: integer
+          format: int64
+          example: 100
+        accruedCents:
+          type: integer
+          format: int64
+          example: 100
+        refundedCents:
+          type: integer
+          format: int64
+          example: 100
     MerchantDetailDTO:
       type: object
       properties:
