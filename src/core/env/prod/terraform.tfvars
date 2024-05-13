@@ -241,7 +241,7 @@ dexp_params = {
   public_network_access_enabled = false
   double_encryption_enabled     = true
   disk_encryption_enabled       = true
-  purge_enabled                 = false
+  purge_enabled                 = true
 }
 
 enable_azdoa = true

@@ -152,7 +152,7 @@ module "operations_logs" {
 
   account_kind                  = "StorageV2"
   account_tier                  = "Standard"
-  account_replication_type      = "GRS"
+  account_replication_type      = "RAGZRS"
   access_tier                   = "Hot"
   blob_versioning_enabled       = true
   advanced_threat_protection    = true
@@ -215,7 +215,7 @@ module "backupstorage" {
   name                            = replace("${local.project}-backupstorage", "-", "")
   account_kind                    = "StorageV2"
   account_tier                    = "Standard"
-  account_replication_type        = "GRS"
+  account_replication_type        = "RAGZRS"
   access_tier                     = "Cool"
   blob_versioning_enabled         = true
   resource_group_name             = azurerm_resource_group.rg_storage.name
@@ -309,7 +309,7 @@ resource "azurerm_storage_account" "management_sa" {
   location                 = var.location
   account_tier             = "Standard"
   account_kind             = "StorageV2"
-  account_replication_type = "GRS"
+  account_replication_type = "RAGZRS"
 
   public_network_access_enabled   = false
   allow_nested_items_to_be_public = false
