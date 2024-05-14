@@ -38,6 +38,3 @@ jobs:
 
           read -p "Premi INVIO per continuare..."
           # Script Bash termina qui
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
