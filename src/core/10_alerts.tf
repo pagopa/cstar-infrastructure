@@ -66,6 +66,7 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
   tags = {
     "hidden-link:/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/${azurerm_resource_group.monitor_rg.name}/providers/Microsoft.Insights/components/${azurerm_application_insights.application_insights.name}" : "Resource"
   }
+
   validation_rules {
     expected_status_code        = 400
     ssl_cert_remaining_lifetime = 7
@@ -77,10 +78,7 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
     body      = null
     http_verb = "GET"
   }
-
-
 }
-
 
 resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_cstar" {
   count = var.metric_alert_api_io.enable ? 1 : 0
@@ -139,14 +137,19 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
   tags = {
     "hidden-link:/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/${azurerm_resource_group.monitor_rg.name}/providers/Microsoft.Insights/components/${azurerm_application_insights.application_insights.name}" : "Resource"
   }
+
   request {
     url       = "https://${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api_io.fqdn, ".")}"
     body      = null
     http_verb = "GET"
   }
 
+  validation_rules {
+    expected_status_code        = 200
+    ssl_cert_remaining_lifetime = 1
+    ssl_check_enabled           = false
+  }
 }
-
 
 resource "azurerm_monitor_metric_alert" "web_test_availability_alert_rules_for_api_io_cstar" {
   count = var.web_test_api_io.enable ? 1 : 0
