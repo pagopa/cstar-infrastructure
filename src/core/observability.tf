@@ -176,13 +176,17 @@ resource "azurerm_monitor_diagnostic_setting" "appgw_maz_diagnostic_settings" {
 resource "azurerm_kusto_cluster" "data_explorer_cluster" {
   count = var.dexp_params.enabled ? 1 : 0
 
-  name                = replace(format("%sdataexplorer", local.project), "-", "")
+  name                = replace("${local.project}dataexplorer", "-", "")
   location            = azurerm_resource_group.monitor_rg.location
   resource_group_name = azurerm_resource_group.monitor_rg.name
 
   sku {
     name     = var.dexp_params.sku.name
     capacity = var.dexp_params.sku.capacity
+  }
+
+  identity {
+    type = "SystemAssigned"
   }
 
   dynamic "optimized_auto_scale" {
