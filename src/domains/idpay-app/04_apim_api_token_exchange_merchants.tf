@@ -89,7 +89,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_merchants_token_ex
   xml_content = templatefile("./api/idpay_token_exchange/jwt_exchange_merchants.xml.tpl", {
     openid-config-url           = local.idpay-oidc-config_url,
     selfcare-issuer             = local.selfcare-issuer,
-    jwt_cert_signing_thumbprint = azurerm_api_management_certificate.idpay_merchants_token_exchange_cert_jwt.thumbprint,
+    secret_name                 = azurerm_api_management_certificate.idpay_merchants_token_exchange_cert_jwt.key_vault_secret_id,
     idpay-portal-hostname       = local.idpay-portal-hostname,
     origins                     = local.origins.base
   })
@@ -121,7 +121,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_merchants_token_ex
 
   xml_content = templatefile("./api/idpay_token_exchange/jwt_merchants_token_test.xml.tpl", {
     ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
-    jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_merchants_token_exchange_cert_jwt.thumbprint,
+    secret_name                    = azurerm_api_management_certificate.idpay_merchants_token_exchange_cert_jwt.key_vault_secret_id,
     origins                        = local.origins.base
   })
 
