@@ -377,5 +377,5 @@ web_test_api_io = {
 #
 # Storage
 #
-backupstorage_account_replication_type = "RAGZRS"
+backupstorage_account_replication_type   = "RAGZRS"
 operations_logs_account_replication_type = "RAGZRS"
