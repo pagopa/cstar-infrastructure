@@ -30,7 +30,7 @@ module "postgresql" {
 
   count = var.enable.bpd.db ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v6.2.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v8.13.0"
   name                = format("%s-postgresql", local.project)
   location            = azurerm_resource_group.db_rg.location
   resource_group_name = azurerm_resource_group.db_rg.name

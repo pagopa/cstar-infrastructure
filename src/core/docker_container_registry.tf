@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_container_registry_common" {
 
 
 module "container_registry_common" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v8.13.0"
 
   name                          = replace(local.container_registry_common_name, "-", "")
   location                      = var.location
@@ -18,12 +18,7 @@ module "container_registry_common" {
   zone_redundancy_enabled       = var.env_short == "p" ? true : false
   public_network_access_enabled = true
 
-  private_endpoint = {
-    enabled              = false
-    private_dns_zone_ids = null
-    subnet_id            = ""
-    virtual_network_id   = ""
-  }
+  private_endpoint_enabled = false
 
   georeplications = var.env_short == "p" ? [{
     location                  = var.location_pair

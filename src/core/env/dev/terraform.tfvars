@@ -377,3 +377,9 @@ metric_alert_api_io = {
 web_test_api_io = {
   enable = false
 }
+
+#
+# Storage
+#
+backupstorage_account_replication_type   = "GRS"
+operations_logs_account_replication_type = "GRS"

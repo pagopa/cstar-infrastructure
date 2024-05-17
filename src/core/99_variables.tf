@@ -877,3 +877,16 @@ variable "metric_alert_api_io" {
   }
   description = "Set params for metric alert api io"
 }
+
+#
+# Storage
+#
+variable "backupstorage_account_replication_type" {
+  type        = string
+  description = "Account replication type"
+}
+
+variable "operations_logs_account_replication_type" {
+  type        = string
+  description = "Account replication type"
+}
