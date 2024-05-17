@@ -428,7 +428,7 @@ module "idpay_initiative_portal" {
 
       xml_content = templatefile("./api/idpay_initiative/idpay_portal_token/jwt_idpay_portal_token.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
-        jwt_cert_signing_thumbprint    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.thumbprint
+        secret_name                    = azurerm_api_management_certificate.idpay_token_exchange_cert_jwt.key_vault_secret_id,
       })
     }
   ]

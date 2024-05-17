@@ -33,65 +33,101 @@
                         </send-request>
                         <choose>
                             <when condition="@(((IResponse)context.Variables["organizationReturnedResponse"]).StatusCode == 200)">
-                                <set-variable name="idpayPortalToken" value="@{
-                                        Jwt idpayValidatedToken = (Jwt)context.Variables["validatedToken"];
-                                        //var responseJObject = context.Response.Body.As<JObject>(preserveContent: true);
-                                        var responseJObject = ((IResponse)context.Variables["organizationReturnedResponse"]).Body.As<JObject>(true);
-                                        string organizationId = (string)responseJObject["organizationId"];
-                                        string organizationName = (string)responseJObject["organizationName"];
-                                        
-                                        var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                                            new { 
-                                                typ = "JWT", 
-                                                alg = "RS256" 
-                                            }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                                        
-                                        var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
-                                        var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
-                                        var aud = "idpay.welfare.pagopa.it";
-                                        var iss = "https://api-io.dev.cstar.pagopa.it";
-                                        var uid = idpayValidatedToken.Claims.GetValueOrDefault("uid", "");
-                                        var name = idpayValidatedToken.Claims.GetValueOrDefault("name", "");
-                                        var family_name = idpayValidatedToken.Claims.GetValueOrDefault("family_name", "");
-                                        var email = idpayValidatedToken.Claims.GetValueOrDefault("email", "");
-                                        JObject organization = JObject.Parse(idpayValidatedToken.Claims.GetValueOrDefault("organization", "{}"));
-                                        var org_id = organizationId;
-                                        var org_vat = idpayValidatedToken.Claims.GetValueOrDefault("org_vat", "");
-                                        var org_name = organizationName;        
-                                        var org_party_role = idpayValidatedToken.Claims.GetValueOrDefault("org_party_role", "");
-                                        var org_role = idpayValidatedToken.Claims.GetValueOrDefault("org_role", "");
-                                        var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                                        new {
-                                        iat,
-                                        exp,
-                                        aud,
-                                        iss,
-                                        uid,
-                                        name,
-                                        family_name,
-                                        email,
-                                        org_id,
-                                        org_vat,
-                                        org_name,
-                                        org_party_role,
-                                        org_role
-                                        }
-                                        ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+                              <send-request mode="new" response-variable-name="secretResponse" timeout="20" ignore-error="false">
+                                <set-url>${secret_name}?api-version=7.4</set-url>
+                                <set-method>GET</set-method>
+                                <authentication-managed-identity resource="https://vault.azure.net" />
+                              </send-request>
+                              <!-- Gestione della risposta della richiesta -->
+                              <choose>
+                                <when condition="@(context.Variables.ContainsKey("secretResponse") && context.Variables["secretResponse"] != null)">
+                                  <set-variable name="base64Certificate" value="@{
+                                              var secretResponse = context.Variables["secretResponse"] as IResponse;
 
-                                        var message = ($"{JOSEProtectedHeader}.{payload}");
-
-                                        using (RSA rsa = context.Deployment.Certificates["${jwt_cert_signing_thumbprint}"].GetRSAPrivateKey())
-                                        {
-                                            var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-                                            return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                                        }                    
-
-                                        return message;  
+                                              if (secretResponse != null && secretResponse.Body != null)
+                                              {
+                                                  var responseObj = JObject.Parse(secretResponse.Body.As
+                                    <string>());
+                                                  return (string)responseObj["value"];
+                                              }
+                                              else
+                                              {
+                                                  return null;
+                                              }
+                                          }" />
+                                    <!-- Estrai il thumbprint dal certificato -->
+                                    <set-variable name="thumbprint" value="@{
+                                            var rsaCert = new X509Certificate2(Convert.FromBase64String((string)context.Variables["base64Certificate"]));
+                                            return rsaCert.Thumbprint;
                                         }" />
-                                <return-response>
-                                    <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
-                                </return-response>
-                            </when>
+                                            <set-variable name="idpayPortalToken" value="@{
+                                                    Jwt idpayValidatedToken = (Jwt)context.Variables["validatedToken"];
+                                                    //var responseJObject = context.Response.Body.As<JObject>(preserveContent: true);
+                                                    var responseJObject = ((IResponse)context.Variables["organizationReturnedResponse"]).Body.As<JObject>(true);
+                                                    string organizationId = (string)responseJObject["organizationId"];
+                                                    string organizationName = (string)responseJObject["organizationName"];
+
+                                                    var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                                                        new {
+                                                            typ = "JWT",
+                                                            alg = "RS256"
+                                                        }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+
+                                                    var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
+                                                    var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
+                                                    var aud = "idpay.welfare.pagopa.it";
+                                                    var iss = "https://api-io.dev.cstar.pagopa.it";
+                                                    var uid = idpayValidatedToken.Claims.GetValueOrDefault("uid", "");
+                                                    var name = idpayValidatedToken.Claims.GetValueOrDefault("name", "");
+                                                    var family_name = idpayValidatedToken.Claims.GetValueOrDefault("family_name", "");
+                                                    var email = idpayValidatedToken.Claims.GetValueOrDefault("email", "");
+                                                    JObject organization = JObject.Parse(idpayValidatedToken.Claims.GetValueOrDefault("organization", "{}"));
+                                                    var org_id = organizationId;
+                                                    var org_vat = idpayValidatedToken.Claims.GetValueOrDefault("org_vat", "");
+                                                    var org_name = organizationName;
+                                                    var org_party_role = idpayValidatedToken.Claims.GetValueOrDefault("org_party_role", "");
+                                                    var org_role = idpayValidatedToken.Claims.GetValueOrDefault("org_role", "");
+                                                    var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                                                    new {
+                                                    iat,
+                                                    exp,
+                                                    aud,
+                                                    iss,
+                                                    uid,
+                                                    name,
+                                                    family_name,
+                                                    email,
+                                                    org_id,
+                                                    org_vat,
+                                                    org_name,
+                                                    org_party_role,
+                                                    org_role
+                                                    }
+                                                    ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+
+                                                    var message = ($"{JOSEProtectedHeader}.{payload}");
+
+                                                    using (RSA rsa = context.Deployment.Certificates[(string)context.Variables["thumbprint"]].GetRSAPrivateKey())
+                                                    {
+                                                        var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                                                        return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
+                                                    }
+
+                                                    return message;
+                                                    }" />
+                                            <return-response>
+                                                <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
+                                            </return-response>
+                                            </when>
+                                            <otherwise>
+                                              <!-- Gestione dell'errore in caso di richiesta non andata a buon fine -->
+                                              <return-response>
+                                                <set-status code="500" reason="Internal Server Error" />
+                                                <set-body>{"error": "Impossibile ottenere l'autorizzazione di accesso"}</set-body>
+                                              </return-response>
+                                            </otherwise>
+                                          </choose>
+                                    </when>
                             <otherwise>
                                 <return-response>
                                     <set-status code="@(((IResponse)context.Variables["organizationReturnedResponse"]).StatusCode)" reason="@(((IResponse)context.Variables["organizationReturnedResponse"]).StatusReason)" />
