@@ -373,3 +373,9 @@ metric_alert_api_io = {
 web_test_api_io = {
   enable = true
 }
+
+#
+# Storage
+#
+backupstorage_account_replication_type   = "RAGZRS"
+operations_logs_account_replication_type = "RAGZRS"

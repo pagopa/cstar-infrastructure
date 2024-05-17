@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "rg_storage" {
 
 ## Storage account to save cstar blob
 module "cstarblobstorage" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v8.13.0"
 
   name                             = replace("${local.project}-blobstorage", "-", "")
   account_kind                     = "StorageV2"
@@ -144,7 +144,7 @@ resource "azurerm_key_vault_secret" "cstar_blobstorage_key" {
 
 ## Storage account to save logs
 module "operations_logs" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v8.13.0"
 
   name                = replace("${local.project}-sa-ops-logs", "-", "")
   resource_group_name = azurerm_resource_group.rg_storage.name
@@ -152,7 +152,7 @@ module "operations_logs" {
 
   account_kind                  = "StorageV2"
   account_tier                  = "Standard"
-  account_replication_type      = "RAGZRS"
+  account_replication_type      = var.operations_logs_account_replication_type
   access_tier                   = "Hot"
   blob_versioning_enabled       = true
   advanced_threat_protection    = true
@@ -205,17 +205,15 @@ resource "null_resource" "upload_tc_pdf" {
   }
 }
 
-
-
 # Storage account to store backups: mainly api management
 module "backupstorage" {
   count  = 1
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.2.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v8.13.0"
 
   name                            = replace("${local.project}-backupstorage", "-", "")
   account_kind                    = "StorageV2"
   account_tier                    = "Standard"
-  account_replication_type        = "RAGZRS"
+  account_replication_type        = var.backupstorage_account_replication_type
   access_tier                     = "Cool"
   blob_versioning_enabled         = true
   resource_group_name             = azurerm_resource_group.rg_storage.name
