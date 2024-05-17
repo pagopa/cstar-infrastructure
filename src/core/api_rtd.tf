@@ -20,7 +20,7 @@ data "azurerm_api_management_product" "rtd_api_product_internal" {
 
 ## azureblob ##
 module "api_azureblob" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
   name                = format("%s-azureblob", var.env_short)
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -87,7 +87,7 @@ resource "azurerm_api_management_named_value" "pagopa_platform_api_primary_key_t
 
 module "rtd_payment_instrument_token_api" {
   count  = var.enable.rtd.tkm_integration ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
 
   name                = format("%s-payment-instrument-manager-token-api", var.env_short)
   api_management_name = module.apim.name
@@ -150,7 +150,7 @@ module "rtd_payment_instrument_token_api" {
 ## RTD CSV Transaction Decrypted API ##
 module "rtd_blob_internal" {
   count  = var.enable.rtd.internal_api ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
 
   name                = format("%s-blob-internal", var.env_short)
   api_management_name = module.apim.name
@@ -180,7 +180,7 @@ module "rtd_blob_internal" {
 
 module "rtd_sftp_blob_internal" {
   count  = var.enable.rtd.internal_api ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
 
   name                = format("%s-sftp-blob-internal", var.env_short)
   api_management_name = module.apim.name
@@ -211,7 +211,7 @@ module "rtd_sftp_blob_internal" {
 module "rtd_fake_abi_to_fiscal_code" {
   count = var.enable.tae.api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
 
   name                = "${var.env_short}-rtd-fake-abi-to-fiscal-code"
   api_management_name = module.apim.name

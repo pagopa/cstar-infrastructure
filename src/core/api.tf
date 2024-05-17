@@ -21,7 +21,7 @@ locals {
 
 module "apim" {
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v8.9.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v8.13.0"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
   name                 = "${local.project}-apim"
@@ -119,7 +119,7 @@ resource "azurerm_api_management_notification_recipient_email" "email_assistenza
 
 ## monitor ##
 module "monitor" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.9.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
   name                = "${var.env_short}-monitor"
   api_management_name = module.apim.name
   resource_group_name = azurerm_resource_group.rg_api.name
@@ -150,7 +150,7 @@ module "monitor" {
 
 
 module "app_io_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.9.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.13.0"
 
   product_id   = "app-io-product"
   display_name = "APP_IO_PRODUCT"

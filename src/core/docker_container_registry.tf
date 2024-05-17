@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_container_registry_common" {
 
 
 module "container_registry_common" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v8.9.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=v8.13.0"
 
   name                          = replace(local.container_registry_common_name, "-", "")
   location                      = var.location

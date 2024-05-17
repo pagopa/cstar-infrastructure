@@ -1,7 +1,7 @@
 # To provision a redis cache uncomment the following lines
 # module "redis" {
 
-#   source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v8.9.1"
+#   source = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=v8.13.0"
 
 #   name                  = format("%s-redis", local.project)
 #   resource_group_name   = azurerm_resource_group.db_rg.name
