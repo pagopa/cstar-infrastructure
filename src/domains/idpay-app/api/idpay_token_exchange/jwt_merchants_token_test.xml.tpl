@@ -30,37 +30,9 @@
             </expose-headers>
         </cors>
         <!--base: End Global scope-->
+                <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
 
-        <!-- Invio della richiesta per ottenere il segreto -->
-        <send-request mode="new" response-variable-name="secretResponse" timeout="20" ignore-error="false">
-              <set-url>${secret_name}?api-version=7.4</set-url>
-              <set-method>GET</set-method>
-              <authentication-managed-identity resource="https://vault.azure.net" />
-        </send-request>
-
-        <!-- Gestione della risposta della richiesta -->
-        <choose>
-            <when condition="@(context.Variables.ContainsKey("secretResponse") && context.Variables["secretResponse"] != null)">
-                <!-- Ottenere il corpo della risposta -->
-                <set-variable name="base64Certificate" value="@{
-                    var secretResponse = context.Variables["secretResponse"] as IResponse;
-
-                    if (secretResponse != null && secretResponse.Body != null)
-                    {
-                        var responseObj = JObject.Parse(secretResponse.Body.As<string>());
-                        return (string)responseObj["value"];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }" />
-
-            <!-- Estrazione del thumbprint dal certificato -->
-              <set-variable name="thumbprint" value="@{
-                  var rsaCert = new X509Certificate2(Convert.FromBase64String((string)context.Variables["base64Certificate"]));
-                  return rsaCert.Thumbprint;
-              }" />
+                <include-fragment fragment-id="idpay-thumbprint-retriever" />
 
                 <set-variable name="idpayPortalTestToken" value="@{
                     var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
@@ -118,17 +90,6 @@
                 <return-response>
                     <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
                 </return-response>
-            </when>
-            <otherwise>
-                <!-- Gestione dell'errore se la richiesta non è stata eseguita correttamente -->
-                <!-- Puoi gestire qui il caso in cui la richiesta non abbia avuto successo -->
-                <!-- Ad esempio, restituisci una risposta di errore -->
-                <return-response>
-                    <set-status code="500" reason="Internal Server Error" />
-                    <set-body>{"error": "Impossibile ottenere il segreto"}</set-body>
-                </return-response>
-            </otherwise>
-        </choose>
     </inbound>
     <backend>
         <!--base: Begin Global scope-->

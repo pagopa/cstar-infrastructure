@@ -46,35 +46,9 @@
             JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
             return organization["fiscal_code"].ToString();
         }" />
-        <send-request mode="new" response-variable-name="secretResponse" timeout="20" ignore-error="false">
-            <set-url>${secret_name}?api-version=7.4</set-url>
-            <set-method>GET</set-method>
-            <authentication-managed-identity resource="https://vault.azure.net" />
-        </send-request>
+                <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
 
-        <!-- Gestione della risposta della richiesta -->
-        <choose>
-            <when condition="@(context.Variables.ContainsKey("secretResponse") && context.Variables["secretResponse"] != null)">
-                <set-variable name="base64Certificate" value="@{
-                    var secretResponse = context.Variables["secretResponse"] as IResponse;
-
-                    if (secretResponse != null && secretResponse.Body != null)
-                    {
-                        var responseObj = JObject.Parse(secretResponse.Body.As<string>());
-                        return (string)responseObj["value"];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }" />
-
-            <!-- Estrai il thumbprint dal certificato -->
-              <set-variable name="thumbprint" value="@{
-                  var rsaCert = new X509Certificate2(Convert.FromBase64String((string)context.Variables["base64Certificate"]));
-                  return rsaCert.Thumbprint;
-              }" />
-
+                <include-fragment fragment-id="idpay-thumbprint-retriever" />
                 <include-fragment fragment-id="idpay-merchant-id-retriever" />
 
                 <set-variable name="idpayPortalToken" value="@{
@@ -135,15 +109,6 @@
                 <return-response>
                     <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
                 </return-response>
-            </when>
-            <otherwise>
-                <!-- Gestione dell'errore in caso di richiesta non andata a buon fine -->
-                <return-response>
-                    <set-status code="500" reason="Internal Server Error" />
-                    <set-body>{"error": "Impossibile ottenere l'autorizzazione di accesso"}</set-body>
-                </return-response>
-            </otherwise>
-        </choose>
     </inbound>
     <backend>
         <base />
