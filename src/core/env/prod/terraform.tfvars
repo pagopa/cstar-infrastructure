@@ -241,7 +241,7 @@ dexp_params = {
   public_network_access_enabled = false
   double_encryption_enabled     = true
   disk_encryption_enabled       = true
-  purge_enabled                 = false
+  purge_enabled                 = true
 }
 
 enable_azdoa = true
@@ -373,3 +373,9 @@ metric_alert_api_io = {
 web_test_api_io = {
   enable = true
 }
+
+#
+# Storage
+#
+backupstorage_account_replication_type   = "RAGZRS"
+operations_logs_account_replication_type = "RAGZRS"

@@ -1,6 +1,6 @@
 # APIM subnet
 module "apim_v2_temp_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.69.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
   name                 = "${local.project}-apimv2-temp-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet_integration.name
