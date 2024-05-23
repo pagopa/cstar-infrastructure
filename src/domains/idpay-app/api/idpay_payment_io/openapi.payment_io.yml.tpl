@@ -90,6 +90,7 @@ components:
             - PAYMENT_INITIATIVE_INVALID_DATE
             - PAYMENT_INITIATIVE_NOT_DISCOUNT
             - PAYMENT_ALREADY_AUTHORIZED
+            - PAYMENT_ALREADY_CANCELLED
             - PAYMENT_BUDGET_EXHAUSTED
             - PAYMENT_GENERIC_REJECTED
             - PAYMENT_TOO_MANY_REQUESTS
@@ -114,6 +115,7 @@ components:
             PAYMENT_INITIATIVE_INVALID_DATE: initiative invalid date,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: initiative is not of discount type,
             PAYMENT_ALREADY_AUTHORIZED: transaction already authorized,
+            PAYMENT_ALREADY_CANCELLED: transaction already cancelled,
             PAYMENT_BUDGET_EXHAUSTED: budget exhausted,
             PAYMENT_GENERIC_REJECTED: generic rejected error (transaction
             rejected), PAYMENT_TOO_MANY_REQUESTS: too many request, retry,
@@ -140,6 +142,7 @@ components:
             PAYMENT_INITIATIVE_INVALID_DATE: iniziativa con data invalida,
             PAYMENT_INITIATIVE_NOT_DISCOUNT: iniziativa non è di tipo a sconto,
             PAYMENT_ALREADY_AUTHORIZED: transazione già autorizzata,
+            PAYMENT_ALREADY_CANCELLED: transazione già cancellata,
             PAYMENT_BUDGET_EXHAUSTED: budget esaurito, PAYMENT_GENERIC_REJECTED:
             errore generico, transazione rigettata, PAYMENT_TOO_MANY_REQUESTS:
             troppe richieste, riprovare, PAYMENT_GENERIC_ERROR: errore generico
