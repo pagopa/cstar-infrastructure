@@ -1503,17 +1503,17 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
       | project CommonFilename = substring(Filename, 7, 28);
       let filesToAde = StorageBlobLogs
       | where TimeGenerated >= evaluation_start_time
-      | where AccountName == 'cstarpsftp'
-      | where OperationName == 'PutBlock'
-      | where Uri startswith "https://cstarpsftp.blob.core.windows.net:443/ade/in/"
+          and AccountName == 'cstarpsftp'
+          and OperationName == 'PutBlock'
+          and Uri startswith "https://cstarpsftp.blob.core.windows.net:443/ade/in/"
       | project CommonFilename = trim('.{3}$', extract(@"AGGADE.(.*)\.gz", 1, tostring(split(Uri, "/")[5])))
       | distinct CommonFilename;
       let failedInPipeline = AzureDiagnostics
       | where TimeGenerated >= evaluation_start_time
-      | where Category == "PipelineRuns"
-      | where pipelineName_s == "aggregates_ingestor"
-      | where OperationName == "aggregates_ingestor - Failed"
-      | where status_s == "Failed"
+          and Category == "PipelineRuns"
+          and pipelineName_s == "aggregates_ingestor"
+          and OperationName == "aggregates_ingestor - Failed"
+          and status_s == "Failed"
       | project CommonFilename = trim('.{3}$', replace_string(Parameters_file_s, "AGGADE.", ""));
       let depositedAndFailed = filesToAde
           | union failedInPipeline;
