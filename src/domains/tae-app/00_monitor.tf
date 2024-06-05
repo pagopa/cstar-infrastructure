@@ -1420,7 +1420,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
     ]
     custom_properties = {
       key  = "value"
