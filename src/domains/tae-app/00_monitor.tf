@@ -1378,8 +1378,178 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-cl
       key2 = "value2"
     }
   }
-
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by-decrypter" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-file-not-processed-by-decrypter"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P2D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      let evaluation_start_time = ago(2d);
+      let evaluation_end_time = ago(1d);
+      let encrypted = StorageBlobLogs
+      | where TimeGenerated between (evaluation_start_time .. evaluation_end_time)
+          and AccountName == 'cstarpblobstorage'
+          and OperationName in ('PutBlob', 'PutBlock')
+          and StatusCode == 201
+          and Uri has ".pgp" and Uri has "ADE."
+      | extend Filename = extract(@"ADE.(.*)\.csv.pgp", 1, tostring(split(Uri, "/")[4]))
+      | project CommonFilename = replace_string(Filename, "TRNLOG.", "");
+      let decryptedFile = StorageBlobLogs
+      | where TimeGenerated >= evaluation_start_time
+          and AccountName == 'cstarpblobstorage'
+          and OperationName in ('PutBlob', 'PutBlock')
+          and StatusCode == 201
+          and Uri has "ade-transactions-decrypted"
+      | extend Filename = tostring(extract(@"ade-transactions-decrypted\/([^?]*)", 1, Uri))
+      | project CommonFilename = substring(Filename, 7, 28);
+      let cannotDecrypt = AppTraces
+      | where TimeGenerated >= evaluation_start_time
+          and AppRoleName == "rtddecrypter"
+          and SeverityLevel == 3
+          and Message startswith "Cannot decrypt"
+      | project Filename = tostring(extract(@"Cannot decrypt (.*): Secret key for message not found", 1, Message))
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      let noDataFound = AppTraces
+      | where TimeGenerated >= evaluation_start_time
+          and AppRoleName == "rtddecrypter"
+          and SeverityLevel == 2
+          and Message startswith "No data found in decrypted file:"
+      | project Filename = tostring(extract(@"No data found in decrypted file: (.*)", 1, Message))
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      let notVerified = AppTraces
+      | where TimeGenerated >= evaluation_start_time
+          and AppRoleName == "rtddecrypter"
+          and SeverityLevel == 3
+          and Message startswith "Not all chunks are verified, no chunks will be uploaded"
+      | project Filename = tostring(extract(@"Not all chunks are verified, no chunks will be uploaded of (.*)", 1, Message))
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      let wrongNameFormat = AppTraces
+      | where TimeGenerated >= evaluation_start_time
+          and AppRoleName == "rtddecrypter"
+          and SeverityLevel == 2
+          and Message startswith "Wrong name format:"
+      | extend CommonFilename = tostring(split(Message, '/', 6)[0])
+      | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp","");
+      let decryptedAndFailures = decryptedFile
+          | union cannotDecrypt
+              | union noDataFound
+                  | union notVerified
+                      | union wrongNameFormat;
+      encrypted
+          | join kind = leftanti decryptedAndFailures on CommonFilename
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a file is not processed by any means by rtd-ms-decrypter."
+  display_name                     = "cstar-${var.env_short}-file-not-processed-by-decrypter-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by-aggregates-ingestor" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-file-not-processed-by-aggregates-ingestor"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P2D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      let evaluation_start_time = ago(2d);
+      let evaluation_end_time = ago(1d);
+      let decryptedFile = StorageBlobLogs
+      | where TimeGenerated between (evaluation_start_time .. evaluation_end_time)
+          and AccountName == 'cstarpblobstorage'
+          and OperationName in ('PutBlob', 'PutBlock')
+          and StatusCode == 201
+          and Uri has "ade-transactions-decrypted"
+      | extend Filename = tostring(extract(@"ade-transactions-decrypted\/([^?]*)", 1, Uri))
+      | project CommonFilename = substring(Filename, 7, 28);
+      let filesToAde = StorageBlobLogs
+      | where TimeGenerated >= evaluation_start_time
+          and AccountName == 'cstarpsftp'
+          and OperationName == 'PutBlock'
+          and Uri startswith "https://cstarpsftp.blob.core.windows.net:443/ade/in/"
+      | project CommonFilename = trim('.{3}$', extract(@"AGGADE.(.*)\.gz", 1, tostring(split(Uri, "/")[5])))
+      | distinct CommonFilename;
+      let failedInPipeline = AzureDiagnostics
+      | where TimeGenerated >= evaluation_start_time
+          and Category == "PipelineRuns"
+          and pipelineName_s == "aggregates_ingestor"
+          and OperationName == "aggregates_ingestor - Failed"
+          and status_s == "Failed"
+      | project CommonFilename = trim('.{3}$', replace_string(Parameters_file_s, "AGGADE.", ""));
+      let depositedAndFailed = filesToAde
+          | union failedInPipeline;
+      decryptedFile
+      | join kind=leftanti depositedAndFailed on CommonFilename
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a file is not processed by any means by aggregates-ingestor pipeline."
+  display_name                     = "cstar-${var.env_short}-file-not-processed-by-aggregates-ingestor-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_report" {
 
