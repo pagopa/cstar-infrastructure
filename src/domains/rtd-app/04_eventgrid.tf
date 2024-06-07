@@ -77,6 +77,12 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp_wallet" {
     subject_begins_with = "/blobServices/default/containers/nexi/blobs/"
   }
 
+  included_event_types = [
+    "Microsoft.Storage.BlobCreated",
+    "Microsoft.Storage.BlobDeleted",
+    "Microsoft.Storage.BlobRenamed"
+  ]
+
   delivery_identity {
     type = "SystemAssigned"
   }
