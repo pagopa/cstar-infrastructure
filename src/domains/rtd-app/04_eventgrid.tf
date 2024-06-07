@@ -25,6 +25,11 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "storage_subscripti
     type = "SystemAssigned"
   }
 
+  included_event_types = [
+    "Microsoft.Storage.BlobCreated",
+    "Microsoft.Storage.BlobDeleted"
+  ]
+
   depends_on = [
     azurerm_role_assignment.event_grid_sender_role_on_rtd_platform_events
   ]
@@ -61,6 +66,11 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "sftp" {
   delivery_identity {
     type = "SystemAssigned"
   }
+
+  included_event_types = [
+    "Microsoft.Storage.BlobCreated",
+    "Microsoft.Storage.BlobDeleted"
+  ]
 
   depends_on = [
     azurerm_role_assignment.event_grid_sender_role_sftp_on_rtd_platform_events
