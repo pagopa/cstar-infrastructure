@@ -1404,43 +1404,41 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
           and Uri has ".pgp" and Uri has "ADE."
       | extend Filename = extract(@"ADE.(.*)\.csv.pgp", 1, tostring(split(Uri, "/")[4]))
       | project CommonFilename = replace_string(Filename, "TRNLOG.", "");
-      let decryptedFile = StorageBlobLogs
+      let decrypted = AppTraces
       | where TimeGenerated >= evaluation_start_time
-          and AccountName == 'cstarpblobstorage'
-          and OperationName in ('PutBlob', 'PutBlock')
-          and StatusCode == 201
-          and Uri has "ade-transactions-decrypted"
-      | extend Filename = tostring(extract(@"ade-transactions-decrypted\/([^?]*)", 1, Uri))
-      | project CommonFilename = substring(Filename, 7, 28);
+          and AppRoleName == 'rtddecrypter'
+          and Message startswith 'Successful PUT of blob '
+      | extend Filename = tostring(extract(@"Successful PUT of blob (.*)", 1, Message))
+      | project CommonFilename = trim('.{3}$',replace_string(tostring(split(Filename, ' ')[0]), 'AGGADE.', ''));
       let cannotDecrypt = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 3
           and Message startswith "Cannot decrypt"
       | project Filename = tostring(extract(@"Cannot decrypt (.*): Secret key for message not found", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let noDataFound = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 2
           and Message startswith "No data found in decrypted file:"
       | project Filename = tostring(extract(@"No data found in decrypted file: (.*)", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let notVerified = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 3
           and Message startswith "Not all chunks are verified, no chunks will be uploaded"
       | project Filename = tostring(extract(@"Not all chunks are verified, no chunks will be uploaded of (.*)", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let wrongNameFormat = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 2
           and Message startswith "Wrong name format:"
       | extend CommonFilename = tostring(split(Message, '/', 6)[0])
-      | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp","");
-      let decryptedAndFailures = decryptedFile
+      | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp", "");
+      let decryptedAndFailures = decrypted
           | union cannotDecrypt
               | union noDataFound
                   | union notVerified
