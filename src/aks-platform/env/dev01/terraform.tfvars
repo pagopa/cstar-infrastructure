@@ -43,7 +43,7 @@ public_ip_aksoutbound_name = "cstar-d-weu-dev01-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.27.3"
+aks_kubernetes_version      = "1.29.4"
 aks_system_node_pool = {
   name            = "cstdev01sys",
   vm_size         = "Standard_B2ms",
@@ -76,8 +76,8 @@ aks_addons = {
 ingress_replica_count = "2"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 ingress_load_balancer_ip = "10.11.100.250"
-nginx_helm_version       = "4.7.1"
-keda_helm_version        = "2.11.1"
+nginx_helm_version       = "4.10.1"
+keda_helm_version        = "2.14.0"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
