@@ -50,7 +50,7 @@ locals {
 
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "ad_group_policy" {
-  for_each = local.kvs
+  for_each     = local.kvs
   key_vault_id = each.key
 
   tenant_id = data.azurerm_client_config.current.tenant_id
@@ -65,7 +65,7 @@ resource "azurerm_key_vault_access_policy" "ad_group_policy" {
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
 
-  for_each = var.env_short != "p" ? local.kvs : []
+  for_each     = var.env_short != "p" ? local.kvs : []
   key_vault_id = each.key
 
   tenant_id = data.azurerm_client_config.current.tenant_id
@@ -82,7 +82,7 @@ resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
 
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
-  for_each = var.env_short != "p" ? local.kvs : []
+  for_each     = var.env_short != "p" ? local.kvs : []
   key_vault_id = each.key
 
   tenant_id = data.azurerm_client_config.current.tenant_id
@@ -105,7 +105,7 @@ resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
 # create json letsencrypt inside kv
 # requierd: Docker
 module "letsencrypt_mil" {
-    source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential?ref=v8.21.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential?ref=v8.21.0"
 
   prefix            = var.prefix
   env               = var.env_short
