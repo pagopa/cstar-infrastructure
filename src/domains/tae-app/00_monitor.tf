@@ -574,7 +574,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "not_all_chunks_are_ve
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 2
+  severity             = 1
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -626,7 +626,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_decryption" {
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 2
+  severity             = 1
   criteria {
     query                   = <<-QUERY
       AppTraces
