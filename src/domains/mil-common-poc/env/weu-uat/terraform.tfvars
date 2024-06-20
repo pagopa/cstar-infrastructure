@@ -10,7 +10,7 @@ instance       = "uat"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
-  Owner       = "pagoPA"
+  Owner       = "cstar"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/domains/pay-wallet-common"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
