@@ -9,7 +9,7 @@ instance       = "dev"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
-  Owner       = "pagoPA"
+  Owner       = "cstar"
   Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/domains/mil-secrets"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
