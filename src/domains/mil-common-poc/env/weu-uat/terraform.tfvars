@@ -1,9 +1,9 @@
-prefix         = "pagopa"
+prefix         = "cstar"
 env_short      = "u"
 env            = "uat"
-domain         = "pay-wallet"
-location       = "italynorth"
-location_short = "itn"
+domain         = "mil"
+location       = "westeurope"
+location_short = "weu"
 cdn_location   = "westeurope"
 instance       = "uat"
 
@@ -11,7 +11,7 @@ tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
   Owner       = "cstar"
-  Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/domains/pay-wallet-common"
+  Source      = "https://github.com/pagopa/cstar-infra/tree/main/src/domains/mil-common"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
@@ -24,16 +24,16 @@ is_feature_enabled = {
 
 ### External resources
 
-monitor_italy_resource_group_name                 = "pagopa-u-itn-core-monitor-rg"
-log_analytics_italy_workspace_name                = "pagopa-u-itn-core-law"
-log_analytics_italy_workspace_resource_group_name = "pagopa-u-itn-core-monitor-rg"
+monitor_weu_resource_group_name                 = "cstar-u-itn-core-monitor-rg"
+log_analytics_weu_workspace_name                = "cstar-u-itn-core-law"
+log_analytics_weu_workspace_resource_group_name = "cstar-u-itn-core-monitor-rg"
 
 ### NETWORK
 
-cidr_subnet_cosmosdb_pay_wallet = ["10.3.5.0/27"]
-cidr_subnet_redis_pay_wallet    = ["10.3.5.64/27"]
-cidr_subnet_storage_pay_wallet  = ["10.3.5.96/27"]
-cidr_subnet_pay_wallet_user_aks = ["10.3.6.0/24"]
+cidr_subnet_cosmosdb_mil = ["10.3.5.0/27"]
+cidr_subnet_redis_mil    = ["10.3.5.64/27"]
+cidr_subnet_storage_mil  = ["10.3.5.96/27"]
+cidr_subnet_mil_user_aks = ["10.3.6.0/24"]
 
 ### AKS
 ingress_load_balancer_ip = "10.3.2.250"
@@ -41,7 +41,7 @@ ingress_load_balancer_ip = "10.3.2.250"
 ### DNS
 
 external_domain          = "pagopa.it"
-dns_zone_prefix          = "uat.payment-wallet"
+dns_zone_prefix          = "uat.mil"
 dns_zone_internal_prefix = "internal.uat.platform"
 dns_zone_platform        = "uat.platform"
 
@@ -70,7 +70,7 @@ cosmos_mongo_db_params = {
 
 }
 
-cosmos_mongo_db_pay_wallet_params = {
+cosmos_mongo_db_mil_params = {
   enable_serverless  = false
   enable_autoscaling = true
   max_throughput     = 1000
@@ -80,7 +80,7 @@ cosmos_mongo_db_pay_wallet_params = {
 
 ### Redis
 
-redis_pay_wallet_params = {
+redis_mil_params = {
   capacity = 0
   sku_name = "Basic"
   family   = "C"
@@ -90,7 +90,7 @@ redis_pay_wallet_params = {
 
 ### Storage
 
-pay_wallet_storage_params = {
+mil_storage_params = {
   enabled                       = true
   tier                          = "Standard"
   kind                          = "StorageV2"
@@ -109,7 +109,7 @@ aks_user_node_pool = {
   os_disk_size_gb = 300,
   node_count_min  = 1,
   node_count_max  = 1,
-  node_labels     = { node_name : "aks-pay-wallet-user", node_type : "user", domain : "paywallet" },
+  node_labels     = { node_name : "aks-mil-user", node_type : "user", domain : "paywallet" },
   node_taints     = ["paymentWalletOnly=true:NoSchedule"],
   node_tags       = { payWallet : "true" },
 }

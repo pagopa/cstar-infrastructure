@@ -80,17 +80,17 @@ variable "is_feature_enabled" {
 
 ### External resources
 
-variable "monitor_italy_resource_group_name" {
+variable "monitor_weu_resource_group_name" {
   type        = string
   description = "Monitor Italy resource group name"
 }
 
-variable "log_analytics_italy_workspace_name" {
+variable "log_analytics_weu_workspace_name" {
   type        = string
   description = "Specifies the name of the Log Analytics Workspace Italy."
 }
 
-variable "log_analytics_italy_workspace_resource_group_name" {
+variable "log_analytics_weu_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace Italy is located in."
 }
@@ -132,24 +132,24 @@ variable "dns_default_ttl_sec" {
 }
 
 ### NETWORK
-variable "cidr_subnet_cosmosdb_pay_wallet" {
+variable "cidr_subnet_cosmosdb_mil" {
   type        = list(string)
   description = "Cosmos DB address space for wallet."
 }
 
-variable "cidr_subnet_redis_pay_wallet" {
+variable "cidr_subnet_redis_mil" {
   type        = list(string)
   description = "Redis DB address space for wallet."
 }
 
-variable "cidr_subnet_storage_pay_wallet" {
+variable "cidr_subnet_storage_mil" {
   type        = list(string)
   description = "Azure storage DB address space for pagoPA wallet."
 }
 
-variable "cidr_subnet_pay_wallet_user_aks" {
+variable "cidr_subnet_mil_user_aks" {
   type        = list(string)
-  description = "AKS user address space for pagoPA pay-wallet."
+  description = "AKS user address space for pagoPA mil."
 }
 
 # CosmosDb
@@ -180,7 +180,7 @@ variable "cosmos_mongo_db_params" {
   })
 }
 
-variable "cosmos_mongo_db_pay_wallet_params" {
+variable "cosmos_mongo_db_mil_params" {
   type = object({
     enable_serverless  = bool
     enable_autoscaling = bool
@@ -191,7 +191,7 @@ variable "cosmos_mongo_db_pay_wallet_params" {
 
 ### Redis
 
-variable "redis_pay_wallet_params" {
+variable "redis_mil_params" {
   type = object({
     capacity = number
     sku_name = string
@@ -209,7 +209,7 @@ variable "enable_iac_pipeline" {
 
 ### Storage
 
-variable "pay_wallet_storage_params" {
+variable "mil_storage_params" {
   type = object({
     kind                          = string,
     tier                          = string,

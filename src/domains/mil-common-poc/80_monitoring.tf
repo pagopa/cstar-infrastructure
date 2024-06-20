@@ -4,10 +4,10 @@
 #
 #   subscription_id                   = data.azurerm_subscription.current.subscription_id
 #   name                              = "test-avail-${each.value.host}"
-#   location                          = data.azurerm_resource_group.monitor_italy_rg.location
-#   resource_group                    = data.azurerm_resource_group.monitor_italy_rg.name
-#   application_insight_name          = data.azurerm_application_insights.application_insights_italy.name
-#   application_insight_id            = data.azurerm_application_insights.application_insights_italy.id
+#   location                          = data.azurerm_resource_group.monitor_weu_rg.location
+#   resource_group                    = data.azurerm_resource_group.monitor_weu_rg.name
+#   application_insight_name          = data.azurerm_application_insights.application_insights_weu.name
+#   application_insight_id            = data.azurerm_application_insights.application_insights_weu.id
 #   request_url                       = "https://${each.value.host}${each.value.path}"
 #   ssl_cert_remaining_lifetime_check = 7
 #   expected_http_status              = each.value.expected_http_status

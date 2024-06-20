@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "cosmosdb_pay_wallet_rg" {
+resource "azurerm_resource_group" "cosmosdb_mil_rg" {
   name     = format("${local.project}-cosmosdb-rg", )
   location = var.location
 
@@ -12,7 +12,7 @@ module "cosmosdb_account_mongodb" {
 
   name                = "${local.project}-cosmos-account"
   location            = var.location
-  resource_group_name = azurerm_resource_group.cosmosdb_pay_wallet_rg.name
+  resource_group_name = azurerm_resource_group.cosmosdb_mil_rg.name
   domain              = var.domain
 
   offer_type   = var.cosmos_mongo_db_params.offer_type
@@ -23,13 +23,13 @@ module "cosmosdb_account_mongodb" {
 
   public_network_access_enabled      = var.cosmos_mongo_db_params.public_network_access_enabled
   private_endpoint_enabled           = var.cosmos_mongo_db_params.private_endpoint_enabled
-  subnet_id                          = module.cosmosdb_pay_wallet_snet.id
+  subnet_id                          = module.cosmosdb_mil_snet.id
   private_dns_zone_mongo_ids         = [data.azurerm_private_dns_zone.cosmos.id]
   is_virtual_network_filter_enabled  = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
-  allowed_virtual_network_subnet_ids = var.env_short == "d" ? [] : [azurerm_subnet.pay_wallet_user_aks_subnet.id, data.azurerm_subnet.vpn_subnet.id]
+  allowed_virtual_network_subnet_ids = var.env_short == "d" ? [] : [azurerm_subnet.mil_user_aks_subnet.id, data.azurerm_subnet.vpn_subnet.id]
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
-  main_geo_location_location       = azurerm_resource_group.cosmosdb_pay_wallet_rg.location
+  main_geo_location_location       = azurerm_resource_group.cosmosdb_mil_rg.location
   main_geo_location_zone_redundant = var.cosmos_mongo_db_params.main_geo_location_zone_redundant
   additional_geo_locations         = var.cosmos_mongo_db_params.additional_geo_locations
 
@@ -39,19 +39,19 @@ module "cosmosdb_account_mongodb" {
   tags = var.tags
 }
 
-resource "azurerm_cosmosdb_mongo_database" "pay_wallet" {
+resource "azurerm_cosmosdb_mongo_database" "mil" {
   count = var.is_feature_enabled.cosmos ? 1 : 0
 
-  name                = "payment-wallet"
-  resource_group_name = azurerm_resource_group.cosmosdb_pay_wallet_rg.name
+  name                = "mil"
+  resource_group_name = azurerm_resource_group.cosmosdb_mil_rg.name
   account_name        = module.cosmosdb_account_mongodb[0].name
 
-  throughput = var.cosmos_mongo_db_pay_wallet_params.enable_autoscaling || var.cosmos_mongo_db_pay_wallet_params.enable_serverless ? null : var.cosmos_mongo_db_pay_wallet_params.throughput
+  throughput = var.cosmos_mongo_db_mil_params.enable_autoscaling || var.cosmos_mongo_db_mil_params.enable_serverless ? null : var.cosmos_mongo_db_mil_params.throughput
 
   dynamic "autoscale_settings" {
-    for_each = var.cosmos_mongo_db_pay_wallet_params.enable_autoscaling && !var.cosmos_mongo_db_pay_wallet_params.enable_serverless ? [""] : []
+    for_each = var.cosmos_mongo_db_mil_params.enable_autoscaling && !var.cosmos_mongo_db_mil_params.enable_serverless ? [""] : []
     content {
-      max_throughput = var.cosmos_mongo_db_pay_wallet_params.max_throughput
+      max_throughput = var.cosmos_mongo_db_mil_params.max_throughput
     }
   }
 
@@ -101,7 +101,7 @@ locals {
       shard_key = null
     },
     {
-      name = "payment-wallets"
+      name = "mils"
       indexes = [{
         keys   = ["_id"]
         unique = true
@@ -116,16 +116,16 @@ locals {
   ]
 }
 
-module "cosmosdb_pay_wallet_collections" {
+module "cosmosdb_mil_collections" {
 
   source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v8.20.1"
   for_each = var.is_feature_enabled.cosmos ? { for index, coll in local.collections : coll.name => coll } : {}
 
   name                = each.value.name
-  resource_group_name = azurerm_resource_group.cosmosdb_pay_wallet_rg.name
+  resource_group_name = azurerm_resource_group.cosmosdb_mil_rg.name
 
   cosmosdb_mongo_account_name  = module.cosmosdb_account_mongodb[0].name
-  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.pay_wallet[0].name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.mil[0].name
 
   indexes     = each.value.indexes
   shard_key   = each.value.shard_key
@@ -141,7 +141,7 @@ resource "azurerm_monitor_metric_alert" "cosmos_db_normalized_ru_exceeded" {
 
 
   name                = "[${var.domain != null ? "${var.domain} | " : ""}${module.cosmosdb_account_mongodb[0].name}] Normalized RU Exceeded"
-  resource_group_name = azurerm_resource_group.cosmosdb_pay_wallet_rg.name
+  resource_group_name = azurerm_resource_group.cosmosdb_mil_rg.name
   scopes              = [module.cosmosdb_account_mongodb[0].id]
   description         = "A collection Normalized RU/s exceed provisioned throughput, and it's raising latency. Please, consider to increase RU."
   severity            = 0
@@ -164,7 +164,7 @@ resource "azurerm_monitor_metric_alert" "cosmos_db_normalized_ru_exceeded" {
     dimension {
       name     = "Region"
       operator = "Include"
-      values   = [azurerm_resource_group.cosmosdb_pay_wallet_rg.location]
+      values   = [azurerm_resource_group.cosmosdb_mil_rg.location]
     }
 
     dimension {
