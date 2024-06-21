@@ -735,7 +735,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "wrong_name_format" {
     query                   = <<-QUERY
       AppTraces
       | where AppRoleName == "rtddecrypter"
-      | where SeverityLevel == 2
+      | where SeverityLevel == 3
       | where Message startswith "Wrong name format:"
       QUERY
     time_aggregation_method = "Count"
@@ -1382,7 +1382,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
       let wrongNameFormat = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
-          and SeverityLevel == 2
+          and SeverityLevel == 3
           and Message startswith "Wrong name format:"
       | extend CommonFilename = tostring(split(Message, '/', 6)[0])
       | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp", "");
