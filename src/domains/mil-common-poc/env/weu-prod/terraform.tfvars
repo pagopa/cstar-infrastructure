@@ -31,7 +31,7 @@ log_analytics_weu_workspace_resource_group_name = "cstar-p-monitor-rg"
 ### NETWORK
 
 cidr_subnet_cosmosdb_mil = ["10.1.140.0/27"]
-cidr_subnet_eventhub_mil    = ["10.1.140.64/27"]
+cidr_subnet_eventhub_mil = ["10.1.140.64/27"]
 cidr_subnet_storage_mil  = ["10.1.140.96/27"]
 
 ### AKS

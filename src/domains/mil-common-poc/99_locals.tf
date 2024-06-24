@@ -1,7 +1,7 @@
 locals {
-  product       = "${var.prefix}-${var.env_short}"
+  product     = "${var.prefix}-${var.env_short}"
   product_weu = "${var.prefix}-${var.env_short}-${var.location_short}"
-  project       = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  project     = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
   app_insights_ips_west_europe = [
     "51.144.56.96/28",
