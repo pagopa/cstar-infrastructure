@@ -25,11 +25,11 @@ module "cosmosdb_mil_snet" {
   ]
 }
 
-module "redis_pagopa_mil_snet" {
+module "evenhub_mil_snet" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.20.1"
 
-  name                                      = "${local.project}-redis-snet"
-  address_prefixes                          = var.cidr_subnet_redis_mil
+  name                                      = "${local.project}-evhub-snet"
+  address_prefixes                          = var.cidr_subnet_eventhub_mil
   resource_group_name                       = local.vnet_weu_resource_group_name
   virtual_network_name                      = local.vnet_weu_name
   private_endpoint_network_policies_enabled = true

@@ -50,9 +50,6 @@ variable "location_short" {
   description = "One of wue, neu"
 }
 
-variable "cdn_location" {
-  type = string
-}
 
 variable "instance" {
   type        = string
@@ -104,7 +101,7 @@ variable "ingress_load_balancer_ip" {
 variable "dns_zone_prefix" {
   type        = string
   default     = null
-  description = "The wallet dns subdomain."
+  description = "The mil dns subdomain."
 }
 
 variable "external_domain" {
@@ -113,43 +110,26 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
-variable "dns_zone_platform" {
-  type        = string
-  default     = null
-  description = "The platform dns subdomain."
-}
-
 variable "dns_zone_internal_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
 }
 
-variable "dns_default_ttl_sec" {
-  type        = number
-  description = "The DNS default TTL in seconds"
-  default     = 3600
-}
-
 ### NETWORK
 variable "cidr_subnet_cosmosdb_mil" {
   type        = list(string)
-  description = "Cosmos DB address space for wallet."
+  description = "Cosmos DB address space for mil."
 }
 
-variable "cidr_subnet_redis_mil" {
+variable "cidr_subnet_eventhub_mil" {
   type        = list(string)
-  description = "Redis DB address space for wallet."
+  description = "Eventhub address space for mil."
 }
 
 variable "cidr_subnet_storage_mil" {
   type        = list(string)
-  description = "Azure storage DB address space for pagoPA wallet."
-}
-
-variable "cidr_subnet_mil_user_aks" {
-  type        = list(string)
-  description = "AKS user address space for pagoPA mil."
+  description = "Azure storage DB address space for mil."
 }
 
 # CosmosDb
@@ -189,55 +169,3 @@ variable "cosmos_mongo_db_mil_params" {
   })
 }
 
-### Redis
-
-variable "redis_mil_params" {
-  type = object({
-    capacity = number
-    sku_name = string
-    family   = string
-    version  = string
-    zones    = list(number)
-  })
-}
-
-variable "enable_iac_pipeline" {
-  type        = bool
-  description = "If true create the key vault policy to allow used by azure devops iac pipelines."
-  default     = false
-}
-
-### Storage
-
-variable "mil_storage_params" {
-  type = object({
-    kind                          = string,
-    tier                          = string,
-    account_replication_type      = string,
-    advanced_threat_protection    = bool,
-    retention_days                = number,
-    public_network_access_enabled = bool,
-  })
-  description = "Azure storage DB params for pagoPA wallet resources."
-}
-
-variable "aks_user_node_pool" {
-  type = object({
-    enabled                    = optional(bool, true),
-    name                       = string,
-    vm_size                    = string,
-    os_disk_type               = string,
-    os_disk_size_gb            = string,
-    node_count_min             = number,
-    node_count_max             = number,
-    node_labels                = map(any),
-    node_taints                = list(string),
-    node_tags                  = map(any),
-    ultra_ssd_enabled          = optional(bool, false),
-    enable_host_encryption     = optional(bool, true),
-    max_pods                   = optional(number, 250),
-    upgrade_settings_max_surge = optional(string, "30%"),
-    zones                      = optional(list(any), [1, 2, 3]),
-  })
-  description = "AKS node pool user configuration"
-}

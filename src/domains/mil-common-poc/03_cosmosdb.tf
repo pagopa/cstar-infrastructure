@@ -26,7 +26,6 @@ module "cosmosdb_account_mongodb" {
   subnet_id                          = module.cosmosdb_mil_snet.id
   private_dns_zone_mongo_ids         = [data.azurerm_private_dns_zone.cosmos.id]
   is_virtual_network_filter_enabled  = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
-  allowed_virtual_network_subnet_ids = var.env_short == "d" ? [] : [azurerm_subnet.mil_user_aks_subnet.id, data.azurerm_subnet.vpn_subnet.id]
 
   consistency_policy               = var.cosmos_mongo_db_params.consistency_policy
   main_geo_location_location       = azurerm_resource_group.cosmosdb_mil_rg.location
@@ -74,23 +73,23 @@ locals {
       shard_key = null
     },
     {
-      name = "wallet-log-events"
+      name = "mil-log-events"
       indexes = [{
         keys   = ["_id"]
         unique = true
         },
         {
-          keys   = ["walletId", "timestamp", "eventType"]
+          keys   = ["milId", "timestamp", "eventType"]
           unique = true
         }
       ]
       shard_key = null
     },
     {
-      name = "wallets-migration-pm",
+      name = "mils-migration-pm",
       indexes = [
         {
-          keys   = ["_id"] # wallet id pm
+          keys   = ["_id"] # mil id pm
           unique = true
         },
         {

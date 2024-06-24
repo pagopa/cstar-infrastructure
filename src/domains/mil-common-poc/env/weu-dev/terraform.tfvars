@@ -25,26 +25,24 @@ is_feature_enabled = {
 
 ### External resources
 
-monitor_weu_resource_group_name                 = "cstar-d-itn-core-monitor-rg"
-log_analytics_weu_workspace_name                = "cstar-d-itn-core-law"
-log_analytics_weu_workspace_resource_group_name = "cstar-d-itn-core-monitor-rg"
+monitor_weu_resource_group_name                 = "cstar-d-monitor-rg"
+log_analytics_weu_workspace_name                = "cstar-d-law"
+log_analytics_weu_workspace_resource_group_name = "cstar-d-monitor-rg"
 
 ### NETWORK
 
-cidr_subnet_cosmosdb_mil = ["10.3.5.0/27"]
-cidr_subnet_redis_mil    = ["10.3.5.64/27"]
-cidr_subnet_storage_mil  = ["10.3.5.96/27"]
-cidr_subnet_mil_user_aks = ["10.3.6.0/24"]
+cidr_subnet_cosmosdb_mil = ["10.1.140.0/27"]
+cidr_subnet_eventhub_mil    = ["10.1.140.64/27"]
+cidr_subnet_storage_mil  = ["10.1.140.96/27"]
 
 ### AKS
-ingress_load_balancer_ip = "10.3.2.250"
+ingress_load_balancer_ip = "10.11.100.250"
 
 ### DNS
 
 external_domain          = "pagopa.it"
 dns_zone_prefix          = "mil"
-dns_zone_internal_prefix = "internal.dev.platform"
-dns_zone_platform        = "dev.platform"
+dns_zone_internal_prefix = "internal.dev.cstar"
 
 ### Cosmos
 

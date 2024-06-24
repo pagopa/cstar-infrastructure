@@ -24,26 +24,24 @@ is_feature_enabled = {
 
 ### External resources
 
-monitor_weu_resource_group_name                 = "cstar-u-itn-core-monitor-rg"
-log_analytics_weu_workspace_name                = "cstar-u-itn-core-law"
-log_analytics_weu_workspace_resource_group_name = "cstar-u-itn-core-monitor-rg"
+monitor_weu_resource_group_name                 = "cstar-u-monitor-rg"
+log_analytics_weu_workspace_name                = "cstar-u-law"
+log_analytics_weu_workspace_resource_group_name = "cstar-u-monitor-rg"
 
 ### NETWORK
 
-cidr_subnet_cosmosdb_mil = ["10.3.5.0/27"]
-cidr_subnet_redis_mil    = ["10.3.5.64/27"]
-cidr_subnet_storage_mil  = ["10.3.5.96/27"]
-cidr_subnet_mil_user_aks = ["10.3.6.0/24"]
+cidr_subnet_cosmosdb_mil = ["10.1.140.0/27"]
+cidr_subnet_eventhub_mil    = ["10.1.140.64/27"]
+cidr_subnet_storage_mil  = ["10.1.140.96/27"]
 
 ### AKS
-ingress_load_balancer_ip = "10.3.2.250"
+ingress_load_balancer_ip = "10.11.100.250"
 
 ### DNS
 
 external_domain          = "pagopa.it"
 dns_zone_prefix          = "uat.mil"
-dns_zone_internal_prefix = "internal.uat.platform"
-dns_zone_platform        = "uat.platform"
+dns_zone_internal_prefix = "internal.uat.cstar"
 
 ### Cosmos
 
@@ -75,41 +73,4 @@ cosmos_mongo_db_mil_params = {
   enable_autoscaling = true
   max_throughput     = 1000
   throughput         = 1000
-}
-
-
-### Redis
-
-redis_mil_params = {
-  capacity = 0
-  sku_name = "Basic"
-  family   = "C"
-  version  = 6
-  zones    = []
-}
-
-### Storage
-
-mil_storage_params = {
-  enabled                       = true
-  tier                          = "Standard"
-  kind                          = "StorageV2"
-  account_replication_type      = "ZRS",
-  advanced_threat_protection    = false,
-  retention_days                = 7,
-  public_network_access_enabled = false,
-}
-
-# AKS
-aks_user_node_pool = {
-  enabled         = true,
-  name            = "pauakswalusr",
-  vm_size         = "Standard_D8ds_v5",
-  os_disk_type    = "Ephemeral",
-  os_disk_size_gb = 300,
-  node_count_min  = 1,
-  node_count_max  = 1,
-  node_labels     = { node_name : "aks-mil-user", node_type : "user", domain : "paywallet" },
-  node_taints     = ["paymentWalletOnly=true:NoSchedule"],
-  node_tags       = { payWallet : "true" },
 }

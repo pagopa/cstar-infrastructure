@@ -24,25 +24,24 @@ is_feature_enabled = {
 
 ### External resources
 
-monitor_weu_resource_group_name                 = "cstar-p-itn-core-monitor-rg"
-log_analytics_weu_workspace_name                = "cstar-p-itn-core-law"
-log_analytics_weu_workspace_resource_group_name = "cstar-p-itn-core-monitor-rg"
+monitor_weu_resource_group_name                 = "cstar-p-monitor-rg"
+log_analytics_weu_workspace_name                = "cstar-p-law"
+log_analytics_weu_workspace_resource_group_name = "cstar-p-monitor-rg"
 
 ### NETWORK
 
-cidr_subnet_cosmosdb_mil = ["10.3.5.0/27"]
-cidr_subnet_redis_mil    = ["10.3.5.64/27"]
-cidr_subnet_storage_mil  = ["10.3.5.96/27"]
-cidr_subnet_mil_user_aks = ["10.3.6.0/24"]
+cidr_subnet_cosmosdb_mil = ["10.1.140.0/27"]
+cidr_subnet_eventhub_mil    = ["10.1.140.64/27"]
+cidr_subnet_storage_mil  = ["10.1.140.96/27"]
 
-ingress_load_balancer_ip = "10.3.2.250"
+### AKS
+ingress_load_balancer_ip = "10.11.100.250"
 
 ### dns
 
 external_domain          = "pagopa.it"
 dns_zone_prefix          = "mil"
-dns_zone_internal_prefix = "internal.platform"
-dns_zone_platform        = "prod.platform"
+dns_zone_internal_prefix = "internal.cstar"
 
 ### Cosmos
 
@@ -80,42 +79,3 @@ cosmos_mongo_db_mil_params = {
   throughput         = 1000
 }
 
-
-### Redis
-
-redis_mil_params = {
-  capacity   = 1
-  sku_name   = "Premium"
-  family     = "P"
-  version    = 6
-  ha_enabled = true
-  zones      = [1, 2, 3]
-}
-
-
-### Storage
-
-mil_storage_params = {
-  enabled                       = true
-  tier                          = "Standard"
-  kind                          = "StorageV2"
-  account_replication_type      = "ZRS",
-  advanced_threat_protection    = false,
-  retention_days                = 30,
-  public_network_access_enabled = false,
-}
-
-# AKS
-aks_user_node_pool = {
-  enabled         = true,
-  name            = "padakswalusr",
-  vm_size         = "Standard_D8ds_v5",
-  os_disk_type    = "Ephemeral",
-  os_disk_size_gb = 300,
-  node_count_min  = 1,
-  node_count_max  = 1,
-  zones           = [1, 2, 3]
-  node_labels     = { node_name : "aks-mil-user", node_type : "user", domain : "paywallet" },
-  node_taints     = ["paymentWalletOnly=true:NoSchedule"],
-  node_tags       = { payWallet : "true" },
-}

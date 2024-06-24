@@ -12,7 +12,6 @@ locals {
     "51.144.56.176/28",
   ]
 
-  monitor_appinsights_weu_name  = "${local.product_weu}-core-appinsights"
   monitor_appinsights_name        = "${local.product}-appinsights"
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
@@ -20,8 +19,8 @@ locals {
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
-  vnet_weu_name                = "${local.product_weu}-vnet"
-  vnet_weu_resource_group_name = "${local.product_weu}-vnet-rg"
+  vnet_weu_name                = "${local.product}-vnet"
+  vnet_weu_resource_group_name = "${local.product}-vnet-rg"
 
   vpn_subnet_name = "GatewaySubnet"
 
