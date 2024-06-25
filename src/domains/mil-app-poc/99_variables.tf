@@ -34,11 +34,6 @@ variable "domain" {
   }
 }
 
-variable "idpay_alert_enabled" {
-  type    = bool
-  default = false
-}
-
 variable "location" {
   type        = string
   description = "One of westeurope, northeurope"
@@ -72,11 +67,6 @@ variable "tags" {
   }
 }
 
-variable "event_hub_port" {
-  type    = number
-  default = 9093
-}
-
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -104,11 +94,6 @@ variable "aks_name" {
 variable "aks_resource_group_name" {
   type        = string
   description = "AKS cluster resource name"
-}
-
-variable "aks_vmss_name" {
-  type        = string
-  description = "AKS nodepool scale set name"
 }
 
 variable "k8s_kube_config_path_prefix" {
@@ -143,207 +128,6 @@ variable "dns_zone_internal_prefix" {
   description = "The dns subdomain."
 }
 
-#APP IO
-variable "appio_timeout_sec" {
-  type        = number
-  description = "AppIo timeout (sec)"
-  default     = 5
-}
-
-variable "reverse_proxy_be_io" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
-}
-
-# variable "eventhub_pim" {
-#   type = object({
-#     enrolled_pi_eventhub  = string,
-#     revoked_pi_eventhub   = string,
-#     resource_group_name   = string,
-#     namespace_enrolled_pi = string
-#     namespace_revoked_pi  = string
-#   })
-#   description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
-# }
-
-variable "one_trust_privacynotice_base_url" {
-  type        = string
-  description = "OneTrust PrivacyNotice Base Url"
-}
-
-variable "io_manage_backend_base_url" {
-  type        = string
-  description = "BE IO manage backend url"
-}
-variable "openid_config_url_mil" {
-  type        = string
-  description = "Token MIL, OIDC URL"
-}
-variable "pdv_tokenizer_url" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "PDV uri. Endpoint for encryption of pii information."
-}
-
-variable "pdv_timeout_sec" {
-  type        = number
-  description = "PDV timeout (sec)"
-  default     = 15
-}
-
-variable "pdv_retry_count" {
-  type        = number
-  description = "PDV max retry number"
-  default     = 3
-}
-
-variable "pdv_retry_interval" {
-  type        = number
-  description = "PDV interval between each retry"
-  default     = 5
-}
-
-variable "pdv_retry_max_interval" {
-  type        = number
-  description = "PDV max interval between each retry"
-  default     = 15
-}
-
-variable "pdv_retry_delta" {
-  type        = number
-  description = "PDV delta"
-  default     = 1
-}
-
-variable "checkiban_base_url" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "Check IBAN uri."
-}
-
-variable "selc_base_url" {
-  type        = string
-  description = "SelfCare api backend url"
-}
-
-variable "selc_timeout_sec" {
-  type        = number
-  description = "SelfCare api timeout (sec)"
-  default     = 5
-}
-
-variable "pm_service_base_url" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "PM Service uri. Endpoint to retrieve Payment Instruments information."
-}
-
-variable "pm_backend_url" {
-  type        = string
-  description = "Payment manager backend url (enrollment)"
-}
-
-variable "pm_timeout_sec" {
-  type        = number
-  description = "Payment manager timeout (sec)"
-  default     = 5
-}
-
-#
-# Tls Checker
-#
-variable "tls_cert_check_helm" {
-  type = object({
-    chart_version = string,
-    image_name    = string,
-    image_tag     = string
-  })
-  description = "tls cert helm chart configuration"
-}
-
-variable "storage_account_replication_type" {
-  type        = string
-  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
-  default     = "LRS"
-}
-
-variable "storage_delete_retention_days" {
-  type        = number
-  description = "Number of days to retain deleted files"
-  default     = 5
-}
-
-variable "storage_enable_versioning" {
-  type        = bool
-  description = "Enable versioning"
-  default     = false
-}
-
-variable "storage_advanced_threat_protection" {
-  type        = bool
-  description = "Enable threat advanced protection"
-  default     = false
-}
-
-variable "storage_public_network_access_enabled" {
-  type        = bool
-  description = "Enable public network access"
-  default     = false
-}
-
-#
-# RTD reverse proxy
-#
-variable "reverse_proxy_rtd" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
-}
-
-#
-# SMTP Server
-#
-variable "mail_server_host" {
-  type        = string
-  description = "SMTP server hostname"
-}
-
-variable "mail_server_port" {
-  type        = string
-  default     = "587"
-  description = "SMTP server port"
-}
-
-variable "mail_server_protocol" {
-  type        = string
-  default     = "smtp"
-  description = "mail protocol"
-}
-
-# p7m self-signed certificate
-variable "enable_p7m_self_sign" {
-  type    = bool
-  default = true
-}
-
-variable "p7m_cert_validity_hours" {
-  type    = number
-  default = 87600 # 10 year
-
-}
-
-variable "idpay_mocked_merchant_enable" {
-  type        = bool
-  description = "Enable mocked merchant APIs"
-  default     = false
-}
-
-variable "idpay_mocked_acquirer_apim_user_id" {
-  type        = string
-  description = "APIm user id of mocked acquirer"
-  default     = null
-}
 
 variable "aks_cluster_domain_name" {
   type        = string
@@ -352,58 +136,13 @@ variable "aks_cluster_domain_name" {
 
 variable "enable" {
   type = object({
-    mock_io_api = bool
   })
   description = "Feature flags"
   default = {
-    mock_io_api = false
   }
 }
 
-variable "rate_limit_io_product" {
-  type        = number
-  description = "Rate limit for IO product"
-  default     = 2500
-}
 
-variable "rate_limit_issuer_product" {
-  type        = number
-  description = "Rate limit for Issuer product"
-  default     = 2000
-}
 
-variable "rate_limit_assistance_product" {
-  type        = number
-  description = "Rate limit for Assistance product"
-  default     = 1000
-}
 
-variable "rate_limit_mil_citizen_product" {
-  type        = number
-  description = "Rate limit for MIL citizen product"
-  default     = 2000
-}
 
-variable "rate_limit_mil_merchant_product" {
-  type        = number
-  description = "Rate limit for MIL merchant product"
-  default     = 2000
-}
-
-variable "rate_limit_minint_product" {
-  type        = number
-  description = "Rate limit for MIN INT product"
-  default     = 1000
-}
-
-variable "rate_limit_portal_product" {
-  type        = number
-  description = "Rate limit for institutions portal product"
-  default     = 2500
-}
-
-variable "rate_limit_merchants_portal_product" {
-  type        = number
-  description = "Rate limit for merchants portal product"
-  default     = 2500
-}

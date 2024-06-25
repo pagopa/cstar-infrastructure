@@ -1,4 +1,4 @@
-resource_group_name  = "io-infra-rg"
-storage_account_name = "cstarinfrastterraformdev"
-container_name       = "azurermstate"
-key                  = "domain-idpay.terraform.tfstate"
+resource_group_name  = "terraform-state-rg"
+storage_account_name = "tfinfdevcstar"
+container_name       = "terraform-state"
+key                  = "mil-app-dev.terraform.tfstate"

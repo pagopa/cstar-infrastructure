@@ -2,38 +2,23 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 3.40.0"
+      version = "<= 3.105.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "= 2.21.0"
-    }
-    azapi = {
-      source  = "azure/azapi"
-      version = ">=0.1.1"
+      version = "<= 2.50.0"
     }
     null = {
       source  = "hashicorp/null"
-      version = "= 3.1.1"
-    }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "= 4.0.4"
+      version = "<= 3.2.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "= 2.25.2"
+      version = "<= 2.30.2"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "= 2.5.1"
-    }
-    local = {
-      source = "hashicorp/local"
-    }
-    terracurl = {
-      source  = "devops-rob/terracurl"
-      version = "1.0.1"
+      version = "<= 2.12.1"
     }
   }
 
@@ -42,10 +27,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-}
-
-provider "azapi" {
-  skip_provider_registration = true
 }
 
 data "azurerm_subscription" "current" {}

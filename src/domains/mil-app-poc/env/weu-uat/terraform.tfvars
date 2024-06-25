@@ -1,7 +1,7 @@
 prefix          = "cstar"
 env_short       = "u"
 env             = "uat"
-domain          = "idpay"
+domain          = "mil"
 location        = "westeurope"
 location_string = "West Europe"
 location_short  = "weu"
@@ -29,8 +29,7 @@ aks_vmss_name           = "aks-cstuat01usr-39999986-vmss"
 aks_cluster_domain_name = "uat01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
-ingress_load_balancer_hostname = "uat01.idpay.internal.uat.cstar.pagopa.it"
-reverse_proxy_be_io            = "10.1.0.250"
+ingress_load_balancer_hostname = "mil.internal.uat.cstar.pagopa.it"
 
 #
 # Dns
@@ -42,84 +41,4 @@ external_domain          = "pagopa.it"
 # Enable components
 #
 enable = {
-  idpay = {
-    eventhub = true
-  }
-  mock_io_api = true
 }
-
-#
-# PDV
-#
-pdv_tokenizer_url = "https://api.uat.tokenizer.pdv.pagopa.it/tokenizer/v1"
-pdv_timeout_sec   = 5
-#
-# MIL
-#
-openid_config_url_mil = "https://mil-u-apim.azure-api.net/mil-auth/.well-known/openid-configuration"
-#
-# PM
-#
-pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"
-pm_backend_url      = "https://api.uat.platform.pagopa.it"
-
-#
-# Check IBAN
-#
-checkiban_base_url = "https://bankingservices-sandbox.pagopa.it"
-
-#
-# SelfCare API
-#
-selc_base_url = "https://api.uat.selfcare.pagopa.it"
-
-#
-# BE IO API
-#
-io_manage_backend_base_url = "https://api.io.pagopa.it" #"https://api-io.uat.cstar.pagopa.it/idpay/mock"
-
-#
-# ONE TRUST API
-#
-one_trust_privacynotice_base_url = "https://app-de.onetrust.com/api/privacynotice/v2"
-
-#
-# TLS Checker
-#
-# chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
-# image tags: https://github.com/pagopa/infra-ssl-check/releases
-tls_cert_check_helm = {
-  chart_version = "1.21.0"
-  image_name    = "ghcr.io/pagopa/infra-ssl-check"
-  image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
-}
-
-# Storage
-storage_delete_retention_days = 5
-storage_enable_versioning     = true
-
-#
-# RTD reverse proxy
-#
-reverse_proxy_rtd = "10.1.0.250"
-
-#
-# SMTP Server
-#
-mail_server_host = "smtp.ethereal.email"
-
-idpay_mocked_merchant_enable       = true
-idpay_mocked_acquirer_apim_user_id = "rtd-uat-acquirer-pagopa-it"
-idpay_alert_enabled                = true
-
-#
-# Rate limit
-#
-rate_limit_io_product               = 2500
-rate_limit_issuer_product           = 2000
-rate_limit_assistance_product       = 1000
-rate_limit_mil_citizen_product      = 2000
-rate_limit_mil_merchant_product     = 2000
-rate_limit_minint_product           = 1000
-rate_limit_portal_product           = 2500
-rate_limit_merchants_portal_product = 2500
