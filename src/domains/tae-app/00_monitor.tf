@@ -574,7 +574,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "not_all_chunks_are_ve
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 2
+  severity             = 1
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -626,7 +626,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_decryption" {
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 2
+  severity             = 1
   criteria {
     query                   = <<-QUERY
       AppTraces
@@ -735,7 +735,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "wrong_name_format" {
     query                   = <<-QUERY
       AppTraces
       | where AppRoleName == "rtddecrypter"
-      | where SeverityLevel == 2
+      | where SeverityLevel == 3
       | where Message startswith "Wrong name format:"
       QUERY
     time_aggregation_method = "Count"
@@ -984,58 +984,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sas_token_
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
       azurerm_monitor_action_group.send_to_zendesk[0].id
-    ]
-    custom_properties = {
-      key  = "value"
-      key2 = "value2"
-    }
-  }
-
-  tags = {
-    key = "Sender Monitoring"
-  }
-}
-
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_already_present_on_fileregister" {
-
-  count = var.env_short == "p" ? 1 : 0
-
-  name                = "cstar-${var.env_short}-file-register-file-already-present"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-  location            = data.azurerm_resource_group.monitor_rg.location
-
-  evaluation_frequency = "PT5M"
-  window_duration      = "PT5M"
-  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
-  severity             = 1
-  criteria {
-    query                   = <<-QUERY
-      AppTraces
-      | where AppRoleName == "rtdfileregister"
-      | where SeverityLevel == 3
-      | where Message startswith "File already present"
-      QUERY
-    time_aggregation_method = "Count"
-    threshold               = 0
-    operator                = "GreaterThan"
-
-    failing_periods {
-      minimum_failing_periods_to_trigger_alert = 1
-      number_of_evaluation_periods             = 1
-    }
-  }
-
-  auto_mitigation_enabled          = false
-  workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever at least one input file has the same name of a previously received event in file register."
-  display_name                     = "cstar-${var.env_short}-file-register-file-already-present-#ACQ"
-  enabled                          = false
-
-  skip_query_validation = false
-  action {
-    action_groups = [
-      azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
     ]
     custom_properties = {
       key  = "value"
@@ -1404,43 +1352,41 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
           and Uri has ".pgp" and Uri has "ADE."
       | extend Filename = extract(@"ADE.(.*)\.csv.pgp", 1, tostring(split(Uri, "/")[4]))
       | project CommonFilename = replace_string(Filename, "TRNLOG.", "");
-      let decryptedFile = StorageBlobLogs
+      let decrypted = AppTraces
       | where TimeGenerated >= evaluation_start_time
-          and AccountName == 'cstarpblobstorage'
-          and OperationName in ('PutBlob', 'PutBlock')
-          and StatusCode == 201
-          and Uri has "ade-transactions-decrypted"
-      | extend Filename = tostring(extract(@"ade-transactions-decrypted\/([^?]*)", 1, Uri))
-      | project CommonFilename = substring(Filename, 7, 28);
+          and AppRoleName == 'rtddecrypter'
+          and Message startswith 'Successful PUT of blob '
+      | extend Filename = tostring(extract(@"Successful PUT of blob (.*)", 1, Message))
+      | project CommonFilename = trim('.{3}$',replace_string(tostring(split(Filename, ' ')[0]), 'AGGADE.', ''));
       let cannotDecrypt = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 3
           and Message startswith "Cannot decrypt"
       | project Filename = tostring(extract(@"Cannot decrypt (.*): Secret key for message not found", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let noDataFound = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 2
           and Message startswith "No data found in decrypted file:"
       | project Filename = tostring(extract(@"No data found in decrypted file: (.*)", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let notVerified = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
           and SeverityLevel == 3
           and Message startswith "Not all chunks are verified, no chunks will be uploaded"
       | project Filename = tostring(extract(@"Not all chunks are verified, no chunks will be uploaded of (.*)", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp","");
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let wrongNameFormat = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
-          and SeverityLevel == 2
+          and SeverityLevel == 3
           and Message startswith "Wrong name format:"
       | extend CommonFilename = tostring(split(Message, '/', 6)[0])
-      | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp","");
-      let decryptedAndFailures = decryptedFile
+      | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp", "");
+      let decryptedAndFailures = decrypted
           | union cannotDecrypt
               | union noDataFound
                   | union notVerified
@@ -1550,7 +1496,6 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
   }
 }
 
-
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_report" {
 
   count = var.env_short == "p" ? 1 : 0
@@ -1600,4 +1545,52 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_
   tags = {
     key = "Sender Monitoring"
   }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "at-least-one-pending-file-in-Cosmos" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-at-least-one-pending-file-in-Cosmos"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 2
+  criteria {
+    query                   = <<-QUERY
+      AzureDiagnostics
+      | where Category == "PipelineRuns"
+      | where pipelineName_s == "pending_files_in_Cosmos"
+      | where status_s == "Failed"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever a pending file pipeline fails (hence at least one file is pending in CosmosDB)."
+  display_name                     = "cstar-${var.env_short}-at-least-one-pending-file-in-Cosmos-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
 }

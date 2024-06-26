@@ -35,8 +35,11 @@ locals {
 
   collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
 
+  fail_if_at_least_one_file_is_pending = file("pipelines/fail-activities/failIfAtLeastOneFileIsPending.json")
+
   if_at_least_one_flow_is_pending = templatefile("pipelines/if-activities/ifAtLeastOneFlowPending.json", {
-    collect_pending_filenames_activity = local.collect_pending_filenames_activity
+    collect_pending_filenames_activity   = local.collect_pending_filenames_activity,
+    fail_if_at_least_one_file_is_pending = local.fail_if_at_least_one_file_is_pending
   })
 }
 
