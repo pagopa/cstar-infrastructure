@@ -1,0 +1,31 @@
+<fragment>
+  <send-request mode="new" response-variable-name="secretResponse" timeout="20" ignore-error="false">
+    <set-url>@((string) context.Variables["requestUrl"]+"?api-version=7.4")</set-url>
+    <set-method>GET</set-method>
+    <authentication-managed-identity resource="https://vault.azure.net" />
+  </send-request>
+  <choose>
+    <when condition="@(context.Variables.ContainsKey("secretResponse") && context.Variables["secretResponse"] != null)">
+    <set-variable name="base64Certificate" value="@{
+          var secretResponse = context.Variables["secretResponse"] as IResponse;
+
+          if (secretResponse != null && secretResponse.Body != null)
+          {
+              var responseObj = JObject.Parse(secretResponse.Body.As<string>());
+              return (string)responseObj["value"];
+          }
+          else
+          {
+              return null;
+          }
+      }" />
+    <set-variable name="thumbprint" value="@{
+          var rsaCert = new X509Certificate2(Convert.FromBase64String((string)context.Variables["base64Certificate"]));
+          return rsaCert.Thumbprint;
+      }" />
+  </when>
+  <otherwise>
+    <set-variable name="thumbprint" value="null" />
+  </otherwise>
+</choose>
+  </fragment>
