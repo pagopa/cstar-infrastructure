@@ -1390,7 +1390,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
       | where AppRoleName == "rtddecrypter"
         and SeverityLevel == 3
         and Message startswith "Cannot GET blob "
-      | extend Filename = tostring(extract(@"Cannot GET blob (.*)", 1, MyMessage))
+      | extend Filename = tostring(extract(@"Cannot GET blob (.*)", 1, Message))
       | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let decryptedAndFailures = decrypted
           | union cannotDecrypt
