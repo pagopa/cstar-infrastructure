@@ -1633,7 +1633,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "fail_to_delete_local_
   skip_query_validation = false
   action {
     action_groups = [
-      azurerm_monitor_action_group.send_to_operations
+      azurerm_monitor_action_group.send_to_operations[0].id,
     ]
     custom_properties = {
       key  = "value"
