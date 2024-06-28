@@ -1512,8 +1512,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_
     query                   = <<-QUERY
       AppTraces
       | where AppRoleName == "rtdfilereporter"
-      | where SeverityLevel == 2
       | where Message startswith "Failed to retrieve the file metadata from the storage"
+        or Message startswith "Error in parsing some metadata! Error:"
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
