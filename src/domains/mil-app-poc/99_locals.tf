@@ -20,14 +20,14 @@ locals {
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
   # KV
-  kv_domain_name = "cstar-${var.env_short}-weu-mil-kv"
+  kv_domain_name    = "cstar-${var.env_short}-weu-mil-kv"
   kv_domain_rg_name = "cstar-${var.env_short}-weu-mil-sec-rg"
 
   # DOMAINS
   system_domain_namespace = "${var.domain}-system"
   domain_namespace        = var.domain
 
-  domain_aks_hostname   = var.env == "prod" ? "${var.domain}.internal.cstar.pagopa.it" : "${var.domain}.internal.${var.env}.cstar.pagopa.it"
+  domain_aks_hostname = var.env == "prod" ? "${var.domain}.internal.cstar.pagopa.it" : "${var.domain}.internal.${var.env}.cstar.pagopa.it"
 
   ingress_load_balancer_https = "https://${var.ingress_load_balancer_hostname}"
 }
