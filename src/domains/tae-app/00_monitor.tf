@@ -1595,11 +1595,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "at-least-one-pending-
 
 }
 
-resource "azurerm_monitor_scheduled_query_rules_alert_v2" "fail_to_delete_blob" {
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "fail_to_delete_local_file_decrypter" {
 
   count = var.env_short == "p" ? 1 : 0
 
-  name                = "cstar-${var.env_short}-decrypter-fail-to-delete-blob"
+  name                = "cstar-${var.env_short}-fail-to-delete-local-file-decrypter"
   resource_group_name = data.azurerm_resource_group.monitor_rg.name
   location            = data.azurerm_resource_group.monitor_rg.location
 
@@ -1626,7 +1626,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "fail_to_delete_blob" 
 
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
-  description                      = "Triggers whenever at least one local blob file was not deleted."
+  description                      = "Triggers whenever at least one decryper local blob file was not deleted."
   display_name                     = "cstar-${var.env_short}-decrypter-fail-to-delete-blob"
   enabled                          = true
 
