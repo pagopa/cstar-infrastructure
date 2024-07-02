@@ -4,7 +4,7 @@
 
 Cstar project infrastructure
 
-## Requirements
+## Requirements 
 
 ### 1. terraform
 
