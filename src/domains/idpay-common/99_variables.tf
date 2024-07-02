@@ -155,35 +155,25 @@ variable "spa" {
     "mocks/merchant"
   ]
 }
-## Event hub
-variable "ehns_sku_name" {
-  type        = string
-  description = "Defines which tier to use."
-  default     = "Basic"
-}
+### Eventhub
+variable "eventhub_idpay_namespace" {
+  type = object({
+    sku                      = string
+    capacity                 = number
+    maximum_throughput_units = number
+    auto_inflate_enabled     = bool
+    zone_redundant           = bool
+    minimum_tls_version      = string
+  })
 
-variable "ehns_capacity" {
-  type        = number
-  description = "Specifies the Capacity / Throughput Units for a Standard SKU namespace."
-  default     = null
-}
-
-variable "ehns_maximum_throughput_units" {
-  type        = number
-  description = "Specifies the maximum number of throughput units when Auto Inflate is Enabled"
-  default     = null
-}
-
-variable "ehns_auto_inflate_enabled" {
-  type        = bool
-  description = "Is Auto Inflate enabled for the EventHub Namespace?"
-  default     = false
-}
-
-variable "ehns_zone_redundant" {
-  type        = bool
-  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
-  default     = false
+  default = {
+    sku                      = "Basic"
+    capacity                 = null
+    maximum_throughput_units = null
+    auto_inflate_enabled     = false
+    zone_redundant           = false
+    minimum_tls_version      = "1.2"
+  }
 }
 
 
