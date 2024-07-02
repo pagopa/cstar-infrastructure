@@ -6,8 +6,8 @@ resource "azurerm_resource_group" "eventhub_ita_rg" {
 }
 
 module "eventhub_mil_namespace" {
-  source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v8.22.0"
-    count  = var.is_feature_enabled.eventhub ? 1 : 0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v8.22.0"
+  count  = var.is_feature_enabled.eventhub ? 1 : 0
 
   name                     = "${local.project}-evh"
   location                 = var.location

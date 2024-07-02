@@ -17,8 +17,8 @@ tags = {
 
 ### FEATURES FLAGS
 is_feature_enabled = {
-  cosmos  = true
-  eventhub   = true
+  cosmos   = true
+  eventhub = true
 }
 
 ### External resources

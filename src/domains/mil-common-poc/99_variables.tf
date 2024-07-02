@@ -67,8 +67,8 @@ variable "tags" {
 
 variable "is_feature_enabled" {
   type = object({
-    eventhub  = optional(bool, false),
-    cosmos  = optional(bool, false),
+    eventhub = optional(bool, false),
+    cosmos   = optional(bool, false),
   })
   description = "Features enabled in this domain"
 }
