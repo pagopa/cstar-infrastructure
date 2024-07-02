@@ -155,22 +155,20 @@ variable "flow_invalidator_conf" {
 //Triggers every first Monday of the month at 10:00 UTC
 variable "pending_flows_conf" {
   type = object({
-    enable                        = bool
-    interval                      = number
-    frequency                     = string
-    schedule_hours                = number
-    schedule_minutes              = number
-    monthlyOccurrences_day        = string
-    monthlyOccurrences_occurrence = number
+    enable           = bool
+    interval         = number
+    frequency        = string
+    schedule_hours   = number
+    schedule_minutes = number
+    days_of_week     = list(string)
   })
   default = {
-    enable                        = false
-    interval                      = 1
-    frequency                     = "Month"
-    schedule_hours                = 8
-    schedule_minutes              = 30
-    monthlyOccurrences_day        = "Monday"
-    monthlyOccurrences_occurrence = 1
+    enable           = false
+    interval         = 1
+    frequency        = "Week"
+    schedule_hours   = 9
+    schedule_minutes = 30
+    days_of_week     = ["Monday"]
   }
 }
 

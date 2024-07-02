@@ -487,12 +487,9 @@ resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
   time_zone = "UTC"
 
   schedule {
-    minutes = [var.pending_flows_conf.schedule_minutes]
-    hours   = [var.pending_flows_conf.schedule_hours]
-    monthly {
-      weekday = var.pending_flows_conf.monthlyOccurrences_day
-      week    = 1
-    }
+    minutes      = [var.pending_flows_conf.schedule_minutes]
+    hours        = [var.pending_flows_conf.schedule_hours]
+    days_of_week = var.pending_flows_conf.days_of_week
   }
 
   annotations = ["PendingFlows"]

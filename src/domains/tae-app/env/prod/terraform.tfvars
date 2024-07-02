@@ -62,13 +62,12 @@ dexp_mgmt_tae_db_linkes_service = {
 }
 
 pending_flows_conf = {
-  enable                        = true
-  interval                      = 1
-  frequency                     = "Month"
-  schedule_hours                = 9
-  schedule_minutes              = 30
-  monthlyOccurrences_day        = "Monday"
-  monthlyOccurrences_occurrence = 1
+  enable           = true
+  interval         = 1
+  frequency        = "Week"
+  schedule_hours   = 9
+  schedule_minutes = 30
+  days_of_week     = ["Monday"]
 }
 
 report_merchants_pipeline = {
