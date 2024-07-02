@@ -15,17 +15,19 @@ pids=()
 ACTION="$1"
 
 array=(
-    'src/packer::dev'
     'src/core::dev'
-    'src/k8s::dev-cstar'
     'src/aks-platform::dev01'
-    'src/psql::dev-cstar'
     'src/domains/idpay-app::dev'
     'src/domains/idpay-common::dev'
+    'src/domains/mil-app-poc::weu-dev'
+    'src/domains/mil-common-poc::weu-dev'
+    'src/domains/mil-secrets-poc::weu-dev'
     'src/domains/rtd-app::dev'
     'src/domains/rtd-common::dev'
     'src/domains/tae-app::dev'
     'src/domains/tae-common::dev'
+    'src/packer::dev'
+#    'src/psql::dev-cstar'
 )
 
 function rm_terraform {
