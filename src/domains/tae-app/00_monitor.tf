@@ -1386,11 +1386,18 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
           and Message startswith "Wrong name format:"
       | extend CommonFilename = tostring(split(Message, '/', 6)[0])
       | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp", "");
+      let failedGet = AppTraces
+      | where AppRoleName == "rtddecrypter"
+        and SeverityLevel == 3
+        and Message startswith "Cannot GET blob "
+      | extend Filename = tostring(extract(@"Cannot GET blob (.*)", 1, Message))
+      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
       let decryptedAndFailures = decrypted
           | union cannotDecrypt
               | union noDataFound
                   | union notVerified
-                      | union wrongNameFormat;
+                      | union wrongNameFormat
+                        | union failedGet;
       encrypted
           | join kind = leftanti decryptedAndFailures on CommonFilename
       QUERY
@@ -1512,8 +1519,8 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_
     query                   = <<-QUERY
       AppTraces
       | where AppRoleName == "rtdfilereporter"
-      | where SeverityLevel == 2
       | where Message startswith "Failed to retrieve the file metadata from the storage"
+        or Message startswith "Error in parsing some metadata! Error:"
       QUERY
     time_aggregation_method = "Count"
     threshold               = 0
@@ -1594,3 +1601,107 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "at-least-one-pending-
   }
 
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "fail_to_delete_local_file_decrypter" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-fail-to-delete-local-file-decrypter"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "P1D"
+  window_duration      = "P1D"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 2
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtddecrypter"
+      | where SeverityLevel == 2
+      | where Message startswith "Failed to delete local blob file:"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one decryper local blob file was not deleted."
+  display_name                     = "cstar-${var.env_short}-decrypter-fail-to-delete-blob"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cannot_get_encrypted_file" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-decrypter-cannot-get-encrypted-file"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtddecrypter"
+      | where SeverityLevel == 3
+      | where Message startswith "Cannot GET blob "
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one blob cannot be obtained by decrypter."
+  display_name                     = "cstar-${var.env_short}-decrypter-cannot-get-encrypted-file-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
