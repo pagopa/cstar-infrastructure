@@ -37,4 +37,6 @@ locals {
   azdo_managed_identity_rg_name = "cstar-${var.env_short}-identity-rg"
   azdo_iac_managed_identities   = toset(["azdo-${var.env}-cstar-iac-deploy", "azdo-${var.env}-cstar-iac-plan"])
 
+  eventhub_resource_group_name = "${local.project}-evh-rg"
+
 }
