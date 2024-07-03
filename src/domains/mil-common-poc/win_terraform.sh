@@ -1,0 +1,1 @@
+../../../scripts/win_terraform.sh
