@@ -66,15 +66,11 @@ locals {
         unique = true
         },
         {
-          keys   = ["hashedFiscalCode", "userId", "channelId"]
+          keys   = ["hashedFiscalCode", "channelId"]
           unique = true
         },
         {
           keys   = ["hashedFiscalCode"]
-          unique = false
-        },
-        {
-          keys   = ["userId"]
           unique = false
         },
         {
@@ -110,7 +106,6 @@ module "cosmosdb_mil_collections" {
   cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.mil[0].name
 
   indexes     = each.value.indexes
-  shard_key   = each.value.shard_key
   lock_enable = var.env_short != "p" ? false : true
 }
 
