@@ -13,6 +13,7 @@
 <policies>
     <inbound>
         <base />
+        <include-fragment fragment-id="idpay-validate-content-type" />
         <choose>
             <when condition="@(((string)context.Variables["groups"]).Contains("EnrollToIDPay"))">
                 <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
