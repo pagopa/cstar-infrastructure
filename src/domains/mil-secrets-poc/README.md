@@ -16,6 +16,14 @@
 | <a name="requirement_external"></a> [external](#requirement\_external) | <= 2.2.3 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.47.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.107.0 |
+| <a name="provider_external"></a> [external](#provider\_external) | 2.2.3 |
+
 ## Modules
 
 | Name | Source | Version |
