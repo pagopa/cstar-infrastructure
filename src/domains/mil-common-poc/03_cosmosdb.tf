@@ -60,58 +60,41 @@ resource "azurerm_cosmosdb_mongo_database" "mil" {
 locals {
   collections = [
     {
-      name = "applications"
+      name = "citizen_consents"
       indexes = [{
         keys   = ["_id"]
         unique = true
         },
         {
-          keys   = ["name"]
-          unique = true
-        }
-      ]
-      shard_key = null
-    },
-    {
-      name = "mil-log-events"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        },
-        {
-          keys   = ["milId", "timestamp", "eventType"]
-          unique = true
-        }
-      ]
-      shard_key = null
-    },
-    {
-      name = "mils-migration-pm",
-      indexes = [
-        {
-          keys   = ["_id"] # mil id pm
+          keys   = ["hashedFiscalCode", "userId", "channelId"]
           unique = true
         },
         {
-          keys   = ["contractId"],
-          unique = true
-        }
-      ],
-      shard_key = null
-    },
-    {
-      name = "mils"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
+          keys   = ["hashedFiscalCode"]
+          unique = false
         },
         {
           keys   = ["userId"]
           unique = false
+        },
+        {
+          keys   = ["channelId"]
+          unique = false
         }
       ]
-      shard_key = "userId"
     },
+    {
+      name = "channel"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["entityId"]
+          unique = true
+        }
+      ]
+    }
   ]
 }
 
