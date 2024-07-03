@@ -11,6 +11,13 @@
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.106.1 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.3.2 |
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.47.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.106.1 |
+
 ## Modules
 
 | Name | Source | Version |

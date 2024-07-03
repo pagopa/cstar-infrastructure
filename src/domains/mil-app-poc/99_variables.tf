@@ -142,6 +142,10 @@ variable "enable" {
   }
 }
 
+variable "event_hub_port" {
+  type    = number
+  default = 9093
+}
 
 
 

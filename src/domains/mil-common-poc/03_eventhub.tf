@@ -62,53 +62,27 @@ module "eventhub_mil_configuration" {
 
   eventhubs = [
     {
-      name              = "${var.prefix}-${var.domain}-evh"
+      name              = "emd-courtesy-message"
       partitions        = 1
       message_retention = 1
       consumers = [
-        "${local.project}-notice-evt-rx",
+        "emd-courtesy-message-consumer-group",
       ]
       keys = [
         {
-          name   = "${local.project}-notice-evt-rx"
-          listen = true
+          name   = "emd-courtesy-message-producer"
+          listen = false
           send   = true
           manage = false
-        }
-      ]
-    },
-    {
-      name              = "${var.prefix}-${var.domain}-complete-evh"
-      partitions        = 1
-      message_retention = 1
-      consumers = [
-        "${local.project}-notice-evt-complete-rx",
-      ]
-      keys = [
+        },
         {
-          name   = "${local.project}-notice-evt-complete-rx"
+          name   = "emd-courtesy-message-consumer"
           listen = true
-          send   = true
+          send   = false
           manage = false
         }
       ]
-    },
-    {
-      name              = "${var.prefix}-${var.domain}-errors-evh"
-      partitions        = 1
-      message_retention = 1
-      consumers = [
-        "${local.project}-notice-evt-errors-rx",
-      ]
-      keys = [
-        {
-          name   = "${local.project}-notice-evt-errors-rx"
-          listen = true
-          send   = true
-          manage = false
-        }
-      ]
-    },
+    }
   ]
 }
 

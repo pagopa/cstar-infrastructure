@@ -1,0 +1,42 @@
+resource "kubernetes_config_map" "mil-common-poc" {
+  metadata {
+    name      = "mil-common-poc"
+    namespace = var.domain
+  }
+
+  data = {
+    TZ                = "Europe/Rome",
+    JAVA_TOOL_OPTIONS = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+  }
+
+}
+
+
+
+resource "kubernetes_config_map" "emd-eventhub" {
+  metadata {
+    name      = "emd-eventhub"
+    namespace = var.domain
+  }
+
+  data = {
+    kafka_broker            = "${local.product}-${var.domain}-evh.servicebus.windows.net:${var.event_hub_port}"
+    kafka_sasl_mechanism    = "PLAIN"
+    kafka_security_protocol = "SASL_SSL"
+
+    emd-courtesy-message-consumer-group = "emd-courtesy-message-consumer-group"
+    emd-courtesy-message_topic          = "emd-courtesy-message"
+  }
+
+}
+
+resource "kubernetes_config_map" "appinsights-config" {
+  metadata {
+    name      = "appinsights-config"
+    namespace = var.domain
+  }
+
+  data = {
+    "applicationinsights.json" = file("./k8s-file/appinsights-config/applicationinsights.json")
+  }
+}
