@@ -46,10 +46,12 @@
             JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
             return organization["fiscal_code"].ToString();
         }" />
+                <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
 
-        <include-fragment fragment-id="idpay-merchant-id-retriever" />
+                <include-fragment fragment-id="idpay-thumbprint-retriever" />
+                <include-fragment fragment-id="idpay-merchant-id-retriever" />
 
-        <set-variable name="idpayPortalToken" value="@{
+                <set-variable name="idpayPortalToken" value="@{
                     Jwt selcToken = (Jwt)context.Variables["outputToken"];
                     var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
                         new {
@@ -74,28 +76,28 @@
                     var org_party_role = organization.Value<JArray>("roles").First().Value<string>("partyRole");
                     var org_role = organization.Value<JArray>("roles").First().Value<string>("role");
                     var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                    new {
-                    iat,
-                    exp,
-                    aud,
-                    iss,
-                    uid,
-                    name,
-                    family_name,
-                    email,
-                    acquirer_id,
-                    merchant_id,
-                    org_id,
-                    org_vat,
-                    org_name,
-                    org_party_role,
-                    org_role
-                    }
+                        new {
+                            iat,
+                            exp,
+                            aud,
+                            iss,
+                            uid,
+                            name,
+                            family_name,
+                            email,
+                            acquirer_id,
+                            merchant_id,
+                            org_id,
+                            org_vat,
+                            org_name,
+                            org_party_role,
+                            org_role
+                        }
                     ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
 
                     var message = ($"{JOSEProtectedHeader}.{payload}");
 
-                    using (RSA rsa = context.Deployment.Certificates["${jwt_cert_signing_thumbprint}"].GetRSAPrivateKey())
+                    using (RSA rsa = context.Deployment.Certificates[(string)context.Variables["thumbprint"]].GetRSAPrivateKey())
                     {
                         var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                         return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
@@ -104,9 +106,9 @@
                     return message;
 
                 }" />
-        <return-response>
-            <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
-        </return-response>
+                <return-response>
+                    <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
+                </return-response>
     </inbound>
     <backend>
         <base />

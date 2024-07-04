@@ -11,94 +11,98 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-    <inbound>
-        <cors allow-credentials="true">
-            <allowed-origins>
+	<inbound>
+		<cors allow-credentials="true">
+			<allowed-origins>
               %{ for origin in origins ~}
-              <origin>${origin}</origin>
+				<origin>${origin}</origin>
               %{ endfor ~}
-            </allowed-origins>
-            <allowed-methods preflight-result-max-age="300">
-                <method>*</method>
-            </allowed-methods>
-            <allowed-headers>
-                <header>*</header>
-            </allowed-headers>
-            <expose-headers>
-                <header>*</header>
-            </expose-headers>
-        </cors>
-        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="outputToken">
-            <openid-config url="${openid-config-url}" />
-            <audiences>
-                <audience>idpay.welfare.pagopa.it</audience>
-            </audiences>
-            <issuers>
-                <issuer>${selfcare-issuer}</issuer>
-            </issuers>
-        </validate-jwt>
-        <set-variable name="idpayPortalToken" value="@{
-                    Jwt selcToken = (Jwt)context.Variables["outputToken"];
-                    var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                        new { 
-                            typ = "JWT", 
-                            alg = "RS256" 
-                        }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                    
-                    var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
-                    var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
-                    var aud = "idpay.welfare.pagopa.it";
-                    var iss = "https://api-io.dev.cstar.pagopa.it";
-                    var uid = selcToken.Claims.GetValueOrDefault("uid", "");
-                    var name = selcToken.Claims.GetValueOrDefault("name", "");
-                    var family_name = selcToken.Claims.GetValueOrDefault("family_name", "");
-                    var email = selcToken.Claims.GetValueOrDefault("email", "");
-                    JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
-                    var org_id = organization["id"];
-                    var org_vat = organization["fiscal_code"];
-                    var org_name = organization["name"];              
-                    var org_party_role = organization.Value<JArray>("roles").First().Value<string>("partyRole");
-                    var org_role = organization.Value<JArray>("roles").First().Value<string>("role");
-                    var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                    new {
-                    iat,
-                    exp,
-                    aud,
-                    iss,
-                    uid,
-                    name,
-                    family_name,
-                    email,
-                    org_id,
-                    org_vat,
-                    org_name,
-                    org_party_role,
-                    org_role
-                    }
-                    ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+			</allowed-origins>
+			<allowed-methods preflight-result-max-age="300">
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+			<expose-headers>
+				<header>*</header>
+			</expose-headers>
+		</cors>
+		<validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="outputToken">
+			<openid-config url="${openid-config-url}" />
+			<audiences>
+				<audience>idpay.welfare.pagopa.it</audience>
+			</audiences>
+			<issuers>
+				<issuer>${selfcare-issuer}</issuer>
+			</issuers>
+		</validate-jwt>
+          <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
 
-                    var message = ($"{JOSEProtectedHeader}.{payload}");
+          <include-fragment fragment-id="idpay-thumbprint-retriever" />
 
-                    using (RSA rsa = context.Deployment.Certificates["${jwt_cert_signing_thumbprint}"].GetRSAPrivateKey())
-                    {
-                        var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-                        return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                    }                    
+					<set-variable name="idpayPortalToken" value="@{
+                          Jwt selcToken = (Jwt)context.Variables["outputToken"];
+                          var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                              new {
+                                  typ = "JWT",
+                                  alg = "RS256"
+                              }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
 
-                    return message;
-                    
-                }" />
-        <return-response>
-            <set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
-        </return-response>
-    </inbound>
-    <backend>
-        <base />
-    </backend>
-    <outbound>
-        <base />
-    </outbound>
-    <on-error>
-        <base />
-    </on-error>
-</policies>
+                          var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
+                          var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
+                          var aud = "idpay.welfare.pagopa.it";
+                          var iss = "https://api-io.dev.cstar.pagopa.it";
+                          var uid = selcToken.Claims.GetValueOrDefault("uid", "");
+                          var name = selcToken.Claims.GetValueOrDefault("name", "");
+                          var family_name = selcToken.Claims.GetValueOrDefault("family_name", "");
+                          var email = selcToken.Claims.GetValueOrDefault("email", "");
+                          JObject organization = JObject.Parse(selcToken.Claims.GetValueOrDefault("organization", "{}"));
+                          var org_id = organization["id"];
+                          var org_vat = organization["fiscal_code"];
+                          var org_name = organization["name"];
+                          var org_party_role = organization.Value<JArray>("roles").First().Value<string>("partyRole");
+                          var org_role = organization.Value<JArray>("roles").First().Value<string>("role");
+                          var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                          new {
+                          iat,
+                          exp,
+                          aud,
+                          iss,
+                          uid,
+                          name,
+                          family_name,
+                          email,
+                          org_id,
+                          org_vat,
+                          org_name,
+                          org_party_role,
+                          org_role
+                          }
+                          ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+
+                          var message = ($"{JOSEProtectedHeader}.{payload}");
+
+                          using (RSA rsa = context.Deployment.Certificates[(string)context.Variables["thumbprint"]].GetRSAPrivateKey())
+                          {
+                              var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                              return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
+                          }
+
+                          return message;
+
+                    }" />
+									<return-response>
+										<set-body>@((string)context.Variables["idpayPortalToken"])</set-body>
+									</return-response>
+						</inbound>
+						<backend>
+							<base />
+						</backend>
+						<outbound>
+							<base />
+						</outbound>
+						<on-error>
+							<base />
+						</on-error>
+					</policies>

@@ -30,61 +30,66 @@
             </expose-headers>
         </cors>
         <!--base: End Global scope-->
-        <set-variable name="idpayPortalTestToken" value="@{
-			var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-				new {
-					typ = "JWT",
-					alg = "RS256"
-				}))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+                <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
 
-			var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
-			var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
-			var aud = context.Request.Body.As<JObject>(preserveContent: true)["aud"];
-			var iss = context.Request.Body.As<JObject>(preserveContent: true)["iss"];
-			var uid = context.Request.Body.As<JObject>(preserveContent: true)["uid"];
-			var name = context.Request.Body.As<JObject>(preserveContent: true)["name"];
-			var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
-			var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
-			var acquirer_id = context.Request.Body.As<JObject>(preserveContent: true)["acquirerId"];
-			var merchant_id = context.Request.Body.As<JObject>(preserveContent: true)["merchantId"];
-			var org_id = context.Request.Body.As<JObject>(preserveContent: true)["orgId"];
-			var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"];
-			var org_name = context.Request.Body.As<JObject>(preserveContent: true)["orgName"];
-			var org_party_role = context.Request.Body.As<JObject>(preserveContent: true)["orgPartyRole"];
-			var org_role = context.Request.Body.As<JObject>(preserveContent: true)["orgRole"];
-			var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-			new {
-				iat,
-				exp,
-				aud,
-				iss,
-				uid,
-				name,
-				family_name,
-				email,
-				acquirer_id,
-				merchant_id,
-				org_id,
-				org_vat,
-				org_name,
-				org_party_role,
-				org_role
-			}
-			))).Split('=')[0].Replace('+', '-').Replace('/', '_');
+                <include-fragment fragment-id="idpay-thumbprint-retriever" />
 
-			var message = ($"{JOSEProtectedHeader}.{payload}");
+                <set-variable name="idpayPortalTestToken" value="@{
+                    var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                        new {
+                            typ = "JWT",
+                            alg = "RS256"
+                        }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
 
-			using (RSA rsa = context.Deployment.Certificates["${jwt_cert_signing_thumbprint}"].GetRSAPrivateKey())
-			{
-				var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-				return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
-			}
+                    var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
+                    var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
+                    var aud = context.Request.Body.As<JObject>(preserveContent: true)["aud"];
+                    var iss = context.Request.Body.As<JObject>(preserveContent: true)["iss"];
+                    var uid = context.Request.Body.As<JObject>(preserveContent: true)["uid"];
+                    var name = context.Request.Body.As<JObject>(preserveContent: true)["name"];
+                    var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
+                    var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
+                    var acquirer_id = context.Request.Body.As<JObject>(preserveContent: true)["acquirerId"];
+                    var merchant_id = context.Request.Body.As<JObject>(preserveContent: true)["merchantId"];
+                    var org_id = context.Request.Body.As<JObject>(preserveContent: true)["orgId"];
+                    var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"];
+                    var org_name = context.Request.Body.As<JObject>(preserveContent: true)["orgName"];
+                    var org_party_role = context.Request.Body.As<JObject>(preserveContent: true)["orgPartyRole"];
+                    var org_role = context.Request.Body.As<JObject>(preserveContent: true)["orgRole"];
+                    var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                        new {
+                            iat,
+                            exp,
+                            aud,
+                            iss,
+                            uid,
+                            name,
+                            family_name,
+                            email,
+                            acquirer_id,
+                            merchant_id,
+                            org_id,
+                            org_vat,
+                            org_name,
+                            org_party_role,
+                            org_role
+                        }
+                    ))).Split('=')[0].Replace('+', '-').Replace('/', '_');
 
-			return message;
-			}" />
-        <return-response>
-            <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
-        </return-response>
+                    var message = ($"{JOSEProtectedHeader}.{payload}");
+
+	              		using (RSA rsa = context.Deployment.Certificates[(string)context.Variables["thumbprint"]].GetRSAPrivateKey())
+                    {
+                        var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                        return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
+                    }
+
+                    return message;
+                }" />
+
+                <return-response>
+                    <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
+                </return-response>
     </inbound>
     <backend>
         <!--base: Begin Global scope-->

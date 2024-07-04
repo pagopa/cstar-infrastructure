@@ -38,17 +38,21 @@
                         </send-request>
                         <choose>
                             <when condition="@(((IResponse)context.Variables["organizationReturnedResponse"]).StatusCode == 200)">
+                                <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
+
+                                <include-fragment fragment-id="idpay-thumbprint-retriever" />
+
                                 <set-variable name="idpayPortalTestToken" value="@{
                                         var responseJObject = ((IResponse)context.Variables["organizationReturnedResponse"]).Body.As<JObject>(true);
                                         string organizationId = (string)responseJObject["organizationId"];
                                         string organizationName = (string)responseJObject["organizationName"];
-                                        
+
                                         var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                                            new { 
-                                                typ = "JWT", 
-                                                alg = "RS256" 
+                                            new {
+                                                typ = "JWT",
+                                                alg = "RS256"
                                             }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                                        
+
                                         var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
                                         var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
                                         var aud = context.Request.Body.As<JObject>(preserveContent: true)["aud"];
@@ -58,7 +62,7 @@
                                         var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
                                         var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
                                         var org_id = organizationId;
-                                        var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"]; 
+                                        var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"];
                                         var org_name = organizationName;
                                         var org_party_role = context.Request.Body.As<JObject>(preserveContent: true)["orgPartyRole"];
                                         var org_role = context.Request.Body.As<JObject>(preserveContent: true)["orgRole"];
@@ -82,17 +86,17 @@
 
                                         var message = ($"{JOSEProtectedHeader}.{payload}");
 
-                                        using (RSA rsa = context.Deployment.Certificates["${jwt_cert_signing_thumbprint}"].GetRSAPrivateKey())
+                                        using (RSA rsa = context.Deployment.Certificates[(string)context.Variables["thumbprint"]].GetRSAPrivateKey())
                                         {
                                             var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                                             return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                                        }                    
+                                        }
 
-                                        return message;  
+                                        return message;
                                         }" />
-                                <return-response>
-                                    <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
-                                </return-response>
+                                                    <return-response>
+                                                        <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
+                                                    </return-response>
                             </when>
                             <otherwise>
                                 <return-response>
@@ -106,13 +110,17 @@
             </when>
             <!-- Otherwise header does not exist. Sample request from any operator (not belonging PagoPA organization)-->
             <otherwise>
+                 <set-variable name="requestUrl" value="${key_vault_secret_url}"/>
+
+                 <include-fragment fragment-id="idpay-thumbprint-retriever" />
+
                 <set-variable name="idpayPortalTestToken" value="@{
                             var JOSEProtectedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
-                                new { 
-                                    typ = "JWT", 
-                                    alg = "RS256" 
+                                new {
+                                    typ = "JWT",
+                                    alg = "RS256"
                                 }))).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                            
+
                             var iat = DateTimeOffset.Now.ToUnixTimeSeconds();
                             var exp = new DateTimeOffset(DateTime.Now.AddHours(8)).ToUnixTimeSeconds();  // sets the expiration of the token to be 8 hours from now
                             var aud = context.Request.Body.As<JObject>(preserveContent: true)["aud"];
@@ -122,8 +130,8 @@
                             var family_name = context.Request.Body.As<JObject>(preserveContent: true)["familyName"];
                             var email = context.Request.Body.As<JObject>(preserveContent: true)["email"];
                             var org_id = context.Request.Body.As<JObject>(preserveContent: true)["orgId"];
-                            var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"]; 
-                            var org_name = context.Request.Body.As<JObject>(preserveContent: true)["orgName"];              
+                            var org_vat = context.Request.Body.As<JObject>(preserveContent: true)["orgVAT"];
+                            var org_name = context.Request.Body.As<JObject>(preserveContent: true)["orgName"];
                             var org_party_role = context.Request.Body.As<JObject>(preserveContent: true)["orgPartyRole"];
                             var org_role = context.Request.Body.As<JObject>(preserveContent: true)["orgRole"];
                             var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
@@ -146,18 +154,18 @@
 
                             var message = ($"{JOSEProtectedHeader}.{payload}");
 
-                            using (RSA rsa = context.Deployment.Certificates["${jwt_cert_signing_thumbprint}"].GetRSAPrivateKey())
+                            using (RSA rsa = context.Deployment.Certificates[(string)context.Variables["thumbprint"]].GetRSAPrivateKey())
                             {
                                 var signature = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                                 return message + "." + Convert.ToBase64String(signature).Split('=')[0].Replace('+', '-').Replace('/', '_');
-                            }                    
+                            }
 
                             return message;
-                            
-                        }" />
-                <return-response>
-                    <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
-                </return-response>
+
+                            }" />
+                    <return-response>
+                        <set-body>@((string)context.Variables["idpayPortalTestToken"])</set-body>
+                    </return-response>
             </otherwise>
         </choose>
     </inbound>
