@@ -25,7 +25,7 @@ resource "kubernetes_config_map" "emd-eventhub" {
     kafka_security_protocol = "SASL_SSL"
 
     emd-courtesy-message-consumer-group = "emd-courtesy-message-consumer-group"
-    emd-courtesy-message_topic          = "emd-courtesy-message"
+    emd_courtesy_message_topic          = "emd-courtesy-message"
   }
 
 }
