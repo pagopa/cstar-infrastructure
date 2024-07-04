@@ -1,3 +1,8 @@
+locals {
+  jaas_config_template_idpay = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
+}
+
+
 resource "azurerm_resource_group" "eventhub_ita_rg" {
   name     = local.eventhub_resource_group_name
   location = var.location
@@ -49,6 +54,18 @@ module "eventhub_mil_namespace" {
 
   tags = var.tags
 }
+
+#tfsec:ignore:AZU023
+resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
+  for_each = module.eventhub_mil_configuration[0].key_ids
+
+  name         = format("evh-%s-%s-emd", replace(each.key, ".", "-"), "jaas-config")
+  value        = format(local.jaas_config_template_idpay, module.eventhub_mil_configuration[0].keys[each.key].primary_connection_string)
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+}
+
 
 #
 # CONFIGURATION
