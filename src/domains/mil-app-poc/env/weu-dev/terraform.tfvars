@@ -43,4 +43,4 @@ enable = {
 }
 
 # Rate limit
-rate_limit_emd_product           = 2000
+rate_limit_emd_product = 2000
