@@ -114,8 +114,8 @@ module "cosmosdb_mil_collections" {
 #---------------------------------------------------------------------------------
 resource "azurerm_key_vault_secret" "cosmosdb_account_mongodb_connection_strings" {
   name         = "mongodb-connection-string"
-  value        =  module.cosmosdb_account_mongodb[0].connection_strings[0]
-  content_type =  "text/plain"
+  value        = module.cosmosdb_account_mongodb[0].connection_strings[0]
+  content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id
 }
