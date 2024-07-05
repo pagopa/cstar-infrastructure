@@ -41,3 +41,6 @@ external_domain          = "pagopa.it"
 #
 enable = {
 }
+
+# Rate limit
+rate_limit_emd_product           = 2000
