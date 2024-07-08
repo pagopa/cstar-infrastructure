@@ -1387,17 +1387,27 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
       | extend CommonFilename = tostring(split(Message, '/', 6)[0])
       | project CommonFilename = replace_string(replace_string(CommonFilename, "TRNLOG.", ""), ".csv.pgp", "");
       let failedGet = AppTraces
-      | where AppRoleName == "rtddecrypter"
+      |where TimeGenerated >= evaluation_start_time
+        and AppRoleName == "rtddecrypter"
         and SeverityLevel == 3
         and Message startswith "Cannot GET blob "
       | extend Filename = tostring(extract(@"Cannot GET blob (.*)", 1, Message))
       | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
+      let failedPut = AppTraces
+      | where TimeGenerated >= evaluation_start_time
+        and AppRoleName == "rtddecrypter"
+        and SeverityLevel == 3
+        and Message startswith "Cannot PUT blob "
+        and Message !endswith "Invalid HTTP response: 409, The specified blob already exists."
+      | extend Filename = tostring(extract(@"Cannot PUT of blob (.*) in (.*)", 1, Message))
+      | project CommonFilename = trim('.{3}$',replace_string(tostring(split(Filename, ' ')[0]), 'AGGADE.', ''));
       let decryptedAndFailures = decrypted
           | union cannotDecrypt
               | union noDataFound
                   | union notVerified
                       | union wrongNameFormat
-                        | union failedGet;
+                        | union failedGet
+                          | union failedPut;
       encrypted
           | join kind = leftanti decryptedAndFailures on CommonFilename
       QUERY
@@ -1705,3 +1715,55 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cannot_get_encrypted_
   }
 }
 
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cannot_put_decrypted_file" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-decrypter-cannot-put-decrypted-file"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtddecrypter"
+      | where SeverityLevel == 3
+      | where Message startswith "Cannot PUT blob "
+      | where Message !endswith "Invalid HTTP response: 409, The specified blob already exists."
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers whenever at least one decrypted blob cannot be uploaded by decrypter."
+  display_name                     = "cstar-${var.env_short}-decrypter-cannot-put-decrypted-file-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
