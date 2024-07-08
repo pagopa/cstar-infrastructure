@@ -6,7 +6,7 @@ locals {
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
-  ingress_hostname_prefix               = var.domain
+  ingress_hostname_prefix               = "${var.domain}.${var.location_short}"
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
@@ -27,7 +27,7 @@ locals {
   system_domain_namespace = "${var.domain}-system"
   domain_namespace        = var.domain
 
-  domain_aks_hostname = var.env == "prod" ? "${var.domain}.internal.cstar.pagopa.it" : "${var.domain}.internal.${var.env}.cstar.pagopa.it"
+  domain_aks_hostname = var.env == "prod" ? "${local.ingress_hostname_prefix}.internal.cstar.pagopa.it" : "${local.ingress_hostname_prefix}.internal.${var.env}.cstar.pagopa.it"
 
   ingress_load_balancer_https = "https://${var.ingress_load_balancer_hostname}"
 }
