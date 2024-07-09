@@ -14,7 +14,7 @@
     "source": {
       "type": "CosmosDbSqlApiSource",
       "query": {
-        "value": "@concat('SELECT DISTINCT c.sourceFileName FROM c where c.transmissionDate < \"',formatDateTime(subtractFromTime(utcNow(), pipeline().parameters.min_days_old, 'Day'), 'yyyy-MM-dd'), '\"')",
+        "value": "@concat('SELECT DISTINCT c.sourceFileName FROM c where c.transmissionDate < \"',formatDateTime(subtractFromTime(utcNow(), int(pipeline().parameters.min_days_old), 'Day'), 'yyyy-MM-dd'), '\"')",
         "type": "Expression"
       },
       "preferredRegions": [],
