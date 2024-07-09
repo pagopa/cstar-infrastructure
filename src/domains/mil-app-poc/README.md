@@ -6,7 +6,7 @@
 |------|---------|
 | <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | >=0.1.1 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.50.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.105.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.111.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.12.1 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | <= 2.30.2 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
@@ -15,8 +15,8 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_emd_api_product"></a> [emd\_api\_product](#module\_emd\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v6.15.2 |
-| <a name="module_emd_message_core"></a> [emd\_message\_core](#module\_emd\_message\_core) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v6.15.2 |
+| <a name="module_emd_api_product"></a> [emd\_api\_product](#module\_emd\_api\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v8.22.0 |
+| <a name="module_emd_message_core"></a> [emd\_message\_core](#module\_emd\_message\_core) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v8.22.0 |
 | <a name="module_kubernetes_service_account"></a> [kubernetes\_service\_account](#module\_kubernetes\_service\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_service_account | v8.22.0 |
 | <a name="module_pod_identity"></a> [pod\_identity](#module\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v8.22.0 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker | v8.22.0 |
@@ -25,7 +25,7 @@
 
 | Name | Type |
 |------|------|
-| [azapi_resource.apim-validate-token-mil](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
+| [azurerm_api_management_policy_fragment.apim-validate-token-mil](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_policy_fragment) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.appinsights-instrumentation-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
