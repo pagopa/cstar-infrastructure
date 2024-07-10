@@ -1,3 +1,8 @@
+locals {
+  jaas_config_template_idpay = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
+}
+
+
 resource "azurerm_resource_group" "eventhub_ita_rg" {
   name     = local.eventhub_resource_group_name
   location = var.location
@@ -50,6 +55,18 @@ module "eventhub_mil_namespace" {
   tags = var.tags
 }
 
+#tfsec:ignore:AZU023
+resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
+  for_each = module.eventhub_mil_configuration[0].key_ids
+
+  name         = format("evh-%s-%s-emd", replace(each.key, ".", "-"), "jaas-config")
+  value        = format(local.jaas_config_template_idpay, module.eventhub_mil_configuration[0].keys[each.key].primary_connection_string)
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+}
+
+
 #
 # CONFIGURATION
 #
@@ -62,53 +79,27 @@ module "eventhub_mil_configuration" {
 
   eventhubs = [
     {
-      name              = "${var.prefix}-${var.domain}-evh"
+      name              = "emd-courtesy-message"
       partitions        = 1
       message_retention = 1
       consumers = [
-        "${local.project}-notice-evt-rx",
+        "emd-courtesy-message-consumer-group",
       ]
       keys = [
         {
-          name   = "${local.project}-notice-evt-rx"
-          listen = true
+          name   = "emd-courtesy-message-producer"
+          listen = false
           send   = true
           manage = false
-        }
-      ]
-    },
-    {
-      name              = "${var.prefix}-${var.domain}-complete-evh"
-      partitions        = 1
-      message_retention = 1
-      consumers = [
-        "${local.project}-notice-evt-complete-rx",
-      ]
-      keys = [
+        },
         {
-          name   = "${local.project}-notice-evt-complete-rx"
+          name   = "emd-courtesy-message-consumer"
           listen = true
-          send   = true
+          send   = false
           manage = false
         }
       ]
-    },
-    {
-      name              = "${var.prefix}-${var.domain}-errors-evh"
-      partitions        = 1
-      message_retention = 1
-      consumers = [
-        "${local.project}-notice-evt-errors-rx",
-      ]
-      keys = [
-        {
-          name   = "${local.project}-notice-evt-errors-rx"
-          listen = true
-          send   = true
-          manage = false
-        }
-      ]
-    },
+    }
   ]
 }
 

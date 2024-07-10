@@ -60,58 +60,37 @@ resource "azurerm_cosmosdb_mongo_database" "mil" {
 locals {
   collections = [
     {
-      name = "applications"
+      name = "citizen_consents"
       indexes = [{
         keys   = ["_id"]
         unique = true
         },
         {
-          keys   = ["name"]
-          unique = true
-        }
-      ]
-      shard_key = null
-    },
-    {
-      name = "mil-log-events"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        },
-        {
-          keys   = ["milId", "timestamp", "eventType"]
-          unique = true
-        }
-      ]
-      shard_key = null
-    },
-    {
-      name = "mils-migration-pm",
-      indexes = [
-        {
-          keys   = ["_id"] # mil id pm
+          keys   = ["hashedFiscalCode", "channelId"]
           unique = true
         },
         {
-          keys   = ["contractId"],
-          unique = true
-        }
-      ],
-      shard_key = null
-    },
-    {
-      name = "mils"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
+          keys   = ["hashedFiscalCode"]
+          unique = false
         },
         {
-          keys   = ["userId"]
+          keys   = ["channelId"]
           unique = false
         }
       ]
-      shard_key = "userId"
     },
+    {
+      name = "channel"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["entityId"]
+          unique = true
+        }
+      ]
+    }
   ]
 }
 
@@ -127,8 +106,18 @@ module "cosmosdb_mil_collections" {
   cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.mil[0].name
 
   indexes     = each.value.indexes
-  shard_key   = each.value.shard_key
   lock_enable = var.env_short != "p" ? false : true
+}
+
+#---------------------------------------------------------------------------------
+# Secrets
+#---------------------------------------------------------------------------------
+resource "azurerm_key_vault_secret" "cosmosdb_account_mongodb_connection_strings" {
+  name         = "mongodb-connection-string"
+  value        = module.cosmosdb_account_mongodb[0].connection_strings[0]
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
 }
 
 # -----------------------------------------------

@@ -39,4 +39,8 @@ locals {
 
   eventhub_resource_group_name = "${local.project}-evh-rg"
 
+  # KV
+  kv_domain_name    = "cstar-${var.env_short}-weu-mil-kv"
+  kv_domain_rg_name = "cstar-${var.env_short}-weu-mil-sec-rg"
+
 }
