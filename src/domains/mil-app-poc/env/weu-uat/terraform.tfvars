@@ -45,3 +45,6 @@ enable = {
 
 # Rate limit
 rate_limit_emd_product = 2000
+
+#Event hub
+event_hub_port = 9093

@@ -143,12 +143,10 @@ variable "enable" {
 }
 
 variable "event_hub_port" {
-  type    = number
-  default = 9093
+  type = number
 }
 
 variable "rate_limit_emd_product" {
   type        = number
   description = "Rate limit for MIN INT product"
-  default     = 1000
 }
