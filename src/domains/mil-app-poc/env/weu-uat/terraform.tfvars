@@ -29,7 +29,7 @@ aks_vmss_name           = "aks-cstuat01usr-39999986-vmss"
 aks_cluster_domain_name = "uat01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
-ingress_load_balancer_hostname = "mil.internal.uat.cstar.pagopa.it"
+ingress_load_balancer_hostname = "mil.weu.internal.uat.cstar.pagopa.it"
 
 #
 # Dns
