@@ -11,7 +11,7 @@ resource "azurerm_private_dns_a_record" "ingress" {
 #
 
 module "cosmosdb_mil_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.20.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.22.0"
   name                 = "${local.project}-cosmosb-snet"
   address_prefixes     = var.cidr_subnet_cosmosdb_mil
   resource_group_name  = local.vnet_weu_resource_group_name
@@ -26,7 +26,7 @@ module "cosmosdb_mil_snet" {
 }
 
 module "evenhub_mil_snet" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.20.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.22.0"
 
   name                                      = "${local.project}-evhub-snet"
   address_prefixes                          = var.cidr_subnet_eventhub_mil
@@ -36,7 +36,7 @@ module "evenhub_mil_snet" {
 }
 
 module "storage_mil_snet" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.20.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.22.0"
 
   name                 = "${local.project}-storage-snet"
   address_prefixes     = var.cidr_subnet_storage_mil
