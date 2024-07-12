@@ -1,5 +1,5 @@
 locals {
-  jaas_config_template_idpay = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
+  jaas_config_template_emd = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
 }
 
 
@@ -60,7 +60,7 @@ resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
   for_each = module.eventhub_mil_configuration[0].key_ids
 
   name         = format("evh-%s-%s-emd", replace(each.key, ".", "-"), "jaas-config")
-  value        = format(local.jaas_config_template_idpay, module.eventhub_mil_configuration[0].keys[each.key].primary_connection_string)
+  value        = format(local.jaas_config_template_emd, module.eventhub_mil_configuration[0].keys[each.key].primary_connection_string)
   content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id

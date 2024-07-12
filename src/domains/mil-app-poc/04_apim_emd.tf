@@ -13,10 +13,10 @@ module "emd_api_product" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   published             = true
-  subscription_required = true
-  approval_required     = true
+  subscription_required = false
+  approval_required     = false
 
-  subscriptions_limit = 50
+  subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/emd/policy_emd.xml", {
     rate_limit_emd = var.rate_limit_emd_product
@@ -47,7 +47,7 @@ module "emd_message_core" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.emd_api_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {

@@ -29,7 +29,7 @@ aks_vmss_name           = "aks-cstprod01usr-18685956-vmss"
 aks_cluster_domain_name = "prod01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
-ingress_load_balancer_hostname = "mil.internal.cstar.pagopa.it"
+ingress_load_balancer_hostname = "mil.weu.internal.cstar.pagopa.it"
 
 #
 # Dns
