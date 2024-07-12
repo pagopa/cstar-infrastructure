@@ -36,7 +36,7 @@ locals {
   ingress_load_balancer_https = "https://${var.ingress_load_balancer_hostname}"
 
   ### EventHub
-  eventhub_mil_namespace_name = "cstar-${var.env_short}-${var.location_short}-mil-evh"
+  eventhub_mil_namespace_name    = "cstar-${var.env_short}-${var.location_short}-mil-evh"
   eventhub_mil_namespace_rg_name = "cstar-${var.env_short}-${var.location_short}-mil-evh-rg"
 
 }
