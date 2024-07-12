@@ -11,8 +11,6 @@ resource "kubernetes_config_map" "mil-common-poc" {
 
 }
 
-
-
 resource "kubernetes_config_map" "emd-eventhub" {
   metadata {
     name      = "emd-eventhub"
@@ -20,7 +18,7 @@ resource "kubernetes_config_map" "emd-eventhub" {
   }
 
   data = {
-    kafka_broker            = "${local.product}-${var.domain}-evh.servicebus.windows.net:${var.event_hub_port}"
+    kafka_broker            = "${data.azurerm_eventhub_namespace.eventhub_mil.name}.servicebus.windows.net:${var.event_hub_port}"
     kafka_sasl_mechanism    = "PLAIN"
     kafka_security_protocol = "SASL_SSL"
 
