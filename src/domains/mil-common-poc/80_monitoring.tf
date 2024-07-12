@@ -1,6 +1,6 @@
 # module "web_test_availability_alert_rules_for_api" {
 #   for_each = { for v in local.test_urls : v.host => v if v != null }
-#   source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_web_test_preview?ref=v8.20.1"
+#   source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_web_test_preview?ref=v8.22.0"
 #
 #   subscription_id                   = data.azurerm_subscription.current.subscription_id
 #   name                              = "test-avail-${each.value.host}"

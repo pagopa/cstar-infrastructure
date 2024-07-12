@@ -34,4 +34,9 @@ locals {
   domain_aks_hostname = var.env == "prod" ? "${local.ingress_hostname_prefix}.internal.cstar.pagopa.it" : "${local.ingress_hostname_prefix}.internal.${var.env}.cstar.pagopa.it"
 
   ingress_load_balancer_https = "https://${var.ingress_load_balancer_hostname}"
+
+  ### EventHub
+  eventhub_mil_namespace_name    = "cstar-${var.env_short}-${var.location_short}-mil-evh"
+  eventhub_mil_namespace_rg_name = "cstar-${var.env_short}-${var.location_short}-mil-evh-rg"
+
 }

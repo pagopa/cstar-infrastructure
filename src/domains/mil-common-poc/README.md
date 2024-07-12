@@ -15,13 +15,13 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v8.20.1 |
-| <a name="module_cosmosdb_mil_collections"></a> [cosmosdb\_mil\_collections](#module\_cosmosdb\_mil\_collections) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v8.20.1 |
-| <a name="module_cosmosdb_mil_snet"></a> [cosmosdb\_mil\_snet](#module\_cosmosdb\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.20.1 |
-| <a name="module_evenhub_mil_snet"></a> [evenhub\_mil\_snet](#module\_evenhub\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.20.1 |
+| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v8.22.0 |
+| <a name="module_cosmosdb_mil_collections"></a> [cosmosdb\_mil\_collections](#module\_cosmosdb\_mil\_collections) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v8.22.0 |
+| <a name="module_cosmosdb_mil_snet"></a> [cosmosdb\_mil\_snet](#module\_cosmosdb\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.22.0 |
+| <a name="module_evenhub_mil_snet"></a> [evenhub\_mil\_snet](#module\_evenhub\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.22.0 |
 | <a name="module_eventhub_mil_configuration"></a> [eventhub\_mil\_configuration](#module\_eventhub\_mil\_configuration) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub_configuration | v8.22.0 |
 | <a name="module_eventhub_mil_namespace"></a> [eventhub\_mil\_namespace](#module\_eventhub\_mil\_namespace) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v8.22.0 |
-| <a name="module_storage_mil_snet"></a> [storage\_mil\_snet](#module\_storage\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.20.1 |
+| <a name="module_storage_mil_snet"></a> [storage\_mil\_snet](#module\_storage\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.22.0 |
 
 ## Resources
 
