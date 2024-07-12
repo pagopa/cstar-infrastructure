@@ -28,7 +28,7 @@ aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
 aks_cluster_domain_name = "dev01"
 
 ingress_load_balancer_ip       = "10.11.100.250"
-ingress_load_balancer_hostname = "mil.internal.dev.cstar.pagopa.it"
+ingress_load_balancer_hostname = "mil.weu.internal.dev.cstar.pagopa.it"
 
 #
 # Dns

@@ -10,10 +10,10 @@ info:
 
 servers:
   - description: Development Test
-    url: https://mil-d-apim.azure-api.net/emd/message-core
+    url: https://api-io.dev.cstar.pagopa.it/emd/message-core
     x-internal: true
   - description: User Acceptance Test
-    url: https://mil-u-apim.azure-api.net/emd/message-core
+    url: https://api-io.uat.cstar.pagopa.it/emd/message-core
     x-internal: true
 
 tags:
