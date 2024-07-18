@@ -25,7 +25,9 @@ module "nginx_ingress" {
   }
 
   values = [
-    "${templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", { load_balancer_ip = var.ingress_load_balancer_ip })}"
+    templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", {
+      load_balancer_ip = var.ingress_load_balancer_ip
+    })
   ]
 
   set = [
