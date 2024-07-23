@@ -6,7 +6,7 @@ resource "kubernetes_config_map" "mil-common-poc" {
 
   data = {
     TZ                = "Europe/Rome",
-    JAVA_TOOL_OPTIONS = "-Xms128m -Xmx2g -javaagent:/app/applicationinsights-agent.jar"
+    JAVA_TOOL_OPTIONS = "-Xms256m -Xmx1g -javaagent:/app/applicationinsights-agent.jar"
   }
 
 }
