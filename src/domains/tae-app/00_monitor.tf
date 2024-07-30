@@ -1378,7 +1378,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
           and SeverityLevel == 3
           and Message startswith "Not all chunks are verified, no chunks will be uploaded"
       | project Filename = tostring(extract(@"Not all chunks are verified, no chunks will be uploaded of (.*)", 1, Message))
-      | project CommonFilename = replace_string(replace_string(Filename, "TRNLOG.", ""), ".csv.pgp", "");
+      | project CommonFilename = replace_string(replace_string(replace_string(Filename, "ADE.", ""), "TRNLOG.", ""), ".csv.pgp", "");
       let wrongNameFormat = AppTraces
       | where TimeGenerated >= evaluation_start_time
           and AppRoleName == "rtddecrypter"
