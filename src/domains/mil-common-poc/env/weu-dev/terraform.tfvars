@@ -135,4 +135,3 @@ ehns_metric_alerts = {
     ],
   },
 }
-

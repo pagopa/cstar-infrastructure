@@ -8,7 +8,7 @@
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.111.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.12.1 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | <= 2.30.2 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.2 |
 
 ## Modules
 
@@ -29,7 +29,6 @@
 | [azurerm_key_vault_secret.appinsights-instrumentation-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
-| [azurerm_private_dns_a_record.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [helm_release.cert_mounter](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [kubernetes_config_map.appinsights-config](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |

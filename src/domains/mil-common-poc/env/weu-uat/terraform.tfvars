@@ -39,7 +39,7 @@ ingress_load_balancer_ip = "10.11.100.250"
 ### DNS
 
 external_domain          = "pagopa.it"
-dns_zone_prefix          = "uat.mil"
+dns_zone_prefix          = "mil"
 dns_zone_internal_prefix = "internal.uat.cstar"
 
 ### Cosmos
@@ -64,7 +64,6 @@ cosmos_mongo_db_params = {
 
   backup_continuous_enabled = true
   ip_range_filter           = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26,13.88.56.148,40.91.218.243,13.91.105.215,4.210.172.107,40.80.152.199,13.95.130.121,20.245.81.54,40.118.23.126"
-
 }
 
 cosmos_mongo_db_mil_params = {
@@ -83,8 +82,8 @@ ehns_sku_name = "Standard"
 ehns_auto_inflate_enabled     = true
 ehns_maximum_throughput_units = 5
 ehns_capacity                 = 1
-ehns_alerts_enabled           = false
-ehns_zone_redundant           = false
+ehns_alerts_enabled           = false # True in prod
+ehns_zone_redundant           = false # True in prod
 
 ehns_public_network_access       = false
 ehns_private_endpoint_is_present = true
