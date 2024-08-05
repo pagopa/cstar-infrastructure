@@ -27,8 +27,7 @@ module "snet_aks" {
 
 module "aks" {
   count  = var.aks_enabled ? 1 : 0
-#   source = "./.terraform/modules/__v3__/kubernetes_cluster"
-    source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=fix-aks-parameters"
+  source = "./.terraform/modules/__v3__/kubernetes_cluster"
 
   name                                          = local.aks_cluster_name
   location                                      = azurerm_resource_group.rg_aks.location
@@ -39,6 +38,10 @@ module "aks" {
   microsoft_defender_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_log_analytics_workspace.log_analytics_workspace.id : null
 
   sku_tier = var.aks_sku_tier
+
+  workload_identity_enabled = var.env_short == "d" ? true : false
+  oidc_issuer_enabled       = var.env_short == "d" ? true : false
+
 
   #
   # 🤖 System node pool
