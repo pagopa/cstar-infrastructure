@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_aks" {
 
 # k8s cluster subnet
 module "snet_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.20.0"
+  source = "./.terraform/modules/__v3__/subnet"
   name   = "${local.project}-aks-snet"
 
   resource_group_name  = data.azurerm_resource_group.vnet_aks_rg.name
@@ -27,7 +27,7 @@ module "snet_aks" {
 
 module "aks" {
   count  = var.aks_enabled ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.33.0"
+  source = "./.terraform/modules/__v3__/kubernetes_cluster"
 
   name                                          = local.aks_cluster_name
   location                                      = azurerm_resource_group.rg_aks.location
@@ -38,6 +38,10 @@ module "aks" {
   microsoft_defender_log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_log_analytics_workspace.log_analytics_workspace.id : null
 
   sku_tier = var.aks_sku_tier
+
+  workload_identity_enabled = var.env_short == "d" ? true : false
+  oidc_issuer_enabled       = var.env_short == "d" ? true : false
+
 
   #
   # 🤖 System node pool
@@ -91,7 +95,6 @@ module "aks" {
   }
   # end network
 
-  rbac_enabled        = true
   aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
 
   addon_azure_policy_enabled                     = var.aks_addons.azure_policy
@@ -141,5 +144,5 @@ resource "azurerm_role_assignment" "aks_to_acr" {
 }
 
 module "aks_storage_class" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.20.0"
+  source = "./.terraform/modules/__v3__/kubernetes_storage_class"
 }
