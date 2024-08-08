@@ -90,6 +90,38 @@ locals {
           unique = true
         }
       ]
+    },
+    {
+      name = "solutions"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "terminals"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "transactions"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "bulkLoadStatuses"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
     }
   ]
 }
