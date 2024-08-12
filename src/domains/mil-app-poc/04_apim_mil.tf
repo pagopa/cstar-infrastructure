@@ -6,8 +6,8 @@ resource "azurerm_api_management_product" "mil" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   product_id   = "mil"
-  display_name = "Multi-channel Integration Layer"
-  description  = "Multi-channel Integration Layer"
+  display_name = "MIL Multi-channel Integration Layer"
+  description  = "MIL Multi-channel Integration Layer"
 
   subscription_required = false
   published             = true
@@ -32,7 +32,7 @@ resource "azurerm_api_management_api" "papos" {
   api_management_name   = data.azurerm_api_management.apim_core.name
   revision              = "1"
   display_name          = "MIL PAPOS API"
-  description           = "PA POS Microservice for Multi-channel Integration Layer of SW Client Project"
+  description           = "PA POS Microservice for MIL Multi-channel Integration Layer of SW Client Project"
   path                  = var.mil_papos_path
   protocols             = ["https"]
   service_url           = format("https://%s", var.ingress_load_balancer_hostname)
