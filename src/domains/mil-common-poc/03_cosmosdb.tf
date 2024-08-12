@@ -122,6 +122,111 @@ locals {
         unique = true
         }
       ]
+    },
+    {
+      name = "terminal_registry"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        }
+      ]
+    },
+    {
+      name = "presets"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["presetOperation.paTaxCode", "presetOperation.subscriberId", "presetOperation.status", "presetOperation.creationTimestamp"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "subscribers"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["subscriber.acquirerId", "subscriber.channel", "subscriber.merchantId", "subscriber.terminalId", "subscriber.paTaxCode"]
+          unique = false
+        },
+        {
+          keys   = ["subscriber.paTaxCode", "subscriber.subscriberId"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "paymentTransactions"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys = ["paymentTransaction.terminalId",
+            "paymentTransaction.merchantId",
+            "paymentTransaction.channel",
+            "paymentTransaction.acquirerId",
+          "paymentTransaction.insertTimestamp"]
+          unique = false
+        },
+        {
+          keys   = ["paymentTransaction.insertTimestamp"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "idpayTransactions"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys = ["idpayTransaction.terminalId",
+            "idpayTransaction.merchantId",
+            "idpayTransaction.channel",
+            "idpayTransaction.acquirerId",
+            "idpayTransaction.timestamp",
+          "idpayTransaction.status"]
+          unique = false
+        },
+        {
+          keys   = ["transactionId"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "clients"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["clientId"]
+          unique = true
+        }
+      ]
+    },
+    {
+      name = "roles"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys = ["acquirerId",
+            "channel",
+            "clientId",
+            "merchantId",
+          "terminalId"]
+          unique = true
+        }
+      ]
     }
   ]
 }
