@@ -1,36 +1,3 @@
-
-# ------------------------------------------------------------------------------
-# Publisher e-mail will be taken from key-vault.
-# ------------------------------------------------------------------------------
-data "azurerm_key_vault_secret" "apim_publisher_email" {
-  name         = "apim-publisher-email"
-  key_vault_id = data.azurerm_key_vault.kv_domain.id
-}
-
-# ------------------------------------------------------------------------------
-# API Manager.
-# ------------------------------------------------------------------------------
-resource "azurerm_api_management" "mil" {
-  name                 = "${local.project}-apim"
-  resource_group_name  = data.azurerm_resource_group.apim_rg.name
-  location             = data.azurerm_resource_group.apim_rg.location
-  publisher_name       = var.apim_publisher_name
-  publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
-  sku_name             = var.apim_sku
-  virtual_network_type = "External"
-  tags                 = var.tags
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-  lifecycle {
-    ignore_changes = [
-      sku_name
-    ]
-  }
-}
-
 # ------------------------------------------------------------------------------
 # Product.
 # ------------------------------------------------------------------------------
@@ -46,7 +13,6 @@ resource "azurerm_api_management_product" "mil" {
   published             = true
 }
 
-
 resource "azurerm_api_management_product_policy" "mil_api_product" {
 
   product_id          = azurerm_api_management_product.mil.product_id
@@ -57,7 +23,6 @@ resource "azurerm_api_management_product_policy" "mil_api_product" {
 }
 
 
-
 # ------------------------------------------------------------------------------
 # API definition.
 # ------------------------------------------------------------------------------
@@ -66,7 +31,7 @@ resource "azurerm_api_management_api" "papos" {
   resource_group_name   = data.azurerm_resource_group.apim_rg.name
   api_management_name   = data.azurerm_api_management.apim_core.name
   revision              = "1"
-  display_name          = "papos"
+  display_name          = "MIL PAPOS API"
   description           = "PA POS Microservice for Multi-channel Integration Layer of SW Client Project"
   path                  = var.mil_papos_path
   protocols             = ["https"]
