@@ -15,6 +15,9 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
+apim_publisher_name = "PagoPA Centro Stella DEV"
+apim_sku            = "Developer_1"
+
 ### External resources
 
 monitor_resource_group_name                 = "cstar-d-monitor-rg"
@@ -47,3 +50,11 @@ rate_limit_emd_product = 2000
 
 #Event hub
 event_hub_port = 9093
+
+
+#
+# mil-papos
+#
+mil_papos_image              = "ghcr.io/pagopa/mil-papos:1.0.0-rc"
+mil_papos_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-papos/main/src/main/resources/META-INF/openapi.yaml"
+

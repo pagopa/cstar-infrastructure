@@ -24,6 +24,33 @@ variable "env_short" {
   }
 }
 
+variable "apim_publisher_name" {
+  type = string
+}
+
+variable "apim_sku" {
+  type = string
+}
+
+
+##
+## mil-papos
+##
+variable "mil_papos_path" {
+  type    = string
+  default = "mil-papos"
+}
+
+variable "mil_papos_openapi_descriptor" {
+  type = string
+}
+
+variable "mil_papos_image" {
+  type = string
+}
+
+
+
 variable "domain" {
   type = string
   validation {
