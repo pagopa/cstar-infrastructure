@@ -46,7 +46,7 @@ dns_zone_internal_prefix = "internal.dev.cstar"
 
 cosmos_mongo_db_params = {
   kind         = "MongoDB"
-  capabilities = ["EnableMongo", "EnableServerless"]
+  capabilities = ["EnableMongo", "EnableServerless", "EnableUniqueCompoundNestedDocs"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "BoundedStaleness"
