@@ -35,7 +35,7 @@ resource "azurerm_api_management_api" "papos" {
   description           = "PA POS Microservice for MIL Multi-channel Integration Layer of SW Client Project"
   path                  = var.mil_papos_path
   protocols             = ["https"]
-  service_url           = format("https://%s", var.ingress_load_balancer_hostname)
+  service_url           = format("https://%s/%s", var.ingress_load_balancer_hostname, var.mil_papos_address)
   subscription_required = false
 
   import {
