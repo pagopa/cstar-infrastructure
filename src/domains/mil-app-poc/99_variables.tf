@@ -45,10 +45,6 @@ variable "mil_papos_openapi_descriptor" {
   type = string
 }
 
-variable "mil_papos_image" {
-  type = string
-}
-
 variable "mil_papos_address" {
   type    = string
   default = "milpapos"

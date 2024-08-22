@@ -90,7 +90,6 @@
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Specifies the name of the Log Analytics Workspace. | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_mil_papos_address"></a> [mil\_papos\_address](#input\_mil\_papos\_address) | n/a | `string` | `"milpapos"` | no |
-| <a name="input_mil_papos_image"></a> [mil\_papos\_image](#input\_mil\_papos\_image) | n/a | `string` | n/a | yes |
 | <a name="input_mil_papos_openapi_descriptor"></a> [mil\_papos\_openapi\_descriptor](#input\_mil\_papos\_openapi\_descriptor) | n/a | `string` | n/a | yes |
 | <a name="input_mil_papos_path"></a> [mil\_papos\_path](#input\_mil\_papos\_path) | # # mil-papos # | `string` | `"mil-papos"` | no |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |

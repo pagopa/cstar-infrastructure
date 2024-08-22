@@ -55,6 +55,5 @@ event_hub_port = 9093
 #
 # mil-papos
 #
-mil_papos_image              = "ghcr.io/pagopa/mil-papos:1.0.0-rc"
 mil_papos_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-papos/main/src/main/resources/META-INF/openapi.yaml"
 mil_papos_address            = "milpapos"
