@@ -24,7 +24,7 @@ resource "azurerm_api_management_product_policy" "mil_api_product" {
 
 
 # ------------------------------------------------------------------------------
-# API definition.
+# API definition mil-papos.
 # ------------------------------------------------------------------------------
 resource "azurerm_api_management_api" "papos" {
   name                  = "${local.project}-papos"
@@ -47,6 +47,36 @@ resource "azurerm_api_management_api" "papos" {
 resource "azurerm_api_management_product_api" "papos" {
   product_id          = azurerm_api_management_product.mil.product_id
   api_name            = azurerm_api_management_api.papos.name
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+}
+
+
+# ------------------------------------------------------------------------------
+# API definition mil-terminal-registry.
+# ------------------------------------------------------------------------------
+resource "azurerm_api_management_api" "terminal_registry" {
+  name                  = "${local.project}-terminal-registry"
+  resource_group_name   = data.azurerm_resource_group.apim_rg.name
+  api_management_name   = data.azurerm_api_management.apim_core.name
+  revision              = "1"
+  display_name          = "MIL TERMINAL REGISTRY API"
+  description           = "IDPay Microservice for managing terminals anagraphics on Multi-channel Integration Layer of SW Client Project"
+  path                  = var.mil_terminal_registry_path
+  protocols             = ["https"]
+  service_url           = format("https://%s/%s", var.ingress_load_balancer_hostname, var.mil_terminal_registry_address)
+  subscription_required = false
+
+  import {
+    content_format = "openapi-link"
+    content_value  = var.mil_terminal_registry_openapi_descriptor
+  }
+}
+
+
+resource "azurerm_api_management_product_api" "terminal_registry" {
+  product_id          = azurerm_api_management_product.mil.product_id
+  api_name            = azurerm_api_management_api.terminal_registry.name
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 }

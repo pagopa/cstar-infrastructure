@@ -51,6 +51,22 @@ variable "mil_papos_address" {
 }
 
 
+##
+## mil-terminal-registry
+##
+variable "mil_terminal_registry_path" {
+  type    = string
+  default = "mil-terminal-registry"
+}
+
+variable "mil_terminal_registry_openapi_descriptor" {
+  type = string
+}
+
+variable "mil_terminal_registry_address" {
+  type    = string
+  default = "milterminalregistry"
+}
 
 
 variable "domain" {
