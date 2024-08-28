@@ -1,4 +1,13 @@
 locals {
+
+  extract_not_acked_files = file("pipelines/lookup-activities/extractNotAckedFilesInCosmos.json")
+
+
+  if_at_least_one_file_is_not_acked = templatefile("pipelines/if-activities/ifAtLeastOneFileIsNotAcked.json", {
+    ack_ingest_and_split_dataflow = file("pipelines/dataflow-activities/ackIngestAndSplit.json")
+    copy_to_trigger_event         = file("pipelines/copy-activities/copyToTriggerEvent.json")
+  })
+
   // Invalidate flows whole activities
   invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
@@ -298,7 +307,8 @@ resource "azurerm_data_factory_pipeline" "ack_ingestor" {
     windowStart = "windowStartTime"
     windowEnd   = "windowEndTime"
   }
-  activities_json = file("pipelines/ackIngestor.json")
+
+  activities_json = "[${local.extract_not_acked_files},${local.if_at_least_one_file_is_not_acked}]"
 
   depends_on = [
     azurerm_data_factory_custom_dataset.source_ack,
