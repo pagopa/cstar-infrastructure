@@ -1,0 +1,23 @@
+{
+  "name": "If at least one file is not ACKed in Cosmos",
+  "type": "IfCondition",
+  "dependsOn": [
+    {
+      "activity": "Extract not-ACKed files in Cosmos",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "userProperties": [],
+  "typeProperties": {
+    "expression": {
+      "value": "@bool(contains(activity('Extract not-ACKed files in Cosmos').output, 'firstRow'))",
+      "type": "Expression"
+    },
+    "ifTrueActivities": [
+      ${ack_ingest_and_split_dataflow},
+      ${copy_to_trigger_event}
+    ]
+  }
+}
