@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "cosmosdb_mil_rg" {
 module "cosmosdb_account_mongodb" {
   count = var.is_feature_enabled.cosmos ? 1 : 0
 
-      source = "./.terraform/modules/__v3__/cosmosdb_account"
+  source = "./.terraform/modules/__v3__/cosmosdb_account"
 
 
   name                = "${local.project}-cosmos-account"
@@ -97,7 +97,7 @@ locals {
 
 module "cosmosdb_mil_collections" {
 
-        source = "./.terraform/modules/__v3__/cosmosdb_mongodb_collection"
+  source = "./.terraform/modules/__v3__/cosmosdb_mongodb_collection"
 
   for_each = var.is_feature_enabled.cosmos ? { for index, coll in local.collections : coll.name => coll } : {}
 

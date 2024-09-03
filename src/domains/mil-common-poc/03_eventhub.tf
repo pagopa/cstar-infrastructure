@@ -12,9 +12,9 @@ resource "azurerm_resource_group" "eventhub_ita_rg" {
 
 module "eventhub_mil_namespace" {
 
-          source = "./.terraform/modules/__v3__/eventhub"
+  source = "./.terraform/modules/__v3__/eventhub"
 
-  count  = var.is_feature_enabled.eventhub ? 1 : 0
+  count = var.is_feature_enabled.eventhub ? 1 : 0
 
   name                     = "${local.project}-evh"
   location                 = var.location
@@ -74,9 +74,9 @@ resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
 #
 module "eventhub_mil_configuration" {
 
-            source = "./.terraform/modules/__v3__/eventhub_configuration"
+  source = "./.terraform/modules/__v3__/eventhub_configuration"
 
-  count  = var.is_feature_enabled.eventhub ? 1 : 0
+  count = var.is_feature_enabled.eventhub ? 1 : 0
 
   event_hub_namespace_name                = module.eventhub_mil_namespace[0].name
   event_hub_namespace_resource_group_name = azurerm_resource_group.eventhub_ita_rg.name

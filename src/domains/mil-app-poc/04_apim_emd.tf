@@ -3,7 +3,7 @@
 #
 
 module "emd_api_product" {
-    source = "./.terraform/modules/__v3__/api_management_product"
+  source = "./.terraform/modules/__v3__/api_management_product"
 
 
   product_id   = "emd_api_product"
@@ -29,7 +29,7 @@ module "emd_api_product" {
 
 ## EMD MESSAGE CORE ##
 module "emd_message_core" {
-      source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
 
   name                = "${var.env_short}-emd-message-core"

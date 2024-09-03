@@ -1,5 +1,5 @@
 module "tls_checker" {
-        source = "./.terraform/modules/__v3__/tls_checker"
+  source = "./.terraform/modules/__v3__/tls_checker"
 
   https_endpoint                                            = local.domain_aks_hostname
   alert_name                                                = local.domain_aks_hostname
@@ -42,7 +42,7 @@ module "tls_checker" {
 # }
 
 module "cert_mounter" {
-    source = "./.terraform/modules/__v3__/cert_mounter"
+  source = "./.terraform/modules/__v3__/cert_mounter"
 
 
   namespace        = var.domain
