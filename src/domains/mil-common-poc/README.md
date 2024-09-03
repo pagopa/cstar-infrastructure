@@ -8,20 +8,22 @@
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.106.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.110 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.3.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v8.22.0 |
-| <a name="module_cosmosdb_mil_collections"></a> [cosmosdb\_mil\_collections](#module\_cosmosdb\_mil\_collections) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v8.22.0 |
-| <a name="module_cosmosdb_mil_snet"></a> [cosmosdb\_mil\_snet](#module\_cosmosdb\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.22.0 |
-| <a name="module_evenhub_mil_snet"></a> [evenhub\_mil\_snet](#module\_evenhub\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.22.0 |
-| <a name="module_eventhub_mil_configuration"></a> [eventhub\_mil\_configuration](#module\_eventhub\_mil\_configuration) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub_configuration | v8.22.0 |
-| <a name="module_eventhub_mil_namespace"></a> [eventhub\_mil\_namespace](#module\_eventhub\_mil\_namespace) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v8.22.0 |
-| <a name="module_storage_mil_snet"></a> [storage\_mil\_snet](#module\_storage\_mil\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.22.0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 400ee44a8465126a33c3dae994c4dcc6904c7da0 |
+| <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | ./.terraform/modules/__v3__/cosmosdb_account | n/a |
+| <a name="module_cosmosdb_mil_collections"></a> [cosmosdb\_mil\_collections](#module\_cosmosdb\_mil\_collections) | ./.terraform/modules/__v3__/cosmosdb_mongodb_collection | n/a |
+| <a name="module_cosmosdb_mil_snet"></a> [cosmosdb\_mil\_snet](#module\_cosmosdb\_mil\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
+| <a name="module_evenhub_mil_snet"></a> [evenhub\_mil\_snet](#module\_evenhub\_mil\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
+| <a name="module_eventhub_mil_configuration"></a> [eventhub\_mil\_configuration](#module\_eventhub\_mil\_configuration) | ./.terraform/modules/__v3__/eventhub_configuration | n/a |
+| <a name="module_eventhub_mil_namespace"></a> [eventhub\_mil\_namespace](#module\_eventhub\_mil\_namespace) | ./.terraform/modules/__v3__/eventhub | n/a |
+| <a name="module_storage_mil_snet"></a> [storage\_mil\_snet](#module\_storage\_mil\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
+| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | ./.terraform/modules/__v3__/kubernetes_workload_identity_init | n/a |
 
 ## Resources
 
@@ -41,6 +43,7 @@
 | [azurerm_application_insights.application_insights_weu](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_key_vault.kv_domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
+| [azurerm_kubernetes_cluster.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/kubernetes_cluster) | data source |
 | [azurerm_log_analytics_workspace.log_analytics_weu](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
@@ -62,6 +65,8 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | (Required) Name of the Kubernetes cluster. | `string` | n/a | yes |
+| <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | (Required) Resource group of the Kubernetes cluster. | `string` | n/a | yes |
 | <a name="input_cidr_subnet_cosmosdb_mil"></a> [cidr\_subnet\_cosmosdb\_mil](#input\_cidr\_subnet\_cosmosdb\_mil) | Cosmos DB address space for mil. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_eventhub_mil"></a> [cidr\_subnet\_eventhub\_mil](#input\_cidr\_subnet\_eventhub\_mil) | Eventhub address space for mil. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_storage_mil"></a> [cidr\_subnet\_storage\_mil](#input\_cidr\_subnet\_storage\_mil) | Azure storage DB address space for mil. | `list(string)` | n/a | yes |
