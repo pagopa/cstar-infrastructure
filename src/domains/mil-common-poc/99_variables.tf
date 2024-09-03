@@ -241,3 +241,15 @@ EOD
   }))
 }
 
+#
+# AKS
+#
+variable "aks_resource_group_name" {
+  type        = string
+  description = "(Required) Resource group of the Kubernetes cluster."
+}
+
+variable "aks_name" {
+  type        = string
+  description = "(Required) Name of the Kubernetes cluster."
+}

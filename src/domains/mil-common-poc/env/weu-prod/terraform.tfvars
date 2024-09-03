@@ -140,3 +140,6 @@ ehns_metric_alerts = {
     ],
   },
 }
+
+aks_name = "cstar-p-weu-prod01-aks"
+aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"

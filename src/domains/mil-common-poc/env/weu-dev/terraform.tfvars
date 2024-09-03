@@ -46,7 +46,7 @@ dns_zone_internal_prefix = "internal.dev.cstar"
 
 cosmos_mongo_db_params = {
   kind         = "MongoDB"
-  capabilities = ["EnableMongo", "EnableServerless"]
+  capabilities = ["EnableMongo", "EnableServerless", "EnableUniqueCompoundNestedDocs"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "BoundedStaleness"
@@ -135,3 +135,6 @@ ehns_metric_alerts = {
     ],
   },
 }
+
+aks_name = "cstar-d-weu-dev01-aks"
+aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
