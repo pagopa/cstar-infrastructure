@@ -11,7 +11,9 @@ resource "azurerm_resource_group" "eventhub_ita_rg" {
 }
 
 module "eventhub_mil_namespace" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v8.22.0"
+
+          source = "./.terraform/modules/__v3__/eventhub"
+
   count  = var.is_feature_enabled.eventhub ? 1 : 0
 
   name                     = "${local.project}-evh"
@@ -71,7 +73,9 @@ resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
 # CONFIGURATION
 #
 module "eventhub_mil_configuration" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub_configuration?ref=v8.22.0"
+
+            source = "./.terraform/modules/__v3__/eventhub_configuration"
+
   count  = var.is_feature_enabled.eventhub ? 1 : 0
 
   event_hub_namespace_name                = module.eventhub_mil_namespace[0].name
