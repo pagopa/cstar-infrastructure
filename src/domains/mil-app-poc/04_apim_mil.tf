@@ -39,8 +39,8 @@ resource "azurerm_api_management_api" "papos" {
   subscription_required = false
 
   import {
-    content_format = "openapi-link"
-    content_value  = var.mil_papos_openapi_descriptor
+    content_format = "openapi"
+    content_value  = templatefile("./api/mil_papos/openapi.yaml", {})
   }
 }
 
@@ -68,8 +68,8 @@ resource "azurerm_api_management_api" "terminal_registry" {
   subscription_required = false
 
   import {
-    content_format = "openapi-link"
-    content_value  = var.mil_terminal_registry_openapi_descriptor
+    content_format = "openapi"
+    content_value  = templatefile("./api/mil_terminal_registry/openapi.yaml", {})
   }
 }
 

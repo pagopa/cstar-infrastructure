@@ -1,0 +1,1021 @@
+openapi: 3.1.0
+
+info:
+  title: Terminal Registry Microservice
+  version: 1.0.0
+  description: Terminal Registry Microservice for Multi-channel Integration Layer of SW Client Project
+  contact:
+    name: Antonio Tarricone
+    email: antonio.tarricone@pagopa.it
+
+servers:
+  - description: Development Test
+    url: https://api.dev.cstar.pagopa.it/mil-terminal-registry
+    x-internal: true
+  - description: User Acceptance Test
+    url: https://api.uat.cstar.pagopa.it/mil-terminal-registry
+    x-internal: true
+
+tags:
+  - name: create
+    description: Related to 'create' operation
+  - name: read
+    description: Related to 'read' operation
+  - name: update
+    description: Related to 'update' operation
+  - name: delete
+    description: Related to 'delete' operation
+  - name: internal
+    description: For internal purpose only
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /terminals:
+    parameters:
+      - $ref: '#/components/parameters/RequestId'
+
+    post:
+      operationId: createTerminal
+      description: Creates a new terminal
+      tags: [ create ]
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOrUpdateTerminal'
+      responses:
+        "201":
+          description: Created
+          $ref: '#/components/responses/CreateTerminal'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "406":
+          description: Not acceptable. Did you require application/json?
+          $ref: '#/components/responses/Error'
+        "409":
+          description: Already exists
+          $ref: '#/components/responses/Error'
+        "415":
+          description: Unsupported media type. Did you provide application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many requests
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+
+    get:
+      operationId: getTerminalList
+      description: Returns a page of terminals
+      tags: [ read ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        "200":
+          description: Ok
+          $ref: '#/components/responses/PageOfTerminals'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "406":
+          description: Not acceptable. Did you require application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many request
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+
+  /terminals/findByWorkstation:
+    get:
+      operationId: findTerminalsByWorkstation
+      description: Returns the list of terminals linked to a cash desk
+      tags: [ read ]
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - $ref: '#/components/parameters/Workstation'
+      responses:
+        "200":
+          description: Ok
+          $ref: '#/components/responses/Terminals'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "406":
+          description: Not acceptable. Did you require application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many request
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+
+  /terminals/findByThIds:
+    get:
+      x-internal: true
+      operationId: findTerminalByThIds
+      description: Returns terminal details searching by the couple (Terminal Hander ID, Terminal ID)
+      tags: [ read, internal ]
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - $ref: '#/components/parameters/TerminalHandlerId'
+        - $ref: '#/components/parameters/TerminalId'
+      responses:
+        "200":
+          description: Ok
+          $ref: '#/components/responses/Terminal'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "404":
+          description: Not found
+          $ref: '#/components/responses/Error'
+        "406":
+          description: Not acceptable. Did you require application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many request
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+  
+  /terminals/{terminalUuid}/updateWorkstations:
+    patch:
+      operationId: updateWorkstations
+      description: Updates the list of cash desks linked to the terminal
+      tags: [ update ]
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - $ref: '#/components/parameters/TerminalUuid'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateWorkstations'
+      responses:
+        "204":
+          description: No content
+          $ref: '#/components/responses/NoContent'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "404":
+          description: Not found
+          $ref: '#/components/responses/Error'
+        "415":
+          description: Unsupported media type. Did you provide application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many requests
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+
+  /terminals/{terminalUuid}:
+    parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - $ref: '#/components/parameters/TerminalUuid'
+
+    patch:
+      operationId: updateTerminal
+      description: Updated terminal without modify linked cash desks
+      tags: [ update ]
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOrUpdateTerminal'
+      responses:
+        "204":
+          description: No content
+          $ref: '#/components/responses/NoContent'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "404":
+          description: Not found
+          $ref: '#/components/responses/Error'
+        "415":
+          description: Unsupported media type. Did you provide application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many requests
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+
+    delete:
+      operationId: deleteTerminal
+      description: Deletes a terminal
+      tags: [ delete ]
+      responses:
+        "204":
+          description: No content
+          $ref: '#/components/responses/NoContent'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "404":
+          description: Not found
+          $ref: '#/components/responses/Error'
+        "415":
+          description: Unsupported media type. Did you provide application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many requests
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+    
+    get:
+      x-internal: true
+      operationId: getTerminal
+      description: Returns terminal details
+      tags: [ read, internal ]
+      responses:
+        "200":
+          description: Found
+          $ref: '#/components/responses/Terminal'
+        "400":
+          description: Bad request
+          $ref: '#/components/responses/Error'
+        "401":
+          description: Access token is missing or invalid
+          $ref: '#/components/responses/Error'
+        "403":
+          description: Forbidden
+          $ref: '#/components/responses/Error'
+        "404":
+          description: Not found
+          $ref: '#/components/responses/Error'
+        "406":
+          description: Not acceptable. Did you require application/json?
+          $ref: '#/components/responses/Error'
+        "429":
+          description: Too many requests
+          $ref: '#/components/responses/Error'
+        "500":
+          description: Server error
+          $ref: '#/components/responses/Error'
+        default:
+          description: Unexpected error
+
+components:
+  # ========================================================
+  # Schemas
+  # ========================================================
+  schemas:
+    # ------------------------------------------------------
+    # Basic types
+    # ------------------------------------------------------
+    AccessControlAllowOrigin:
+      description: Indicates whether the response can be shared with requesting code from the given origin
+      type: string
+      pattern: "^[ -~]{1,2048}$"
+      minLength: 1
+      maxLength: 2048
+    
+    BrokerId:
+      description: ID of pagoPA broker
+      type: string
+      pattern: "^[\\u0001-\\uD7FF\\uE000-\\uFFFD\\U10000-\\U10FFFF]{1,35}$"
+      minLength: 1
+      maxLength: 35
+      example: "97735020584"
+
+    ChannelId:
+      description: ID of pagoPA channel
+      type: string
+      pattern: "^[\\u0001-\\uD7FF\\uE000-\\uFFFD\\U10000-\\U10FFFF]{1,35}$"
+      minLength: 1
+      maxLength: 35
+      example: "97735020584_03"
+
+    Enabled:
+      description: True if the terminal is enabled
+      type: boolean
+      example: true
+
+    ErrorCode:
+      description: Error code
+      type: string
+      pattern: "^[A-F0-9]{9}$"
+      minLength: 9
+      maxLength: 9
+      example: "001000005"
+
+    ErrorDescription:
+      description: Error description
+      type: string
+      pattern: "^[ -~]{1,256}$"
+      minLength: 1
+      maxLength: 256
+      example: "Unexpected error from server"
+
+    Idpay:
+      description: True if the terminal is enabled to pay by means IDpay
+      type: boolean
+      example: true
+
+    PageNumber:
+      description: Number of the page
+      type: integer
+      format: int32
+      minimum: 0
+      maximum: 2147483647
+      example: 1
+
+    PageSize:
+      description: Size of the page
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 128
+      example: 20
+
+    PagoPa:
+      description: True if the terminal is enabled to pay pagoPA notices
+      type: boolean
+      example: true
+
+    PayeeCode:
+      description: Fiscal code of the subject that receives the payment
+      type: string
+      pattern: "^\\d{11}$"
+      minLength: 11
+      maxLength: 11
+      example: "06534340721"
+
+    PspId:
+      description: ID of pagoPA PSP
+      type: string
+      pattern: "^[\\u0001-\\uD7FF\\uE000-\\uFFFD\\U10000-\\U10FFFF]{1,35}$"
+      minLength: 1
+      maxLength: 35
+      example: "AGID_01"
+
+    RateLimitLimit:
+      description: The number of allowed requests in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    RateLimitReset:
+      description: The number of seconds left in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 60
+
+    RetryAfter:
+      description: The number of seconds to wait before allowing a follow-up request
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+    
+    ServiceProviderId:
+      description: ID of the service provider
+      type: string
+      pattern: "^[ -~]{1,64}$"
+      minLength: 1
+      maxLength: 64
+      example: "AGID_01"
+
+    Slave:
+      description: True if the terminal is in slave mode (it's linked to one or more cash desks)
+      type: boolean
+      example: true
+
+    TerminalHandlerId:
+      description: Terminal handler identifier
+      type: string
+      pattern: "^\\d{5}$"
+      minLength: 5
+      maxLength: 5
+      example: "45856"
+
+    TerminalId:
+      description: ID of the terminal. It must be unique per terminal handler.
+      type: string
+      pattern: "^\\d{8}$"
+      minLength: 8
+      maxLength: 8
+      example: "34523860"
+
+    TerminalLocation:
+      description: URL of the terminal
+      type: string
+      pattern: "^[ -~]{1,2048}$"
+      minLength: 1
+      maxLength: 2048
+      example: "https://mil-d-apim.azure-api.net/mil-terminal-registry/terminals/c7a1b24b0583477292ebdbaa"
+
+    TerminalUuid:
+      description: UUID of a terminal
+      type: string
+      pattern: "^[0-9a-f]{24}$"
+      minLength: 24
+      maxLength: 24
+      example: "c7a1b24b0583477292ebdbaa"
+
+    UUID:
+      description: UUID
+      type: string
+      pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+      minLength: 36
+      maxLength: 36
+      example: "d0d654e6-97da-4848-b568-99fedccb642b"
+
+    Workstation:
+      description: Label indicating the cash desk that can use a terminal
+      type: string
+      pattern: "^[ -~]{1,64}$"
+      minLength: 1
+      maxLength: 64
+      example: "cassa-1-ufficio-3"
+
+    # ------------------------------------------------------
+    # Complex types
+    # ------------------------------------------------------
+    Error:
+      description: Error details
+      type: object
+      additionalProperties: false
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        errorDescription:
+          $ref: '#/components/schemas/ErrorDescription'
+      required:
+        - errorCode
+        - errorDescription
+      example:
+        errorCode: "001000001"
+        errorDescription: "Generic error"
+
+    Errors:
+      description: List of errors
+      type: object
+      additionalProperties: false
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          maxItems: 32
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+        - errors
+      example:
+        errors:
+          - errorCode: "00000000A"
+            errorDescription: "Generic error"
+          - errorCode: "001000001"
+            errorDescription: "Unexpected error from server"
+
+    PageMetadata:
+      description: Metadata of a page of data
+      type: object
+      additionalProperties: false
+      properties:
+        size:
+          $ref: '#/components/schemas/PageSize'
+        totalElements:
+          description: Total number of items
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 2147483647
+          example: 200
+        totalPages:
+          $ref: '#/components/schemas/PageNumber'
+      example:
+        size: 20
+        totalElements: 100
+        totalPages: 5
+
+    PageOfTerminals:
+      description: Page of terminals data
+      allOf:
+        - $ref: '#/components/schemas/Terminals'
+        - type: object
+          additionalProperties: false
+          properties:
+            page:
+              $ref: '#/components/schemas/PageMetadata'
+          required:
+            - page
+      example:
+        terminals:
+          - terminalUuid: "c7a1b24b0583477292ebdbaa"
+            serviceProviderId: "AGID_01"
+            terminalHandlerId: "45856"
+            terminalId: "34523860"
+            enabled: true
+            payeeCode: "06534340721"
+            slave: true
+            workstations:
+              - "cassa-1-ufficio-3"
+              - "cassa-2-ufficio-3"
+            pagoPa: true
+            pagoPaConf:
+              pspId: "AGID_01"
+              brokerId: "97735020584"
+              channelId: "97735020584_03"
+            idpay: false
+          - terminalUuid: "635edc54ab35f303668bbe7e"
+            serviceProviderId: "AGID_01"
+            terminalHandlerId: "45856"
+            terminalId: "34523865"
+            enabled: true
+            payeeCode: "06534340721"
+            slave: true
+            workstations:
+              - "cassa-3-ufficio-3"
+              - "cassa-4-ufficio-3"
+            pagoPa: true
+            pagoPaConf:
+              pspId: "AGID_01"
+              brokerId: "97735020584"
+              channelId: "97735020584_03"
+            idpay: false
+        page:
+          size: 2
+          totalElements: 5
+          totalPages: 3
+
+    PagoPaConf:
+      description: PagoPa additional information
+      type: object
+      additionalProperties: false
+      properties:
+        pspId:
+          $ref: '#/components/schemas/PspId'
+        brokerId:
+          $ref: '#/components/schemas/BrokerId'
+        channelId:
+          $ref: '#/components/schemas/ChannelId'
+      required:
+        - pspId
+        - brokerId
+        - channelId
+      example:
+        pspId: "AGID_01"
+        brokerId: "97735020584"
+        channelId: "97735020584_03"
+
+    Terminal:
+      description: Data of a terminal
+      type: object
+      additionalProperties: false
+      properties:
+        terminalHandlerId:
+          $ref: '#/components/schemas/TerminalHandlerId'
+        terminalId:
+          $ref: '#/components/schemas/TerminalId'
+        enabled:
+          $ref: '#/components/schemas/Enabled'
+        payeeCode:
+          $ref: '#/components/schemas/PayeeCode'
+        slave:
+          $ref: '#/components/schemas/Slave'
+        pagoPa:
+          $ref: '#/components/schemas/PagoPa'
+        pagoPaConf:
+          $ref: '#/components/schemas/PagoPaConf'
+        idpay:
+          $ref: '#/components/schemas/Idpay'
+      required:
+        - terminalHandlerId
+        - terminalId
+        - enabled
+        - payeeCode
+        - slave
+        - pagoPa
+        - idpay
+      example:
+        terminalHandlerId: "45856"
+        terminalId: "34523860"
+        enabled: true
+        payeeCode: "06534340721"
+        slave: true
+        pagoPa: false
+        idpay: true
+
+    TerminalExt:
+      description: Extended data of a terminal
+      type: object
+      additionalProperties: false
+      properties:
+        terminalUuid:
+          $ref: '#/components/schemas/TerminalUuid'
+        serviceProviderId:
+          $ref: '#/components/schemas/ServiceProviderId'
+        terminalHandlerId:
+          $ref: '#/components/schemas/TerminalHandlerId'
+        terminalId:
+          $ref: '#/components/schemas/TerminalId'
+        enabled:
+          $ref: '#/components/schemas/Enabled'
+        payeeCode:
+          $ref: '#/components/schemas/PayeeCode'
+        slave:
+          $ref: '#/components/schemas/Slave'
+        workstations:
+          $ref: '#/components/schemas/WorkstationsArray'
+        pagoPa:
+          $ref: '#/components/schemas/PagoPa'
+        pagoPaConf:
+          $ref: '#/components/schemas/PagoPaConf'
+        idpay:
+          $ref: '#/components/schemas/Idpay'
+      required:
+        - terminalUuid
+        - serviceProviderId
+        - terminalHandlerId
+        - terminalId
+        - enabled
+        - payeeCode
+        - slave
+        - workstations
+        - pagoPa
+        - idpay
+      example:
+        terminalUuid: "c7a1b24b0583477292ebdbaa"
+        serviceProviderId: "AGID_01"
+        terminalHandlerId: "45856"
+        terminalId: "34523860"
+        enabled: true
+        payeeCode: "06534340721"
+        slave: true
+        workstations:
+          - "cassa-1-ufficio-3"
+          - "cassa-2-ufficio-3"
+        pagoPa: true
+        pagoPaConf:
+          pspId: "AGID_01"
+          brokerId: "97735020584"
+          channelId: "97735020584_03"
+        idpay: true
+
+    Terminals:
+      description: List of terminals
+      type: object
+      additionalProperties: false
+      properties:
+        terminals:
+          type: array
+          minItems: 0
+          maxItems: 64
+          items:
+            $ref: '#/components/schemas/TerminalExt'
+      required:
+        - terminals
+      example:
+        terminals:
+          - terminalUuid: "c7a1b24b0583477292ebdbaa"
+            serviceProviderId: "AGID_01"
+            terminalHandlerId: "45856"
+            terminalId: "34523860"
+            enabled: true
+            payeeCode: "06534340721"
+            slave: true
+            workstations:
+              - "cassa-1-ufficio-3"
+              - "cassa-2-ufficio-3"
+            pagoPa: true
+            pagoPaConf:
+              pspId: "AGID_01"
+              brokerId: "97735020584"
+              channelId: "97735020584_03"
+            idpay: false
+          - terminalUuid: "635edc54ab35f303668bbe7e"
+            serviceProviderId: "AGID_01"
+            terminalHandlerId: "45856"
+            terminalId: "34523865"
+            enabled: true
+            payeeCode: "06534340721"
+            slave: true
+            workstations:
+              - "cassa-3-ufficio-3"
+              - "cassa-4-ufficio-3"
+            pagoPa: true
+            pagoPaConf:
+              pspId: "AGID_01"
+              brokerId: "97735020584"
+              channelId: "97735020584_03"
+            idpay: false
+
+    Workstations:
+      description: List of cash desk labels
+      type: object
+      additionalProperties: false
+      properties:
+        workstations:
+          $ref: '#/components/schemas/WorkstationsArray'
+      required:
+          - workstations
+      example:
+        workstations:
+          - "cassa-1-ufficio-3"
+          - "cassa-2-ufficio-3"
+
+    WorkstationsArray:
+      description: List of cash desk labels
+      type: array
+      minItems: 0
+      maxItems: 32
+      items:
+        $ref: '#/components/schemas/Workstation'
+      example:
+        - "cassa-1-ufficio-3"
+        - "cassa-2-ufficio-3"
+
+  # ========================================================
+  # Request bodies
+  # ========================================================
+  requestBodies:
+    CreateOrUpdateTerminal:
+      description: Request to create a new terminal or update an existing one
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Terminal'
+
+    UpdateWorkstations:
+      description: Update cash desks linked to a terminal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Workstations'
+
+  # ========================================================
+  # Parameters
+  # ========================================================
+  parameters:
+    PageNumber:
+      name: page
+      in: query
+      description: Number of the requested page of data
+      required: true
+      schema:
+        $ref: '#/components/schemas/PageNumber'
+
+    PageSize:
+      name: size
+      in: query
+      description: Size of the requested page of data
+      required: true
+      schema:
+        $ref: '#/components/schemas/PageSize'
+
+    RequestId:
+      name: RequestId
+      in: header
+      description: Request Id that will be logged by services
+      required: true
+      schema:
+        $ref: '#/components/schemas/UUID'
+
+    TerminalHandlerId:
+      name: terminalHandlerId
+      in: query
+      description: Terminal handler identifier
+      required: true
+      schema:
+        $ref: '#/components/schemas/TerminalHandlerId'
+
+    TerminalId:
+      name: terminalId
+      in: query
+      description: ID of the terminal. It must be unique per terminal handler.
+      required: true
+      schema:
+        $ref: '#/components/schemas/TerminalId'
+    
+    TerminalUuid:
+      name: terminalUuid
+      in: path
+      description: UUID of the terminal which is the target of the operation
+      required: true
+      schema:
+        $ref: '#/components/schemas/TerminalUuid'
+
+    Workstation:
+      name: workstation
+      in: query
+      description: Cash desk label
+      required: true
+      schema:
+        $ref: '#/components/schemas/Workstation'
+
+  # ========================================================
+  # Responses
+  # ========================================================
+  responses:
+    CreateTerminal:
+      description: Response of create terminal operation
+      headers:
+        Access-Control-Allow-Origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin
+          required: false
+          schema:
+            $ref: '#/components/schemas/AccessControlAllowOrigin'
+        RateLimit-Limit:
+          description: The number of allowed requests in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitLimit'
+        RateLimit-Reset:
+          description: The number of seconds left in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitReset'
+        Location:
+          description: URL of the terminal
+          required: true
+          schema:
+            $ref: '#/components/schemas/TerminalLocation'
+
+    Error:
+      description: Error response
+      headers:
+        Access-Control-Allow-Origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin
+          required: false
+          schema:
+            $ref: '#/components/schemas/AccessControlAllowOrigin'
+        RateLimit-Limit:
+          description: The number of allowed requests in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitLimit'
+        RateLimit-Reset:
+          description: The number of seconds left in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitReset'
+        Retry-After:
+          description: The number of seconds to wait before allowing a follow-up request
+          required: false
+          schema:
+            $ref: '#/components/schemas/RetryAfter'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+    NoContent:
+      description: No content response
+      headers:
+        Access-Control-Allow-Origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin
+          required: false
+          schema:
+            $ref: '#/components/schemas/AccessControlAllowOrigin'
+        RateLimit-Limit:
+          description: The number of allowed requests in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitLimit'
+        RateLimit-Reset:
+          description: The number of seconds left in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitReset'
+    
+    PageOfTerminals:
+      description: Page of terminals data
+      headers:
+        Access-Control-Allow-Origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin
+          required: false
+          schema:
+            $ref: '#/components/schemas/AccessControlAllowOrigin'
+        RateLimit-Limit:
+          description: The number of allowed requests in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitLimit'
+        RateLimit-Reset:
+          description: The number of seconds left in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PageOfTerminals'
+
+    Terminal:
+      description: Terminal details
+      headers:
+        Access-Control-Allow-Origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin
+          required: false
+          schema:
+            $ref: '#/components/schemas/AccessControlAllowOrigin'
+        RateLimit-Limit:
+          description: The number of allowed requests in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitLimit'
+        RateLimit-Reset:
+          description: The number of seconds left in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TerminalExt'
+    
+    Terminals:
+      description: Terminals list
+      headers:
+        Access-Control-Allow-Origin:
+          description: Indicates whether the response can be shared with requesting code from the given origin
+          required: false
+          schema:
+            $ref: '#/components/schemas/AccessControlAllowOrigin'
+        RateLimit-Limit:
+          description: The number of allowed requests in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitLimit'
+        RateLimit-Reset:
+          description: The number of seconds left in the current period
+          required: false
+          schema:
+            $ref: '#/components/schemas/RateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Terminals'
+
+  securitySchemes:
+    bearerAuth:
+      description: A bearer token in the format of a JWS and conforms to the specifications included in RFC8725
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
