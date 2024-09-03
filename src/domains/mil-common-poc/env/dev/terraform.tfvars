@@ -1,15 +1,15 @@
 prefix         = "cstar"
-env_short      = "u"
-env            = "uat"
+env_short      = "d"
+env            = "dev"
 domain         = "mil"
 location       = "westeurope"
-location_short = "weu"
 cdn_location   = "westeurope"
-instance       = "uat"
+location_short = "weu"
+instance       = "dev"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Uat"
+  Environment = "Dev"
   Owner       = "cstar"
   Source      = "https://github.com/pagopa/cstar-infra/tree/main/src/domains/mil-common"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
@@ -17,15 +17,15 @@ tags = {
 
 ### FEATURES FLAGS
 is_feature_enabled = {
-  cosmos   = true
   eventhub = true
+  cosmos   = true
 }
 
 ### External resources
 
-monitor_weu_resource_group_name                 = "cstar-u-monitor-rg"
-log_analytics_weu_workspace_name                = "cstar-u-law"
-log_analytics_weu_workspace_resource_group_name = "cstar-u-monitor-rg"
+monitor_weu_resource_group_name                 = "cstar-d-monitor-rg"
+log_analytics_weu_workspace_name                = "cstar-d-law"
+log_analytics_weu_workspace_resource_group_name = "cstar-d-monitor-rg"
 
 ### NETWORK
 
@@ -40,13 +40,13 @@ ingress_load_balancer_ip = "10.11.100.250"
 
 external_domain          = "pagopa.it"
 dns_zone_prefix          = "mil"
-dns_zone_internal_prefix = "internal.uat.cstar"
+dns_zone_internal_prefix = "internal.dev.cstar"
 
 ### Cosmos
 
 cosmos_mongo_db_params = {
   kind         = "MongoDB"
-  capabilities = ["EnableMongo"]
+  capabilities = ["EnableMongo", "EnableServerless", "EnableUniqueCompoundNestedDocs"]
   offer_type   = "Standard"
   consistency_policy = {
     consistency_level       = "BoundedStaleness"
@@ -62,14 +62,14 @@ cosmos_mongo_db_params = {
   public_network_access_enabled     = false
   is_virtual_network_filter_enabled = false
 
-  backup_continuous_enabled = true
+  backup_continuous_enabled = false
   ip_range_filter           = "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26,13.88.56.148,40.91.218.243,13.91.105.215,4.210.172.107,40.80.152.199,13.95.130.121,20.245.81.54,40.118.23.126"
 }
 
 cosmos_mongo_db_mil_params = {
-  enable_serverless  = false
+  enable_serverless  = true
   enable_autoscaling = true
-  max_throughput     = 1000
+  max_throughput     = 2000
   throughput         = 1000
 }
 
@@ -79,11 +79,11 @@ cosmos_mongo_db_mil_params = {
 ehns_sku_name = "Standard"
 
 # to avoid https://docs.microsoft.com/it-it/azure/event-hubs/event-hubs-messaging-exceptions#error-code-50002
-ehns_auto_inflate_enabled     = true
+ehns_auto_inflate_enabled     = false
 ehns_maximum_throughput_units = 5
 ehns_capacity                 = 1
-ehns_alerts_enabled           = false # True in prod
-ehns_zone_redundant           = false # True in prod
+ehns_alerts_enabled           = false
+ehns_zone_redundant           = false
 
 ehns_public_network_access       = false
 ehns_private_endpoint_is_present = true
