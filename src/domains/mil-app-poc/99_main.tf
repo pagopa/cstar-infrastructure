@@ -42,3 +42,8 @@ provider "helm" {
     config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
   }
 }
+
+module "__v3__" {
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.42.2
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=400ee44a8465126a33c3dae994c4dcc6904c7da0"
+}
