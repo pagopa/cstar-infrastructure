@@ -3,7 +3,8 @@
 #
 
 module "emd_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.22.0"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "emd_api_product"
   display_name = "EMD_PRODUCT"
@@ -28,7 +29,8 @@ module "emd_api_product" {
 
 ## EMD MESSAGE CORE ##
 module "emd_message_core" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.22.0"
+  source = "./.terraform/modules/__v3__/api_management_api"
+
 
   name                = "${var.env_short}-emd-message-core"
   api_management_name = data.azurerm_api_management.apim_core.name
