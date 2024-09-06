@@ -39,8 +39,8 @@ resource "azurerm_api_management_api" "papos" {
   subscription_required = false
 
   import {
-    content_format = "openapi-link"
-    content_value  = var.mil_papos_openapi_descriptor
+    content_format = "openapi"
+    content_value  = templatefile("./api/mil_papos/openapi.yaml", {})
   }
 }
 
