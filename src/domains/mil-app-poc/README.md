@@ -27,18 +27,21 @@
 
 | Name | Type |
 |------|------|
+| [azurerm_api_management_api.auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api) | resource |
 | [azurerm_api_management_api.papos](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api) | resource |
-| [azurerm_api_management_api.terminal_registry](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api) | resource |
+| [azurerm_api_management_api_diagnostic.auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api_diagnostic) | resource |
 | [azurerm_api_management_api_diagnostic.papos](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_api_diagnostic) | resource |
 | [azurerm_api_management_policy_fragment.apim-validate-token-mil](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_policy_fragment) | resource |
 | [azurerm_api_management_product.mil](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_product) | resource |
+| [azurerm_api_management_product_api.auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_product_api) | resource |
 | [azurerm_api_management_product_api.papos](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_product_api) | resource |
-| [azurerm_api_management_product_api.terminal_registry](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_product_api) | resource |
 | [azurerm_api_management_product_policy.mil_api_product](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_product_policy) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.appinsights-instrumentation-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_resource_group.data_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_storage_account.auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [kubernetes_config_map.appinsights-config](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
 | [kubernetes_config_map.emd-eventhub](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map) | resource |
@@ -93,12 +96,12 @@
 | <a name="input_location_string"></a> [location\_string](#input\_location\_string) | One of West Europe, North Europe | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Specifies the name of the Log Analytics Workspace. | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
+| <a name="input_mil_auth_address"></a> [mil\_auth\_address](#input\_mil\_auth\_address) | n/a | `string` | `"milauth"` | no |
+| <a name="input_mil_auth_openapi_descriptor"></a> [mil\_auth\_openapi\_descriptor](#input\_mil\_auth\_openapi\_descriptor) | n/a | `string` | n/a | yes |
+| <a name="input_mil_auth_path"></a> [mil\_auth\_path](#input\_mil\_auth\_path) | # # mil-auth # | `string` | `"mil-auth"` | no |
 | <a name="input_mil_papos_address"></a> [mil\_papos\_address](#input\_mil\_papos\_address) | n/a | `string` | `"milpapos"` | no |
 | <a name="input_mil_papos_openapi_descriptor"></a> [mil\_papos\_openapi\_descriptor](#input\_mil\_papos\_openapi\_descriptor) | n/a | `string` | n/a | yes |
 | <a name="input_mil_papos_path"></a> [mil\_papos\_path](#input\_mil\_papos\_path) | # # mil-papos # | `string` | `"mil-papos"` | no |
-| <a name="input_mil_terminal_registry_address"></a> [mil\_terminal\_registry\_address](#input\_mil\_terminal\_registry\_address) | n/a | `string` | `"milterminalregistry"` | no |
-| <a name="input_mil_terminal_registry_openapi_descriptor"></a> [mil\_terminal\_registry\_openapi\_descriptor](#input\_mil\_terminal\_registry\_openapi\_descriptor) | n/a | `string` | n/a | yes |
-| <a name="input_mil_terminal_registry_path"></a> [mil\_terminal\_registry\_path](#input\_mil\_terminal\_registry\_path) | # # mil-terminal-registry # | `string` | `"mil-terminal-registry"` | no |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_rate_limit_emd_product"></a> [rate\_limit\_emd\_product](#input\_rate\_limit\_emd\_product) | Rate limit for MIN INT product | `number` | n/a | yes |
