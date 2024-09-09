@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "storage_rg" {
 # Storage account containing configuration files.
 # ------------------------------------------------------------------------------
 resource "azurerm_storage_account" "auth" {
-  name                          = "${var.prefix}${var.env_short}authst"
+  name                          = "${var.prefix}${var.env_short}${var.domain}authst"
   resource_group_name           = azurerm_resource_group.storage_rg.name
   location                      = azurerm_resource_group.storage_rg.location
   account_tier                  = "Standard"
