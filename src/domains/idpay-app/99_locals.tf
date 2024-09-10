@@ -30,10 +30,10 @@ locals {
   origins = {
     base = concat(
       [
-        format("https://portal.%s", data.azurerm_dns_zone.public.name),
-        format("https://management.%s", data.azurerm_dns_zone.public.name),
-        format("https://%s.developer.azure-api.net", local.apim_name),
-        format("https://%s", local.idpay-portal-hostname)
+        "https://portal.${data.azurerm_dns_zone.public.name}",
+        "https://management.${data.azurerm_dns_zone.public.name}",
+        "https://${local.apim_name}.developer.azure-api.net",
+        "https://${local.idpay-portal-hostname}",
       ],
       var.env_short != "p" ? ["https://localhost:3000", "http://localhost:3000", "https://localhost:3001", "http://localhost:3001"] : []
     )

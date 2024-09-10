@@ -12,8 +12,6 @@ data "azurerm_dns_zone" "public" {
   resource_group_name = local.vnet_core_resource_group_name
 }
 
-
-
 data "azurerm_subnet" "private_endpoint_subnet" {
   name                 = "private-endpoint-snet"
   resource_group_name  = "${local.product}-vnet-rg"

@@ -3,7 +3,8 @@
 #
 
 module "idpay_api_mil_merchant_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_mil_merchant_product"
   display_name = "IDPAY_APP_MIL_MERCHANT_PRODUCT"
@@ -27,7 +28,8 @@ module "idpay_api_mil_merchant_product" {
 }
 
 module "idpay_api_mil_citizen_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_mil_citizen_product"
   display_name = "IDPAY_APP_MIL_CITIZEN_PRODUCT"
@@ -52,7 +54,7 @@ module "idpay_api_mil_citizen_product" {
 
 ## IDPAY MIL PAYMENT API ##
 module "idpay_mil_payment" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-mil-payment"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -109,7 +111,7 @@ module "idpay_mil_payment" {
 
 ## IDPAY MIL API ##
 module "idpay_mil_merchant" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-mil-merchant"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -152,7 +154,7 @@ module "idpay_mil_merchant" {
 
 ## IDPAY MIL ONBOARDING API ##
 module "idpay_mil_onboarding" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-mil-onboarding"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -217,7 +219,7 @@ module "idpay_mil_onboarding" {
 
 ## IDPAY MIL WALLET API ##
 module "idpay_mil_wallet" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-mil-wallet"
   api_management_name = data.azurerm_api_management.apim_core.name

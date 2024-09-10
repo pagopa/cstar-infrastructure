@@ -3,7 +3,8 @@
 #
 
 module "idpay_api_portal_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_portal_product"
   display_name = "IDPAY_APP_PORTAL_PRODUCT"
@@ -32,7 +33,7 @@ module "idpay_api_portal_product" {
 
 ## IDPAY Welfare Portal User Permission API ##
 module "idpay_permission_portal" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-portal-permission"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -78,7 +79,7 @@ module "idpay_permission_portal" {
 
 ## IDPAY Welfare Portal Initiative API ##
 module "idpay_initiative_portal" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-initiative"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -462,7 +463,7 @@ resource "azurerm_api_management_api_operation_policy" "idpay_portal_token_polic
 
 ## IDPAY Welfare Portal Group API ##
 module "idpay_group_portal" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-group"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -504,7 +505,7 @@ module "idpay_group_portal" {
 
 ## IDPAY Merchant API ##
 module "idpay_merchant_portal" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-merchant"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -574,7 +575,7 @@ module "idpay_merchant_portal" {
 
 ## IDPAY Welfare Portal Email API ##
 module "idpay_notification_email_api" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-email"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -628,7 +629,7 @@ module "idpay_notification_email_api" {
 # selfcare api
 resource "azurerm_api_management_named_value" "selc_external_api_key" {
 
-  name                = format("%s-selc-external-api-key-secret", var.env_short)
+  name                = "${var.env_short}-selc-external-api-key-secret"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -654,7 +655,7 @@ data "azurerm_key_vault_secret" "selc_external_api_key_secret" {
 
 resource "azurerm_api_management_named_value" "refund_storage_access_key" {
 
-  name                = format("%s-refund-storage-access-key", var.env_short)
+  name                = "${var.env_short}-refund-storage-access-key"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -668,7 +669,7 @@ resource "azurerm_api_management_named_value" "refund_storage_access_key" {
 
 resource "azurerm_api_management_named_value" "initiative_storage_access_key" {
 
-  name                = format("%s-initiative-storage-access-key", var.env_short)
+  name                = "${var.env_short}-initiative-storage-access-key"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 

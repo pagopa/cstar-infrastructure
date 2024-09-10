@@ -2,7 +2,8 @@
 # IDPAY PRODUCTS
 #
 module "idpay_api_issuer_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_issuer_product"
   display_name = "IDPAY_APP_ISSUER_PRODUCT"
@@ -36,7 +37,7 @@ module "idpay_api_issuer_product" {
 
 ## IDPAY Onboarding workflow ISSUER API ##
 module "idpay_onboarding_workflow_issuer" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-issuer-onboarding-workflow"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -87,7 +88,7 @@ module "idpay_onboarding_workflow_issuer" {
 
 ## IDPAY Wallet IO API ##
 module "idpay_wallet_issuer" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-issuer-wallet"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -146,7 +147,7 @@ module "idpay_wallet_issuer" {
 
 ## IDPAY Timeline IO API ##
 module "idpay_timeline_issuer" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-issuer-timeline"
   api_management_name = data.azurerm_api_management.apim_core.name
