@@ -28,14 +28,14 @@ module "cosmosdb_account_mongodb" {
   capabilities         = var.cosmos_mongo_account_params.capabilities
   mongo_server_version = var.cosmos_mongo_account_params.server_version
 
-  public_network_access_enabled     = var.cosmos_mongo_account_params.public_network_access_enabled
-  private_endpoint_enabled          = var.cosmos_mongo_account_params.private_endpoint_enabled
-  subnet_id                         = data.azurerm_subnet.private_endpoint_snet.id
+  public_network_access_enabled = var.cosmos_mongo_account_params.public_network_access_enabled
+  private_endpoint_enabled      = var.cosmos_mongo_account_params.private_endpoint_enabled
+  subnet_id                     = data.azurerm_subnet.private_endpoint_snet.id
 
-  private_dns_zone_mongo_ids              = [data.azurerm_private_dns_zone.cosmos_mongo.id]
-  private_endpoint_mongo_name = "cstar-${var.env_short}-idpay-mongodb-account-private-endpoint"
+  private_dns_zone_mongo_ids            = [data.azurerm_private_dns_zone.cosmos_mongo.id]
+  private_endpoint_mongo_name           = "cstar-${var.env_short}-idpay-mongodb-account-private-endpoint"
   private_service_connection_mongo_name = "cstar-${var.env_short}-idpay-mongodb-account-private-endpoint"
-  is_virtual_network_filter_enabled = var.cosmos_mongo_account_params.is_virtual_network_filter_enabled
+  is_virtual_network_filter_enabled     = var.cosmos_mongo_account_params.is_virtual_network_filter_enabled
 
   allowed_virtual_network_subnet_ids = [
     data.azurerm_subnet.aks_domain_subnet.id

@@ -1,6 +1,6 @@
 module "idpay_redis_00" {
 
-    source = "./.terraform/modules/__v3__/redis_cache"
+  source                        = "./.terraform/modules/__v3__/redis_cache"
   name                          = "${local.product}-${var.domain}-redis-00"
   location                      = azurerm_resource_group.data_rg.location
   resource_group_name           = azurerm_resource_group.data_rg.name
@@ -20,8 +20,8 @@ module "idpay_redis_00" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.redis.id]
   }
 
-  tags = var.tags
-  zones = [1,2,3]
+  tags  = var.tags
+  zones = [1, 2, 3]
 }
 
 resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_string" {

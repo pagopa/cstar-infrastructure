@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sec_rg_idpay" {
 }
 
 module "key_vault_idpay" {
-    source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v3__/key_vault"
 
 
   name                       = "${local.product}-${var.domain}-kv"

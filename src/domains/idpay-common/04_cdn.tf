@@ -49,7 +49,7 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-    source = "./.terraform/modules/__v3__/cdn"
+  source = "./.terraform/modules/__v3__/cdn"
 
 
   name                  = "idpaycdn"
@@ -214,7 +214,7 @@ module "idpay_cdn" {
     }
   ]
 
-  tags = var.tags
+  tags                       = var.tags
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
 }
 
@@ -257,7 +257,7 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 module "selfcare_welfare_cdn" {
 
-    source = "./.terraform/modules/__v3__/cdn"
+  source = "./.terraform/modules/__v3__/cdn"
 
   name                = "welfare-selfcare-${var.env_short}"
   prefix              = var.prefix
@@ -280,7 +280,7 @@ module "selfcare_welfare_cdn" {
   querystring_caching_behaviour      = "BypassCaching"
   advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
 
-    log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
 
 
   storage_account_nested_items_public = false

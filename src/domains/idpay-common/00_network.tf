@@ -30,8 +30,8 @@ data "azurerm_subnet" "eventhub_snet" {
 
 ## Redis subnet
 module "idpay_redis_snet" {
-#   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.15.2"
-    source = "./.terraform/modules/__v3__/subnet"
+  #   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/subnet"
 
   count                = var.redis_sku_name == "Premium" && length(var.cidr_idpay_subnet_redis) > 0 ? 1 : 0
   name                 = "${local.project}-redis-snet"
