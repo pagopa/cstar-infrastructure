@@ -13,7 +13,8 @@ module "event_hub_idpay_00" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.15.2"
+    source = "./.terraform/modules/__v3__/eventhub"
+
   name                     = "${local.product}-${var.domain}-evh-ns-00"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -25,18 +26,22 @@ module "event_hub_idpay_00" {
 
   virtual_network_ids = [
     data.azurerm_virtual_network.vnet_integration.id,
-    data.azurerm_virtual_network.vnet_core.id
+    data.azurerm_virtual_network.vnet_core.id,
   ]
-  subnet_id = data.azurerm_subnet.eventhub_snet.id
+
+  private_endpoint_created = true
+  private_endpoint_resource_group_name = azurerm_resource_group.msg_rg.name
+  private_endpoint_subnet_id = data.azurerm_subnet.eventhub_snet.id
 
   eventhubs = var.eventhubs_idpay_00
 
   private_dns_zones = {
     id   = [data.azurerm_private_dns_zone.ehub.id]
     name = [data.azurerm_private_dns_zone.ehub.name]
+    resource_group_name = data.azurerm_private_dns_zone.ehub.resource_group_name,
+
   }
   private_dns_zone_record_A_name  = "eventhubidpay00"
-  private_dns_zone_resource_group = data.azurerm_private_dns_zone.ehub.resource_group_name
 
   alerts_enabled = var.ehns_alerts_enabled
   metric_alerts  = var.ehns_metric_alerts
@@ -118,7 +123,8 @@ module "event_hub_idpay_01" {
 
   count = var.enable.idpay.eventhub_idpay_00 ? 1 : 0
 
-  source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.15.2"
+    source = "./.terraform/modules/__v3__/eventhub"
+
   name                     = "${local.product}-${var.domain}-evh-ns-01"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.msg_rg.name
@@ -132,16 +138,19 @@ module "event_hub_idpay_01" {
     data.azurerm_virtual_network.vnet_integration.id,
     data.azurerm_virtual_network.vnet_core.id
   ]
-  subnet_id = data.azurerm_subnet.eventhub_snet.id
+
+  private_endpoint_created = true
+  private_endpoint_subnet_id = data.azurerm_subnet.eventhub_snet.id
+  private_endpoint_resource_group_name = azurerm_resource_group.msg_rg.name
 
   eventhubs = var.eventhubs_idpay_01
 
   private_dns_zones = {
     id   = [data.azurerm_private_dns_zone.ehub.id]
     name = [data.azurerm_private_dns_zone.ehub.name]
+    resource_group_name = data.azurerm_private_dns_zone.ehub.resource_group_name
   }
   private_dns_zone_record_A_name  = "eventhubidpay01"
-  private_dns_zone_resource_group = data.azurerm_private_dns_zone.ehub.resource_group_name
 
   alerts_enabled = var.ehns_alerts_enabled
   metric_alerts  = var.ehns_metric_alerts
