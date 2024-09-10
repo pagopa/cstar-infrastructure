@@ -1,7 +1,6 @@
 module "idpay_redis_00" {
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache?ref=v6.15.2"
-
+    source = "./.terraform/modules/__v3__/redis_cache"
   name                          = "${local.product}-${var.domain}-redis-00"
   location                      = azurerm_resource_group.data_rg.location
   resource_group_name           = azurerm_resource_group.data_rg.name
@@ -22,6 +21,7 @@ module "idpay_redis_00" {
   }
 
   tags = var.tags
+  zones = [1,2,3]
 }
 
 resource "azurerm_key_vault_secret" "idpay_redis_00_primary_connection_string" {
