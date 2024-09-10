@@ -18,7 +18,7 @@ locals {
 # Storage for Audit Logs Data
 #
 module "idpay_audit_storage" {
-    source = "./.terraform/modules/__v3__/storage_account"
+  source = "./.terraform/modules/__v3__/storage_account"
 
   name                            = replace("${var.domain}${var.env_short}-audit-storage", "-", "")
   account_kind                    = "StorageV2"

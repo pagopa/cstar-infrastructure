@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "domain_namespace" {
 }
 
 module "domain_pod_identity" {
-    source = "./.terraform/modules/__v3__/kubernetes_pod_identity"
+  source = "./.terraform/modules/__v3__/kubernetes_pod_identity"
 
 
   resource_group_name = local.aks_resource_group_name

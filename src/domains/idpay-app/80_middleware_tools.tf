@@ -17,7 +17,7 @@ module "tls_checker" {
   workload_identity_enabled              = true
   workload_identity_service_account_name = module.workload_identity.workload_identity_service_account_name
   workload_identity_client_id            = module.workload_identity.workload_identity_client_id
-  depends_on = [module.workload_identity]
+  depends_on                             = [module.workload_identity]
 }
 
 module "cert_mounter" {
