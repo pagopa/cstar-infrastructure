@@ -50,8 +50,8 @@ data "azurerm_dns_zone" "public" {
 }
 
 module "__v3__" {
-  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.42.3
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=7dbbc06d591d3ce66536a7bdb2208b1370de04dd"
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.43.1
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=cdbffbb3215b0eb047ae61408f042c246f0f914c"
 }
 
 # module "__next_v3__" {
