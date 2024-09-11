@@ -17,7 +17,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | cdbffbb3215b0eb047ae61408f042c246f0f914c |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 530d660f6b202b7dec25eb4f4bfb8b0b340212c6 |
 | <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | ./.terraform/modules/__v3__/cert_mounter | n/a |
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | ./.terraform/modules/__v3__/kubernetes_pod_identity | n/a |
 | <a name="module_idpay_api_acquirer_product"></a> [idpay\_api\_acquirer\_product](#module\_idpay\_api\_acquirer\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
