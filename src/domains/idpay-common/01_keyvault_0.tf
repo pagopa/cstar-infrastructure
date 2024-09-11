@@ -8,7 +8,6 @@ resource "azurerm_resource_group" "sec_rg_idpay" {
 module "key_vault_idpay" {
   source = "./.terraform/modules/__v3__/key_vault"
 
-
   name                       = "${local.product}-${var.domain}-kv"
   location                   = azurerm_resource_group.sec_rg_idpay.location
   resource_group_name        = azurerm_resource_group.sec_rg_idpay.name
@@ -96,7 +95,7 @@ resource "azurerm_key_vault_access_policy" "iac_sp_plan_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = data.azuread_service_principal.iac_sp_plan.object_id
 
-  key_permissions         = ["Get", "List", "Import", ]
+  key_permissions         = ["Get", "List", "Import", "GetRotationPolicy" ]
   secret_permissions      = ["Get", "List", "Set", ]
   certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", "Import"]
   storage_permissions     = []
