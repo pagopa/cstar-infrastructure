@@ -1,5 +1,6 @@
 module "mock_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   count        = var.enable.mock_io_api ? 1 : 0
   product_id   = "mock-api-product"
@@ -19,7 +20,7 @@ module "mock_api_product" {
 }
 
 module "api_mock_io" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   count               = var.enable.mock_io_api ? 1 : 0
   name                = format("%s-mock-io-api", var.env_short)
