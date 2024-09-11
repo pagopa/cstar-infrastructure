@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "storage_rg" {
-  name     = "${local.product}-${var.domain}-storage-rg"
+  name     = "cstar-${var.env_short}-${var.location_short}-${var.domain}-storage-rg"
   location = var.location
 
   tags = var.tags

@@ -27,6 +27,8 @@ locals {
   kv_domain_name    = "cstar-${var.env_short}-weu-mil-kv"
   kv_domain_rg_name = "cstar-${var.env_short}-weu-mil-sec-rg"
 
+  kv_auth_name = "cstar-${var.env_short}-weu-mil-auth-kv"
+
   # DOMAINS
   system_domain_namespace = "${var.domain}-system"
   domain_namespace        = var.domain

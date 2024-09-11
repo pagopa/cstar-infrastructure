@@ -13,3 +13,15 @@ module "workload_identity" {
   key_vault_key_permissions         = ["Get"]
   key_vault_secret_permissions      = ["Get"]
 }
+
+resource "azurerm_key_vault_access_policy" "access_auth_secret_kv" {
+  key_vault_id = data.azurerm_key_vault.kv_auth.id
+
+  tenant_id = data.azurerm_subscription.current.tenant_id
+  object_id = module.workload_identity.user_assigned_identity_principal_id
+
+  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", ]
+  secret_permissions      = ["Get", "List", "Set", "Delete", "Recover", "Restore", ]
+  storage_permissions     = []
+  certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ]
+}
