@@ -88,3 +88,7 @@ cosmos_mongo_db_transaction_params = {
   max_throughput     = 5000
   throughput         = 1000
 }
+
+### AKS
+aks_name                = "cstar-u-weu-dev01-aks"
+aks_resource_group_name = "cstar-u-weu-dev01-aks-rg"
