@@ -49,7 +49,8 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.7.0"
+  source = "./.terraform/modules/__v3__/cdn"
+
 
   name                  = "idpaycdn"
   prefix                = local.project
@@ -213,7 +214,8 @@ module "idpay_cdn" {
     }
   ]
 
-  tags = var.tags
+  tags                       = var.tags
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
 }
 
 #tfsec:ignore:azure-keyvault-ensure-secret-expiry
@@ -254,7 +256,8 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.7.0"
+
+  source = "./.terraform/modules/__v3__/cdn"
 
   name                = "welfare-selfcare-${var.env_short}"
   prefix              = var.prefix
@@ -276,6 +279,9 @@ module "selfcare_welfare_cdn" {
 
   querystring_caching_behaviour      = "BypassCaching"
   advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
+
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
+
 
   storage_account_nested_items_public = false
 

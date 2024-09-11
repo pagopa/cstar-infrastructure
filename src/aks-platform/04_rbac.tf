@@ -33,7 +33,7 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 
   rule {
     api_groups = [""]
-    resources  = ["namespaces"]
+    resources  = ["namespaces", "serviceaccounts"]
     verbs      = ["get", "list", "watch", ]
   }
 

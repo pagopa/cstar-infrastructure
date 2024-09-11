@@ -18,7 +18,8 @@ locals {
 # Storage for Audit Logs Data
 #
 module "idpay_audit_storage" {
-  source                          = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/storage_account"
+
   name                            = replace("${var.domain}${var.env_short}-audit-storage", "-", "")
   account_kind                    = "StorageV2"
   account_tier                    = "Standard"

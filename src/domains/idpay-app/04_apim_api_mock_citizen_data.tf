@@ -1,6 +1,6 @@
 ## IDPAY Mock citizen data ##
 module "idpay_citizen_data" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   count               = var.enable.mock_io_api ? 1 : 0
   name                = "${var.env_short}-idpay-mock-citizen-data"

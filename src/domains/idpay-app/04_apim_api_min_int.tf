@@ -3,7 +3,8 @@
 #
 
 module "idpay_api_min_int_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_min_int_product"
   display_name = "IDPAY_MIN_INT_PRODUCT"
@@ -28,7 +29,7 @@ module "idpay_api_min_int_product" {
 
 ## IDPAY MIN INT API ##
 module "idpay_min_int" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-min-int"
   api_management_name = data.azurerm_api_management.apim_core.name

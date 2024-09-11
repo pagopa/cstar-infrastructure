@@ -3,7 +3,8 @@
 #
 
 module "idpay_api_mock_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_mock_product"
   display_name = "IDPAY_MOCK_PRODUCT"

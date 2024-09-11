@@ -416,3 +416,6 @@ aks_vnet = {
 
 
 redis_public_network_access_enabled = false
+
+aks_name                = "cstar-u-weu-uat01-aks"
+aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
