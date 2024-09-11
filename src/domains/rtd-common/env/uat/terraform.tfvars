@@ -90,5 +90,5 @@ cosmos_mongo_db_transaction_params = {
 }
 
 ### AKS
-aks_name                = "cstar-u-weu-dev01-aks"
-aks_resource_group_name = "cstar-u-weu-dev01-aks-rg"
+aks_name                = "cstar-u-weu-uat01-aks"
+aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
