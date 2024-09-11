@@ -163,6 +163,10 @@ locals {
         unique = true
         },
         {
+          keys   = ["id"]
+          unique = true
+        },
+        {
           keys = ["acquirerId",
             "channel",
             "clientId",
