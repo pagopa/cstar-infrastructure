@@ -2,7 +2,7 @@ resource "azurerm_resource_group" "data_factory_rg" {
 
   count = var.enable.rtd_df ? 1 : 0
 
-  name     = format("%s-df-rg", local.project)
+  name     = "${local.project}-df-rg"
   location = var.location
   tags     = var.tags
 }
@@ -11,7 +11,7 @@ resource "azurerm_data_factory" "data_factory" {
 
   count = var.enable.rtd_df ? 1 : 0
 
-  name                   = format("%s-df", local.project)
+  name                   = "${local.project}-df"
   location               = azurerm_resource_group.data_factory_rg[count.index].location
   resource_group_name    = azurerm_resource_group.data_factory_rg[count.index].name
   public_network_enabled = false
@@ -75,7 +75,6 @@ resource "azurerm_private_endpoint" "data_factory_pe" {
 resource "azurerm_private_dns_a_record" "data_factory_a_record" {
 
   count = var.enable.rtd_df ? 1 : 0
-
 
   name                = azurerm_data_factory.data_factory[count.index].name
   zone_name           = data.azurerm_private_dns_zone.adf.name

@@ -1,10 +1,10 @@
 data "azurerm_resource_group" "db_rg" {
-  name = format("%s-db-rg", local.product)
+  name = "${local.product}-db-rg"
 }
 
 module "cosmosdb_account_mongodb" {
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.2.1"
+  source = "./.terraform/modules/__v3__/cosmosdb_account"
 
   name                 = "${local.product}-cosmos-mongo-db-account"
   location             = data.azurerm_resource_group.db_rg.location
@@ -18,9 +18,10 @@ module "cosmosdb_account_mongodb" {
   // work around to comply with current module interface
   domain                            = ""
   public_network_access_enabled     = var.cosmos_mongo_db_params.public_network_access_enabled
-  private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
+
   subnet_id                         = data.azurerm_subnet.private_endpoint_snet.id
-  private_dns_zone_ids              = [data.azurerm_private_dns_zone.cosmos_mongo.id]
+  private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
+  private_dns_zone_mongo_ids              = [data.azurerm_private_dns_zone.cosmos_mongo.id]
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   enable_provisioned_throughput_exceeded_alert = false
