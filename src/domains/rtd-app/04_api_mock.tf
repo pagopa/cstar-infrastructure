@@ -23,7 +23,7 @@ module "api_mock_io" {
   source = "./.terraform/modules/__v3__/api_management_api"
 
   count               = var.enable.mock_io_api ? 1 : 0
-  name                = format("%s-mock-io-api", var.env_short)
+  name                = "${var.env_short}-mock-io-api"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
