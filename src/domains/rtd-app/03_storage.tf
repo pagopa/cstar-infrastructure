@@ -1,10 +1,10 @@
 
 data "azurerm_resource_group" "rg_storage" {
-  name = format("%s-storage-rg", local.product)
+  name = "${local.product}-storage-rg"
 }
 
 data "azurerm_storage_account" "cstarblobstorage" {
-  name                = replace(format("%s-blobstorage", local.product), "-", "")
+  name                = replace("${local.product}-blobstorage", "-", "")
   resource_group_name = data.azurerm_resource_group.rg_storage.name
 }
 

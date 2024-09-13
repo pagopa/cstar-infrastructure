@@ -55,7 +55,7 @@ resource "azurerm_api_management_product_policy" "rtd_api_product_internal" {
 
 ## RTD Payment Manager API ##
 resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manager" {
-  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
+  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   api_management_name = data.azurerm_api_management.apim_core.name
   display_name        = "RTD Payment Instrument Manager API"
@@ -64,7 +64,7 @@ resource "azurerm_api_management_api_version_set" "rtd_payment_instrument_manage
 
 # v1 #
 resource "azurerm_api_management_api" "rtd_payment_instrument_manager" {
-  name                = format("%s-rtd-payment-instrument-manager-api", var.env_short)
+  name                = "${var.env_short}-rtd-payment-instrument-manager-api"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -78,7 +78,7 @@ resource "azurerm_api_management_api" "rtd_payment_instrument_manager" {
   subscription_required = true
   protocols             = ["https"]
 
-  service_url = format("http://%s/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager", var.reverse_proxy_ip_old_k8s)
+  service_url = "http://${var.reverse_proxy_ip_old_k8s}/rtdmspaymentinstrumentmanager/rtd/payment-instrument-manager"
 
   import {
     content_format = "swagger-json"
@@ -297,9 +297,9 @@ resource "azurerm_api_management_api_operation_policy" "get_hashed_pans_policy_v
 module "rtd_sender_api_key_check" {
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-sender-api-key-check", var.env_short)
+  name                = "${var.env_short}-rtd-sender-api-key-check"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -326,9 +326,9 @@ module "rtd_sender_api_key_check" {
 module "rtd_deposited_file_check" {
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-deposited-file-check", var.env_short)
+  name                = "${var.env_short}-rtd-deposited-file-check"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -355,9 +355,9 @@ module "rtd_deposited_file_check" {
 module "rtd_senderadeack_filename_list" {
   count = var.enable.tae_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-senderack-filename-list", var.env_short)
+  name                = "${var.env_short}-rtd-senderack-filename-list"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -388,8 +388,9 @@ module "rtd_senderadeack_filename_list" {
 
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
-  name                = format("%s-rtd-payment-instrument-api", var.env_short)
+  source = "./.terraform/modules/__v3__/api_management_api"
+
+  name                = "${var.env_short}-rtd-payment-instrument-api"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -398,7 +399,7 @@ module "rtd_payment_instrument" {
   path         = "rtd/payment-instruments"
   protocols    = ["https"]
 
-  service_url = format("http://%s/bpdmspaymentinstrument/bpd/payment-instruments", var.reverse_proxy_ip_old_k8s)
+  service_url = "http://${var.reverse_proxy_ip_old_k8s}/bpdmspaymentinstrument/bpd/payment-instruments"
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_payment_instrument/openapi.json", {
@@ -414,7 +415,8 @@ module "rtd_payment_instrument" {
 }
 
 module "batch_api_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "batch-api-product"
   display_name = "BATCH_API_PRODUCT"
@@ -434,9 +436,9 @@ module "rtd_sender_auth_put_api_key" {
 
   count = var.enable.sender_auth ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-sender-auth-put", var.env_short)
+  name                = "${var.env_short}-rtd-sender-auth-put"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -445,7 +447,7 @@ module "rtd_sender_auth_put_api_key" {
   path         = "rtd/sender-auth"
   protocols    = ["https"]
 
-  service_url = format("%s/rtdmssenderauth", local.ingress_load_balancer_hostname_https)
+  service_url = "${local.ingress_load_balancer_hostname_https}/rtdmssenderauth"
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
@@ -491,7 +493,7 @@ resource "azurerm_api_management_api_diagnostic" "blob_storage_api_diagnostic" {
   identifier               = "applicationinsights"
   api_management_name      = data.azurerm_api_management.apim_core.name
   resource_group_name      = data.azurerm_resource_group.apim_rg.name
-  api_name                 = format("%s-azureblob", var.env_short)
+  api_name                 = "${var.env_short}-azureblob"
   api_management_logger_id = local.apim_logger_id
 
   sampling_percentage       = 100.0
@@ -511,10 +513,10 @@ resource "azurerm_api_management_api_diagnostic" "blob_storage_api_diagnostic" {
 
 ## RTD CSV Transaction API ##
 module "rtd_csv_transaction" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   count               = var.enable.csv_transaction_apis ? 1 : 0
-  name                = format("%s-rtd-csv-transaction-api", var.env_short)
+  name                = "${var.env_short}-rtd-csv-transaction-api"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -523,7 +525,7 @@ module "rtd_csv_transaction" {
   path         = "rtd/csv-transaction"
   protocols    = ["https"]
 
-  service_url = format("https://%s", local.cstarblobstorage_private_fqdn)
+  service_url = "https://${local.cstarblobstorage_private_fqdn}"
 
   content_format = "openapi"
   content_value = templatefile("./api/rtd_csv_transaction/openapi.json", {
@@ -570,9 +572,9 @@ module "rtd_sender_mauth_check" {
 
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-sender-mauth-check", var.env_short)
+  name                = "${var.env_short}-rtd-sender-mauth-check"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -600,9 +602,9 @@ module "rtd_deposit_ade_ack" {
 
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-deposit-ade-ack", var.env_short)
+  name                = "${var.env_short}-rtd-deposit-ade-ack"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -612,12 +614,12 @@ module "rtd_deposit_ade_ack" {
   path         = "rtd/sftp-deposit"
   protocols    = ["https"]
 
-  service_url = format("https://cstar%ssftp.blob.core.windows.net/ade/ack/", var.env_short)
+  service_url = "https://cstar${var.env_short}sftp.blob.core.windows.net/ade/ack/"
 
   # Mandatory field when api definition format is openapi
   content_format = "openapi"
   content_value = templatefile("./api/rtd_deposit_ade_ack/openapi.yml", {
-    host = format("https://cstar%ssftp.blob.core.windows.net/ade/ack/", var.env_short)
+    host = "https://cstar${var.env_short}sftp.blob.core.windows.net/ade/ack/"
   })
 
   xml_content = file("./api/rtd_deposit_ade_ack/azureblob_policy.xml")
@@ -631,9 +633,9 @@ module "rtd_deposit_ade_ack" {
 module "rtd_filereporter" {
   count = var.enable.batch_service_api ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-rtd-filereporter", var.env_short)
+  name                = "${var.env_short}-rtd-filereporter"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 

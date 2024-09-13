@@ -2,15 +2,15 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 3.38.0"
+      version = "~> 3.116"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "= 2.21.0"
+      version = "~> 2.50.0"
     }
     null = {
       source  = "hashicorp/null"
-      version = "= 3.1.1"
+      version = "~> 3.2.1"
     }
     pkcs12 = {
       source  = "chilicat/pkcs12"
@@ -45,6 +45,10 @@ data "terraform_remote_state" "core" {
 }
 
 module "__v3__" {
-  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.42.3
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=7dbbc06d591d3ce66536a7bdb2208b1370de04dd"
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.43.3
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=530d660f6b202b7dec25eb4f4bfb8b0b340212c6"
 }
+
+# module "__next_v3__" {
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3//redis_cache?ref=redis-update"
+# }
