@@ -16,12 +16,12 @@ module "cosmosdb_account_mongodb" {
   enable_free_tier     = var.cosmos_mongo_db_params.enable_free_tier
 
   // work around to comply with current module interface
-  domain                            = ""
-  public_network_access_enabled     = var.cosmos_mongo_db_params.public_network_access_enabled
+  domain                        = ""
+  public_network_access_enabled = var.cosmos_mongo_db_params.public_network_access_enabled
 
   subnet_id                         = data.azurerm_subnet.private_endpoint_snet.id
   private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
-  private_dns_zone_mongo_ids              = [data.azurerm_private_dns_zone.cosmos_mongo.id]
+  private_dns_zone_mongo_ids        = [data.azurerm_private_dns_zone.cosmos_mongo.id]
   is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   enable_provisioned_throughput_exceeded_alert = false

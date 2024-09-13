@@ -172,6 +172,7 @@
 | [kubernetes_namespace.domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 | [kubernetes_namespace.system_domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 | [kubernetes_role_binding.deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
+| [kubernetes_role_binding.kube_system_reader_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
 | [kubernetes_role_binding.system_deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
 | [null_resource.idpay_audit_lh](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [terracurl_request.transaction_in_progress_connector](https://registry.terraform.io/providers/devops-rob/terracurl/1.0.1/docs/resources/request) | resource |

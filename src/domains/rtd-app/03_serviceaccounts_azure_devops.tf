@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "system_domain_namespace" {
 
 
 module "kubernetes_service_account" {
-    source = "./.terraform/modules/__v3__/kubernetes_service_account"
+  source = "./.terraform/modules/__v3__/kubernetes_service_account"
 
   name      = "azure-devops"
   namespace = local.system_domain_namespace

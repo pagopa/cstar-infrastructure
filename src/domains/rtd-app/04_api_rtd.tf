@@ -388,7 +388,7 @@ module "rtd_senderadeack_filename_list" {
 
 ## RTD Payment Instrument API ##
 module "rtd_payment_instrument" {
-    source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-rtd-payment-instrument-api"
   api_management_name = data.azurerm_api_management.apim_core.name
