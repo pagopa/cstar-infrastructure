@@ -91,7 +91,13 @@ resource "kubernetes_cluster_role" "kube_system_reader" {
 
   rule {
     api_groups = [""]
-    resources  = ["services", ]
+    resources  = ["services"]
+    verbs      = ["get", "list", "watch", ]
+  }
+
+  rule {
+    api_groups = ["rbac.authorization.k8s.io"]
+    resources  = ["rolebindings"]
     verbs      = ["get", "list", "watch", ]
   }
 
