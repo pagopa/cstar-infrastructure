@@ -84,6 +84,22 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
   ]
 }
 
+resource "kubernetes_cluster_role" "kube_system_reader" {
+  metadata {
+    name = "kube-system-reader"
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["services", ]
+    verbs      = ["get", "list", "watch", ]
+  }
+
+  depends_on = [
+    module.aks
+  ]
+}
+
 resource "kubernetes_cluster_role" "view_extra" {
   metadata {
     name = "view-extra"
