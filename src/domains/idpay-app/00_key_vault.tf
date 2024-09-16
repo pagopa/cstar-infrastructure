@@ -15,6 +15,7 @@ resource "azurerm_key_vault_access_policy" "apim" {
 
   secret_permissions = [
     "Get",
+    "List",
   ]
 }
 
