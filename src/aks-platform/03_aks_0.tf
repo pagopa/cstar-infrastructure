@@ -39,9 +39,8 @@ module "aks" {
 
   sku_tier = var.aks_sku_tier
 
-  workload_identity_enabled = var.env_short == "d" ? true : false
-  oidc_issuer_enabled       = var.env_short == "d" ? true : false
-
+  workload_identity_enabled = true
+  oidc_issuer_enabled       = true
 
   #
   # 🤖 System node pool
