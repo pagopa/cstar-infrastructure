@@ -438,3 +438,7 @@ redis_public_network_access_enabled = false
 
 aks_name                = "cstar-d-weu-dev01-aks"
 aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
+
+### CDN
+idpay_cdn_storage_account_replication_type = "GRS"
+selfcare_welfare_cdn_storage_account_replication_type = "GRS"

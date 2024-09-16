@@ -447,3 +447,7 @@ redis_sku_name                                  = "Standard"
 
 aks_name                = "cstar-p-weu-prod01-aks"
 aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
+
+### CDN
+idpay_cdn_storage_account_replication_type = "RAGZRS"
+selfcare_welfare_cdn_storage_account_replication_type = "RAGZRS"

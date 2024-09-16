@@ -57,6 +57,7 @@ module "idpay_cdn" {
   location              = var.location
   hostname              = "welfare.${data.azurerm_dns_zone.public.name}"
   https_rewrite_enabled = true
+  storage_account_replication_type = var.idpay_cdn_storage_account_replication_type
 
   index_document     = "index.html"
   error_404_document = "error.html"
