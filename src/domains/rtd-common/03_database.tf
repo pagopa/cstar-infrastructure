@@ -6,7 +6,7 @@ module "cosmosdb_account_mongodb" {
 
   source = "./.terraform/modules/__v3__/cosmosdb_account"
 
-  domain                        = ""
+  domain               = ""
   name                 = "${local.product}-cosmos-mongo-db-account"
   location             = data.azurerm_resource_group.db_rg.location
   resource_group_name  = data.azurerm_resource_group.db_rg.name
@@ -19,13 +19,13 @@ module "cosmosdb_account_mongodb" {
   // work around to comply with current module interface
 
   public_network_access_enabled = var.cosmos_mongo_db_params.public_network_access_enabled
-  private_endpoint_enabled          = var.cosmos_mongo_db_params.private_endpoint_enabled
-  subnet_id                         = data.azurerm_subnet.private_endpoint_snet.id
+  private_endpoint_enabled      = var.cosmos_mongo_db_params.private_endpoint_enabled
+  subnet_id                     = data.azurerm_subnet.private_endpoint_snet.id
 
-  private_dns_zone_mongo_ids        = [data.azurerm_private_dns_zone.cosmos_mongo.id]
+  private_dns_zone_mongo_ids            = [data.azurerm_private_dns_zone.cosmos_mongo.id]
   private_endpoint_mongo_name           = "cstar-${var.env_short}-cosmos-mongo-db-account-private-endpoint"
   private_service_connection_mongo_name = "cstar-${var.env_short}-cosmos-mongo-db-account-private-endpoint"
-  is_virtual_network_filter_enabled = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
+  is_virtual_network_filter_enabled     = var.cosmos_mongo_db_params.is_virtual_network_filter_enabled
 
   enable_provisioned_throughput_exceeded_alert = false
   allowed_virtual_network_subnet_ids = [
