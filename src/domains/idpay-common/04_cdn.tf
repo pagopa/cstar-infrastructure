@@ -51,7 +51,6 @@ locals {
 module "idpay_cdn" {
   source = "./.terraform/modules/__v3__/cdn"
 
-
   name                  = "idpaycdn"
   prefix                = local.project
   resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
