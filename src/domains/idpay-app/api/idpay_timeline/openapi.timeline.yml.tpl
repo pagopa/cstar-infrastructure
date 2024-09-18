@@ -155,8 +155,7 @@ paths:
 components:
   schemas:
     OperationDTO:
-      x-one-of: true
-      allOf:
+      oneOf:
         - $ref: '#/components/schemas/TransactionDetailDTO'
         - $ref: '#/components/schemas/InstrumentOperationDTO'
         - $ref: '#/components/schemas/IbanOperationDTO'
@@ -202,8 +201,7 @@ components:
           description: "ENG: Number of total pages - IT: Numero totali di pagine"
     OperationListDTO:
       description: Complex type for items in the operation list
-      x-one-of: true
-      allOf:
+      oneOf:
         - $ref: '#/components/schemas/TransactionOperationDTO'
         - $ref: '#/components/schemas/InstrumentOperationDTO'
         - $ref: '#/components/schemas/RejectedInstrumentOperationDTO'
