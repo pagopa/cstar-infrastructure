@@ -321,12 +321,12 @@ variable "idpay_cdn_sa_advanced_threat_protection_enabled" {
 }
 
 variable "idpay_cdn_storage_account_replication_type" {
-  type = string
+  type        = string
   description = "Which replication must use the blob storage under cdn"
 }
 
 variable "selfcare_welfare_cdn_storage_account_replication_type" {
-  type = string
+  type        = string
   description = "Which replication must use the blob storage under cdn"
 }
 

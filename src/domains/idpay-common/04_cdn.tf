@@ -51,12 +51,12 @@ locals {
 module "idpay_cdn" {
   source = "./.terraform/modules/__v3__/cdn"
 
-  name                  = "idpaycdn"
-  prefix                = local.project
-  resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
-  location              = var.location
-  hostname              = "welfare.${data.azurerm_dns_zone.public.name}"
-  https_rewrite_enabled = true
+  name                             = "idpaycdn"
+  prefix                           = local.project
+  resource_group_name              = azurerm_resource_group.fe_rg_idpay.name
+  location                         = var.location
+  hostname                         = "welfare.${data.azurerm_dns_zone.public.name}"
+  https_rewrite_enabled            = true
   storage_account_replication_type = var.idpay_cdn_storage_account_replication_type
 
   index_document     = "index.html"
@@ -259,10 +259,10 @@ module "selfcare_welfare_cdn" {
 
   source = "./.terraform/modules/__v3__/cdn"
 
-  name                = "welfare-selfcare-${var.env_short}"
-  prefix              = var.prefix
-  resource_group_name = azurerm_resource_group.rg_welfare.name
-  location            = var.location
+  name                             = "welfare-selfcare-${var.env_short}"
+  prefix                           = var.prefix
+  resource_group_name              = azurerm_resource_group.rg_welfare.name
+  location                         = var.location
   storage_account_replication_type = var.selfcare_welfare_cdn_storage_account_replication_type
 
   hostname              = "selfcare.${data.terraform_remote_state.core.outputs.dns_zone_welfare_name}"
