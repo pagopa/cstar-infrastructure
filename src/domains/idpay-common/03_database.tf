@@ -731,6 +731,13 @@ resource "azurerm_cosmosdb_mongo_collection" "mongodb_collections_idpay" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [
+      # ignore changes to autoscale_settings due to this operation is done manually
+      autoscale_settings,
+    ]
+  }
+
   timeouts {
   }
 
