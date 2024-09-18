@@ -63,7 +63,7 @@ cosmos_mongo_account_params = {
 
 cosmos_mongo_db_idpay_params = {
   throughput     = null
-  max_throughput = null
+  max_throughput = 1000
 }
 
 service_bus_namespace = {
@@ -447,3 +447,7 @@ redis_sku_name                                  = "Standard"
 
 aks_name                = "cstar-p-weu-prod01-aks"
 aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
+
+### CDN
+idpay_cdn_storage_account_replication_type            = "RAGZRS"
+selfcare_welfare_cdn_storage_account_replication_type = "RAGZRS"
