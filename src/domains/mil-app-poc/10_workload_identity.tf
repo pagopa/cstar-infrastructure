@@ -20,8 +20,8 @@ resource "azurerm_key_vault_access_policy" "access_auth_secret_kv" {
   tenant_id = data.azurerm_subscription.current.tenant_id
   object_id = module.workload_identity.user_assigned_identity_principal_id
 
-  key_permissions         = ["Get", "List", "Update", "Create", "Import", "Delete", ]
-  secret_permissions      = ["Get", "List", "Set", "Delete", "Recover", "Restore", ]
+  key_permissions         = ["Get", "List", "Create", "Decrypt", "Delete", "Encrypt", "Sign", "Verify"]
+  secret_permissions      = []
   storage_permissions     = []
-  certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover", ]
+  certificate_permissions = []
 }
