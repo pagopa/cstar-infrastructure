@@ -18,3 +18,17 @@ resource "azurerm_storage_account" "auth" {
   public_network_access_enabled = false
   tags                          = var.tags
 }
+
+# ------------------------------------------------------------------------------
+# Storage account.
+# ------------------------------------------------------------------------------
+resource "azurerm_storage_account" "conf" {
+  name                          = "${var.prefix}${var.env_short}${var.domain}confst"
+  resource_group_name           = azurerm_resource_group.storage_rg.name
+  location                      = azurerm_resource_group.storage_rg.location
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  account_kind                  = "StorageV2"
+  public_network_access_enabled = false
+  tags                          = var.tags
+}
