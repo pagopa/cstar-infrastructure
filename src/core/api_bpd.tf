@@ -128,54 +128,6 @@ moved {
   to   = module.api_bpd_pm_payment_instrument[0]
 }
 
-module "api_bpd_tc" {
-
-  count = var.enable.bpd.api ? 1 : 0
-
-
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
-
-  name                = format("%s-bpd-tc-api", var.env_short)
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  description  = "Api and Models"
-  display_name = "BPD TC API"
-  path         = "bpd/tc"
-  protocols    = ["https"]
-
-  service_url = format("https://%s/%s",
-    azurerm_private_endpoint.blob_storage_pe.private_dns_zone_configs[0].record_sets[0].fqdn,
-    azurerm_storage_container.bpd_terms_and_conditions.name
-  )
-
-
-  content_value = templatefile("./api/bpd_tc/swagger.json", {
-    host = local.apim_hostname #azurerm_api_management_custom_domain.api_custom_domain.gateway[0].host_name
-  })
-
-  xml_content = file("./api/azureblob/azureblob_policy.xml")
-
-  product_ids = [module.bpd_api_product.product_id]
-
-  api_operation_policies = [
-    {
-      operation_id = "getTermsAndConditionsUsingGET",
-      xml_content  = file("./api/bpd_tc/get_terms_and_conditions_html.xml")
-    },
-    {
-      operation_id = "getTermsAndConditionsPDF",
-      xml_content  = file("./api/bpd_tc/get_terms_and_conditions_pdf.xml")
-    },
-  ]
-}
-
-moved {
-  from = module.api_bpd_tc
-  to   = module.api_bpd_tc[0]
-}
-
-
 ##############
 ## Products ##
 ##############
