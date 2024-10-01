@@ -1,7 +1,7 @@
 prefix         = "cstar"
 env_short      = "d"
 env            = "dev"
-domain         = "srtp"
+domain         = "rtp"
 location       = "westeurope"
 location_short = "weu"
 instance       = "dev"
@@ -12,7 +12,7 @@ tags = {
   Owner       = "CSTAR"
   Source      = "https://github.com/pagopa/cstar-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-  Application = "SRTP"
+  Application = "RTP"
 }
 
 # Monitoring

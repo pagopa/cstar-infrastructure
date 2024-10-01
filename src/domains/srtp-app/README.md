@@ -1,4 +1,4 @@
-# srtp-app
+# rtp-app
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

@@ -1,4 +1,4 @@
-# srtp-common
+# rtp-common
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
