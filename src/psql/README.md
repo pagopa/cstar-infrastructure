@@ -180,7 +180,7 @@ No modules.
 | <a name="input_psql_port"></a> [psql\_port](#input\_psql\_port) | n/a | `string` | n/a | yes |
 | <a name="input_psql_servername"></a> [psql\_servername](#input\_psql\_servername) | n/a | `string` | n/a | yes |
 | <a name="input_psql_username"></a> [psql\_username](#input\_psql\_username) | n/a | `string` | `null` | no |
-| <a name="input_users"></a> [users](#input\_users) | List of users with grants. | <pre>list(object({<br/>    name = string<br/>    grants = list(object({<br/>      object_type = string<br/>      database    = string<br/>      schema      = string<br/>      privileges  = list(string)<br/>    }))<br/>  }))</pre> | `[]` | no |
+| <a name="input_users"></a> [users](#input\_users) | List of users with grants. | <pre>list(object({<br>    name = string<br>    grants = list(object({<br>      object_type = string<br>      database    = string<br>      schema      = string<br>      privileges  = list(string)<br>    }))<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
