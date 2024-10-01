@@ -141,7 +141,7 @@ For example:
 ```
 
 <!-- markdownlint-disable -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -191,4 +191,4 @@ No modules.
 | <a name="output_psql_password"></a> [psql\_password](#output\_psql\_password) | n/a |
 | <a name="output_psql_servername"></a> [psql\_servername](#output\_psql\_servername) | n/a |
 | <a name="output_psql_username"></a> [psql\_username](#output\_psql\_username) | n/a |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

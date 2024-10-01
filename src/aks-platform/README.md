@@ -23,7 +23,7 @@ Launch the cluster creation
 Re-enable all the resource, commented before to complete the procedure
 
 <!-- markdownlint-disable -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -153,4 +153,4 @@ Re-enable all the resource, commented before to complete the procedure
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
