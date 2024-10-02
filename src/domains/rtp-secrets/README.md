@@ -19,10 +19,8 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_key_vault_auth"></a> [key\_vault\_auth](#module\_key\_vault\_auth) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
 | <a name="module_key_vault_core"></a> [key\_vault\_core](#module\_key\_vault\_core) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
-| <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
-| <a name="module_letsencrypt_mil"></a> [letsencrypt\_mil](#module\_letsencrypt\_mil) | git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential | v8.21.0 |
+| <a name="module_letsencrypt_rtp"></a> [letsencrypt\_rtp](#module\_letsencrypt\_rtp) | git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential | v8.21.0 |
 
 ## Resources
 

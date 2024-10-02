@@ -26,7 +26,6 @@ locals {
 
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "ad_group_policy" {
-#   for_each     = local.kvs
   key_vault_id = module.key_vault_core.id
 
   tenant_id = data.azurerm_client_config.current.tenant_id
@@ -58,7 +57,7 @@ resource "azurerm_key_vault_access_policy" "adgroup_developers_policy" {
 
 ## ad group policy ##
 resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
-  count     = var.env_short != "p" ? 1: 0
+  count = var.env_short != "p" ? 1 : 0
 
   key_vault_id = module.key_vault_core.id
 
