@@ -16,6 +16,10 @@ locals {
   aks_name                = var.aks_name
   aks_resource_group_name = var.aks_resource_group_name
 
-  # system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
-  # domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
+  # DOMAINS
+  system_domain_namespace = "${var.domain}-system"
+  domain_namespace        = var.domain
+
+  domain_aks_hostname = var.env == "prod" ? "${local.ingress_hostname_prefix}.internal.cstar.pagopa.it" : "${local.ingress_hostname_prefix}.internal.${var.env}.cstar.pagopa.it"
+
 }
