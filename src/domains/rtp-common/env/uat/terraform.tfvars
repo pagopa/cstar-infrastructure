@@ -19,3 +19,6 @@ tags = {
 monitor_resource_group_name                 = "cstar-u-monitor-rg"
 log_analytics_workspace_name                = "cstar-u-law"
 log_analytics_workspace_resource_group_name = "cstar-u-monitor-rg"
+
+# Public DNS
+dns_zone_prefix = "uat.cstar"

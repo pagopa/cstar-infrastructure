@@ -10,4 +10,7 @@ locals {
 
   container_registry_common_name    = "${local.project}-common-acr"
   rg_container_registry_common_name = "${local.project}-container-registry-rg"
+
+  external_domain = "pagopa.it"
+  rtp_cdn_domain  = "rtp.${var.dns_zone_prefix}.${local.external_domain}"
 }
