@@ -19,10 +19,10 @@ module "rtp_cdn" {
   hostname                         = local.rtp_cdn_domain
   index_document                   = "index.html"
   error_404_document               = "not_found.html"
-  storage_account_replication_type = "ZRS"
+  storage_account_replication_type = var.cdn_rtp.storage_account_replication_type
 
   querystring_caching_behaviour      = "BypassCaching"
-  advanced_threat_protection_enabled = var.env_short == "p"
+  advanced_threat_protection_enabled = var.cdn_rtp.advanced_threat_protection_enabled
 
   log_analytics_workspace_id          = data.azurerm_log_analytics_workspace.log_analytics.id
   storage_account_nested_items_public = false
@@ -30,6 +30,10 @@ module "rtp_cdn" {
   # add public dns zone name
   dns_zone_name                = data.azurerm_dns_zone.cstar_public_dns_zone.name
   dns_zone_resource_group_name = data.azurerm_dns_zone.cstar_public_dns_zone.resource_group_name
+
+  keyvault_vault_name          = data.azurerm_key_vault.kv_domain.name
+  keyvault_resource_group_name = data.azurerm_key_vault.kv_domain.resource_group_name
+  keyvault_subscription_id     = data.azurerm_subscription.current.subscription_id
 
   delivery_rule_rewrite = [{
     name  = "RewriteRulesForReactRouting"
@@ -66,9 +70,6 @@ module "rtp_cdn" {
     ]
   }
 
-  keyvault_subscription_id     = null
-  keyvault_resource_group_name = null
-  keyvault_vault_name          = null
 
   tags = var.tags
 }

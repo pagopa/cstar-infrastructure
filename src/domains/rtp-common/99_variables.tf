@@ -81,3 +81,10 @@ variable "dns_zone_prefix" {
   type        = string
   description = "The dns zone prefix e.g. dev.rtp"
 }
+
+variable "cdn_rtp" {
+  type = object({
+    storage_account_replication_type   = string
+    advanced_threat_protection_enabled = bool
+  })
+}
