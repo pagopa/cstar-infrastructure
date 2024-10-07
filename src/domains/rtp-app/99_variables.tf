@@ -91,6 +91,11 @@ variable "aks_resource_group_name" {
   description = "AKS cluster resource name"
 }
 
+variable "aks_cluster_domain_name" {
+  type        = string
+  description = "Name of the aks cluster domain. eg: dev01"
+}
+
 variable "k8s_kube_config_path_prefix" {
   type    = string
   default = "~/.kube"
