@@ -76,3 +76,15 @@ variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
 }
+
+variable "dns_zone_prefix" {
+  type        = string
+  description = "The dns zone prefix e.g. dev.rtp"
+}
+
+variable "cdn_rtp" {
+  type = object({
+    storage_account_replication_type   = string
+    advanced_threat_protection_enabled = bool
+  })
+}
