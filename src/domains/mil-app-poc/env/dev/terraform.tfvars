@@ -62,5 +62,5 @@ mil_papos_address            = "milpapos"
 #
 # mil-terminal-registry
 #
-mil_terminal_registry_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-terminal-registry/main/src/main/resources/META-INF/openapi.yaml"
-mil_terminal_registry_address            = "milterminalregistry"
+mil_auth_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-auth/main/src/main/resources/META-INF/openapi.yaml"
+mil_auth_address            = "milauth"

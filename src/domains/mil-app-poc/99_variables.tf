@@ -52,20 +52,20 @@ variable "mil_papos_address" {
 
 
 ##
-## mil-terminal-registry
+## mil-auth
 ##
-variable "mil_terminal_registry_path" {
+variable "mil_auth_path" {
   type    = string
-  default = "mil-terminal-registry"
+  default = "mil-auth"
 }
 
-variable "mil_terminal_registry_openapi_descriptor" {
+variable "mil_auth_openapi_descriptor" {
   type = string
 }
 
-variable "mil_terminal_registry_address" {
+variable "mil_auth_address" {
   type    = string
-  default = "milterminalregistry"
+  default = "milauth"
 }
 
 
