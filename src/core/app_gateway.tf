@@ -161,6 +161,22 @@ module "app_gw_maz" {
         )
       }
     }
+
+    rtp = {
+      protocol           = "Https"
+      host               = "rtp.${var.dns_zone_prefix}.${var.external_domain}"
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
+      certificate = {
+        name = var.app_gateway_rtp_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.rtp_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.rtp_gw_cstar.version
+        )
+      }
+    }
   }
 
   # maps listener to backend
