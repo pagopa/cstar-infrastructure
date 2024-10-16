@@ -81,10 +81,18 @@ locals {
       ]
     },
     {
-      name = "channel"
+      name = "tpp"
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["tppId", "entityId"]
+          unique = true
+        },
+        {
+          keys   = ["tppId"]
+          unique = false
         },
         {
           keys   = ["entityId"]

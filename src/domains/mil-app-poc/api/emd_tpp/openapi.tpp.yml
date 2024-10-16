@@ -1,0 +1,331 @@
+openapi: 3.0.3
+info:
+  title: EMD TPP API
+  version: '1.0'
+  description: |-
+    EMD TPP
+servers:
+  - description: Development Test
+    url: https://api-io.dev.cstar.pagopa.it/emd/tpp
+    x-internal: true
+  - description: User Acceptance Test
+    url: https://api-io.uat.cstar.pagopa.it/emd/tpp
+    x-internal: true
+
+security:
+  - bearerAuth: [ ]
+
+tags:
+  - name: TPP
+    description: 'TPP operation'
+paths:
+  '/':
+    post:
+      tags:
+        - TPP
+      summary: >-
+        ENG: Returns the TPP information - IT: Ritorna le informazioni della TPP
+      operationId: upsert
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: 'ENG: TPP details - IT: Dettagli della TPP'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TppDTO'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TppDTOWithDates'
+        '401':
+          description: Authentication failed
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_BAD_REQUEST
+                message: Something went wrong handling the request
+        '404':
+          description: The TPP was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_NOT_ONBOARDED
+                message: Tpp not onboarded
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_GENERIC_ERROR
+                message: Application error
+    put:
+      tags:
+        - TPP
+      summary: >-
+        ENG: Update TPP consent state - IT: Aggiornamento dello stato dei consensi della TPP
+      operationId: updateState
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: 'ENG: TPP identifier and state - IT: Identificativo univoco della TPP e stato'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TppDTO'
+            example:
+              tppId: tppId123
+              state: false
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TppDTOWithDates'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_BAD_REQUEST
+                message: Something went wrong handling the request
+        '404':
+          description: The TPP was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_NOT_ONBOARDED
+                message: Tpp not onboarded
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_GENERIC_ERROR
+                message: Application error
+  '/{tppId}':
+    get:
+      tags:
+        - TPP
+      summary: >-
+        ENG: Returns the TPP detalil from tppId associated - IT: Ritorna il dettaglio della TPP attraverso il tppId
+      operationId: get
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: tppId
+          in: path
+          description: 'ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TppDTOWithDates'
+        '401':
+          description: Authentication failed
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_BAD_REQUEST
+                message: Something went wrong handling the request
+        '404':
+          description: The TPP was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_NOT_ONBOARDED
+                message: Tpp not onboarded
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_GENERIC_ERROR
+                message: Application error
+
+
+
+components:
+  schemas:
+
+    TppDTO:
+      type: object
+      description: "TPP information(Third Party Provider)"
+      properties:
+        tppId:
+          type: string
+          description: "Unique ID that identify TPP on PagoPA systems"
+          example: "tpp123"
+        entityId:
+          type: string
+          description: "Fiscal Code or P.IVA of the TPP"
+          example: "8636357489"
+        businessName:
+          type: string
+          description: "Company Name"
+          example: "MyBusiness Ltd"
+        messageUrl:
+          type: string
+          description: "URL to notify PUSH message"
+          example: "https://api.tpp.com/message"
+        authenticationUrl:
+          type: string
+          description: "url for authentication"
+          example: "https://api.tpp.com/auth"
+        authenticationType:
+          type: string
+          description: "authentication type"
+          enum:
+            - OAUTH2
+          example: "OAUTH2"
+        contact:
+          $ref: '#/components/schemas/Contact'
+        state:
+          type: boolean
+          description: "Status active/inactive"
+          example: true
+
+    Contact:
+      type: object
+      description: "Contact information about TPP"
+      properties:
+        name:
+          type: string
+          description: "Contact name"
+          example: "John Doe"
+        email:
+          type: string
+          description: "Contact email"
+          example: "john.doe@tpp.com"
+        phone:
+          type: string
+          description: "telephone number"
+          example: "+393456780019"
+
+    TppDTOWithDates:
+      allOf:
+        - $ref: '#/components/schemas/TppDTO'
+        - type: object
+          description: "TPP information with date fields"
+          properties:
+            creationDate:
+              type: string
+              format: date-time
+              description: "The date and time when the TPP was created"
+              example: "2023-10-01T12:00:00Z"
+            lastUpdateDate:
+              type: string
+              format: date-time
+              description: "The date and time when the TPP was last updated"
+              example: "2023-10-15T08:30:00Z"
+
+    TPPErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - TPP_BAD_REQUEST
+            - TPP_NOT_ONBOARDED
+            - TPP_TOO_MANY_REQUESTS
+            - TPP_GENERIC_ERROR
+          description: |-
+            "ENG: Error code: TPP_BAD_REQUEST: Something went wrong handling the request,
+             TPP_NOT_ONBOARDED: TPP not onboarded,
+             TPP_TOO_MANY_REQUESTS: Too many requests,
+             TPP_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             TPP_BAD_REQUEST:  Qualcosa è andato storto durante l'invio della richiesta,
+             TPP_NOT_ONBOARDED: TPP non onboardata,
+             TPP_TOO_MANY_REQUESTS: Troppe richieste,
+             TPP_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
