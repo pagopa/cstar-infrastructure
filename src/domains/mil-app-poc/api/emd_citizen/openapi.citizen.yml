@@ -1,0 +1,479 @@
+openapi: 3.0.3
+info:
+  title: EMD CITIZEN CONSENT API
+  version: '1.0'
+  description: |-
+    EMD CITIZEN CONSENT
+servers:
+  - description: Development Test
+    url: https://api-io.dev.cstar.pagopa.it/emd/citizen
+    x-internal: true
+  - description: User Acceptance Test
+    url: https://api-io.uat.cstar.pagopa.it/emd/citizen
+    x-internal: true
+
+security:
+  - bearerAuth: [ ]
+
+tags:
+  - name: Citizen consent
+    description: 'Citizen consent operation'
+paths:
+  '/':
+    post:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Save citizen consent information - IT: Salvataggio dei consensi del cittadino
+      operationId: saveCitizenConsent
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: 'ENG: Citizen consent details - IT: Dettagli consensi del cittadino'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitizenConsentDTORequest'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentDTOResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+        '401':
+          description: Authentication failed
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+  '/stateUpdate':
+    put:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Update citizen consent state - IT: Aggiornamento dello stato dei consensi del cittadino
+      operationId: updateState
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description:  'ENG: Citizen consent details - IT: Dettagli consensi del cittadino'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitizenConsentDTORequest'
+            example:
+              tppId: tppId123
+              state: false
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentDTOResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+        '401':
+          description: Authentication failed
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+  '/{fiscalCode}/{tppId}':
+    get:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Returns the Citizen consent detalil from fiscalCode and tppId associated - IT: Ritorna il dettaglio dei consensi del cittadino tramite fiscalCode e tppId
+      operationId: getConsentStatus
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: fiscalCode
+          in: path
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+        - name: tppId
+          in: path
+          description: 'ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentDTOResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+        '401':
+          description: Authentication failed
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+
+  '/list/{fiscalCode}':
+    get:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Returns the list of tpp associated with a specific citizen - IT: Restituisce la lista dei canali associati ad un determinato cittadino
+      operationId: getCitizenConsents
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: fiscalCode
+          in: path
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "A list of enabled citizen consents"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CitizenConsentDTOResponse'
+              example:
+                - tppId: "tpp123"
+                  tppState: true
+                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
+                  creationDate: "2023-10-01T12:00:00Z"
+                  lastUpdateDate: "2023-10-15T08:30:00Z"
+                - tppId: "tpp236"
+                  tppState: true
+                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
+                  creationDate: "2023-05-01T11:00:00Z"
+                  lastUpdateDate: "2023-06-10T13:30:00Z"
+                - tppId: "tpp456"
+                  tppState: false
+                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
+                  creationDate: "2023-05-01T10:00:00Z"
+                  lastUpdateDate: "2023-06-10T09:30:00Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+        '401':
+          description: Authentication failed
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+
+  '/list/{fiscalCode}/enabled':
+    get:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Returns the list of tpp enabled associated with a specific citizen - IT: Restituisce la lista dei canali abilitati associati ad un determinato cittadino
+      operationId: getCitizenConsentsEnabled
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: fiscalCode
+          in: path
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "A list of enabled citizen consents"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CitizenConsentDTOResponse'
+              example:
+                - tppId: "tpp123"
+                  tppState: true
+                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
+                  creationDate: "2023-10-01T12:00:00Z"
+                  lastUpdateDate: "2023-10-15T08:30:00Z"
+                - tppId: "tpp236"
+                  tppState: true
+                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
+                  creationDate: "2023-05-01T11:00:00Z"
+                  lastUpdateDate: "2023-06-10T13:30:00Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+        '401':
+          description: Authentication failed
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+
+components:
+  schemas:
+
+    CitizenConsentDTOGeneral:
+      type: object
+      description: "Citizen consent general"
+      properties:
+        tppId:
+          type: string
+          description: "Unique ID that identify TPP on PagoPA systems"
+          example: "tpp123"
+        tppState:
+          type: boolean
+          description: "Status active/inactive"
+          example: true
+
+    CitizenConsentDTORequest:
+      allOf:
+        - $ref: '#/components/schemas/CitizenConsentDTOGeneral'
+        - type: object
+          description: "Citizen consent general with fiscalCode"
+          properties:
+            fiscalCode:
+              type: string
+              description: "P.IVA or fiscal code of the citizen"
+              example: "RSSMRA43L87R932B"
+
+    CitizenConsentDTOResponse:
+      allOf:
+        - $ref: '#/components/schemas/CitizenConsentDTOGeneral'
+        - type: object
+          description: "Citizen consent of response with hashedFiscalCode and Date"
+          properties:
+            hashedFiscalCode:
+              type: string
+              description: "P.IVA or fiscal code hashed of the citizen"
+              example: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
+            creationDate:
+              type: string
+              format: date-time
+              description: "The date and time when the Citizen consent was created"
+              example: "2023-10-01T12:00:00Z"
+            lastUpdateDate:
+              type: string
+              format: date-time
+              description: "The date and time when the Citizen consent was last updated"
+              example: "2023-10-15T08:30:00Z"
+
+    CitizenConsentErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - CITIZEN_CONSENT_BAD_REQUEST
+            - CITIZEN_CONSENT_NOT_ONBOARDED
+            - CITIZEN_CONSENT_TOO_MANY_REQUESTS
+            - CITIZEN_CONSENT_GENERIC_ERROR
+          description: |-
+            "ENG: Error code: CITIZEN_CONSENT_BAD_REQUEST: Something went wrong handling the request,
+             CITIZEN_CONSENT_NOT_ONBOARDED: Citizen consent not inserted,
+             CITIZEN_CONSENT_TOO_MANY_REQUESTS: Too many requests,
+             CITIZEN_CONSENT_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             CITIZEN_CONSENT_BAD_REQUEST:  Qualcosa è andato storto durante l'invio della richiesta,
+             CITIZEN_CONSENT_NOT_ONBOARDED: Consensi del cittadino non inseriti,
+             CITIZEN_CONSENT_TOO_MANY_REQUESTS: Troppe richieste,
+             CITIZEN_CONSENT_GENERIC_ERROR: Errore generico"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

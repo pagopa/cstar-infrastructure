@@ -27,7 +27,7 @@ module "emd_api_product" {
   groups = ["developers"]
 }
 
-## EMD TPPE ##
+## EMD TPP ##
 module "emd_tpp" {
   source = "./.terraform/modules/__v3__/api_management_api"
 
@@ -70,6 +70,69 @@ module "emd_tpp" {
       operation_id = "get"
 
       xml_content = templatefile("./api/emd_tpp/get-tpp-detail.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+}
+
+## EMD CITIZEN ##
+module "emd_citizen" {
+  source = "./.terraform/modules/__v3__/api_management_api"
+
+
+  name                = "${var.env_short}-emd-citizen"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "EMD CITIZEN CONSENT"
+  display_name = "EMD CITIZEN CONSENT API"
+  path         = "emd/citizen"
+  protocols    = ["https"]
+
+  service_url = "${local.ingress_load_balancer_https}/emdcitizen/emd/citizen"
+
+  content_format = "openapi"
+  content_value  = file("./api/emd_citizen/openapi.citizen.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.emd_api_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "saveCitizenConsent"
+
+      xml_content = templatefile("./api/emd_citizen/post-insert-citizen-consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "stateUpdate"
+
+      xml_content = templatefile("./api/emd_citizen/put-update-citizen-consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getConsentStatus"
+
+      xml_content = templatefile("./api/emd_citizen/get-citizen-consent-status-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getCitizenConsents"
+
+      xml_content = templatefile("./api/emd_citizen/get-citizen-consent-list-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getCitizenConsentsEnabled"
+
+      xml_content = templatefile("./api/emd_citizen/get-citizen-consent-enabled-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
