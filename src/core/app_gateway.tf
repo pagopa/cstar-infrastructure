@@ -164,7 +164,7 @@ module "app_gw_maz" {
 
     rtp = {
       protocol           = "Https"
-      host               = "rtp.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = "api-rtp.${var.dns_zone_prefix}.${var.external_domain}"
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
@@ -187,7 +187,6 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = null
       priority              = 10
-
     }
 
     broker = {
@@ -195,7 +194,6 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-broker-api"
       priority              = 30
-
     }
 
     portal = {
@@ -211,6 +209,13 @@ module "app_gw_maz" {
       rewrite_rule_set_name = null
       priority              = 40
 
+    }
+
+    rtp-api = {
+      listener              = "rtp"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-rtp"
+      priority              = 50
     }
   }
 
@@ -253,6 +258,29 @@ module "app_gw_maz" {
           url = null
       }]
     },
+    {
+      name = "rewrite-rule-set-api-rtp"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "rtp/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    }
   ]
 
   # TLS
