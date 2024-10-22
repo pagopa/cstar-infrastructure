@@ -109,7 +109,7 @@ module "emd_citizen" {
       })
     },
     {
-      operation_id = "stateUpdate"
+      operation_id = "updateState"
 
       xml_content = templatefile("./api/emd_citizen/put-update-citizen-consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname

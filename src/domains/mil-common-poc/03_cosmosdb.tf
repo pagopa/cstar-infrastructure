@@ -67,7 +67,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["hashedFiscalCode", "channelId"]
+          keys   = ["hashedFiscalCode", "tppId"]
           unique = true
         },
         {
@@ -75,7 +75,7 @@ locals {
           unique = false
         },
         {
-          keys   = ["channelId"]
+          keys   = ["tppId"]
           unique = false
         }
       ]
@@ -92,7 +92,7 @@ locals {
         },
         {
           keys   = ["tppId"]
-          unique = false
+          unique = true
         },
         {
           keys   = ["entityId"]
