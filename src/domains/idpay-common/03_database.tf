@@ -18,15 +18,16 @@ module "cosmosdb_account_mongodb" {
   source = "./.terraform/modules/__v3__/cosmosdb_account"
 
 
-  name                 = "${local.product}-${var.domain}-mongodb-account"
-  domain               = var.domain
-  location             = azurerm_resource_group.data_rg.location
-  resource_group_name  = azurerm_resource_group.data_rg.name
-  offer_type           = var.cosmos_mongo_account_params.offer_type
-  enable_free_tier     = var.cosmos_mongo_account_params.enable_free_tier
-  kind                 = "MongoDB"
-  capabilities         = var.cosmos_mongo_account_params.capabilities
-  mongo_server_version = var.cosmos_mongo_account_params.server_version
+  name                = "${local.product}-${var.domain}-mongodb-account"
+  domain              = var.domain
+  location            = azurerm_resource_group.data_rg.location
+  resource_group_name = azurerm_resource_group.data_rg.name
+  offer_type          = var.cosmos_mongo_account_params.offer_type
+  enable_free_tier    = var.cosmos_mongo_account_params.enable_free_tier
+  kind                = "MongoDB"
+  capabilities        = var.cosmos_mongo_account_params.capabilities
+
+  #mongo_server_version = var.cosmos_mongo_account_params.server_version
 
   public_network_access_enabled = var.cosmos_mongo_account_params.public_network_access_enabled
   private_endpoint_enabled      = var.cosmos_mongo_account_params.private_endpoint_enabled
