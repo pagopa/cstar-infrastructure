@@ -75,7 +75,7 @@ module "rtp_cdn" {
         action = "Overwrite"
         name   = "X-Frame-Options"
         value  = "SAMEORIGIN"
-      },
+      }
     ]
   }
 
