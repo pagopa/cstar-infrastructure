@@ -66,7 +66,16 @@ module "rtp_cdn" {
         name   = "Strict-Transport-Security"
         value  = "max-age=31536000"
       },
-      # Add Content Security Policy protection
+      {
+        action = "Append"
+        name   = "X-Content-Type-Options"
+        value  = "nosniff"
+      },
+      {
+        action = "Overwrite"
+        name   = "X-Frame-Options"
+        value  = "SAMEORIGIN"
+      },
     ]
   }
 
