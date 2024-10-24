@@ -485,6 +485,11 @@ variable "app_gateway_api_io_certificate_name" {
   description = "Application gateway api io certificate name on Key Vault"
 }
 
+variable "app_gateway_rtp_certificate_name" {
+  type        = string
+  description = "Application gateway rtp certificate name on Key Vault"
+}
+
 variable "app_gw_load_client_certificate" {
   type        = bool
   default     = true
