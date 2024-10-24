@@ -67,7 +67,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["hashedFiscalCode", "channelId"]
+          keys   = ["hashedFiscalCode", "tppId"]
           unique = true
         },
         {
@@ -75,16 +75,24 @@ locals {
           unique = false
         },
         {
-          keys   = ["channelId"]
+          keys   = ["tppId"]
           unique = false
         }
       ]
     },
     {
-      name = "channel"
+      name = "tpp"
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["tppId", "entityId"]
+          unique = true
+        },
+        {
+          keys   = ["tppId"]
+          unique = true
         },
         {
           keys   = ["entityId"]
