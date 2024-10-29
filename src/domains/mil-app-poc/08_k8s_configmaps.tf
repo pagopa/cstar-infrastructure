@@ -46,9 +46,9 @@ resource "kubernetes_config_map" "rest-client" {
   }
 
   data = {
-    rest_client_schema          = "http"
-    emd-citizen-baseurl         = "http://emd-citizen-microservice-chart:8080"
-    emd-tpp-baseurl             = "http://emd-tpp-microservice-chart:8080"
+    rest_client_schema  = "http"
+    emd-citizen-baseurl = "http://emd-citizen-microservice-chart:8080"
+    emd-tpp-baseurl     = "http://emd-tpp-microservice-chart:8080"
   }
 
 }
