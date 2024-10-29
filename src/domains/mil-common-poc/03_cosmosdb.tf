@@ -67,15 +67,11 @@ locals {
         unique = true
         },
         {
-          keys   = ["hashedFiscalCode", "tppId"]
-          unique = true
-        },
-        {
           keys   = ["hashedFiscalCode"]
           unique = false
         },
         {
-          keys   = ["tppId"]
+          keys   = ["consents.$**"]
           unique = false
         }
       ]
