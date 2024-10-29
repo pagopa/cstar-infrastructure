@@ -68,7 +68,7 @@ locals {
         },
         {
           keys   = ["hashedFiscalCode"]
-          unique = false
+          unique = true
         },
         {
           keys   = ["consents.$**"]
