@@ -24,6 +24,8 @@ resource "kubernetes_config_map" "emd-eventhub" {
 
     emd-courtesy-message-consumer-group = "emd-courtesy-message-consumer-group"
     emd_courtesy_message_topic          = "emd-courtesy-message"
+    emd-notify-error-consumer-group     = "emd-notify-error-consumer-group"
+    emd_notify_error_topic              = "emd-notify-error"
   }
 
 }
