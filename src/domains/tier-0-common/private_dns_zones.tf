@@ -20,6 +20,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_integr" {
   virtual_network_id    = data.azurerm_virtual_network.integr.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_core" {
+  name                  = data.azurerm_virtual_network.core.name
+  resource_group_name   = azurerm_resource_group.network.name
+  private_dns_zone_name = azurerm_private_dns_zone.aca.name
+  virtual_network_id    = data.azurerm_virtual_network.core.id
+}
+
 resource "azurerm_private_dns_a_record" "aca" {
   name                = "*"
   zone_name           = azurerm_private_dns_zone.aca.name
