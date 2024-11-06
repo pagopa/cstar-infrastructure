@@ -15,7 +15,6 @@ locals {
   repositories = [
     {
       repository : "mil-auth"
-      subject : var.env
     }
   ]
 
