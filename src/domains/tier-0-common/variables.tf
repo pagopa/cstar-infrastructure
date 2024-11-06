@@ -43,10 +43,4 @@ variable "location_short" {
 
 variable "tags" {
   type = map(any)
-  default = {
-    CreatedBy  = "Terraform"
-    Owner      = "mil"
-    Source     = "https://github.com/pagopa/mil-infra"
-    CostCenter = "TS310 - PAGAMENTI & SERVIZI"
-  }
 }
