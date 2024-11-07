@@ -38,6 +38,8 @@ resource "azurerm_private_dns_a_record" "aca" {
 
 # ------------------------------------------------------------------------------
 # Private DNS zone for key vaults.
+#
+# TODO: To be moved to core.
 # ------------------------------------------------------------------------------
 resource "azurerm_private_dns_zone" "key_vault" {
   name                = "privatelink.vaultcore.azure.net"
@@ -50,7 +52,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_intern" {
   private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
   virtual_network_id    = data.azurerm_virtual_network.intern.id
 }
-
 # ------------------------------------------------------------------------------
 # Private DNS zone for storages.
 # ------------------------------------------------------------------------------
@@ -59,16 +60,6 @@ data "azurerm_private_dns_zone" "storage" {
   resource_group_name = var.core_integr_virtual_network_resource_group_name
 }
 
-#
-# Already done by core.
-#
-#resource "azurerm_private_dns_zone_virtual_network_link" "storage_to_intern" {
-#  name                  = "storage_to_intern"
-#  resource_group_name   = data.azurerm_private_dns_zone.storage.resource_group_name
-#  private_dns_zone_name = data.azurerm_private_dns_zone.storage.name
-#  virtual_network_id    = data.azurerm_virtual_network.intern.id
-#}
-
 # ------------------------------------------------------------------------------
 # Private DNS zone for CosmosDB.
 # ------------------------------------------------------------------------------
@@ -76,13 +67,3 @@ data "azurerm_private_dns_zone" "cosmos" {
   name                = "privatelink.mongo.cosmos.azure.com"
   resource_group_name = var.core_integr_virtual_network_resource_group_name
 }
-
-#
-# Already done by core.
-#
-#resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_to_intern" {
-#  name                  = "cosmos_to_intern"
-#  resource_group_name   = data.azurerm_private_dns_zone.cosmos.resource_group_name
-#  private_dns_zone_name = data.azurerm_private_dns_zone.cosmos.name
-#  virtual_network_id    = data.azurerm_virtual_network.intern.id
-#}
