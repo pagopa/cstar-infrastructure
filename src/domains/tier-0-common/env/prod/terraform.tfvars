@@ -2,7 +2,7 @@
 # General variables.
 # ------------------------------------------------------------------------------
 prefix         = "cstar"
-env_short      = "u"
+env_short      = "p"
 env            = "prod"
 location       = "westeurope"
 location_short = "weu"
