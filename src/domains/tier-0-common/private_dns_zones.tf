@@ -52,6 +52,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_intern" {
   private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
   virtual_network_id    = data.azurerm_virtual_network.intern.id
 }
+
 # ------------------------------------------------------------------------------
 # Private DNS zone for storages.
 # ------------------------------------------------------------------------------
