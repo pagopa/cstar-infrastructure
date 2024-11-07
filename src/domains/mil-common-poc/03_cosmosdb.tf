@@ -67,7 +67,7 @@ locals {
         unique = true
         },
         {
-          keys   = ["hashedFiscalCode"]
+          keys   = ["fiscalCode"]
           unique = true
         },
         {
