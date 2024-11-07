@@ -23,30 +23,6 @@ resource "azurerm_private_endpoint" "auth_key_vault" {
 }
 
 # ------------------------------------------------------------------------------
-# Private endpoint from ACA subnet to general key vault.
-# ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "general_key_vault" {
-  name                = "${local.project}-gen-kv-pep"
-  location            = azurerm_resource_group.network.location
-  resource_group_name = azurerm_resource_group.network.name
-  subnet_id           = azurerm_subnet.aca.id
-
-  custom_network_interface_name = "${local.project}-gen-kv-pep-nic"
-
-  private_dns_zone_group {
-    name                 = "${local.project}-gen-kv-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
-  }
-
-  private_service_connection {
-    name                           = "${local.project}-gen-kv-psc"
-    private_connection_resource_id = azurerm_key_vault.general.id
-    subresource_names              = ["vault"]
-    is_manual_connection           = false
-  }
-}
-
-# ------------------------------------------------------------------------------
 # Storing auth key vault URL in the general key vault.
 # ------------------------------------------------------------------------------
 resource "azurerm_key_vault_secret" "key_vault_auth_vault_uri" {
