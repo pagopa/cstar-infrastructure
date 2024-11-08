@@ -37,6 +37,7 @@ resource "azurerm_key_vault_secret" "core_application_insigths_connection_string
   name         = "core-application-insigths-connection-string"
   value        = data.azurerm_application_insights.core.connection_string
   key_vault_id = azurerm_key_vault.general.id
+  tags         = var.tags
 }
 
 # ------------------------------------------------------------------------------
