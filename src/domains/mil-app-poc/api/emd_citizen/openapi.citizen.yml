@@ -41,14 +41,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CitizenConsentDTORequest'
+              $ref: '#/components/schemas/CitizenConsentRequestDTO'
       responses:
         '200':
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CitizenConsentDTOResponse'
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example1:
+                  $ref: '#/components/examples/example1'
         '400':
           description: Bad request
           content:
@@ -109,17 +112,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CitizenConsentDTORequest'
-            example:
-              tppId: tppId123
-              state: false
+              $ref: '#/components/schemas/CitizenConsentStateUpdateDTO'
       responses:
         '200':
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CitizenConsentDTOResponse'
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example2:
+                  $ref: '#/components/examples/example2'
+
         '400':
           description: Bad request
           content:
@@ -192,7 +196,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CitizenConsentDTOResponse'
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example3:
+                  $ref: '#/components/examples/example3'
         '400':
           description: Bad request
           content:
@@ -238,7 +245,7 @@ paths:
         - Citizen consent
       summary: >-
         ENG: Returns the list of tpp associated with a specific citizen - IT: Restituisce la lista dei canali associati ad un determinato cittadino
-      operationId: getCitizenConsents
+      operationId: get
       parameters:
         - name: Accept-Language
           in: header
@@ -256,29 +263,14 @@ paths:
             type: string
       responses:
         '200':
-          description: "A list of enabled citizen consents"
+          description: "A list of citizen consents"
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CitizenConsentDTOResponse'
-              example:
-                - tppId: "tpp123"
-                  tppState: true
-                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
-                  creationDate: "2023-10-01T12:00:00Z"
-                  lastUpdateDate: "2023-10-15T08:30:00Z"
-                - tppId: "tpp236"
-                  tppState: true
-                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
-                  creationDate: "2023-05-01T11:00:00Z"
-                  lastUpdateDate: "2023-06-10T13:30:00Z"
-                - tppId: "tpp456"
-                  tppState: false
-                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
-                  creationDate: "2023-05-01T10:00:00Z"
-                  lastUpdateDate: "2023-06-10T09:30:00Z"
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example4:
+                  $ref: '#/components/examples/example4'
         '400':
           description: Bad request
           content:
@@ -324,7 +316,7 @@ paths:
         - Citizen consent
       summary: >-
         ENG: Returns the list of tpp enabled associated with a specific citizen - IT: Restituisce la lista dei canali abilitati associati ad un determinato cittadino
-      operationId: getCitizenConsentsEnabled
+      operationId: getTppEnabledList
       parameters:
         - name: Accept-Language
           in: header
@@ -342,24 +334,19 @@ paths:
             type: string
       responses:
         '200':
-          description: "A list of enabled citizen consents"
+          description: "Lista di tppId abilitati per il codice fiscale fornito"
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CitizenConsentDTOResponse'
+                  type: string
+                  description: "Identificativo univoco di un TPP (tppId)"
               example:
-                - tppId: "tpp123"
-                  tppState: true
-                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
-                  creationDate: "2023-10-01T12:00:00Z"
-                  lastUpdateDate: "2023-10-15T08:30:00Z"
-                - tppId: "tpp236"
-                  tppState: true
-                  hashedFiscalCode: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
-                  creationDate: "2023-05-01T11:00:00Z"
-                  lastUpdateDate: "2023-06-10T13:30:00Z"
+                - "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+                - "bcdef234-5678-90ab-cdef-abcdef012345_1706869005678"
+                - "cafe1234-babe-5678-cafe-123456789abc_1706872007890"
+
         '400':
           description: Bad request
           content:
@@ -402,50 +389,87 @@ paths:
 components:
   schemas:
 
-    CitizenConsentDTOGeneral:
+    CitizenConsentRequestDTO:
       type: object
-      description: "Citizen consent general"
+      description: "Schema di richiesta per aggiornare i consensi"
       properties:
+        fiscalCode:
+          type: string
+          example: "RSSMRO92S18L048H"
+          description: "Codice fiscale dell'utente"
+        consents:
+          type: object
+          description: "Oggetto contenente consensi con chiavi dinamiche basate su tppId (UUID concatenati con timestamp)"
+          additionalProperties:
+            type: object
+            properties:
+              tppState:
+                type: boolean
+                description: "Stato del consenso TPP"
+                example: true
+          example:
+            "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+              tppState: true
+            "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+              tppState: true
+          required:
+            - tppState
+      required:
+        - fiscalCode
+        - consents
+
+
+    CitizenConsentResponseDTO:
+      type: object
+      description: "Schema di risposta che contiene lo stato e la data dei consensi"
+      properties:
+        fiscalCode:
+          type: string
+          example: "RSSMRO92S18L048H"
+          description: "Codice fiscale del cittadino"
+        consents:
+          type: object
+          description: "Oggetto contenente consensi con chiavi dinamiche basate su tppId (UUID concatenati con timestamp)"
+          additionalProperties:
+            type: object
+            properties:
+              tppState:
+                type: boolean
+                description: "Stato del consenso TPP"
+                example: true
+              tcDate:
+                type: string
+                format: date-time
+                description: "Data e ora dell'ultimo aggiornamento del consenso"
+                example: "2024-11-01T11:25:40.695Z"
+          example:
+            "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+              tppState: true
+              tcDate: "2024-11-01T11:25:40.695Z"
+            "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+              tppState: true
+              tcDate: "2024-11-05T11:25:40.695Z"
+      required:
+        - fiscalCode
+        - consents
+
+
+    CitizenConsentStateUpdateDTO:
+      type: object
+      description: "Schema che permette la modifica dei consensi del cittadino"
+      properties:
+        fiscalCode:
+          type: string
+          example: "RSSMRO92S18L048H"
+          description: "Codice fiscale del cittadino"
         tppId:
           type: string
-          description: "Unique ID that identify TPP on PagoPA systems"
-          example: "tpp123"
+          example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+          description: "ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA"
         tppState:
           type: boolean
-          description: "Status active/inactive"
-          example: true
-
-    CitizenConsentDTORequest:
-      allOf:
-        - $ref: '#/components/schemas/CitizenConsentDTOGeneral'
-        - type: object
-          description: "Citizen consent general with fiscalCode"
-          properties:
-            fiscalCode:
-              type: string
-              description: "P.IVA or fiscal code of the citizen"
-              example: "RSSMRA43L87R932B"
-
-    CitizenConsentDTOResponse:
-      allOf:
-        - $ref: '#/components/schemas/CitizenConsentDTOGeneral'
-        - type: object
-          description: "Citizen consent of response with hashedFiscalCode and Date"
-          properties:
-            hashedFiscalCode:
-              type: string
-              description: "P.IVA or fiscal code hashed of the citizen"
-              example: "deeb40fda31eaa0aad62e0347ae82400493922319d238869ba6096eff77564ae"
-            creationDate:
-              type: string
-              format: date-time
-              description: "The date and time when the Citizen consent was created"
-              example: "2023-10-01T12:00:00Z"
-            lastUpdateDate:
-              type: string
-              format: date-time
-              description: "The date and time when the Citizen consent was last updated"
-              example: "2023-10-15T08:30:00Z"
+          example: false
+          description: "Stato del consenso TPP"
 
     CitizenConsentErrorDTO:
       type: object
@@ -473,6 +497,45 @@ components:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
 
+  examples:
+    example1:
+      summary: "Esempio con più consensi"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: true
+            tcDate: "2024-11-01T11:25:40.695Z"
+          "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+            tppState: true
+            tcDate: "2024-11-05T11:25:40.695Z"
+    example2:
+      summary: "Esempio con un solo consenso disattivo"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: false
+            tcDate: "2024-11-06T11:25:40.695Z"
+    example3:
+      summary: "Esempio con un solo consenso attivo"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: true
+            tcDate: "2024-11-06T11:25:40.695Z"
+    example4:
+      summary: "Esempio con un consenso attivo e uno non attivo"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: true
+            tcDate: "2024-11-01T11:25:40.695Z"
+          "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+            tppState: false
+            tcDate: "2024-11-05T11:25:40.695Z"
   securitySchemes:
     bearerAuth:
       type: http

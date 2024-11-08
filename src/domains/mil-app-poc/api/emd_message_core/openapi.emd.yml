@@ -227,8 +227,11 @@ components:
       example:
         messageId: "8a32fa8a-5036-4b39-8f2e-47d3a6d23f9e"
         recipientId: "RSSMRA85T10A562S"
-        message: "You have a ticket!"
-        authenticationType: "OAUTH2"
+        triggerDateTime: "2024-06-21T12:34:56Z"
+        senderDescription: "Comune di Pontecagnano"
+        messageUrl: "http://wwww.google.it"
+        originId: "XRUZ-GZAJ-ZUEJ-202407-W-1"
+        message: "Nuovo messaggio!"
 
     UUID:
       description: UUID

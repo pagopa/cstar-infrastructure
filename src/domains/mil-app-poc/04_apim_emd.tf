@@ -123,14 +123,14 @@ module "emd_citizen" {
       })
     },
     {
-      operation_id = "getCitizenConsents"
+      operation_id = "get"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "getCitizenConsentsEnabled"
+      operation_id = "getTppEnabledList"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-enabled-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname

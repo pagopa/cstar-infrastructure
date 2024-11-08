@@ -230,6 +230,14 @@ components:
 
     TppDTO:
       type: object
+      required:
+        - entityId
+        - businessName
+        - legalAddress
+        - messageUrl
+        - authenticationUrl
+        - authenticationType
+        - contact
       description: "TPP information(Third Party Provider)"
       properties:
         tppId:
@@ -240,10 +248,18 @@ components:
           type: string
           description: "Fiscal Code or P.IVA of the TPP"
           example: "8636357489"
+        idPsp:
+          type: string
+          description: "Id of Payment Service Provider"
+          example: "MasterCard 123"
         businessName:
           type: string
           description: "Company Name"
           example: "MyBusiness Ltd"
+        legalAddress:
+          type: string
+          description: "Company Legal Address"
+          example: "Via Washington, 13"
         messageUrl:
           type: string
           description: "URL to notify PUSH message"
@@ -267,20 +283,25 @@ components:
 
     Contact:
       type: object
+      required:
+        - name
+        - number
+        - email
       description: "Contact information about TPP"
       properties:
         name:
           type: string
           description: "Contact name"
           example: "John Doe"
+        number:
+          type: string
+          description: "telephone number"
+          example: "+393456780019"
         email:
           type: string
           description: "Contact email"
           example: "john.doe@tpp.com"
-        phone:
-          type: string
-          description: "telephone number"
-          example: "+393456780019"
+
 
     TppDTOWithDates:
       allOf:
