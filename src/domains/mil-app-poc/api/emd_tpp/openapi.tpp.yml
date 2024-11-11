@@ -1,9 +1,14 @@
 openapi: 3.0.3
+
 info:
   title: EMD TPP API
   version: '1.0'
   description: |-
     EMD TPP
+  contact:
+    name: Stefano D'Elia
+    email: stefano11.delia@emeal.nttdata.com
+
 servers:
   - description: Development Test
     url: https://api-io.dev.cstar.pagopa.it/emd/tpp
@@ -26,12 +31,16 @@ paths:
       summary: >-
         ENG: Returns the TPP information - IT: Ritorna le informazioni della TPP
       operationId: upsert
+      description: Add or update TPP information
       parameters:
         - name: Accept-Language
           in: header
           description: 'ENG: Language - IT: Lingua'
           schema:
             type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
             example: it-IT
             default: it-IT
           required: true
@@ -49,8 +58,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TppDTOWithDates'
-        '401':
-          description: Authentication failed
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '400':
           description: Bad request
           content:
@@ -60,6 +88,57 @@ paths:
               example:
                 code: TPP_BAD_REQUEST
                 message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '404':
           description: The TPP was not found
           content:
@@ -69,6 +148,27 @@ paths:
               example:
                 code: TPP_NOT_ONBOARDED
                 message: Tpp not onboarded
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '429':
           description: Too many Request
           content:
@@ -78,6 +178,27 @@ paths:
               example:
                 code: TPP_TOO_MANY_REQUESTS
                 message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '500':
           description: Server ERROR
           content:
@@ -87,18 +208,43 @@ paths:
               example:
                 code: TPP_GENERIC_ERROR
                 message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
     put:
       tags:
         - TPP
       summary: >-
         ENG: Update TPP consent state - IT: Aggiornamento dello stato dei consensi della TPP
       operationId: updateState
+      description: Update TPP state
       parameters:
         - name: Accept-Language
           in: header
           description: 'ENG: Language - IT: Lingua'
           schema:
             type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
             example: it-IT
             default: it-IT
           required: true
@@ -108,9 +254,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TppDTO'
+              $ref: '#/components/schemas/TppDTOUpdateState'
             example:
-              tppId: tppId123
+              tppId: 0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900
               state: false
       responses:
         '200':
@@ -119,6 +265,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TppDTOWithDates'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '400':
           description: Bad request
           content:
@@ -128,6 +295,57 @@ paths:
               example:
                 code: TPP_BAD_REQUEST
                 message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '404':
           description: The TPP was not found
           content:
@@ -137,6 +355,27 @@ paths:
               example:
                 code: TPP_NOT_ONBOARDED
                 message: Tpp not onboarded
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '429':
           description: Too many Request
           content:
@@ -146,6 +385,27 @@ paths:
               example:
                 code: TPP_TOO_MANY_REQUESTS
                 message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '500':
           description: Server ERROR
           content:
@@ -155,6 +415,27 @@ paths:
               example:
                 code: TPP_GENERIC_ERROR
                 message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
   '/{tppId}':
     get:
       tags:
@@ -162,12 +443,16 @@ paths:
       summary: >-
         ENG: Returns the TPP detalil from tppId associated - IT: Ritorna il dettaglio della TPP attraverso il tppId
       operationId: get
+      description: Get TPP detail from tppId
       parameters:
         - name: Accept-Language
           in: header
           description: 'ENG: Language - IT: Lingua'
           schema:
             type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
             example: it-IT
             default: it-IT
           required: true
@@ -177,6 +462,10 @@ paths:
           required: true
           schema:
             type: string
+            pattern: "^[ -~]{1,50}$"
+            minLength: 50
+            maxLength: 50
+            example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
       responses:
         '200':
           description: Ok
@@ -184,8 +473,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TppDTOWithDates'
-        '401':
-          description: Authentication failed
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '400':
           description: Bad request
           content:
@@ -195,6 +503,57 @@ paths:
               example:
                 code: TPP_BAD_REQUEST
                 message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '404':
           description: The TPP was not found
           content:
@@ -204,6 +563,27 @@ paths:
               example:
                 code: TPP_NOT_ONBOARDED
                 message: Tpp not onboarded
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '429':
           description: Too many Request
           content:
@@ -213,6 +593,27 @@ paths:
               example:
                 code: TPP_TOO_MANY_REQUESTS
                 message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '500':
           description: Server ERROR
           content:
@@ -222,11 +623,79 @@ paths:
               example:
                 code: TPP_GENERIC_ERROR
                 message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
 
 
 
 components:
   schemas:
+
+    AccessControlAllowOrigin:
+      description: Indicates whether the response can be shared with requesting code from the given origin
+      type: string
+      pattern: "^[ -~]{1,2048}$"
+      minLength: 1
+      maxLength: 2048
+
+    RateLimitLimit:
+      description: The number of allowed requests in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    RateLimitReset:
+      description: The number of seconds left in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 60
+
+    RetryAfter:
+      description: The number of seconds to wait before allowing a follow-up request
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    TppDTOUpdateState:
+      type: object
+      required:
+        - tppId
+        - state
+      description: "TPP information(Third Party Provider)"
+      properties:
+        tppId:
+          type: string
+          description: "Unique ID that identify TPP on PagoPA systems"
+          pattern: "^[ -~]{1,50}$"
+          minLength: 50
+          maxLength: 50
+          example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+        state:
+          type: boolean
+          description: "Status active/inactive"
+          example: true
 
     TppDTO:
       type: object
@@ -243,30 +712,53 @@ components:
         tppId:
           type: string
           description: "Unique ID that identify TPP on PagoPA systems"
-          example: "tpp123"
+          pattern: "^[ -~]{1,50}$"
+          minLength: 1
+          maxLength: 50
+          example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
         entityId:
           type: string
           description: "Fiscal Code or P.IVA of the TPP"
-          example: "8636357489"
+          pattern: "^[A-Za-z0-9]{11,16}$"
+          minLength: 11
+          maxLength: 16
+          example: "86363574890"
         idPsp:
           type: string
           description: "Id of Payment Service Provider"
+          pattern: "^[A-Za-z0-9 ]+$"
+          minLength: 1
+          maxLength: 50
           example: "MasterCard 123"
         businessName:
           type: string
           description: "Company Name"
+          pattern: "^[ -~]{1,70}$"
+          minLength: 1
+          maxLength: 70
           example: "MyBusiness Ltd"
         legalAddress:
           type: string
           description: "Company Legal Address"
+          pattern: "^[ -~]{1,70}$"
+          minLength: 1
+          maxLength: 70
           example: "Via Washington, 13"
         messageUrl:
           type: string
           description: "URL to notify PUSH message"
+          format: uri
+          pattern: "^[ -~]{1,2048}$"
+          minLength: 1
+          maxLength: 2048
           example: "https://api.tpp.com/message"
         authenticationUrl:
           type: string
           description: "url for authentication"
+          format: uri
+          pattern: "^[ -~]{1,2048}$"
+          minLength: 1
+          maxLength: 2048
           example: "https://api.tpp.com/auth"
         authenticationType:
           type: string
@@ -293,14 +785,22 @@ components:
           type: string
           description: "Contact name"
           example: "John Doe"
+          pattern: "^[ -~]{1,50}$"
+          minLength: 1
+          maxLength: 50
         number:
           type: string
-          description: "telephone number"
+          description: "Telephone number"
           example: "+393456780019"
+          pattern: "^(\\+\\d{1,3})?\\d{8,15}$"
+          minLength: 8
+          maxLength: 15
         email:
           type: string
           description: "Contact email"
           example: "john.doe@tpp.com"
+          format: email
+          maxLength: 100
 
 
     TppDTOWithDates:
@@ -314,11 +814,15 @@ components:
               format: date-time
               description: "The date and time when the TPP was created"
               example: "2023-10-01T12:00:00Z"
+              maxLength: 24
+              pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
             lastUpdateDate:
               type: string
               format: date-time
               description: "The date and time when the TPP was last updated"
               example: "2023-10-15T08:30:00Z"
+              maxLength: 24
+              pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
 
     TPPErrorDTO:
       type: object
@@ -333,18 +837,23 @@ components:
             - TPP_NOT_ONBOARDED
             - TPP_TOO_MANY_REQUESTS
             - TPP_GENERIC_ERROR
+            - TPP_AUTHENTICATION_FAILED
           description: |-
             "ENG: Error code: TPP_BAD_REQUEST: Something went wrong handling the request,
              TPP_NOT_ONBOARDED: TPP not onboarded,
              TPP_TOO_MANY_REQUESTS: Too many requests,
-             TPP_GENERIC_ERROR: Application Error - IT: Codice di errore:
+             TPP_GENERIC_ERROR: Application Error,
+             TPP_AUTHENTICATION_FAILED: Something went wrong with authentication - IT: Codice di errore:
              TPP_BAD_REQUEST:  Qualcosa è andato storto durante l'invio della richiesta,
              TPP_NOT_ONBOARDED: TPP non onboardata,
              TPP_TOO_MANY_REQUESTS: Troppe richieste,
-             TPP_GENERIC_ERROR: Errore generico"
+             TPP_GENERIC_ERROR: Errore generico,
+             TPP_AUTHENTICATION_FAILED: Qualcosa è andato storto con l'autenticazione"
         message:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
+          maxLength: 250
+          pattern: "^[\\w\\s.,!?'\"-]+$"
 
   securitySchemes:
     bearerAuth:
