@@ -188,18 +188,6 @@ components:
           pattern: "^[ -~]{1,50}$"
           minLength: 1
           maxLength: 50
-        authenticationType:
-          description: Type of authentication
-          type: string
-          enum:
-            - OAUTH2
-        authenticationUrl:
-          description: URL to retrieve access_token
-          type: string
-          format: uri
-          pattern: "^[ -~]{1,2048}$"
-          minLength: 1
-          maxLength: 2048
         messageUrl:
           description: URL to retrieve the original message
           type: string
@@ -223,11 +211,10 @@ components:
         - messageId
         - recipientId
         - message
-        - authenticationType
       example:
         messageId: "8a32fa8a-5036-4b39-8f2e-47d3a6d23f9e"
         recipientId: "RSSMRA85T10A562S"
-        triggerDateTime: "2024-06-21T12:34:56Z"
+        triggerDateTime: "2024-06-21T12:34:56"
         senderDescription: "Comune di Pontecagnano"
         messageUrl: "http://wwww.google.it"
         originId: "XRUZ-GZAJ-ZUEJ-202407-W-1"
