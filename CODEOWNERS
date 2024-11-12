@@ -1,3 +1,22 @@
-# see https://help.github.com/en/articles/about-code-owners#example-of-a-codeowners-file
+# see <https://help.github.com/en/articles/about-code-owners#example-of-a-codeowners-file>
 
 * @pagopa/idpay-app-maintainer-team @pagopa/payments-cloud-admin
+
+## Payments cloud team
+
+.github @pagopa/payments-cloud-admin
+.devops @pagopa/payments-cloud-admin
+.utils @pagopa/payments-cloud-admin
+scripts @pagopa/payments-cloud-admin
+src/aks-platform @pagopa/payments-cloud-admin
+src/core @pagopa/payments-cloud-admin
+src/packer @pagopa/payments-cloud-admin
+
+## Idpay
+
+src/domains/idpay-* @pagopa/idpay-app-maintainer-team
+src/domains/rtd-* @pagopa/idpay-app-maintainer-team
+
+
+
+
