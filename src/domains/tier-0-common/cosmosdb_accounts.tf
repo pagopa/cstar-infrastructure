@@ -35,10 +35,12 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_tier0_primary_mongodb_conn
   name         = "cosmosdb-account-tier-0-primary-mongodb-connection-string"
   value        = azurerm_cosmosdb_account.tier0.primary_mongodb_connection_string
   key_vault_id = azurerm_key_vault.general.id
+  tags         = var.tags
 }
 
 resource "azurerm_key_vault_secret" "cosmosdb_account_tier0_secondary_mongodb_connection_string" {
   name         = "cosmosdb-account-tier-0-secondary-mongodb-connection-string"
   value        = azurerm_cosmosdb_account.tier0.secondary_mongodb_connection_string
   key_vault_id = azurerm_key_vault.general.id
+  tags         = var.tags
 }

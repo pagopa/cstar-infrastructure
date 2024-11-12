@@ -4,6 +4,7 @@
 resource "azurerm_private_dns_zone" "aca" {
   name                = azurerm_container_app_environment.tier0.default_domain
   resource_group_name = azurerm_resource_group.network.name
+  tags                = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_intern" {
@@ -11,6 +12,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_intern" {
   resource_group_name   = azurerm_resource_group.network.name
   private_dns_zone_name = azurerm_private_dns_zone.aca.name
   virtual_network_id    = data.azurerm_virtual_network.intern.id
+  tags                  = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_integr" {
@@ -18,6 +20,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_integr" {
   resource_group_name   = azurerm_resource_group.network.name
   private_dns_zone_name = azurerm_private_dns_zone.aca.name
   virtual_network_id    = data.azurerm_virtual_network.integr.id
+  tags                  = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_core" {
@@ -25,6 +28,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aca_to_core" {
   resource_group_name   = azurerm_resource_group.network.name
   private_dns_zone_name = azurerm_private_dns_zone.aca.name
   virtual_network_id    = data.azurerm_virtual_network.core.id
+  tags                  = var.tags
 }
 
 resource "azurerm_private_dns_a_record" "aca" {
@@ -44,6 +48,7 @@ resource "azurerm_private_dns_a_record" "aca" {
 resource "azurerm_private_dns_zone" "key_vault" {
   name                = "privatelink.vaultcore.azure.net"
   resource_group_name = azurerm_resource_group.network.name
+  tags                = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_intern" {
@@ -51,6 +56,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_intern" {
   resource_group_name   = azurerm_private_dns_zone.key_vault.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
   virtual_network_id    = data.azurerm_virtual_network.intern.id
+  tags                  = var.tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_core" {
+  name                  = "key_vault_to_core"
+  resource_group_name   = azurerm_private_dns_zone.key_vault.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
+  virtual_network_id    = data.azurerm_virtual_network.core.id
+  tags                  = var.tags
 }
 
 # ------------------------------------------------------------------------------
