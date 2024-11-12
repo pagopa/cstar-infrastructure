@@ -24,51 +24,6 @@ variable "env_short" {
   }
 }
 
-variable "apim_publisher_name" {
-  type = string
-}
-
-variable "apim_sku" {
-  type = string
-}
-
-
-##
-## mil-papos
-##
-variable "mil_papos_path" {
-  type    = string
-  default = "mil-papos"
-}
-
-variable "mil_papos_openapi_descriptor" {
-  type = string
-}
-
-variable "mil_papos_address" {
-  type    = string
-  default = "milpapos"
-}
-
-
-##
-## mil-terminal-registry
-##
-variable "mil_terminal_registry_path" {
-  type    = string
-  default = "mil-terminal-registry"
-}
-
-variable "mil_terminal_registry_openapi_descriptor" {
-  type = string
-}
-
-variable "mil_terminal_registry_address" {
-  type    = string
-  default = "milterminalregistry"
-}
-
-
 variable "domain" {
   type = string
   validation {
