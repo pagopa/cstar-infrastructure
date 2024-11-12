@@ -1,7 +1,5 @@
 # see <https://help.github.com/en/articles/about-code-owners#example-of-a-codeowners-file>
 
-* @pagopa/idpay-app-maintainer-team @pagopa/payments-cloud-admin
-
 ## Payments cloud team
 
 .github @pagopa/payments-cloud-admin
@@ -11,12 +9,17 @@ scripts @pagopa/payments-cloud-admin
 src/aks-platform @pagopa/payments-cloud-admin
 src/core @pagopa/payments-cloud-admin
 src/packer @pagopa/payments-cloud-admin
+.terraform @pagopa/payments-cloud-admin
+src/domains/*-common @pagopa/payments-cloud-admin
 
 ## Idpay
 
 src/domains/idpay-* @pagopa/idpay-app-maintainer-team
 src/domains/rtd-* @pagopa/idpay-app-maintainer-team
+src/domains/tae-* @pagopa/idpay-app-maintainer-team
 
+## MIL
 
-
-
+src/domains/mil-* @pagopa/swc-mil-team
+src/domains/rtp-* @pagopa/swc-mil-team
+src/domains/tier-0-* @pagopa/swc-mil-team
