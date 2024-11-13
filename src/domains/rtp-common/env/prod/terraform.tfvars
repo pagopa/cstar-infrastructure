@@ -32,12 +32,12 @@ cdn_rtp = {
 # ------------------------------------------------------------------------------
 # External resources.
 # ------------------------------------------------------------------------------
-core_intern_virtual_network_name                 = "cstar-p-weu-prod01-vnet"
-core_intern_virtual_network_resource_group_name  = "cstar-p-weu-prod01-vnet-rg"
-core_integr_virtual_network_name                 = "cstar-p-integration-vnet"
-core_integr_virtual_network_resource_group_name  = "cstar-p-vnet-rg"
-core_virtual_network_name                        = "cstar-p-vnet"
-core_virtual_network_resource_group_name         = "cstar-p-vnet-rg"
-aca_subnet_name                                  = "cstar-p-tier-0-aca-snet"
-aca_subnet_resource_group_name                   = "cstar-p-weu-prod01-vnet-rg"
-aca_virtual_network_name                         = "cstar-p-weu-prod01-vnet"
+core_intern_virtual_network_name                = "cstar-p-weu-prod01-vnet"
+core_intern_virtual_network_resource_group_name = "cstar-p-weu-prod01-vnet-rg"
+core_integr_virtual_network_name                = "cstar-p-integration-vnet"
+core_integr_virtual_network_resource_group_name = "cstar-p-vnet-rg"
+core_virtual_network_name                       = "cstar-p-vnet"
+core_virtual_network_resource_group_name        = "cstar-p-vnet-rg"
+aca_subnet_name                                 = "cstar-p-tier-0-aca-snet"
+aca_subnet_resource_group_name                  = "cstar-p-weu-prod01-vnet-rg"
+aca_virtual_network_name                        = "cstar-p-weu-prod01-vnet"

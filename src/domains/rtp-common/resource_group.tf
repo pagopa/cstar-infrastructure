@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "data" {
 resource "azurerm_resource_group" "rtp_frontend_rg" {
   name     = "${local.project}-fe-rg"
   location = var.location
-  tags = var.tags
+  tags     = var.tags
 }
 
 # ------------------------------------------------------------------------------
