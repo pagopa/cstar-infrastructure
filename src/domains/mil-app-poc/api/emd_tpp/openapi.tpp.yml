@@ -552,6 +552,36 @@ paths:
               required: false
               schema:
                 $ref: '#/components/schemas/RetryAfter'
+        '403':
+          description: The TPP already onboarded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TPPErrorDTO'
+              example:
+                code: TPP_ALREADY_ONBOARDED
+                message: Tpp is already onboarded
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
         '404':
           description: The TPP was not found
           content:
@@ -1115,17 +1145,20 @@ components:
             - TPP_TOO_MANY_REQUESTS
             - TPP_GENERIC_ERROR
             - TPP_AUTHENTICATION_FAILED
+            - TPP_ALREADY_ONBOARDED
           description: |-
             "ENG: Error code: TPP_BAD_REQUEST: Something went wrong handling the request,
              TPP_NOT_ONBOARDED: TPP not onboarded,
              TPP_TOO_MANY_REQUESTS: Too many requests,
              TPP_GENERIC_ERROR: Application Error,
-             TPP_AUTHENTICATION_FAILED: Something went wrong with authentication - IT: Codice di errore:
+             TPP_AUTHENTICATION_FAILED: Something went wrong with authentication,
+             TPP_ALREADY_ONBOARDED: Tpp is already onboarded - IT: Codice di errore:
              TPP_BAD_REQUEST:  Qualcosa è andato storto durante l'invio della richiesta,
              TPP_NOT_ONBOARDED: TPP non onboardata,
              TPP_TOO_MANY_REQUESTS: Troppe richieste,
              TPP_GENERIC_ERROR: Errore generico,
-             TPP_AUTHENTICATION_FAILED: Qualcosa è andato storto con l'autenticazione"
+             TPP_AUTHENTICATION_FAILED: Qualcosa è andato storto con l'autenticazione,
+             TPP_ALREADY_ONBOARDED: La TPP è già onboardata"
         message:
           type: string
           description: 'ENG: Error message - IT: Messaggio di errore'
