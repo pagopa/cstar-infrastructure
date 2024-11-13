@@ -53,9 +53,16 @@ module "emd_tpp" {
 
   api_operation_policies = [
     {
-      operation_id = "upsert"
+      operation_id = "save"
 
-      xml_content = templatefile("./api/emd_tpp/post-upsert-tpp-policy.xml.tpl", {
+      xml_content = templatefile("./api/emd_tpp/post-save-tpp-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "update"
+
+      xml_content = templatefile("./api/emd_tpp/put-update-tpp-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },

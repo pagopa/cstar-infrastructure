@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdtpp" />
-        <rewrite-uri template="@("/emd/tpp")" />
+        <rewrite-uri template="@("/emd/tpp/save")" />
     </inbound>
     <backend>
         <base />
