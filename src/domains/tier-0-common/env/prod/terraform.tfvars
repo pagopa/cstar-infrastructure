@@ -40,4 +40,4 @@ aca_snet_cidr = "10.11.128.0/23" # 010.011.128.000 - 010.011.129.255
 # ------------------------------------------------------------------------------
 # URL to retrieve the OpenAPI descriptor of auth microservice.
 # ------------------------------------------------------------------------------
-auth_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-auth/10710ca623c0ae1e2e89aaa3a59039fd2e0cb3ce/src/main/resources/META-INF/openapi.yaml"
+auth_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-auth/1611e5d59f4756e7ccc46647f99c89613ad0bbba/src/main/resources/META-INF/openapi_not_admin.yaml"
