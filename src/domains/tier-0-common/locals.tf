@@ -15,6 +15,9 @@ locals {
   repositories = [
     {
       repository : "mil-auth"
+    },
+    {
+      repository : "rtp-activator"
     }
   ]
 
