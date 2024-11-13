@@ -34,5 +34,5 @@ cdn_rtp = {
 # ------------------------------------------------------------------------------
 aca_snet_cidr = "10.11.130.0/23" # 010.011.128.000 - 010.011.129.255
 
-core_intern_virtual_network_name                 = "cstar-d-weu-dev01-vnet"
-core_intern_virtual_network_resource_group_name  = "cstar-d-weu-dev01-vnet-rg"
+core_intern_virtual_network_name                = "cstar-d-weu-dev01-vnet"
+core_intern_virtual_network_resource_group_name = "cstar-d-weu-dev01-vnet-rg"
