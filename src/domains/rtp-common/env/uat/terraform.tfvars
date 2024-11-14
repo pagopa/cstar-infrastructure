@@ -28,3 +28,16 @@ cdn_rtp = {
   storage_account_replication_type   = "GRS"
   advanced_threat_protection_enabled = false
 }
+
+# ------------------------------------------------------------------------------
+# External resources.
+# ------------------------------------------------------------------------------
+core_intern_virtual_network_name                = "cstar-u-weu-uat01-vnet"
+core_intern_virtual_network_resource_group_name = "cstar-u-weu-uat01-vnet-rg"
+core_integr_virtual_network_name                = "cstar-u-integration-vnet"
+core_integr_virtual_network_resource_group_name = "cstar-u-vnet-rg"
+core_virtual_network_name                       = "cstar-u-vnet"
+core_virtual_network_resource_group_name        = "cstar-u-vnet-rg"
+aca_subnet_name                                 = "cstar-u-tier-0-aca-snet"
+aca_subnet_resource_group_name                  = "cstar-u-weu-uat01-vnet-rg"
+aca_virtual_network_name                        = "cstar-u-weu-uat01-vnet"
