@@ -2,7 +2,7 @@
 # Generic variables definition.
 # ------------------------------------------------------------------------------
 variable "prefix" {
-  type = string
+  type    = string
   default = "cstar"
   validation {
     condition = (
@@ -38,6 +38,6 @@ variable "location" {
 }
 
 variable "location_short" {
-  type        = string
-  default     = "weu"
+  type    = string
+  default = "weu"
 }
