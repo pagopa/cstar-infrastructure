@@ -1,3 +1,15 @@
+# Github environment
+resource "github_repository_environment" "gh_env" {
+  for_each        = { for x in local.repositories : x.repository => x }
+  environment         = local.project
+  repository          = each.value.repository
+  prevent_self_review = true
+  deployment_branch_policy {
+    protected_branches     = true
+    custom_branch_policies = false
+  }
+}
+
 # ------------------------------------------------------------------------------
 # Create GitHub secret with Tenant ID in each repository.
 # ------------------------------------------------------------------------------
