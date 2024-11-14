@@ -9,5 +9,5 @@ resource "azurerm_storage_account" "auth" {
   account_replication_type      = "LRS"
   account_kind                  = "StorageV2"
   public_network_access_enabled = false
-  tags                          = var.tags
+  tags                          = local.tags
 }
