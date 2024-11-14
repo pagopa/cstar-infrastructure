@@ -21,7 +21,7 @@ resource "azurerm_private_endpoint" "auth_key_vault" {
     is_manual_connection           = false
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ resource "azurerm_key_vault_secret" "key_vault_auth_vault_uri" {
   name         = "key-vault-auth-vault-uri"
   value        = azurerm_key_vault.auth.vault_uri
   key_vault_id = azurerm_key_vault.general.id
-  tags         = var.tags
+  tags         = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ resource "azurerm_private_endpoint" "auth_key_vault_vpn" {
     is_manual_connection           = false
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ resource "azurerm_private_endpoint" "general_key_vault" {
     subresource_names              = ["vault"]
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ resource "azurerm_private_endpoint" "general_key_vault_vpn" {
     is_manual_connection           = false
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ resource "azurerm_private_endpoint" "auth_storage" {
     is_manual_connection           = false
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ resource "azurerm_key_vault_secret" "storage_account_auth_primary_blob_endpoint"
   name         = "storage-account-auth-primary-blob-endpoint"
   value        = azurerm_storage_account.auth.primary_blob_endpoint
   key_vault_id = azurerm_key_vault.general.id
-  tags         = var.tags
+  tags         = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -167,10 +167,10 @@ resource "azurerm_private_endpoint" "cosmos" {
 
   private_service_connection {
     name                           = "${local.project}-cosmos-psc"
-    private_connection_resource_id = azurerm_cosmosdb_account.tier0.id
+    private_connection_resource_id = azurerm_cosmosdb_account.mcshared.id
     subresource_names              = ["MongoDB"]
     is_manual_connection           = false
   }
 
-  tags = var.tags
+  tags = local.tags
 }
