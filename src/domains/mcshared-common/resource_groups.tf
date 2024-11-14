@@ -4,7 +4,7 @@
 resource "azurerm_resource_group" "network" {
   name     = "${local.project}-network-rg"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "network" {
 resource "azurerm_resource_group" "sec" {
   name     = "${local.project}-sec-rg"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ resource "azurerm_resource_group" "sec" {
 resource "azurerm_resource_group" "data" {
   name     = "${local.project}-data-rg"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ resource "azurerm_resource_group" "data" {
 resource "azurerm_resource_group" "app" {
   name     = "${local.project}-app-rg"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ resource "azurerm_resource_group" "app" {
 resource "azurerm_resource_group" "monitor" {
   name     = "${local.project}-monitor-rg"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -49,5 +49,5 @@ resource "azurerm_resource_group" "monitor" {
 resource "azurerm_resource_group" "managed_identities_rg" {
   name     = "${local.project}-identity-rg"
   location = var.location
-  tags     = var.tags
+  tags     = local.tags
 }

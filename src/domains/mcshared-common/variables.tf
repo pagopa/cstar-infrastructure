@@ -3,6 +3,7 @@
 # ------------------------------------------------------------------------------
 variable "prefix" {
   type = string
+  default = "cstar"
   validation {
     condition = (
       length(var.prefix) <= 6
@@ -38,9 +39,5 @@ variable "location" {
 
 variable "location_short" {
   type        = string
-  description = "Location short like eg: neu, weu."
-}
-
-variable "tags" {
-  type = map(any)
+  default     = "weu"
 }

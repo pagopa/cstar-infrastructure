@@ -1,13 +1,13 @@
 # ------------------------------------------------------------------------------
 # CosmosDB account.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_account" "tier0" {
+resource "azurerm_cosmosdb_account" "mcshared" {
   name                          = "${local.project}-cosmos"
   resource_group_name           = azurerm_resource_group.data.name
   location                      = azurerm_resource_group.data.location
   kind                          = "MongoDB"
   offer_type                    = "Standard"
-  tags                          = var.tags
+  tags                          = local.tags
   public_network_access_enabled = false
 
   capabilities {
@@ -31,16 +31,16 @@ resource "azurerm_cosmosdb_account" "tier0" {
 # ------------------------------------------------------------------------------
 # Storing CosmosDB connection strings in the general key vault.
 # ------------------------------------------------------------------------------
-resource "azurerm_key_vault_secret" "cosmosdb_account_tier0_primary_mongodb_connection_string" {
-  name         = "cosmosdb-account-tier-0-primary-mongodb-connection-string"
-  value        = azurerm_cosmosdb_account.tier0.primary_mongodb_connection_string
+resource "azurerm_key_vault_secret" "cosmosdb_account_mcshared_primary_mongodb_connection_string" {
+  name         = "cosmosdb-account-mcshared-primary-mongodb-connection-string"
+  value        = azurerm_cosmosdb_account.mcshared.primary_mongodb_connection_string
   key_vault_id = azurerm_key_vault.general.id
-  tags         = var.tags
+  tags         = local.tags
 }
 
-resource "azurerm_key_vault_secret" "cosmosdb_account_tier0_secondary_mongodb_connection_string" {
-  name         = "cosmosdb-account-tier-0-secondary-mongodb-connection-string"
-  value        = azurerm_cosmosdb_account.tier0.secondary_mongodb_connection_string
+resource "azurerm_key_vault_secret" "cosmosdb_account_mcshared_secondary_mongodb_connection_string" {
+  name         = "cosmosdb-account-mcshared-secondary-mongodb-connection-string"
+  value        = azurerm_cosmosdb_account.mcshared.secondary_mongodb_connection_string
   key_vault_id = azurerm_key_vault.general.id
-  tags         = var.tags
+  tags         = local.tags
 }
