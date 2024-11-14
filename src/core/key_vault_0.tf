@@ -98,6 +98,11 @@ data "azurerm_key_vault_certificate" "management_cstar" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_certificate" "mcshared_gw_cstar" {
+  name         = var.app_gateway_mcshared_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_certificate" "rtp_gw_cstar" {
   name         = var.app_gateway_rtp_certificate_name
   key_vault_id = module.key_vault.id
