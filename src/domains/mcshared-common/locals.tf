@@ -2,12 +2,24 @@ locals {
   #
   # Domain label.
   #
-  domain = "tier-0"
+  domain = "mcshared"
 
   #
   # Project label.
   #
   project = "${var.prefix}-${var.env_short}-${local.domain}"
+
+  #
+  # Resources tags.
+  #
+  tags = {
+    CreatedBy   = "Terraform"
+    Environment = var.env
+    Owner       = var.prefix
+    Source      = "https://github.com/pagopa/cstar-infrastructure/tree/main/src/domains/mcshared-common"
+    CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+    Application = local.domain
+  }
 
   #
   # GitHub repositories which must be identified and federated on Azure.

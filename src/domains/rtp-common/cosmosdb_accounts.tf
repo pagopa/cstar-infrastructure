@@ -1,21 +1,17 @@
 # ------------------------------------------------------------------------------
-# CosmosDB account.
+# CosmosDB NoSQL account.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_account" "tier0" {
+resource "azurerm_cosmosdb_account" "rtp" {
   name                          = "${local.project}-cosmos"
   resource_group_name           = azurerm_resource_group.data.name
   location                      = azurerm_resource_group.data.location
-  kind                          = "MongoDB"
+  kind                          = "GlobalDocumentDB"
   offer_type                    = "Standard"
   tags                          = var.tags
   public_network_access_enabled = false
 
   capabilities {
     name = "EnableUniqueCompoundNestedDocs"
-  }
-
-  capabilities {
-    name = "EnableMongo"
   }
 
   consistency_policy {
@@ -29,18 +25,11 @@ resource "azurerm_cosmosdb_account" "tier0" {
 }
 
 # ------------------------------------------------------------------------------
-# Storing CosmosDB connection strings in the general key vault.
+# Storing CosmosDB endpoint in the general key vault.
 # ------------------------------------------------------------------------------
-resource "azurerm_key_vault_secret" "cosmosdb_account_tier0_primary_mongodb_connection_string" {
-  name         = "cosmosdb-account-tier-0-primary-mongodb-connection-string"
-  value        = azurerm_cosmosdb_account.tier0.primary_mongodb_connection_string
-  key_vault_id = azurerm_key_vault.general.id
-  tags         = var.tags
-}
-
-resource "azurerm_key_vault_secret" "cosmosdb_account_tier0_secondary_mongodb_connection_string" {
-  name         = "cosmosdb-account-tier-0-secondary-mongodb-connection-string"
-  value        = azurerm_cosmosdb_account.tier0.secondary_mongodb_connection_string
-  key_vault_id = azurerm_key_vault.general.id
+resource "azurerm_key_vault_secret" "cosmosdb_account_rtp_endpoint" {
+  name         = "cosmosdb-account-rtp-endpoint"
+  value        = azurerm_cosmosdb_account.rtp.endpoint
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
   tags         = var.tags
 }
