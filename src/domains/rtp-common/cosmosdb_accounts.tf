@@ -36,31 +36,46 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_rtp_endpoint" {
 
 
 # ------------------------------------------------------------------------------
-# Create a CosmosDB mongo database.
+# Create a CosmosDB sql database.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_mongo_database" "db_rtp" {
-  name                = "${local.project}-cosmos-mongo-db"
+resource "azurerm_cosmosdb_sql_database" "db_rtp" {
+  name                = "rtp"
   resource_group_name = azurerm_resource_group.data.name
   account_name        = azurerm_cosmosdb_account.rtp.name
 }
 
 
 # ------------------------------------------------------------------------------
-# Create a collection inside the CosmosDB mongo.
+# Create a container inside the db.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_mongo_collection" "beta_tester" {
-  name                = "${local.project}-cosmos-mongo-db"
+resource "azurerm_cosmosdb_sql_container" "beta_tester" {
+  name                = "serviceProviders"
   resource_group_name = azurerm_resource_group.data.name
   account_name        = azurerm_cosmosdb_account.rtp.name
-  database_name       = azurerm_cosmosdb_mongo_database.db_rtp.name
+  database_name       = azurerm_cosmosdb_sql_database.db_rtp.name
 
-  default_ttl_seconds = "777"
-  shard_key           = "uniqueKey"
-  throughput          = 400
+  partition_key_paths   = ["/definition/id"]
+  partition_key_version = 1
+  throughput            = 400
 
-  index {
-    keys   = ["_id"]
-    unique = true
+  indexing_policy {
+    indexing_mode = "consistent"
+
+    included_path {
+      path = "/*"
+    }
+
+    included_path {
+      path = "/included/?"
+    }
+
+    excluded_path {
+      path = "/excluded/?"
+    }
+  }
+
+  unique_key {
+    paths = ["/definition/idlong", "/definition/idshort"]
   }
 }
 
