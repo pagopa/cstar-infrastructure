@@ -1,10 +1,5 @@
-# ------------------------------------------------------------------------------
-# Resource group for security-related stuff.
-# ------------------------------------------------------------------------------
-resource "azurerm_resource_group" "sec" {
-  name     = "${local.project}-sec-rg"
-  location = var.location
-  tags     = var.tags
+data "azurerm_resource_group" "sec" {
+  name = local.sec_resource_group_name
 }
 
 # ------------------------------------------------------------------------------

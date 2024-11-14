@@ -19,6 +19,8 @@ locals {
   apim_rg_name = "cstar-${var.env_short}-api-rg"
   apim_name    = "cstar-${var.env_short}-apim"
 
+  sec_resource_group_name = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}-sec-rg"
+
   # DOMAINS
   system_domain_namespace = "${var.domain}-system"
   domain_namespace        = var.domain
@@ -39,7 +41,7 @@ locals {
   #
   resource_groups_roles_cd = [
     {
-      resource_group_id : azurerm_resource_group.sec.id
+      resource_group_id : data.azurerm_resource_group.sec.id
       role : "Key Vault Reader"
     },
     {
