@@ -1,6 +1,6 @@
 # Github environment
 resource "github_repository_environment" "gh_env" {
-  for_each        = { for x in local.repositories : x.repository => x }
+  for_each            = { for x in local.repositories : x.repository => x }
   environment         = local.project
   repository          = each.value.repository
   prevent_self_review = true
