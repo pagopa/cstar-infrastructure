@@ -239,7 +239,7 @@ module "app_gw_maz" {
       listener              = "mcshared"
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
-      priority              = 50
+      priority              = 60
     }
   }
 
