@@ -15,7 +15,7 @@ resource "azurerm_api_management_api" "auth" {
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   api_management_name = data.azurerm_api_management.core.name
   revision            = "1"
-  display_name        = "Tier-0 Auth"
+  display_name        = "McShared Auth"
   description         = "Authorization Microservice"
   path                = var.auth_path
   protocols           = ["https"]
@@ -30,7 +30,7 @@ resource "azurerm_api_management_api" "auth" {
 }
 
 resource "azurerm_api_management_product_api" "auth" {
-  product_id          = azurerm_api_management_product.tier0.product_id
+  product_id          = azurerm_api_management_product.mcshared.product_id
   api_name            = azurerm_api_management_api.auth.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
