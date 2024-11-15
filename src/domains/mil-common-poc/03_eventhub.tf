@@ -103,6 +103,28 @@ module "eventhub_mil_configuration" {
           manage = false
         }
       ]
+    },
+    {
+      name              = "emd-notify-error"
+      partitions        = 1
+      message_retention = 1
+      consumers = [
+        "emd-notify-error-consumer-group",
+      ]
+      keys = [
+        {
+          name   = "emd-notify-error-producer"
+          listen = false
+          send   = true
+          manage = false
+        },
+        {
+          name   = "emd-notify-error-consumer"
+          listen = true
+          send   = false
+          manage = false
+        }
+      ]
     }
   ]
 }

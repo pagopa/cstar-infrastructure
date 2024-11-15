@@ -1,0 +1,1306 @@
+openapi: 3.0.3
+info:
+  title: EMD CITIZEN CONSENT API
+  version: '1.0'
+  description: |-
+    EMD CITIZEN CONSENT
+  contact:
+    name: Stefano D'Elia
+    email: stefano11.delia@emeal.nttdata.com
+
+servers:
+  - description: Development Test
+    url: https://api-io.dev.cstar.pagopa.it/emd/citizen
+    x-internal: true
+  - description: User Acceptance Test
+    url: https://api-io.uat.cstar.pagopa.it/emd/citizen
+    x-internal: true
+
+security:
+  - bearerAuth: [ ]
+
+tags:
+  - name: Citizen consent
+    description: 'Citizen consent operation'
+paths:
+  '/':
+    post:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Save citizen consent information - IT: Salvataggio dei consensi del cittadino
+      operationId: saveCitizenConsent
+      description: Save citizen consents
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: 'ENG: Citizen consent details - IT: Dettagli consensi del cittadino'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitizenConsentRequestDTO'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example1:
+                  $ref: '#/components/examples/example1'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+  '/stateUpdate':
+    put:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Update citizen consent state - IT: Aggiornamento dello stato dei consensi del cittadino
+      operationId: updateState
+      description: Update citizen consents
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description:  'ENG: Citizen consent details - IT: Dettagli consensi del cittadino'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitizenConsentStateUpdateDTO'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example2:
+                  $ref: '#/components/examples/example2'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+  '/{fiscalCode}/{tppId}':
+    get:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Returns the Citizen consent detalil from fiscalCode and tppId associated - IT: Ritorna il dettaglio dei consensi del cittadino tramite fiscalCode e tppId
+      operationId: getConsentStatus
+      description: Get citizen consent from fiscalCode and tppId
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: fiscalCode
+          in: path
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+            description: "Fiscal Code or P.IVA of the citizen"
+            pattern: "^[A-Za-z0-9]{11,16}$"
+            minLength: 11
+            maxLength: 16
+            example: "RSSMRO92S18L048H"
+        - name: tppId
+          in: path
+          description: 'ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA'
+          required: true
+          schema:
+            type: string
+            description: "Unique ID that identify TPP on PagoPA systems"
+            pattern: "^[ -~]{1,50}$"
+            minLength: 1
+            maxLength: 50
+            example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example3:
+                  $ref: '#/components/examples/example3'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+  '/list/{fiscalCode}':
+    get:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Returns the list of tpp associated with a specific citizen - IT: Restituisce la lista dei canali associati ad un determinato cittadino
+      operationId: get
+      description: Get citizen consents list from fiscalCode
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: fiscalCode
+          in: path
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+            description: "Fiscal Code or P.IVA of the citizen"
+            pattern: "^[A-Za-z0-9]{11,16}$"
+            minLength: 11
+            maxLength: 16
+            example: "RSSMRO92S18L048H"
+      responses:
+        '200':
+          description: "A list of citizen consents"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentResponseDTO'
+              examples:
+                example4:
+                  $ref: '#/components/examples/example4'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+  '/list/{fiscalCode}/enabled':
+    get:
+      tags:
+        - Citizen consent
+      summary: >-
+        ENG: Returns the list of tpp enabled associated with a specific citizen - IT: Restituisce la lista dei canali abilitati associati ad un determinato cittadino
+      operationId: getTppEnabledList
+      description: Get citizen consents tppId enabled list from fiscalCode
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: fiscalCode
+          in: path
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+            description: "Fiscal Code or P.IVA of the citizen"
+            pattern: "^[A-Za-z0-9]{11,16}$"
+            minLength: 11
+            maxLength: 16
+            example: "RSSMRO92S18L048H"
+      responses:
+        '200':
+          description: "Lista di tppId abilitati per il codice fiscale fornito"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: "Identificativo univoco di un TPP (tppId)"
+                  pattern: "^[ -~]{1,50}$"
+                  minLength: 1
+                  maxLength: 50
+                maxItems: 100
+              example:
+                - "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+                - "bcdef234-5678-90ab-cdef-abcdef012345_1706869005678"
+                - "cafe1234-babe-5678-cafe-123456789abc_1706872007890"
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_BAD_REQUEST
+                message: Something went wrong handling the request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The citizen consent was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                message: Citizen consent not inserted
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitizenConsentErrorDTO'
+              example:
+                code: CITIZEN_CONSENT_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+components:
+  schemas:
+
+    AccessControlAllowOrigin:
+      description: Indicates whether the response can be shared with requesting code from the given origin
+      type: string
+      pattern: "^[ -~]{1,2048}$"
+      minLength: 1
+      maxLength: 2048
+
+    RateLimitLimit:
+      description: The number of allowed requests in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    RateLimitReset:
+      description: The number of seconds left in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 60
+
+    RetryAfter:
+      description: The number of seconds to wait before allowing a follow-up request
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    CitizenConsentRequestDTO:
+      type: object
+      description: "Schema di richiesta per aggiornare i consensi"
+      properties:
+        fiscalCode:
+          type: string
+          example: "RSSMRO92S18L048H"
+          description: "Codice fiscale dell'utente"
+          pattern: "^[A-Za-z0-9]{11,16}$"
+          minLength: 11
+          maxLength: 16
+        consents:
+          type: object
+          description: "Oggetto contenente consensi con chiavi dinamiche basate su tppId (UUID concatenati con timestamp)"
+          additionalProperties:
+            type: object
+            properties:
+              tppState:
+                type: boolean
+                description: "Stato del consenso TPP"
+                example: true
+            required:
+              - tppState
+          example:
+            "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+              tppState: true
+            "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+              tppState: true
+
+      required:
+        - fiscalCode
+        - consents
+
+
+
+    CitizenConsentResponseDTO:
+      type: object
+      description: "Schema di risposta che contiene lo stato e la data dei consensi"
+      properties:
+        fiscalCode:
+          type: string
+          example: "RSSMRO92S18L048H"
+          description: "Codice fiscale del cittadino"
+          pattern: "^[A-Za-z0-9]{11,16}$"
+          minLength: 11
+          maxLength: 16
+        consents:
+          type: object
+          description: "Oggetto contenente consensi con chiavi dinamiche basate su tppId (UUID concatenati con timestamp)"
+          additionalProperties:
+            type: object
+            properties:
+              tppState:
+                type: boolean
+                description: "Stato del consenso TPP"
+                example: true
+              tcDate:
+                type: string
+                format: date-time
+                description: "Data e ora dell'ultimo aggiornamento del consenso"
+                example: "2024-11-01T11:25:40.695Z"
+                maxLength: 30
+                pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+          example:
+            "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+              tppState: true
+              tcDate: "2024-11-01T11:25:40.695Z"
+            "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+              tppState: true
+              tcDate: "2024-11-05T11:25:40.695Z"
+      required:
+        - fiscalCode
+        - consents
+
+
+    CitizenConsentStateUpdateDTO:
+      type: object
+      description: "Schema che permette la modifica dei consensi del cittadino"
+      properties:
+        fiscalCode:
+          type: string
+          example: "RSSMRO92S18L048H"
+          description: "Codice fiscale del cittadino"
+          pattern: "^[A-Za-z0-9]{11,16}$"
+          minLength: 11
+          maxLength: 16
+        tppId:
+          type: string
+          example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+          description: "ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA"
+          pattern: "^[ -~]{1,50}$"
+          minLength: 1
+          maxLength: 50
+        tppState:
+          type: boolean
+          example: false
+          description: "Stato del consenso TPP"
+
+    CitizenConsentErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - CITIZEN_CONSENT_BAD_REQUEST
+            - CITIZEN_CONSENT_NOT_ONBOARDED
+            - CITIZEN_CONSENT_TOO_MANY_REQUESTS
+            - CITIZEN_CONSENT_GENERIC_ERROR
+            - CITIZEN_CONSENT_AUTHENTICATION_FAILED
+          description: |-
+            "ENG: Error code: CITIZEN_CONSENT_BAD_REQUEST: Something went wrong handling the request,
+             CITIZEN_CONSENT_NOT_ONBOARDED: Citizen consent not inserted,
+             CITIZEN_CONSENT_TOO_MANY_REQUESTS: Too many requests,
+             CITIZEN_CONSENT_GENERIC_ERROR: Application Error,
+             CITIZEN_CONSENT_AUTHENTICATION_FAILED: Something went wrong with authentication -
+             IT: Codice di errore:
+             CITIZEN_CONSENT_BAD_REQUEST:  Qualcosa è andato storto durante
+             l'invio della richiesta,
+             CITIZEN_CONSENT_NOT_ONBOARDED: Consensi del cittadino non inseriti,
+             CITIZEN_CONSENT_TOO_MANY_REQUESTS: Troppe richieste,
+             CITIZEN_CONSENT_GENERIC_ERROR: Errore generico,
+             CITIZEN_CONSENT_AUTHENTICATION_FAILED:  Qualcosa è andato storto con l'autenticazione"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+          maxLength: 250
+          pattern: "^[\\w\\s.,!?'\"-]+$"
+
+  examples:
+    example1:
+      summary: "Esempio con più consensi"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: true
+            tcDate: "2024-11-01T11:25:40.695Z"
+          "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+            tppState: true
+            tcDate: "2024-11-05T11:25:40.695Z"
+    example2:
+      summary: "Esempio con un solo consenso disattivo"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: false
+            tcDate: "2024-11-06T11:25:40.695Z"
+    example3:
+      summary: "Esempio con un solo consenso attivo"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: true
+            tcDate: "2024-11-06T11:25:40.695Z"
+    example4:
+      summary: "Esempio con un consenso attivo e uno non attivo"
+      value:
+        fiscalCode: "RSSMRO92S18L048H"
+        consents:
+          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+            tppState: true
+            tcDate: "2024-11-01T11:25:40.695Z"
+          "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+            tppState: false
+            tcDate: "2024-11-05T11:25:40.695Z"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

@@ -24,6 +24,8 @@ resource "kubernetes_config_map" "emd-eventhub" {
 
     emd-courtesy-message-consumer-group = "emd-courtesy-message-consumer-group"
     emd_courtesy_message_topic          = "emd-courtesy-message"
+    emd-notify-error-consumer-group     = "emd-notify-error-consumer-group"
+    emd_notify_error_topic              = "emd-notify-error"
   }
 
 }
@@ -37,4 +39,18 @@ resource "kubernetes_config_map" "appinsights-config" {
   data = {
     "applicationinsights.json" = file("./k8s-file/appinsights-config/applicationinsights.json")
   }
+}
+
+resource "kubernetes_config_map" "rest-client" {
+  metadata {
+    name      = "rest-client"
+    namespace = var.domain
+  }
+
+  data = {
+    rest_client_schema  = "http"
+    emd-citizen-baseurl = "http://emd-citizen-microservice-chart:8080"
+    emd-tpp-baseurl     = "http://emd-tpp-microservice-chart:8080"
+  }
+
 }
