@@ -2,7 +2,7 @@ locals {
   #
   # Domain label.
   #
-  domain = "mcshared"
+  domain = "mil"
 
   #
   # Project label.
@@ -16,7 +16,7 @@ locals {
     CreatedBy   = "Terraform"
     Environment = var.env
     Owner       = var.prefix
-    Source      = "https://github.com/pagopa/cstar-infrastructure/tree/main/src/domains/mcshared-common"
+    Source      = "https://github.com/pagopa/cstar-infrastructure/tree/main/src/domains/mil-common"
     CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
     Application = local.domain
   }
@@ -26,7 +26,22 @@ locals {
   #
   repositories = [
     {
-      repository : "mil-auth"
+      repository : "mil-debt-position"
+    },
+    {
+      repository : "mil-fee-calculator"
+    },
+    {
+      repository : "mil-idpay"
+    },
+    {
+      repository : "mil-papos"
+    },
+    {
+      repository : "mil-payment-notice"
+    },
+    {
+      repository : "idpay-ipza-mock"
     }
   ]
 
