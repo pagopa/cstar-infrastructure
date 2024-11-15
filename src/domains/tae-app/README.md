@@ -1,5 +1,5 @@
 <!-- markdownlint-disable -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -55,17 +55,24 @@ No modules.
 | [azurerm_monitor_scheduled_query_rules_alert_v2.ack_ingestor_failures](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.ade_removes_ack_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.aggregates_ingestor_failures](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.at-least-one-pending-file-in-Cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.cannot_get_encrypted_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.cannot_put_decrypted_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.client-certificate-close-to-expiry-date](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.created_file_in_ade_error](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.cstar-ade-in-missing-files](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.cstar-decrypting-problems](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.cstar-external-access-problems](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.deprecated_batch_service_version](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.fail_to_delete_local_file_decrypter](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.failed_decryption](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.failed_generate_file_report](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.failure_on_sas_token_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.failure_on_sender_ade_ack_list](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
-| [azurerm_monitor_scheduled_query_rules_alert_v2.file_already_present_on_fileregister](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.file-not-processed-by-aggregates-ingestor](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.file-not-processed-by-decrypter](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.file_not_created_in_ade_out](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert_v2.malformed_checksum](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.no_data_in_decryted_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.not_all_chunks_are_verified_decrypter](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.pgp_file_already_present_on_storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
@@ -134,7 +141,7 @@ No modules.
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Specifies the name of the Log Analytics Workspace. | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
-| <a name="input_pending_flows_conf"></a> [pending\_flows\_conf](#input\_pending\_flows\_conf) | Triggers every first Monday of the month at 10:00 UTC | <pre>object({<br>    enable                        = bool<br>    interval                      = number<br>    frequency                     = string<br>    schedule_hours                = number<br>    schedule_minutes              = number<br>    monthlyOccurrences_day        = string<br>    monthlyOccurrences_occurrence = number<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "frequency": "Month",<br>  "interval": 1,<br>  "monthlyOccurrences_day": "Monday",<br>  "monthlyOccurrences_occurrence": 1,<br>  "schedule_hours": 8,<br>  "schedule_minutes": 30<br>}</pre> | no |
+| <a name="input_pending_flows_conf"></a> [pending\_flows\_conf](#input\_pending\_flows\_conf) | Triggers every first Monday of the month at 10:00 UTC | <pre>object({<br>    enable           = bool<br>    interval         = number<br>    frequency        = string<br>    schedule_hours   = number<br>    schedule_minutes = number<br>    days_of_week     = list(string)<br>  })</pre> | <pre>{<br>  "days_of_week": [<br>    "Monday"<br>  ],<br>  "enable": false,<br>  "frequency": "Week",<br>  "interval": 1,<br>  "schedule_hours": 9,<br>  "schedule_minutes": 30<br>}</pre> | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_report_duplicates_conf"></a> [report\_duplicates\_conf](#input\_report\_duplicates\_conf) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
 | <a name="input_report_merchants_pipeline"></a> [report\_merchants\_pipeline](#input\_report\_merchants\_pipeline) | n/a | <pre>object({<br>    enable = bool<br>  })</pre> | <pre>{<br>  "enable": false<br>}</pre> | no |
@@ -145,4 +152,4 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

@@ -2,15 +2,15 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 3.40.0"
+      version = "~> 3.116"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "= 2.21.0"
+      version = "~> 2.50.0"
     }
     null = {
       source  = "hashicorp/null"
-      version = "= 3.1.1"
+      version = "~> 3.2.1"
     }
     pkcs12 = {
       source  = "chilicat/pkcs12"
@@ -48,3 +48,12 @@ data "azurerm_dns_zone" "public" {
   name                = join(".", [var.dns_zone_prefix, var.external_domain])
   resource_group_name = local.vnet_core_resource_group_name
 }
+
+module "__v3__" {
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.43.1
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=cdbffbb3215b0eb047ae61408f042c246f0f914c"
+}
+
+# module "__next_v3__" {
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3//redis_cache?ref=redis-update"
+# }

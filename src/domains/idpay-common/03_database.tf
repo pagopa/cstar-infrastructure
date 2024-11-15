@@ -15,23 +15,28 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_mongodb_connection_strings
 
 module "cosmosdb_account_mongodb" {
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/cosmosdb_account"
 
-  name                 = "${local.product}-${var.domain}-mongodb-account"
-  domain               = var.domain
-  location             = azurerm_resource_group.data_rg.location
-  resource_group_name  = azurerm_resource_group.data_rg.name
-  offer_type           = var.cosmos_mongo_account_params.offer_type
-  enable_free_tier     = var.cosmos_mongo_account_params.enable_free_tier
-  kind                 = "MongoDB"
-  capabilities         = var.cosmos_mongo_account_params.capabilities
-  mongo_server_version = var.cosmos_mongo_account_params.server_version
 
-  public_network_access_enabled     = var.cosmos_mongo_account_params.public_network_access_enabled
-  private_endpoint_enabled          = var.cosmos_mongo_account_params.private_endpoint_enabled
-  subnet_id                         = data.azurerm_subnet.private_endpoint_snet.id
-  private_dns_zone_ids              = [data.azurerm_private_dns_zone.cosmos_mongo.id]
-  is_virtual_network_filter_enabled = var.cosmos_mongo_account_params.is_virtual_network_filter_enabled
+  name                = "${local.product}-${var.domain}-mongodb-account"
+  domain              = var.domain
+  location            = azurerm_resource_group.data_rg.location
+  resource_group_name = azurerm_resource_group.data_rg.name
+  offer_type          = var.cosmos_mongo_account_params.offer_type
+  enable_free_tier    = var.cosmos_mongo_account_params.enable_free_tier
+  kind                = "MongoDB"
+  capabilities        = var.cosmos_mongo_account_params.capabilities
+
+  #mongo_server_version = var.cosmos_mongo_account_params.server_version
+
+  public_network_access_enabled = var.cosmos_mongo_account_params.public_network_access_enabled
+  private_endpoint_enabled      = var.cosmos_mongo_account_params.private_endpoint_enabled
+  subnet_id                     = data.azurerm_subnet.private_endpoint_snet.id
+
+  private_dns_zone_mongo_ids            = [data.azurerm_private_dns_zone.cosmos_mongo.id]
+  private_endpoint_mongo_name           = "cstar-${var.env_short}-idpay-mongodb-account-private-endpoint"
+  private_service_connection_mongo_name = "cstar-${var.env_short}-idpay-mongodb-account-private-endpoint"
+  is_virtual_network_filter_enabled     = var.cosmos_mongo_account_params.is_virtual_network_filter_enabled
 
   allowed_virtual_network_subnet_ids = [
     data.azurerm_subnet.aks_domain_subnet.id
@@ -725,6 +730,13 @@ resource "azurerm_cosmosdb_mongo_collection" "mongodb_collections_idpay" {
     content {
       max_throughput = var.cosmos_mongo_db_idpay_params.max_throughput
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      # ignore changes to autoscale_settings due to this operation is done manually
+      autoscale_settings,
+    ]
   }
 
   timeouts {

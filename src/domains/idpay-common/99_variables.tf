@@ -62,15 +62,6 @@ variable "tags" {
   }
 }
 
-variable "terraform_remote_state_core" {
-  type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
-  })
-}
-
 variable "rtd_keyvault" {
   type = object({
     name           = string
@@ -329,8 +320,40 @@ variable "idpay_cdn_sa_advanced_threat_protection_enabled" {
   default = false
 }
 
+variable "idpay_cdn_storage_account_replication_type" {
+  type        = string
+  description = "Which replication must use the blob storage under cdn"
+}
+
+variable "selfcare_welfare_cdn_storage_account_replication_type" {
+  type        = string
+  description = "Which replication must use the blob storage under cdn"
+}
+
 
 variable "redis_public_network_access_enabled" {
   type    = bool
   default = false
+}
+
+#
+# AKS
+#
+variable "aks_resource_group_name" {
+  type        = string
+  description = "(Required) Resource group of the Kubernetes cluster."
+}
+
+variable "aks_name" {
+  type        = string
+  description = "(Required) Name of the Kubernetes cluster."
+}
+
+variable "terraform_remote_state_core" {
+  type = object({
+    resource_group_name  = string,
+    storage_account_name = string,
+    container_name       = string,
+    key                  = string
+  })
 }

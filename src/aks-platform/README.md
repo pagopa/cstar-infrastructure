@@ -23,29 +23,32 @@ Launch the cluster creation
 Re-enable all the resource, commented before to complete the procedure
 
 <!-- markdownlint-disable -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3.5 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | > 2.10.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.71.0 |
-| <a name="requirement_external"></a> [external](#requirement\_external) | > 2.0.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.8.0 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | = 2.17.0 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.1.1 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.53.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.114.0 |
+| <a name="requirement_external"></a> [external](#requirement\_external) | <= 2.3.3 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.14.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | <= 2.31.0 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster | v7.33.0 |
-| <a name="module_aks_prometheus_install"></a> [aks\_prometheus\_install](#module\_aks\_prometheus\_install) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_prometheus_install | v7.20.0 |
-| <a name="module_aks_storage_class"></a> [aks\_storage\_class](#module\_aks\_storage\_class) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class | v7.20.0 |
-| <a name="module_keda_pod_identity"></a> [keda\_pod\_identity](#module\_keda\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v7.20.0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 400ee44a8465126a33c3dae994c4dcc6904c7da0 |
+| <a name="module_aks"></a> [aks](#module\_aks) | ./.terraform/modules/__v3__/kubernetes_cluster | n/a |
+| <a name="module_aks_prometheus_install"></a> [aks\_prometheus\_install](#module\_aks\_prometheus\_install) | ./.terraform/modules/__v3__/kubernetes_prometheus_install | n/a |
+| <a name="module_aks_storage_class"></a> [aks\_storage\_class](#module\_aks\_storage\_class) | ./.terraform/modules/__v3__/kubernetes_storage_class | n/a |
+| <a name="module_keda_pod_identity"></a> [keda\_pod\_identity](#module\_keda\_pod\_identity) | ./.terraform/modules/__v3__/kubernetes_pod_identity | n/a |
+| <a name="module_keda_workload_identity_configuration"></a> [keda\_workload\_identity\_configuration](#module\_keda\_workload\_identity\_configuration) | ./.terraform/modules/__v3__/kubernetes_workload_identity_configuration | n/a |
+| <a name="module_keda_workload_identity_init"></a> [keda\_workload\_identity\_init](#module\_keda\_workload\_identity\_init) | ./.terraform/modules/__v3__/kubernetes_workload_identity_init | n/a |
 | <a name="module_nginx_ingress"></a> [nginx\_ingress](#module\_nginx\_ingress) | terraform-module/release/helm | 2.7.0 |
-| <a name="module_snet_aks"></a> [snet\_aks](#module\_snet\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.20.0 |
+| <a name="module_snet_aks"></a> [snet\_aks](#module\_snet\_aks) | ./.terraform/modules/__v3__/subnet | n/a |
 
 ## Resources
 
@@ -58,19 +61,20 @@ Re-enable all the resource, commented before to complete the procedure
 | [azurerm_role_assignment.aks_to_acr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.keda_monitoring_reader](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.managed_identity_operator_vs_aks_managed_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [helm_release.keda](https://registry.terraform.io/providers/hashicorp/helm/2.8.0/docs/resources/release) | resource |
-| [helm_release.monitoring_reloader](https://registry.terraform.io/providers/hashicorp/helm/2.8.0/docs/resources/release) | resource |
-| [kubernetes_cluster_role.cluster_deployer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role) | resource |
-| [kubernetes_cluster_role.edit_extra](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role) | resource |
-| [kubernetes_cluster_role.system_cluster_deployer](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role) | resource |
-| [kubernetes_cluster_role.view_extra](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role) | resource |
-| [kubernetes_cluster_role_binding.edit_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role_binding) | resource |
-| [kubernetes_cluster_role_binding.edit_extra_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role_binding) | resource |
-| [kubernetes_cluster_role_binding.view_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role_binding) | resource |
-| [kubernetes_cluster_role_binding.view_extra_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/cluster_role_binding) | resource |
-| [kubernetes_namespace.ingress](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/namespace) | resource |
-| [kubernetes_namespace.keda](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/namespace) | resource |
-| [kubernetes_namespace.monitoring](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/namespace) | resource |
+| [helm_release.keda](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [helm_release.monitoring_reloader](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [kubernetes_cluster_role.cluster_deployer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
+| [kubernetes_cluster_role.edit_extra](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
+| [kubernetes_cluster_role.kube_system_reader](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
+| [kubernetes_cluster_role.system_cluster_deployer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
+| [kubernetes_cluster_role.view_extra](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
+| [kubernetes_cluster_role_binding.edit_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
+| [kubernetes_cluster_role_binding.edit_extra_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
+| [kubernetes_cluster_role_binding.view_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
+| [kubernetes_cluster_role_binding.view_extra_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
+| [kubernetes_namespace.ingress](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_namespace.keda](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_namespace.monitoring](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
@@ -144,11 +148,9 @@ Re-enable all the resource, commented before to complete the procedure
 | <a name="input_reloader_helm"></a> [reloader\_helm](#input\_reloader\_helm) | reloader helm chart configuration | <pre>object({<br>    chart_version = string,<br>    image_name    = string,<br>    image_tag     = string<br>  })</pre> | n/a | yes |
 | <a name="input_rg_vnet_aks_name"></a> [rg\_vnet\_aks\_name](#input\_rg\_vnet\_aks\_name) | Resource group dedicated to VNet AKS | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
-| <a name="input_tls_cert_check_helm"></a> [tls\_cert\_check\_helm](#input\_tls\_cert\_check\_helm) | tls cert helm chart configuration | <pre>object({<br>    chart_version = string,<br>    image_name    = string,<br>    image_tag     = string<br>  })</pre> | n/a | yes |
-| <a name="input_tls_checker_https_endpoints_to_check"></a> [tls\_checker\_https\_endpoints\_to\_check](#input\_tls\_checker\_https\_endpoints\_to\_check) | List of https endpoint to check ssl certificate and his alert name | <pre>list(object({<br>    https_endpoint = string<br>    # max 53 chars, alfanumeric and '-', and lower case<br>    alert_name    = string<br>    alert_enabled = bool<br>    helm_present  = bool<br>  }))</pre> | `[]` | no |
 | <a name="input_vnet_aks_name"></a> [vnet\_aks\_name](#input\_vnet\_aks\_name) | VNet dedicated to AKS | `string` | n/a | yes |
 
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

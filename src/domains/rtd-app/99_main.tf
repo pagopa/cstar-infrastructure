@@ -2,23 +2,23 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 3.38.0"
+      version = "~> 3.116"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "= 2.21.0"
+      version = "~> 2.50.0"
     }
     null = {
       source  = "hashicorp/null"
-      version = "= 3.1.1"
+      version = "~> 3.2.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "= 2.25.2"
+      version = "~> 2.30.0"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "= 2.5.1"
+      version = "~> 2.12.1"
     }
     local = {
       source = "hashicorp/local"
@@ -45,3 +45,12 @@ provider "helm" {
     config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
   }
 }
+
+module "__v3__" {
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.43.3
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=530d660f6b202b7dec25eb4f4bfb8b0b340212c6"
+}
+
+# module "__next_v3__" {
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3//redis_cache?ref=redis-update"
+# }

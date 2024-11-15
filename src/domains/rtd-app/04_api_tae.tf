@@ -1,9 +1,9 @@
 
 module "rtd_senderack_download_file" {
   count  = var.enable.tae_api ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-senderack-download", var.env_short)
+  name                = "${var.env_short}-senderack-download"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -32,9 +32,9 @@ module "rtd_senderack_download_file" {
 
 module "rtd_senderack_correct_download_ack" {
   count  = var.enable.tae_api ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.2.1"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = format("%s-senderack-explicit-ack", var.env_short)
+  name                = "${var.env_short}-senderack-explicit-ack"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 

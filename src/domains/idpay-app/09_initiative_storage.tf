@@ -4,7 +4,8 @@
 
 #tfsec:ignore:azure-storage-default-action-deny
 module "idpay_initiative_storage" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
+
+  source = "./.terraform/modules/__v3__/storage_account"
 
   name                            = replace("${var.domain}${var.env_short}-initiative-storage", "-", "")
   account_kind                    = "StorageV2"

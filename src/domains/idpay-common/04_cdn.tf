@@ -49,14 +49,15 @@ locals {
  */
 // public storage used to serve FE
 module "idpay_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.7.0"
+  source = "./.terraform/modules/__v3__/cdn"
 
-  name                  = "idpaycdn"
-  prefix                = local.project
-  resource_group_name   = azurerm_resource_group.fe_rg_idpay.name
-  location              = var.location
-  hostname              = "welfare.${data.azurerm_dns_zone.public.name}"
-  https_rewrite_enabled = true
+  name                             = "idpaycdn"
+  prefix                           = local.project
+  resource_group_name              = azurerm_resource_group.fe_rg_idpay.name
+  location                         = var.location
+  hostname                         = "welfare.${data.azurerm_dns_zone.public.name}"
+  https_rewrite_enabled            = true
+  storage_account_replication_type = var.idpay_cdn_storage_account_replication_type
 
   index_document     = "index.html"
   error_404_document = "error.html"
@@ -213,7 +214,8 @@ module "idpay_cdn" {
     }
   ]
 
-  tags = var.tags
+  tags                       = var.tags
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
 }
 
 #tfsec:ignore:azure-keyvault-ensure-secret-expiry
@@ -254,12 +256,14 @@ resource "azurerm_resource_group" "rg_welfare" {
 
 
 module "selfcare_welfare_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.7.0"
 
-  name                = "welfare-selfcare-${var.env_short}"
-  prefix              = var.prefix
-  resource_group_name = azurerm_resource_group.rg_welfare.name
-  location            = var.location
+  source = "./.terraform/modules/__v3__/cdn"
+
+  name                             = "welfare-selfcare-${var.env_short}"
+  prefix                           = var.prefix
+  resource_group_name              = azurerm_resource_group.rg_welfare.name
+  location                         = var.location
+  storage_account_replication_type = var.selfcare_welfare_cdn_storage_account_replication_type
 
   hostname              = "selfcare.${data.terraform_remote_state.core.outputs.dns_zone_welfare_name}"
   https_rewrite_enabled = true
@@ -276,6 +280,9 @@ module "selfcare_welfare_cdn" {
 
   querystring_caching_behaviour      = "BypassCaching"
   advanced_threat_protection_enabled = var.idpay_cdn_sa_advanced_threat_protection_enabled
+
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
+
 
   storage_account_nested_items_public = false
 

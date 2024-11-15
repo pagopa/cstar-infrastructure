@@ -43,7 +43,7 @@ cosmos_mongo_account_params = {
     max_interval_in_seconds = 300
     max_staleness_prefix    = 100000
   }
-  server_version                   = "4.2"
+  server_version                   = "7.0"
   main_geo_location_zone_redundant = false
   enable_free_tier                 = false
 
@@ -416,3 +416,10 @@ aks_vnet = {
 
 
 redis_public_network_access_enabled = false
+
+aks_name                = "cstar-u-weu-uat01-aks"
+aks_resource_group_name = "cstar-u-weu-uat01-aks-rg"
+
+### CDN
+idpay_cdn_storage_account_replication_type            = "GRS"
+selfcare_welfare_cdn_storage_account_replication_type = "GRS"

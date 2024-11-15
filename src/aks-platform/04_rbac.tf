@@ -33,7 +33,7 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 
   rule {
     api_groups = [""]
-    resources  = ["namespaces"]
+    resources  = ["namespaces", "serviceaccounts"]
     verbs      = ["get", "list", "watch", ]
   }
 
@@ -77,6 +77,28 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
     api_groups = ["policy"]
     resources  = ["poddisruptionbudgets"]
     verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
+  }
+
+  depends_on = [
+    module.aks
+  ]
+}
+
+resource "kubernetes_cluster_role" "kube_system_reader" {
+  metadata {
+    name = "kube-system-reader"
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["services"]
+    verbs      = ["get", "list", "watch", ]
+  }
+
+  rule {
+    api_groups = ["rbac.authorization.k8s.io"]
+    resources  = ["rolebindings"]
+    verbs      = ["get", "list", "watch", ]
   }
 
   depends_on = [

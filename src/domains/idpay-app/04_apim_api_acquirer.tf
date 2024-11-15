@@ -2,7 +2,8 @@
 # IDPAY PRODUCTS
 #
 module "idpay_api_acquirer_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_product"
+
 
   product_id   = "idpay_api_acquirer_product"
   display_name = "IDPAY_ACQUIRER_PRODUCT"
@@ -29,7 +30,7 @@ module "idpay_api_acquirer_product" {
 
 ## IDPAY QR-Code payment ACQUIRER API ##
 module "idpay_qr_code_payment_acquirer" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/api_management_api"
 
   name                = "${var.env_short}-idpay-qr-code-payment-acquirer"
   api_management_name = data.azurerm_api_management.apim_core.name

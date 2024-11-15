@@ -43,7 +43,7 @@ cosmos_mongo_account_params = {
     max_interval_in_seconds = 300
     max_staleness_prefix    = 100000
   }
-  server_version                   = "4.2"
+  server_version                   = "7.0"
   main_geo_location_zone_redundant = false
   enable_free_tier                 = false
 
@@ -63,7 +63,7 @@ cosmos_mongo_account_params = {
 
 cosmos_mongo_db_idpay_params = {
   throughput     = null
-  max_throughput = null
+  max_throughput = 1000
 }
 
 service_bus_namespace = {
@@ -444,3 +444,10 @@ aks_vnet = {
 idpay_cdn_sa_advanced_threat_protection_enabled = true
 redis_public_network_access_enabled             = false
 redis_sku_name                                  = "Standard"
+
+aks_name                = "cstar-p-weu-prod01-aks"
+aks_resource_group_name = "cstar-p-weu-prod01-aks-rg"
+
+### CDN
+idpay_cdn_storage_account_replication_type            = "RAGZRS"
+selfcare_welfare_cdn_storage_account_replication_type = "RAGZRS"

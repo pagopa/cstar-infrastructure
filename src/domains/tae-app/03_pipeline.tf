@@ -1,4 +1,13 @@
 locals {
+
+  extract_not_acked_files = file("pipelines/lookup-activities/extractNotAckedFilesInCosmos.json")
+
+
+  if_at_least_one_file_is_not_acked = templatefile("pipelines/if-activities/ifAtLeastOneFileIsNotAcked.json", {
+    ack_ingest_and_split_dataflow = file("pipelines/dataflow-activities/ackIngestAndSplit.json")
+    copy_to_trigger_event         = file("pipelines/copy-activities/copyToTriggerEvent.json")
+  })
+
   // Invalidate flows whole activities
   invalidate_activity_content = templatefile("pipelines/data-explorer-activities/duplicateAndInvalidateFlow.json", {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
@@ -35,8 +44,11 @@ locals {
 
   collect_pending_filenames_activity = file("pipelines/copy-activities/collectPendingFilenames.json")
 
+  fail_if_at_least_one_file_is_pending = file("pipelines/fail-activities/failIfAtLeastOneFileIsPending.json")
+
   if_at_least_one_flow_is_pending = templatefile("pipelines/if-activities/ifAtLeastOneFlowPending.json", {
-    collect_pending_filenames_activity = local.collect_pending_filenames_activity
+    collect_pending_filenames_activity   = local.collect_pending_filenames_activity,
+    fail_if_at_least_one_file_is_pending = local.fail_if_at_least_one_file_is_pending
   })
 }
 
@@ -295,7 +307,8 @@ resource "azurerm_data_factory_pipeline" "ack_ingestor" {
     windowStart = "windowStartTime"
     windowEnd   = "windowEndTime"
   }
-  activities_json = file("pipelines/ackIngestor.json")
+
+  activities_json = "[${local.extract_not_acked_files},${local.if_at_least_one_file_is_not_acked}]"
 
   depends_on = [
     azurerm_data_factory_custom_dataset.source_ack,
@@ -484,12 +497,9 @@ resource "azurerm_data_factory_trigger_schedule" "pending_flows_trigger" {
   time_zone = "UTC"
 
   schedule {
-    minutes = [var.pending_flows_conf.schedule_minutes]
-    hours   = [var.pending_flows_conf.schedule_hours]
-    monthly {
-      weekday = var.pending_flows_conf.monthlyOccurrences_day
-      week    = 1
-    }
+    minutes      = [var.pending_flows_conf.schedule_minutes]
+    hours        = [var.pending_flows_conf.schedule_hours]
+    days_of_week = var.pending_flows_conf.days_of_week
   }
 
   annotations = ["PendingFlows"]

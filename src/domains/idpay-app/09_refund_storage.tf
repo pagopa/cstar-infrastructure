@@ -9,7 +9,8 @@ resource "azurerm_resource_group" "rg_refund_storage" {
 
 #tfsec:ignore:azure-storage-default-action-deny
 module "idpay_refund_storage" {
-  source                          = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v6.15.2"
+  source = "./.terraform/modules/__v3__/storage_account"
+
   name                            = replace("${var.domain}${var.env_short}-refund-storage", "-", "")
   account_kind                    = "StorageV2"
   account_tier                    = "Standard"
@@ -92,7 +93,7 @@ resource "azurerm_key_vault_secret" "refund_storage_blob_connection_string" {
 }
 
 resource "azurerm_eventgrid_system_topic" "idpay_refund_storage_topic" {
-  name                   = format("%s-events-refund-storage-topic", local.project)
+  name                   = "${local.project}-events-refund-storage-topic"
   location               = var.location
   resource_group_name    = azurerm_resource_group.rg_refund_storage.name
   source_arm_resource_id = module.idpay_refund_storage.id
@@ -114,7 +115,7 @@ resource "azurerm_role_assignment" "event_grid_sender_role_on_refund_storage_top
 
 /* cannot use delivery_property with plugin 2.99, creating through azapi_resource.idpay_refund_storage_topic_event_subscription instead
 resource "azurerm_eventgrid_system_topic_event_subscription" "idpay_refund_storage_subscription" {
-  name                = format("%s-events-refund-storage-subscription", local.project)
+  name                = "${local.project}-events-refund-storage-subscription"
   system_topic        = azurerm_eventgrid_system_topic.idpay_refund_storage_topic.name
   resource_group_name = azurerm_resource_group.rg_refund_storage.name
 
@@ -129,7 +130,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "idpay_refund_stora
 
 resource "azapi_resource" "idpay_refund_storage_topic_event_subscription" {
   type      = "Microsoft.EventGrid/systemTopics/eventSubscriptions@2021-12-01"
-  name      = format("%s-events-refund-storage-subscription", local.project)
+  name      = "${local.project}-events-refund-storage-subscription"
   parent_id = azurerm_eventgrid_system_topic.idpay_refund_storage_topic.id
 
   body = jsonencode({

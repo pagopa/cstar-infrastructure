@@ -16,7 +16,8 @@
       "type": "Expression"
     },
     "ifTrueActivities": [
-      ${collect_pending_filenames_activity}
+      ${collect_pending_filenames_activity},
+      ${fail_if_at_least_one_file_is_pending}
     ]
   }
 }

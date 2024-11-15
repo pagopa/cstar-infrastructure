@@ -29,6 +29,7 @@ cidr_subnet_vpn              = ["10.1.133.0/24"]
 cidr_subnet_adf              = ["10.1.135.0/24"]
 cidr_subnet_storage_account  = ["10.1.137.0/24"]
 cidr_subnet_cosmos_mongodb   = ["10.1.138.0/24"]
+cidr_mil_poc_domain          = ["10.1.140.0/24"] #placeholder for mil poc
 cidr_subnet_dnsforwarder     = ["10.1.199.0/29"]
 cidr_subnet_private_endpoint = ["10.1.200.0/23"]
 dns_forwarder_vmss_cidr      = "10.1.199.16/29"
@@ -286,6 +287,7 @@ app_gateway_api_certificate_name        = "api-dev-cstar-pagopa-it"
 app_gateway_api_io_certificate_name     = "api-io-dev-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-dev-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-dev-cstar-pagopa-it"
+app_gateway_rtp_certificate_name        = "api-rtp-dev-cstar-pagopa-it"
 app_gw_load_client_certificate          = false
 
 enable_iac_pipeline = true

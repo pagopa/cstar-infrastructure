@@ -9,7 +9,7 @@ data "azurerm_key_vault_secret" "pagopa_platform_api_key" {
 resource "azurerm_api_management_named_value" "pagopa_platform_api_key" {
   count = var.enable.pm_integration ? 1 : 0
 
-  name                = format("%s-pagopa-platform-api-key", var.env_short)
+  name                = "${var.env_short}-pagopa-platform-api-key"
   resource_group_name = data.azurerm_resource_group.apim_rg.name
   api_management_name = data.azurerm_api_management.apim_core.name
 

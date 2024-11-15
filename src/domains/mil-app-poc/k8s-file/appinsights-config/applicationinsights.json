@@ -1,0 +1,25 @@
+{
+  "preview": {
+    "processors": [
+      {
+        "type": "metric-filter",
+        "exclude": {
+          "matchType": "strict",
+          "metricNames": [
+            "Loaded Class Count",
+            "Heap Memory Used (MB)",
+            "Suspected Deadlocked Threads",
+            "Current Thread Count",
+            "GC Total Time",
+            "GC Total Count",
+            "% Of Max Heap Memory Used",
+            "http.server.response.size",
+            "http.server.request.size",
+            "http.client.response.size",
+            "http.client.request.size"
+          ]
+        }
+      }
+    ]
+  }
+}
