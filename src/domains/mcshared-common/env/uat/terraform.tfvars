@@ -7,15 +7,6 @@ env            = "uat"
 location       = "westeurope"
 location_short = "weu"
 
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "uat"
-  Owner       = "cstar"
-  Source      = "https://github.com/pagopa/cstar-infrastructure/tree/main/src/domains/tier-0-common"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-  Domain      = "tier-0"
-}
-
 # ------------------------------------------------------------------------------
 # External resources.
 # ------------------------------------------------------------------------------

@@ -12,7 +12,7 @@ resource "azurerm_key_vault" "general" {
   purge_protection_enabled      = true
   public_network_access_enabled = false
   soft_delete_retention_days    = 90
-  tags                          = var.tags
+  tags                          = local.tags
 }
 
 # ------------------------------------------------------------------------------
@@ -29,5 +29,5 @@ resource "azurerm_key_vault" "auth" {
   public_network_access_enabled = false
   enable_rbac_authorization     = true
   soft_delete_retention_days    = 90
-  tags                          = var.tags
+  tags                          = local.tags
 }
