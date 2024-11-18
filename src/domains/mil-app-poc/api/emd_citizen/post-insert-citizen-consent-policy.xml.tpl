@@ -11,16 +11,18 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-  <inbound>
-    <base />
-  </inbound>
-  <backend>
-    <base />
-  </backend>
-  <outbound>
-    <base />
-  </outbound>
-  <on-error>
-    <base />
-  </on-error>
+    <inbound>
+        <base />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdcitizen" />
+        <rewrite-uri template="@("/emd/citizen")" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
 </policies>
