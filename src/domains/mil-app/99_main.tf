@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "2.48.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "6.3.1"
+    }
   }
 
   backend "azurerm" {}
@@ -23,6 +27,10 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+}
+
+provider "github" {
+  owner = "pagopa"
 }
 
 data "azurerm_subscription" "current" {}

@@ -30,7 +30,7 @@ resource "azurerm_api_management_api" "debt_position" {
 }
 
 resource "azurerm_api_management_product_api" "debt_position" {
-  product_id          = azurerm_api_management_product.mil.product_id
+  product_id          = data.azurerm_api_management_product.mil.product_id
   api_name            = azurerm_api_management_api.debt_position.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
@@ -68,7 +68,7 @@ resource "azurerm_api_management_api" "fee_calculator" {
 }
 
 resource "azurerm_api_management_product_api" "fee_calculator" {
-  product_id          = azurerm_api_management_product.mil.product_id
+  product_id          = data.azurerm_api_management_product.mil.product_id
   api_name            = azurerm_api_management_api.fee_calculator.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
@@ -106,7 +106,7 @@ resource "azurerm_api_management_api" "idpay" {
 }
 
 resource "azurerm_api_management_product_api" "idpay" {
-  product_id          = azurerm_api_management_product.mil.product_id
+  product_id          = data.azurerm_api_management_product.mil.product_id
   api_name            = azurerm_api_management_api.idpay.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
@@ -144,7 +144,7 @@ resource "azurerm_api_management_api" "pa_pos" {
 }
 
 resource "azurerm_api_management_product_api" "pa_pos" {
-  product_id          = azurerm_api_management_product.mil.product_id
+  product_id          = data.azurerm_api_management_product.mil.product_id
   api_name            = azurerm_api_management_api.pa_pos.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
@@ -182,7 +182,7 @@ resource "azurerm_api_management_api" "payment_notice" {
 }
 
 resource "azurerm_api_management_product_api" "payment_notice" {
-  product_id          = azurerm_api_management_product.mil.product_id
+  product_id          = data.azurerm_api_management_product.mil.product_id
   api_name            = azurerm_api_management_api.payment_notice.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
