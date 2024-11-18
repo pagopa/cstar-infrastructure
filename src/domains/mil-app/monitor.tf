@@ -1,20 +1,4 @@
 # ------------------------------------------------------------------------------
-# Log Analytics Workspace.
-# ------------------------------------------------------------------------------
-variable "core_log_analytics_workspace_name" {
-  type = string
-}
-
-variable "core_log_analytics_workspace_resource_group_name" {
-  type = string
-}
-
-data "azurerm_log_analytics_workspace" "core" {
-  name                = var.core_log_analytics_workspace_name
-  resource_group_name = var.core_log_analytics_workspace_resource_group_name
-}
-
-# ------------------------------------------------------------------------------
 # Application insights.
 # ------------------------------------------------------------------------------
 variable "core_application_insights_name" {
