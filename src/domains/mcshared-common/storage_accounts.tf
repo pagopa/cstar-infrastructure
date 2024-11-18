@@ -1,9 +1,8 @@
 # ------------------------------------------------------------------------------
-# Storage account containing configuration files for payment-notice and
-# fee-calculator microservices.
+# Storage account containing configuration files for auth microservice.
 # ------------------------------------------------------------------------------
-resource "azurerm_storage_account" "conf" {
-  name                          = replace("${local.project}-conf-st", "-", "")
+resource "azurerm_storage_account" "auth" {
+  name                          = replace("${local.project}-auth-st", "-", "")
   resource_group_name           = azurerm_resource_group.data.name
   location                      = azurerm_resource_group.data.location
   account_tier                  = "Standard"
