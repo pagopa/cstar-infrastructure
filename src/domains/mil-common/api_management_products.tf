@@ -17,12 +17,12 @@ data "azurerm_api_management" "core" {
 # ------------------------------------------------------------------------------
 # Product.
 # ------------------------------------------------------------------------------
-resource "azurerm_api_management_product" "mcshared" {
+resource "azurerm_api_management_product" "mil" {
   resource_group_name   = data.azurerm_api_management.core.resource_group_name
-  product_id            = "mcshared"
+  product_id            = "mil"
   api_management_name   = data.azurerm_api_management.core.name
-  display_name          = "McShared"
-  description           = "Shared Multi Channel Services"
+  display_name          = "MIL"
+  description           = "Multi-channel Integration Layer"
   subscription_required = false
   published             = true
 }

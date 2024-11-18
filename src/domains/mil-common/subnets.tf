@@ -1,20 +1,35 @@
 # ------------------------------------------------------------------------------
 # Subnet for ACA.
 # ------------------------------------------------------------------------------
-variable "aca_snet_cidr" {
+variable "aca_subnet_name" {
   type = string
 }
 
-resource "azurerm_subnet" "aca" {
-  name                 = "${local.project}-aca-snet"
-  resource_group_name  = data.azurerm_virtual_network.intern.resource_group_name
-  virtual_network_name = data.azurerm_virtual_network.intern.name
-  address_prefixes     = [var.aca_snet_cidr]
+variable "aca_subnet_resource_group_name" {
+  type = string
+}
+
+variable "aca_virtual_network_name" {
+  type = string
+}
+
+data "azurerm_subnet" "aca" {
+  name                 = var.aca_subnet_name
+  resource_group_name  = var.aca_subnet_resource_group_name
+  virtual_network_name = var.aca_virtual_network_name
 }
 
 # ------------------------------------------------------------------------------
 # Private endpoints subnet.
 # ------------------------------------------------------------------------------
+variable "core_virtual_network_name" {
+  type = string
+}
+
+variable "core_virtual_network_resource_group_name" {
+  type = string
+}
+
 variable "core_private_endpoints_subnet_name" {
   type    = string
   default = "private-endpoint-snet"

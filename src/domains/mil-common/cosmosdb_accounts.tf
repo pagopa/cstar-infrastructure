@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # CosmosDB account.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_account" "mcshared" {
+resource "azurerm_cosmosdb_account" "mil" {
   name                          = "${local.project}-cosmos"
   resource_group_name           = azurerm_resource_group.data.name
   location                      = azurerm_resource_group.data.location
@@ -33,14 +33,14 @@ resource "azurerm_cosmosdb_account" "mcshared" {
 # ------------------------------------------------------------------------------
 resource "azurerm_key_vault_secret" "cosmosdb_account_mcshared_primary_mongodb_connection_string" {
   name         = "cosmosdb-account-mcshared-primary-mongodb-connection-string"
-  value        = azurerm_cosmosdb_account.mcshared.primary_mongodb_connection_string
+  value        = azurerm_cosmosdb_account.mil.primary_mongodb_connection_string
   key_vault_id = azurerm_key_vault.general.id
   tags         = local.tags
 }
 
 resource "azurerm_key_vault_secret" "cosmosdb_account_mcshared_secondary_mongodb_connection_string" {
   name         = "cosmosdb-account-mcshared-secondary-mongodb-connection-string"
-  value        = azurerm_cosmosdb_account.mcshared.secondary_mongodb_connection_string
+  value        = azurerm_cosmosdb_account.mil.secondary_mongodb_connection_string
   key_vault_id = azurerm_key_vault.general.id
   tags         = local.tags
 }

@@ -1,22 +1,22 @@
 # ------------------------------------------------------------------------------
-# Private endpoint from ACA subnet to auth key vault.
+# Private endpoint from ACA subnet to idpay key vault.
 # ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "auth_key_vault" {
-  name                = "${local.project}-auth-kv-pep"
+resource "azurerm_private_endpoint" "idpay_key_vault" {
+  name                = "${local.project}-idpay-kv-pep"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
-  subnet_id           = azurerm_subnet.aca.id
+  subnet_id           = data.azurerm_subnet.aca.id
 
-  custom_network_interface_name = "${local.project}-auth-kv-pep-nic"
+  custom_network_interface_name = "${local.project}-idpay-kv-pep-nic"
 
   private_dns_zone_group {
-    name                 = "${local.project}-auth-kv-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    name                 = "${local.project}-idpay-kv-pdzg"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
-    name                           = "${local.project}-auth-kv-psc"
-    private_connection_resource_id = azurerm_key_vault.auth.id
+    name                           = "${local.project}-idpay-kv-psc"
+    private_connection_resource_id = azurerm_key_vault.idpay.id
     subresource_names              = ["vault"]
     is_manual_connection           = false
   }
@@ -27,33 +27,33 @@ resource "azurerm_private_endpoint" "auth_key_vault" {
 # ------------------------------------------------------------------------------
 # Storing auth key vault URL in the general key vault.
 # ------------------------------------------------------------------------------
-resource "azurerm_key_vault_secret" "key_vault_auth_vault_uri" {
-  name         = "key-vault-auth-vault-uri"
-  value        = azurerm_key_vault.auth.vault_uri
+resource "azurerm_key_vault_secret" "key_vault_idpay_vault_uri" {
+  name         = "key-vault-idpay-vault-uri"
+  value        = azurerm_key_vault.idpay.vault_uri
   key_vault_id = azurerm_key_vault.general.id
   tags         = local.tags
 }
 
 # ------------------------------------------------------------------------------
-# Private endpoint from "private endpoints" subnet to auth key vault for VPN.
+# Private endpoint from "private endpoints" subnet to idpay key vault for VPN.
 # ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "auth_key_vault_vpn" {
-  name                = "${local.project}-auth-kv-vpn-pep"
+resource "azurerm_private_endpoint" "idpay_key_vault_vpn" {
+  name                = "${local.project}-idpay-kv-vpn-pep"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
   subnet_id           = data.azurerm_subnet.private_endpoints.id
 
-  custom_network_interface_name = "${local.project}-auth-kv-vpn-pep-nic"
+  custom_network_interface_name = "${local.project}-idpay-kv-vpn-pep-nic"
 
   private_dns_zone_group {
-    name                 = "${local.project}-auth-kv-vpn-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    name                 = "${local.project}-idpay-kv-vpn-pdzg"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
-    name                           = "${local.project}-auth-kv-vpn-psc"
+    name                           = "${local.project}-idpay-kv-vpn-psc"
     subresource_names              = ["vault"]
-    private_connection_resource_id = azurerm_key_vault.auth.id
+    private_connection_resource_id = azurerm_key_vault.idpay.id
     is_manual_connection           = false
   }
 
@@ -67,13 +67,13 @@ resource "azurerm_private_endpoint" "general_key_vault" {
   name                = "${local.project}-gen-kv-pep"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
-  subnet_id           = azurerm_subnet.aca.id
+  subnet_id           = data.azurerm_subnet.aca.id
 
   custom_network_interface_name = "${local.project}-gen-kv-pep-nic"
 
   private_dns_zone_group {
     name                 = "${local.project}-gen-kv-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
@@ -99,7 +99,7 @@ resource "azurerm_private_endpoint" "general_key_vault_vpn" {
 
   private_dns_zone_group {
     name                 = "${local.project}-gen-kv-vpn-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
@@ -114,24 +114,24 @@ resource "azurerm_private_endpoint" "general_key_vault_vpn" {
 
 # ------------------------------------------------------------------------------
 # Private endpoint from ACA subnet to the storage account containing
-# configuration files for auth microservice.
+# configuration files for payment-notice and fee-calculator microservice.
 # ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "auth_storage" {
-  name                = "${local.project}-auth-storage-pep"
+resource "azurerm_private_endpoint" "conf_storage" {
+  name                = "${local.project}-conf-storage-pep"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
-  subnet_id           = azurerm_subnet.aca.id
+  subnet_id           = data.azurerm_subnet.aca.id
 
-  custom_network_interface_name = "${local.project}-auth-storage-pep-nic"
+  custom_network_interface_name = "${local.project}-conf-storage-pep-nic"
 
   private_dns_zone_group {
-    name                 = "${local.project}-auth-storage-pdzg"
+    name                 = "${local.project}-conf-storage-pdzg"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.storage.id]
   }
 
   private_service_connection {
-    name                           = "${local.project}-auth-storage-psc"
-    private_connection_resource_id = azurerm_storage_account.auth.id
+    name                           = "${local.project}-conf-storage-psc"
+    private_connection_resource_id = azurerm_storage_account.conf.id
     subresource_names              = ["blob"]
     is_manual_connection           = false
   }
@@ -142,9 +142,9 @@ resource "azurerm_private_endpoint" "auth_storage" {
 # ------------------------------------------------------------------------------
 # Storing storage account blob endpoint in the general key vault.
 # ------------------------------------------------------------------------------
-resource "azurerm_key_vault_secret" "storage_account_auth_primary_blob_endpoint" {
-  name         = "storage-account-auth-primary-blob-endpoint"
-  value        = azurerm_storage_account.auth.primary_blob_endpoint
+resource "azurerm_key_vault_secret" "storage_account_conf_primary_blob_endpoint" {
+  name         = "storage-account-conf-primary-blob-endpoint"
+  value        = azurerm_storage_account.conf.primary_blob_endpoint
   key_vault_id = azurerm_key_vault.general.id
   tags         = local.tags
 }
@@ -156,7 +156,7 @@ resource "azurerm_private_endpoint" "cosmos" {
   name                = "${local.project}-cosmos-pep"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
-  subnet_id           = azurerm_subnet.aca.id
+  subnet_id           = data.azurerm_subnet.aca.id
 
   custom_network_interface_name = "${local.project}-cosmos-pep-nic"
 
@@ -167,8 +167,34 @@ resource "azurerm_private_endpoint" "cosmos" {
 
   private_service_connection {
     name                           = "${local.project}-cosmos-psc"
-    private_connection_resource_id = azurerm_cosmosdb_account.mcshared.id
+    private_connection_resource_id = azurerm_cosmosdb_account.mil.id
     subresource_names              = ["MongoDB"]
+    is_manual_connection           = false
+  }
+
+  tags = local.tags
+}
+
+# ------------------------------------------------------------------------------
+# Private endpoint from ACA subnet to Redis.
+# ------------------------------------------------------------------------------
+resource "azurerm_private_endpoint" "redis" {
+  name                = "${local.project}-redis-pep"
+  location            = azurerm_resource_group.network.location
+  resource_group_name = azurerm_resource_group.network.name
+  subnet_id           = data.azurerm_subnet.aca.id
+
+  custom_network_interface_name = "${local.project}-redis-pep-nic"
+
+  private_dns_zone_group {
+    name                 = "${local.project}-redis-pdzg"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.redis.id]
+  }
+
+  private_service_connection {
+    name                           = "${local.project}-redis-psc"
+    private_connection_resource_id = azurerm_cosmosdb_account.mil.id
+    subresource_names              = ["redisCache"]
     is_manual_connection           = false
   }
 

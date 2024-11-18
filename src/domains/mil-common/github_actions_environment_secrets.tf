@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Create GitHub secret with Tenant ID in each repository.
+# Create GitHub secret with Tenant ID for each repository.
 # ------------------------------------------------------------------------------
 resource "github_actions_environment_secret" "azure_cd_tenant_id" {
   for_each        = { for x in local.repositories : x.repository => x }
@@ -10,7 +10,7 @@ resource "github_actions_environment_secret" "azure_cd_tenant_id" {
 }
 
 # ------------------------------------------------------------------------------
-# Create GitHub secret with Subscription ID in each repository.
+# Create GitHub secret with Subscription ID for each repository.
 # ------------------------------------------------------------------------------
 resource "github_actions_environment_secret" "azure_cd_subscription_id" {
   for_each        = { for x in local.repositories : x.repository => x }
@@ -21,7 +21,7 @@ resource "github_actions_environment_secret" "azure_cd_subscription_id" {
 }
 
 # ------------------------------------------------------------------------------
-# Create GitHub secret with Client ID in each repository.
+# Create GitHub secret with Client ID for each repository.
 # ------------------------------------------------------------------------------
 resource "github_actions_environment_secret" "azure_cd_client_id" {
   for_each        = { for x in local.repositories : x.repository => x }

@@ -2,7 +2,7 @@ locals {
   #
   # Domain label.
   #
-  domain = "mcshared"
+  domain = "mil"
 
   #
   # Project label.
@@ -26,7 +26,19 @@ locals {
   #
   repositories = [
     {
-      repository : "mil-auth"
+      repository : "mil-debt-position"
+    },
+    {
+      repository : "mil-fee-calculator"
+    },
+    {
+      repository : "mil-idpay"
+    },
+    {
+      repository : "mil-papos"
+    },
+    {
+      repository : "mil-payment-notice"
     }
   ]
 
