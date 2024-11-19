@@ -46,7 +46,7 @@ resource "azurerm_cosmosdb_sql_database" "db_rtp" {
 
 
 # ------------------------------------------------------------------------------
-# Create a container inside the db.
+# Create a container for the beta tester inside the db.
 # ------------------------------------------------------------------------------
 resource "azurerm_cosmosdb_sql_container" "beta_tester" {
   name                = "serviceProviders"
@@ -78,4 +78,41 @@ resource "azurerm_cosmosdb_sql_container" "beta_tester" {
     paths = ["/definition/idlong", "/definition/idshort"]
   }
 }
+
+
+
+# ------------------------------------------------------------------------------
+# Create a container for the activations inside the db.
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_sql_container" "activations" {
+  name                = "activations"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.rtp.name
+  database_name       = azurerm_cosmosdb_sql_database.db_rtp.name
+
+  partition_key_paths   = ["/definition/id"]
+  partition_key_version = 1
+  throughput            = 400
+
+  indexing_policy {
+    indexing_mode = "consistent"
+
+    included_path {
+      path = "/*"
+    }
+
+    included_path {
+      path = "/included/?"
+    }
+
+    excluded_path {
+      path = "/excluded/?"
+    }
+  }
+
+  unique_key {
+    paths = ["/definition/idlong", "/definition/idshort"]
+  }
+}
+
 
