@@ -19,7 +19,7 @@ locals {
 
   find_invalidated_rows_activity = file("pipelines/lookup-activities/findInvalidatedRows.json")
 
-  check_file_existence_activity = file("pipelines/if-activities/checkFileExistence.json")
+  if_invalidated_flow_needs_log_activity = file("pipelines/if-activities/ifInvalidateFlowNeedsToBeLogged.json")
 
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
@@ -28,7 +28,7 @@ locals {
     invalidate_activity            = local.invalidate_activity_content,
     purge_activity                 = local.purge_activity_content,
     set_ttl_activity               = local.set_ttl_activity,
-    check_file_existance_activity  = local.check_file_existence_activity
+    check_file_existence_activity  = local.if_invalidated_flow_needs_log_activity
   })
 
   // Pending flows whole activities
