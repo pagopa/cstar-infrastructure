@@ -17,12 +17,18 @@ locals {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
   })
 
+  find_invalidated_rows_activity = file("pipelines/lookup-activities/findInvalidatedRows.json")
+
+  check_file_existence_activity = file("pipelines/if-activities/checkFileExistence.json")
+
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
-    invalidate_activity = local.invalidate_activity_content,
-    purge_activity      = local.purge_activity_content,
-    set_ttl_activity    = local.set_ttl_activity
+    find_invalidated_rows_activity = local.find_invalidated_rows_activity,
+    invalidate_activity            = local.invalidate_activity_content,
+    purge_activity                 = local.purge_activity_content,
+    set_ttl_activity               = local.set_ttl_activity,
+    check_file_existance_activity  = local.check_file_existence_activity
   })
 
   // Pending flows whole activities
