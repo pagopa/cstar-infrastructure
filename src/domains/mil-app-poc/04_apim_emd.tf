@@ -180,3 +180,60 @@ module "emd_message_core" {
     }
   ]
 }
+
+## IDPAY MIL ONBOARDING API ##
+module "emd_mil_citizen" {
+  source = "./.terraform/modules/__v3__/api_management_api"
+
+
+  name                = "${var.env_short}-emd-mil-citizen"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "EMD CITIZEN OPERATION"
+  display_name = "EMD CITIZEN OPERATION API"
+  path         = "emd/mil/citizen"
+  protocols    = ["https"]
+
+  service_url = "${local.ingress_load_balancer_https}/emdcitizen/emd/citizen"
+
+  content_format = "openapi"
+  content_value  = file("./api/emd_mil_citizen/openapi.mil.citizen.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.emd_api_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "saveCitizenConsent"
+
+      xml_content = templatefile("./api/emd_mil_citizen/post-insert-citizen-consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateState"
+
+      xml_content = templatefile("./api/emd_mil_citizen/put-update-citizen-consent-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getConsentStatus"
+
+      xml_content = templatefile("./api/emd_mil_citizen/get-citizen-consent-status-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getCitizenEnabled"
+
+      xml_content = templatefile("./api/emd_mil_citizen/get-citizen-consent-enabled-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
