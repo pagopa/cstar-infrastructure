@@ -671,7 +671,7 @@ paths:
       summary: >-
         ENG: Returns the list of Citizen Consent with TPP consent enabled - IT: Ritorna la lista dei Cittadini che hanno abilitato il consenso per la TPP specifica
       operationId: getCitizenEnabled
-      description: Get citizen consent from fiscalCode and tppId
+      description: Get citizen consent from tppId
       parameters:
         - name: Accept-Language
           in: header
