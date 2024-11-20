@@ -667,7 +667,6 @@ resource "azurerm_data_factory_custom_dataset" "invalidated_flows" {
       "container": "ade"
     },
     "columnDelimiter": ";",
-    "compressionCodec": "gzip",
     "encodingName": "UTF-8",
     "escapeChar": "\\\\",
     "quoteChar": ""
