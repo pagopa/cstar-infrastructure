@@ -5,8 +5,8 @@ info:
   description: |-
     EMD CITIZEN CONSENT
   contact:
-    name: Stefano D'Elia
-    email: stefano11.delia@emeal.nttdata.com
+    name: PagoPA S.p.A.
+    email: cstar@pagopa.it
 
 servers:
   - description: Development Test

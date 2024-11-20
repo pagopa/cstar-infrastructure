@@ -5,8 +5,8 @@ info:
   version: 1.0.0
   description: Service which acts as dispatcher for messages to end-users through 3rd-party application
   contact:
-    name: Antonio Tarricone
-    email: antonio.tarricone@pagopa.it
+    name: PagoPA S.p.A.
+    email: cstar@pagopa.it
 
 servers:
   - description: Development Test
