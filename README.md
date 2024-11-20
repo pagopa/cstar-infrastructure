@@ -74,7 +74,7 @@ pre-commit run -a
 To allow terraform to work as expected you need to update this tools
 
 ```bash
-az extension update -n aks-preview
+az extension update -n aks-preview 
 
 az config set extension.use_dynamic_install=yes_without_prompt
 ```
