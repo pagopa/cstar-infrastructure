@@ -19,6 +19,7 @@
 | <a name="module_emd_api_product"></a> [emd\_api\_product](#module\_emd\_api\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
 | <a name="module_emd_citizen"></a> [emd\_citizen](#module\_emd\_citizen) | ./.terraform/modules/__v3__/api_management_api | n/a |
 | <a name="module_emd_message_core"></a> [emd\_message\_core](#module\_emd\_message\_core) | ./.terraform/modules/__v3__/api_management_api | n/a |
+| <a name="module_emd_mil_api_product"></a> [emd\_mil\_api\_product](#module\_emd\_mil\_api\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
 | <a name="module_emd_mil_citizen"></a> [emd\_mil\_citizen](#module\_emd\_mil\_citizen) | ./.terraform/modules/__v3__/api_management_api | n/a |
 | <a name="module_emd_tpp"></a> [emd\_tpp](#module\_emd\_tpp) | ./.terraform/modules/__v3__/api_management_api | n/a |
 | <a name="module_kubernetes_service_account"></a> [kubernetes\_service\_account](#module\_kubernetes\_service\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_service_account | v8.22.0 |
