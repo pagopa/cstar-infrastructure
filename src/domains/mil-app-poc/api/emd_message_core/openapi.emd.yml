@@ -201,16 +201,29 @@ components:
           pattern: "^[ -~]{24,36}$"
           minLength: 24
           maxLength: 36
-        message:
+        content:
           description: Content of the message
           type: string
           pattern: "^[ -~]{1,140}$"
           minLength: 1
           maxLength: 140
+        associatedPayment:
+          description: Associated Payment flag
+          type: boolean
+        idPsp:
+          description: PSP Reference number
+          type: string
+          pattern: "^[ -~]{8,64}$"
+          minLength: 8
+          maxLength: 64
       required:
         - messageId
         - recipientId
-        - message
+        - content
+        - triggerDateTime
+        - senderDescription
+        - messageUrl
+        - originId
       example:
         messageId: "8a32fa8a-5036-4b39-8f2e-47d3a6d23f9e"
         recipientId: "RSSMRA85T10A562S"
@@ -218,7 +231,9 @@ components:
         senderDescription: "Comune di Pontecagnano"
         messageUrl: "http://wwww.google.it"
         originId: "XRUZ-GZAJ-ZUEJ-202407-W-1"
-        message: "Nuovo messaggio!"
+        content: "Nuovo messaggio!"
+        idPsp: C948DFD1546347568874C4DDC93A2E3C
+        associatedPayment: true
 
     UUID:
       description: UUID

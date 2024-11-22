@@ -28,9 +28,9 @@ paths:
       tags:
         - Citizen operation
       summary: >-
-        ENG: Save citizen consent information - IT: Salvataggio dei consensi del cittadino
+        ENG: Save citizen consent information - IT: Salvataggio del consenso del cittadino
       operationId: saveCitizenConsent
-      description: Save citizen consents
+      description: Save citizen consent
       parameters:
         - name: Accept-Language
           in: header
@@ -44,7 +44,7 @@ paths:
             default: it-IT
           required: true
       requestBody:
-        description: 'ENG: Citizen consent details - IT: Dettagli consensi del cittadino'
+        description: 'ENG: Citizen consent details - IT: Dettagli consenso del cittadino'
         required: true
         content:
           application/json:
@@ -236,7 +236,7 @@ paths:
       tags:
         - Citizen operation
       summary: >-
-        ENG: Update citizen consent state - IT: Aggiornamento dello stato dei consensi del cittadino
+        ENG: Update citizen consent state - IT: Aggiornamento dello stato del consenso del cittadino
       operationId: updateState
       description: Update citizen consents
       parameters:
@@ -252,7 +252,7 @@ paths:
             default: it-IT
           required: true
       requestBody:
-        description:  'ENG: Citizen consent details - IT: Dettagli consensi del cittadino'
+        description:  'ENG: Citizen consent details - IT: Dettagli consenso del cittadino'
         required: true
         content:
           application/json:
@@ -445,7 +445,7 @@ paths:
       tags:
         - Citizen operation
       summary: >-
-        ENG: Returns the Citizen consent detalil from fiscalCode and tppId associated - IT: Ritorna il dettaglio dei consensi del cittadino tramite fiscalCode e tppId
+        ENG: Returns the Citizen consent detail from fiscalCode and tppId associated - IT: Ritorna il dettaglio del consenso del cittadino tramite fiscalCode e tppId
       operationId: getConsentStatus
       description: Get citizen consent from fiscalCode and tppId
       parameters:
@@ -481,7 +481,7 @@ paths:
             pattern: "^[ -~]{1,50}$"
             minLength: 1
             maxLength: 50
-            example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+            example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
       responses:
         '200':
           description: Ok
@@ -490,8 +490,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentResponseDTO'
               examples:
-                example3:
-                  $ref: '#/components/examples/example3'
+                example1:
+                  $ref: '#/components/examples/example1'
           headers:
             Access-Control-Allow-Origin:
               description: Indicates whether the response can be shared with requesting code from the given origin
@@ -694,7 +694,7 @@ paths:
             pattern: "^[ -~]{1,50}$"
             minLength: 1
             maxLength: 50
-            example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+            example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
       responses:
         '200':
           description: Ok
@@ -706,12 +706,12 @@ paths:
                 listCitizenConsentResponseDTO:
                   - fiscalCode: "RSSMRO92S18L048H"
                     consents:
-                      "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+                      "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900":
                         tppState: true
                         tcDate: "2024-11-06T11:25:40.695Z"
                   - fiscalCode: "VNTCCN92S18L048H"
                     consents:
-                      "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+                      "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900":
                         tppState: true
                         tcDate: "2024-11-12T11:27:23.699Z"
           headers:
@@ -942,9 +942,7 @@ components:
             required:
               - tppState
           example:
-            "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
-              tppState: true
-            "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
+            "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900":
               tppState: true
 
       required:
@@ -981,13 +979,6 @@ components:
                 example: "2024-11-01T11:25:40.695Z"
                 maxLength: 30
                 pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
-          example:
-            "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
-              tppState: true
-              tcDate: "2024-11-01T11:25:40.695Z"
-            "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
-              tppState: true
-              tcDate: "2024-11-05T11:25:40.695Z"
       required:
         - fiscalCode
         - consents
@@ -1016,7 +1007,7 @@ components:
           maxLength: 16
         tppId:
           type: string
-          example: "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900"
+          example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
           description: "ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA"
           pattern: "^[ -~]{1,50}$"
           minLength: 1
@@ -1061,32 +1052,22 @@ components:
 
   examples:
     example1:
-      summary: "Esempio con più consensi"
+      summary: "Esempio con consenso attivo"
       value:
         fiscalCode: "RSSMRO92S18L048H"
         consents:
-          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+          "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900":
             tppState: true
-            tcDate: "2024-11-01T11:25:40.695Z"
-          "a12cd3e4-5678-90ab-cdef-1234567890ab_1706868990123":
-            tppState: true
-            tcDate: "2024-11-05T11:25:40.695Z"
+            tcDate: "2024-11-06T11:25:40.695Z"
     example2:
-      summary: "Esempio con un solo consenso disattivo"
+      summary: "Esempio con consenso disattivo"
       value:
         fiscalCode: "RSSMRO92S18L048H"
         consents:
-          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+          "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900":
             tppState: false
             tcDate: "2024-11-06T11:25:40.695Z"
-    example3:
-      summary: "Esempio con un solo consenso attivo"
-      value:
-        fiscalCode: "RSSMRO92S18L048H"
-        consents:
-          "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
-            tppState: true
-            tcDate: "2024-11-06T11:25:40.695Z"
+
 
   securitySchemes:
     bearerAuth:
