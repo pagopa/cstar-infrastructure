@@ -15,8 +15,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-apim_publisher_name = "PagoPA Centro Stella DEV"
-apim_sku            = "Developer_1"
 
 ### External resources
 
@@ -50,17 +48,3 @@ rate_limit_emd_product = 2000
 
 #Event hub
 event_hub_port = 9093
-
-
-#
-# mil-papos
-#
-mil_papos_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-papos/main/src/main/resources/META-INF/openapi.yaml"
-mil_papos_address            = "milpapos"
-
-
-#
-# mil-terminal-registry
-#
-mil_terminal_registry_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-terminal-registry/main/src/main/resources/META-INF/openapi.yaml"
-mil_terminal_registry_address            = "milterminalregistry"

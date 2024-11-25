@@ -490,6 +490,11 @@ variable "app_gateway_rtp_certificate_name" {
   description = "Application gateway rtp certificate name on Key Vault"
 }
 
+variable "app_gateway_mcshared_certificate_name" {
+  type        = string
+  description = "Application gateway mcshared certificate name on Key Vault"
+}
+
 variable "app_gw_load_client_certificate" {
   type        = bool
   default     = true

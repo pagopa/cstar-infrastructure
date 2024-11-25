@@ -67,110 +67,35 @@ locals {
         unique = true
         },
         {
-          keys   = ["hashedFiscalCode", "channelId"]
+          keys   = ["fiscalCode"]
           unique = true
         },
         {
-          keys   = ["hashedFiscalCode"]
-          unique = false
-        },
-        {
-          keys   = ["channelId"]
+          keys   = ["consents.$**"]
           unique = false
         }
       ]
     },
     {
-      name = "channel"
+      name = "tpp"
       indexes = [{
         keys   = ["_id"]
         unique = true
+        },
+        {
+          keys   = ["tppId", "entityId"]
+          unique = true
+        },
+        {
+          keys   = ["tppId"]
+          unique = true
         },
         {
           keys   = ["entityId"]
           unique = true
         }
       ]
-    },
-    {
-      name = "solutions"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        }
-      ]
-    },
-    {
-      name = "terminals"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        }
-      ]
-    },
-    {
-      name = "transactions"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        }
-      ]
-    },
-    {
-      name = "bulkLoadStatuses"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        }
-      ]
-    },
-    {
-      name = "paymentTransactions"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        },
-        {
-          keys = ["paymentTransaction.terminalId",
-            "paymentTransaction.merchantId",
-            "paymentTransaction.channel",
-            "paymentTransaction.acquirerId",
-          "paymentTransaction.insertTimestamp"]
-          unique = false
-        },
-        {
-          keys   = ["paymentTransaction.insertTimestamp"]
-          unique = false
-        }
-      ]
-    },
-    {
-      name = "clients"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        },
-        {
-          keys   = ["clientId"]
-          unique = true
-        }
-      ]
-    },
-    {
-      name = "roles"
-      indexes = [{
-        keys   = ["_id"]
-        unique = true
-        },
-        {
-          keys = ["acquirerId",
-            "channel",
-            "clientId",
-            "merchantId",
-          "terminalId"]
-          unique = true
-        }
-      ]
+
     }
   ]
 }
