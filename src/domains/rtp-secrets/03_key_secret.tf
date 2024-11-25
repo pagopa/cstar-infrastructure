@@ -32,12 +32,12 @@ locals {
 resource "azurerm_key_vault_secret" "secret" {
   for_each = { for i, v in local.all_secrets_value : local.all_secrets_value[i].key => i }
 
-  key_vault_id = module.key_vault_core.id
+  key_vault_id = azurerm_key_vault.key_vault_core.id
   name         = local.all_secrets_value[each.value].key
   value        = local.all_secrets_value[each.value].value
 
   depends_on = [
-    module.key_vault_core,
+    azurerm_key_vault.key_vault_core,
     azurerm_key_vault_key.generate_key_sops,
     data.external.terrasops,
   ]
