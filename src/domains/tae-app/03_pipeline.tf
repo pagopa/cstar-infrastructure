@@ -18,21 +18,21 @@ locals {
   })
 
   copy_invalidated_rows_to_csv_temp_activity = templatefile("pipelines/copy-activities/copyInvalidatedRowsToCSVTemp.json", {
-    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   })
 
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
   retrieve_old_merged_records = templatefile("pipelines/copy-activities/RetrieveOldMergedRecords.json", {
-    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   })
 
   merge_invalidated_records = templatefile("pipelines/copy-activities/MergeInvalidatedRecords.json", {
-    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   })
 
   delete_duplicates = templatefile("pipelines/delete-activities/DeleteDuplicates.json", {
-    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
   })
 
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
@@ -473,7 +473,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
     flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
 
-    activities_json = jsonencode([
+  activities_json = jsonencode([
     jsondecode(local.invalidate_and_purge_activities),
     jsondecode(local.retrieve_old_merged_records),
     jsondecode(local.merge_invalidated_records),

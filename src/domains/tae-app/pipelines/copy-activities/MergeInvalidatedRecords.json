@@ -43,24 +43,6 @@
           "fileExtension": ".csv"
         }
       }
-    },
-    "inputs": [
-      {
-        "referenceName": "InvalidatedFlows",
-        "type": "DatasetReference",
-        "parameters": {
-          "file": "invalidated.csv"
-        }
-      }
-    ],
-    "outputs": [
-      {
-        "referenceName": "InvalidatedFlows",
-        "type": "DatasetReference",
-        "parameters": {
-          "file": "merged_invalidated.csv"
-        }
-      }
-    ]
+    }
   }
   
