@@ -1,8 +1,8 @@
 # ------------------------------------------------------------------------------
 # Create GitHub environment for each repository.
 # ------------------------------------------------------------------------------
-resource "github_team" "admin" {
-  name = "pagopa/swc-mil-team-admin"
+data "github_team" "admin" {
+  slug = "swc-mil-team-admin"
 }
 
 resource "github_repository_environment" "gh_env" {
@@ -13,11 +13,6 @@ resource "github_repository_environment" "gh_env" {
   prevent_self_review = true
   
   reviewers {
-    teams = [github_team.admin.id]
-  }
-  
-  deployment_branch_policy {
-    protected_branches     = false
-    custom_branch_policies = false
+    teams = [data.github_team.admin.id]
   }
 }
