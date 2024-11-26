@@ -6,6 +6,10 @@ resource "azurerm_cosmosdb_mongo_collection" "clients" {
   database_name       = azurerm_cosmosdb_mongo_database.mcshared.name
   name                = "clients"
   resource_group_name = azurerm_cosmosdb_mongo_database.mcshared.resource_group_name
+  
+  autoscale_settings {
+    max_throughput = 1000
+  }
 
   index {
     keys   = ["_id"]
@@ -28,6 +32,10 @@ resource "azurerm_cosmosdb_mongo_collection" "roles" {
   database_name       = azurerm_cosmosdb_mongo_database.mcshared.name
   name                = "roles"
   resource_group_name = azurerm_cosmosdb_mongo_database.mcshared.resource_group_name
+  
+  autoscale_settings {
+    max_throughput = 1000
+  }
 
   index {
     keys   = ["_id"]
