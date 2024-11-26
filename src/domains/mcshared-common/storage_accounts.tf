@@ -10,5 +10,5 @@ resource "azurerm_storage_account" "auth" {
   account_kind                     = "StorageV2"
   public_network_access_enabled    = false
   cross_tenant_replication_enabled = true
-  tags                          = local.tags
+  tags                             = local.tags
 }

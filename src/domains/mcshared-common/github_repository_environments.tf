@@ -11,7 +11,7 @@ resource "github_repository_environment" "gh_env" {
   environment         = local.project
   can_admins_bypass   = true
   prevent_self_review = true
-  
+
   reviewers {
     teams = [data.github_team.admin.id]
   }
