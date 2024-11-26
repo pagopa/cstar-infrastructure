@@ -4,27 +4,22 @@
     "type": "Copy",
     "dependsOn": [],
     "typeProperties": {
-      "source": {
-        "type": "AzureDataExplorerSource",
-        "query": {
-          "value": "Aggregates\n| where fileName == '@{item()}'\n| where isnull(valid)",
-          "type": "Expression"
-        }
-      },
-      "sink": {
-        "type": "DelimitedTextSink",
-        "storeSettings": {
-          "type": "AzureBlobStorageWriteSettings",
-          "linkedServiceName": {
-            "referenceName": "${linked_service_name}",
-            "type": "LinkedServiceReference"
-          }
+        "source": {
+            "type": "AzureDataExplorerSource",
+            "query": {
+                "value": "Aggregates\n| where fileName == '@{item()}'\n| where isnull(valid)",
+                "type": "Expression"
+            }
         },
-        "formatSettings": {
-          "type": "DelimitedTextWriteSettings",
-          "quoteAllText": true
+        "sink": {
+            "type": "DelimitedTextSink",
+            "storeSettings": {
+                "type": "AzureBlobStorageWriteSettings"
+            },
+            "formatSettings": {
+                "type": "DelimitedTextWriteSettings",
+                "quoteAllText": true
+            }
         }
-      }
     }
-  }
-  
+}

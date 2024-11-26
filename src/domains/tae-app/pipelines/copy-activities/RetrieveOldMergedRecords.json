@@ -4,26 +4,17 @@
     "type": "Copy",
     "dependsOn": [],
     "typeProperties": {
-      "source": {
-        "type": "DelimitedTextSource",
-        "storeSettings": {
-          "type": "AzureBlobStorageReadSettings",
-          "linkedServiceName": {
-            "referenceName": "${linked_service_name}",
-            "type": "LinkedServiceReference"
-          }
+        "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+                "type": "AzureBlobStorageReadSettings"
+            }
+        },
+        "sink": {
+            "type": "DelimitedTextSink",
+            "storeSettings": {
+                "type": "AzureBlobStorageWriteSettings"
+            }
         }
-      },
-      "sink": {
-        "type": "DelimitedTextSink",
-        "storeSettings": {
-          "type": "AzureBlobStorageWriteSettings",
-          "linkedServiceName": {
-            "referenceName": "${linked_service_name}",
-            "type": "LinkedServiceReference"
-          }
-        }
-      }
     }
-  }
-  
+}

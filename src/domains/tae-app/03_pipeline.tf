@@ -17,23 +17,16 @@ locals {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
   })
 
-  copy_invalidated_rows_to_csv_temp_activity = templatefile("pipelines/copy-activities/copyInvalidatedRowsToCSVTemp.json", {
-    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
-  })
-
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
-  retrieve_old_merged_records = templatefile("pipelines/copy-activities/RetrieveOldMergedRecords.json", {
-    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
-  })
+  copy_invalidated_rows_to_csv_temp_activity = templatefile("pipelines/copy-activities/copyInvalidatedRowsToCSVTemp.json", {})
 
-  merge_invalidated_records = templatefile("pipelines/copy-activities/MergeInvalidatedRecords.json", {
-    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
-  })
+  retrieve_old_merged_records = templatefile("pipelines/copy-activities/RetrieveOldMergedRecords.json", {})
 
-  delete_duplicates = templatefile("pipelines/delete-activities/DeleteDuplicates.json", {
-    linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
-  })
+  merge_invalidated_records = templatefile("pipelines/copy-activities/MergeInvalidatedRecords.json", {})
+
+  delete_duplicates = templatefile("pipelines/delete-activities/DeleteDuplicates.json", {})
+
 
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
     copy_invalidated_rows_to_csv_temp_activity = local.copy_invalidated_rows_to_csv_temp_activity,
