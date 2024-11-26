@@ -11,11 +11,10 @@
     },
     "isSequential": true,
     "activities": [
-      ${find_invalidated_rows_activity},
+      ${copy_invalidated_rows_to_csv_temp_activity},
       ${invalidate_activity},
       ${purge_activity},
-      ${set_ttl_activity},
-      ${check_file_existence_activity}
+      ${set_ttl_activity}
     ]
   }
 }

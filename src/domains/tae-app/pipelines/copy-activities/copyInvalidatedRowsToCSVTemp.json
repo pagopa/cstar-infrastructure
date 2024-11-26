@@ -1,0 +1,127 @@
+{
+    "name": "CopyInvalidatedRowsToCSVTemp",
+    "description": "Retrieve records and copy them into a temporary CSV file.",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+      "timeout": "0.12:00:00",
+      "retry": 0,
+      "retryIntervalInSeconds": 30,
+      "secureOutput": false,
+      "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+      "source": {
+        "type": "AzureDataExplorerSource",
+        "query": {
+          "value": "Aggregates\n| where fileName == '@{item()}'\n| where isnull(valid)\n| extend senderCode = tostring(split(fileName, \".\")[1])\n| summarize TotaleRecord = count(), RecordInvalidi = count() by fileName, senderCode\n| extend dataInvalidaz = now()",
+          "type": "Expression"
+        },
+        "queryTimeout": "01:00:00",
+        "noTruncation": true
+      },
+      "sink": {
+        "type": "DelimitedTextSink",
+        "storeSettings": {
+          "type": "AzureBlobStorageWriteSettings",
+          "copyBehavior": "PreserveHierarchy"
+        },
+        "formatSettings": {
+          "type": "DelimitedTextWriteSettings",
+          "quoteAllText": true,
+          "fileExtension": ".csv"
+        }
+      },
+      "enableStaging": false,
+      "translator": {
+        "type": "TabularTranslator",
+        "mappings": [
+          {
+            "source": {
+              "name": "fileName",
+              "type": "String",
+              "physicalType": "string"
+            },
+            "sink": {
+              "type": "String",
+              "physicalType": "String",
+              "ordinal": 1
+            }
+          },
+          {
+            "source": {
+              "name": "senderCode",
+              "type": "String",
+              "physicalType": "string"
+            },
+            "sink": {
+              "type": "String",
+              "physicalType": "String",
+              "ordinal": 2
+            }
+          },
+          {
+            "source": {
+              "name": "TotaleRecord",
+              "type": "Int64",
+              "physicalType": "long"
+            },
+            "sink": {
+              "type": "String",
+              "physicalType": "String",
+              "ordinal": 3
+            }
+          },
+          {
+            "source": {
+              "name": "RecordInvalidi",
+              "type": "Int64",
+              "physicalType": "long"
+            },
+            "sink": {
+              "type": "String",
+              "physicalType": "String",
+              "ordinal": 4
+            }
+          },
+          {
+            "source": {
+              "name": "dataInvalidaz",
+              "type": "DateTime",
+              "physicalType": "datetime"
+            },
+            "sink": {
+              "type": "String",
+              "physicalType": "String",
+              "ordinal": 5
+            }
+          }
+        ],
+        "typeConversion": true,
+        "typeConversionSettings": {
+          "allowDataTruncation": true,
+          "treatBooleanAsNumber": false
+        }
+      }
+    },
+    "inputs": [
+      {
+        "referenceName": "AggregatesLog",
+        "type": "DatasetReference"
+      }
+    ],
+    "outputs": [
+      {
+        "referenceName": "InvalidatedFlows",
+        "type": "DatasetReference",
+        "parameters": {
+          "file": {
+            "value": "invalidated_@{item()}_@{pipeline().RunId}.csv",
+            "type": "Expression"
+          }
+        }
+      }
+    ]
+  }
+  

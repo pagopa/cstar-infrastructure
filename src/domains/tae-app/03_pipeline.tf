@@ -17,18 +17,29 @@ locals {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
   })
 
-  find_invalidated_rows_activity = file("pipelines/lookup-activities/findInvalidatedRows.json")
-
-  if_invalidated_flow_needs_log_activity = file("pipelines/if-activities/ifInvalidateFlowNeedsToBeLogged.json")
+  copy_invalidated_rows_to_csv_temp_activity = templatefile("pipelines/copy-activities/copyInvalidatedRowsToCSVTemp.json", {
+    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+  })
 
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
+  retrieve_old_merged_records = templatefile("pipelines/copy-activities/RetrieveOldMergedRecords.json", {
+    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+  })
+
+  merge_invalidated_records = templatefile("pipelines/copy-activities/MergeInvalidatedRecords.json", {
+    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+  })
+
+  delete_duplicates = templatefile("pipelines/delete-activities/DeleteDuplicates.json", {
+    linked_service_name = azurerm_data_factory_linked_service_blob.dexp_storage.name
+  })
+
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
-    find_invalidated_rows_activity = local.find_invalidated_rows_activity,
-    invalidate_activity            = local.invalidate_activity_content,
-    purge_activity                 = local.purge_activity_content,
-    set_ttl_activity               = local.set_ttl_activity,
-    check_file_existence_activity  = local.if_invalidated_flow_needs_log_activity
+    copy_invalidated_rows_to_csv_temp_activity = local.copy_invalidated_rows_to_csv_temp_activity,
+    invalidate_activity                        = local.invalidate_activity_content,
+    purge_activity                             = local.purge_activity_content,
+    set_ttl_activity                           = local.set_ttl_activity
   })
 
   // Pending flows whole activities
@@ -461,7 +472,13 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   parameters = {
     flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
-  activities_json = "[${local.invalidate_and_purge_activities}]"
+
+    activities_json = jsonencode([
+    jsondecode(local.invalidate_and_purge_activities),
+    jsondecode(local.retrieve_old_merged_records),
+    jsondecode(local.merge_invalidated_records),
+    jsondecode(local.delete_duplicates)
+  ])
 
   depends_on = [
     azurerm_data_factory_custom_dataset.aggregates_log
