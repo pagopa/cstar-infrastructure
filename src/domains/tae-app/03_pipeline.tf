@@ -474,7 +474,8 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   ])
 
   depends_on = [
-    azurerm_data_factory_custom_dataset.aggregates_log
+    azurerm_data_factory_custom_dataset.aggregates_log,
+    azurerm_data_factory_custom_dataset.invalidated_flows
   ]
 
   lifecycle {
