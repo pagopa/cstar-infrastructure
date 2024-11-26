@@ -473,7 +473,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
     flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
 
-    activities_json = jsonencode([
+  activities_json = jsonencode([
     jsondecode(local.invalidate_and_purge_activities),
     jsondecode(local.retrieve_old_merged_records),
     jsondecode(local.merge_invalidated_records),
