@@ -24,3 +24,14 @@ resource "azurerm_role_assignment" "secrets_user_on_domain_kv_to_activator_ident
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.activator.principal_id
 }
+
+
+# ------------------------------------------------------------------------------
+# Assignement of role "Cosmos Operator" on cosmos nosql to
+# identity of rtp-activator microservice.
+# ------------------------------------------------------------------------------
+resource "azurerm_role_assignment" "cosmos_user_to_activator_identity" {
+  scope                = data.azurerm_cosmosdb_account.cosmos.id
+  role_definition_name = "Cosmos DB Operator"
+  principal_id         = azurerm_user_assigned_identity.activator.principal_id
+}
