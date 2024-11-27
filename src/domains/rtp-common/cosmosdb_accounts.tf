@@ -34,6 +34,16 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_rtp_endpoint" {
   tags         = var.tags
 }
 
+# ------------------------------------------------------------------------------
+# Storing CosmosDB primary_key in the rtp key vault.
+# ------------------------------------------------------------------------------
+resource "azurerm_key_vault_secret" "azure_cosmos_primary_key_kv" {
+  name         = "azure-cosmos-key"
+  value        = azurerm_cosmosdb_account.rtp.primary_key
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+  tags         = var.tags
+}
+
 
 # ------------------------------------------------------------------------------
 # Create a CosmosDB sql database.

@@ -23,6 +23,7 @@
 | [azurerm_cosmosdb_sql_container.beta_tester](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_container) | resource |
 | [azurerm_cosmosdb_sql_database.db_rtp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_database) | resource |
 | [azurerm_key_vault_secret.appinisights_connection_string_kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.azure_cosmos_primary_key_kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.cosmosdb_account_rtp_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_private_dns_zone.cosmos_nosql](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.cosmos_nosql_to_core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
@@ -51,7 +52,7 @@
 | <a name="input_aca_subnet_name"></a> [aca\_subnet\_name](#input\_aca\_subnet\_name) | ------------------------------------------------------------------------------ Subnet for ACA. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_aca_subnet_resource_group_name"></a> [aca\_subnet\_resource\_group\_name](#input\_aca\_subnet\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_aca_virtual_network_name"></a> [aca\_virtual\_network\_name](#input\_aca\_virtual\_network\_name) | n/a | `string` | n/a | yes |
-| <a name="input_cdn_rtp"></a> [cdn\_rtp](#input\_cdn\_rtp) | n/a | <pre>object({<br>    storage_account_replication_type   = string<br>    advanced_threat_protection_enabled = bool<br>  })</pre> | n/a | yes |
+| <a name="input_cdn_rtp"></a> [cdn\_rtp](#input\_cdn\_rtp) | n/a | <pre>object({<br/>    storage_account_replication_type   = string<br/>    advanced_threat_protection_enabled = bool<br/>  })</pre> | n/a | yes |
 | <a name="input_core_integr_virtual_network_name"></a> [core\_integr\_virtual\_network\_name](#input\_core\_integr\_virtual\_network\_name) | ------------------------------------------------------------------------------ Virtual network which hosts APIM. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_core_integr_virtual_network_resource_group_name"></a> [core\_integr\_virtual\_network\_resource\_group\_name](#input\_core\_integr\_virtual\_network\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_core_intern_virtual_network_name"></a> [core\_intern\_virtual\_network\_name](#input\_core\_intern\_virtual\_network\_name) | ------------------------------------------------------------------------------ Virtual network which hosts AKS and ACA. ------------------------------------------------------------------------------ | `string` | n/a | yes |
@@ -70,7 +71,7 @@
 | <a name="input_log_analytics_workspace_resource_group_name"></a> [log\_analytics\_workspace\_resource\_group\_name](#input\_log\_analytics\_workspace\_resource\_group\_name) | The name of the resource group in which the Log Analytics workspace is located in. | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
 
 ## Outputs
 
