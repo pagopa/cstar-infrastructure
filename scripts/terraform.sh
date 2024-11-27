@@ -157,6 +157,7 @@ if [ -n "$env" ]; then
     exit 1
   fi
   az account set -s "${subscription}"
+  export ARM_SUBSCRIPTION_ID="$(az account list --query "[?isDefault].id" --output tsv)"
 fi
 
 # Call appropriate function based on action
