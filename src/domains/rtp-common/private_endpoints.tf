@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # Private endpoint from ACA subnet to CosmosDB NoSQL.
 # ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "cosmos_nosql" {
+resource "azurerm_private_endpoint" "cosmos_sql" {
   name                = "${local.project}-cosmos-nosql-pep"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
@@ -11,7 +11,7 @@ resource "azurerm_private_endpoint" "cosmos_nosql" {
 
   private_dns_zone_group {
     name                 = "${local.project}-cosmos-nosql-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos_nosql.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos_sql.id]
   }
 
   private_service_connection {
@@ -27,7 +27,7 @@ resource "azurerm_private_endpoint" "cosmos_nosql" {
 # ------------------------------------------------------------------------------
 # Private endpoint from "private endpoints" subnet to CosmosDB NoSQL for VPN.
 # ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "cosmos_nosql_vpn" {
+resource "azurerm_private_endpoint" "cosmos_sql_vpn" {
   name                = "${local.project}-cosmos-nosql-vpn-pep"
   resource_group_name = azurerm_resource_group.network.name
   location            = azurerm_resource_group.network.location
@@ -37,7 +37,7 @@ resource "azurerm_private_endpoint" "cosmos_nosql_vpn" {
 
   private_dns_zone_group {
     name                 = "${local.project}-cosmos-nosql-vpn-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos_nosql.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos_sql.id]
   }
 
   private_service_connection {

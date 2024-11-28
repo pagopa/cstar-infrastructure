@@ -41,3 +41,35 @@ core_virtual_network_resource_group_name        = "cstar-u-vnet-rg"
 aca_subnet_name                                 = "cstar-u-mcshared-aca-snet"
 aca_subnet_resource_group_name                  = "cstar-u-weu-uat01-vnet-rg"
 aca_virtual_network_name                        = "cstar-u-weu-uat01-vnet"
+
+
+
+## Cosmos DB
+cosmos_mongo_db_params = {
+  enabled = true
+  kind    = "MongoDB"
+  # Enable Mongo API and Server Side Retry
+  capabilities = ["EnableMongo", "DisableRateLimitingResponses"]
+  offer_type   = "Standard"
+  consistency_policy = {
+    consistency_level       = "BoundedStaleness"
+    max_interval_in_seconds = 300
+    max_staleness_prefix    = 100000
+  }
+  server_version                   = "4.2"
+  main_geo_location_zone_redundant = false
+  enable_free_tier                 = false
+
+  private_endpoint_enabled      = true
+  public_network_access_enabled = true
+  additional_geo_locations      = []
+  # additional_geo_locations = [{
+  #   location          = "northeurope"
+  #   failover_priority = 1
+  #   zone_redundant    = false
+  # }]
+
+  is_virtual_network_filter_enabled = true
+
+  backup_continuous_enabled = false
+}
