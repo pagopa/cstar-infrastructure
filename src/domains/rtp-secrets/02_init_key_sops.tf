@@ -1,6 +1,6 @@
 resource "azurerm_key_vault_key" "generate_key_sops" {
   name         = "${local.product}-${var.domain}-sops-key"
-  key_vault_id = module.key_vault_core.id
+  key_vault_id = azurerm_key_vault.key_vault_core.id
   key_type     = "RSA"
   key_size     = 2048
 
