@@ -85,9 +85,16 @@ module "emd_tpp" {
       })
     },
     {
-      operation_id = "update"
+      operation_id = "updateTppDetails"
 
-      xml_content = templatefile("./api/emd_tpp/put-update-tpp-policy.xml.tpl", {
+      xml_content = templatefile("./api/emd_tpp/put-update-tpp-detail-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "updateTokenSection"
+
+      xml_content = templatefile("./api/emd_tpp/put-update-token-section-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
@@ -99,9 +106,16 @@ module "emd_tpp" {
       })
     },
     {
-      operation_id = "get"
+      operation_id = "getTppDetails"
 
       xml_content = templatefile("./api/emd_tpp/get-tpp-detail.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "getTokenSection"
+
+      xml_content = templatefile("./api/emd_tpp/get-token-section.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
