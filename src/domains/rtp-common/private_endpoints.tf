@@ -11,7 +11,7 @@ resource "azurerm_private_endpoint" "cosmos_mongo" {
 
   private_dns_zone_group {
     name                 = "${local.project}-cosmos-mongo-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos_mongo.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.cosmos_mongo.id]
   }
 
   private_service_connection {
@@ -37,7 +37,7 @@ resource "azurerm_private_endpoint" "cosmos_mongo_vpn" {
 
   private_dns_zone_group {
     name                 = "${local.project}-cosmos-mongo-vpn-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos_mongo.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.cosmos_mongo.id]
   }
 
   private_service_connection {
