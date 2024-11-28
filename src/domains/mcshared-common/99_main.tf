@@ -3,15 +3,15 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "= 3.99.0"
+      version = "= 4.11.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "= 2.48.0"
+      version = "= 3.0.2"
     }
     github = {
       source  = "integrations/github"
-      version = "5.12.0"
+      version = "= 6.4.0"
     }
   }
 
@@ -27,6 +27,7 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+  subscription_id = var.subscription_id
 }
 
 provider "github" {
