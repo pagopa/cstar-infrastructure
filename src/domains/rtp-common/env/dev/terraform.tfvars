@@ -42,9 +42,6 @@ aca_subnet_name                                 = "cstar-d-mcshared-aca-snet"
 aca_subnet_resource_group_name                  = "cstar-d-weu-dev01-vnet-rg"
 aca_virtual_network_name                        = "cstar-d-weu-dev01-vnet"
 
-
-
-
 ## Cosmos DB
 cosmos_mongo_db_params = {
   enabled      = true

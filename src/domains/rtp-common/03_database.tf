@@ -46,7 +46,7 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_rtp_connection_string" {
 # ------------------------------------------------------------------------------
 # Create a CosmosDB sql database.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_sql_database" "db_rtp" {
+resource "azurerm_cosmosdb_mongo_database" "db_rtp" {
   name                = "rtp"
   resource_group_name = azurerm_resource_group.data.name
   account_name        = azurerm_cosmosdb_account.rtp.name
@@ -60,7 +60,7 @@ resource "azurerm_cosmosdb_mongo_collection" "beta_tester" {
   name                = "serviceProviders"
   resource_group_name = azurerm_resource_group.data.name
   account_name        = azurerm_cosmosdb_account.rtp.name
-  database_name       = azurerm_cosmosdb_sql_database.db_rtp.name
+  database_name       = azurerm_cosmosdb_mongo_database.db_rtp.name
 
   index {
     keys   = ["_id"]
@@ -75,7 +75,7 @@ resource "azurerm_cosmosdb_mongo_collection" "activations" {
   name                = "activations"
   resource_group_name = azurerm_resource_group.data.name
   account_name        = azurerm_cosmosdb_account.rtp.name
-  database_name       = azurerm_cosmosdb_sql_database.db_rtp.name
+  database_name       = azurerm_cosmosdb_mongo_database.db_rtp.name
 
   index {
     keys   = ["_id"]
