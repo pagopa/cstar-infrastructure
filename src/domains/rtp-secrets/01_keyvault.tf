@@ -25,7 +25,7 @@ resource "azurerm_key_vault" "key_vault_core" {
 }
 
 # ------------------------------------------------------------------------------
-# Assignement of role "Key Vault Administrator" on domain key vault to
+# Assignment of role "Key Vault Administrator" on domain key vault to
 # adgroup_admin.
 # ------------------------------------------------------------------------------
 resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_admin" {
@@ -35,7 +35,7 @@ resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_admin" {
 }
 
 # ------------------------------------------------------------------------------
-# Assignement of role "Key Vault Administrator" on domain key vault to
+# Assignment of role "Key Vault Administrator" on domain key vault to
 # adgroup_developers for DEV and UAT environments.
 # ------------------------------------------------------------------------------
 resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_developers" {
@@ -45,7 +45,7 @@ resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_developers" {
 }
 
 # ------------------------------------------------------------------------------
-# Assignement of role "Key Vault Administrator" on domain key vault to
+# Assignment of role "Key Vault Administrator" on domain key vault to
 # adgroup_externals for DEV and UAT environments.
 # ------------------------------------------------------------------------------
 resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_externals" {
@@ -68,7 +68,7 @@ module "letsencrypt_rtp" {
 }
 
 # ------------------------------------------------------------------------------
-# Assignement of the following roles to IaC service principals on domain key
+# Assignment of the following roles to IaC service principals on domain key
 # vault:
 #   - Key Vault Crypto Officer
 #   - Key Vault Certificates Officer
