@@ -41,7 +41,3 @@ variable "location_short" {
   type    = string
   default = "weu"
 }
-
-variable "subscription_id" {
-  type = string
-}
