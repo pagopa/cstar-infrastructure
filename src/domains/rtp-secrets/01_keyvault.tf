@@ -39,7 +39,6 @@ resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_admin" {
 # adgroup_developers for DEV and UAT environments.
 # ------------------------------------------------------------------------------
 resource "azurerm_role_assignment" "admin_on_domain_kv_to_adgroup_developers" {
-  count                = var.env_short != "p" ? 1 : 0
   scope                = azurerm_key_vault.key_vault_core.id
   role_definition_name = "Key Vault Administrator"
   principal_id         = data.azuread_group.adgroup_developers.object_id
