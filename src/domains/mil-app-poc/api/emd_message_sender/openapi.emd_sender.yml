@@ -216,11 +216,6 @@ components:
           pattern: "^[ -~]{8,64}$"
           minLength: 8
           maxLength: 64
-        channel:
-          description: channel where the message comes from
-          type: string
-          enum:
-            - SEND
       required:
         - messageId
         - recipientId
@@ -239,7 +234,6 @@ components:
         content: "Nuovo messaggio!"
         idPsp: C948DFD1546347568874C4DDC93A2E3C
         associatedPayment: true
-        channel: SEND
 
     UUID:
       description: UUID
