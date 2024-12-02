@@ -1,62 +1,120 @@
 {
-    "name": "RetrieveOldMergedRecords",
-    "description": "Retrieve invalidated records from the merged CSV file.",
-    "type": "Copy",
-    "dependsOn": [
-        {
-            "activity": "InvalidateEachFlow",
-            "dependencyConditions": [
-                "Succeeded"
-            ]
-        }
-    ],
-    "policy": {
-        "timeout": "0.12:00:00",
-        "retry": 0,
-        "retryIntervalInSeconds": 30,
-        "secureOutput": false,
-        "secureInput": false
+  "name": "RetrieveOldMergedRecords",
+  "description": "Retrieve invalidated records from the merged CSV file and store them in a temporary file.\n",
+  "type": "Copy",
+  "dependsOn": [
+    {
+      "activity": "Invalidate each flow",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "DelimitedTextSource",
+      "storeSettings": {
+        "type": "AzureBlobStorageReadSettings",
+        "recursive": true,
+        "enablePartitionDiscovery": false
+      },
+      "formatSettings": {
+        "type": "DelimitedTextReadSettings"
+      }
     },
-    "typeProperties": {
-        "source": {
-            "type": "DelimitedTextSource",
-            "storeSettings": {
-                "type": "AzureBlobStorageReadSettings",
-                "recursive": true,
-                "enablePartitionDiscovery": false
-            },
-            "formatSettings": {
-                "type": "DelimitedTextReadSettings"
-            }
+    "sink": {
+      "type": "DelimitedTextSink",
+      "storeSettings": {
+        "type": "AzureBlobStorageWriteSettings",
+        "copyBehavior": "MergeFiles"
+      },
+      "formatSettings": {
+        "type": "DelimitedTextWriteSettings",
+        "quoteAllText": true,
+        "fileExtension": ".csv"
+      }
+    },
+    "enableStaging": false,
+    "translator": {
+      "type": "TabularTranslator",
+      "mappings": [
+        {
+          "source": {
+            "type": "String",
+            "ordinal": 1
+          },
+          "sink": {
+            "ordinal": 1
+          }
         },
-        "sink": {
-            "type": "DelimitedTextSink",
-            "storeSettings": {
-                "type": "AzureBlobStorageWriteSettings"
-            },
-            "formatSettings": {
-                "type": "DelimitedTextWriteSettings",
-                "quoteAllText": true,
-                "fileExtension": ".csv"
-            }
-        }
-    },
-    "inputs": [
         {
-            "referenceName": "InvalidatedFlows",
-            "type": "DatasetReference",
-            "parameters": {
-                "file": "merged_invalidated.csv"
-            }
-        }
-    ],
-    "outputs": [
+          "source": {
+            "type": "String",
+            "ordinal": 2
+          },
+          "sink": {
+            "ordinal": 2
+          }
+        },
         {
-            "referenceName": "InvalidatedFlows",
-            "type": "DatasetReference",
-            "parameters": {
-                "file": "invalidated_temp.csv"
-            }
+          "source": {
+            "type": "Decimal",
+            "ordinal": 3
+          },
+          "sink": {
+            "ordinal": 3
+          }
+        },
+        {
+          "source": {
+            "type": "Decimal",
+            "ordinal": 4
+          },
+          "sink": {
+            "ordinal": 4
+          }
+        },
+        {
+          "source": {
+            "type": "DateTime",
+            "ordinal": 5
+          },
+          "sink": {
+            "ordinal": 5
+          }
         }
-    ]
+      ],
+      "typeConversion": true,
+      "typeConversionSettings": {
+        "allowDataTruncation": true,
+        "treatBooleanAsNumber": false
+      }
+    }
+  },
+  "inputs": [
+    {
+      "referenceName": "InvalidatedFlows",
+      "type": "DatasetReference",
+      "parameters": {
+        "file": "merged_invalidated.csv"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "referenceName": "InvalidatedFlows",
+      "type": "DatasetReference",
+      "parameters": {
+        "file": "invalidated_temp.csv"
+      }
+    }
+  ]
 }

@@ -495,7 +495,8 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
 
   depends_on = [
     azurerm_data_factory_custom_dataset.pending_file,
-    azurerm_storage_container.pending_for_ack_extraction_container
+    azurerm_storage_container.pending_for_ack_extraction_container,
+    azurerm_data_factory_pipeline.invalidate_flow
   ]
 
   lifecycle {
