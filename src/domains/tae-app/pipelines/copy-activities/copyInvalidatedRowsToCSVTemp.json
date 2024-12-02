@@ -3,23 +3,65 @@
     "description": "Retrieve records and copy them into a temporary CSV file.",
     "type": "Copy",
     "dependsOn": [],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
     "typeProperties": {
         "source": {
             "type": "AzureDataExplorerSource",
             "query": {
                 "value": "Aggregates\n| where fileName == '@{item()}'\n| where isnull(valid)",
                 "type": "Expression"
-            }
+            },
+            "queryTimeout": "01:00:00",
+            "noTruncation": true
         },
         "sink": {
             "type": "DelimitedTextSink",
             "storeSettings": {
-                "type": "AzureBlobStorageWriteSettings"
+                "type": "AzureBlobStorageWriteSettings",
+                "copyBehavior": "PreserveHierarchy"
             },
             "formatSettings": {
                 "type": "DelimitedTextWriteSettings",
-                "quoteAllText": true
+                "quoteAllText": true,
+                "fileExtension": ".csv"
+            }
+        },
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "name": "fileName"
+                    },
+                    "sink": {
+                        "path": "fileName"
+                    }
+                }
+            ]
+        }
+    },
+    "inputs": [
+        {
+            "referenceName": "AggregatesLog",
+            "type": "DatasetReference"
+        }
+    ],
+    "outputs": [
+        {
+            "referenceName": "InvalidatedFlows",
+            "type": "DatasetReference",
+            "parameters": {
+                "file": {
+                    "value": "invalidated_@{item()}_@{pipeline().RunId}.csv",
+                    "type": "Expression"
+                }
             }
         }
-    }
+    ]
 }
