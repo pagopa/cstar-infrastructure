@@ -677,7 +677,7 @@ resource "azurerm_data_factory_custom_dataset" "invalidated_flows" {
   annotations = ["InvalidateFlow"]
 
   parameters = {
-    file = "myFile"
+    file = "invalidated_flow_file"
   }
 
   schema_json = <<JSON
