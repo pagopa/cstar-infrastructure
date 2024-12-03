@@ -222,7 +222,7 @@
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | `"cstar"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br/>    mock_io_api = bool<br/>  })</pre> | <pre>{<br/>  "mock_io_api": false<br/>}</pre> | no |
+| <a name="input_enable"></a> [enable](#input\_enable) | Feature flags | <pre>object({<br>    mock_io_api = bool<br>  })</pre> | <pre>{<br>  "mock_io_api": false<br>}</pre> | no |
 | <a name="input_enable_p7m_self_sign"></a> [enable\_p7m\_self\_sign](#input\_enable\_p7m\_self\_sign) | p7m self-signed certificate | `bool` | `true` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
@@ -275,8 +275,8 @@
 | <a name="input_storage_delete_retention_days"></a> [storage\_delete\_retention\_days](#input\_storage\_delete\_retention\_days) | Number of days to retain deleted files | `number` | `5` | no |
 | <a name="input_storage_enable_versioning"></a> [storage\_enable\_versioning](#input\_storage\_enable\_versioning) | Enable versioning | `bool` | `false` | no |
 | <a name="input_storage_public_network_access_enabled"></a> [storage\_public\_network\_access\_enabled](#input\_storage\_public\_network\_access\_enabled) | Enable public network access | `bool` | `false` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
-| <a name="input_tls_cert_check_helm"></a> [tls\_cert\_check\_helm](#input\_tls\_cert\_check\_helm) | tls cert helm chart configuration | <pre>object({<br/>    chart_version = string,<br/>    image_name    = string,<br/>    image_tag     = string<br/>  })</pre> | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
+| <a name="input_tls_cert_check_helm"></a> [tls\_cert\_check\_helm](#input\_tls\_cert\_check\_helm) | tls cert helm chart configuration | <pre>object({<br>    chart_version = string,<br>    image_name    = string,<br>    image_tag     = string<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
