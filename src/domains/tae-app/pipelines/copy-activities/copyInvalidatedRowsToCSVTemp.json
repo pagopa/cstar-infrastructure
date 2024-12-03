@@ -14,9 +14,9 @@
         "source": {
             "type": "AzureDataExplorerSource",
             "query": {
-                "value": "Aggregates\n| where fileName == '@{item()}'\n| where isnull(valid)",
+                "value": "Aggregates\n| where fileName == '@{item()}'\n| where isnull(valid)\n| extend senderCode = tostring(split(fileName, \".\")[1])\n| summarize TotalRecords = count(), InvalidRecords = count() by fileName, senderCode\n| extend InvalidationDate = now()",
                 "type": "Expression"
-            },
+            },    
             "queryTimeout": "01:00:00",
             "noTruncation": true
         },
