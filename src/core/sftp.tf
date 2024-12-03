@@ -90,7 +90,7 @@ resource "azurerm_storage_blob" "empty_merged_invalidated" {
   content_md5            = base64encode("")
 }
 
-resource "azurerm_storage_blob" "my_file" {
+resource "azurerm_storage_blob" "invalidated_flow_file" {
   name                   = "invalidated/invalidated_flow_file.csv"
   storage_account_name   = module.sftp.name
   storage_container_name = azurerm_storage_container.ade.name
