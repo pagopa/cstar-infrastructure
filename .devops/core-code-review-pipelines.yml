@@ -37,6 +37,9 @@ variables:
   TIME_OUT: 15
   # working dir
   WORKING_DIR: 'src/core'
+  DEV_PLAN_AZURE_SERVICE_CONNECTION_NAME: ${{variables.dev_plan_service_connection_name}}
+  UAT_PLAN_AZURE_SERVICE_CONNECTION_NAME: ${{variables.uat_plan_service_connection_name}}
+  PROD_PLAN_AZURE_SERVICE_CONNECTION_NAME: ${{variables.prod_plan_service_connection_name}}
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -69,7 +72,7 @@ stages:
             parameters:
               TF_ENVIRONMENT_FOLDER: "dev"
               WORKINGDIR: ${{ variables.WORKING_DIR }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: ${{variables.DEV_PLAN_AZURE_SERVICE_CONNECTION_NAME}}
 
   - stage: UAT
     dependsOn: []
@@ -90,7 +93,7 @@ stages:
             parameters:
               TF_ENVIRONMENT_FOLDER: "uat"
               WORKINGDIR: ${{ variables.WORKING_DIR }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: ${{variables.UAT_PLAN_AZURE_SERVICE_CONNECTION_NAME}}
 
   - stage: PROD
     dependsOn: []
@@ -111,4 +114,4 @@ stages:
             parameters:
               TF_ENVIRONMENT_FOLDER: "prod"
               WORKINGDIR: ${{ variables.WORKING_DIR }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
+              AZURE_SERVICE_CONNECTION_NAME: ${{variables.PROD_PLAN_AZURE_SERVICE_CONNECTION_NAME}}

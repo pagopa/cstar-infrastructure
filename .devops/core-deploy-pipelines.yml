@@ -30,6 +30,14 @@ variables:
   # working dir
   WORKING_DIR: 'src/core'
   DOMAIN_NAME: core
+  #APPLY
+  DEV_APPLY_AZURE_SERVICE_CONNECTION_NAME: ${{variables.dev_apply_service_connection_name}}
+  UAT_APPLY_AZURE_SERVICE_CONNECTION_NAME: ${{variables.uat_apply_service_connection_name}}
+  PROD_APPLY_AZURE_SERVICE_CONNECTION_NAME: ${{variables.prod_apply_service_connection_name}}
+  #PLAN
+  DEV_PLAN_AZURE_SERVICE_CONNECTION_NAME: ${{variables.dev_plan_service_connection_name}}
+  UAT_PLAN_AZURE_SERVICE_CONNECTION_NAME: ${{variables.uat_plan_service_connection_name}}
+  PROD_PLAN_AZURE_SERVICE_CONNECTION_NAME: ${{variables.prod_plan_service_connection_name}}
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -52,8 +60,8 @@ stages:
         ENVIRONMENT: "DEV"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
         WORKINGDIR: ${{ variables.WORKING_DIR }}
-        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
-        AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: ${{variables.DEV_PLAN_AZURE_SERVICE_CONNECTION_NAME}}
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: ${{variables.DEV_APPLY_AZURE_SERVICE_CONNECTION_NAME}}
 #UAT
   - ${{ if eq(parameters['UAT'], true) }}:
     - template: templates/terraform-plan-apply/template.yaml@terraform
@@ -63,8 +71,8 @@ stages:
         ENVIRONMENT: "UAT"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux-infra"
         WORKINGDIR: ${{ variables.WORKING_DIR }}
-        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
-        AZURE_SERVICE_CONNECTION_APPLY_NAME: UAT-CSTAR-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: ${{variables.UAT_PLAN_AZURE_SERVICE_CONNECTION_NAME}}
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: ${{variables.UAT_APPLY_AZURE_SERVICE_CONNECTION_NAME}}
 #PROD
   - ${{ if eq(parameters['PROD'], true) }}:
     - template: templates/terraform-plan-apply/template.yaml@terraform
@@ -74,5 +82,5 @@ stages:
         ENVIRONMENT: "PROD"
         AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-prod-linux-infra"
         WORKINGDIR: ${{ variables.WORKING_DIR }}
-        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
-        AZURE_SERVICE_CONNECTION_APPLY_NAME: PROD-CSTAR-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: ${{variables.PROD_PLAN_AZURE_SERVICE_CONNECTION_NAME}}
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: ${{variables.PROD_APPLY_AZURE_SERVICE_CONNECTION_NAME}}
