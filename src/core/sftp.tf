@@ -82,16 +82,8 @@ resource "azurerm_storage_blob" "ade_dirs" {
   type                   = "Block"
 }
 
-resource "azurerm_storage_blob" "empty_merged_invalidated" {
-  name                   = "invalidated/invalidated.csv"
-  storage_account_name   = module.sftp.name
-  storage_container_name = azurerm_storage_container.ade.name
-  type                   = "Block"
-  content_md5            = base64encode("")
-}
-
-resource "azurerm_storage_blob" "invalidated_flow_file" {
-  name                   = "invalidated/invalidated_flow_file.csv"
+resource "azurerm_storage_blob" "invalidate_flows_column_names" {
+  name                   = "invalidated/invalidate_flows_column_names.csv"
   storage_account_name   = module.sftp.name
   storage_container_name = azurerm_storage_container.ade.name
   type                   = "Block"
