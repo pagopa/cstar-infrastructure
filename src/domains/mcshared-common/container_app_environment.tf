@@ -11,3 +11,10 @@ resource "azurerm_container_app_environment" "mcshared" {
   tags                           = local.tags
   zone_redundancy_enabled        = false
 }
+
+resource "azurerm_management_lock" "cae" {
+  count      = var.env_short == "p" ? 1 : 0
+  name       = "${local.project}-cae-lock"
+  scope      = azurerm_container_app_environment.mcshared.id
+  lock_level = "CanNotDelete"
+}

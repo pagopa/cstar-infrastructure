@@ -50,11 +50,6 @@ variable "location_short" {
   description = "One of wue, neu"
 }
 
-variable "instance" {
-  type        = string
-  description = "One of beta, prod01, prod02"
-}
-
 variable "tags" {
   type = map(any)
   default = {
@@ -77,42 +72,4 @@ variable "log_analytics_workspace_name" {
 variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
-}
-
-### Aks
-
-variable "aks_name" {
-  type        = string
-  description = "AKS cluster name"
-}
-
-variable "aks_resource_group_name" {
-  type        = string
-  description = "AKS cluster resource name"
-}
-
-variable "aks_cluster_domain_name" {
-  type        = string
-  description = "Name of the aks cluster domain. eg: dev01"
-}
-
-variable "k8s_kube_config_path_prefix" {
-  type    = string
-  default = "~/.kube"
-}
-
-variable "ingress_load_balancer_ip" {
-  type = string
-}
-
-variable "external_domain" {
-  type        = string
-  default     = null
-  description = "Domain for delegation"
-}
-
-variable "dns_zone_internal_prefix" {
-  type        = string
-  default     = null
-  description = "The dns subdomain."
 }
