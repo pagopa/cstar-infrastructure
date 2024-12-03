@@ -29,7 +29,7 @@
         "storeSettings": {
             "type": "AzureBlobStorageReadSettings",
             "recursive": true,
-            "wildcardFileName": "invalidated_*.csv",
+            "wildcardFileName": "temp_*.csv",
             "enablePartitionDiscovery": false
         }
     }

@@ -25,7 +25,7 @@
         "type": "AzureBlobStorageReadSettings",
         "recursive": true,
         "wildcardFolderPath": "invalidated",
-        "wildcardFileName": "invalidated_*.csv",
+        "wildcardFileName": "temp_*.csv",
         "enablePartitionDiscovery": false
       },
       "formatSettings": {
@@ -125,7 +125,7 @@
       "referenceName": "InvalidatedFlows",
       "type": "DatasetReference",
       "parameters": {
-        "file": "merged_invalidated.csv"
+        "file": "invalidated.csv"
       }
     }
   ]

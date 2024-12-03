@@ -58,7 +58,7 @@
             "type": "DatasetReference",
             "parameters": {
                 "file": {
-                    "value": "invalidated_@{item()}_@{pipeline().RunId}.csv",
+                    "value": "temp_invalidated_@{item()}_@{pipeline().RunId}.csv",
                     "type": "Expression"
                 }
             }

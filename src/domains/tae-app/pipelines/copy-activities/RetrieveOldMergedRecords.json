@@ -104,7 +104,7 @@
       "referenceName": "InvalidatedFlows",
       "type": "DatasetReference",
       "parameters": {
-        "file": "merged_invalidated.csv"
+        "file": "invalidated.csv"
       }
     }
   ],
@@ -113,7 +113,7 @@
       "referenceName": "InvalidatedFlows",
       "type": "DatasetReference",
       "parameters": {
-        "file": "invalidated_temp.csv"
+        "file": "temp_invalidated.csv"
       }
     }
   ]
