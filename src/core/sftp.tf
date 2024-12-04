@@ -90,6 +90,9 @@ resource "azurerm_storage_blob" "invalidate_flows_column_names" {
   source_content         = <<-EOT
 fileName;senderCode;TotalRecords;InvalidRecords;InvalidationDate
 EOT
+  depends_on = [
+    azurerm_storage_blob.ade_dirs
+  ]
 }
 
 resource "azurerm_role_assignment" "data_reader_role" {
