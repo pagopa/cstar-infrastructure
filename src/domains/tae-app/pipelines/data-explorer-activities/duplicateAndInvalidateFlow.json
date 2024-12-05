@@ -2,7 +2,14 @@
   "name": "Duplicate and invalidate flow",
   "description": "This activity takes a file name as parameter. Aggregates in the target file are duplicated with \"valid\" field set to false.",
   "type": "AzureDataExplorerCommand",
-  "dependsOn": [],
+  "dependsOn": [
+    {
+      "activity": "CopyInvalidatedRowsToCSVTemp",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
   "policy": {
     "timeout": "0.12:00:00",
     "retry": 0,
