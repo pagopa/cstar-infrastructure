@@ -96,6 +96,23 @@ locals {
         }
       ]
 
+    },
+    {
+      name = "message"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["entityId"]
+          unique = false
+        },
+        {
+          keys   = ["recipientId"]
+          unique = false
+        }
+      ]
+
     }
   ]
 }
