@@ -5,6 +5,6 @@ resource "azurerm_api_management_policy_fragment" "apim-validate-token-mil" {
   description = "emd-validate-token-mil"
   format      = "rawxml"
   value = templatefile("./api_fragment/validate-token-mil.xml", {
-    env = var.env_short
+    env = var.env
   })
 }
