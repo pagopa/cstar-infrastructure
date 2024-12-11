@@ -1137,17 +1137,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListCitizenConsentResponseDTO'
               example:
-                listCitizenConsentResponseDTO:
-                  - fiscalCode: "RSSMRO92S18L048H"
-                    consents:
-                      "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
-                        tppState: true
-                        tcDate: "2024-11-06T11:25:40.695Z"
-                  - fiscalCode: "VNTCCN92S18L048H"
-                    consents:
-                      "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
-                        tppState: true
-                        tcDate: "2024-11-12T11:27:23.699Z"
+                - fiscalCode: "RSSMRO92S18L048H"
+                  consents:
+                    "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+                      tppState: true
+                      tcDate: "2024-11-06T11:25:40.695Z"
+                - fiscalCode: "VNTCCN92S18L048H"
+                  consents:
+                    "0e3bee29-8753-447c-b0da-1f7965558ec2_1706867960900":
+                      tppState: true
+                      tcDate: "2024-11-12T11:27:23.699Z"
           headers:
             Access-Control-Allow-Origin:
               description: Indicates whether the response can be shared with requesting code from the given origin
@@ -1386,15 +1385,11 @@ components:
         - consents
 
     ListCitizenConsentResponseDTO:
-      type: object
-      required:
-        - listCitizenConsentResponseDTO
-      properties:
-        listCitizenConsentResponseDTO:
-          type: array
-          maxItems: 1000000000
-          items:
-            $ref: '#/components/schemas/CitizenConsentResponseDTO'
+      type: array
+      maxItems: 1000000000
+      description: "Lista di CitizenConsentResponseDTO"
+      items:
+        $ref: '#/components/schemas/CitizenConsentResponseDTO'
 
     CitizenConsentResponseDTO:
       type: object
