@@ -1,0 +1,36 @@
+{
+    "name": "DeleteDuplicates",
+    "description": "Delete all created temporary files.",
+    "type": "Delete",
+    "dependsOn": [
+        {
+            "activity": "MergeInvalidatedRecords",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "typeProperties": {
+        "dataset": {
+            "referenceName": "InvalidatedFlows",
+            "type": "DatasetReference",
+            "parameters": {
+                "file": "invalidated"
+            }
+        },
+        "enableLogging": false,
+        "storeSettings": {
+            "type": "AzureBlobStorageReadSettings",
+            "recursive": true,
+            "wildcardFileName": "temp_*.csv",
+            "enablePartitionDiscovery": false
+        }
+    }
+}

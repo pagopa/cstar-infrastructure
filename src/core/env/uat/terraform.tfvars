@@ -282,6 +282,7 @@ app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 app_gateway_rtp_certificate_name        = "api-rtp-uat-cstar-pagopa-it"
+app_gateway_mcshared_certificate_name   = "api-mcshared-uat-cstar-pagopa-it"
 
 enable_iac_pipeline = true
 
@@ -335,7 +336,7 @@ cstarblobstorage_account_replication_type = "RAGRS"
 #
 # Azure devops
 #
-azdoa_image_name               = "cstar-u-azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name               = "cstar-u-azdo-agent-ubuntu2204-image-v20241203"
 enable_azdoa_agent_performance = true
 azdoa_agent_performance_vm_sku = "Standard_B2ms"
 azdoa_agent_app_vm_sku         = "Standard_B2ms"

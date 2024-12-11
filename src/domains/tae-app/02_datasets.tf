@@ -644,3 +644,64 @@ resource "azurerm_data_factory_custom_dataset" "pending_file" {
   ]
   JSON
 }
+
+resource "azurerm_data_factory_custom_dataset" "invalidated_flows" {
+
+  name            = "InvalidatedFlows"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.sftp_ls.name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "fileName": {
+        "value": "@dataset().file",
+        "type": "Expression"
+      },
+      "folderPath": "invalidated",
+      "container": "ade"
+    },
+    "columnDelimiter": ";",
+    "encodingName": "UTF-8",
+    "escapeChar": "\\\\",
+    "quoteChar": ""
+  }
+  JSON
+
+  description = "CSV that contains invalidated records from invalidated_flow"
+  annotations = ["InvalidateFlow"]
+
+  parameters = {
+    file = "invalidate_flows_column_names"
+  }
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "fileName",
+      "type": "String"
+    },
+    {
+      "name": "senderCode",
+      "type": "String"
+    },
+    {
+      "name": "TotaleRecord",
+      "type": "Decimal"
+    },
+    {
+      "name": "RecordInvalidi",
+      "type": "Decimal"
+    },
+    {
+      "name": "dataInvalidaz",
+      "type": "DateTime"
+    }
+  ]
+  JSON
+}

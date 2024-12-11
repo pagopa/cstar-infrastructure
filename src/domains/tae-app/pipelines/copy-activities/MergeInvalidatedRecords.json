@@ -1,0 +1,133 @@
+{
+  "name": "MergeInvalidatedRecords",
+  "description": "Merge all temporary CSV files into the final CSV file.",
+  "type": "Copy",
+  "dependsOn": [
+    {
+      "activity": "RetrieveOldMergedRecords",
+      "dependencyConditions": [
+        "Succeeded"
+      ]
+    }
+  ],
+  "policy": {
+    "timeout": "0.12:00:00",
+    "retry": 0,
+    "retryIntervalInSeconds": 30,
+    "secureOutput": false,
+    "secureInput": false
+  },
+  "userProperties": [],
+  "typeProperties": {
+    "source": {
+      "type": "DelimitedTextSource",
+      "storeSettings": {
+        "type": "AzureBlobStorageReadSettings",
+        "recursive": true,
+        "wildcardFolderPath": "invalidated",
+        "wildcardFileName": "temp_*.csv",
+        "enablePartitionDiscovery": false
+      },
+      "formatSettings": {
+        "type": "DelimitedTextReadSettings",
+        "compressionProperties":null
+      }
+    },
+    "sink": {
+      "type": "DelimitedTextSink",
+      "storeSettings": {
+        "type": "AzureBlobStorageWriteSettings",
+        "copyBehavior": "MergeFiles"
+      },
+      "formatSettings": {
+        "type": "DelimitedTextWriteSettings",
+        "quoteAllText": true,
+        "fileExtension": ".csv"
+      }
+    },
+    "enableStaging": false,
+    "translator": {
+      "type": "TabularTranslator",
+      "mappings": [
+        {
+          "source": {
+            "type": "String",
+            "ordinal": 1
+          },
+          "sink": {
+            "type": "String",
+            "physicalType": "String",
+            "ordinal": 1
+          }
+        },
+        {
+          "source": {
+            "type": "String",
+            "ordinal": 2
+          },
+          "sink": {
+            "type": "String",
+            "physicalType": "String",
+            "ordinal": 2
+          }
+        },
+        {
+          "source": {
+            "type": "String",
+            "ordinal": 3
+          },
+          "sink": {
+            "type": "String",
+            "physicalType": "String",
+            "ordinal": 3
+          }
+        },
+        {
+          "source": {
+            "type": "String",
+            "ordinal": 4
+          },
+          "sink": {
+            "type": "String",
+            "physicalType": "String",
+            "ordinal": 4
+          }
+        },
+        {
+          "source": {
+            "type": "String",
+            "ordinal": 5
+          },
+          "sink": {
+            "type": "String",
+            "physicalType": "String",
+            "ordinal": 5
+          }
+        }
+      ],
+      "typeConversion": true,
+      "typeConversionSettings": {
+        "allowDataTruncation": true,
+        "treatBooleanAsNumber": false
+      }
+    }
+  },
+  "inputs": [
+    {
+      "referenceName": "InvalidatedFlows",
+      "type": "DatasetReference",
+      "parameters": {
+        "file": "invalidated.csv"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "referenceName": "InvalidatedFlows",
+      "type": "DatasetReference",
+      "parameters": {
+        "file": "invalidated.csv"
+      }
+    }
+  ]
+}

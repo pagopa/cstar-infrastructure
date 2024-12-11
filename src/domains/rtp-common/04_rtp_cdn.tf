@@ -1,12 +1,3 @@
-/** RTP Frontend resource group */
-resource "azurerm_resource_group" "rtp_frontend_rg" {
-  name     = "${local.project}-fe-rg"
-  location = var.location
-
-  tags = var.tags
-}
-
-
 module "rtp_cdn" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v8.44.3"
 

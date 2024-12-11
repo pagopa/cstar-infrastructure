@@ -15,9 +15,6 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-apim_publisher_name = "PagoPA Centro Stella PROD"
-apim_sku            = "Premium_1"
-
 ### External resources
 
 monitor_resource_group_name                 = "cstar-p-monitor-rg"

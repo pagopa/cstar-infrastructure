@@ -177,6 +177,22 @@ module "app_gw_maz" {
         )
       }
     }
+
+    mcshared = {
+      protocol           = "Https"
+      host               = "api-mcshared.${var.dns_zone_prefix}.${var.external_domain}"
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
+      certificate = {
+        name = var.app_gateway_mcshared_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.mcshared_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.mcshared_gw_cstar.version
+        )
+      }
+    }
   }
 
   # maps listener to backend
@@ -216,6 +232,14 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api-rtp"
       priority              = 50
+    }
+
+
+    mcshared-api = {
+      listener              = "mcshared"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
+      priority              = 60
     }
   }
 
@@ -268,6 +292,29 @@ module "app_gw_maz" {
             {
               variable    = "var_uri_path"
               pattern     = "rtp/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-mcshared"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "auth/*"
               ignore_case = true
               negate      = true
             }
