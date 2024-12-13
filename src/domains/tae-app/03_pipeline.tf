@@ -547,7 +547,7 @@ resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
   })
 
   parameters = {
-    year = "2022"
+    year = "2023"
   }
 
   concurrency = 1
