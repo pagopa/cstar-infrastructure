@@ -75,11 +75,24 @@ resource "azurerm_storage_container" "ade" {
 }
 
 resource "azurerm_storage_blob" "ade_dirs" {
-  for_each               = toset(["in", "out", "error", "ack"])
+  for_each               = toset(["in", "out", "error", "ack", "invalidated"])
   name                   = format("%s/.test", each.key)
   storage_account_name   = module.sftp.name
   storage_container_name = azurerm_storage_container.ade.name
   type                   = "Block"
+}
+
+resource "azurerm_storage_blob" "invalidate_flows_column_names" {
+  name                   = "invalidated/invalidate_flows_column_names.csv"
+  storage_account_name   = module.sftp.name
+  storage_container_name = azurerm_storage_container.ade.name
+  type                   = "Block"
+  source_content         = <<-EOT
+fileName;senderCode;TotalRecords;InvalidRecords;InvalidationDate
+EOT
+  depends_on = [
+    azurerm_storage_blob.ade_dirs
+  ]
 }
 
 resource "azurerm_role_assignment" "data_reader_role" {

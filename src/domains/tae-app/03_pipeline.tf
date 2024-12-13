@@ -19,10 +19,20 @@ locals {
 
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
+  copy_invalidated_rows_to_csv_temp_activity = templatefile("pipelines/copy-activities/copyInvalidatedRowsToCSVTemp.json", {})
+
+  retrieve_old_merged_records = templatefile("pipelines/copy-activities/RetrieveOldMergedRecords.json", {})
+
+  merge_invalidated_records = templatefile("pipelines/copy-activities/MergeInvalidatedRecords.json", {})
+
+  delete_duplicates = templatefile("pipelines/delete-activities/DeleteDuplicates.json", {})
+
+
   invalidate_and_purge_activities = templatefile("pipelines/foreach-activities/invalidateEachFlow.json", {
-    invalidate_activity = local.invalidate_activity_content,
-    purge_activity      = local.purge_activity_content,
-    set_ttl_activity    = local.set_ttl_activity
+    copy_invalidated_rows_to_csv_temp_activity = local.copy_invalidated_rows_to_csv_temp_activity,
+    invalidate_activity                        = local.invalidate_activity_content,
+    purge_activity                             = local.purge_activity_content,
+    set_ttl_activity                           = local.set_ttl_activity
   })
 
   // Pending flows whole activities
@@ -455,10 +465,17 @@ resource "azurerm_data_factory_pipeline" "invalidate_flow" {
   parameters = {
     flows = "[\"AGGADE.12345.20221231.010000.001.01000\",\"AGGADE.54321.20221231.010000.001.01000\"]"
   }
-  activities_json = "[${local.invalidate_and_purge_activities}]"
+
+  activities_json = jsonencode([
+    jsondecode(local.invalidate_and_purge_activities),
+    jsondecode(local.retrieve_old_merged_records),
+    jsondecode(local.merge_invalidated_records),
+    jsondecode(local.delete_duplicates)
+  ])
 
   depends_on = [
-    azurerm_data_factory_custom_dataset.aggregates_log
+    azurerm_data_factory_custom_dataset.aggregates_log,
+    azurerm_data_factory_custom_dataset.invalidated_flows
   ]
 
   lifecycle {
@@ -478,7 +495,8 @@ resource "azurerm_data_factory_pipeline" "pending_files_in_Cosmos" {
 
   depends_on = [
     azurerm_data_factory_custom_dataset.pending_file,
-    azurerm_storage_container.pending_for_ack_extraction_container
+    azurerm_storage_container.pending_for_ack_extraction_container,
+    azurerm_data_factory_pipeline.invalidate_flow
   ]
 
   lifecycle {
@@ -529,7 +547,7 @@ resource "azurerm_data_factory_pipeline" "report_duplicate_aggregates" {
   })
 
   parameters = {
-    year = "2022"
+    year = "2023"
   }
 
   concurrency = 1
