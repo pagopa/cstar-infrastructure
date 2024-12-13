@@ -31,7 +31,7 @@ locals {
 
   # Azure DevOps
   azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
-  azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-azdoa"
+  azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-next-azdoa"
   azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
   azuredevops_rg_name             = "${local.project}-azdoa-rg"
   azuredevops_subnet_name         = "${local.project}-azdoa-snet"
