@@ -21,7 +21,7 @@ module "emd_api_product" {
 
   policy_xml = templatefile("./api_product/emd/policy_emd.xml", {
     rate_limit_emd = var.rate_limit_emd_product
-    }
+  }
   )
 
   groups = ["developers"]
@@ -46,7 +46,7 @@ module "emd_mil_api_product" {
 
   policy_xml = templatefile("./api_product/emd/mil/policy_emd.xml", {
     rate_limit_emd = var.rate_limit_emd_product
-    }
+  }
   )
 
   groups = ["developers"]
@@ -169,14 +169,14 @@ module "emd_citizen" {
       })
     },
     {
-      operation_id = "getCitizenConsentList"
+      operation_id = "getCitizenConsentsList"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "getCitizenConsentListEnabled"
+      operation_id = "getCitizenConsentsListEnabled"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-enabled-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname

@@ -13,8 +13,17 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdcitizen" />
-        <rewrite-uri template="@("/emd/citizen/{tppId}")" />
+        <choose>
+            <when condition="@(((string)context.Variables["groups"]).Contains("emd-tpp"))">
+              <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdcitizen" />
+              <rewrite-uri template="@("/emd/citizen/{tppId}")" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Operation Unauthorized" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />
@@ -26,3 +35,5 @@
         <base />
     </on-error>
 </policies>
+
+

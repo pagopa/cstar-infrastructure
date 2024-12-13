@@ -699,7 +699,7 @@ paths:
         - Citizen consent
       summary: >-
         ENG: Returns the list of tpp associated with a specific citizen - IT: Restituisce la lista dei canali associati ad un determinato cittadino
-      operationId: getCitizenConsentList
+      operationId: getCitizenConsentsList
       description: Get citizen consents list from fiscalCode
       parameters:
         - name: Accept-Language
@@ -911,7 +911,7 @@ paths:
         - Citizen consent
       summary: >-
         ENG: Returns the list of tpp associated with a specific citizen and tppState enabled- IT: Restituisce la lista dei canali associati ad un determinato cittadino con tppState abilitato
-      operationId: getCitizenConsentListEnabled
+      operationId: getCitizenConsentsListEnabled
       description: Get citizen consents list from fiscalCode
       parameters:
         - name: Accept-Language
