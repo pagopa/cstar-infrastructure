@@ -157,7 +157,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_doesnt_send" {
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -211,7 +211,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_failed_au
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -265,7 +265,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_auth_missing_i
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -326,7 +326,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "created_file_in_ade_e
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -385,7 +385,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -441,7 +441,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -497,7 +497,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sender_fails_blob_upl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -550,7 +550,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ade_removes_ack_file"
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -602,7 +602,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "not_all_chunks_are_ve
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -654,7 +654,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_decryption" {
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -706,7 +706,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "no_data_in_decryted_f
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -758,7 +758,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "wrong_name_format" {
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -811,7 +811,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -865,7 +865,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "aggregates_ingestor_f
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -929,8 +929,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file_not_created_in_a
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
-
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1040,7 +1039,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failure_on_sender_ade
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1098,7 +1097,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pgp_file_already_pres
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1156,7 +1155,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_no_co
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1214,7 +1213,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "upload_pgp_with_conte
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1266,7 +1265,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deprecated_batch_serv
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1319,7 +1318,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "client-certificate-cl
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1431,6 +1430,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1502,6 +1502,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "file-not-processed-by
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1552,6 +1553,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_generate_file_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1603,6 +1605,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "at-least-one-pending-
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1651,6 +1654,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "fail_to_delete_local_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1702,7 +1706,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cannot_get_encrypted_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1755,7 +1759,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "cannot_put_decrypted_
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
@@ -1807,7 +1811,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "malformed_checksum" {
   action {
     action_groups = [
       azurerm_monitor_action_group.send_to_operations[0].id,
-      azurerm_monitor_action_group.send_to_opsgenie[count.index].id, # Opsgenie
+      azurerm_monitor_action_group.send_to_zendesk[0].id
     ]
     custom_properties = {
       key  = "value"
