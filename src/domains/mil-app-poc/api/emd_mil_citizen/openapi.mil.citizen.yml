@@ -17,7 +17,8 @@ servers:
     x-internal: true
 
 security:
-  - bearerAuth: [ ]
+  - oAuth2_dev: [] #per DEV
+  - oAuth2_uat: [] #per UAT
 
 tags:
   - name: Citizen operation
@@ -1041,8 +1042,25 @@ components:
             tppState: false
             tcDate: "2024-11-06T11:25:40.695Z"
 
-
+  # ============================================================================
+  # Security schemes.
+  # ============================================================================
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+    oAuth2_dev:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          scopes: {}
+    oAuth2_uat:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          scopes: {}
