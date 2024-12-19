@@ -56,7 +56,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
-      name: cstar-dev-linux-infra
+      name: cstar-dev-linux-infra-next
     jobs:
       - job: tfplan_tae_common
         strategy:
@@ -96,7 +96,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.UAT}}, true))
     pool:
-      name: cstar-uat-linux-infra
+      name: cstar-uat-linux-infra-next
     jobs:
       - job: tfplan_tae_common
         strategy:
@@ -135,7 +135,7 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.PROD}}, true))
     pool:
-      name: cstar-prod-linux-infra
+      name: cstar-prod-linux-infra-next
     jobs:
       - job: tfplan_tae_common
         strategy:

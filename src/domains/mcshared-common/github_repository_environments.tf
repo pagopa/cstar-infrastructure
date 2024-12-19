@@ -13,6 +13,6 @@ resource "github_repository_environment" "gh_env" {
   prevent_self_review = true
 
   reviewers {
-    teams = [data.github_team.admin.id]
+    teams = var.env_short == "d" ? [] : [data.github_team.admin.id]
   }
 }

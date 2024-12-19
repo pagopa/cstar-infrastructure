@@ -51,7 +51,7 @@ stages:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
         TF_ENVIRONMENT_FOLDER: "dev"
         ENVIRONMENT: "DEV"
-        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra-next"
         WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
@@ -60,7 +60,7 @@ stages:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_app"
         TF_ENVIRONMENT_FOLDER: "dev"
         ENVIRONMENT: "DEV"
-        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra-next"
         WORKINGDIR:  ${{ variables.WORKING_DIR_APP }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
@@ -71,7 +71,7 @@ stages:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
         TF_ENVIRONMENT_FOLDER: "uat"
         ENVIRONMENT: "UAT"
-        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux-infra"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux-infra-next"
         WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: UAT-CSTAR-SERVICE-CONN
@@ -80,7 +80,7 @@ stages:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_app"
         TF_ENVIRONMENT_FOLDER: "uat"
         ENVIRONMENT: "UAT"
-        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux-infra"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-uat-linux-infra-next"
         WORKINGDIR:  ${{ variables.WORKING_DIR_APP }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: UAT-CSTAR-SERVICE-CONN
@@ -91,7 +91,7 @@ stages:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
         TF_ENVIRONMENT_FOLDER: "prod"
         ENVIRONMENT: "PROD"
-        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-prod-linux-infra"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-prod-linux-infra-next"
         WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: PROD-CSTAR-SERVICE-CONN
@@ -100,7 +100,7 @@ stages:
         FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_app"
         TF_ENVIRONMENT_FOLDER: "prod"
         ENVIRONMENT: "PROD"
-        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-prod-linux-infra"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-prod-linux-infra-next"
         WORKINGDIR:  ${{ variables.WORKING_DIR_APP }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: PROD-CSTAR-SERVICE-CONN
