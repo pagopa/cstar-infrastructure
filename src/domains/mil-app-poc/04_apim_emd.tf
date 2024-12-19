@@ -155,28 +155,28 @@ module "emd_citizen" {
       })
     },
     {
-      operation_id = "updateState"
+      operation_id = "stateSwitch"
 
       xml_content = templatefile("./api/emd_citizen/put-update-citizen-consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "getConsentStatus"
+      operation_id = "getCitizenConsentStatus"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-status-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "get"
+      operation_id = "getCitizenConsentsList"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "getTppEnabledList"
+      operation_id = "getCitizenConsentsListEnabled"
 
       xml_content = templatefile("./api/emd_citizen/get-citizen-consent-enabled-list-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
@@ -260,14 +260,14 @@ module "emd_mil_citizen" {
       })
     },
     {
-      operation_id = "updateState"
+      operation_id = "stateSwitch"
 
       xml_content = templatefile("./api/emd_mil_citizen/put-update-citizen-consent-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     },
     {
-      operation_id = "getConsentStatus"
+      operation_id = "getCitizenConsentStatus"
 
       xml_content = templatefile("./api/emd_mil_citizen/get-citizen-consent-status-policy.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
