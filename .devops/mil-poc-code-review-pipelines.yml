@@ -7,7 +7,7 @@ pr:
     include:
       - "src/domains/mil-app"
       - "src/domains/mil-common"
-      - "src/domains/payhub-secrets"
+      - "src/domains/mil-secrets"
     exclude:
       - '**/*.lock.hcl'
       - '**/*.md'
