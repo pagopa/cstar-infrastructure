@@ -52,6 +52,7 @@ stages:
       - template: './base-code-review-pipelines.yml'
         parameters:
           ENV: "dev"
+          ENV_LOCATION: "weu"
           WORKING_DIR_APP: "src/domains/mil-app-poc"
           WORKING_DIR_COMMON: "src/domains/mil-common-poc"
           WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
