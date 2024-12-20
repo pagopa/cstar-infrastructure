@@ -5,9 +5,9 @@ pr:
       - main
   paths:
     include:
-      - "src/domains/mil-app"
-      - "src/domains/mil-common"
-      - "src/domains/mil-secrets"
+      - "src/domains/mil-app-poc"
+      - "src/domains/mil-common-poc"
+      - "src/domains/mil-secrets-poc"
     exclude:
       - '**/*.lock.hcl'
       - '**/*.md'
