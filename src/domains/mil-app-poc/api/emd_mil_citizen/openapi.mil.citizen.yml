@@ -16,10 +16,6 @@ servers:
     url: https://api-io.uat.cstar.pagopa.it/emd/mil/citizen
     x-internal: true
 
-security:
-  - oAuth2_dev: [] #per DEV
-  - oAuth2_uat: [] #per UAT
-
 tags:
   - name: Citizen operation
     description: 'Citizen operation'
@@ -33,6 +29,9 @@ paths:
         ENG: Save citizen consent information - IT: Salvataggio dei consensi del cittadino
       operationId: saveCitizenConsent
       description: Save citizen consents
+      security:
+        - oAuth2_dev: [] #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -256,6 +255,9 @@ paths:
         ENG: Returns the Citizen consent detail from fiscalCode and tppId associated - IT: Ritorna il dettaglio del consenso del cittadino tramite fiscalCode e tppId
       operationId: getCitizenConsentStatus
       description: Get citizen consent from fiscalCode and tppId
+      security:
+        - oAuth2_dev: [] #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -479,6 +481,9 @@ paths:
         ENG: Update citizen consent state (if tppState is true it becomes false and vice versa)- IT: Aggiornamento dello stato dei consensi del cittadino (se tppState è true diventa false e viceversa)
       operationId: stateSwitch
       description: Update citizen consents
+      security:
+        - oAuth2_dev: [] #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -704,6 +709,9 @@ paths:
         ENG: Returns the list of Citizen Consent with TPP consent enabled - IT: Ritorna la lista dei Cittadini che hanno abilitato il consenso per la TPP specifica
       operationId: getCitizenEnabled
       description: Get citizen consent from tppId
+      security:
+        - oAuth2_dev: [] #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -1054,6 +1062,7 @@ components:
       flows:
         clientCredentials:
           tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
           scopes: {}
     oAuth2_uat:
       description: |
@@ -1063,4 +1072,5 @@ components:
       flows:
         clientCredentials:
           tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
           scopes: {}
