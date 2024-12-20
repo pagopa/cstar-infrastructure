@@ -17,9 +17,6 @@ servers:
     url: https://api-io.uat.cstar.pagopa.it/emd/tpp
     x-internal: true
 
-security:
-  - bearerAuth: [ ]
-
 tags:
   - name: TPP
     description: 'TPP operation'
@@ -32,6 +29,9 @@ paths:
         ENG: Update TPP consent state - IT: Aggiornamento dello stato dei consensi della TPP
       operationId: updateState
       description: Update TPP state
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -240,6 +240,9 @@ paths:
         ENG: Update TPP information - IT: Aggiorna le informazioni della TPP
       operationId: updateTppDetails
       description: Save TPP information
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -445,6 +448,9 @@ paths:
         ENG: Update TPP token information - IT: Aggiorna i dati utili per la generazione del Token della specifica TPP
       operationId: updateTokenSection
       description: Update TPP TokenInfo
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -661,6 +667,9 @@ paths:
         ENG: Save TPP information - IT: Salva le informazioni della TPP
       operationId: save
       description: Save TPP information
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -896,6 +905,9 @@ paths:
         ENG: Returns the TPP detail from tppId associated - IT: Ritorna il dettaglio della TPP attraverso il tppId
       operationId: getTppDetails
       description: Get TPP detail from tppId
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -1105,6 +1117,9 @@ paths:
         ENG: Returns the TPP token section detail from tppId associated - IT: Ritorna il dettaglio della sezione del token della TPP attraverso il tppId
       operationId: getTokenSection
       description: Get TPP detail section from tppId
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -1761,7 +1776,27 @@ components:
           maxLength: 250
           pattern: "^[\\w\\s.,!?'\"-]+$"
 
+  # ============================================================================
+  # Security schemes.
+  # ============================================================================
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+    oAuth2_dev:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          scopes: {}
+    oAuth2_uat:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          scopes: {}

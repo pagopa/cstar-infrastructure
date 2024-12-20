@@ -20,9 +20,6 @@ tags:
   - name: submit
     description: Related to 'submit' operations
 
-security:
-  - bearerAuth: [ ]
-
 paths:
   /sendMessage:
     parameters:
@@ -31,6 +28,9 @@ paths:
     post:
       operationId: submitMessage
       description: Submit a message
+      security:
+        - oAuth2_dev: [] #per DEV
+        # - oAuth2_uat: [] #per UAT
       tags: [ submit ]
       requestBody:
         $ref: '#/components/requestBodies/SendMessage'
@@ -350,9 +350,27 @@ components:
               outcome:
                 $ref: '#/components/schemas/OutcomeNoChannelsEnabled'
 
+  # ============================================================================
+  # Security schemes.
+  # ============================================================================
   securitySchemes:
-    bearerAuth:
-      description: A bearer token in the format of a JWS and conforms to the specifications included in RFC8725
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    oAuth2_dev:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          scopes: {}
+    oAuth2_uat:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          scopes: {}
