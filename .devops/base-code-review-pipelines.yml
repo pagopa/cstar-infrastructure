@@ -68,7 +68,7 @@ stages:
            # 2. Run terraform plan core
            - template: templates/terraform-plan/template.yaml@terraform
              parameters:
-               TF_ENVIRONMENT_FOLDER: "${{parameters.ENV_LOCATION}}-${{lower(parameters.ENV)}}"
+               TF_ENVIRONMENT_FOLDER: "${{lower(parameters.ENV)}}"
                WORKINGDIR: ${{ parameters.WORKING_DIR_SECRET }}
                AZURE_SERVICE_CONNECTION_NAME: "${{parameters.SC_PLAN_NAME}}"
                TF_SUMMARIZE: true
@@ -106,7 +106,7 @@ stages:
             # 2. Run terraform plan core
             - template: templates/terraform-plan/template.yaml@terraform
               parameters:
-                TF_ENVIRONMENT_FOLDER: "${{parameters.ENV_LOCATION}}-${{lower(parameters.ENV)}}"
+                TF_ENVIRONMENT_FOLDER: "${{lower(parameters.ENV)}}"
                 WORKINGDIR: ${{ parameters.WORKING_DIR_APP }}
                 AZURE_SERVICE_CONNECTION_NAME: "${{parameters.SC_PLAN_NAME}}"
                 TF_SUMMARIZE: true
