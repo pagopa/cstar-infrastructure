@@ -58,3 +58,30 @@ resource "azurerm_cosmosdb_mongo_collection" "roles" {
     unique = true
   }
 }
+
+# ------------------------------------------------------------------------------
+# CosmosDB Mongo collection for users used by auth microservice.
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_mongo_collection" "users" {
+  account_name        = azurerm_cosmosdb_mongo_database.mcshared.account_name
+  database_name       = azurerm_cosmosdb_mongo_database.mcshared.name
+  name                = "users"
+  resource_group_name = azurerm_cosmosdb_mongo_database.mcshared.resource_group_name
+
+  autoscale_settings {
+    max_throughput = 1000
+  }
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+
+  index {
+    keys = [
+      "username",
+      "clientId"
+    ]
+    unique = true
+  }
+}

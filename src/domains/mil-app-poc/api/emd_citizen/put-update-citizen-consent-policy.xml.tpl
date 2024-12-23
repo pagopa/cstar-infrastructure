@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdcitizen" />
-        <rewrite-uri template="@("/emd/citizen/stateUpdate")" />
+        <rewrite-uri template="@("/emd/citizen/{fiscalCode}/{tppId}")" />
     </inbound>
     <backend>
         <base />
