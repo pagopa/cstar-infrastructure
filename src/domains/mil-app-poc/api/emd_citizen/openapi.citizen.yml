@@ -16,9 +16,6 @@ servers:
     url: https://api-io.uat.cstar.pagopa.it/emd/citizen
     x-internal: true
 
-security:
-  - bearerAuth: [ ]
-
 tags:
   - name: Citizen consent
     description: 'Citizen consent operation'
@@ -32,6 +29,9 @@ paths:
         ENG: Save citizen consent information - IT: Salvataggio dei consensi del cittadino
       operationId: saveCitizenConsent
       description: Save citizen consents
+      security:
+        - oAuth2_dev: []  #per DEV
+        # - oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -254,6 +254,9 @@ paths:
         ENG: Returns the Citizen consent detalil from fiscalCode and tppId associated - IT: Ritorna il dettaglio dei consensi del cittadino tramite fiscalCode e tppId
       operationId: getCitizenConsentStatus
       description: Get citizen consent from fiscalCode and tppId
+      security:
+        - oAuth2_dev: []  #per DEV
+        # - oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -477,6 +480,9 @@ paths:
         ENG: Update citizen consent state (if tppState is true it becomes false and vice versa)- IT: Aggiornamento dello stato dei consensi del cittadino (se tppState è true diventa false e viceversa)
       operationId: stateSwitch
       description: Update citizen consents
+      security:
+        - oAuth2_dev: []  #per DEV
+        # - oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -701,6 +707,9 @@ paths:
         ENG: Returns the list of tpp associated with a specific citizen - IT: Restituisce la lista dei canali associati ad un determinato cittadino
       operationId: getCitizenConsentsList
       description: Get citizen consents list from fiscalCode
+      security:
+        - oAuth2_dev: []  #per DEV
+        # - oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -913,6 +922,9 @@ paths:
         ENG: Returns the list of tpp associated with a specific citizen and tppState enabled- IT: Restituisce la lista dei canali associati ad un determinato cittadino con tppState abilitato
       operationId: getCitizenConsentsListEnabled
       description: Get citizen consents list from fiscalCode
+      security:
+        - oAuth2_dev: []  #per DEV
+        # - oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -1125,6 +1137,9 @@ paths:
         ENG: Returns the list of Citizen Consent with TPP consent enabled - IT: Ritorna la lista dei Cittadini che hanno abilitato il consenso per la TPP specifica
       operationId: getCitizenEnabled
       description: Get citizen consent list from tppId
+      security:
+        - oAuth2_dev: []  #per DEV
+        # - oAuth2_uat: [] #per UAT
       parameters:
         - name: Accept-Language
           in: header
@@ -1488,7 +1503,28 @@ components:
           "a12cd3e4-5678-90ab-cdef-1234567890ab-1706868990123":
             tppState: false
             tcDate: "2024-11-05T11:25:40.695Z"
+
+  # ============================================================================
+  # Security schemes.
+  # ============================================================================
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+    oAuth2_dev:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          scopes: {}
+    oAuth2_uat:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          scopes: {}
