@@ -43,11 +43,16 @@ stages:
       parameters:
         ENV: 'dev'
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/rtp-app"
-        WORKING_DIR_COMMON: "src/domains/rtp-common"
-        WORKING_DIR_SECRET: "src/domains/rtp-secrets"
+        WORKING_DIR_APP: "src/domains/mil-app-poc"
+        WORKING_DIR_COMMON: "src/domains/mil-common-poc"
+        WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
+        DOMAIN_NAME: 'mil'
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
         SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_DEV)'
+        AKS_APISERVER_URL: '$(TF_DEV_AKS_APISERVER_URL)'
+        AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV_AKS_AZURE_DEVOPS_SA_CACRT)'
+        AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV_AKS_AZURE_DEVOPS_SA_TOKEN)'
+        AKS_NAME: '$(TF_AKS_DEV_NAME)'
         POOL_NAME: '$(TF_POOL_NAME_DEV)'
 #  #UAT
 #  - ${{ if eq(parameters['UAT'], true) }}:
