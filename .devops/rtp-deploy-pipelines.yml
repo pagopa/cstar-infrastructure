@@ -43,6 +43,7 @@ stages:
       parameters:
         ENV: 'dev'
         ENV_LOCATION: "weu"
+        DOMAIN_NAME: 'rtp'
         WORKING_DIR_APP: "src/domains/rtp-app"
         WORKING_DIR_COMMON: "src/domains/rtp-common"
         WORKING_DIR_SECRET: "src/domains/rtp-secrets"
