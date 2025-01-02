@@ -95,7 +95,7 @@ resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
 }
 
 #
-# Permissions for identity access to all domain key vaults.
+# Permissions for identity access to domain key vaults.
 #
 
 locals {
