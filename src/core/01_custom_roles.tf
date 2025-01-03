@@ -47,6 +47,7 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.ContainerRegistry/registries/listCredentials/action", # ACR list
       "Microsoft.ApiManagement/*/read",
       # "Microsoft.ApiManagement/service/read",
+      "Microsoft.ApiManagement/service/subscriptions/listSecrets/action",
       "Microsoft.KeyVault/*/read", #KeyVault
       # "Microsoft.KeyVault/vaults/read", #KeyVault
       "Microsoft.OperationalInsights/*/read",
