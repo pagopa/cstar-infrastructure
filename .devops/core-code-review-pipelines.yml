@@ -50,6 +50,7 @@ stages:
       - template: './base-code-review-pipelines.yml'
         parameters:
           ENV: "dev"
+          ENV_LOCATION: "weu"
           WORKING_DIR_MODULE: "src/core"
           SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
           POOL_NAME: '$(TF_POOL_NAME_DEV)'

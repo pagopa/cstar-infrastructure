@@ -43,6 +43,7 @@ stages:
     - template: './base-deploy-pipelines.yml'
       parameters:
         ENV: 'dev'
+        ENV_LOCATION: "weu"
         WORKING_DIR_MODULE: "src/core"
         DOMAIN_NAME: 'core'
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'

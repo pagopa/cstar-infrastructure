@@ -21,6 +21,7 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.ServiceBus/namespaces/authorizationRules/listKeys/action",              #help to list key for service bus connection
       # "Microsoft.ServiceBus/namespaces/queues/authorizationRules/listKeys/action",
       "Microsoft.ServiceBus/namespaces/read",
+      "Microsoft.ServiceBus/namespaces/*/read",
       "Microsoft.Cache/*/listKeys/action", # Redis List
       "Microsoft.Cache/redis/read",        # Redis
       "Microsoft.Cache/redis/*/read",      # redis
