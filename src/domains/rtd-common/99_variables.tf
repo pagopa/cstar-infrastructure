@@ -200,3 +200,8 @@ variable "aks_name" {
   type        = string
   description = "(Required) Name of the Kubernetes cluster."
 }
+
+variable "k8s_kube_config_path_prefix" {
+  type    = string
+  default = "~/.kube"
+}
