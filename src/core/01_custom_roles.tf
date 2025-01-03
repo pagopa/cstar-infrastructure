@@ -115,7 +115,8 @@ resource "azurerm_role_definition" "iac_reader" {
       "Microsoft.ApiManagement/service/tenant/listSecrets/action",
       "Microsoft.Compute/virtualMachineScaleSets/write", #scale the VMSS
       "Microsoft.AppConfiguration/configurationStores/*/read",
-      "Microsoft.AppConfiguration/configurationStores/*/action"
+      "Microsoft.AppConfiguration/configurationStores/*/action",
+      "Microsoft.ContainerInstance/containerGroups/read"
 
     ]
 
