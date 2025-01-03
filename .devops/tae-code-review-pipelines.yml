@@ -5,8 +5,8 @@ pr:
       - main
   paths:
     include:
-      - 'src/domains/tae-app'
-      - 'src/domains/tae-common'
+      - "src/domains/tae-app"
+      - "src/domains/tae-common"
     exclude:
       - '**/*.lock.hcl'
       - '**/*.md'
@@ -34,12 +34,6 @@ parameters:
       - False
       - True
 
-variables:
-  TIME_OUT: 15
-  # working dir
-  WORKING_DIR_COMMON: 'src/domains/tae-common'
-  WORKING_DIR_APP: 'src/domains/tae-app'
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -48,124 +42,45 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.1
-      endpoint: 'io-azure-devops-github-ro'
+      ref: refs/tags/v6.9.0
+      endpoint: "io-azure-devops-github-ro"
 
 stages:
-  - stage: DEV
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: cstar-dev-linux-infra-next
-    jobs:
-      - job: tfplan_tae_common
-        strategy:
-          parallel: 1
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan tae-common
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
-      - job: tfplan_tae_app
-        timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan tae-app
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
-
-
-  - stage: UAT
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: cstar-uat-linux-infra-next
-    jobs:
-      - job: tfplan_tae_common
-        strategy:
-          parallel: 1
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan tae-common
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "uat"
-              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
-      - job: tfplan_tae_app
-        timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan tae-app
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "uat"
-              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-UAT-PLAN-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_UAT_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.UAT01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.UAT01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.UAT01_AKS_AZURE_DEVOPS_SA_TOKEN }}
-
-  - stage: PROD
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: cstar-prod-linux-infra-next
-    jobs:
-      - job: tfplan_tae_common
-        strategy:
-          parallel: 1
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan tae-common
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "prod"
-              WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
-      - job: tfplan_tae_app
-        timeoutInMinutes: $[variables.TIME_OUT]
-        strategy:
-          parallel: 1
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # Run terraform plan tae-app
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "prod"
-              WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
-              AZURE_SERVICE_CONNECTION_NAME: CSTAR-PROD-PLAN-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_PROD_NAME }}
-              AKS_API_SERVER_URL: ${{ variables.PROD01_AKS_APISERVER_URL }}
-              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.PROD01_AKS_AZURE_DEVOPS_SA_CACRT }}
-              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.PROD01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+  #DEV
+  - ${{ if eq(parameters['DEV'], true) }}:
+      - template: './base-code-review-pipelines.yml'
+        parameters:
+          ENV: "dev"
+          ENV_LOCATION: "weu"
+          WORKING_DIR_APP: "src/domains/tae-app"
+          WORKING_DIR_COMMON: "src/domains/tae-common"
+          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
+          POOL_NAME: '$(TF_POOL_NAME_DEV)'
+#  #UAT
+#  - ${{ if eq(parameters['UAT'], true) }}:
+#      - template: './base-code-review-pipelines.yml'
+#        parameters:
+#          ENV: "uat"
+#          WORKING_DIR_APP: "src/domains/mil-app-poc"
+#          WORKING_DIR_COMMON: "src/domains/mil-common-poc"
+#          WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
+#          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
+#          AKS_APISERVER_URL: '$(TF_UAT_AKS_APISERVER_URL)'
+#          AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_CACRT)'
+#          AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_TOKEN)'
+#          AKS_NAME: '$(TF_AKS_UAT_NAME)'
+#          POOL_NAME: '$(TF_POOL_NAME_UAT)'
+#  #PROD
+#  - ${{ if eq(parameters['PROD'], true) }}:
+#      - template: './base-code-review-pipelines.yml'
+#        parameters:
+#          ENV: "prod"
+#          WORKING_DIR_APP: "src/domains/mil-app-poc"
+#          WORKING_DIR_COMMON: "src/domains/mil-common-poc"
+#          WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
+#          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
+#          AKS_APISERVER_URL: '$(TF_PROD_AKS_APISERVER_URL)'
+#          AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_PROD_AKS_AZURE_DEVOPS_SA_CACRT)'
+#          AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_PROD_AKS_AZURE_DEVOPS_SA_TOKEN)'
+#          AKS_NAME: '$(TF_AKS_PROD_NAME)'
+#          POOL_NAME: '$(TF_POOL_NAME_PROD)'
