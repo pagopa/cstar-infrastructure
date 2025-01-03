@@ -52,3 +52,8 @@ provider "azurerm" {
 data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
+
+module "__v3__" {
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.68.0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=b9dd50d01d7785bdfd47dc8be927df7801512286"
+}

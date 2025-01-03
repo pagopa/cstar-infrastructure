@@ -55,6 +55,10 @@ stages:
           WORKING_DIR_APP: "src/domains/rtd-app"
           WORKING_DIR_COMMON: "src/domains/rtd-common"
           SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
+          AKS_APISERVER_URL: '$(TF_DEV_AKS_APISERVER_URL)'
+          AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV_AKS_AZURE_DEVOPS_SA_CACRT)'
+          AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV_AKS_AZURE_DEVOPS_SA_TOKEN)'
+          AKS_NAME: '$(TF_AKS_DEV_NAME)'
           POOL_NAME: '$(TF_POOL_NAME_DEV)'
 #  #UAT
 #  - ${{ if eq(parameters['UAT'], true) }}:
