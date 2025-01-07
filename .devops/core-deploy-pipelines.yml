@@ -49,16 +49,16 @@ stages:
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
         SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_DEV)'
         POOL_NAME: '$(TF_POOL_NAME_DEV)'
-#  #UAT
-#  - ${{ if eq(parameters['UAT'], true) }}:
-#    - template: './base-deploy-pipelines.yml'
-#      parameters:
-#        ENV: 'uat'
-#        WORKING_DIR_MODULE: "src/04_core"
-#        DOMAIN_NAME: 'core'
-#        SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
-#        SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_UAT)'
-#        POOL_NAME: '$(TF_POOL_NAME_UAT)'
+  #UAT
+  - ${{ if eq(parameters['UAT'], true) }}:
+    - template: './base-deploy-pipelines.yml'
+      parameters:
+        ENV: 'uat'
+        WORKING_DIR_MODULE: "src/core"
+        DOMAIN_NAME: 'core'
+        SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
+        SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_UAT)'
+        POOL_NAME: '$(TF_POOL_NAME_UAT)'
 #  #PROD
 #  - ${{ if eq(parameters['PROD'], true) }}:
 #    - template: './base-deploy-pipelines.yml'

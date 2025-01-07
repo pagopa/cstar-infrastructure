@@ -49,29 +49,30 @@ resources:
 stages:
   #DEV
   - ${{ if eq(parameters['DEV'], true) }}:
-      - template: './base-code-review-pipelines.yml'
-        parameters:
-          ENV: "dev"
-          ENV_LOCATION: "weu"
-          WORKING_DIR_APP: "src/domains/rtp-app"
-          WORKING_DIR_COMMON: "src/domains/rtp-common"
-          WORKING_DIR_SECRET: "src/domains/rtp-secrets"
-          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
-          POOL_NAME: '$(TF_POOL_NAME_DEV)'
-#  #UAT
-#  - ${{ if eq(parameters['UAT'], true) }}:
-#      - template: './base-code-review-pipelines.yml'
-#        parameters:
-#          ENV: "uat"
-#          WORKING_DIR_APP: "src/domains/mil-app-poc"
-#          WORKING_DIR_COMMON: "src/domains/mil-common-poc"
-#          WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
-#          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
-#          AKS_APISERVER_URL: '$(TF_UAT_AKS_APISERVER_URL)'
-#          AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_CACRT)'
-#          AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_TOKEN)'
-#          AKS_NAME: '$(TF_AKS_UAT_NAME)'
-#          POOL_NAME: '$(TF_POOL_NAME_UAT)'
+    - template: './base-code-review-pipelines.yml'
+      parameters:
+        ENV: "dev"
+        ENV_LOCATION: "weu"
+        WORKING_DIR_APP: "src/domains/rtp-app"
+        WORKING_DIR_COMMON: "src/domains/rtp-common"
+        WORKING_DIR_SECRET: "src/domains/rtp-secrets"
+        SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
+        POOL_NAME: '$(TF_POOL_NAME_DEV)'
+  #UAT
+  - ${{ if eq(parameters['UAT'], true) }}:
+    - template: './base-code-review-pipelines.yml'
+      parameters:
+        ENV: "uat"
+        ENV_LOCATION: "weu"
+        WORKING_DIR_APP: "src/domains/rtp-app"
+        WORKING_DIR_COMMON: "src/domains/rtp-common"
+        WORKING_DIR_SECRET: "src/domains/rtp-secrets"
+        SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
+        AKS_APISERVER_URL: '$(TF_UAT_AKS_APISERVER_URL)'
+        AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_CACRT)'
+        AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_TOKEN)'
+        AKS_NAME: '$(TF_AKS_UAT_NAME)'
+        POOL_NAME: '$(TF_POOL_NAME_UAT)'
 #  #PROD
 #  - ${{ if eq(parameters['PROD'], true) }}:
 #      - template: './base-code-review-pipelines.yml'
