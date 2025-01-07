@@ -62,11 +62,11 @@ stages:
           WORKING_DIR_MODULE: "src/core"
           SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
           POOL_NAME: '$(TF_POOL_NAME_UAT)'
-#  #PROD
-#  - ${{ if eq(parameters['PROD'], true) }}:
-#      - template: './base-code-review-pipelines.yml'
-#        parameters:
-#          ENV: "prod"
-#          WORKING_DIR_MODULE: "src/04_core"
-#          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
-#          POOL_NAME: '$(TF_POOL_NAME_PROD)'
+  #PROD
+  - ${{ if eq(parameters['PROD'], true) }}:
+      - template: './base-code-review-pipelines.yml'
+        parameters:
+          ENV: "prod"
+          WORKING_DIR_MODULE: "src/core"
+          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
+          POOL_NAME: '$(TF_POOL_NAME_PROD)'

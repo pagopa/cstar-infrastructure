@@ -66,17 +66,13 @@ stages:
         WORKING_DIR_COMMON: "src/domains/tae-common"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
         POOL_NAME: '$(TF_POOL_NAME_UAT)'
-#  #PROD
-#  - ${{ if eq(parameters['PROD'], true) }}:
-#      - template: './base-code-review-pipelines.yml'
-#        parameters:
-#          ENV: "prod"
-#          WORKING_DIR_APP: "src/domains/mil-app-poc"
-#          WORKING_DIR_COMMON: "src/domains/mil-common-poc"
-#          WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
-#          SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
-#          AKS_APISERVER_URL: '$(TF_PROD_AKS_APISERVER_URL)'
-#          AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_PROD_AKS_AZURE_DEVOPS_SA_CACRT)'
-#          AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_PROD_AKS_AZURE_DEVOPS_SA_TOKEN)'
-#          AKS_NAME: '$(TF_AKS_PROD_NAME)'
-#          POOL_NAME: '$(TF_POOL_NAME_PROD)'
+  #PROD
+  - ${{ if eq(parameters['PROD'], true) }}:
+    - template: './base-code-review-pipelines.yml'
+      parameters:
+        ENV: "prod"
+        ENV_LOCATION: "weu"
+        WORKING_DIR_APP: "src/domains/tae-app"
+        WORKING_DIR_COMMON: "src/domains/tae-common"
+        SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
+        POOL_NAME: '$(TF_POOL_NAME_PROD)'
