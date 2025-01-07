@@ -64,7 +64,7 @@ stages:
   - ${{ if eq(parameters['UAT'], true) }}:
       - template: './base-code-review-pipelines.yml'
         parameters:
-          EENV: "uat"
+          ENV: "uat"
           ENV_LOCATION: "weu"
           WORKING_DIR_APP: "src/domains/rtd-app"
           WORKING_DIR_COMMON: "src/domains/rtd-common"
