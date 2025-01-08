@@ -15,7 +15,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 400ee44a8465126a33c3dae994c4dcc6904c7da0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 47ac1373640adf1653d19898e2c4237d25bcf861 |
 | <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | ./.terraform/modules/__v3__/cosmosdb_account | n/a |
 | <a name="module_cosmosdb_mil_collections"></a> [cosmosdb\_mil\_collections](#module\_cosmosdb\_mil\_collections) | ./.terraform/modules/__v3__/cosmosdb_mongodb_collection | n/a |
 | <a name="module_cosmosdb_mil_snet"></a> [cosmosdb\_mil\_snet](#module\_cosmosdb\_mil\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
@@ -90,6 +90,7 @@
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
 | <a name="input_is_feature_enabled"></a> [is\_feature\_enabled](#input\_is\_feature\_enabled) | Features enabled in this domain | <pre>object({<br/>    eventhub = optional(bool, false),<br/>    cosmos   = optional(bool, false),<br/>  })</pre> | n/a | yes |
+| <a name="input_k8s_kube_config_path_prefix"></a> [k8s\_kube\_config\_path\_prefix](#input\_k8s\_kube\_config\_path\_prefix) | USED in Devops IAC pipeline. DO NOT REMOVE | `string` | `"~/.kube"` | no |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | One of wue, neu | `string` | n/a | yes |
 | <a name="input_log_analytics_weu_workspace_name"></a> [log\_analytics\_weu\_workspace\_name](#input\_log\_analytics\_weu\_workspace\_name) | Specifies the name of the Log Analytics Workspace Italy. | `string` | n/a | yes |

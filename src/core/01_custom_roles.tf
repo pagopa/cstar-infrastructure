@@ -20,6 +20,8 @@ resource "azurerm_role_definition" "iac_reader" {
       "Microsoft.ServiceBus/namespaces/*/listKeys/action", #help to list key for service bus connection
       # "Microsoft.ServiceBus/namespaces/authorizationRules/listKeys/action",              #help to list key for service bus connection
       # "Microsoft.ServiceBus/namespaces/queues/authorizationRules/listKeys/action",
+      "Microsoft.ServiceBus/namespaces/read",
+      "Microsoft.ServiceBus/namespaces/*/read",
       "Microsoft.Cache/*/listKeys/action", # Redis List
       "Microsoft.Cache/redis/read",        # Redis
       "Microsoft.Cache/redis/*/read",      # redis
@@ -47,6 +49,7 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.ContainerRegistry/registries/listCredentials/action", # ACR list
       "Microsoft.ApiManagement/*/read",
       # "Microsoft.ApiManagement/service/read",
+      "Microsoft.ApiManagement/service/subscriptions/listSecrets/action",
       "Microsoft.KeyVault/*/read", #KeyVault
       # "Microsoft.KeyVault/vaults/read", #KeyVault
       "Microsoft.OperationalInsights/*/read",
@@ -97,7 +100,8 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.DataFactory/factories/pipelines/read",
       "Microsoft.EventGrid/systemTopics/read",
       "Microsoft.EventGrid/systemTopics/*/read",
-      # "Microsoft.EventGrid/systemTopics/eventSubscriptions/read",
+      "Microsoft.EventGrid/systemTopics/eventSubscriptions/read",
+      "Microsoft.EventGrid/systemTopics/eventSubscriptions/getFullUrl/action",
       "Microsoft.EventHub/namespaces/read",
       "Microsoft.EventHub/namespaces/*/read",
       # "Microsoft.EventHub/namespaces/eventhubs/read",
@@ -111,7 +115,8 @@ resource "azurerm_role_definition" "iac_reader" {
       "Microsoft.ApiManagement/service/tenant/listSecrets/action",
       "Microsoft.Compute/virtualMachineScaleSets/write", #scale the VMSS
       "Microsoft.AppConfiguration/configurationStores/*/read",
-      "Microsoft.AppConfiguration/configurationStores/*/action"
+      "Microsoft.AppConfiguration/configurationStores/*/action",
+      "Microsoft.ContainerInstance/containerGroups/read"
 
     ]
 

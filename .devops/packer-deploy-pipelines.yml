@@ -1,15 +1,6 @@
-pr:
-  autoCancel: true
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - "src/domains/tae-app"
-      - "src/domains/tae-common"
-    exclude:
-      - '**/*.lock.hcl'
-      - '**/*.md'
+# only manual
+trigger: none
+pr: none
 
 parameters:
   - name: 'DEV'
@@ -29,7 +20,7 @@ parameters:
   - name: 'PROD'
     displayName: 'Run on PROD environment'
     type: boolean
-    default: True
+    default: False
     values:
       - False
       - True
@@ -45,34 +36,38 @@ resources:
       ref: refs/tags/v6.9.0
       endpoint: "io-azure-devops-github-ro"
 
+
 stages:
   #DEV
   - ${{ if eq(parameters['DEV'], true) }}:
-    - template: './base-code-review-pipelines.yml'
+    - template: './base-deploy-pipelines.yml'
       parameters:
-        ENV: "dev"
+        ENV: 'dev'
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/tae-app"
-        WORKING_DIR_COMMON: "src/domains/tae-common"
+        WORKING_DIR_MODULE: "src/packer"
+        DOMAIN_NAME: 'packer'
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
+        SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_DEV)'
         POOL_NAME: '$(TF_POOL_NAME_DEV)'
-   #UAT
+  #UAT
   - ${{ if eq(parameters['UAT'], true) }}:
-    - template: './base-code-review-pipelines.yml'
+    - template: './base-deploy-pipelines.yml'
       parameters:
-        ENV: "uat"
+        ENV: 'uat'
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/tae-app"
-        WORKING_DIR_COMMON: "src/domains/tae-common"
+        WORKING_DIR_MODULE: "src/packer"
+        DOMAIN_NAME: 'packer'
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
+        SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_UAT)'
         POOL_NAME: '$(TF_POOL_NAME_UAT)'
   #PROD
   - ${{ if eq(parameters['PROD'], true) }}:
-    - template: './base-code-review-pipelines.yml'
+    - template: './base-deploy-pipelines.yml'
       parameters:
-        ENV: "prod"
+        ENV: 'prod'
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/tae-app"
-        WORKING_DIR_COMMON: "src/domains/tae-common"
+        WORKING_DIR_MODULE: "src/packer"
+        DOMAIN_NAME: 'packer'
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
+        SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_PROD)'
         POOL_NAME: '$(TF_POOL_NAME_PROD)'

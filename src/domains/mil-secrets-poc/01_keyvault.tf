@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sec_rg" {
 }
 
 module "key_vault_core" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault?ref=v8.21.0"
+  source = "./.terraform/modules/__v3__/key_vault"
 
   name                       = "${local.project}-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -18,7 +18,7 @@ module "key_vault_core" {
 }
 
 module "key_vault_auth" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault?ref=v8.21.0"
+  source = "./.terraform/modules/__v3__/key_vault"
 
   name                       = "${local.project}-auth-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -30,7 +30,7 @@ module "key_vault_auth" {
 }
 
 module "key_vault_idpay" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault?ref=v8.21.0"
+  source = "./.terraform/modules/__v3__/key_vault"
 
   name                       = "${local.project}-idpay-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -94,6 +94,34 @@ resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
   certificate_permissions = ["Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge", "Recover"]
 }
 
+#
+# Permissions for identity access to domain key vaults.
+#
+
+locals {
+  policy_identity = flatten([
+    for key, identity in data.azurerm_user_assigned_identity.iac_federated_azdo : [
+      for kv in local.kvs : {
+        identity = identity.principal_id
+        kv       = kv
+        key_name = "${identity.name}@${kv}"
+      }
+    ]
+  ])
+}
+
+resource "azurerm_key_vault_access_policy" "azdevops_iac_managed_identities" {
+  for_each = { for c in local.policy_identity : c.key_name => c }
+
+  key_vault_id = each.value.kv
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = each.value.identity
+
+  key_permissions         = ["Get", "List", "Decrypt", "Verify", "GetRotationPolicy"]
+  secret_permissions      = ["Get", "List", "Set"]
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get"]
+  storage_permissions     = []
+}
 
 ################
 ##   Secrets  ##
@@ -102,7 +130,7 @@ resource "azurerm_key_vault_access_policy" "adgroup_externals_policy" {
 # create json letsencrypt inside kv
 # requierd: Docker
 module "letsencrypt_mil" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential?ref=v8.21.0"
+  source = "./.terraform/modules/__v3__/letsencrypt_credential"
 
   prefix            = var.prefix
   env               = var.env_short

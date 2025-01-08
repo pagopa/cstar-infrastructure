@@ -357,3 +357,8 @@ variable "terraform_remote_state_core" {
     key                  = string
   })
 }
+
+variable "k8s_kube_config_path_prefix" {
+  type    = string
+  default = "~/.kube"
+}

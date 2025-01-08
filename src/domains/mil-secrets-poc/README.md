@@ -19,10 +19,11 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_key_vault_auth"></a> [key\_vault\_auth](#module\_key\_vault\_auth) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
-| <a name="module_key_vault_core"></a> [key\_vault\_core](#module\_key\_vault\_core) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
-| <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
-| <a name="module_letsencrypt_mil"></a> [letsencrypt\_mil](#module\_letsencrypt\_mil) | git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential | v8.21.0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 47ac1373640adf1653d19898e2c4237d25bcf861 |
+| <a name="module_key_vault_auth"></a> [key\_vault\_auth](#module\_key\_vault\_auth) | ./.terraform/modules/__v3__/key_vault | n/a |
+| <a name="module_key_vault_core"></a> [key\_vault\_core](#module\_key\_vault\_core) | ./.terraform/modules/__v3__/key_vault | n/a |
+| <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | ./.terraform/modules/__v3__/key_vault | n/a |
+| <a name="module_letsencrypt_mil"></a> [letsencrypt\_mil](#module\_letsencrypt\_mil) | ./.terraform/modules/__v3__/letsencrypt_credential | n/a |
 
 ## Resources
 
@@ -31,6 +32,7 @@
 | [azurerm_key_vault_access_policy.ad_group_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_developers_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_externals_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_key_vault_access_policy.azdevops_iac_managed_identities](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_key.generate_key_sops](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_key) | resource |
 | [azurerm_key_vault_secret.secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_resource_group.sec_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
@@ -40,6 +42,7 @@
 | [azuread_group.adgroup_security](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [azurerm_user_assigned_identity.iac_federated_azdo](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/user_assigned_identity) | data source |
 | [external_external.terrasops](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ## Inputs

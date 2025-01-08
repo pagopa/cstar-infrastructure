@@ -5,8 +5,7 @@ pr:
       - main
   paths:
     include:
-      - "src/domains/tae-app"
-      - "src/domains/tae-common"
+      - "src/packer"
     exclude:
       - '**/*.lock.hcl'
       - '**/*.md'
@@ -52,18 +51,16 @@ stages:
       parameters:
         ENV: "dev"
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/tae-app"
-        WORKING_DIR_COMMON: "src/domains/tae-common"
+        WORKING_DIR_MODULE: "src/packer"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
         POOL_NAME: '$(TF_POOL_NAME_DEV)'
-   #UAT
+  #UAT
   - ${{ if eq(parameters['UAT'], true) }}:
     - template: './base-code-review-pipelines.yml'
       parameters:
         ENV: "uat"
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/tae-app"
-        WORKING_DIR_COMMON: "src/domains/tae-common"
+        WORKING_DIR_MODULE: "src/packer"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
         POOL_NAME: '$(TF_POOL_NAME_UAT)'
   #PROD
@@ -72,7 +69,6 @@ stages:
       parameters:
         ENV: "prod"
         ENV_LOCATION: "weu"
-        WORKING_DIR_APP: "src/domains/tae-app"
-        WORKING_DIR_COMMON: "src/domains/tae-common"
+        WORKING_DIR_MODULE: "src/packer"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
         POOL_NAME: '$(TF_POOL_NAME_PROD)'
