@@ -6,6 +6,7 @@ resource "azurerm_cosmosdb_account" "mcshared" {
   resource_group_name           = azurerm_resource_group.data.name
   location                      = azurerm_resource_group.data.location
   kind                          = "MongoDB"
+  mongo_server_version          = "7.0"
   offer_type                    = "Standard"
   tags                          = local.tags
   public_network_access_enabled = false
