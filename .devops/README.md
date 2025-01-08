@@ -44,7 +44,7 @@ resources:
       type: github
       name: pagopa/azure-pipeline-templates
       ref: refs/tags/v6.8.0
-      endpoint: "io-azure-devops-github-ro"
+      endpoint: "azure-devops-github-ro"
 ```
 
 - pipeline content **code review:**

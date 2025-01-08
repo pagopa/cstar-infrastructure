@@ -11,3 +11,27 @@ locals {
   azdo_iac_managed_identities   = toset(["azdo-${var.env}-${var.prefix}-iac-deploy-v2", "azdo-${var.env}-${var.prefix}-iac-plan-v2"])
 
 }
+
+# ------------------------------------------------------------------------------
+# Assignment of the following roles to IaC service principals on domain key
+# vault:
+#   - Key Vault Crypto Officer
+#   - Key Vault Certificates Officer
+#   - Key Vault Secrets Officer
+#
+# TODO
+# ----
+# Evaluate the possibility of creating custom role with the following
+# permissions:
+#   - keys........: Get, List, Import
+#   - secrets.....: Get, List, Set
+#   - certificates: SetIssuers, DeleteIssuers, Purge, List, Get, Import
+# ------------------------------------------------------------------------------
+
+locals {
+  iac_roles = [
+    "Key Vault Crypto Officer",
+    "Key Vault Certificates Officer",
+    "Key Vault Secrets Officer"
+  ]
+}
