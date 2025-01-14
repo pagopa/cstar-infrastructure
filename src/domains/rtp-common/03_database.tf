@@ -72,3 +72,19 @@ resource "azurerm_cosmosdb_mongo_collection" "activations" {
     unique = true
   }
 }
+
+# ------------------------------------------------------------------------------
+# Create a collection for the rtps inside the db.
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_mongo_collection" "rtps" {
+  name                = "rtps"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.rtp.name
+  database_name       = azurerm_cosmosdb_mongo_database.db_rtp.name
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+
+}
