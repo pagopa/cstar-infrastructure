@@ -43,7 +43,8 @@
             if (initiative != null)
             {
                 var organizationName = initiative["organizationName"]?.ToString();
-                if (organizationName != null && organizationName.Contains("Comune di Guidonia Montecelio"))
+                var initiativeName = initiative["initiativeName"]?.ToString();
+                if (organizationName != null && organizationName.ToLowerInvariant().Contains("comune di guidonia montecelio") && initiativeName.ToLowerInvariant().Contains("bonus"))
                 {
                     // Modifica il 'initiativeRewardType' per l'organizzazione specificata
                     initiative["initiativeRewardType"] = "EXPENSE";
