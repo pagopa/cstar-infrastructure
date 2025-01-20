@@ -11,18 +11,58 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-    <inbound>
-        <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/"+ (string)context.Variables["tokenPDV"])" />
-    </inbound>
-    <backend>
-        <base />
-    </backend>
-    <outbound>
-        <base />
-    </outbound>
-    <on-error>
-        <base />
-    </on-error>
+	<inbound>
+		<base />
+		<set-backend-service base-url="https://dev01.idpay.internal.dev.cstar.pagopa.it/idpaywallet" />
+		<rewrite-uri template="@("idpay/wallet/"+ (string)context.Variables["tokenPDV"])" />
+	</inbound>
+	<backend>
+		<base />
+	</backend>
+	<outbound>
+		<base />
+		<!-- Controlla la risposta e ottieni l'initiativeList -->
+		<set-variable name="initiativeList" value="@{
+            var jsonResponse = context.Response.Body.As<JObject>();
+
+            // Se la risposta non contiene 'initiativeList', restituisci un array vuoto
+            var initiativeList = jsonResponse["initiativeList"] as JArray;
+            if (initiativeList == null)
+            {
+                return new JArray();
+            }
+
+            return initiativeList;
+        }" />
+		<set-variable name="modifiedInitiativeList" value="@{
+            var initiativeList = context.Variables["initiativeList"] as JArray;
+
+            // Verifica se 'initiativeList' è presente
+            if (initiativeList != null)
+            {
+                foreach (var initiative in initiativeList)
+                {
+                    var organizationName = initiative["organizationName"]?.ToString();
+                    if (organizationName != null && organizationName.Contains("Comune di Guidonia Montecelio"))
+                    {
+                        // Modifica il 'initiativeRewardType' per l'organizzazione specificata
+                        initiative["initiativeRewardType"] = "EXPENSE";
+                    }
+                }
+            }
+            return initiativeList;
+        }" />
+		<set-body>@{
+            var modifiedInitiativeList = context.Variables["modifiedInitiativeList"] as JArray;
+
+            // Crea un oggetto con 'initiativeList' come proprietà
+            var responseObject = new JObject();
+            responseObject["initiativeList"] = modifiedInitiativeList;
+
+            return responseObject.ToString();
+        }</set-body>
+	</outbound>
+	<on-error>
+		<base />
+	</on-error>
 </policies>
