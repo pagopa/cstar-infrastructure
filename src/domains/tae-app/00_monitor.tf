@@ -803,7 +803,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "decrypter_failed_spli
   auto_mitigation_enabled          = false
   workspace_alerts_storage_enabled = false
   description                      = "Triggers an alert when a blob is not correctly split during processing."
-  display_name                     = "cstar-${var.env_short}-decrypter-wrong-name-format-#ACQ"
+  display_name                     = "cstar-${var.env_short}-decrypter-failed-splitting-blob-#ACQ"
   enabled                          = true
 
   skip_query_validation = false
