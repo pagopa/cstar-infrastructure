@@ -975,6 +975,7 @@ components:
           enum:
             - DISCOUNT
             - REFUND
+            - EXPENSE
           type: string
           description: "ENG: Reward type of the initiative - IT: Tipologia di premio dell'iniziativa"
         logoURL:
