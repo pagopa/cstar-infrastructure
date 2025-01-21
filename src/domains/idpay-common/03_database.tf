@@ -728,7 +728,7 @@ locals {
       indexes = [{
         keys   = ["_id"]
         unique = true
-      },
+        },
         {
           keys   = ["initiativeId", "userId"]
           unique = false
