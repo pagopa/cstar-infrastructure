@@ -1856,8 +1856,7 @@ components:
             ENG: The list of accepted self-declared criteria - IT: Lista dei
             criteri autodichiarati
     SelfConsentDTO:
-      x-one-of: true
-      allOf:
+      anyOf:
         - $ref: '#/components/schemas/SelfConsentBoolDTO'
         - $ref: '#/components/schemas/SelfConsentMultiDTO'
         - $ref: '#/components/schemas/SelfConsentTextDTO'
@@ -2057,8 +2056,8 @@ components:
         _type:
           type: string
           description: >-
-            ENG: Self-declaration value type free text - IT: Autodichiarazione di tipo
-            testo libero
+            ENG: Self-declaration value type free text - IT: Autodichiarazione
+            di tipo testo libero
           enum:
             - text
         code:
@@ -2127,7 +2126,9 @@ components:
           type: string
           enum:
             - text
-          description: 'ENG: Self-consent value type free text - IT: Auto consenso di tipo testo libero'
+          description: >-
+            ENG: Self-consent value type free text - IT: Auto consenso di tipo
+            testo libero
         code:
           type: string
           description: 'ENG: Self-consent code - IT: Codice dell''auto consenso'
