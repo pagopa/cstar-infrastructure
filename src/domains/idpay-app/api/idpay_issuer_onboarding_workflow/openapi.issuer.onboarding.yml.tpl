@@ -434,6 +434,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
         - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
+        - $ref: '#/components/schemas/SelfDeclarationTextDTO'
     PDNDCriteriaDTO:
       type: object
       required:
@@ -495,6 +496,36 @@ components:
           type: array
           items:
             type: string
+    SelfDeclarationTextDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          description: >-
+            ENG: Self-declaration value type free text - IT: Autodichiarazione di tipo
+            testo libero
+          enum:
+            - text
+        code:
+          type: string
+          description: 'ENG: Self-declaration code - IT: Codice dell''autodichiarazione'
+        description:
+          type: string
+          description: >-
+            ENG: Self-declaration description - IT: Descrizione
+            dell'autodichiarazione
+        value:
+          type: array
+          items:
+            type: string
+          description: >-
+            ENG: Indicates self-declaration values - IT: Indica i valori per
+            l'autodichiarazione
     ErrorDto:
       type: object
       required:
