@@ -48,6 +48,7 @@
                     {
                         // Modifica il 'initiativeRewardType' per l'organizzazione specificata
                         initiative["initiativeRewardType"] = "EXPENSE";
+                        initiative["webViewUrl"]="http://www.google.com";
                     }
                 }
             }
