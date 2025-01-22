@@ -571,12 +571,9 @@ components:
             ENG: Self-declaration description - IT: Descrizione
             dell'autodichiarazione
         value:
-          type: array
-          items:
-            type: string
+          type: string
           description: >-
-            ENG: Indicates self-declaration values - IT: Indica i valori per
-            l'autodichiarazione
+            ENG: Indicates self-declaration values - IT: Indica i valori per l'autodichiarazione
     SelfConsentBoolDTO:
       type: object
       required:
