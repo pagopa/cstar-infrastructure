@@ -823,6 +823,58 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "decrypter_failed_spli
   }
 }
 
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "decrypter_obtained_0_chunk" {
+
+  count = var.env_short == "p" ? 1 : 0
+
+  name                = "cstar-${var.env_short}-decrypter-obtained-0-chunk"
+  resource_group_name = data.azurerm_resource_group.monitor_rg.name
+  location            = data.azurerm_resource_group.monitor_rg.location
+
+  evaluation_frequency = "PT5M"
+  window_duration      = "PT5M"
+  scopes               = [data.azurerm_log_analytics_workspace.log_analytics.id]
+  severity             = 1
+  criteria {
+    query                   = <<-QUERY
+      AppTraces
+      | where AppRoleName == "rtddecrypter"
+      | where SeverityLevel == 3
+      | where Message startswith "Obtained 0 chunk"
+      QUERY
+    time_aggregation_method = "Count"
+    threshold               = 0
+    operator                = "GreaterThan"
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  auto_mitigation_enabled          = false
+  workspace_alerts_storage_enabled = false
+  description                      = "Triggers an alert when 0 chunk are obtained after decryption."
+  display_name                     = "cstar-${var.env_short}-decrypter-failed-splitting-blob-#ACQ"
+  enabled                          = true
+
+  skip_query_validation = false
+  action {
+    action_groups = [
+      azurerm_monitor_action_group.send_to_operations[0].id,
+      azurerm_monitor_action_group.send_to_zendesk[0].id
+    ]
+    custom_properties = {
+      key  = "value"
+      key2 = "value2"
+    }
+  }
+
+  tags = {
+    key = "Sender Monitoring"
+  }
+}
+
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "ack_ingestor_failures" {
 
   count = var.env_short == "p" ? 1 : 0
