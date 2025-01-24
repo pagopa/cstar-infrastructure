@@ -21,7 +21,46 @@
     </backend>
     <outbound>
         <base />
-    </outbound>
+
+        <!-- Controlla la risposta e ottieni l'oggetto dell'iniziativa -->
+        <set-variable name="initiative" value="@{
+            var jsonResponse = context.Response.Body.As<JObject>();
+
+            // Verifica se la risposta contiene un oggetto di iniziativa, altrimenti restituisce null
+            var initiative = jsonResponse;
+            if (initiative == null)
+            {
+                return null;
+            }
+
+            return initiative;
+        }" />
+
+        <set-variable name="modifiedInitiative" value="@{
+            var initiative = context.Variables["initiative"] as JObject;
+
+            // Se l'iniziativa è presente, modifichiamo il campo 'initiativeRewardType' per l'organizzazione specificata
+            if (initiative != null)
+            {
+                var organizationName = initiative["organizationName"]?.ToString();
+                var initiativeName = initiative["initiativeName"]?.ToString();
+                if (organizationName != null && organizationName.ToLowerInvariant().Contains("comune di guidonia montecelio") && initiativeName.ToLowerInvariant().Contains("bonus"))
+                {
+                    // Modifica il 'initiativeRewardType' per l'organizzazione specificata
+                    initiative["initiativeRewardType"] = "EXPENSE";
+                    initiative["webViewUrl"]= "http://www.google.com";
+                }
+            }
+
+            return initiative;
+        }" />
+
+        <set-body>@{
+            var modifiedInitiative = context.Variables["modifiedInitiative"] as JObject;
+
+            // Crea un oggetto con la risposta modificata
+            return modifiedInitiative?.ToString() ?? "{}";  // Restituisce un oggetto vuoto se nulla è presente
+        }</set-body>    </outbound>
     <on-error>
         <base />
     </on-error>

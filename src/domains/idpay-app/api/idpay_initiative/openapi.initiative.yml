@@ -3226,6 +3226,7 @@ components:
       anyOf:
         - $ref: '#/components/schemas/SelfCriteriaBoolDTO'
         - $ref: '#/components/schemas/SelfCriteriaMultiDTO'
+        - $ref: '#/components/schemas/SelfCriteriaTextDTO'
       description: List of possible criteria
     InitiativeBeneficiaryRuleDTO:
       type: object
@@ -3273,6 +3274,20 @@ components:
             - value1
             - value2
             - value3
+        code:
+          type: string
+    SelfCriteriaTextDTO:
+      title: SelfCriteriaTextDTO
+      type: object
+      properties:
+        _type:
+          enum:
+            - text
+          type: string
+        description:
+          type: string
+        value:
+          type: string
         code:
           type: string
     ConfigBeneficiaryRuleArrayDTO:

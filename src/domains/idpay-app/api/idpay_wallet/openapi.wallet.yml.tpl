@@ -975,6 +975,7 @@ components:
           enum:
             - DISCOUNT
             - REFUND
+            - EXPENSE
           type: string
           description: "ENG: Reward type of the initiative - IT: Tipologia di premio dell'iniziativa"
         logoURL:
@@ -987,6 +988,9 @@ components:
           type: integer
           format: int64
           description: "ENG:Number of transaction - IT: Numero di transazione"
+        webViewUrl:
+          type: string
+          description: 'ENG: webViewUrl - IT: Url della webView'
     InitiativesWithInstrumentDTO:
       type: object
       required:
