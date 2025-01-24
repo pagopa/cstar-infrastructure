@@ -1446,6 +1446,23 @@ components:
           $ref: '#/components/schemas/Contact'
         tokenSection:
           $ref: '#/components/schemas/TokenSectionEncryptedDTO'
+        paymentButton:
+          type: string
+          description: "Payment Button Info"
+          pattern: "^[ -~]{1,70}$"
+          minLength: 1
+          maxLength: 70
+          example: "HYPE"
+        agentDeepLinks:
+          type: object
+          description: "Agent Deep Link info"
+          additionalProperties:
+            type: string
+            maxLength: 1000000
+            pattern: ".*"
+          example:
+            iOS: "link1"
+            Android: "link2"
         state:
           type: boolean
           description: "Status active/inactive"
@@ -1582,6 +1599,23 @@ components:
           $ref: '#/components/schemas/Contact'
         tokenSection:
           $ref: '#/components/schemas/TokenSectionDecryptedDTO'
+        paymentButton:
+          type: string
+          description: "Payment Button Info"
+          pattern: "^[ -~]{1,70}$"
+          minLength: 1
+          maxLength: 70
+          example: "HYPE"
+        agentDeepLinks:
+          type: object
+          description: "Agent Deep Link info"
+          additionalProperties:
+            type: string
+            maxLength: 1000000
+            pattern: ".*"
+          example:
+            iOS: "link1"
+            Android: "link2"
         state:
           type: boolean
           description: "Status active/inactive"
@@ -1732,6 +1766,23 @@ components:
           example: "OAUTH2"
         contact:
           $ref: '#/components/schemas/Contact'
+        paymentButton:
+          type: string
+          description: "Payment Button Info"
+          pattern: "^[ -~]{1,70}$"
+          minLength: 1
+          maxLength: 70
+          example: "HYPE"
+        agentDeepLinks:
+          type: object
+          description: "Agent Deep Link info"
+          additionalProperties:
+            type: string
+            maxLength: 1000000
+            pattern: ".*"
+          example:
+            iOS: "link1"
+            Android: "link2"
         state:
           type: boolean
           description: "Status active/inactive"

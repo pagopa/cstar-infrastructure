@@ -1,0 +1,838 @@
+openapi: 3.0.3
+
+info:
+  title: EMD Payment API
+  version: '1.0'
+  description: |-
+    EMD Payment
+  contact:
+    name: PagoPA S.p.A.
+    email: cstar@pagopa.it
+
+servers:
+  - description: Development Test
+    url: https://api-io.dev.cstar.pagopa.it/emd/payment
+    x-internal: true
+  - description: User Acceptance Test
+    url: https://api-io.uat.cstar.pagopa.it/emd/payment
+    x-internal: true
+
+tags:
+  - name: Payment
+    description: 'Payment operation'
+paths:
+  '/retrievalTokens':
+    post:
+      tags:
+        - Payment
+      summary: >-
+        ENG: Save retrieval payload - IT: Salvataggio del retrieval payload
+      operationId: retrievalTokens
+      description: Save retrieval payload
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+      requestBody:
+        description: 'ENG: Agent and originId - IT: Agent e originId'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrievalRequestDTO'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalResponseDTO'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: BAD_REQUEST
+                message: Bad request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The TPP was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: TPP_NOT_FOUND
+                message: TPP does not exist or is not active
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: RETRIEVAL_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+  "/retrievalTokens/{retrievalId}":
+    get:
+      tags:
+        - Payment
+      summary: >-
+        ENG: Get retrieval payload - IT: Recupera il retrieval payload
+      operationId: getRetrieval
+      description: Get retrieval
+      security:
+        - oAuth2_dev: []  #per DEV
+        #- oAuth2_uat: [] #per UAT
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: retrievalId
+          in: path
+          description: 'ENG: Unique ID that identify retrieval payload - IT: Identificativo univoco del retrieval payload'
+          required: true
+          schema:
+            type: string
+            description: 'ENG: Unique ID that identify retrieval payload - IT: Identificativo univoco del retrieval payload'
+            pattern: "^[ -~]{1,50}$"
+            minLength: 50
+            maxLength: 50
+            example: "0e4c6629-8753-234s-b0da-1f796999ec2-15038637960920"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalResponseDTO'
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: BAD_REQUEST
+                message: Bad request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The TPP was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: RETRIEVAL_NOT_FOUND
+                message: Retrieval does not exist or is not active
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: RETRIEVAL_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+  "/token":
+    get:
+      tags:
+        - Payment
+      summary: >-
+        ENG: Redirect API - IT: API di redirect
+      operationId: generateDeepLink
+      description: Generate deeplink
+      security: []
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            pattern: "^[ -~]{2,5}$"
+            minLength: 2
+            maxLength: 5
+            example: it-IT
+            default: it-IT
+          required: true
+        - name: retrievalId
+          in: query
+          description: 'ENG: Unique ID that identify retrieval payload - IT: Identificativo univoco del retrieval payload'
+          required: true
+          schema:
+            type: string
+            description: 'ENG: Unique ID that identify retrieval payload - IT: Identificativo univoco del retrieval payload'
+            pattern: "^[ -~]{1,50}$"
+            minLength: 50
+            maxLength: 50
+            example: "0e4c6629-8753-234s-b0da-1f796999ec2-15038637960920"
+        - name: fiscalCode
+          in: query
+          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          required: true
+          schema:
+            type: string
+            description: "Fiscal Code or P.IVA of the citizen"
+            pattern: "^[A-Za-z0-9]{11,16}$"
+            minLength: 11
+            maxLength: 16
+            example: "RSSMRO92S18L048H"
+        - name: noticeNumber
+          in: query
+          required: true
+          schema:
+            type: string
+            description: ID of the original message
+            pattern: "^[ -~]{5,36}$"
+            minLength: 5
+            maxLength: 36
+            example: "1234-3333-3333"
+      responses:
+        '302':
+          description: "Redirezione al deep link generato con l'header 'Location'."
+          headers:
+            Location:
+              description: "Deeplink url generated"
+              schema:
+                type: string
+                format: uri
+                maxLength: 2048
+                pattern: "^(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(:[0-9]+)?(\\/[a-zA-Z0-9._~!$&'()*+,;=:@%-]*)*(\\?[a-zA-Z0-9._~!$&'()*+,;=:@%/?-]*)?(#[a-zA-Z0-9._~!$&'()*+,;=:@%/?-]*)?$"
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: BAD_REQUEST
+                message: Bad request
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: AUTHENTICATION_FAILED
+                message: Something went wrong with authentication
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '404':
+          description: The TPP was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: RETRIEVAL_NOT_FOUND
+                message: Retrieval does not exist or is not active
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: TOO_MANY_REQUESTS
+                message: Too many requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+        '500':
+          description: Server ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrievalErrorDTO'
+              example:
+                code: RETRIEVAL_GENERIC_ERROR
+                message: Application error
+          headers:
+            Access-Control-Allow-Origin:
+              description: Indicates whether the response can be shared with requesting code from the given origin
+              required: false
+              schema:
+                $ref: '#/components/schemas/AccessControlAllowOrigin'
+            RateLimit-Limit:
+              description: The number of allowed requests in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitLimit'
+            RateLimit-Reset:
+              description: The number of seconds left in the current period
+              required: false
+              schema:
+                $ref: '#/components/schemas/RateLimitReset'
+            Retry-After:
+              description: The number of seconds to wait before allowing a follow-up request
+              required: false
+              schema:
+                $ref: '#/components/schemas/RetryAfter'
+
+components:
+  schemas:
+
+    AccessControlAllowOrigin:
+      description: Indicates whether the response can be shared with requesting code from the given origin
+      type: string
+      pattern: "^[ -~]{1,2048}$"
+      minLength: 1
+      maxLength: 2048
+
+    RateLimitLimit:
+      description: The number of allowed requests in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    RateLimitReset:
+      description: The number of seconds left in the current period
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 60
+
+    RetryAfter:
+      description: The number of seconds to wait before allowing a follow-up request
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 240
+
+    RetrievalRequestDTO:
+      type: object
+      required:
+        - agent
+        - originId
+      description: "Contiene le informazioni relative a una richiesta di recupero."
+      properties:
+        agent:
+          type: string
+          description: "Identificatore dell'agente proveniente dal sistema operativo sorgente (ad esempio, 'iOS', 'Android')."
+          pattern: "^[a-zA-Z0-9_-]{2,50}$"
+          minLength: 2
+          maxLength: 50
+          example: "iOS"
+        originId:
+          type: string
+          description: "Identificatore univoco del messaggio originale."
+          pattern: "^[a-zA-Z0-9-]{24,36}$"
+          minLength: 24
+          maxLength: 36
+          example: "XRUZ-GZAJ-ZUEJ-202407-W-1"
+
+
+    RetrievalResponseDTO:
+      type: object
+      required:
+        - retrievalId
+      description: "Retrieval Response information"
+      properties:
+        retrievalId:
+          type: string
+          description: 'ENG: Unique ID that identify retrieval payload - IT: Identificativo univoco del retrieval payload'
+          pattern: "^[ -~]{1,50}$"
+          minLength: 50
+          maxLength: 50
+          example: "0e4c6629-8753-234s-b0da-1f796999ec2-15038637960920"
+        tppId:
+          type: string
+          description: 'ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA'
+          pattern: "^[ -~]{1,50}$"
+          minLength: 50
+          maxLength: 50
+          example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
+        deeplink:
+          type: string
+          description: "Rappresenta il collegamento profondo (DeepLink) che consente il reindirizzamento diretto a una specifica sezione o funzionalità dell'app TPP. Deve essere una stringa alfanumerica che rispetti un formato specifico e avere una lunghezza compresa tra 48 e 128 caratteri."
+          pattern: "^[a-zA-Z0-9._~:/?#\\[\\]@!$&'()*+,;=-]{48,128}$"
+          minLength: 10
+          maxLength: 128
+          example: "https://example.com/deeplink/123e4567-e89b-12d3-a456-426614174000?userId=1234567890&session=abcdef"
+        paymentButton:
+          type: string
+          description: "Etichetta del pulsante di pagamento (ad es. il nome del provider di pagamento)."
+          pattern: "^[a-zA-Z0-9 ]{1,15}$"
+          minLength: 1
+          maxLength: 15
+          example: "Banca1"
+        originId:
+          type: string
+          description: "ID of the original message"
+          pattern: "^[ -~]{24,36}$"
+          minLength: 24
+          maxLength: 36
+          example: "XRUZ-GZAJ-ZUEJ-202407-W-1"
+
+
+
+
+
+    RetrievalErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - TPP_NOT_FOUND
+            - RETRIEVAL_NOT_FOUND
+            - AUTHENTICATION_FAILED
+            - RETRIEVAL_GENERIC_ERROR
+            - TOO_MANY_REQUESTS
+            - BAD_REQUEST
+          description: |-
+            "ENG: Error code: TPP_NOT_FOUND: TPP does not exist or is not active,
+             RETRIEVAL_NOT_FOUND: Retrieval does not exist or is not active,
+             AUTHENTICATION_FAILED: Something went wrong with authentication,
+             RETRIEVAL_GENERIC_ERROR: Application error,
+             TOO_MANY_REQUESTS: Too many requests,
+             BAD_REQUEST: Bad request - IT: Codice di errore:
+             TPP_NOT_FOUND: La TPP non esiste o non è attiva, 
+             RETRIEVAL_NOT_FOUND: Il retrieval non esiste o non è attivo,
+             AUTHENTICATION_FAILED: Qualcosa è andato storto con l'autenticazione,
+             RETRIEVAL_GENERIC_ERROR: Errore applicativo,
+             TOO_MANY_REQUESTS: Troppe richieste,
+             BAD_REQUEST: Request errata"
+        message:
+          type: string
+          description: 'ENG: Error message - IT: Messaggio di errore'
+          maxLength: 250
+          pattern: "^[\\w\\s.,!?'\"-]+$"
+
+  # ============================================================================
+  # Security schemes.
+  # ============================================================================
+  securitySchemes:
+    oAuth2_dev:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
+          scopes: {}
+    oAuth2_uat:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          scopes: {}
