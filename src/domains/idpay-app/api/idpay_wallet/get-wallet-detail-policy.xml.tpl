@@ -14,13 +14,53 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpaywallet" />
-        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+ (string)context.Variables["tokenPDV"])" />
+        <rewrite-uri template="@("idpay/wallet/{initiativeId}/"+(string)context.Variables["tokenPDV"])" />
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
         <base />
+
+        <!-- Check the answer and get the initiative item -->
+        <set-variable name="initiative" value="@{
+            var jsonResponse = context.Response.Body.As<JObject>();
+
+            //Checks whether the response contains an initiative object, otherwise returns null
+            var initiative = jsonResponse;
+            if (initiative == null)
+            {
+                return null;
+            }
+
+            return initiative;
+        }" />
+
+        <set-variable name="modifiedInitiative" value="@{
+            var initiative = context.Variables["initiative"] as JObject;
+
+            // If the initiative is present, we modify the 'initiativeRewardType' field for the specified organization
+            if (initiative != null)
+            {
+                var organizationName = initiative["organizationName"]?.ToString();
+                var initiativeName = initiative["initiativeName"]?.ToString();
+                if (organizationName != null && organizationName.ToLowerInvariant().Contains("comune di guidonia montecelio") && initiativeName.ToLowerInvariant().Contains("bonus"))
+                {
+                    // Update the 'initiativeRewardType' for the specified organization
+                    initiative["initiativeRewardType"] = "EXPENSE";
+                    initiative["webViewUrl"]= "http://www.google.com";
+                }
+            }
+
+            return initiative;
+        }" />
+
+        <set-body>@{
+            var modifiedInitiative = context.Variables["modifiedInitiative"] as JObject;
+
+            // Create an object with the modified answer
+            return modifiedInitiative?.ToString() ?? "{}";  // Returns an empty object if nothing is present
+        }</set-body>
     </outbound>
     <on-error>
         <base />

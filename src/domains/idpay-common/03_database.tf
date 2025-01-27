@@ -698,6 +698,50 @@ locals {
         unique = true
         }
       ]
+    },
+    {
+      name = "anpr_info"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = true
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["familyId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        }
+      ]
+    },
+    {
+      name = "self_declaration_text"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["initiativeId", "userId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["initiativeId"]
+          unique = false
+        }
+      ]
     }
   ]
 }

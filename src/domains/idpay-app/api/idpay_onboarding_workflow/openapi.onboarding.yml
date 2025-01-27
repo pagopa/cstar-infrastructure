@@ -396,6 +396,7 @@ components:
       anyOf:
         - $ref: '#/components/schemas/SelfConsentBoolDTO'
         - $ref: '#/components/schemas/SelfConsentMultiDTO'
+        - $ref: '#/components/schemas/SelfConsentTextDTO'
     OnboardingPutDTO:
       title: OnboardingPutDTO
       type: object
@@ -453,6 +454,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/SelfDeclarationBoolDTO'
         - $ref: '#/components/schemas/SelfDeclarationMultiDTO'
+        - $ref: '#/components/schemas/SelfDeclarationTextDTO'
     PDNDCriteriaDTO:
       type: object
       required:
@@ -545,6 +547,34 @@ components:
           items:
             type: string
           description: "ENG: Indicates self-declaration values - IT: Indica i valori per l'autodichiarazione"
+    SelfDeclarationTextDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - description
+        - value
+      properties:
+        _type:
+          type: string
+          description: >-
+            ENG: Self-declaration value type free text - IT: Autodichiarazione di tipo
+            testo libero
+          enum:
+            - text
+        code:
+          type: string
+          description: 'ENG: Self-declaration code - IT: Codice dell''autodichiarazione'
+        description:
+          type: string
+          description: >-
+            ENG: Self-declaration description - IT: Descrizione
+            dell'autodichiarazione
+        value:
+          type: string
+          description: >-
+            ENG: Indicates self-declaration values - IT: Indica i valori per
+            l'autodichiarazione
     SelfConsentBoolDTO:
       type: object
       required:
@@ -581,6 +611,26 @@ components:
         value:
           type: string
           description: "ENG: Indicates self-consent values - IT: Indica i valori per gli auto consensi"
+    SelfConsentTextDTO:
+      type: object
+      required:
+        - _type
+        - code
+        - value
+      properties:
+        _type:
+          type: string
+          enum:
+            - text
+          description: 'ENG: Self-consent value type free text - IT: Auto consenso di tipo testo libero'
+        code:
+          type: string
+          description: 'ENG: Self-consent code - IT: Codice dell''auto consenso'
+        value:
+          type: string
+          description: >-
+            ENG: Indicates self-consent values - IT: Indica i valori per gli
+            auto consensi
     ErrorDTO:
       type: object
       required:
