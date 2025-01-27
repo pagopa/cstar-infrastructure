@@ -22,11 +22,11 @@
     <outbound>
         <base />
 
-        <!-- Controlla la risposta e ottieni l'oggetto dell'iniziativa -->
+        <!-- Check the answer and get the initiative item -->
         <set-variable name="initiative" value="@{
             var jsonResponse = context.Response.Body.As<JObject>();
 
-            // Verifica se la risposta contiene un oggetto di iniziativa, altrimenti restituisce null
+            //Checks whether the response contains an initiative object, otherwise returns null
             var initiative = jsonResponse;
             if (initiative == null)
             {
@@ -39,14 +39,14 @@
         <set-variable name="modifiedInitiative" value="@{
             var initiative = context.Variables["initiative"] as JObject;
 
-            // Se l'iniziativa è presente, modifichiamo il campo 'initiativeRewardType' per l'organizzazione specificata
+            // If the initiative is present, we modify the 'initiativeRewardType' field for the specified organization
             if (initiative != null)
             {
                 var organizationName = initiative["organizationName"]?.ToString();
                 var initiativeName = initiative["initiativeName"]?.ToString();
                 if (organizationName != null && organizationName.ToLowerInvariant().Contains("comune di guidonia montecelio") && initiativeName.ToLowerInvariant().Contains("bonus"))
                 {
-                    // Modifica il 'initiativeRewardType' per l'organizzazione specificata
+                    // Update the 'initiativeRewardType' for the specified organization
                     initiative["initiativeRewardType"] = "EXPENSE";
                     initiative["webViewUrl"]= "http://www.google.com";
                 }
@@ -58,9 +58,10 @@
         <set-body>@{
             var modifiedInitiative = context.Variables["modifiedInitiative"] as JObject;
 
-            // Crea un oggetto con la risposta modificata
-            return modifiedInitiative?.ToString() ?? "{}";  // Restituisce un oggetto vuoto se nulla è presente
-        }</set-body>    </outbound>
+            // Create an object with the modified answer
+            return modifiedInitiative?.ToString() ?? "{}";  // Returns an empty object if nothing is present
+        }</set-body>
+    </outbound>
     <on-error>
         <base />
     </on-error>

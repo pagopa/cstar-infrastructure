@@ -21,11 +21,11 @@
 	</backend>
 	<outbound>
 		<base />
-		<!-- Controlla la risposta e ottieni l'initiativeList -->
+		<!-- Check the response and get the initiativeList  -->
 		<set-variable name="initiativeList" value="@{
             var jsonResponse = context.Response.Body.As<JObject>();
 
-            // Se la risposta non contiene 'initiativeList', restituisci un array vuoto
+            // If the response does not contain 'initiativeList', return an empty array
             var initiativeList = jsonResponse["initiativeList"] as JArray;
             if (initiativeList == null)
             {
@@ -37,7 +37,7 @@
 		<set-variable name="modifiedInitiativeList" value="@{
             var initiativeList = context.Variables["initiativeList"] as JArray;
 
-            // Verifica se 'initiativeList' è presente
+            // Check if 'initiativeList' is present
             if (initiativeList != null)
             {
                 foreach (var initiative in initiativeList)
@@ -46,7 +46,7 @@
                     var initiativeName   = initiative["initiativeName"]?.ToString();
                     if (organizationName != null && organizationName.ToLowerInvariant().Contains("comune di guidonia montecelio") && initiativeName.ToLowerInvariant().Contains("bonus"))
                     {
-                        // Modifica il 'initiativeRewardType' per l'organizzazione specificata
+                        // Changes the 'initiativeRewardType' for the specified organization
                         initiative["initiativeRewardType"] = "EXPENSE";
                         initiative["webViewUrl"]="http://www.google.com";
                     }
@@ -57,7 +57,7 @@
 		<set-body>@{
             var modifiedInitiativeList = context.Variables["modifiedInitiativeList"] as JArray;
 
-            // Crea un oggetto con 'initiativeList' come proprietà
+            // Create an object with 'initiativeList' as a property
             var responseObject = new JObject();
             responseObject["initiativeList"] = modifiedInitiativeList;
 
