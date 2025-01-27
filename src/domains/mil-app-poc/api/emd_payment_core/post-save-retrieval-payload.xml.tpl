@@ -13,8 +13,17 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdpaymentcore" />
-        <rewrite-uri template="@("/emd/payment/retrievalTokens/"+((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("sub", ""))" />
+        <choose>
+            <when condition="@(((string)context.Variables["groups"]).Contains("emd-tpp"))">
+              <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdpaymentcore" />
+              <rewrite-uri template="@("/emd/payment/retrievalTokens/"+((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("sub", ""))" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Operation Unauthorized" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />

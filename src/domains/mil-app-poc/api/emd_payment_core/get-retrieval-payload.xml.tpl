@@ -13,8 +13,17 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdpaymentcore" />
-        <rewrite-uri template="@("/emd/payment/retrievalTokens/{retrievalId}")"/>
+        <choose>
+            <when condition="@(((string)context.Variables["groups"]).Contains("SEND"))">
+              <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdpaymentcore" />
+              <rewrite-uri template="@("/emd/payment/retrievalTokens/{retrievalId}")"/>
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Operation Unauthorized" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />

@@ -252,12 +252,12 @@ module "emd_message_core" {
   ]
 }
 
-## EMD PAYMENT CORE TPP##
-module "emd_payment_core_tpp" {
+## EMD PAYMENT CORE ##
+module "emd_payment_core" {
   source = "./.terraform/modules/__v3__/api_management_api"
 
 
-  name                = "${var.env_short}-emd_payment_core_tpp"
+  name                = "${var.env_short}-emd_payment_core"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -273,7 +273,7 @@ module "emd_payment_core_tpp" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_mil_api_product.product_id]
+  product_ids           = [module.emd_retrieval_api_product.product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -283,35 +283,7 @@ module "emd_payment_core_tpp" {
       xml_content = templatefile("./api/emd_payment_core/post-save-retrieval-payload.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
-    }
-  ]
-}
-
-## EMD PAYMENT CORE SEND##
-module "emd_payment_core_send" {
-  source = "./.terraform/modules/__v3__/api_management_api"
-
-
-  name                = "${var.env_short}-emd_payment_core_send"
-  api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
-
-  description  = "EMD PAYMENT CORE"
-  display_name = "EMD PAYMENT CORE API"
-  path         = "emd/payment"
-  protocols    = ["https"]
-
-  service_url = "${local.ingress_load_balancer_https}/emdpaymentcore/emd/payment"
-
-  content_format = "openapi"
-  content_value  = file("./api/emd_payment_core/openapi.payment.yaml")
-
-  xml_content = file("./api/base_policy.xml")
-
-  product_ids           = [module.emd_api_product.product_id]
-  subscription_required = false
-
-  api_operation_policies = [
+    },
     {
       operation_id = "getRetrieval"
 
@@ -321,7 +293,6 @@ module "emd_payment_core_send" {
     }
   ]
 }
-
 ## IDPAY MIL ONBOARDING API ##
 module "emd_mil_citizen" {
   source = "./.terraform/modules/__v3__/api_management_api"
