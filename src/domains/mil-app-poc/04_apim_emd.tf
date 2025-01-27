@@ -52,6 +52,31 @@ module "emd_mil_api_product" {
   groups = ["developers"]
 }
 
+module "emd_retrieval_api_product" {
+  source = "./.terraform/modules/__v3__/api_management_product"
+
+
+  product_id   = "emd_retrieval_api_product"
+  display_name = "EMD_RETRIEVAL_PRODUCT"
+  description  = "EMD_RETRIEVAL_PRODUCT"
+
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  published             = true
+  subscription_required = false
+  approval_required     = false
+
+  subscriptions_limit = 0
+
+  policy_xml = templatefile("./api_product/emd/retrieval/policy_emd.xml", {
+    rate_limit_emd = var.rate_limit_emd_product
+    }
+  )
+
+  groups = ["developers"]
+}
+
 ## EMD TPP ##
 module "emd_tpp" {
   source = "./.terraform/modules/__v3__/api_management_api"
@@ -227,12 +252,47 @@ module "emd_message_core" {
   ]
 }
 
-## EMD PAYMENT CORE ##
-module "emd_payment_core" {
+## EMD PAYMENT CORE TPP##
+module "emd_payment_core_tpp" {
   source = "./.terraform/modules/__v3__/api_management_api"
 
 
-  name                = "${var.env_short}-emd_payment_core"
+  name                = "${var.env_short}-emd_payment_core_tpp"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "EMD PAYMENT CORE"
+  display_name = "EMD PAYMENT CORE API"
+  path         = "emd/payment"
+  protocols    = ["https"]
+
+  service_url = "${local.ingress_load_balancer_https}/emdpaymentcore/emd/payment"
+
+  content_format = "openapi"
+  content_value  = file("./api/emd_payment_core/openapi.payment.yaml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.emd_mil_api_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "retrievalTokens"
+
+      xml_content = templatefile("./api/emd_payment_core/post-save-retrieval-payload.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+}
+
+## EMD PAYMENT CORE SEND##
+module "emd_payment_core_send" {
+  source = "./.terraform/modules/__v3__/api_management_api"
+
+
+  name                = "${var.env_short}-emd_payment_core_send"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -253,9 +313,9 @@ module "emd_payment_core" {
 
   api_operation_policies = [
     {
-      operation_id = "retrievalTokens"
+      operation_id = "getRetrieval"
 
-      xml_content = templatefile("./api/emd_payment_core/post-save-retrieval-payload.xml.tpl", {
+      xml_content = templatefile("./api/emd_payment_core/get-retrieval-payload.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }

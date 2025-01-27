@@ -57,7 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RetrievalResponseDTO'
+                $ref: '#/components/schemas/RetrievaIdResponseDTO'
           headers:
             Access-Control-Allow-Origin:
               description: Indicates whether the response can be shared with requesting code from the given origin
@@ -731,6 +731,19 @@ components:
           maxLength: 36
           example: "XRUZ-GZAJ-ZUEJ-202407-W-1"
 
+    RetrievaIdResponseDTO:
+      type: object
+      required:
+        - retrievalId
+      description: "Retrieval Response information"
+      properties:
+        retrievalId:
+          type: string
+          description: 'ENG: Unique ID that identify retrieval payload - IT: Identificativo univoco del retrieval payload'
+          pattern: "^[ -~]{1,50}$"
+          minLength: 50
+          maxLength: 50
+          example: "0e4c6629-8753-234s-b0da-1f796999ec2-15038637960920"
 
     RetrievalResponseDTO:
       type: object
@@ -800,7 +813,7 @@ components:
              RETRIEVAL_GENERIC_ERROR: Application error,
              TOO_MANY_REQUESTS: Too many requests,
              BAD_REQUEST: Bad request - IT: Codice di errore:
-             TPP_NOT_FOUND: La TPP non esiste o non è attiva, 
+             TPP_NOT_FOUND: La TPP non esiste o non è attiva,
              RETRIEVAL_NOT_FOUND: Il retrieval non esiste o non è attivo,
              AUTHENTICATION_FAILED: Qualcosa è andato storto con l'autenticazione,
              RETRIEVAL_GENERIC_ERROR: Errore applicativo,
