@@ -113,6 +113,23 @@ locals {
         }
       ]
 
+    },
+    {
+      name = "retrieval"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+         keys   = ["retrievalId"]
+         unique = true
+        },
+        {
+          keys               = ["createdAt"]
+          unique             = false
+          expireAfterSeconds = 0
+        }
+      ]
     }
   ]
 }
