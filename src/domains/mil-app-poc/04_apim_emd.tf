@@ -143,6 +143,13 @@ module "emd_tpp" {
       xml_content = templatefile("./api/emd_tpp/get-token-section.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getNetworkConnection"
+
+      xml_content = templatefile("./api/emd_tpp/get-network-connection.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 }
@@ -293,7 +300,7 @@ module "emd_payment_core" {
     }
   ]
 }
-## IDPAY MIL ONBOARDING API ##
+## EMD MIL CITIZEN API ##
 module "emd_mil_citizen" {
   source = "./.terraform/modules/__v3__/api_management_api"
 
@@ -343,6 +350,42 @@ module "emd_mil_citizen" {
       operation_id = "getCitizenEnabled"
 
       xml_content = templatefile("./api/emd_mil_citizen/get-citizen-consent-enabled-policy.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    }
+  ]
+
+}
+
+## EMD MIL TPP NETWORK TESTING ##
+module "emd_mil_tpp_testing" {
+  source = "./.terraform/modules/__v3__/api_management_api"
+
+
+  name                = "${var.env_short}-emd-mil-tpp-testing"
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_resource_group.apim_rg.name
+
+  description  = "EMD TPP NETWORK TESTING"
+  display_name = "EMD TPP NETWORK TESTING API"
+  path         = "emd/mil/tpp"
+  protocols    = ["https"]
+
+  service_url = "${local.ingress_load_balancer_https}/emdtpp/emd/tpp"
+
+  content_format = "openapi"
+  content_value  = file("./api/emd_mil_testing/openapi.mil.tpp.yml")
+
+  xml_content = file("./api/base_policy.xml")
+
+  product_ids           = [module.emd_mil_api_product.product_id]
+  subscription_required = false
+
+  api_operation_policies = [
+    {
+      operation_id = "getNetworkConnection"
+
+      xml_content = templatefile("./api/emd_mil_testing/get-network-connection.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
     }
