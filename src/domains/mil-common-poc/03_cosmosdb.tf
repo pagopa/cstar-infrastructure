@@ -121,13 +121,8 @@ locals {
         unique = true
         },
         {
-         keys   = ["retrievalId"]
-         unique = true
-        },
-        {
-          keys               = ["createdAt"]
-          unique             = false
-          expireAfterSeconds = 0
+          keys   = ["retrievalId"]
+          unique = true
         }
       ]
     }
