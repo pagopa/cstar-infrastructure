@@ -125,6 +125,30 @@ locals {
           unique = true
         }
       ]
+    },
+    {
+      name = "payment_attempt"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["tppId", "originId", "fiscalCode"]
+          unique = true
+        },
+        {
+          keys   = ["tppId"]
+          unique = false
+        },
+        {
+          keys   = ["originId"]
+          unique = false
+        },
+        {
+          keys   = ["fiscalCode"]
+          unique = false
+        }
+      ]
     }
   ]
 }
