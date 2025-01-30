@@ -32,6 +32,8 @@
 | <a name="module_idpay_api_mock_product"></a> [idpay\_api\_mock\_product](#module\_idpay\_api\_mock\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
 | <a name="module_idpay_api_portal_merchants_product"></a> [idpay\_api\_portal\_merchants\_product](#module\_idpay\_api\_portal\_merchants\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
 | <a name="module_idpay_api_portal_product"></a> [idpay\_api\_portal\_product](#module\_idpay\_api\_portal\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
+| <a name="module_idpay_api_webview"></a> [idpay\_api\_webview](#module\_idpay\_api\_webview) | ./.terraform/modules/__v3__/api_management_api | n/a |
+| <a name="module_idpay_api_webview_product"></a> [idpay\_api\_webview\_product](#module\_idpay\_api\_webview\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
 | <a name="module_idpay_audit_storage"></a> [idpay\_audit\_storage](#module\_idpay\_audit\_storage) | ./.terraform/modules/__v3__/storage_account | n/a |
 | <a name="module_idpay_citizen_data"></a> [idpay\_citizen\_data](#module\_idpay\_citizen\_data) | ./.terraform/modules/__v3__/api_management_api | n/a |
 | <a name="module_idpay_group_portal"></a> [idpay\_group\_portal](#module\_idpay\_group\_portal) | ./.terraform/modules/__v3__/api_management_api | n/a |
