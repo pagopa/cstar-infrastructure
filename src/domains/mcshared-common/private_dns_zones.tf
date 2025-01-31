@@ -68,14 +68,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_core" {
 }
 
 # ------------------------------------------------------------------------------
-# Private DNS zone for storages.
-# ------------------------------------------------------------------------------
-data "azurerm_private_dns_zone" "storage" {
-  name                = "privatelink.blob.core.windows.net"
-  resource_group_name = var.core_integr_virtual_network_resource_group_name
-}
-
-# ------------------------------------------------------------------------------
 # Private DNS zone for CosmosDB.
 # ------------------------------------------------------------------------------
 data "azurerm_private_dns_zone" "cosmos" {
