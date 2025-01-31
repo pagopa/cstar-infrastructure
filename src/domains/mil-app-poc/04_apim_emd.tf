@@ -297,6 +297,13 @@ module "emd_payment_core" {
       xml_content = templatefile("./api/emd_payment_core/get-retrieval-payload.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "generateDeepLink"
+
+      xml_content = templatefile("./api/emd_payment_core/generate-deeplink.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 }
