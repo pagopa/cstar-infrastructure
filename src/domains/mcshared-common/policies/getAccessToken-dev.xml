@@ -14,6 +14,14 @@
                 }
                 return "DEFAULT";
             }" increment-condition="true" />
+        <cors allow-credentials="false">
+            <allowed-origins>
+                <origin>*</origin>
+            </allowed-origins>
+            <allowed-methods>
+                <method>*</method>
+            </allowed-methods>
+        </cors>
     </inbound>
     <backend>
         <base />

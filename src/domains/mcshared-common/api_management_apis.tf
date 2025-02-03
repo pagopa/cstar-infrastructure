@@ -85,10 +85,10 @@ resource "azurerm_api_management_api_operation_policy" "get_access_token" {
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getAccessToken"
-  xml_content = templatefile("policies/getAccessToken.xml", {
+  xml_content = templatefile(
+    var.env_short == "d" ? "policies/getAccessToken-dev.xml" : "policies/getAccessToken.xml", {
     calls        = var.get_access_token_rate_limit.calls,
     period       = var.get_access_token_rate_limit.period
-    cors_origins = var.env_short == "d" ? "all" : "none"
   })
 }
 
