@@ -1,15 +1,15 @@
 <policies>
-	<inbound>
-		<base />
-		<rate-limit calls="${calls}" renewal-period="${period}" />
-	</inbound>
-	<backend>
-		<base />
-	</backend>
-	<outbound>
-		<base />
-	</outbound>
-	<on-error>
-		<base />
-	</on-error>
+    <inbound>
+        <base />
+        <rate-limit calls="${calls}" renewal-period="${period}" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
 </policies>
