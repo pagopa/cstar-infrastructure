@@ -393,7 +393,7 @@ components:
             $ref: "#/components/schemas/SelfConsentDTO"
           description: "ENG: The list of accepted self-declared criteria - IT: Lista dei criteri autodichiarati"
     SelfConsentDTO:
-      anyOf:
+      oneOf:
         - $ref: '#/components/schemas/SelfConsentBoolDTO'
         - $ref: '#/components/schemas/SelfConsentMultiDTO'
         - $ref: '#/components/schemas/SelfConsentTextDTO'
