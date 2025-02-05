@@ -1,7 +1,9 @@
 <policies>
     <inbound>
         <base />
-        <rate-limit calls="${calls}" renewal-period="${period}" />
+        <set-variable name="calls" value="${calls}" />
+        <set-variable name="period" value="${period}" />
+        <include-fragment fragment-id="rate-limit-by-clientid-claim" />
     </inbound>
     <backend>
         <base />

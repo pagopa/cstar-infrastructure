@@ -1,19 +1,9 @@
 <policies>
     <inbound>
         <base />
-        <rate-limit-by-key calls="${calls}" renewal-period="${period}" counter-key="@{
-            string contentType = context.Request.Headers.GetValueOrDefault("Content-Type", "text/plain");
-            if (contentType != null && contentType.Equals("application/x-www-form-urlencoded")) {
-                IDictionary<string, IList<string>> formParams = context.Request.Body.AsFormUrlEncodedContent(preserveContent: true);
-                    if (formParams != null) {
-                        IList<string> clientIds = formParams["client_id"];
-                        if (clientIds != null && clientIds.Count > 0) {
-                            return clientIds[0];
-                        }
-                    }
-                }
-                return "DEFAULT";
-            }" increment-condition="true" />
+        <set-variable name="calls" value="${calls}" />
+        <set-variable name="period" value="${period}" />
+        <include-fragment fragment-id="rate-limit-by-clientid-formparam" />
         <cors allow-credentials="false">
             <allowed-origins>
                 <origin>*</origin>

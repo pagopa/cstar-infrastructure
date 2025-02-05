@@ -80,15 +80,38 @@ resource "azurerm_api_management_product_api" "auth" {
   resource_group_name = data.azurerm_api_management.core.resource_group_name
 }
 
+# ------------------------------------------------------------------------------
+# Policy fragments.
+# ------------------------------------------------------------------------------
+resource "azurerm_api_management_policy_fragment" "rate_limit_by_clientid_claim" {
+  name              = "rate-limit-by-clientid-claim"
+  description       = "Rate limit by client id value received as claim of the access token"
+  api_management_id = data.azurerm_api_management.core.id
+  format            = "rawxml"
+  value             = templatefile("policies/fragments/rate-limit-by-clientid-claim.xml", {})
+}
+
+resource "azurerm_api_management_policy_fragment" "rate_limit_by_clientid_formparam" {
+  name              = "rate-limit-by-clientid-formparam"
+  description       = "Rate limit by client id value received as form param"
+  api_management_id = data.azurerm_api_management.core.id
+  format            = "rawxml"
+  value             = templatefile("policies/fragments/rate-limit-by-clientid-formparam.xml", {})
+}
+
+# ------------------------------------------------------------------------------
+# Policies.
+# ------------------------------------------------------------------------------
 resource "azurerm_api_management_api_operation_policy" "get_access_token" {
   api_name            = azurerm_api_management_api.auth.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getAccessToken"
-  xml_content = templatefile(
+  depends_on          = [azurerm_api_management_policy_fragment.rate_limit_by_clientid_formparam]
+  xml_content         = templatefile(
     var.env_short == "d" ? "policies/getAccessToken-dev.xml" : "policies/getAccessToken.xml", {
-    calls        = var.get_access_token_rate_limit.calls,
-    period       = var.get_access_token_rate_limit.period
+      calls  = var.get_access_token_rate_limit.calls
+      period = var.get_access_token_rate_limit.period
   })
 }
 
@@ -97,8 +120,8 @@ resource "azurerm_api_management_api_operation_policy" "get_jwks" {
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getJwks"
-  xml_content = templatefile("policies/getJwks.xml", {
-    calls  = var.get_jwks_rate_limit.calls,
+  xml_content         = templatefile("policies/rate-limit-and-cache.xml", {
+    calls  = var.get_jwks_rate_limit.calls
     period = var.get_jwks_rate_limit.period
   })
 }
@@ -108,8 +131,8 @@ resource "azurerm_api_management_api_operation_policy" "get_open_id_conf" {
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getOpenIdConf"
-  xml_content = templatefile("policies/getOpenIdConf.xml", {
-    calls  = var.get_open_id_conf_rate_limit.calls,
+  xml_content         = templatefile("policies/rate-limit-and-cache.xml", {
+    calls  = var.get_open_id_conf_rate_limit.calls
     period = var.get_open_id_conf_rate_limit.period
   })
 }
@@ -119,8 +142,9 @@ resource "azurerm_api_management_api_operation_policy" "introspect" {
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "introspect"
-  xml_content = templatefile("policies/introspect.xml", {
-    calls  = var.introspect_rate_limit.calls,
+  depends_on          = [azurerm_api_management_policy_fragment.rate_limit_by_clientid_claim]
+  xml_content         = templatefile("policies/introspect.xml", {
+    calls  = var.introspect_rate_limit.calls
     period = var.introspect_rate_limit.period
   })
 }
