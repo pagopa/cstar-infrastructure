@@ -100,8 +100,8 @@ module "aks" {
   addon_azure_key_vault_secrets_provider_enabled = var.aks_addons.azure_key_vault_secrets_provider
   addon_azure_pod_identity_enabled               = var.aks_addons.pod_identity_enabled
 
-  default_metric_alerts = var.aks_metric_alerts_default
-  custom_metric_alerts  = var.aks_metric_alerts_custom
+  # default_metric_alerts = null
+  # custom_metric_alerts  = var.aks_metric_alerts_custom
 
   alerts_enabled = var.aks_alerts_enabled
   action = [
