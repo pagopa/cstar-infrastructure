@@ -113,6 +113,42 @@ locals {
         }
       ]
 
+    },
+    {
+      name = "retrieval"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["retrievalId"]
+          unique = true
+        }
+      ]
+    },
+    {
+      name = "payment_attempt"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["tppId", "originId", "fiscalCode"]
+          unique = true
+        },
+        {
+          keys   = ["tppId"]
+          unique = false
+        },
+        {
+          keys   = ["originId"]
+          unique = false
+        },
+        {
+          keys   = ["fiscalCode"]
+          unique = false
+        }
+      ]
     }
   ]
 }
@@ -131,6 +167,8 @@ module "cosmosdb_mil_collections" {
 
   indexes     = each.value.indexes
   lock_enable = var.env_short != "p" ? false : true
+
+  default_ttl_seconds = each.value.name == "retrieval" ? 1800 : null
 }
 
 #---------------------------------------------------------------------------------
