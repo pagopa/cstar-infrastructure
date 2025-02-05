@@ -1,0 +1,21 @@
+<!-- Policy fragment to limit the rate by client id recevied as form param.    -->
+<!-- To use this frament it's mandatory to set variables 'calls' and 'period'. -->
+<fragment>
+    <rate-limit-by-key
+        calls="@(context.Variables.ContainsKey("calls") ? int.Parse((string)context.Variables["calls"]) : 10)"
+        renewal-period="@(context.Variables.ContainsKey("period") ? int.Parse((string)context.Variables["period"]) : 60)"
+        counter-key="@{
+            string contentType = context.Request.Headers.GetValueOrDefault("Content-Type", "");
+            if (contentType.Equals("application/x-www-form-urlencoded")) {
+                IDictionary<string, IList<string>> formParams = context.Request.Body.AsFormUrlEncodedContent(preserveContent: true);
+                if (formParams != null) {
+                    IList<string> clientIds = formParams["client_id"];
+                    if (clientIds != null && clientIds.Count > 0) {
+                        return clientIds[0];
+                    }
+                }
+            }
+            return "DEFAULT";
+        }"
+        increment-condition="true" />
+</fragment>
