@@ -35,7 +35,7 @@ module "idpay_api_webview_product" {
 module "idpay_api_webview" {
   source = "./.terraform/modules/__v3__/api_management_api"
 
-  name                = "${var.env_short}-idpay-self-expense"
+  name                = "${var.env_short}-idpay-self-expense-backend"
   api_management_name = data.azurerm_api_management.apim_core.name
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
@@ -44,7 +44,7 @@ module "idpay_api_webview" {
   path         = "idpay/self-expense"
   protocols    = ["https"]
 
-  service_url = "${local.ingress_load_balancer_https}/idpayselfexpense/idpay/self-expense"
+  service_url = "${local.ingress_load_balancer_https}/idpayselfexpensebackend/idpay/self-expense"
 
   content_format = "openapi"
   content_value  = file("./api/idpay-self-expense/openapi.self-expense.yml.tpl")
