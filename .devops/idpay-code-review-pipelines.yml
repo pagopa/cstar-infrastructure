@@ -70,6 +70,7 @@ stages:
         ENV_LOCATION: "weu"
         WORKING_DIR_APP: "src/domains/idpay-app"
         WORKING_DIR_COMMON: "src/domains/idpay-common"
+        WORKING_DIR_SECRET: "src/domains/idpay-secrets"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_UAT)'
         AKS_APISERVER_URL: '$(TF_UAT_AKS_APISERVER_URL)'
         AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_UAT_AKS_AZURE_DEVOPS_SA_CACRT)'
@@ -83,6 +84,7 @@ stages:
         ENV: "prod"
         WORKING_DIR_APP: "src/domains/idpay-app"
         WORKING_DIR_COMMON: "src/domains/idpay-common"
+        WORKING_DIR_SECRET: "src/domains/idpay-secrets"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
         AKS_APISERVER_URL: '$(TF_PROD_AKS_APISERVER_URL)'
         AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_PROD_AKS_AZURE_DEVOPS_SA_CACRT)'
