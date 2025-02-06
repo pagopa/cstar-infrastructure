@@ -1,7 +1,7 @@
 locals {
   product = "${var.prefix}-${var.env_short}"
 
-  input_file = "./secret/${var.env}/configs.json"
+  input_file = "./secret/weu-${var.env}/configs.json"
 
   tags = {
     CreatedBy   = "Terraform"
