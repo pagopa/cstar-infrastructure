@@ -1,10 +1,9 @@
 <!-- Policy fragment to limit the rate by client id recevied as claim of the access token. -->
 <!-- To use this frament it's mandatory to set variables 'calls' and 'period'.             -->
 <fragment>
-    <rate-limit-by-key
-        calls="@(context.Variables.ContainsKey("calls") ? int.Parse((string)context.Variables["calls"]) : 10)"
-        renewal-period="@(context.Variables.ContainsKey("period") ? int.Parse((string)context.Variables["period"]) : 60)"
-        counter-key="@{
+    <set-variable
+        name="counterKey"
+        value="@{
             string authorization = context.Request.Headers.GetValueOrDefault("Authorization", "");
             if (authorization.StartsWith("Bearer ")) {
                 Jwt jwt = authorization.Substring(7).AsJwt();
@@ -16,6 +15,10 @@
                 }
             }
             return "DEFAULT";
-        }"
+        }" />
+    <rate-limit-by-key
+        calls="@(context.Variables.ContainsKey("calls") ? int.Parse((string)context.Variables["calls"]) : 10)"
+        renewal-period="@(context.Variables.ContainsKey("period") ? int.Parse((string)context.Variables["period"]) : 60)"
+        counter-key="@((string)context.Variables["counterKey"])"
         increment-condition="true" />
 </fragment>

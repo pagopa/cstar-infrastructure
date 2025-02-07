@@ -8,11 +8,14 @@
         <base />
     </backend>
     <outbound>
-        <cache-store duration="@{
+        <set-variable
+            name="duration"
+            value="@{
             string cacheControl = context.Response.Headers.GetValueOrDefault("Cache-Control", "");
             string maxAge = Regex.Match(cacheControl, @"max-age=(?<maxAge>\d+)").Groups["maxAge"]?.Value;
             return (!string.IsNullOrEmpty(maxAge)) ? int.Parse(maxAge) : 300;
         }" />
+        <cache-store duration="@((int)context.Variables["duration"])" />
         <base />
     </outbound>
     <on-error>
