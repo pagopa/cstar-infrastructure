@@ -13,7 +13,7 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayselfexpense" />
+        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayselfexpensebackend" />
         <rewrite-uri template="@("/idpay/self-expense/redirect")" />
     </inbound>
     <backend>

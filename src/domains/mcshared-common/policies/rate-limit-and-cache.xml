@@ -1,0 +1,24 @@
+<policies>
+    <inbound>
+        <base />
+        <rate-limit calls="${calls}" renewal-period="${period}" />
+        <cache-lookup vary-by-developer="false" vary-by-developer-groups="false" downstream-caching-type="public" must-revalidate="true" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <set-variable
+            name="duration"
+            value="@{
+            string cacheControl = context.Response.Headers.GetValueOrDefault("Cache-Control", "");
+            string maxAge = Regex.Match(cacheControl, @"max-age=(?<maxAge>\d+)").Groups["maxAge"]?.Value;
+            return (!string.IsNullOrEmpty(maxAge)) ? int.Parse(maxAge) : 300;
+        }" />
+        <cache-store duration="@((int)context.Variables["duration"])" />
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

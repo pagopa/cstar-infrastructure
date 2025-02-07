@@ -113,43 +113,6 @@ resource "azurerm_private_endpoint" "general_key_vault_vpn" {
 }
 
 # ------------------------------------------------------------------------------
-# Private endpoint from ACA subnet to the storage account containing
-# configuration files for auth microservice.
-# ------------------------------------------------------------------------------
-resource "azurerm_private_endpoint" "auth_storage" {
-  name                = "${local.project}-auth-storage-pep"
-  location            = azurerm_resource_group.network.location
-  resource_group_name = azurerm_resource_group.network.name
-  subnet_id           = azurerm_subnet.aca.id
-
-  custom_network_interface_name = "${local.project}-auth-storage-pep-nic"
-
-  private_dns_zone_group {
-    name                 = "${local.project}-auth-storage-pdzg"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.storage.id]
-  }
-
-  private_service_connection {
-    name                           = "${local.project}-auth-storage-psc"
-    private_connection_resource_id = azurerm_storage_account.auth.id
-    subresource_names              = ["blob"]
-    is_manual_connection           = false
-  }
-
-  tags = local.tags
-}
-
-# ------------------------------------------------------------------------------
-# Storing storage account blob endpoint in the general key vault.
-# ------------------------------------------------------------------------------
-resource "azurerm_key_vault_secret" "storage_account_auth_primary_blob_endpoint" {
-  name         = "storage-account-auth-primary-blob-endpoint"
-  value        = azurerm_storage_account.auth.primary_blob_endpoint
-  key_vault_id = azurerm_key_vault.general.id
-  tags         = local.tags
-}
-
-# ------------------------------------------------------------------------------
 # Private endpoint from ACA subnet to CosmosDB.
 # ------------------------------------------------------------------------------
 resource "azurerm_private_endpoint" "cosmos" {

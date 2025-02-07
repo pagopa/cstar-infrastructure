@@ -42,3 +42,6 @@ log.txt
 .env.prod
 .env.uat
 /.project
+.settings/org.sonarlint.eclipse.core.prefs
+src/domains/mil-app/.terraform.lock.hcl
+src/domains/mil-common/.terraform.lock.hcl

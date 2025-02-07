@@ -46,6 +46,7 @@ stages:
         DOMAIN_NAME: 'idpay'
         WORKING_DIR_APP: "src/domains/idpay-app"
         WORKING_DIR_COMMON: "src/domains/idpay-common"
+        WORKING_DIR_SECRET: "src/domains/idpay-secrets"
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_DEV)'
         SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_DEV)'
         AKS_APISERVER_URL: '$(TF_DEV_AKS_APISERVER_URL)'

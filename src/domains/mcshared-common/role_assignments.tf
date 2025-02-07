@@ -36,16 +36,6 @@ resource "azurerm_role_assignment" "secrets_user_on_general_kv_to_auth_identity"
 }
 
 # ------------------------------------------------------------------------------
-# Assignment of role "Storage Blob Data Reader" on auth storage to identity of
-# auth microservice.
-# ------------------------------------------------------------------------------
-resource "azurerm_role_assignment" "data_reader_on_auth_storage_to_auth_identity" {
-  scope                = azurerm_storage_account.auth.id
-  role_definition_name = "Storage Blob Data Reader"
-  principal_id         = azurerm_user_assigned_identity.auth.principal_id
-}
-
-# ------------------------------------------------------------------------------
 # Assignment of role "Key Vault Administrator" on general key vault to
 # adgroup_admin.
 # ------------------------------------------------------------------------------
