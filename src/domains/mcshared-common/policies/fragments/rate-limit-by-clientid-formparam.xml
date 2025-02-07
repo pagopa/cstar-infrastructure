@@ -8,12 +8,11 @@
             if (contentType.Equals("application/x-www-form-urlencoded")) {
                 IDictionary<string, IList<string>> formParams = context.Request.Body.AsFormUrlEncodedContent(preserveContent: true);
                 if (formParams != null) {
-                    try {
-                        IList<string> clientIds = formParams["client_id"];
+                    IList<string> clientIds = null;
+                    if (formParams.TryGetValue("client_id", out clientIds)) {
                         if (clientIds != null && clientIds.Count > 0) {
                             return clientIds[0];
                         }
-                    } catch (KeyNotFoundException) {
                     }
                 }
             }
