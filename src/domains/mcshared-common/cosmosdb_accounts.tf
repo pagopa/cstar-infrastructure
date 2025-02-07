@@ -19,6 +19,13 @@ resource "azurerm_cosmosdb_account" "mcshared" {
     name = "EnableMongo"
   }
 
+  dynamic "capabilities" {
+    for_each = var.env_short == "d" ? [1] : []
+    content {
+      name = "EnableServerless"
+    }
+  }
+
   consistency_policy {
     consistency_level = "Eventual"
   }
