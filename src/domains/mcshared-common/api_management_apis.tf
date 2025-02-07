@@ -108,7 +108,7 @@ resource "azurerm_api_management_api_operation_policy" "get_access_token" {
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getAccessToken"
   depends_on          = [azurerm_api_management_policy_fragment.rate_limit_by_clientid_formparam]
-  xml_content         = templatefile(
+  xml_content = templatefile(
     var.env_short == "d" ? "policies/getAccessToken-dev.xml" : "policies/getAccessToken.xml", {
       calls  = var.get_access_token_rate_limit.calls
       period = var.get_access_token_rate_limit.period
@@ -120,7 +120,7 @@ resource "azurerm_api_management_api_operation_policy" "get_jwks" {
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getJwks"
-  xml_content         = templatefile("policies/rate-limit-and-cache.xml", {
+  xml_content = templatefile("policies/rate-limit-and-cache.xml", {
     calls  = var.get_jwks_rate_limit.calls
     period = var.get_jwks_rate_limit.period
   })
@@ -131,7 +131,7 @@ resource "azurerm_api_management_api_operation_policy" "get_open_id_conf" {
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getOpenIdConf"
-  xml_content         = templatefile("policies/rate-limit-and-cache.xml", {
+  xml_content = templatefile("policies/rate-limit-and-cache.xml", {
     calls  = var.get_open_id_conf_rate_limit.calls
     period = var.get_open_id_conf_rate_limit.period
   })
@@ -143,7 +143,7 @@ resource "azurerm_api_management_api_operation_policy" "introspect" {
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "introspect"
   depends_on          = [azurerm_api_management_policy_fragment.rate_limit_by_clientid_claim]
-  xml_content         = templatefile("policies/introspect.xml", {
+  xml_content = templatefile("policies/introspect.xml", {
     calls  = var.introspect_rate_limit.calls
     period = var.introspect_rate_limit.period
   })
