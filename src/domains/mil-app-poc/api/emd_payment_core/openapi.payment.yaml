@@ -477,25 +477,25 @@ paths:
             example: "0e4c6629-8753-234s-b0da-1f796999ec2-15038637960920"
         - name: fiscalCode
           in: query
-          description: 'ENG: Fiscal code of the citizen - IT: codice fiscale del cittadino'
+          description: "ENG: Fiscal code or P.IVA of the EC - IT: Codice fiscale o partita IVA dell'EC"
           required: true
           schema:
             type: string
-            description: "Fiscal Code or P.IVA of the citizen"
+            description: "Fiscal Code or P.IVA of the EC"
             pattern: "^[A-Za-z0-9]{11,16}$"
             minLength: 11
             maxLength: 16
-            example: "RSSMRO92S18L048H"
+            example: "01234567892"
         - name: noticeNumber
           in: query
           required: true
           schema:
             type: string
-            description: ID of the original message
-            pattern: "^[ -~]{5,36}$"
-            minLength: 5
-            maxLength: 36
-            example: "1234-3333-3333"
+            description: Unique payment identifier (IUV)
+            pattern: "^[A-Za-z0-9]\\d{2}[A-Za-z0-9]{15,17}$"
+            minLength: 18
+            maxLength: 20
+            example: "X01ABCDEF12345678901"
       responses:
         '302':
           description: "Redirezione al deep link generato con l'header 'Location'."
