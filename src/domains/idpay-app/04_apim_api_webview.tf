@@ -52,7 +52,7 @@ module "idpay_api_webview" {
   xml_content = file("./api/base_policy.xml")
 
   product_ids           = [module.idpay_api_webview_product.product_id]
-  subscription_required = true
+  subscription_required = false
 
   api_operation_policies = [
     {
