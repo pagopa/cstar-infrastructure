@@ -110,6 +110,10 @@ locals {
         {
           keys   = ["recipientId"]
           unique = false
+        },
+        {
+          keys   = ["messageId", "entityId"]
+          unique = true
         }
       ]
 
