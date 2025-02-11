@@ -29,7 +29,7 @@ resource "azurerm_security_center_storage_defender" "rtp_blob_storage_account_st
 
 
 resource "azurerm_storage_container" "rtd_transactions_decrypted" {
-  name                  = "rtp-service-provider-debtor"
+  name                  = "rtp-debtor-service-provider"
   storage_account_name  = azurerm_storage_account.rtp_blob_storage_account.name
   container_access_type = "private"
 }
