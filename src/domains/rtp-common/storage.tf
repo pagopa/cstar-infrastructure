@@ -12,7 +12,7 @@ resource "azurerm_storage_account" "rtp_blob_storage_account" {
   account_tier                     = "Standard"
   account_replication_type         = var.env_short == "p" ? "RAGZRS" : "RAGRS"
   access_tier                      = "Hot"
-  enable_https_traffic_only        = true
+  https_traffic_only_enabled       = true
   min_tls_version                  = "TLS1_2"
   allow_nested_items_to_be_public  = false
   is_hns_enabled                   = false
@@ -20,4 +20,9 @@ resource "azurerm_storage_account" "rtp_blob_storage_account" {
   public_network_access_enabled    = true
   sftp_enabled                     = false
   tags                             = var.tags
+}
+
+
+resource "azurerm_security_center_storage_defender" "rtp_blob_storage_account_storage_defender" {
+  storage_account_id = azurerm_storage_account.rtp_blob_storage_account.id
 }
