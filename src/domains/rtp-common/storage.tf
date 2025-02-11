@@ -26,3 +26,11 @@ resource "azurerm_storage_account" "rtp_blob_storage_account" {
 resource "azurerm_security_center_storage_defender" "rtp_blob_storage_account_storage_defender" {
   storage_account_id = azurerm_storage_account.rtp_blob_storage_account.id
 }
+
+
+resource "azurerm_storage_container" "rtd_transactions_decrypted" {
+  name                  = "rtp-service-provider-debtor"
+  storage_account_name  = azurerm_storage_account.rtp_blob_storage_account.name
+  container_access_type = "private"
+}
+
