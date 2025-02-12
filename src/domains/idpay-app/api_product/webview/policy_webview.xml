@@ -3,7 +3,7 @@
     <base />
     <rate-limit calls="${rate_limit_io_product}" renewal-period="60" />
     <choose>
-      <when condition="@("login,getRedirect".Split(',').Contains(context.Operation.Id))">
+      <when condition="@("login,getRedirect,session".Split(',').Contains(context.Operation.Id))">
       </when>
       <otherwise>
         <include-fragment fragment-id="idpay-webview-validate-token-mil" />
