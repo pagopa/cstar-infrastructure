@@ -24,6 +24,10 @@ module "idpay_api_webview_product" {
     }
   )
 
+  depends_on = [
+    azapi_resource.apim-webview-validate-token-mil
+  ]
+
 }
 
 #
