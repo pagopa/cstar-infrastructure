@@ -2,22 +2,10 @@
 This policy validate content and sign of MIL JWT token
 -->
 <fragment>
-  <choose>
-    <when condition="@("prod".Equals((string)context.Variables["env"]))">
-      <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="milToken">
-        <openid-config url="https://api-mcshared.cstar.pagopa.it/auth/.well-known/openid-configuration" />
-        <issuers>
-          <issuer>https://api-mcshared.cstar.pagopa.it/auth</issuer>
-        </issuers>
-      </validate-jwt>
-    </when>
-    <otherwise>
-      <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="milToken">
-        <openid-config url="https://api-mcshared.${env}.cstar.pagopa.it/auth/.well-known/openid-configuration" />
-        <issuers>
-          <issuer>https://api-mcshared.${env}.cstar.pagopa.it/auth</issuer>
-        </issuers>
-      </validate-jwt>
-    </otherwise>
-  </choose>
+  <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="milToken">
+    <openid-config url="https://api-mcshared.${env}.cstar.pagopa.it/auth/.well-known/openid-configuration" />
+    <issuers>
+      <issuer>https://api-mcshared.${env}.cstar.pagopa.it/auth</issuer>
+    </issuers>
+  </validate-jwt>
 </fragment>
