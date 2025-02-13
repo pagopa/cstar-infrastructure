@@ -3,9 +3,11 @@ This policy validate content and sign of MIL JWT token
 -->
 <fragment>
   <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-expiration-time="true" require-scheme="Bearer" require-signed-tokens="true" output-token-variable-name="milToken">
-    <openid-config url="https://api-mcshared.${env}.cstar.pagopa.it/auth/.well-known/openid-configuration" />
+    <openid-config url="${baseUrl}.cstar.pagopa.it/auth/.well-known/openid-configuration" />
     <issuers>
-      <issuer>https://api-mcshared.${env}.cstar.pagopa.it/auth</issuer>
+      <issuer>${baseUrl}.cstar.pagopa.it/auth</issuer>
     </issuers>
   </validate-jwt>
 </fragment>
+
+

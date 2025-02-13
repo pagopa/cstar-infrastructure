@@ -62,7 +62,7 @@ resource "azapi_resource" "apim-webview-validate-token-mil" {
       description = "idpay-webview-validate-token-mil"
       format      = "rawxml"
       value = templatefile("./api_fragment/webview-validate-token-mil.xml", {
-        env = var.env
+        baseUrl = var.mil_base_url
       })
     }
   })

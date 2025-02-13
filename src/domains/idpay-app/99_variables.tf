@@ -244,6 +244,11 @@ variable "pm_backend_url" {
   description = "Payment manager backend url (enrollment)"
 }
 
+variable "mil_base_url" {
+  type        = string
+  description = "Token MIL baseUrl"
+}
+
 variable "pm_timeout_sec" {
   type        = number
   description = "Payment manager timeout (sec)"
