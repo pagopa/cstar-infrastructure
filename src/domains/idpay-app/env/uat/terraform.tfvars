@@ -57,7 +57,8 @@ pdv_timeout_sec   = 5
 # MIL
 #
 openid_config_url_mil = "https://mil-u-apim.azure-api.net/mil-auth/.well-known/openid-configuration"
-mil_base_url          = "https://api-mcshared.uat"
+mil_openid_url        = "https://api-mcshared.uat.cstar.pagopa.it/auth/.well-known/openid-configuration"
+mil_issuer_url        = "https://api-mcshared.uat.cstar.pagopa.it/auth"
 
 #
 # PM

@@ -17,7 +17,7 @@ module "idpay_api_webview_product" {
   subscription_required = false
   approval_required     = false
 
-  subscriptions_limit = 50
+  subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/webview/policy_webview.xml", {
     rate_limit_io_product = var.rate_limit_io_product
