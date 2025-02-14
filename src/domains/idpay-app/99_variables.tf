@@ -244,6 +244,16 @@ variable "pm_backend_url" {
   description = "Payment manager backend url (enrollment)"
 }
 
+variable "mil_openid_url" {
+  type        = string
+  description = "OpenId MIL url"
+}
+
+variable "mil_issuer_url" {
+  type        = string
+  description = " MIL issuer url"
+}
+
 variable "pm_timeout_sec" {
   type        = number
   description = "Payment manager timeout (sec)"

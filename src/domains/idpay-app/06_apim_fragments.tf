@@ -51,3 +51,24 @@ resource "azapi_resource" "apim-validate-token-mil" {
     }
   })
 }
+
+resource "azapi_resource" "apim-webview-validate-token-mil" {
+  type      = "Microsoft.ApiManagement/service/policyFragments@2021-12-01-preview"
+  name      = "idpay-webview-validate-token-mil"
+  parent_id = data.azurerm_api_management.apim_core.id
+
+  body = jsonencode({
+    properties = {
+      description = "idpay-webview-validate-token-mil"
+      format      = "rawxml"
+      value = templatefile("./api_fragment/webview-validate-token-mil.xml", {
+        openidUrl = var.mil_openid_url,
+        issuerUrl = var.mil_issuer_url
+      })
+    }
+  })
+
+  lifecycle {
+    ignore_changes = [body]
+  }
+}
