@@ -14,15 +14,19 @@ module "idpay_api_webview_product" {
   resource_group_name = data.azurerm_resource_group.apim_rg.name
 
   published             = true
-  subscription_required = true
-  approval_required     = true
+  subscription_required = false
+  approval_required     = false
 
-  subscriptions_limit = 50
+  subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/webview/policy_webview.xml", {
-    rate_limit_assistance = var.rate_limit_assistance_product
+    rate_limit_io_product = var.rate_limit_io_product
     }
   )
+
+  depends_on = [
+    azapi_resource.apim-webview-validate-token-mil
+  ]
 
 }
 
@@ -75,8 +79,21 @@ module "idpay_api_webview" {
       xml_content = templatefile("./api/idpay-self-expense/get-session.xml.tpl", {
         ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
       })
+    },
+    {
+      operation_id = "getChildForUserId"
+
+      xml_content = templatefile("./api/idpay-self-expense/get-child-for-userid.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
+    },
+    {
+      operation_id = "saveExpenseData"
+
+      xml_content = templatefile("./api/idpay-self-expense/save-expense-data.xml.tpl", {
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+      })
     }
   ]
 
 }
-

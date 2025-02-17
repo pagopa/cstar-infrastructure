@@ -742,6 +742,26 @@ locals {
           unique = false
         }
       ]
+    },
+    {
+      name = "expense_data"
+      indexes = [{
+        keys   = ["_id"]
+        unique = true
+        },
+        {
+          keys   = ["userId", "entityId"]
+          unique = false
+        },
+        {
+          keys   = ["userId"]
+          unique = false
+        },
+        {
+          keys   = ["entityId"]
+          unique = false
+        }
+      ]
     }
   ]
 }

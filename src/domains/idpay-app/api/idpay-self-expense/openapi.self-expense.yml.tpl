@@ -10,7 +10,8 @@ servers:
 tags:
   - name: WebView
     description: 'WebView IO'
-
+  - name: Operations
+    description: 'Operations IO'
 paths:
 
  '/login':
@@ -59,6 +60,7 @@ paths:
       summary: >-
              ENG: Redirect to webview url with sessionId - IT: Rediret verso l'url della webview con il sessionId
       operationId: getRedirect
+      security: []
       parameters:
         - name: Accept-Language
           in: header
@@ -120,6 +122,7 @@ paths:
       summary: >-
         ENG: Return mil-auth accessToken by sessionId - IT: Restituisce il mil-auth accessToken mediante il sessionId
       operationId: session
+      security: []
       parameters:
         - name: Accept-Language
           in: header
@@ -163,6 +166,79 @@ paths:
                 message: "Session error, unable to authenticate user"
 
 
+ '/get-child':
+    get:
+      tags:
+        - Operations
+      summary: >-
+        ENG: Return child list of the parent - IT: Restituisce la lista di figli del genitore
+      operationId: getChildForUserId
+      security:
+      - bearerAuth: []
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: 'ENG: Language - IT: Lingua'
+          schema:
+            type: string
+            example: it-IT
+            default: it-IT
+          required: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChildResponseDTO'
+        '404':
+          description: ANPR info not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfPaymentErrorDTO'
+              example:
+                code: "ANPR_INFO_NOT_FOUND"
+                message: "Anpr info could not be found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfPaymentErrorDTO'
+              example:
+                code: "SESSION_FAIL"
+                message: "Session error, unable to authenticate user"
+
+ '/save-expense-data':
+    post:
+      tags:
+        - Operations
+      summary: >-
+        ENG: Save expense data - IT:Salvataggio dei dati di spesa
+      operationId: saveExpenseData
+      security:
+       - bearerAuth: []
+      requestBody:
+        description: 'ENG: Id of the iniziative - IT: Identificativo dell''iniziativa'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseDataDTO'
+
+      responses:
+        '200':
+          description: Ok
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfPaymentErrorDTO'
+              example:
+                code: EXPENSE_DATA_ERROR_DB_SAVE
+                message: Error on save into DB expense_data document
 
 components:
   schemas:
@@ -187,6 +263,97 @@ components:
           - token_type
           - expires_in
 
+    Child:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID of the child
+          example: "f765429e-d8c5-11ef-a329-005056ae5232"
+        nome:
+          type: string
+          description: First name of the child
+          example: "Beppe"
+        cognome:
+          type: string
+          description: Last name of the child
+          example: "Vessicchio"
+
+    ChildResponseDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: Fiscal code of the requester, encrypted
+          example: "e326e920-5c66-45f5-b146-73cba5c945e7"
+        childList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Child'
+          required:
+            - childList
+      required:
+       - userId
+
+    FileData:
+      type: object
+      properties:
+        contentType:
+          type: string
+          description: The MIME type of the file
+          example: application/pdf
+        data:
+          type: string
+          description: The file's base64-encoded content
+          example: "JVBERi0xLjcNCiW1tbW1DQoxIDAgb2JqDQo8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFIvTGFuZyhpdC1JVCkgL1N0cnVjdFRyZW="
+        filename:
+          type: string
+          description: The name of the file
+          example: "Documento di prova.pdf"
+
+    ExpenseDataDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the person associated with the expense
+          example: "Beppe"
+        surname:
+          type: string
+          description: The surname of the person associated with the expense
+          example: "Vessicchio"
+        amount:
+          type: number
+          format: float
+          description: The amount of the expense
+          example: "200"
+        expenseDate:
+          type: string
+          format: date-time
+          description: The date and time the expense was incurred
+          example: "2024-03-10T11:33:42.698+00:00"
+        companyName:
+          type: string
+          description: The company associated with the expense
+          example: "Mille Mani S.r.l."
+        entityId:
+          type: string
+          description: The ID of the entity responsible for the expense
+          example: "01532570064"
+        fiscalCode:
+          type: string
+          description: The fiscal code of the person or entity hashed
+          example: "e326e920-5c66-45f5-b146-73cba5c945e7"
+        description:
+          type: string
+          description: A description of the expense
+          example: "Expense description"
+        fileList:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileData'
+          description: A list of files associated with the expense
+
     SelfPaymentErrorDTO:
       type: object
       required:
@@ -204,6 +371,8 @@ components:
             - USER_SAVE_FAIL
             - TOKEN_SAVE_FAIL
             - SESSION_NOT_FOUND
+            - ANPR_INFO_NOT_FOUND
+            - EXPENSE_DATA_ERROR_DB_SAVE
           description: >-
             "ENG: Error code description:
              LOGIN_FAIL: Login failed due to unknown error.
@@ -214,6 +383,8 @@ components:
              USER_SAVE_FAIL: Failure to save the user data in the system.
              TOKEN_SAVE_FAIL: Failure to save the token in the system.
              SESSION_NOT_FOUND: The session could not be found or does not exist.
+             ANPR_INFO_NOT_FOUND: Anpr info could not be found.
+             EXPENSE_DATA_ERROR_DB_SAVE: Error on save into DB expense_data document.
              - IT: Descrizione dei codici di errore:
              LOGIN_FAIL: Login fallito a causa di un errore sconosciuto.
              SESSION_FAIL: Errore di sessione, impossibile autenticare l'utente.
@@ -222,10 +393,16 @@ components:
              TOKEN_DESERIALIZATION: Errore nella deserializzazione dei dati del token.
              USER_SAVE_FAIL: Impossibile salvare i dati dell'utente nel sistema.
              TOKEN_SAVE_FAIL: Impossibile salvare il token nel sistema.
-             SESSION_NOT_FOUND: La sessione non è stata trovata o non esiste."
+             SESSION_NOT_FOUND: La sessione non è stata trovata o non esiste.
+             ANPR_INFO_NOT_FOUND: Le Anpr info non possono essere recuperate.
+             EXPENSE_DATA_ERROR_DB_SAVE: Errore nel salvare sul DB expense_data il document."
         message:
           type: string
           description: "ENG: Error message - IT: Messaggio di errore"
 
 
 
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
