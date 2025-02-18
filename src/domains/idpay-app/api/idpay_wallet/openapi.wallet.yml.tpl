@@ -991,6 +991,9 @@ components:
         webViewUrl:
           type: string
           description: 'ENG: webViewUrl - IT: Url della webView'
+        serviceId:
+          type: string
+          description: 'ENG: The service ID - IT: Identificativo del service'
     InitiativesWithInstrumentDTO:
       type: object
       required:
