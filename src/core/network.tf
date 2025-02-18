@@ -234,6 +234,22 @@ resource "azurerm_public_ip" "apim_v2_management_public_ip" {
   tags = var.tags
 }
 
+resource "azurerm_public_ip" "mc_public_ip" {
+
+  count = var.env == "uat" ? 1 : 0
+
+  name                = "${local.project}-weu-mc-pip"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  location            = var.location
+  sku                 = "Standard"
+  domain_name_label   = "mc-cstar-weu-${var.env}"
+  allocation_method   = "Static"
+
+  zones = [1, 2, 3]
+
+  tags = var.tags
+}
+
 #
 # ROUTING
 #
