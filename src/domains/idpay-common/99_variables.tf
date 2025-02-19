@@ -141,6 +141,7 @@ variable "spa" {
   type        = list(string)
   description = "spa root dirs"
   default = [
+    "ricevute",
     "portale-enti",
     "portale-esercenti",
     "mocks/merchant"
