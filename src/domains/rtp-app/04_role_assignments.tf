@@ -24,3 +24,13 @@ resource "azurerm_role_assignment" "secrets_user_on_domain_kv_to_activator_ident
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.activator.principal_id
 }
+
+# ------------------------------------------------------------------------------
+# Assignment of role "Reader" on blob storage to
+# identity of rtp-activator microservice.
+# ------------------------------------------------------------------------------
+resource "azurerm_role_assignment" "storage_account_to_activator_identity" {
+  scope                = data.azurerm_storage_account.rtp_blob_storage_account.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azurerm_user_assigned_identity.activator.principal_id
+}
