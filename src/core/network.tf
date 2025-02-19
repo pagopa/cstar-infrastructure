@@ -236,8 +236,6 @@ resource "azurerm_public_ip" "apim_v2_management_public_ip" {
 
 resource "azurerm_public_ip" "mc_public_ip" {
 
-  count = var.env == "uat" ? 1 : 0
-
   name                = "${local.project}-weu-mc-pip"
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = var.location
