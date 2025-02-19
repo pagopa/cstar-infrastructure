@@ -139,7 +139,8 @@ module "idpay_wallet_io" {
     {
       operation_id = "getWallet"
       xml_content = templatefile("./api/idpay_wallet/get-wallet-policy.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+        webViewUrl                     = var.webViewUrl
       })
     },
     {
@@ -151,7 +152,8 @@ module "idpay_wallet_io" {
     {
       operation_id = "getWalletDetail"
       xml_content = templatefile("./api/idpay_wallet/get-wallet-detail-policy.xml.tpl", {
-        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname
+        ingress_load_balancer_hostname = var.ingress_load_balancer_hostname,
+        webViewUrl                     = var.webViewUrl
       })
     },
     {

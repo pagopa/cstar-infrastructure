@@ -254,6 +254,11 @@ variable "mil_issuer_url" {
   description = " MIL issuer url"
 }
 
+variable "webViewUrl" {
+  type        = string
+  description = "WebView Url"
+}
+
 variable "pm_timeout_sec" {
   type        = number
   description = "Payment manager timeout (sec)"
