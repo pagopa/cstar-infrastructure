@@ -41,3 +41,12 @@ variable "location_short" {
   type    = string
   default = "weu"
 }
+
+#
+# ACA Environment.
+#
+variable "aca_env_zones_enabled" {
+  type    = bool
+  default = false
+  description = "Enable zone redundancy for ACA environment."
+}

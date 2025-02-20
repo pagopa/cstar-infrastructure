@@ -11,6 +11,17 @@ resource "azurerm_subnet" "aca" {
   virtual_network_name              = data.azurerm_virtual_network.intern.name
   address_prefixes                  = [var.aca_snet_cidr]
   private_endpoint_network_policies = "Enabled"
+
+  delegation {
+    name = "Microsoft.App/environments"
+    service_delegation {
+      name = "Microsoft.App/environments"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"
+      ]
+    }
+  }
 }
 
 # ------------------------------------------------------------------------------

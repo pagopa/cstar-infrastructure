@@ -7,6 +7,7 @@ locals {
   #
   # Project label.
   #
+  product = "${var.prefix}-${var.env_short}"
   project = "${var.prefix}-${var.env_short}-${local.domain}"
 
   #
@@ -20,6 +21,13 @@ locals {
     CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
     Application = local.domain
   }
+
+  #
+  # Network
+  #
+  mc_public_ip_name                     = "${local.product}-weu-mc-pip"
+  vnet_weu_core_name                    = "${local.product}-vnet"
+  vnet_weu_core_resource_group_name     = "${local.product}-vnet-rg"
 
   #
   # GitHub repositories which must be identified and federated on Azure.
