@@ -28,7 +28,7 @@ locals {
 
 module "web_test_availability_alert_rules_for_api" {
   for_each = { for v in local.test_urls : v.host => v if v != null }
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_web_test_preview?ref=v8.13.0"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_web_test_preview?ref=v8.83.1"
 
   subscription_id                   = data.azurerm_subscription.current.subscription_id
   name                              = "${each.value.host}-test-avail"
@@ -77,6 +77,10 @@ resource "azurerm_application_insights_standard_web_test" "web_test_availability
     url       = "https://${trimsuffix(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")}"
     body      = null
     http_verb = "GET"
+  }
+
+  lifecycle {
+    ignore_changes = [tags]
   }
 }
 
