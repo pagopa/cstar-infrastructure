@@ -44,7 +44,8 @@ No modules.
 | [azurerm_key_vault_secret.key_vault_auth_vault_uri](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_query_pack.mcshared](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/log_analytics_query_pack) | resource |
 | [azurerm_log_analytics_query_pack_query.auth](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/log_analytics_query_pack_query) | resource |
-| [azurerm_management_lock.cae](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/management_lock) | resource |
+| [azurerm_nat_gateway.mc_nat_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/nat_gateway) | resource |
+| [azurerm_nat_gateway_public_ip_association.mc_nat_gateway_public_ip_association](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/nat_gateway_public_ip_association) | resource |
 | [azurerm_private_dns_a_record.aca](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/private_dns_a_record) | resource |
 | [azurerm_private_dns_zone.aca](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/private_dns_zone) | resource |
@@ -71,6 +72,7 @@ No modules.
 | [azurerm_role_assignment.identity_subscription_role_assignment_cd](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.secrets_user_on_general_kv_to_auth_identity](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/role_assignment) | resource |
 | [azurerm_subnet.aca](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/subnet) | resource |
+| [azurerm_subnet_nat_gateway_association.mc_nat_gateway_subnet_association](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/subnet_nat_gateway_association) | resource |
 | [azurerm_user_assigned_identity.auth](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.identity_cd](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/resources/user_assigned_identity) | resource |
 | [github_actions_environment_secret.azure_cd_client_id](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_environment_secret) | resource |
@@ -86,17 +88,20 @@ No modules.
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/client_config) | data source |
 | [azurerm_log_analytics_workspace.core](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_private_dns_zone.cosmos](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/private_dns_zone) | data source |
+| [azurerm_public_ip.mc_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/public_ip) | data source |
 | [azurerm_subnet.private_endpoints](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/subscription) | data source |
 | [azurerm_virtual_network.core](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/virtual_network) | data source |
 | [azurerm_virtual_network.integr](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/virtual_network) | data source |
 | [azurerm_virtual_network.intern](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/virtual_network) | data source |
+| [azurerm_virtual_network.vnet_core_weu](https://registry.terraform.io/providers/hashicorp/azurerm/4.11.0/docs/data-sources/virtual_network) | data source |
 | [github_team.admin](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/data-sources/team) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aca_env_zones_enabled"></a> [aca\_env\_zones\_enabled](#input\_aca\_env\_zones\_enabled) | Enable zone redundancy for ACA environment. | `bool` | `false` | no |
 | <a name="input_aca_snet_cidr"></a> [aca\_snet\_cidr](#input\_aca\_snet\_cidr) | ------------------------------------------------------------------------------ Subnet for ACA. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_auth_openapi_descriptor"></a> [auth\_openapi\_descriptor](#input\_auth\_openapi\_descriptor) | ------------------------------------------------------------------------------ API definition of auth microservice. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_auth_path"></a> [auth\_path](#input\_auth\_path) | n/a | `string` | `"auth"` | no |
