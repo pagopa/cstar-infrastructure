@@ -143,7 +143,8 @@ variable "spa" {
   default = [
     "portale-enti",
     "portale-esercenti",
-    "mocks/merchant"
+    "mocks/merchant",
+    "ricevute"
   ]
 }
 ## Event hub
