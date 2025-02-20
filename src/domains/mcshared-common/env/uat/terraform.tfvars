@@ -55,3 +55,8 @@ introspect_rate_limit = {
   calls  = 10
   period = 60
 }
+
+#
+# ACA
+#
+aca_env_zones_enabled = false

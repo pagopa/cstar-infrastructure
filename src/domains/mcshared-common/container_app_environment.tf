@@ -9,12 +9,15 @@ resource "azurerm_container_app_environment" "mcshared" {
   internal_load_balancer_enabled = true
   infrastructure_subnet_id       = azurerm_subnet.aca.id
   tags                           = local.tags
-  zone_redundancy_enabled        = false
-}
+  zone_redundancy_enabled        = var.aca_env_zones_enabled
+  workload_profile {
+    name                  = "Consumption"
+    workload_profile_type = "Consumption"
+    minimum_count = 0
+    maximum_count = 10
+  }
 
-resource "azurerm_management_lock" "cae" {
-  count      = var.env_short == "p" ? 1 : 0
-  name       = "${local.project}-cae-lock"
-  scope      = azurerm_container_app_environment.mcshared.id
-  lock_level = "CanNotDelete"
+  depends_on = [
+    azurerm_subnet.aca
+  ]
 }

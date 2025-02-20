@@ -1,25 +1,4 @@
 #
-# azure devops policy
-#
-
-#pagopaspa-cstar-platform-iac-projects-{subscription}
-data "azuread_service_principal" "platform_iac_sp" {
-  count        = var.enable_iac_pipeline ? 1 : 0
-  display_name = "pagopaspa-cstar-platform-iac-projects-${data.azurerm_subscription.current.subscription_id}"
-}
-
-resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
-  count        = var.enable_iac_pipeline ? 1 : 0
-  key_vault_id = module.key_vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azuread_service_principal.platform_iac_sp[0].object_id
-
-  secret_permissions      = ["Get", "List", "Set", ]
-  storage_permissions     = []
-  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", "ManageContacts", ]
-}
-
-#
 # Azure Groups
 #
 
