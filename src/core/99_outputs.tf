@@ -58,25 +58,6 @@ output "pm_client_certificate_thumbprint" {
   sensitive = true
 }
 
-## Postgresql server
-output "postgresql_fqdn" {
-  value = one(module.postgresql[*].fqdn)
-}
-
-output "postgresql_administrator_login" {
-  value     = data.azurerm_key_vault_secret.db_administrator_login.value
-  sensitive = true
-}
-
-output "postgresql_administrator_login_password" {
-  value     = data.azurerm_key_vault_secret.db_administrator_login_password.value
-  sensitive = true
-}
-
-output "postgresql_replica_fqdn" {
-  value = one(module.postgresql[*].replica_fqdn)
-}
-
 # Blob storage
 output "primary_blob_host" {
   value = module.cstarblobstorage.primary_blob_host
