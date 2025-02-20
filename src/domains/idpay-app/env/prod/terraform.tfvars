@@ -68,6 +68,10 @@ openid_config_url_mil = "https://mil-u-apim.azure-api.net/mil-auth/.well-known/o
 mil_openid_url        = "https://api-mcshared.cstar.pagopa.it/auth/.well-known/openid-configuration"
 mil_issuer_url        = "https://api-mcshared.cstar.pagopa.it/auth"
 
+#
+# WEBVIEW
+#
+webViewUrl = "https://welfare.cstar.pagopa.it/ricevute"
 
 #
 # Check IBAN
