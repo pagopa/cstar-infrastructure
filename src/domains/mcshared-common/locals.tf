@@ -25,9 +25,9 @@ locals {
   #
   # Network
   #
-  mc_public_ip_name                     = "${local.product}-weu-mc-pip"
-  vnet_weu_core_name                    = "${local.product}-vnet"
-  vnet_weu_core_resource_group_name     = "${local.product}-vnet-rg"
+  mc_public_ip_name                 = "${local.product}-weu-mc-pip"
+  vnet_weu_core_name                = "${local.product}-vnet"
+  vnet_weu_core_resource_group_name = "${local.product}-vnet-rg"
 
   #
   # GitHub repositories which must be identified and federated on Azure.

@@ -46,7 +46,7 @@ variable "location_short" {
 # ACA Environment.
 #
 variable "aca_env_zones_enabled" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Enable zone redundancy for ACA environment."
 }

@@ -1,5 +1,5 @@
 module "app_gw_maz" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=v8.13.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=v8.83.1"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -357,7 +357,7 @@ module "app_gw_maz" {
     compute_units_usage = {
       description   = "Abnormal compute units usage, probably an high traffic peak"
       frequency     = "PT5M"
-      window_size   = "PT5M"
+      window_size   = "PT15M"
       severity      = 4
       auto_mitigate = true
 
@@ -430,8 +430,8 @@ module "app_gw_maz" {
           metric_name              = "FailedRequests"
           operator                 = "GreaterThan"
           alert_sensitivity        = "Medium"
-          evaluation_total_count   = 2
-          evaluation_failure_count = 2
+          evaluation_total_count   = 4
+          evaluation_failure_count = 4
           dimension                = []
         }
       ]

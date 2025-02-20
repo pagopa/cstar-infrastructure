@@ -13,8 +13,8 @@ resource "azurerm_container_app_environment" "mcshared" {
   workload_profile {
     name                  = "Consumption"
     workload_profile_type = "Consumption"
-    minimum_count = 0
-    maximum_count = 10
+    minimum_count         = 0
+    maximum_count         = 10
   }
 
   depends_on = [
