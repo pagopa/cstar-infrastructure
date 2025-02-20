@@ -61,6 +61,11 @@ mil_openid_url        = "https://api-mcshared.uat.cstar.pagopa.it/auth/.well-kno
 mil_issuer_url        = "https://api-mcshared.uat.cstar.pagopa.it/auth"
 
 #
+# WEBVIEW
+#
+webViewUrl = "https://welfare.uat.cstar.pagopa.it/ricevute"
+
+#
 # PM
 #
 pm_service_base_url = "https://api-io.uat.cstar.pagopa.it"
