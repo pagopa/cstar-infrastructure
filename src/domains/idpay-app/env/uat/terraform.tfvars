@@ -63,7 +63,7 @@ mil_issuer_url        = "https://api-mcshared.uat.cstar.pagopa.it/auth"
 #
 # WEBVIEW
 #
-webViewUrl = "https://welfare.uat.cstar.pagopa.it/ricevute"
+webViewUrl = "https://api-io.uat.cstar.pagopa.it/idpay/self-expense/login"
 
 #
 # PM

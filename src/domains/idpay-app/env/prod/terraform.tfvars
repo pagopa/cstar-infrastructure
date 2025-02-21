@@ -71,7 +71,7 @@ mil_issuer_url        = "https://api-mcshared.cstar.pagopa.it/auth"
 #
 # WEBVIEW
 #
-webViewUrl = "https://welfare.cstar.pagopa.it/ricevute"
+webViewUrl = "https://api-io.cstar.pagopa.it/idpay/self-expense/login"
 
 #
 # Check IBAN
