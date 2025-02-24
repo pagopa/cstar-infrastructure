@@ -14,7 +14,7 @@
     <inbound>
         <base />
         <set-backend-service base-url="https://${ingress_load_balancer_hostname}/idpayselfexpensebackend" />
-        <rewrite-uri template="@("/idpay/self-expense/get-child/"+(string)context.Variables["milToken"])" />
+        <rewrite-uri template="@("/idpay/self-expense/get-child/"+(Jwt)context.Variables["milToken"])" />
     </inbound>
     <backend>
         <base />
