@@ -293,7 +293,7 @@ resource "azurerm_private_dns_zone" "container_app" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "container_app_link" {
-  for_each =  { for vnet in data.azurerm_resources.vnets.resources : vnet.id => vnet }
+  for_each = { for vnet in data.azurerm_resources.vnets.resources : vnet.id => vnet }
 
   name                  = "dnslink-${each.value.name}"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
