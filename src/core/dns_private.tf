@@ -29,6 +29,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "internal_cstar_to_vnet
   virtual_network_id    = module.vnet_pair.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "internal_cstar_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.private_private_dns_zone.name
+  virtual_network_id    = each.value.id
+}
+
 #
 # Records for private dns zone
 #
