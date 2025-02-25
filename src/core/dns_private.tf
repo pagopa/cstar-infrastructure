@@ -189,6 +189,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aks_cosmosdb_private_v
   virtual_network_id    = module.vnet_aks[each.key].id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo[0].name
+  virtual_network_id    = each.value.id
+}
+
 #
 # Private DNS Zone for Azure Data Factory
 #
