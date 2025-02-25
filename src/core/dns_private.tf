@@ -146,6 +146,40 @@ resource "azurerm_private_dns_a_record" "storage_account_tkm" {
 }
 
 #
+# Storage Queue
+#
+resource "azurerm_private_dns_zone" "queue" {
+  name                = "privatelink.queue.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "queue_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.queue.name
+  virtual_network_id    = each.value.id
+}
+
+#
+# Storage Table
+#
+resource "azurerm_private_dns_zone" "table" {
+  name                = "privatelink.table.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "table_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.table.name
+  virtual_network_id    = each.value.id
+}
+
+#
 # Cosmos MongoDB private dns zone
 #
 resource "azurerm_private_dns_zone" "cosmos_mongo" {
@@ -320,19 +354,11 @@ resource "azurerm_private_dns_zone_virtual_network_link" "redis_private_endpoint
   virtual_network_id    = each.value.id
 }
 
+#
 # Private DNS zones for Data Explorer
+#
 resource "azurerm_private_dns_zone" "kusto" {
   name                = "privatelink.westeurope.kusto.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-resource "azurerm_private_dns_zone" "queue" {
-  name                = "privatelink.queue.core.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-resource "azurerm_private_dns_zone" "table" {
-  name                = "privatelink.table.core.windows.net"
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
