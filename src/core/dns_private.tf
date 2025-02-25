@@ -29,6 +29,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "internal_cstar_to_vnet
   virtual_network_id    = module.vnet_pair.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "internal_cstar_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.private_private_dns_zone.name
+  virtual_network_id    = each.value.id
+}
+
 #
 # Records for private dns zone
 #
@@ -117,6 +126,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoi
   virtual_network_id    = each.value
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = each.value.id
+}
+
 resource "azurerm_private_dns_a_record" "storage_account_tkm" {
   count = var.dns_storage_account_tkm != null ? 1 : 0
 
@@ -125,6 +143,40 @@ resource "azurerm_private_dns_a_record" "storage_account_tkm" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = var.dns_default_ttl_sec
   records             = var.dns_storage_account_tkm.ips
+}
+
+#
+# Storage Queue
+#
+resource "azurerm_private_dns_zone" "queue" {
+  name                = "privatelink.queue.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "queue_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.queue.name
+  virtual_network_id    = each.value.id
+}
+
+#
+# Storage Table
+#
+resource "azurerm_private_dns_zone" "table" {
+  name                = "privatelink.table.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "table_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.table.name
+  virtual_network_id    = each.value.id
 }
 
 #
@@ -171,6 +223,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aks_cosmosdb_private_v
   virtual_network_id    = module.vnet_aks[each.key].id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo[0].name
+  virtual_network_id    = each.value.id
+}
+
 #
 # Private DNS Zone for Azure Data Factory
 #
@@ -197,6 +258,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "adf_link_to_pair" {
   resource_group_name   = azurerm_resource_group.rg_vnet.name
   private_dns_zone_name = azurerm_private_dns_zone.adf[count.index].name
   virtual_network_id    = module.vnet_pair.id
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "datafactory_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.adf[0].name
+  virtual_network_id    = each.value.id
 }
 
 
@@ -234,6 +304,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "event_hub_link_to_pair
   virtual_network_id    = module.vnet_pair.id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "eventhub_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.ehub[0].name
+  virtual_network_id    = each.value.id
+}
 
 #
 # Private DNS Zone for Redis
@@ -267,19 +345,20 @@ resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_aks
   virtual_network_id    = module.vnet_aks[each.key].id
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "redis_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.redis.name
+  virtual_network_id    = each.value.id
+}
+
+#
 # Private DNS zones for Data Explorer
+#
 resource "azurerm_private_dns_zone" "kusto" {
   name                = "privatelink.westeurope.kusto.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-resource "azurerm_private_dns_zone" "queue" {
-  name                = "privatelink.queue.core.windows.net"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-}
-
-resource "azurerm_private_dns_zone" "table" {
-  name                = "privatelink.table.core.windows.net"
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
