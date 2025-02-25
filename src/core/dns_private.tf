@@ -126,6 +126,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoi
   virtual_network_id    = each.value
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = each.value.id
+}
+
 resource "azurerm_private_dns_a_record" "storage_account_tkm" {
   count = var.dns_storage_account_tkm != null ? 1 : 0
 
