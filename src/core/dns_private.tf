@@ -154,7 +154,7 @@ resource "azurerm_private_dns_zone" "queue" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "queue_private_endpoint_to_secure_hub_vnets" {
-  for_each = local.secure_hub_vnets
+  for_each = local.all_vnets
 
   name                  = "${each.value.name}-private-dns-zone-link"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
@@ -171,7 +171,7 @@ resource "azurerm_private_dns_zone" "table" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "table_private_endpoint_to_secure_hub_vnets" {
-  for_each = local.secure_hub_vnets
+  for_each = local.all_vnets
 
   name                  = "${each.value.name}-private-dns-zone-link"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
@@ -233,7 +233,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_private_endpoin
 }
 
 #
-# Private DNS Zone for Azure Data Factory
+# Data Factory - Private DNS Zone
 #
 resource "azurerm_private_dns_zone" "adf" {
   count = var.enable.tae.adf ? 1 : 0
@@ -271,7 +271,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "datafactory_private_en
 
 
 #
-# Private DNS zone for EventHub
+# EventHub - Private DNS zone
 #
 # When BPD queue will be removed this zone will be destroyed.
 # THIS MUST BE CONVERTED AS RESOURCE AND IMPORTED
@@ -314,7 +314,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "eventhub_private_endpo
 }
 
 #
-# Private DNS Zone for Redis
+# REDIS Private DNS Zone
 #
 resource "azurerm_private_dns_zone" "redis" {
   name                = "privatelink.redis.cache.windows.net"
@@ -355,7 +355,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "redis_private_endpoint
 }
 
 #
-# Private DNS zones for Data Explorer
+# Data Explorer for Private DNS zones
 #
 resource "azurerm_private_dns_zone" "kusto" {
   name                = "privatelink.westeurope.kusto.windows.net"
@@ -363,7 +363,7 @@ resource "azurerm_private_dns_zone" "kusto" {
 }
 
 #
-# Container app
+# Container app - private dns zone
 #
 resource "azurerm_private_dns_zone" "container_app" {
   name                = "privatelink.azurecontainerapps.io"
@@ -372,7 +372,7 @@ resource "azurerm_private_dns_zone" "container_app" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "container_app_link" {
-  for_each = { for vnet in data.azurerm_resources.vnets.resources : vnet.id => vnet }
+  for_each = local.all_vnets
 
   name                  = "dnslink-${each.value.name}"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
