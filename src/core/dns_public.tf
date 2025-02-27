@@ -38,7 +38,7 @@ resource "azurerm_dns_ns_record" "cstar_uat_pagopa_it_ns" {
   tags = var.tags
 }
 
-## Prod ONLY records 
+## Prod ONLY records
 resource "azurerm_dns_a_record" "dns-a-prod-cstar" {
   count               = var.env_short == "p" ? 1 : 0
   name                = "prod"
@@ -165,6 +165,15 @@ resource "azurerm_dns_a_record" "dns_a_appgw_api_rtp" {
 
 resource "azurerm_dns_a_record" "dns_a_appgw_api_mcshared" {
   name                = "api-mcshared"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = [azurerm_public_ip.appgateway_public_ip.ip_address]
+  tags                = var.tags
+}
+
+resource "azurerm_dns_a_record" "dns_a_appgw_api_emd" {
+  name                = "api-emd"
   zone_name           = azurerm_dns_zone.public[0].name
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = var.dns_default_ttl_sec
