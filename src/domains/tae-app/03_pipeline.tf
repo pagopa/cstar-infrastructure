@@ -17,6 +17,24 @@ locals {
     linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
   })
 
+  // Pending flows whole activities
+
+  invalidate_aggregate_activity_content = templatefile("pipelines/data-explorer-activities/invalidateAggregatesFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
+  })
+
+  invalidate_aggregate2022_activity_content = templatefile("pipelines/data-explorer-activities/invalidateAggregates2022Flow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_tae_v2[0].name
+  })
+
+  purge_aggregate_activity = templatefile("pipelines/data-explorer-activities/purgeInvalidatesAggregatesFlow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
+  })
+
+  purge_aggregate2022_activity = templatefile("pipelines/data-explorer-activities/purgeInvalidatesAggregates2022Flow.json", {
+    linked_service_name = azurerm_data_factory_linked_service_kusto.dexp_mgmt_tae[0].name
+  })
+
   set_ttl_activity = file("pipelines/copy-activities/deleteInvalidatedFlowFromCosmos.json")
 
   copy_invalidated_rows_to_csv_temp_activity = templatefile("pipelines/copy-activities/copyInvalidatedRowsToCSVTemp.json", {})
@@ -60,6 +78,19 @@ locals {
     collect_pending_filenames_activity   = local.collect_pending_filenames_activity,
     fail_if_at_least_one_file_is_pending = local.fail_if_at_least_one_file_is_pending
   })
+
+  //  Invalidate aggregates activities
+
+  extract_invalid_aggregates_activity = file("pipelines/lookup-activities/extractInvalidAggregates.json")
+
+  for_each_duplicated_aggregate_flow = templatefile("pipelines/foreach-activities/invalidateEachDuplicate.json", {
+    invalidate_aggregate_activity     = file("pipelines/data-explorer-activities/invalidateAggregatesFlow.json"),
+    invalidate_aggregate2022_activity = file("pipelines/data-explorer-activities/invalidateAggregates2022Flow.json"),
+    purge_aggregate_activity          = file("pipelines/data-explorer-activities/purgeInvalidatesAggregatesFlow.json"),
+    purge_aggregate2022_activity      = file("pipelines/data-explorer-activities/purgeInvalidatesAggregates2022Flow.json"),
+
+  })
+
 }
 
 resource "azurerm_data_factory_pipeline" "aggregates_ingestor" {
@@ -455,6 +486,29 @@ resource "azurerm_monitor_diagnostic_setting" "acquirer_aggregate_diagnostic_set
   # enabled_log {
   #   category = "AirflowWorkerLogs"
   # }
+}
+
+resource "azurerm_data_factory_pipeline" "invalidate_aggregates" {
+  count = var.flow_invalidator_conf.enable ? 1 : 0
+
+  name            = "invalidate_aggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  parameters = {
+    flows = ""
+  }
+
+  activities_json = jsonencode([
+    jsondecode(local.extract_invalid_aggregates_activity),
+    jsondecode(local.for_each_duplicated_aggregate_flow)
+  ])
+
+  depends_on = [
+    azurerm_data_factory_custom_dataset.duplicated_aggregates
+  ]
+
+  lifecycle {
+    ignore_changes = [parameters]
+  }
 }
 
 resource "azurerm_data_factory_pipeline" "invalidate_flow" {

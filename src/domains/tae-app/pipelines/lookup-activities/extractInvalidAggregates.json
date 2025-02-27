@@ -1,0 +1,35 @@
+{
+    "name": "LookupAggregates",
+    "description": "This Lookup activity reads duplicate aggregate records from the specified CSV file.",
+    "type": "Lookup",
+    "dependsOn": [],
+    "policy": {
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+                "type": "AzureBlobStorageReadSettings",
+                "recursive": true,
+                "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+                "type": "DelimitedTextReadSettings",
+                "columnDelimiter": ","
+            }
+        },
+        "dataset": {
+            "referenceName": "DuplicatedAggregates",
+            "type": "DatasetReference",
+            "parameters": {
+                "file": "@pipeline().parameters.filePattern"
+            }
+        },
+        "firstRowOnly": false
+    }
+}
