@@ -30,3 +30,11 @@ resource "azurerm_storage_container" "pending_for_ack_extraction_container" {
   storage_account_name  = data.azurerm_storage_account.acquirer_sa.name
   container_access_type = "private"
 }
+
+# Container for duplicated aggregates
+resource "azurerm_storage_container" "duplicated_aggregates_container" {
+  count                 = var.tae_blob_storage.enable ? 1 : 0
+  name                  = "duplicated"
+  storage_account_name  = data.azurerm_storage_account.acquirer_sa.name
+  container_access_type = "private"
+}

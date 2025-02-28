@@ -503,6 +503,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_aggregates" {
   ])
 
   depends_on = [
+    azurerm_storage_container.duplicated_aggregates_container,
     azurerm_data_factory_custom_dataset.duplicated_aggregates
   ]
 
