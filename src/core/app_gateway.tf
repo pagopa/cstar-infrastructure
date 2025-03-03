@@ -70,7 +70,8 @@ module "app_gw_maz" {
     {
       name = "${local.project}-issuer-mauth-profile"
       trusted_client_certificate_names = [
-        "${local.project}-issuer-chain"
+        "${local.project}-issuer-chain",
+        "${local.project}-issuer-chain-${var.internal_ca_intermediate}"
       ]
       verify_client_cert_issuer_dn = true
       ssl_policy = {
