@@ -387,3 +387,5 @@ web_test_api_io = {
 #
 backupstorage_account_replication_type   = "GRS"
 operations_logs_account_replication_type = "GRS"
+
+internal_ca_intermediate = "06"

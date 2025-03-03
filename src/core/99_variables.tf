@@ -464,6 +464,11 @@ variable "app_gw_load_client_certificate" {
   description = "Load client certificate in app gateway"
 }
 
+variable "internal_ca_intermediate" {
+  type        = string
+  description = "Internal CA intermediate"
+}
+
 ## Database server postgresl
 variable "db_sku_name" {
   type        = string

@@ -93,6 +93,10 @@ module "app_gw_maz" {
     {
       secret_name  = "cstar-${var.env_short}-issuer-chain"
       key_vault_id = module.key_vault.id
+    },
+    {
+      secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
+      key_vault_id = module.key_vault.id
     }
   ]
 
