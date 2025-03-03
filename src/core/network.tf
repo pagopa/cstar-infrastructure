@@ -45,11 +45,12 @@ module "vnet_core_peering_secure_hub" {
   source_remote_virtual_network_id = module.vnet.id
   source_allow_gateway_transit     = true
 
+
   # Parametri target prelevati dal data source per ciascuna VNET secure hub
   target_resource_group_name       = each.value.resource_group_name
   target_virtual_network_name      = each.value.name
   target_remote_virtual_network_id = each.value.id
-  target_use_remote_gateways       = false
+  target_use_remote_gateways       = true
 }
 
 #
