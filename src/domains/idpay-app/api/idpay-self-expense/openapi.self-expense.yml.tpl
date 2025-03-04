@@ -220,25 +220,33 @@ paths:
       security:
        - bearerAuth: []
       requestBody:
-        description: 'ENG: Id of the iniziative - IT: Identificativo dell''iniziativa'
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExpenseDataDTO'
+         required: true
+         content:
+           multipart/form-data:
+             schema:
+               type: object
+               properties:
+                 files:
+                   type: array
+                   items:
+                     type: string
+                     format: binary
+                   description: Multiple PDF files associated with the expense
+                 expenseData:
+                  $ref: '#/components/schemas/ExpenseDataDTO'
 
       responses:
-        '200':
-          description: Ok
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfPaymentErrorDTO'
-              example:
-                code: EXPENSE_DATA_ERROR_DB_SAVE
-                message: Error on save into DB expense_data document
+          '200':
+            description: Ok
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SelfPaymentErrorDTO'
+                example:
+                  code: EXPENSE_DATA_ERROR_DB_SAVE
+                  message: Error on save into DB expense_data document
 
 components:
   schemas:
@@ -295,24 +303,10 @@ components:
       required:
        - userId
 
-    FileData:
-      type: object
-      properties:
-        contentType:
-          type: string
-          description: The MIME type of the file
-          example: application/pdf
-        data:
-          type: string
-          description: The file's base64-encoded content
-          example: "JVBERi0xLjcNCiW1tbW1DQoxIDAgb2JqDQo8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFIvTGFuZyhpdC1JVCkgL1N0cnVjdFRyZW="
-        filename:
-          type: string
-          description: The name of the file
-          example: "Documento di prova.pdf"
 
     ExpenseDataDTO:
       type: object
+      description: JSON object that contains expense info
       properties:
         name:
           type: string
@@ -348,11 +342,6 @@ components:
           type: string
           description: A description of the expense
           example: "Expense description"
-        fileList:
-          type: array
-          items:
-            $ref: '#/components/schemas/FileData'
-          description: A list of files associated with the expense
 
     SelfPaymentErrorDTO:
       type: object
