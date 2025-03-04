@@ -268,7 +268,7 @@ module "app_gw_maz" {
     api-emd = {
       listener              = "emd"
       backend               = "apim"
-      rewrite_rule_set_name = null
+      rewrite_rule_set_name = "rewrite-rule-set-api-emd"
       priority              = 70
     }
   }
@@ -345,6 +345,29 @@ module "app_gw_maz" {
             {
               variable    = "var_uri_path"
               pattern     = "auth/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-emd"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "emd/*"
               ignore_case = true
               negate      = true
             }
