@@ -1,45 +1,3 @@
-locals {
-  project      = "${var.prefix}-${var.env_short}"
-  project_pair = "${var.prefix}-${var.env_short}-${var.location_pair_short}"
-
-  aks_network_prefix = local.project
-  aks_network_indexs = {
-    for n in var.aks_networks :
-    index(var.aks_networks.*.domain_name, n.domain_name) => n
-  }
-
-  #
-  # Platform
-  #
-  rg_container_registry_common_name = "${local.project}-container-registry-rg"
-  container_registry_common_name    = "${local.project}-common-acr"
-
-  #
-  # IdPay
-  #
-  idpay_rg_keyvault_name = "${local.project}-idpay-sec-rg"
-  idpay_keyvault_name    = "${local.project}-idpay-kv"
-
-  #
-  # RTD
-  #
-  rtd_rg_keyvault_name = "${local.project}-rtd-sec-rg"
-  rtd_keyvault_name    = "${local.project}-rtd-kv"
-
-  # Temporary fallback to old ingress over non-dev environments
-  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
-
-  # Azure DevOps
-  azuredevops_agent_vm_app_name   = "${local.project}-vmss-ubuntu-app-azdoa"
-  azuredevops_agent_vm_infra_name = "${local.project}-vmss-ubuntu-infra-next-azdoa"
-  azuredevops_agent_vm_perf_name  = "${local.project}-vmss-ubuntu-perf-azdoa"
-  azuredevops_rg_name             = "${local.project}-azdoa-rg"
-  azuredevops_subnet_name         = "${local.project}-azdoa-snet"
-
-  # Dns Forwarder
-  dns_forwarder_vm_image_name = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
-}
-
 variable "location" {
   type        = string
   description = "Primary location region (e.g. westeurope)"
@@ -485,6 +443,11 @@ variable "app_gateway_api_io_certificate_name" {
   description = "Application gateway api io certificate name on Key Vault"
 }
 
+variable "app_gateway_api_emd_certificate_name" {
+  type        = string
+  description = "Application gateway api emd certificate name on Key Vault. https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway"
+}
+
 variable "app_gateway_rtp_certificate_name" {
   type        = string
   description = "Application gateway rtp certificate name on Key Vault"
@@ -503,7 +466,7 @@ variable "app_gw_load_client_certificate" {
 
 variable "internal_ca_intermediate" {
   type        = string
-  description = "Internal CA intermediate"
+  description = "Internal CA intermediate. See this page: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway"
 }
 
 ## Database server postgresl

@@ -289,6 +289,7 @@ app_gateway_portal_certificate_name     = "portal-dev-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-dev-cstar-pagopa-it"
 app_gateway_rtp_certificate_name        = "api-rtp-dev-cstar-pagopa-it"
 app_gateway_mcshared_certificate_name   = "api-mcshared-dev-cstar-pagopa-it"
+app_gateway_api_emd_certificate_name    = "api-emd-dev-cstar-pagopa-it"
 app_gw_load_client_certificate          = false
 
 enable_iac_pipeline = true
