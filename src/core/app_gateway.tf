@@ -100,6 +100,10 @@ module "app_gw_maz" {
     {
       secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
       key_vault_id = module.key_vault.id
+    },
+    {
+      secret_name  = "cstar-${var.env_short}-rtp-cb-issuer-chain"
+      key_vault_id = module.key_vault.id
     }
   ]
 
@@ -185,6 +189,22 @@ module "app_gw_maz" {
       }
     }
 
+    rtp-cb = {
+      protocol           = "Https"
+      host               = "api-rtp-cb.${var.dns_zone_prefix}.${var.external_domain}"
+      port               = 443
+      ssl_profile_name   = "${local.project}-issuer-mauth-profile"
+      firewall_policy_id = null
+
+      certificate = {
+        name = var.app_gateway_srtp_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.rtp_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.rtp_gw_cstar.version
+        )
+      }
+    }
+
     mcshared = {
       protocol           = "Https"
       host               = "api-mcshared.${var.dns_zone_prefix}.${var.external_domain}"
@@ -257,6 +277,12 @@ module "app_gw_maz" {
       priority              = 50
     }
 
+    rtp-cb-api = {
+      listener              = "rtp-cb"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-rtp-cb"
+      priority              = 50
+    }
 
     mcshared-api = {
       listener              = "mcshared"
@@ -327,6 +353,42 @@ module "app_gw_maz" {
             }
           ]
           request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-rtp-cb"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "rtp/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations = [
+            {
+              header_name  = "X-Client-Certificate-Verification"
+              header_value = "{var_client_certificate_verification}"
+            },
+            {
+              header_name  = "X-Client-Certificate-End-Date"
+              header_value = "{var_client_certificate_end_date}"
+            },
+            {
+              header_name  = "X-Client-Certificate-Serial"
+              header_value = "{client_certificate_serial}"
+            }
+          ]
           response_header_configurations = []
           url = {
             path         = "notfound"
