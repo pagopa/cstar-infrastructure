@@ -3,6 +3,7 @@ resource "azurerm_servicebus_namespace" "idpay-service-bus-ns" {
   location            = var.location
   resource_group_name = azurerm_resource_group.msg_rg.name
   sku                 = var.service_bus_namespace.sku
+  minimum_tls_version = "1.2"
 
   tags = var.tags
 }
