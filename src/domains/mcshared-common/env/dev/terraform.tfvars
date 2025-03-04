@@ -27,6 +27,7 @@ core_apim_resource_group_name                    = "cstar-d-api-rg"
 # CIDRs.
 # ------------------------------------------------------------------------------
 aca_snet_cidr = "10.11.128.0/23" # 010.011.128.000 - 010.011.129.255
+cidr_mcshared_cae_subnet = "10.11.132.0/24" # 10.11.132.0 -> 10.11.132.255
 
 # ------------------------------------------------------------------------------
 # URL to retrieve the OpenAPI descriptor of auth microservice.
