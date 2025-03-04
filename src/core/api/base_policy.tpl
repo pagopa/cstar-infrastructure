@@ -2,10 +2,10 @@
     <inbound>
         <cors allow-credentials="true" terminate-unmatched-request="${cors-global-only}">
             <allowed-origins>
-                <origin>https://${portal-domain}</origin>
-                <origin>https://${management-api-domain}</origin>
-                <origin>https://${apim-name}.developer.azure-api.net</origin>
-            </allowed-origins>
+        %{ for origin in allowed_origins ~}
+        <origin>${origin}</origin>
+        %{ endfor ~}
+    </allowed-origins>
             <allowed-methods preflight-result-max-age="300">
                 <method>*</method>
             </allowed-methods>
