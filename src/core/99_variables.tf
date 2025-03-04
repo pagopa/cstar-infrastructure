@@ -443,7 +443,7 @@ variable "app_gateway_api_io_certificate_name" {
   description = "Application gateway api io certificate name on Key Vault"
 }
 
-variable "app_gateway_emd_certificate_name" {
+variable "app_gateway_api_emd_certificate_name" {
   type        = string
   description = "Application gateway emd certificate name on Key Vault"
 }
@@ -466,7 +466,7 @@ variable "app_gw_load_client_certificate" {
 
 variable "internal_ca_intermediate" {
   type        = string
-  description = "Internal CA intermediate"
+  description = "Internal CA intermediate. See this page: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway"
 }
 
 ## Database server postgresl

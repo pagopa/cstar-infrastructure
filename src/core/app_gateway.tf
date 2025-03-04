@@ -71,6 +71,8 @@ module "app_gw_maz" {
       name = "${local.project}-issuer-mauth-profile"
       trusted_client_certificate_names = [
         "${local.project}-issuer-chain",
+
+        # https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway
         "${local.project}-issuer-chain-${var.internal_ca_intermediate}"
       ]
       verify_client_cert_issuer_dn = true
@@ -207,7 +209,7 @@ module "app_gw_maz" {
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_emd_certificate_name
+        name = var.app_gateway_api_emd_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.emd_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.emd_gw_cstar.version

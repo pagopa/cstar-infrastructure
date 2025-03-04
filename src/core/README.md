@@ -315,8 +315,8 @@
 | <a name="input_apim_v2_zones"></a> [apim\_v2\_zones](#input\_apim\_v2\_zones) | (Required) Zones in which the apim will be deployed | `list(string)` | n/a | yes |
 | <a name="input_app_gateway_alerts_enabled"></a> [app\_gateway\_alerts\_enabled](#input\_app\_gateway\_alerts\_enabled) | Enable alerts | `bool` | `true` | no |
 | <a name="input_app_gateway_api_certificate_name"></a> [app\_gateway\_api\_certificate\_name](#input\_app\_gateway\_api\_certificate\_name) | Application gateway api certificate name on Key Vault | `string` | n/a | yes |
+| <a name="input_app_gateway_api_emd_certificate_name"></a> [app\_gateway\_api\_emd\_certificate\_name](#input\_app\_gateway\_api\_emd\_certificate\_name) | Application gateway emd certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_api_io_certificate_name"></a> [app\_gateway\_api\_io\_certificate\_name](#input\_app\_gateway\_api\_io\_certificate\_name) | Application gateway api io certificate name on Key Vault | `string` | n/a | yes |
-| <a name="input_app_gateway_emd_certificate_name"></a> [app\_gateway\_emd\_certificate\_name](#input\_app\_gateway\_emd\_certificate\_name) | Application gateway emd certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_management_certificate_name"></a> [app\_gateway\_management\_certificate\_name](#input\_app\_gateway\_management\_certificate\_name) | Application gateway api management certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
 | <a name="input_app_gateway_mcshared_certificate_name"></a> [app\_gateway\_mcshared\_certificate\_name](#input\_app\_gateway\_mcshared\_certificate\_name) | Application gateway mcshared certificate name on Key Vault | `string` | n/a | yes |
@@ -389,7 +389,7 @@
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
 | <a name="input_ingress_load_balancer_hostname"></a> [ingress\_load\_balancer\_hostname](#input\_ingress\_load\_balancer\_hostname) | AKS load balancer internal hostname. | `string` | n/a | yes |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | AKS load balancer internal ip. | `string` | n/a | yes |
-| <a name="input_internal_ca_intermediate"></a> [internal\_ca\_intermediate](#input\_internal\_ca\_intermediate) | Internal CA intermediate | `string` | n/a | yes |
+| <a name="input_internal_ca_intermediate"></a> [internal\_ca\_intermediate](#input\_internal\_ca\_intermediate) | Internal CA intermediate. See this page: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway | `string` | n/a | yes |
 | <a name="input_internal_private_domain"></a> [internal\_private\_domain](#input\_internal\_private\_domain) | n/a | `string` | `"internal.cstar.pagopa.it"` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | n/a | `string` | `null` | no |
 | <a name="input_law_daily_quota_gb"></a> [law\_daily\_quota\_gb](#input\_law\_daily\_quota\_gb) | The workspace daily quota for ingestion in GB. | `number` | `-1` | no |
