@@ -7,7 +7,7 @@ resource "azurerm_container_app_environment" "mcshared" {
   resource_group_name            = azurerm_resource_group.app.name
 
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.core.id
-  infrastructure_subnet_id       = azurerm_subnet.aca.id
+  infrastructure_subnet_id       = azurerm_subnet.subnet_mcshared_cae.id
   internal_load_balancer_enabled = true
   zone_redundancy_enabled        = var.aca_env_zones_enabled
 
