@@ -48,6 +48,11 @@ resource "azurerm_private_endpoint" "private_endpoint_mcshared_cae" {
     name                           = azurerm_container_app_environment.mcshared.name
     private_connection_resource_id = azurerm_container_app_environment.mcshared.id
     is_manual_connection           = false
-    subresource_names              = ["managedEnvironments"]
+    subresource_names             = ["managedEnvironments"]
+  }
+
+  private_dns_zone_group {
+    name                 = "${local.project}-cae"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.container_app.id]
   }
 }
