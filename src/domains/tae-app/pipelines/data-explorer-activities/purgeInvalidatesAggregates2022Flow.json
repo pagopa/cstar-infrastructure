@@ -25,7 +25,7 @@
         "commandTimeout": "00:20:00"
     },
     "linkedServiceName": {
-        "referenceName": "cstar-u-dexp-mgmt-tae-linked-service",
+        "referenceName": "${linked_service_name}",
         "type": "LinkedServiceReference"
     }
 }

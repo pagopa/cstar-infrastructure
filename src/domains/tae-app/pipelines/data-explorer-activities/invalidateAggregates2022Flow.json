@@ -25,7 +25,7 @@
         "commandTimeout": "00:20:00"
     },
     "linkedServiceName": {
-        "referenceName": "cstar_u_dexp_tae_linked_service",
+        "referenceName": "${linked_service_name}",
         "type": "LinkedServiceReference"
     }
 }
