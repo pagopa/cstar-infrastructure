@@ -48,3 +48,9 @@ rate_limit_emd_product = 2000
 
 #Event hub
 event_hub_port = 9093
+
+#
+# MIL
+#
+mil_openid_url = "https://api-mcshared.dev.cstar.pagopa.it/auth/.well-known/openid-configuration"
+mil_issuer_url = "https://api-mcshared.dev.cstar.pagopa.it/auth"
