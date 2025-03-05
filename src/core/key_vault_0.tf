@@ -113,6 +113,11 @@ data "azurerm_key_vault_certificate" "rtp_gw_cstar" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_certificate" "rtp_cb_gw_cstar" {
+  name         = var.app_gateway_rtp_cb_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
   name         = "BPD-PM-client-certificate-thumbprint"
   key_vault_id = module.key_vault.id

@@ -453,9 +453,9 @@ variable "app_gateway_rtp_certificate_name" {
   description = "Application gateway rtp certificate name on Key Vault"
 }
 
-variable "app_gateway_srtp_certificate_name" {
+variable "app_gateway_rtp_cb_certificate_name" {
   type        = string
-  description = "Application gateway srtp certificate name on Key Vault"
+  description = "Application gateway rtp-cb certificate name on Key Vault"
 }
 
 variable "app_gateway_mcshared_certificate_name" {

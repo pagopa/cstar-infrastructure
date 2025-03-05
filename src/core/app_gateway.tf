@@ -89,6 +89,26 @@ module "app_gw_maz" {
         ]
         min_protocol_version = "TLSv1_2"
       }
+    },
+    {
+      name = "${local.project}-rtp-cb-mauth-profile"
+      trusted_client_certificate_names = [
+        "${local.project}-rtp-cb-chain",
+      ]
+      verify_client_cert_issuer_dn = true
+      ssl_policy = {
+        disabled_protocols = []
+        policy_type        = "Custom"
+        policy_name        = ""
+        # with Custom type set empty policy_name (not required by the provider)
+        cipher_suites = [
+          "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+          "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+          "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+          "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+        ]
+        min_protocol_version = "TLSv1_2"
+      }
     }
   ]
 
@@ -102,7 +122,7 @@ module "app_gw_maz" {
       key_vault_id = module.key_vault.id
     },
     {
-      secret_name  = "cstar-${var.env_short}-rtp-cb-issuer-chain"
+      secret_name  = "cstar-${var.env_short}-rtp-cb-chain"
       key_vault_id = module.key_vault.id
     }
   ]
@@ -193,14 +213,14 @@ module "app_gw_maz" {
       protocol           = "Https"
       host               = "api-rtp-cb.${var.dns_zone_prefix}.${var.external_domain}"
       port               = 443
-      ssl_profile_name   = "${local.project}-issuer-mauth-profile"
+      ssl_profile_name   = "${local.project}-rtp-cb-mauth-profile"
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_srtp_certificate_name
+        name = var.app_gateway_rtp_cb_certificate_name
         id = trimsuffix(
-          data.azurerm_key_vault_certificate.rtp_gw_cstar.secret_id,
-          data.azurerm_key_vault_certificate.rtp_gw_cstar.version
+          data.azurerm_key_vault_certificate.rtp_cb_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.rtp_cb_gw_cstar.version
         )
       }
     }
@@ -270,17 +290,17 @@ module "app_gw_maz" {
 
     }
 
-    rtp-api = {
-      listener              = "rtp"
-      backend               = "apim"
-      rewrite_rule_set_name = "rewrite-rule-set-api-rtp"
-      priority              = 50
-    }
-
     rtp-cb-api = {
       listener              = "rtp-cb"
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api-rtp-cb"
+      priority              = 45
+    }
+
+    rtp-api = {
+      listener              = "rtp"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-rtp"
       priority              = 50
     }
 
@@ -297,6 +317,8 @@ module "app_gw_maz" {
       rewrite_rule_set_name = "rewrite-rule-set-api-emd"
       priority              = 70
     }
+
+
   }
 
   rewrite_rule_sets = [
@@ -370,20 +392,12 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "rtp/*"
+              pattern     = "rtp/cb/*"
               ignore_case = true
               negate      = true
             }
           ]
           request_header_configurations = [
-            {
-              header_name  = "X-Client-Certificate-Verification"
-              header_value = "{var_client_certificate_verification}"
-            },
-            {
-              header_name  = "X-Client-Certificate-End-Date"
-              header_value = "{var_client_certificate_end_date}"
-            },
             {
               header_name  = "X-Client-Certificate-Serial"
               header_value = "{client_certificate_serial}"
