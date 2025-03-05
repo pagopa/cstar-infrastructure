@@ -15,7 +15,7 @@ resource "azurerm_container_app_environment" "mcshared" {
     name                  = "Consumption"
     workload_profile_type = "Consumption"
     minimum_count         = 0
-    maximum_count         = 10
+    maximum_count         = 0
   }
 
   tags                           = local.tags
@@ -23,6 +23,19 @@ resource "azurerm_container_app_environment" "mcshared" {
   depends_on = [
     azurerm_subnet.aca
   ]
+
+  lifecycle {
+    ignore_changes = [
+      infrastructure_resource_group_name
+    ]
+  }
+}
+
+resource "azurerm_management_lock" "mcshared_cae_lock" {
+  name       = "${local.project}-cae-lock"
+  scope      = azurerm_container_app_environment.mcshared.id
+  lock_level = "CanNotDelete"
+  notes      = "This Container App Environment should not be deleted"
 }
 
 resource "azurerm_private_endpoint" "private_endpoint_mcshared_cae" {
