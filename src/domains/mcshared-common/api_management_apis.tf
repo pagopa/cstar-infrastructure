@@ -63,7 +63,7 @@ resource "azurerm_api_management_api" "auth" {
   description         = "Authorization Microservice"
   path                = var.auth_path
   protocols           = ["https"]
-  service_url         = "https://${local.project}-auth-ca.${azurerm_private_dns_zone.aca.name}"
+  service_url         = "https://${local.project}-auth-ca.${azurerm_container_app_environment.mcshared.default_domain}"
 
   subscription_required = false
 
