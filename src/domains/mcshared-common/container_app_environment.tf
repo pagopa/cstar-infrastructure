@@ -25,16 +25,16 @@ resource "azurerm_container_app_environment" "mcshared" {
   ]
 }
 
-# resource "azurerm_private_endpoint" "private_endpoint_container_app" {
-#   name                = azurerm_container_app_environment.mcshared.name
-#   location            = azurerm_resource_group.app.location
-#   resource_group_name = azurerm_resource_group.app.name
-#   subnet_id           = module.container_app_private_endpoint_snet.id
-#
-#   private_service_connection {
-#     name                           = azurerm_container_app_environment.mcshared.name
-#     private_connection_resource_id = azurerm_container_app_environment.mcshared.id
-#     is_manual_connection           = false
-#     subresource_names              = ["managedEnvironments"]
-#   }
-# }
+resource "azurerm_private_endpoint" "private_endpoint_mcshared_cae" {
+  name                = azurerm_container_app_environment.mcshared.name
+  location            = azurerm_resource_group.app.location
+  resource_group_name = azurerm_resource_group.app.name
+  subnet_id           = data.azurerm_subnet.private_endpoints.id
+
+  private_service_connection {
+    name                           = azurerm_container_app_environment.mcshared.name
+    private_connection_resource_id = azurerm_container_app_environment.mcshared.id
+    is_manual_connection           = false
+    subresource_names              = ["managedEnvironments"]
+  }
+}
