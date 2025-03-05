@@ -84,12 +84,12 @@ locals {
   extract_invalid_aggregates_activity = file("pipelines/lookup-activities/extractInvalidAggregates.json")
 
   for_each_duplicated_aggregate_flow = templatefile("pipelines/foreach-activities/invalidateEachDuplicate.json", {
-    invalidate_aggregate_activity     = file("pipelines/data-explorer-activities/invalidateAggregatesFlow.json"),
-    invalidate_aggregate2022_activity = file("pipelines/data-explorer-activities/invalidateAggregates2022Flow.json"),
-    purge_aggregate_activity          = file("pipelines/data-explorer-activities/purgeInvalidatesAggregatesFlow.json"),
-    purge_aggregate2022_activity      = file("pipelines/data-explorer-activities/purgeInvalidatesAggregates2022Flow.json"),
-
+    invalidate_aggregate_activity     = local.invalidate_aggregate_activity_content,
+    invalidate_aggregate2022_activity = local.invalidate_aggregate2022_activity_content,
+    purge_aggregate_activity          = local.purge_aggregate_activity,
+    purge_aggregate2022_activity      = local.purge_aggregate2022_activity,
   })
+
 
 }
 
