@@ -705,3 +705,49 @@ resource "azurerm_data_factory_custom_dataset" "invalidated_flows" {
   ]
   JSON
 }
+
+resource "azurerm_data_factory_custom_dataset" "duplicated_aggregates" {
+  name            = "DuplicatedAggregates"
+  data_factory_id = data.azurerm_data_factory.datafactory.id
+  type            = "DelimitedText"
+
+  linked_service {
+    name = azurerm_data_factory_linked_service_azure_blob_storage.storage_account_ls.name
+  }
+
+  type_properties_json = <<JSON
+  {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "fileName": {
+        "value": "@dataset().file",
+        "type": "Expression"
+      },
+      "container": "duplicated"
+    },
+    "columnDelimiter": ",",
+    "compressionCodec": "gzip",
+    "encodingName": "UTF-8",
+    "escapeChar": "\\",
+    "firstRowAsHeader": true,
+    "quoteChar": ""
+  }
+  JSON
+
+  description = "CSV that contains invalidated records from duplicated_flow"
+  annotations = ["InvalidateFlow"]
+
+  parameters = {
+    file = ""
+  }
+
+  schema_json = <<JSON
+  [
+    {
+      "name": "id",
+      "type": "String"
+    }
+  ]
+  JSON
+}
+
