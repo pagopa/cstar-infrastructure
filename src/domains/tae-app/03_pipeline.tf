@@ -83,7 +83,7 @@ locals {
 
   extract_invalid_aggregates_activity = file("pipelines/lookup-activities/extractInvalidAggregates.json")
 
-  for_each_duplicated_aggregate_flow = templatefile("pipelines/foreach-activities/invalidateEachDuplicate.json", {
+  for_each_aggregate_flow = templatefile("pipelines/foreach-activities/invalidateEachAggregate.json", {
     invalidate_aggregate_activity     = local.invalidate_aggregate_activity_content,
     invalidate_aggregate2022_activity = local.invalidate_aggregate2022_activity_content,
     purge_aggregate_activity          = local.purge_aggregate_activity,
@@ -499,12 +499,12 @@ resource "azurerm_data_factory_pipeline" "invalidate_aggregates" {
 
   activities_json = jsonencode([
     jsondecode(local.extract_invalid_aggregates_activity),
-    jsondecode(local.for_each_duplicated_aggregate_flow)
+    jsondecode(local.for_each_aggregate_flow)
   ])
 
   depends_on = [
-    azurerm_storage_container.duplicated_aggregates_container,
-    azurerm_data_factory_custom_dataset.duplicated_aggregates
+    azurerm_storage_container.invalidated_aggregates_container,
+    azurerm_data_factory_custom_dataset.invalidated_aggregates
   ]
 
   lifecycle {

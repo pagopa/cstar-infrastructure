@@ -20,8 +20,8 @@ No modules.
 | [azurerm_data_factory_custom_dataset.aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.aggregates_log](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.destination_aggregate](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
-| [azurerm_data_factory_custom_dataset.duplicated_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.integration_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
+| [azurerm_data_factory_custom_dataset.invalidated_aggregates](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.invalidated_flows](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.pending_file](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
 | [azurerm_data_factory_custom_dataset.source_ack](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/data_factory_custom_dataset) | resource |
@@ -91,7 +91,7 @@ No modules.
 | [azurerm_monitor_scheduled_query_rules_alert_v2.upload_pgp_with_no_content_length](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_monitor_scheduled_query_rules_alert_v2.wrong_name_format](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/monitor_scheduled_query_rules_alert_v2) | resource |
 | [azurerm_storage_container.ade_transactions_decrypted](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
-| [azurerm_storage_container.duplicated_aggregates_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
+| [azurerm_storage_container.invalidated_aggregates_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.pending_for_ack_extraction_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.sender_integration_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.tmp_container](https://registry.terraform.io/providers/hashicorp/azurerm/3.40.0/docs/resources/storage_container) | resource |

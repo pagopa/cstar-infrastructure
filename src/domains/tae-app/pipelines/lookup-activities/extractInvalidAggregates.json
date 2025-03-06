@@ -1,6 +1,6 @@
 {
     "name": "LookupAggregates",
-    "description": "This Lookup activity reads duplicate aggregate records from the specified CSV file.",
+    "description": "This Lookup activity reads aggregate records from the specified CSV file.",
     "type": "Lookup",
     "dependsOn": [],
     "policy": {
@@ -24,7 +24,7 @@
             }
         },
         "dataset": {
-            "referenceName": "DuplicatedAggregates",
+            "referenceName": "InvalidatedAggregates",
             "type": "DatasetReference",
             "parameters": {
                 "file": "@pipeline().parameters.fileName"

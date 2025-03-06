@@ -706,8 +706,8 @@ resource "azurerm_data_factory_custom_dataset" "invalidated_flows" {
   JSON
 }
 
-resource "azurerm_data_factory_custom_dataset" "duplicated_aggregates" {
-  name            = "DuplicatedAggregates"
+resource "azurerm_data_factory_custom_dataset" "invalidated_aggregates" {
+  name            = "InvalidatedAggregates"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   type            = "DelimitedText"
 
@@ -723,7 +723,7 @@ resource "azurerm_data_factory_custom_dataset" "duplicated_aggregates" {
         "value": "@dataset().file",
         "type": "Expression"
       },
-      "container": "duplicated"
+      "container": "aggregates-to-be-invalidated"
     },
     "columnDelimiter": ",",
     "compressionCodec": "gzip",
@@ -734,7 +734,7 @@ resource "azurerm_data_factory_custom_dataset" "duplicated_aggregates" {
   }
   JSON
 
-  description = "CSV that contains invalidated records from duplicated_flow"
+  description = "CSV that contains aggregates to be invalidated"
   annotations = ["InvalidateFlow"]
 
   parameters = {
