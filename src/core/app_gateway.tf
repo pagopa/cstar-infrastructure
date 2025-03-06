@@ -1,5 +1,5 @@
 module "app_gw_maz" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=v8.83.1"
+  source = "./.terraform/modules/__v3__/app_gateway"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -70,7 +70,10 @@ module "app_gw_maz" {
     {
       name = "${local.project}-issuer-mauth-profile"
       trusted_client_certificate_names = [
-        "${local.project}-issuer-chain"
+        "${local.project}-issuer-chain",
+
+        # https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway
+        "${local.project}-issuer-chain-${var.internal_ca_intermediate}"
       ]
       verify_client_cert_issuer_dn = true
       ssl_policy = {
@@ -92,6 +95,10 @@ module "app_gw_maz" {
   trusted_client_certificates = [
     {
       secret_name  = "cstar-${var.env_short}-issuer-chain"
+      key_vault_id = module.key_vault.id
+    },
+    {
+      secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
       key_vault_id = module.key_vault.id
     }
   ]
@@ -193,6 +200,22 @@ module "app_gw_maz" {
         )
       }
     }
+
+    emd = {
+      protocol           = "Https"
+      host               = "api-emd.${var.dns_zone_prefix}.${var.external_domain}"
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
+      certificate = {
+        name = var.app_gateway_api_emd_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.emd_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.emd_gw_cstar.version
+        )
+      }
+    }
   }
 
   # maps listener to backend
@@ -240,6 +263,13 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
       priority              = 60
+    }
+
+    api-emd = {
+      listener              = "emd"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-emd"
+      priority              = 70
     }
   }
 
@@ -315,6 +345,29 @@ module "app_gw_maz" {
             {
               variable    = "var_uri_path"
               pattern     = "auth/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-emd"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "emd/*"
               ignore_case = true
               negate      = true
             }

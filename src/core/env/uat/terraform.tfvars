@@ -283,6 +283,7 @@ app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
 app_gateway_rtp_certificate_name        = "api-rtp-uat-cstar-pagopa-it"
 app_gateway_mcshared_certificate_name   = "api-mcshared-uat-cstar-pagopa-it"
+app_gateway_api_emd_certificate_name    = "api-emd-uat-cstar-pagopa-it"
 
 enable_iac_pipeline = true
 
@@ -385,3 +386,5 @@ web_test_api_io = {
 #
 backupstorage_account_replication_type   = "GRS"
 operations_logs_account_replication_type = "GRS"
+
+internal_ca_intermediate = "06"

@@ -10,6 +10,7 @@ locals {
   portal_cert_name_proxy_endpoint = "portal-proxy-endpoint-cert"
 
   api_domain        = "api.${var.dns_zone_prefix}.${var.external_domain}"
+  developer_domain  = "${local.apim_name}.developer.azure-api.net"
   portal_domain     = "portal.${var.dns_zone_prefix}.${var.external_domain}"
   management_domain = "management.${var.dns_zone_prefix}.${var.external_domain}"
 }
@@ -20,11 +21,11 @@ locals {
 ###########################
 
 module "apim" {
+  source = "./.terraform/modules/__v3__/api_management"
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v8.13.0"
   subnet_id            = module.apim_snet.id
   location             = azurerm_resource_group.rg_api.location
-  name                 = "${local.project}-apim"
+  name                 = local.apim_name
   resource_group_name  = azurerm_resource_group.rg_api.name
   publisher_name       = var.apim_publisher_name
   publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
@@ -53,12 +54,16 @@ module "apim" {
     instrumentation_key = azurerm_application_insights.application_insights.instrumentation_key
   }
 
-  xml_content = templatefile("./api/base_policy.tpl", {
-    portal-domain         = local.portal_domain
-    management-api-domain = local.management_domain
-    cors-global-only      = false # if true only global policy will check cors, otherwise other cors policy can be defined. (UAT for FA POC)
-    apim-name             = "${local.project}-apim"
-  })
+  xml_content = trimspace(templatefile("./api/base_policy.tpl", {
+    cors-global-only = false # if true only global policy will check cors, otherwise other cors policy can be defined. (UAT for FA POC)
+    allowed_origins = [
+      "https://${local.developer_domain}",
+      "https://${local.portal_domain}",
+      "https://${local.management_domain}",
+      local.rtp_endpoint,
+      local.welfare_endpoint
+    ]
+  }))
 
   tags = var.tags
 
