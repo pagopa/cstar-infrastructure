@@ -20,7 +20,8 @@
             },
             "formatSettings": {
                 "type": "DelimitedTextReadSettings",
-                "columnDelimiter": ","
+                "columnDelimiter": ",",
+                "compressionProperties" : null
             }
         },
         "dataset": {
