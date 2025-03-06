@@ -27,7 +27,7 @@
             "referenceName": "DuplicatedAggregates",
             "type": "DatasetReference",
             "parameters": {
-                "file": "@pipeline().parameters.filePattern"
+                "file": "@pipeline().parameters.fileName"
             }
         },
         "firstRowOnly": false

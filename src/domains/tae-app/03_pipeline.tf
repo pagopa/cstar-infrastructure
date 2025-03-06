@@ -494,7 +494,7 @@ resource "azurerm_data_factory_pipeline" "invalidate_aggregates" {
   name            = "invalidate_aggregates"
   data_factory_id = data.azurerm_data_factory.datafactory.id
   parameters = {
-    filePattern = ""
+    fileName = ""
   }
 
   activities_json = jsonencode([
