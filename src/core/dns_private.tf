@@ -366,7 +366,7 @@ resource "azurerm_private_dns_zone" "kusto" {
 # Container app - private dns zone
 #
 resource "azurerm_private_dns_zone" "container_app" {
-  name                = "privatelink.azurecontainerapps.io"
+  name                = "privatelink.${var.location}.azurecontainerapps.io"
   resource_group_name = azurerm_resource_group.rg_vnet.name
   tags                = var.tags
 }

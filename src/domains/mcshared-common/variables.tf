@@ -50,3 +50,14 @@ variable "aca_env_zones_enabled" {
   default     = false
   description = "Enable zone redundancy for ACA environment."
 }
+
+# ------------------------------------------------------------------------------
+# Subnet for ACA.
+# ------------------------------------------------------------------------------
+variable "aca_snet_cidr" {
+  type = string
+}
+
+variable "cidr_mcshared_cae_subnet" {
+  type = string
+}

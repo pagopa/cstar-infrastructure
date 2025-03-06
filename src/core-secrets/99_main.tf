@@ -1,17 +1,20 @@
 terraform {
-  required_version = ">= 1.3.5"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.21.1"
+      version = "<= 3.105.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "= 3.0.2"
+      version = "<= 2.47.0"
     }
-    github = {
-      source  = "integrations/github"
-      version = "= 6.4.0"
+    null = {
+      source  = "hashicorp/null"
+      version = "<= 3.2.1"
+    }
+    external = {
+      source  = "hashicorp/external"
+      version = "<= 2.3.3"
     }
   }
 
@@ -23,14 +26,7 @@ provider "azurerm" {
     key_vault {
       purge_soft_delete_on_destroy = false
     }
-    resource_group {
-      prevent_deletion_if_contains_resources = false
-    }
   }
-}
-
-provider "github" {
-  owner = "pagopa"
 }
 
 data "azurerm_subscription" "current" {}
