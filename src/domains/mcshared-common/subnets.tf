@@ -17,8 +17,8 @@ resource "azurerm_subnet" "aca" {
 }
 
 resource "azurerm_subnet" "subnet_mcshared_cae" {
-  name                              = "${local.project}-cae-snet"
-  resource_group_name               = data.azurerm_virtual_network.intern.resource_group_name
+  name                = "${local.project}-cae-snet"
+  resource_group_name = data.azurerm_virtual_network.intern.resource_group_name
 
   virtual_network_name              = data.azurerm_virtual_network.intern.name
   address_prefixes                  = [var.cidr_mcshared_cae_subnet]

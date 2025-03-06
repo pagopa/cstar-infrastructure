@@ -71,6 +71,10 @@ resource "azurerm_api_management_api" "auth" {
     content_format = "openapi-link"
     content_value  = var.auth_openapi_descriptor
   }
+
+  depends_on = [
+    azurerm_container_app_environment.mcshared
+  ]
 }
 
 resource "azurerm_api_management_product_api" "auth" {

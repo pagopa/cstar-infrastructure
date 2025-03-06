@@ -2,9 +2,9 @@
 # ACA Environment.
 # ------------------------------------------------------------------------------
 resource "azurerm_container_app_environment" "mcshared" {
-  name                           = "${local.project}-cae"
-  location                       = azurerm_resource_group.app.location
-  resource_group_name            = azurerm_resource_group.app.name
+  name                = "${local.project}-cae"
+  location            = azurerm_resource_group.app.location
+  resource_group_name = azurerm_resource_group.app.name
 
   log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.core.id
   infrastructure_subnet_id       = azurerm_subnet.subnet_mcshared_cae.id
@@ -18,7 +18,7 @@ resource "azurerm_container_app_environment" "mcshared" {
     maximum_count         = 0
   }
 
-  tags                           = local.tags
+  tags = local.tags
 
   depends_on = [
     azurerm_subnet.aca
@@ -48,7 +48,7 @@ resource "azurerm_private_endpoint" "private_endpoint_mcshared_cae" {
     name                           = azurerm_container_app_environment.mcshared.name
     private_connection_resource_id = azurerm_container_app_environment.mcshared.id
     is_manual_connection           = false
-    subresource_names             = ["managedEnvironments"]
+    subresource_names              = ["managedEnvironments"]
   }
 
   private_dns_zone_group {
