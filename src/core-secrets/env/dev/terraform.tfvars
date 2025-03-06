@@ -5,7 +5,7 @@ location_short      = "weu"
 location_pair_short = "neu"
 env_short           = "d"
 env                 = "dev"
-domain         = "core"
+domain              = "core"
 
 tags = {
   CreatedBy   = "Terraform"
