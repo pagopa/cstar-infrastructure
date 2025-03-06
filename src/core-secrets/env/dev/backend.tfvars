@@ -1,4 +1,4 @@
-resource_group_name  = "io-infra-rg"
-storage_account_name = "cstarinfrastterraformdev"
-container_name       = "azureadstate"
-key                  = "cstar-infra-security-dev.tfstate"
+resource_group_name  = "terraform-state-rg"
+storage_account_name = "tfinfdevcstar"
+container_name       = "terraform-state"
+key                  = "cstar-infra-core-security-dev.tfstate"
