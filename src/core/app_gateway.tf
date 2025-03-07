@@ -92,9 +92,18 @@ module "app_gw_maz" {
     },
     {
       name = "${local.project}-rtp-cb-mauth-profile"
-      trusted_client_certificate_names = [
-        "${local.project}-rtp-cb-chain",
-      ]
+      trusted_client_certificate_names = flatten([
+        [
+          "cstar-${var.env_short}-rtp-aruba-cb-chain",
+          "cstar-${var.env_short}-rtp-actalis-cb-chain",
+          "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain",
+          "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain",
+          "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
+        ],
+        (var.env != "prod" ? [
+          "cstar-${var.env_short}-rtp-nexi-cb-chain"
+        ] : [])
+      ])
       verify_client_cert_issuer_dn = true
       ssl_policy = {
         disabled_protocols = []
@@ -112,20 +121,44 @@ module "app_gw_maz" {
     }
   ]
 
-  trusted_client_certificates = [
-    {
-      secret_name  = "cstar-${var.env_short}-issuer-chain"
-      key_vault_id = module.key_vault.id
-    },
-    {
-      secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
-      key_vault_id = module.key_vault.id
-    },
-    {
-      secret_name  = "cstar-${var.env_short}-rtp-cb-chain"
-      key_vault_id = module.key_vault.id
-    }
-  ]
+  trusted_client_certificates = flatten([
+    [
+      {
+        secret_name  = "cstar-${var.env_short}-issuer-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-aruba-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-actalis-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+    ],
+    (var.env != "prod" ? [
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-nexi-cb-chain"
+        key_vault_id = module.key_vault.id
+      }
+    ] : [])
+  ])
 
   # Configure listeners
   listeners = {
@@ -317,8 +350,6 @@ module "app_gw_maz" {
       rewrite_rule_set_name = "rewrite-rule-set-api-emd"
       priority              = 70
     }
-
-
   }
 
   rewrite_rule_sets = [
@@ -400,7 +431,7 @@ module "app_gw_maz" {
           request_header_configurations = [
             {
               header_name  = "X-Client-Certificate-Serial"
-              header_value = "{client_certificate_serial}"
+              header_value = "\\{client_certificate_serial\\}"
             }
           ]
           response_header_configurations = []
