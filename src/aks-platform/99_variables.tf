@@ -441,3 +441,8 @@ variable "reloader_helm" {
   })
   description = "reloader helm chart configuration"
 }
+
+variable "monitor_resource_group_name" {
+  type        = string
+  description = "Monitor resource group name"
+}

@@ -38,7 +38,7 @@ public_ip_aksoutbound_name = "cstar-p-weu-prod01-aksoutbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = true
-aks_alerts_enabled          = false
+aks_alerts_enabled          = true
 aks_kubernetes_version      = "1.29.4"
 aks_sku_tier                = "Standard"
 aks_system_node_pool = {

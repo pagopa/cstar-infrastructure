@@ -104,16 +104,29 @@ module "aks" {
   # custom_metric_alerts  = var.aks_metric_alerts_custom
 
   alerts_enabled = var.aks_alerts_enabled
-  action = [
-    {
-      action_group_id    = data.azurerm_monitor_action_group.slack.id
-      webhook_properties = null
-    },
-    {
-      action_group_id    = data.azurerm_monitor_action_group.email.id
-      webhook_properties = null
-    }
-  ]
+
+  # takes a list and replaces any elements that are lists with a
+  # flattened sequence of the list contents.
+  # In this case, we enable OpsGenie only on prod env
+  action = flatten([
+    [
+      {
+        action_group_id    = data.azurerm_monitor_action_group.slack.id
+        webhook_properties = null
+      },
+      {
+        action_group_id    = data.azurerm_monitor_action_group.email.id
+        webhook_properties = null
+      }
+    ],
+    (var.env == "prod" ? [
+      {
+        action_group_id    = data.azurerm_monitor_action_group.opsgenie.0.id
+        webhook_properties = null
+      }
+    ] : [])
+  ])
+
   tags = var.tags
 
   depends_on = [
