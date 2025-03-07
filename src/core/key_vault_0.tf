@@ -212,7 +212,7 @@ data "azurerm_key_vault" "rtd_domain_kv" {
 # INFRA OpsGenie Cstar_Azure_infra_prod webhook key
 data "azurerm_key_vault_secret" "opsgenie_cstar_infra_webhook_key" {
   count = var.env_short == "p" ? 1 : 0
-  name  = "opsgenie-infra-webhook-token"
+  name  = "opsgenie-cstar-infra-webhook-token"
 
   key_vault_id = module.key_vault.id
 }
