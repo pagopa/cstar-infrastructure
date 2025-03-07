@@ -10,10 +10,13 @@ info:
 
 servers:
   - description: Development Test
-    url: https://api-io.dev.cstar.pagopa.it/emd/message-core
+    url: https://api-emd.dev.cstar.pagopa.it/emd/message-core
     x-internal: true
   - description: User Acceptance Test
-    url: https://api-io.uat.cstar.pagopa.it/emd/message-core
+    url: https://api-emd.uat.cstar.pagopa.it/emd/message-core
+    x-internal: true
+  - description: Prod
+    url: https://api-emd.cstar.pagopa.it/emd/message-core
     x-internal: true
 
 tags:
@@ -207,6 +210,12 @@ components:
           pattern: "^[ -~]{1,140}$"
           minLength: 1
           maxLength: 140
+        notes:
+          description: Content of the message
+          type: string
+          pattern: "^[ -~]{1,}$"
+          minLength: 1
+          maxLength: 100000
         associatedPayment:
           description: Associated Payment flag
           type: boolean
@@ -224,6 +233,7 @@ components:
         - senderDescription
         - messageUrl
         - originId
+        - notes
       example:
         messageId: "8a32fa8a-5036-4b39-8f2e-47d3a6d23f9e"
         recipientId: "RSSMRA85T10A562S"
@@ -232,6 +242,7 @@ components:
         messageUrl: "http://wwww.google.it"
         originId: "XRUZ-GZAJ-ZUEJ-202407-W-1"
         content: "Nuovo messaggio!"
+        notes: "Ciao, hai ricevuto una nuova notifica SEND"
         idPsp: C948DFD1546347568874C4DDC93A2E3C
         associatedPayment: true
 
@@ -375,4 +386,13 @@ components:
           tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
           refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
           scopes: {}
-
+    oAuth2_prod:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.cstar.pagopa.it/auth/token
+          scopes: {}
