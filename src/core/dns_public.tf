@@ -162,6 +162,15 @@ resource "azurerm_dns_a_record" "dns_a_appgw_api_rtp" {
   tags                = var.tags
 }
 
+resource "azurerm_dns_a_record" "dns_a_appgw_api_rtp_cb" {
+  name                = "api-rtp-cb"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = [azurerm_public_ip.appgateway_public_ip.ip_address]
+  tags                = var.tags
+}
+
 
 resource "azurerm_dns_a_record" "dns_a_appgw_api_mcshared" {
   name                = "api-mcshared"

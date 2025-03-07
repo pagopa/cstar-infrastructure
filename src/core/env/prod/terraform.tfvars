@@ -274,6 +274,7 @@ app_gateway_api_io_certificate_name     = "api-io-cstar-pagopa-it"
 app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
 app_gateway_management_certificate_name = "management-cstar-pagopa-it"
 app_gateway_rtp_certificate_name        = "api-rtp-cstar-pagopa-it"
+app_gateway_rtp_cb_certificate_name     = "api-rtp-cstar-pagopa-it"
 app_gateway_mcshared_certificate_name   = "api-mcshared-cstar-pagopa-it"
 app_gateway_api_emd_certificate_name    = "api-emd-cstar-pagopa-it"
 app_gateway_min_capacity                = 1
