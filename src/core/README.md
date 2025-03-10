@@ -15,15 +15,15 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | b9dd50d01d7785bdfd47dc8be927df7801512286 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | bb8d1171ecdf70b63f17c0fe9ed4b51c1ef1e5a5 |
 | <a name="module_adf_snet"></a> [adf\_snet](#module\_adf\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
 | <a name="module_api_azureblob"></a> [api\_azureblob](#module\_api\_azureblob) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v8.13.0 |
 | <a name="module_api_cdc_io"></a> [api\_cdc\_io](#module\_api\_cdc\_io) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v8.13.0 |
 | <a name="module_api_cdc_sogei"></a> [api\_cdc\_sogei](#module\_api\_cdc\_sogei) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v8.13.0 |
-| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management | v8.13.0 |
+| <a name="module_apim"></a> [apim](#module\_apim) | ./.terraform/modules/__v3__/api_management | n/a |
 | <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
 | <a name="module_apim_v2_temp_snet"></a> [apim\_v2\_temp\_snet](#module\_apim\_v2\_temp\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_app_gw_maz"></a> [app\_gw\_maz](#module\_app\_gw\_maz) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v8.83.1 |
+| <a name="module_app_gw_maz"></a> [app\_gw\_maz](#module\_app\_gw\_maz) | ./.terraform/modules/__v3__/app_gateway | n/a |
 | <a name="module_app_io_product"></a> [app\_io\_product](#module\_app\_io\_product) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v8.13.0 |
 | <a name="module_appgateway-snet"></a> [appgateway-snet](#module\_appgateway-snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
 | <a name="module_azdoa_agent_vmss_ubuntu_perf"></a> [azdoa\_agent\_vmss\_ubuntu\_perf](#module\_azdoa\_agent\_vmss\_ubuntu\_perf) | ./.terraform/modules/__v3__/azure_devops_agent | n/a |
@@ -102,9 +102,11 @@
 | [azurerm_dns_a_record.dns-a-test-cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_apim_dev_portal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns_a_appgw_api_emd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api_io](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api_mcshared](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.dns_a_appgw_api_rtp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.dns_a_appgw_api_rtp_cb](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_caa_record.cstar_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_caa_record) | resource |
 | [azurerm_dns_caa_record.welfare_cstar_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_caa_record) | resource |
 | [azurerm_dns_ns_record.cstar_dev_pagopa_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_ns_record) | resource |
@@ -132,6 +134,7 @@
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.core_send_to_opsgenie](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.cstar_infra_opsgenie](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.error](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
@@ -257,10 +260,12 @@
 | [azurerm_key_vault.rtd_kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_certificate.app_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.app_gw_io_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
+| [azurerm_key_vault_certificate.emd_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.jwt_signing_cert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.management_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.mcshared_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.portal_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
+| [azurerm_key_vault_certificate.rtp_cb_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_certificate.rtp_gw_cstar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_certificate) | data source |
 | [azurerm_key_vault_secret.alert_core_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.alert_core_notification_slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
@@ -275,6 +280,7 @@
 | [azurerm_key_vault_secret.cruscotto-basic-auth-pwd](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.opsgenie_cstar_infra_webhook_key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.opsgenie_webhook_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.pagopa_platform_api_tkm_key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.pm_np_wallet_basic_auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
@@ -313,6 +319,7 @@
 | <a name="input_apim_v2_zones"></a> [apim\_v2\_zones](#input\_apim\_v2\_zones) | (Required) Zones in which the apim will be deployed | `list(string)` | n/a | yes |
 | <a name="input_app_gateway_alerts_enabled"></a> [app\_gateway\_alerts\_enabled](#input\_app\_gateway\_alerts\_enabled) | Enable alerts | `bool` | `true` | no |
 | <a name="input_app_gateway_api_certificate_name"></a> [app\_gateway\_api\_certificate\_name](#input\_app\_gateway\_api\_certificate\_name) | Application gateway api certificate name on Key Vault | `string` | n/a | yes |
+| <a name="input_app_gateway_api_emd_certificate_name"></a> [app\_gateway\_api\_emd\_certificate\_name](#input\_app\_gateway\_api\_emd\_certificate\_name) | Application gateway api emd certificate name on Key Vault. https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway | `string` | n/a | yes |
 | <a name="input_app_gateway_api_io_certificate_name"></a> [app\_gateway\_api\_io\_certificate\_name](#input\_app\_gateway\_api\_io\_certificate\_name) | Application gateway api io certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_management_certificate_name"></a> [app\_gateway\_management\_certificate\_name](#input\_app\_gateway\_management\_certificate\_name) | Application gateway api management certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_max_capacity"></a> [app\_gateway\_max\_capacity](#input\_app\_gateway\_max\_capacity) | n/a | `number` | `2` | no |
@@ -320,6 +327,7 @@
 | <a name="input_app_gateway_min_capacity"></a> [app\_gateway\_min\_capacity](#input\_app\_gateway\_min\_capacity) | n/a | `number` | `0` | no |
 | <a name="input_app_gateway_portal_certificate_name"></a> [app\_gateway\_portal\_certificate\_name](#input\_app\_gateway\_portal\_certificate\_name) | Application gateway developer portal certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_public_ip_availability_zone"></a> [app\_gateway\_public\_ip\_availability\_zone](#input\_app\_gateway\_public\_ip\_availability\_zone) | Number of az to allocate the public ip. | `string` | `null` | no |
+| <a name="input_app_gateway_rtp_cb_certificate_name"></a> [app\_gateway\_rtp\_cb\_certificate\_name](#input\_app\_gateway\_rtp\_cb\_certificate\_name) | Application gateway rtp-cb certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_rtp_certificate_name"></a> [app\_gateway\_rtp\_certificate\_name](#input\_app\_gateway\_rtp\_certificate\_name) | Application gateway rtp certificate name on Key Vault | `string` | n/a | yes |
 | <a name="input_app_gateway_sku_name"></a> [app\_gateway\_sku\_name](#input\_app\_gateway\_sku\_name) | The Name of the SKU to use for this Application Gateway. Possible values are Standard\_Small, Standard\_Medium, Standard\_Large, Standard\_v2, WAF\_Medium, WAF\_Large, and WAF\_v2 | `string` | n/a | yes |
 | <a name="input_app_gateway_sku_tier"></a> [app\_gateway\_sku\_tier](#input\_app\_gateway\_sku\_tier) | The Tier of the SKU to use for this Application Gateway. Possible values are Standard, Standard\_v2, WAF and WAF\_v2 | `string` | n/a | yes |
@@ -386,6 +394,7 @@
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
 | <a name="input_ingress_load_balancer_hostname"></a> [ingress\_load\_balancer\_hostname](#input\_ingress\_load\_balancer\_hostname) | AKS load balancer internal hostname. | `string` | n/a | yes |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | AKS load balancer internal ip. | `string` | n/a | yes |
+| <a name="input_internal_ca_intermediate"></a> [internal\_ca\_intermediate](#input\_internal\_ca\_intermediate) | Internal CA intermediate. See this page: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway | `string` | n/a | yes |
 | <a name="input_internal_private_domain"></a> [internal\_private\_domain](#input\_internal\_private\_domain) | n/a | `string` | `"internal.cstar.pagopa.it"` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | n/a | `string` | `null` | no |
 | <a name="input_law_daily_quota_gb"></a> [law\_daily\_quota\_gb](#input\_law\_daily\_quota\_gb) | The workspace daily quota for ingestion in GB. | `number` | `-1` | no |

@@ -40,3 +40,9 @@ data "azurerm_monitor_action_group" "error" {
 #   name                = local.monitor_security_storage_name
 #   resource_group_name = data.azurerm_resource_group.rg_monitor.name
 # }
+
+data "azurerm_monitor_action_group" "opsgenie" {
+  count               = var.env_short == "p" ? 1 : 0
+  resource_group_name = var.monitor_resource_group_name
+  name                = local.monitor_action_group_opsgenie_name
+}

@@ -1,5 +1,5 @@
 module "app_gw_maz" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=v8.83.1"
+  source = "./.terraform/modules/__v3__/app_gateway"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -70,8 +70,40 @@ module "app_gw_maz" {
     {
       name = "${local.project}-issuer-mauth-profile"
       trusted_client_certificate_names = [
-        "${local.project}-issuer-chain"
+        "${local.project}-issuer-chain",
+
+        # https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway
+        "${local.project}-issuer-chain-${var.internal_ca_intermediate}"
       ]
+      verify_client_cert_issuer_dn = true
+      ssl_policy = {
+        disabled_protocols = []
+        policy_type        = "Custom"
+        policy_name        = ""
+        # with Custom type set empty policy_name (not required by the provider)
+        cipher_suites = [
+          "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+          "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+          "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+          "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+        ]
+        min_protocol_version = "TLSv1_2"
+      }
+    },
+    {
+      name = "${local.project}-rtp-cb-mauth-profile"
+      trusted_client_certificate_names = flatten([
+        [
+          "cstar-${var.env_short}-rtp-aruba-cb-chain",
+          "cstar-${var.env_short}-rtp-actalis-cb-chain",
+          "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain",
+          "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain",
+          "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
+        ],
+        (var.env != "prod" ? [
+          "cstar-${var.env_short}-rtp-nexi-cb-chain"
+        ] : [])
+      ])
       verify_client_cert_issuer_dn = true
       ssl_policy = {
         disabled_protocols = []
@@ -89,12 +121,44 @@ module "app_gw_maz" {
     }
   ]
 
-  trusted_client_certificates = [
-    {
-      secret_name  = "cstar-${var.env_short}-issuer-chain"
-      key_vault_id = module.key_vault.id
-    }
-  ]
+  trusted_client_certificates = flatten([
+    [
+      {
+        secret_name  = "cstar-${var.env_short}-issuer-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-aruba-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-actalis-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+    ],
+    (var.env != "prod" ? [
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-nexi-cb-chain"
+        key_vault_id = module.key_vault.id
+      }
+    ] : [])
+  ])
 
   # Configure listeners
   listeners = {
@@ -178,6 +242,22 @@ module "app_gw_maz" {
       }
     }
 
+    rtp-cb = {
+      protocol           = "Https"
+      host               = "api-rtp-cb.${var.dns_zone_prefix}.${var.external_domain}"
+      port               = 443
+      ssl_profile_name   = "${local.project}-rtp-cb-mauth-profile"
+      firewall_policy_id = null
+
+      certificate = {
+        name = var.app_gateway_rtp_cb_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.rtp_cb_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.rtp_cb_gw_cstar.version
+        )
+      }
+    }
+
     mcshared = {
       protocol           = "Https"
       host               = "api-mcshared.${var.dns_zone_prefix}.${var.external_domain}"
@@ -190,6 +270,22 @@ module "app_gw_maz" {
         id = trimsuffix(
           data.azurerm_key_vault_certificate.mcshared_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.mcshared_gw_cstar.version
+        )
+      }
+    }
+
+    emd = {
+      protocol           = "Https"
+      host               = "api-emd.${var.dns_zone_prefix}.${var.external_domain}"
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
+      certificate = {
+        name = var.app_gateway_api_emd_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.emd_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.emd_gw_cstar.version
         )
       }
     }
@@ -227,6 +323,13 @@ module "app_gw_maz" {
 
     }
 
+    rtp-cb-api = {
+      listener              = "rtp-cb"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-rtp-cb"
+      priority              = 45
+    }
+
     rtp-api = {
       listener              = "rtp"
       backend               = "apim"
@@ -234,12 +337,18 @@ module "app_gw_maz" {
       priority              = 50
     }
 
-
     mcshared-api = {
       listener              = "mcshared"
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
       priority              = 60
+    }
+
+    api-emd = {
+      listener              = "emd"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-api-emd"
+      priority              = 70
     }
   }
 
@@ -306,6 +415,34 @@ module "app_gw_maz" {
       ]
     },
     {
+      name = "rewrite-rule-set-api-rtp-cb"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "rtp/cb/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations = [
+            {
+              header_name  = "X-Client-Certificate-Serial"
+              header_value = "\\{client_certificate_serial\\}"
+            }
+          ]
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
       name = "rewrite-rule-set-api-mcshared"
       rewrite_rules = [
         {
@@ -315,6 +452,29 @@ module "app_gw_maz" {
             {
               variable    = "var_uri_path"
               pattern     = "auth/*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-emd"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "emd/*"
               ignore_case = true
               negate      = true
             }

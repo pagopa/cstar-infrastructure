@@ -21,28 +21,28 @@ if [ -z "$action" ]; then
   ℹ️ Please follow this example on how to use the script
 
 ./sops.sh d <env> -> decrypt json file using a specified environment
-    example: ./sops.sh d itn-dev
-    example: ./sops.sh decrypt itn-dev
+    example: ./sops.sh d dev
+    example: ./sops.sh decrypt dev
 
 ./sops.sh s <env> -> search in enc file using a specified environment
-    example: ./sops.sh s itn-dev
-    example: ./sops.sh search itn-dev
+    example: ./sops.sh s dev
+    example: ./sops.sh search dev
 
 ./sops.sh n <env> -> create new file enc json template using a specified environment
-    example: ./sops.sh n itn-dev
-    example: ./sops.sh new itn-dev
+    example: ./sops.sh n dev
+    example: ./sops.sh new dev
 
 ./sops.sh a <env> -> add new secret record to enc json using a specified environment
-    example: ./sops.sh a itn-dev
-    example: ./sops.sh add itn-dev
+    example: ./sops.sh a dev
+    example: ./sops.sh add dev
 
 ./sops.sh e <env> -> edit enc json record using a specified environment
-    example: ./sops.sh e itn-dev
-    example: ./sops.sh edit itn-dev
+    example: ./sops.sh e dev
+    example: ./sops.sh edit dev
 
 ./sops.sh f <env>  -> encrypt a external json file (path is requested runtime) into the default sops file using a specified environment
-    example: ./sops.sh f itn-dev
-    example: ./sops.sh file-encrypt itn-dev
+    example: ./sops.sh f dev
+    example: ./sops.sh file-encrypt dev
 
 EOF
 )
@@ -51,7 +51,7 @@ EOF
 fi
 
 if [ -z "$env" ]; then
-  echo "env should be something like: itn-dev, itn-uat or itn-prod."
+  echo "env should be something like: dev, uat or prod."
   exit 0
 fi
 

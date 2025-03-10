@@ -130,6 +130,21 @@ resource "azurerm_monitor_action_group" "core_send_to_opsgenie" {
   }
 }
 
+resource "azurerm_monitor_action_group" "cstar_infra_opsgenie" { #
+  count               = var.env_short == "p" ? 1 : 0
+  name                = "CstarInfraOpsgenie"
+  resource_group_name = azurerm_resource_group.monitor_rg.name
+  short_name          = "InfrOpsgenie"
+
+  webhook_receiver {
+    name                    = "CstarINFRAOpsgenieWebhook"
+    service_uri             = "https://api.opsgenie.com/v1/json/azure?apiKey=${data.azurerm_key_vault_secret.opsgenie_cstar_infra_webhook_key[0].value}"
+    use_common_alert_schema = true
+  }
+
+  tags = var.tags
+}
+
 resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic_settings" {
   count = var.env_short == "p" ? 1 : 0 # this resource should exists only in prod
 

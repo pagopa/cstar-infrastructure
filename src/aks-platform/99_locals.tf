@@ -25,6 +25,7 @@ locals {
   monitor_log_analytics_workspace_name = "${local.product}-law"
   monitor_appinsights_name             = "${local.product}-appinsights"
   monitor_security_storage_name        = replace("${local.product}-sec-monitor-st", "-", "")
+  monitor_action_group_opsgenie_name   = "CstarInfraOpsgenie"
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"

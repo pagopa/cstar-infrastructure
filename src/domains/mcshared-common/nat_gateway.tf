@@ -15,6 +15,6 @@ resource "azurerm_nat_gateway_public_ip_association" "mc_nat_gateway_public_ip_a
 }
 
 resource "azurerm_subnet_nat_gateway_association" "mc_nat_gateway_subnet_association" {
-  subnet_id      = azurerm_subnet.aca.id
+  subnet_id      = azurerm_subnet.subnet_mcshared_cae.id
   nat_gateway_id = azurerm_nat_gateway.mc_nat_gateway.id
 }

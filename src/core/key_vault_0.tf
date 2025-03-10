@@ -103,8 +103,18 @@ data "azurerm_key_vault_certificate" "mcshared_gw_cstar" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_certificate" "emd_gw_cstar" {
+  name         = var.app_gateway_api_emd_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_certificate" "rtp_gw_cstar" {
   name         = var.app_gateway_rtp_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
+data "azurerm_key_vault_certificate" "rtp_cb_gw_cstar" {
+  name         = var.app_gateway_rtp_cb_certificate_name
   key_vault_id = module.key_vault.id
 }
 
@@ -197,4 +207,12 @@ data "azurerm_key_vault_secret" "opsgenie_webhook_url" {
 data "azurerm_key_vault" "rtd_domain_kv" {
   name                = local.rtd_keyvault_name
   resource_group_name = local.rtd_rg_keyvault_name
+}
+
+# INFRA OpsGenie Cstar_Azure_infra_prod webhook key
+data "azurerm_key_vault_secret" "opsgenie_cstar_infra_webhook_key" {
+  count = var.env_short == "p" ? 1 : 0
+  name  = "opsgenie-cstar-infra-webhook-token"
+
+  key_vault_id = module.key_vault.id
 }

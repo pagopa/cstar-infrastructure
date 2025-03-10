@@ -10,10 +10,13 @@ info:
 
 servers:
   - description: Development Test
-    url: https://api-io.dev.cstar.pagopa.it/emd/citizen
+    url: https://api-emd.dev.cstar.pagopa.it/emd/citizen
     x-internal: true
   - description: User Acceptance Test
-    url: https://api-io.uat.cstar.pagopa.it/emd/citizen
+    url: https://api-emd.uat.cstar.pagopa.it/emd/citizen
+    x-internal: true
+  - description: Prod
+    url: https://api-emd.cstar.pagopa.it/emd/citizen
     x-internal: true
 
 tags:
@@ -1527,4 +1530,14 @@ components:
         clientCredentials:
           tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
           refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
+          scopes: {}
+    oAuth2_prod:
+      description: |
+        A bearer token in the format of a JWS and conforms to the specifications
+        included in RFC8725.
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-mcshared.cstar.pagopa.it/auth/token
+          refreshUrl: https://api-mcshared.cstar.pagopa.it/auth/token
           scopes: {}
