@@ -730,7 +730,7 @@ resource "azurerm_data_factory_custom_dataset" "invalidated_aggregates" {
     "encodingName": "UTF-8",
     "escapeChar": "\\",
     "firstRowAsHeader": true,
-    "quoteChar": ""
+    "quoteChar": "\""
   }
   JSON
 
