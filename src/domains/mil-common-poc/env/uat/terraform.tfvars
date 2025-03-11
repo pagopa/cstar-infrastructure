@@ -32,6 +32,7 @@ log_analytics_weu_workspace_resource_group_name = "cstar-u-monitor-rg"
 cidr_subnet_cosmosdb_mil = ["10.1.140.0/27"]
 cidr_subnet_eventhub_mil = ["10.1.140.64/27"]
 cidr_subnet_storage_mil  = ["10.1.140.96/27"]
+cidr_subnet_redis_mil  =    ["10.1.140.128/27"]
 
 ### AKS
 ingress_load_balancer_ip = "10.11.100.250"
