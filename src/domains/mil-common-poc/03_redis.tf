@@ -6,15 +6,15 @@ resource "azurerm_resource_group" "redis_rg" {
 }
 
 module "mil_redis" {
-  source                        = "./.terraform/modules/__v3__/redis_cache"
-  name                          = "${local.project}-redis"
-  location                      = azurerm_resource_group.redis_rg.location
-  resource_group_name           = azurerm_resource_group.redis_rg.name
-  capacity                      = var.redis_capacity
-  enable_non_ssl_port           = false
-  family                        = var.redis_family
-  sku_name                      = var.redis_sku_name
-  enable_authentication         = true
+  source                = "./.terraform/modules/__v3__/redis_cache"
+  name                  = "${local.project}-redis"
+  location              = azurerm_resource_group.redis_rg.location
+  resource_group_name   = azurerm_resource_group.redis_rg.name
+  capacity              = var.redis_capacity
+  enable_non_ssl_port   = false
+  family                = var.redis_family
+  sku_name              = var.redis_sku_name
+  enable_authentication = true
   # subnet_id                     = module.redis_mil_snet.id
   redis_version                 = "6"
   public_network_access_enabled = false
