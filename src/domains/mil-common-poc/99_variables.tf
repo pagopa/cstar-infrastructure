@@ -130,6 +130,11 @@ variable "cidr_subnet_storage_mil" {
   description = "Azure storage DB address space for mil."
 }
 
+variable "cidr_subnet_redis_mil" {
+  type        = list(string)
+  description = "Azure redis address space for mil."
+}
+
 # CosmosDb
 
 variable "cosmos_mongo_db_params" {
@@ -258,4 +263,18 @@ variable "k8s_kube_config_path_prefix" {
   type        = string
   default     = "~/.kube"
   description = "USED in Devops IAC pipeline. DO NOT REMOVE"
+}
+
+#Redis
+
+variable "redis_capacity" {
+  type    = number
+}
+
+variable "redis_sku_name" {
+  type    = string
+}
+
+variable "redis_family" {
+  type    = string
 }

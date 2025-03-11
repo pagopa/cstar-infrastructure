@@ -32,6 +32,7 @@ log_analytics_weu_workspace_resource_group_name = "cstar-d-monitor-rg"
 cidr_subnet_cosmosdb_mil = ["10.1.140.0/27"]
 cidr_subnet_eventhub_mil = ["10.1.140.64/27"]
 cidr_subnet_storage_mil  = ["10.1.140.96/27"]
+cidr_subnet_redis_mil  =    ["10.1.140.128/27"]
 
 ### AKS
 ingress_load_balancer_ip = "10.11.100.250"
@@ -138,3 +139,8 @@ ehns_metric_alerts = {
 
 aks_name                = "cstar-d-weu-dev01-aks"
 aks_resource_group_name = "cstar-d-weu-dev01-aks-rg"
+
+# Redis
+redis_sku_name = "Basic"
+redis_capacity = 0
+redis_family = "C"

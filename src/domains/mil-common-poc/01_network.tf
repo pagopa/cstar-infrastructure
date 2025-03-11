@@ -51,3 +51,14 @@ module "storage_mil_snet" {
   ]
 }
 
+module "redis_mil_snet" {
+  source = "./.terraform/modules/__v3__/subnet"
+
+  name                 = "${local.project}-redis-snet"
+  address_prefixes     = var.cidr_subnet_redis_mil
+  resource_group_name  = local.vnet_weu_resource_group_name
+  virtual_network_name = local.vnet_weu_name
+
+  private_endpoint_network_policies_enabled = true
+}
+
