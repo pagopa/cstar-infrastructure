@@ -6,15 +6,15 @@ resource "azurerm_resource_group" "redis_rg" {
 }
 
 module "mil_redis" {
-  source                        = "./.terraform/modules/__v3__/redis_cache"
-  name                          = "${local.project}-redis"
-  location                      = azurerm_resource_group.redis_rg.location
-  resource_group_name           = azurerm_resource_group.redis_rg.name
-  capacity                      = var.redis_capacity
-  enable_non_ssl_port           = false
-  family                        = var.redis_family
-  sku_name                      = var.redis_sku_name
-  enable_authentication         = true
+  source                = "./.terraform/modules/__v3__/redis_cache"
+  name                  = "${local.project}-redis"
+  location              = azurerm_resource_group.redis_rg.location
+  resource_group_name   = azurerm_resource_group.redis_rg.name
+  capacity              = var.redis_capacity
+  enable_non_ssl_port   = false
+  family                = var.redis_family
+  sku_name              = var.redis_sku_name
+  enable_authentication = true
   # subnet_id                     = module.redis_mil_snet.id
   redis_version                 = "6"
   public_network_access_enabled = false
@@ -30,20 +30,20 @@ module "mil_redis" {
   zones = [1, 2, 3]
 }
 
-# resource "azurerm_key_vault_secret" "emd_redis_primary_connection_hostname" {
-#
-#   name         = "emd-redis-primary-connection-hostname"
-#   value        = data.azurerm_redis_cache.idpay_redis.hostname
-#   content_type = "text/plain"
-#
-#   key_vault_id = data.azurerm_key_vault.kv_domain.id
-# }
-#
-# resource "azurerm_key_vault_secret" "emd_redis_primary_access_key" {
-#
-#   name         = "emd-redis-primary-access-key"
-#   value        = data.azurerm_redis_cache.idpay_redis.primary_access_key
-#   content_type = "text/plain"
-#
-#   key_vault_id = data.azurerm_key_vault.kv_domain.id
-# }
+resource "azurerm_key_vault_secret" "emd_redis_primary_connection_hostname" {
+
+  name         = "emd-redis-primary-connection-hostname"
+  value        = module.mil_redis.hostname
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+}
+
+resource "azurerm_key_vault_secret" "emd_redis_primary_access_key" {
+
+  name         = "emd-redis-primary-access-key"
+  value        = module.mil_redis.primary_access_key
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+}

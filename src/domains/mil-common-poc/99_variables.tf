@@ -268,13 +268,13 @@ variable "k8s_kube_config_path_prefix" {
 #Redis
 
 variable "redis_capacity" {
-  type    = number
+  type = number
 }
 
 variable "redis_sku_name" {
-  type    = string
+  type = string
 }
 
 variable "redis_family" {
-  type    = string
+  type = string
 }
