@@ -1,0 +1,27 @@
+{
+    "name": "ForEach_InvalidAggregates",
+    "description": "This activity sequentially cycles through an array of flows given as pipeline's parameter. Each flow is invalidated.",
+    "type": "ForEach",
+    "dependsOn": [
+        {
+            "activity": "LookupAggregates",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "userProperties": [],
+    "typeProperties": {
+        "items": {
+            "value": "@activity('LookupAggregates').output.value",
+            "type": "Expression"
+        },
+        "isSequential": true,
+        "activities": [
+            ${invalidate_aggregate_activity},
+            ${invalidate_aggregate2022_activity},
+            ${purge_aggregate_activity},
+            ${purge_aggregate2022_activity}
+        ]
+    }
+}
