@@ -17,7 +17,7 @@ servers:
     x-internal: true
   - description: Prod
     url: https://api-emd.cstar.pagopa.it/emd/mil/citizen
-    x-internal: true
+    x-internal: false
 
 tags:
   - name: Citizen operation
@@ -33,8 +33,7 @@ paths:
       operationId: saveCitizenConsent
       description: Save citizen consents
       security:
-        - oAuth2_dev: [] #per DEV
-        #- oAuth2_uat: [] #per UAT
+        - oAuth2: []
       parameters:
         - name: Accept-Language
           in: header
@@ -259,8 +258,7 @@ paths:
       operationId: getCitizenConsentStatus
       description: Get citizen consent from fiscalCode and tppId
       security:
-        - oAuth2_dev: [] #per DEV
-        #- oAuth2_uat: [] #per UAT
+        - oAuth2: []
       parameters:
         - name: Accept-Language
           in: header
@@ -485,8 +483,7 @@ paths:
       operationId: stateSwitch
       description: Update citizen consents
       security:
-        - oAuth2_dev: [] #per DEV
-        #- oAuth2_uat: [] #per UAT
+        - oAuth2: []
       parameters:
         - name: Accept-Language
           in: header
@@ -713,8 +710,7 @@ paths:
       operationId: getCitizenEnabled
       description: Get citizen consent from tppId
       security:
-        - oAuth2_dev: [] #per DEV
-        #- oAuth2_uat: [] #per UAT
+        - oAuth2: []
       parameters:
         - name: Accept-Language
           in: header
@@ -1057,33 +1053,13 @@ components:
   # Security schemes.
   # ============================================================================
   securitySchemes:
-    oAuth2_dev:
+    oAuth2:
       description: |
         A bearer token in the format of a JWS and conforms to the specifications
         included in RFC8725.
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
-          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
-          scopes: {}
-    oAuth2_uat:
-      description: |
-        A bearer token in the format of a JWS and conforms to the specifications
-        included in RFC8725.
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
-          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
-          scopes: {}
-    oAuth2_prod:
-      description: |
-        A bearer token in the format of a JWS and conforms to the specifications
-        included in RFC8725.
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: https://api-mcshared.cstar.pagopa.it/auth/token
-          refreshUrl: https://api-mcshared.cstar.pagopa.it/auth/token
+          tokenUrl: /token
+          refreshUrl: /token
           scopes: {}

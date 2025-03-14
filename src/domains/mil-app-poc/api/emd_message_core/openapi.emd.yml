@@ -17,7 +17,7 @@ servers:
     x-internal: true
   - description: Prod
     url: https://api-emd.cstar.pagopa.it/emd/message-core
-    x-internal: true
+    x-internal: false
 
 tags:
   - name: submit
@@ -32,8 +32,7 @@ paths:
       operationId: submitMessage
       description: Submit a message
       security:
-        - oAuth2_dev: [] #per DEV
-        # - oAuth2_uat: [] #per UAT
+        - oAuth2: []
       tags: [ submit ]
       requestBody:
         $ref: '#/components/requestBodies/SendMessage'
@@ -364,33 +363,13 @@ components:
   # Security schemes.
   # ============================================================================
   securitySchemes:
-    oAuth2_dev:
+    oAuth2:
       description: |
         A bearer token in the format of a JWS and conforms to the specifications
         included in RFC8725.
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
-          refreshUrl: https://api-mcshared.dev.cstar.pagopa.it/auth/token
-          scopes: {}
-    oAuth2_uat:
-      description: |
-        A bearer token in the format of a JWS and conforms to the specifications
-        included in RFC8725.
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
-          refreshUrl: https://api-mcshared.uat.cstar.pagopa.it/auth/token
-          scopes: {}
-    oAuth2_prod:
-      description: |
-        A bearer token in the format of a JWS and conforms to the specifications
-        included in RFC8725.
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: https://api-mcshared.cstar.pagopa.it/auth/token
-          refreshUrl: https://api-mcshared.cstar.pagopa.it/auth/token
+          tokenUrl: /token
+          refreshUrl: /token
           scopes: {}
