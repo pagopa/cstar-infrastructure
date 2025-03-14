@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "sec_rg" {
 }
 
 module "key_vault_core" {
-  source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v4__/key_vault"
 
   name                       = "${local.project}-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -18,7 +18,7 @@ module "key_vault_core" {
 }
 
 module "key_vault_auth" {
-  source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v4__/key_vault"
 
   name                       = "${local.project}-auth-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -30,7 +30,7 @@ module "key_vault_auth" {
 }
 
 module "key_vault_idpay" {
-  source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v4__/key_vault"
 
   name                       = "${local.project}-idpay-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -130,7 +130,7 @@ resource "azurerm_key_vault_access_policy" "azdevops_iac_managed_identities" {
 # create json letsencrypt inside kv
 # requierd: Docker
 module "letsencrypt_mil" {
-  source = "./.terraform/modules/__v3__/letsencrypt_credential"
+  source = "./.terraform/modules/__v4__/letsencrypt_credential"
 
   prefix            = var.prefix
   env               = var.env_short

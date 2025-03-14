@@ -10,20 +10,20 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.107.0 |
-| <a name="requirement_external"></a> [external](#requirement\_external) | <= 2.2.3 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.2 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.23 |
+| <a name="requirement_external"></a> [external](#requirement\_external) | ~> 2.3 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 47ac1373640adf1653d19898e2c4237d25bcf861 |
-| <a name="module_key_vault_auth"></a> [key\_vault\_auth](#module\_key\_vault\_auth) | ./.terraform/modules/__v3__/key_vault | n/a |
-| <a name="module_key_vault_core"></a> [key\_vault\_core](#module\_key\_vault\_core) | ./.terraform/modules/__v3__/key_vault | n/a |
-| <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | ./.terraform/modules/__v3__/key_vault | n/a |
-| <a name="module_letsencrypt_mil"></a> [letsencrypt\_mil](#module\_letsencrypt\_mil) | ./.terraform/modules/__v3__/letsencrypt_credential | n/a |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 4734d13adfeddd42f26f108b29f67c65f9b8ef9b |
+| <a name="module_key_vault_auth"></a> [key\_vault\_auth](#module\_key\_vault\_auth) | ./.terraform/modules/__v4__/key_vault | n/a |
+| <a name="module_key_vault_core"></a> [key\_vault\_core](#module\_key\_vault\_core) | ./.terraform/modules/__v4__/key_vault | n/a |
+| <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | ./.terraform/modules/__v4__/key_vault | n/a |
+| <a name="module_letsencrypt_mil"></a> [letsencrypt\_mil](#module\_letsencrypt\_mil) | ./.terraform/modules/__v4__/letsencrypt_credential | n/a |
 
 ## Resources
 
