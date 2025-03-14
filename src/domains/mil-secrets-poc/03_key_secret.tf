@@ -15,7 +15,7 @@ locals {
     }
   ]) : []
 
-  config_secret_data = jsondecode(file(var.input_file))
+  config_secret_data = jsondecode(file(local.input_file))
   all_config_secrets_value = flatten([
     for kc, vc in local.config_secret_data : {
       value = vc
@@ -35,6 +35,13 @@ resource "azurerm_key_vault_secret" "secret" {
   key_vault_id = module.key_vault_core.id
   name         = local.all_secrets_value[each.value].key
   value        = local.all_secrets_value[each.value].value
+
+  tags = merge(
+    local.tags,
+    {
+      "SOPS" : "True",
+    }
+  )
 
   depends_on = [
     module.key_vault_core,

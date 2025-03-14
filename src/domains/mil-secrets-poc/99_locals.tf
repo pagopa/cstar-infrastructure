@@ -10,4 +10,14 @@ locals {
   azdo_managed_identity_rg_name = "${var.prefix}-${var.env_short}-identity-rg"
   azdo_iac_managed_identities   = toset(["azdo-${var.env}-${var.prefix}-iac-deploy-v2", "azdo-${var.env}-${var.prefix}-iac-plan-v2"])
 
+  input_file = "./secret/${var.env}/configs.json"
+
+  tags = {
+    CreatedBy   = "Terraform"
+    Environment = upper(var.env)
+    Owner       = "CSTAR"
+    Source      = "https://github.com/pagopa/cstar-infrastructure"
+    CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
+    Folder      = basename(abspath(path.module))
+  }
 }

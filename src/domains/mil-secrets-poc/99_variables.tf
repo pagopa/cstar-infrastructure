@@ -50,11 +50,6 @@ variable "location_short" {
   description = "One of weu, weu"
 }
 
-variable "instance" {
-  type        = string
-  description = "One of beta, prod01, prod02"
-}
-
 variable "tags" {
   type = map(any)
   default = {
@@ -63,12 +58,6 @@ variable "tags" {
 }
 
 ###
-
-variable "input_file" {
-  type        = string
-  description = "secret json file"
-}
-
 variable "enable_iac_pipeline" {
   type        = bool
   description = "If true create the key vault policy to allow used by azure devops iac pipelines."
