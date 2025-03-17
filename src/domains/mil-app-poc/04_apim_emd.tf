@@ -3,7 +3,7 @@
 #
 
 module "emd_api_product" {
-  source = "./.terraform/modules/__v3__/api_management_product"
+  source = "./.terraform/modules/__v4__/api_management_product"
 
 
   product_id   = "emd_api_product"
@@ -11,7 +11,7 @@ module "emd_api_product" {
   description  = "EMD_PRODUCT"
 
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   published             = true
   subscription_required = false
@@ -28,7 +28,7 @@ module "emd_api_product" {
 }
 
 module "emd_mil_api_product" {
-  source = "./.terraform/modules/__v3__/api_management_product"
+  source = "./.terraform/modules/__v4__/api_management_product"
 
 
   product_id   = "emd_mil_api_product"
@@ -36,7 +36,7 @@ module "emd_mil_api_product" {
   description  = "EMD_MIL_PRODUCT"
 
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   published             = true
   subscription_required = false
@@ -53,7 +53,7 @@ module "emd_mil_api_product" {
 }
 
 module "emd_retrieval_api_product" {
-  source = "./.terraform/modules/__v3__/api_management_product"
+  source = "./.terraform/modules/__v4__/api_management_product"
 
 
   product_id   = "emd_retrieval_api_product"
@@ -61,7 +61,7 @@ module "emd_retrieval_api_product" {
   description  = "EMD_RETRIEVAL_PRODUCT"
 
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   published             = true
   subscription_required = false
@@ -79,12 +79,12 @@ module "emd_retrieval_api_product" {
 
 ## EMD TPP ##
 module "emd_tpp" {
-  source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v4__/api_management_api"
 
 
   name                = "${var.env_short}-emd-tpp"
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   description  = "EMD TPP"
   display_name = "EMD TPP API"
@@ -156,12 +156,12 @@ module "emd_tpp" {
 
 ## EMD CITIZEN ##
 module "emd_citizen" {
-  source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v4__/api_management_api"
 
 
   name                = "${var.env_short}-emd-citizen"
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   description  = "EMD CITIZEN CONSENT"
   display_name = "EMD CITIZEN CONSENT API"
@@ -226,12 +226,12 @@ module "emd_citizen" {
 
 ## EMD MESSAGE CORE ##
 module "emd_message_core" {
-  source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v4__/api_management_api"
 
 
   name                = "${var.env_short}-emd-message-core"
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   description  = "EMD MESSAGE CORE"
   display_name = "EMD MESSAGE CORE API"
@@ -261,12 +261,12 @@ module "emd_message_core" {
 
 ## EMD PAYMENT CORE ##
 module "emd_payment_core" {
-  source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v4__/api_management_api"
 
 
   name                = "${var.env_short}-emd_payment_core"
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   description  = "EMD PAYMENT CORE"
   display_name = "EMD PAYMENT CORE API"
@@ -309,12 +309,12 @@ module "emd_payment_core" {
 }
 ## EMD MIL CITIZEN API ##
 module "emd_mil_citizen" {
-  source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v4__/api_management_api"
 
 
   name                = "${var.env_short}-emd-mil-citizen"
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   description  = "EMD CITIZEN OPERATION"
   display_name = "EMD CITIZEN OPERATION API"
@@ -366,12 +366,12 @@ module "emd_mil_citizen" {
 
 ## EMD MIL TPP NETWORK TESTING ##
 module "emd_mil_tpp_testing" {
-  source = "./.terraform/modules/__v3__/api_management_api"
+  source = "./.terraform/modules/__v4__/api_management_api"
 
 
   name                = "${var.env_short}-emd-mil-tpp-testing"
   api_management_name = data.azurerm_api_management.apim_core.name
-  resource_group_name = data.azurerm_resource_group.apim_rg.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
 
   description  = "EMD TPP NETWORK TESTING"
   display_name = "EMD TPP NETWORK TESTING API"

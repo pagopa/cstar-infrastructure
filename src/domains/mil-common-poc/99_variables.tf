@@ -50,44 +50,13 @@ variable "location_short" {
   description = "One of wue, neu"
 }
 
-
-variable "instance" {
-  type        = string
-  description = "One of beta, prod01, prod02"
-}
-
-variable "tags" {
-  type = map(any)
-  default = {
-    CreatedBy = "Terraform"
-  }
-}
-
 ### FEATURE FLAGS
-
 variable "is_feature_enabled" {
   type = object({
     eventhub = optional(bool, false),
     cosmos   = optional(bool, false),
   })
   description = "Features enabled in this domain"
-}
-
-### External resources
-
-variable "monitor_weu_resource_group_name" {
-  type        = string
-  description = "Monitor Italy resource group name"
-}
-
-variable "log_analytics_weu_workspace_name" {
-  type        = string
-  description = "Specifies the name of the Log Analytics Workspace Italy."
-}
-
-variable "log_analytics_weu_workspace_resource_group_name" {
-  type        = string
-  description = "The name of the resource group in which the Log Analytics workspace Italy is located in."
 }
 
 variable "ingress_load_balancer_ip" {
@@ -159,7 +128,7 @@ variable "cosmos_mongo_db_params" {
     public_network_access_enabled     = bool
     is_virtual_network_filter_enabled = bool
     backup_continuous_enabled         = bool
-    ip_range_filter                   = optional(string, null)
+    ip_range_filter                   = optional(list(string), null)
   })
 }
 
