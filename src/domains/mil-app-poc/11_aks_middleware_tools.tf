@@ -1,5 +1,5 @@
 module "tls_checker" {
-  source = "./.terraform/modules/__v3__/tls_checker"
+  source = "./.terraform/modules/__v4__/tls_checker"
 
   https_endpoint                                            = local.domain_aks_hostname
   alert_name                                                = local.domain_aks_hostname
@@ -18,11 +18,14 @@ module "tls_checker" {
   workload_identity_service_account_name = module.workload_identity.workload_identity_service_account_name
   workload_identity_client_id            = module.workload_identity.workload_identity_client_id
 
-  depends_on = [module.workload_identity]
+  depends_on = [
+    module.workload_identity,
+    azurerm_key_vault_secret.appinsights-instrumentation-key
+  ]
 }
 
 module "cert_mounter" {
-  source = "./.terraform/modules/__v3__/cert_mounter"
+  source = "./.terraform/modules/__v4__/cert_mounter"
 
   namespace        = var.domain
   certificate_name = replace(local.domain_aks_hostname, ".", "-")

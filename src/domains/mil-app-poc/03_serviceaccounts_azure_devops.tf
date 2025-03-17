@@ -1,13 +1,12 @@
-resource "kubernetes_namespace" "namespace_system" {
-  metadata {
-    name = local.system_domain_namespace
-  }
-}
+# 🔒 Secret Devops
 
-module "kubernetes_service_account" {
-  source    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_service_account?ref=v8.22.0"
-  name      = "azure-devops"
-  namespace = local.system_domain_namespace
+#tfsec:ignore:AZU023
+resource "azurerm_key_vault_secret" "aks_apiserver_url" {
+  name         = "${local.aks_name}-apiserver-url"
+  value        = "https://${local.aks_api_url}:443"
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
 }
 
 #tfsec:ignore:AZU023
@@ -28,6 +27,12 @@ resource "azurerm_key_vault_secret" "azure_devops_sa_cacrt" {
   content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id
+}
+
+module "kubernetes_service_account" {
+  source    = "./.terraform/modules/__v4__/kubernetes_service_account"
+  name      = "azure-devops"
+  namespace = "${var.domain}-system"
 }
 
 #--------------------------------------------------------------------------------------------------

@@ -23,7 +23,6 @@
 | <a name="module_key_vault_auth"></a> [key\_vault\_auth](#module\_key\_vault\_auth) | ./.terraform/modules/__v4__/key_vault | n/a |
 | <a name="module_key_vault_core"></a> [key\_vault\_core](#module\_key\_vault\_core) | ./.terraform/modules/__v4__/key_vault | n/a |
 | <a name="module_key_vault_idpay"></a> [key\_vault\_idpay](#module\_key\_vault\_idpay) | ./.terraform/modules/__v4__/key_vault | n/a |
-| <a name="module_letsencrypt_mil"></a> [letsencrypt\_mil](#module\_letsencrypt\_mil) | ./.terraform/modules/__v4__/letsencrypt_credential | n/a |
 
 ## Resources
 

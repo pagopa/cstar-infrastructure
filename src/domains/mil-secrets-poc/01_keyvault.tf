@@ -122,18 +122,3 @@ resource "azurerm_key_vault_access_policy" "azdevops_iac_managed_identities" {
   certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get"]
   storage_permissions     = []
 }
-
-################
-##   Secrets  ##
-################
-
-# create json letsencrypt inside kv
-# requierd: Docker
-module "letsencrypt_mil" {
-  source = "./.terraform/modules/__v4__/letsencrypt_credential"
-
-  prefix            = var.prefix
-  env               = var.env_short
-  key_vault_name    = module.key_vault_core.name
-  subscription_name = local.subscription_name
-}
