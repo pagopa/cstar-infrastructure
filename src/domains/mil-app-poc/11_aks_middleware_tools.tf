@@ -21,26 +21,6 @@ module "tls_checker" {
   depends_on = [module.workload_identity]
 }
 
-# resource "helm_release" "cert_mounter" {
-#   name         = "cert-mounter-blueprint"
-#   repository   = "https://pagopa.github.io/aks-helm-cert-mounter-blueprint"
-#   chart        = "cert-mounter-blueprint"
-#   version      = "1.0.4"
-#   namespace    = var.domain
-#   timeout      = 120
-#   force_update = true
-#
-#   values = [
-#     templatefile("${path.root}/helm/cert-mounter.yaml.tpl", {
-#       NAMESPACE        = var.domain,
-#       DOMAIN           = var.domain,
-#       CERTIFICATE_NAME = replace(local.domain_aks_hostname, ".", "-"),
-#       ENV_SHORT        = var.env_short,
-#       KV_NAME          = data.azurerm_key_vault.kv_domain.name
-#     })
-#   ]
-# }
-
 module "cert_mounter" {
   source = "./.terraform/modules/__v3__/cert_mounter"
 

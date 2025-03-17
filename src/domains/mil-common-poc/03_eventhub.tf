@@ -2,17 +2,15 @@ locals {
   jaas_config_template_emd = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"%s\";"
 }
 
-
 resource "azurerm_resource_group" "eventhub_ita_rg" {
   name     = local.eventhub_resource_group_name
   location = var.location
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "eventhub_mil_namespace" {
-
-  source = "./.terraform/modules/__v3__/eventhub"
+  source = "./.terraform/modules/__v4__/eventhub"
 
   count = var.is_feature_enabled.eventhub ? 1 : 0
 
@@ -25,7 +23,7 @@ module "eventhub_mil_namespace" {
   maximum_throughput_units = var.ehns_maximum_throughput_units
   #zone_redundat is always true
 
-  virtual_network_ids           = [data.azurerm_virtual_network.vnet_weu.id]
+  virtual_network_ids           = [data.azurerm_virtual_network.vnet_core.id]
   private_endpoint_subnet_id    = module.evenhub_mil_snet.id
   public_network_access_enabled = var.ehns_public_network_access
   private_endpoint_created      = var.ehns_private_endpoint_is_present
@@ -35,7 +33,7 @@ module "eventhub_mil_namespace" {
   private_dns_zones = {
     id                  = [data.azurerm_private_dns_zone.eventhub.id]
     name                = [data.azurerm_private_dns_zone.eventhub.name]
-    resource_group_name = data.azurerm_resource_group.rg_event_private_dns_zone.name
+    resource_group_name = local.vnet_core_resource_group_name
   }
 
   private_dns_zone_record_A_name = "${var.domain}.${var.location_short}"
@@ -54,7 +52,7 @@ module "eventhub_mil_namespace" {
   metric_alerts_create = var.ehns_alerts_enabled
   metric_alerts        = var.ehns_metric_alerts
 
-  tags = var.tags
+  tags = local.tags
 }
 
 #tfsec:ignore:AZU023
@@ -66,6 +64,8 @@ resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
   content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id
+
+  tags = local.tags
 }
 
 
@@ -73,10 +73,8 @@ resource "azurerm_key_vault_secret" "event_hub_keys_emd_00" {
 # CONFIGURATION
 #
 module "eventhub_mil_configuration" {
-
-  source = "./.terraform/modules/__v3__/eventhub_configuration"
-
-  count = var.is_feature_enabled.eventhub ? 1 : 0
+  source = "./.terraform/modules/__v4__/eventhub_configuration"
+  count  = var.is_feature_enabled.eventhub ? 1 : 0
 
   event_hub_namespace_name                = module.eventhub_mil_namespace[0].name
   event_hub_namespace_resource_group_name = azurerm_resource_group.eventhub_ita_rg.name

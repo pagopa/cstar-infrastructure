@@ -2,14 +2,12 @@ resource "azurerm_resource_group" "cosmosdb_mil_rg" {
   name     = format("${local.project}-cosmosdb-rg", )
   location = var.location
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "cosmosdb_account_mongodb" {
-  count = var.is_feature_enabled.cosmos ? 1 : 0
-
-  source = "./.terraform/modules/__v3__/cosmosdb_account"
-
+  count  = var.is_feature_enabled.cosmos ? 1 : 0
+  source = "./.terraform/modules/__v4__/cosmosdb_account"
 
   name                = "${local.project}-cosmos-account"
   location            = var.location
@@ -19,7 +17,7 @@ module "cosmosdb_account_mongodb" {
   offer_type   = var.cosmos_mongo_db_params.offer_type
   kind         = var.cosmos_mongo_db_params.kind
   capabilities = var.cosmos_mongo_db_params.capabilities
-  #mongo_server_version = var.cosmos_mongo_db_params.server_version
+  # mongo_server_version = var.cosmos_mongo_db_params.server_version    Set 7.0 from console
   enable_free_tier = var.cosmos_mongo_db_params.enable_free_tier
 
   public_network_access_enabled     = var.cosmos_mongo_db_params.public_network_access_enabled
@@ -36,7 +34,7 @@ module "cosmosdb_account_mongodb" {
   backup_continuous_enabled = var.cosmos_mongo_db_params.backup_continuous_enabled
   ip_range                  = var.cosmos_mongo_db_params.ip_range_filter
 
-  tags = var.tags
+  tags = local.tags
 }
 
 resource "azurerm_cosmosdb_mongo_database" "mil" {
@@ -158,9 +156,7 @@ locals {
 }
 
 module "cosmosdb_mil_collections" {
-
-  source = "./.terraform/modules/__v3__/cosmosdb_mongodb_collection"
-
+  source   = "./.terraform/modules/__v4__/cosmosdb_mongodb_collection"
   for_each = var.is_feature_enabled.cosmos ? { for index, coll in local.collections : coll.name => coll } : {}
 
   name                = each.value.name
@@ -180,10 +176,12 @@ module "cosmosdb_mil_collections" {
 #---------------------------------------------------------------------------------
 resource "azurerm_key_vault_secret" "cosmosdb_account_mongodb_connection_strings" {
   name         = "mongodb-connection-string"
-  value        = module.cosmosdb_account_mongodb[0].connection_strings[0]
+  value        = module.cosmosdb_account_mongodb[0].primary_connection_strings
   content_type = "text/plain"
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id
+
+  tags = local.tags
 }
 
 # -----------------------------------------------
@@ -237,5 +235,5 @@ resource "azurerm_monitor_metric_alert" "cosmos_db_normalized_ru_exceeded" {
     action_group_id = data.azurerm_monitor_action_group.slack.id
   }
 
-  tags = var.tags
+  tags = local.tags
 }
