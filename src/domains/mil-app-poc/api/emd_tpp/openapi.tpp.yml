@@ -1661,7 +1661,7 @@ components:
           pattern: "^[ -~]{1,70}$"
           minLength: 1
           maxLength: 70
-          example: "HYPE"
+          example: "Nome PSP"
         agentDeepLinks:
           type: object
           description: "Agent Deep Link info"
@@ -1814,7 +1814,7 @@ components:
           pattern: "^[ -~]{1,70}$"
           minLength: 1
           maxLength: 70
-          example: "HYPE"
+          example: "Nome PSP"
         agentDeepLinks:
           type: object
           description: "Agent Deep Link info"
@@ -2001,7 +2001,7 @@ components:
           pattern: "^[ -~]{1,70}$"
           minLength: 1
           maxLength: 70
-          example: "HYPE"
+          example: "Nome PSP"
         agentDeepLinks:
           type: object
           description: "Agent Deep Link info"
