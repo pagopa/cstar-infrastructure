@@ -1,9 +1,14 @@
 <policies>
     <inbound>
-        <base />
         <set-variable name="calls" value="${calls}" />
         <set-variable name="period" value="${period}" />
         <include-fragment fragment-id="rate-limit-by-clientid-formparam" />
+        <cors allow-credentials="false">
+            <allowed-origins>${allowed_origins}</allowed-origins>
+            <allowed-methods>
+                <method>POST</method>
+            </allowed-methods>
+        </cors>
     </inbound>
     <backend>
         <base />

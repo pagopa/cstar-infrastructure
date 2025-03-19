@@ -32,7 +32,7 @@ cidr_mcshared_cae_subnet = "10.11.132.0/24" # 10.11.132.0 -> 10.11.132.255
 # ------------------------------------------------------------------------------
 # URL to retrieve the OpenAPI descriptor of auth microservice.
 # ------------------------------------------------------------------------------
-auth_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-auth/1611e5d59f4756e7ccc46647f99c89613ad0bbba/src/main/resources/META-INF/openapi_not_admin.yaml"
+auth_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-auth/384998980f984f31d7f92022974a56da9f79f6a9/src/main/resources/META-INF/openapi_not_admin.yaml"
 
 # ------------------------------------------------------------------------------
 # Rate limits.
@@ -56,6 +56,14 @@ introspect_rate_limit = {
   calls  = 100
   period = 60
 }
+
+# ------------------------------------------------------------------------------
+# Get access token API allowed origins.
+# ------------------------------------------------------------------------------
+get_access_token_allowed_origins = [
+  "https://rtp.cstar.pagopa.it",
+  "https://welfare.cstar.pagopa.it"
+]
 
 #
 # ACA
