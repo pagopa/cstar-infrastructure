@@ -75,7 +75,7 @@ resource "azurerm_api_management_api" "auth" {
     content_format = "openapi-link"
     content_value  = var.auth_openapi_descriptor
   }
-  
+
   depends_on = [
     azurerm_container_app_environment.mcshared
   ]
@@ -120,9 +120,9 @@ resource "azurerm_api_management_api_operation_policy" "get_access_token" {
   operation_id        = "getAccessToken"
   depends_on          = [azurerm_api_management_policy_fragment.rate_limit_by_clientid_formparam]
   xml_content = templatefile("policies/getAccessToken.xml", {
-      calls           = var.get_access_token_rate_limit.calls
-      period          = var.get_access_token_rate_limit.period
-      allowed_origins = local.allowed_origins
+    calls           = var.get_access_token_rate_limit.calls
+    period          = var.get_access_token_rate_limit.period
+    allowed_origins = local.allowed_origins
   })
 }
 
