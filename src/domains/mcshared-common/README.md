@@ -125,6 +125,7 @@ No modules.
 | <a name="input_core_virtual_network_resource_group_name"></a> [core\_virtual\_network\_resource\_group\_name](#input\_core\_virtual\_network\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
+| <a name="input_get_access_token_allowed_origins"></a> [get\_access\_token\_allowed\_origins](#input\_get\_access\_token\_allowed\_origins) | n/a | `list(string)` | n/a | yes |
 | <a name="input_get_access_token_rate_limit"></a> [get\_access\_token\_rate\_limit](#input\_get\_access\_token\_rate\_limit) | n/a | <pre>object({<br/>    calls  = number<br/>    period = number<br/>  })</pre> | <pre>{<br/>  "calls": 10,<br/>  "period": 60<br/>}</pre> | no |
 | <a name="input_get_jwks_rate_limit"></a> [get\_jwks\_rate\_limit](#input\_get\_jwks\_rate\_limit) | n/a | <pre>object({<br/>    calls  = number<br/>    period = number<br/>  })</pre> | <pre>{<br/>  "calls": 100,<br/>  "period": 60<br/>}</pre> | no |
 | <a name="input_get_open_id_conf_rate_limit"></a> [get\_open\_id\_conf\_rate\_limit](#input\_get\_open\_id\_conf\_rate\_limit) | n/a | <pre>object({<br/>    calls  = number<br/>    period = number<br/>  })</pre> | <pre>{<br/>  "calls": 100,<br/>  "period": 60<br/>}</pre> | no |
@@ -132,6 +133,8 @@ No modules.
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westeurope"` | no |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | n/a | `string` | `"weu"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | ------------------------------------------------------------------------------ Generic variables definition. ------------------------------------------------------------------------------ | `string` | `"cstar"` | no |
+| <a name="input_revoked_refresh_tokens_generations_ttl"></a> [revoked\_refresh\_tokens\_generations\_ttl](#input\_revoked\_refresh\_tokens\_generations\_ttl) | ------------------------------------------------------------------------------ CosmosDB Mongo collection for revoked refresh tokens generations used by auth microservice. ------------------------------------------------------------------------------ | `number` | `7776000` | no |
+| <a name="input_revoked_refresh_tokens_ttl"></a> [revoked\_refresh\_tokens\_ttl](#input\_revoked\_refresh\_tokens\_ttl) | ------------------------------------------------------------------------------ CosmosDB Mongo collection for revoked refresh tokens used by auth microservice. ------------------------------------------------------------------------------ | `number` | `7776000` | no |
 
 ## Outputs
 

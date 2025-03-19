@@ -99,11 +99,17 @@ resource "azurerm_cosmosdb_mongo_collection" "users" {
 # CosmosDB Mongo collection for revoked refresh tokens used by auth
 # microservice.
 # ------------------------------------------------------------------------------
+variable "revoked_refresh_tokens_ttl" {
+  type    = number
+  default = 7776000
+}
+
 resource "azurerm_cosmosdb_mongo_collection" "revoked_refresh_tokens" {
   account_name        = azurerm_cosmosdb_mongo_database.mcshared.account_name
   database_name       = azurerm_cosmosdb_mongo_database.mcshared.name
   name                = "revokedRefreshTokens"
   resource_group_name = azurerm_cosmosdb_mongo_database.mcshared.resource_group_name
+  default_ttl_seconds = var.revoked_refresh_tokens_ttl
 
   dynamic "autoscale_settings" {
     for_each = var.env_short != "d" ? [1] : []
@@ -129,11 +135,17 @@ resource "azurerm_cosmosdb_mongo_collection" "revoked_refresh_tokens" {
 # CosmosDB Mongo collection for revoked refresh tokens generations used by auth
 # microservice.
 # ------------------------------------------------------------------------------
+variable "revoked_refresh_tokens_generations_ttl" {
+  type    = number
+  default = 7776000
+}
+
 resource "azurerm_cosmosdb_mongo_collection" "revoked_refresh_tokens_generations" {
   account_name        = azurerm_cosmosdb_mongo_database.mcshared.account_name
   database_name       = azurerm_cosmosdb_mongo_database.mcshared.name
   name                = "revokedRefreshTokensGenerations"
   resource_group_name = azurerm_cosmosdb_mongo_database.mcshared.resource_group_name
+  default_ttl_seconds = var.revoked_refresh_tokens_generations_ttl
 
   dynamic "autoscale_settings" {
     for_each = var.env_short != "d" ? [1] : []
