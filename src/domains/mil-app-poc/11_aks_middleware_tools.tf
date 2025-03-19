@@ -1,5 +1,5 @@
 module "tls_checker" {
-  source = "./.terraform/modules/__v3__/tls_checker"
+  source = "./.terraform/modules/__v4__/tls_checker"
 
   https_endpoint                                            = local.domain_aks_hostname
   alert_name                                                = local.domain_aks_hostname
@@ -18,31 +18,14 @@ module "tls_checker" {
   workload_identity_service_account_name = module.workload_identity.workload_identity_service_account_name
   workload_identity_client_id            = module.workload_identity.workload_identity_client_id
 
-  depends_on = [module.workload_identity]
+  depends_on = [
+    module.workload_identity,
+    azurerm_key_vault_secret.appinsights-instrumentation-key
+  ]
 }
 
-# resource "helm_release" "cert_mounter" {
-#   name         = "cert-mounter-blueprint"
-#   repository   = "https://pagopa.github.io/aks-helm-cert-mounter-blueprint"
-#   chart        = "cert-mounter-blueprint"
-#   version      = "1.0.4"
-#   namespace    = var.domain
-#   timeout      = 120
-#   force_update = true
-#
-#   values = [
-#     templatefile("${path.root}/helm/cert-mounter.yaml.tpl", {
-#       NAMESPACE        = var.domain,
-#       DOMAIN           = var.domain,
-#       CERTIFICATE_NAME = replace(local.domain_aks_hostname, ".", "-"),
-#       ENV_SHORT        = var.env_short,
-#       KV_NAME          = data.azurerm_key_vault.kv_domain.name
-#     })
-#   ]
-# }
-
 module "cert_mounter" {
-  source = "./.terraform/modules/__v3__/cert_mounter"
+  source = "./.terraform/modules/__v4__/cert_mounter"
 
   namespace        = var.domain
   certificate_name = replace(local.domain_aks_hostname, ".", "-")

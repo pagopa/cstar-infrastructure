@@ -8,4 +8,5 @@ resource "azurerm_key_vault_key" "generate_key_sops" {
     "decrypt",
     "encrypt",
   ]
+  tags = local.tags
 }
