@@ -80,6 +80,7 @@ stages:
         WORKING_DIR_APP: "src/domains/mil-app-poc"
         WORKING_DIR_COMMON: "src/domains/mil-common-poc"
         WORKING_DIR_SECRET: "src/domains/mil-secrets-poc"
+        DOMAIN_NAME: 'mil'
         SC_PLAN_NAME: '$(TF_AZURE_SERVICE_CONNECTION_PLAN_NAME_PROD)'
         SC_APPLY_NAME: '$(TF_AZURE_SERVICE_CONNECTION_APPLY_NAME_PROD)'
         AKS_APISERVER_URL: '$(TF_PROD_AKS_APISERVER_URL)'
