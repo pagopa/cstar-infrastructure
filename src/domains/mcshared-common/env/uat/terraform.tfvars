@@ -38,7 +38,7 @@ auth_openapi_descriptor = "https://raw.githubusercontent.com/pagopa/mil-auth/384
 # Rate limits.
 # ------------------------------------------------------------------------------
 get_access_token_rate_limit = {
-  calls  = 10
+  calls  = 100
   period = 60
 }
 

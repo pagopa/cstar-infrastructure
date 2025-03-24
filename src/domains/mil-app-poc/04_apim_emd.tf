@@ -20,7 +20,7 @@ module "emd_api_product" {
   subscriptions_limit = 0
 
   policy_xml = templatefile("./api_product/emd/policy_emd.xml", {
-    rate_limit_emd = var.rate_limit_emd_product
+    rate_limit_emd = var.rate_limit_emd_message
     }
   )
 
