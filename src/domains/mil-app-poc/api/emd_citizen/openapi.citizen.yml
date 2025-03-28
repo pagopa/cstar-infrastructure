@@ -106,7 +106,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_BAD_REQUEST
+                code: BAD_REQUEST
                 message: Something went wrong handling the request
           headers:
             Access-Control-Allow-Origin:
@@ -166,7 +166,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                code: CITIZEN_NOT_ONBOARDED
                 message: Citizen consent not inserted
           headers:
             Access-Control-Allow-Origin:
@@ -196,7 +196,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                code: TOO_MANY_REQUESTS
                 message: Too many requests
           headers:
             Access-Control-Allow-Origin:
@@ -226,7 +226,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_GENERIC_ERROR
+                code: GENERIC_ERROR
                 message: Application error
           headers:
             Access-Control-Allow-Origin:
@@ -330,7 +330,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_BAD_REQUEST
+                code: BAD_REQUEST
                 message: Something went wrong handling the request
           headers:
             Access-Control-Allow-Origin:
@@ -390,7 +390,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                code: CITIZEN_NOT_ONBOARDED
                 message: Citizen consent not inserted
           headers:
             Access-Control-Allow-Origin:
@@ -420,7 +420,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                code: TOO_MANY_REQUESTS
                 message: Too many requests
           headers:
             Access-Control-Allow-Origin:
@@ -450,7 +450,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_GENERIC_ERROR
+                code: GENERIC_ERROR
                 message: Application error
           headers:
             Access-Control-Allow-Origin:
@@ -555,7 +555,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_BAD_REQUEST
+                code: BAD_REQUEST
                 message: Something went wrong handling the request
           headers:
             Access-Control-Allow-Origin:
@@ -615,7 +615,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                code: CITIZEN_NOT_ONBOARDED
                 message: Citizen consent not inserted
           headers:
             Access-Control-Allow-Origin:
@@ -645,7 +645,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                code: TOO_MANY_REQUESTS
                 message: Too many requests
           headers:
             Access-Control-Allow-Origin:
@@ -675,7 +675,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_GENERIC_ERROR
+                code: GENERIC_ERROR
                 message: Application error
           headers:
             Access-Control-Allow-Origin:
@@ -770,7 +770,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_BAD_REQUEST
+                code: BAD_REQUEST
                 message: Something went wrong handling the request
           headers:
             Access-Control-Allow-Origin:
@@ -830,7 +830,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                code: CITIZEN_NOT_ONBOARDED
                 message: Citizen consent not inserted
           headers:
             Access-Control-Allow-Origin:
@@ -860,7 +860,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                code: TOO_MANY_REQUESTS
                 message: Too many requests
           headers:
             Access-Control-Allow-Origin:
@@ -890,7 +890,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_GENERIC_ERROR
+                code: GENERIC_ERROR
                 message: Application error
           headers:
             Access-Control-Allow-Origin:
@@ -984,7 +984,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_BAD_REQUEST
+                code: BAD_REQUEST
                 message: Something went wrong handling the request
           headers:
             Access-Control-Allow-Origin:
@@ -1044,7 +1044,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                code: CITIZEN_NOT_ONBOARDED
                 message: Citizen consent not inserted
           headers:
             Access-Control-Allow-Origin:
@@ -1074,7 +1074,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                code: TOO_MANY_REQUESTS
                 message: Too many requests
           headers:
             Access-Control-Allow-Origin:
@@ -1104,7 +1104,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_GENERIC_ERROR
+                code: GENERIC_ERROR
                 message: Application error
           headers:
             Access-Control-Allow-Origin:
@@ -1206,7 +1206,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_BAD_REQUEST
+                code: BAD_REQUEST
                 message: Something went wrong handling the request
           headers:
             Access-Control-Allow-Origin:
@@ -1266,7 +1266,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_NOT_ONBOARDED
+                code: CITIZEN_NOT_ONBOARDED
                 message: Citizen consent not inserted
           headers:
             Access-Control-Allow-Origin:
@@ -1296,7 +1296,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_TOO_MANY_REQUESTS
+                code: TOO_MANY_REQUESTS
                 message: Too many requests
           headers:
             Access-Control-Allow-Origin:
@@ -1326,7 +1326,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CitizenConsentErrorDTO'
               example:
-                code: CITIZEN_CONSENT_GENERIC_ERROR
+                code: GENERIC_ERROR
                 message: Application error
           headers:
             Access-Control-Allow-Origin:
@@ -1437,23 +1437,26 @@ components:
         code:
           type: string
           enum:
-            - CITIZEN_CONSENT_BAD_REQUEST
-            - CITIZEN_CONSENT_NOT_ONBOARDED
-            - CITIZEN_CONSENT_TOO_MANY_REQUESTS
-            - CITIZEN_CONSENT_GENERIC_ERROR
+            - BAD_REQUEST
+            - CITIZEN_NOT_ONBOARDED
+            - TOO_MANY_REQUESTS
+            - GENERIC_ERROR
+            - TPP_NOT_FOUND
             - CITIZEN_CONSENT_AUTHENTICATION_FAILED
           description: |-
-            "ENG: Error code: CITIZEN_CONSENT_BAD_REQUEST: Something went wrong handling the request,
-             CITIZEN_CONSENT_NOT_ONBOARDED: Citizen consent not inserted,
-             CITIZEN_CONSENT_TOO_MANY_REQUESTS: Too many requests,
-             CITIZEN_CONSENT_GENERIC_ERROR: Application Error,
+            "ENG: Error code: BAD_REQUEST: Something went wrong handling the request,
+             CITIZEN_NOT_ONBOARDED: Citizen consent not inserted,
+             TOO_MANY_REQUESTS: Too many requests,
+             GENERIC_ERROR: Application Error,
+             TPP_NOT_FOUND: TPP does not exist or is not active,
              CITIZEN_CONSENT_AUTHENTICATION_FAILED: Something went wrong with authentication -
              IT: Codice di errore:
-             CITIZEN_CONSENT_BAD_REQUEST:  Qualcosa è andato storto durante
+             BAD_REQUEST:  Qualcosa è andato storto durante
              l'invio della richiesta,
-             CITIZEN_CONSENT_NOT_ONBOARDED: Consensi del cittadino non inseriti,
-             CITIZEN_CONSENT_TOO_MANY_REQUESTS: Troppe richieste,
-             CITIZEN_CONSENT_GENERIC_ERROR: Errore generico,
+             CITIZEN_NOT_ONBOARDED: Consensi del cittadino non inseriti,
+             TOO_MANY_REQUESTS: Troppe richieste,
+             GENERIC_ERROR: Errore generico,
+             TPP_NOT_FOUND: La TPP non esiste o non è attiva,
              CITIZEN_CONSENT_AUTHENTICATION_FAILED:  Qualcosa è andato storto con l'autenticazione"
         message:
           type: string
