@@ -33,6 +33,7 @@ resource "azurerm_role_definition" "iac_reader" {
       "Microsoft.Web/serverfarms/read",
       # "Microsoft.Web/sites/config/read",
       # "Microsoft.Web/sites/host/listkeys/action",
+      "Microsoft.Monitor/*/read", # terraform monitor read
       "Microsoft.Storage/*/read",
       "Microsoft.Storage/*/listkeys/action", # terraform get status backend
       "Microsoft.Storage/storageAccounts/*/read",
