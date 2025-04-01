@@ -1,5 +1,6 @@
-<!-- Policy fragment to limit the rate by client id recevied as form param.    -->
-<!-- To use this frament it's mandatory to set variables 'calls' and 'period'. -->
+<!-- Policy fragment to limit the rate by client id recevied as form param.               -->
+<!-- This policy also puts a trace with client id and prepares the key to cache response. -->
+<!-- To use this frament it's mandatory to set variables 'calls' and 'period'.            -->
 <fragment>
     <set-variable
         name="counterKey"
@@ -10,7 +11,7 @@
                 if (formParams != null) {
                     IList<string> clientIds = null;
                     if (formParams.TryGetValue("client_id", out clientIds)) {
-                        if (clientIds != null && clientIds.Count > 0) {
+                        if (clientIds.Count > 0) {
                             return clientIds[0];
                         }
                     }
