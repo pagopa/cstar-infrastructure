@@ -151,6 +151,11 @@ variable "rate_limit_emd_product" {
   description = "Rate limit for MIN INT product"
 }
 
+variable "rate_limit_emd_message" {
+  type        = number
+  description = "Rate limit for send message"
+}
+
 variable "mil_openid_url" {
   type        = string
   description = "OpenId MIL url"

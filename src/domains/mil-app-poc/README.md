@@ -90,6 +90,7 @@
 | <a name="input_mil_openid_url"></a> [mil\_openid\_url](#input\_mil\_openid\_url) | OpenId MIL url | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
+| <a name="input_rate_limit_emd_message"></a> [rate\_limit\_emd\_message](#input\_rate\_limit\_emd\_message) | Rate limit for send message | `number` | n/a | yes |
 | <a name="input_rate_limit_emd_product"></a> [rate\_limit\_emd\_product](#input\_rate\_limit\_emd\_product) | Rate limit for MIN INT product | `number` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
 

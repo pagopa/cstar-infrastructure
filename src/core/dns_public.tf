@@ -106,6 +106,12 @@ resource "azurerm_dns_caa_record" "cstar_pagopa_it" {
 
   record {
     flags = 0
+    tag   = "issue"
+    value = "actalis.it"
+  }
+
+  record {
+    flags = 0
     tag   = "iodef"
     value = "mailto:security+caa@pagopa.it"
   }
