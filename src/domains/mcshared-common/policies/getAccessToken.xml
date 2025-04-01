@@ -1,5 +1,6 @@
 <policies>
     <inbound>
+        <base />
         <set-variable name="calls" value="${calls}" />
         <set-variable name="period" value="${period}" />
         <include-fragment fragment-id="rate-limit-by-clientid-formparam" />
@@ -9,11 +10,80 @@
                 <method>POST</method>
             </allowed-methods>
         </cors>
+        <set-variable name="cacheKey" value="@(context.Request.Body.As<string>(preserveContent: true).GetHashCode().ToString())" />
+        <cache-lookup-value key="@((string)context.Variables["cacheKey"])" variable-name="cachedResponse" />
+        <choose>
+            <when condition="@(context.Variables.ContainsKey("cachedResponse") && context.Variables["cachedResponse"] != null)">
+                <set-variable name="currentTime" value="@(DateTimeOffset.UtcNow.ToUnixTimeSeconds())" />
+                <set-variable name="updatedResponse" value="@{
+                    try {
+                        var body = JObject.Parse((string)context.Variables["cachedResponse"]);
+                        long initExpiresIn = (long)body["_expires_in"];
+                        body.Remove("_expires_in");
+                        long issuedAt = (long)body["_issued_at"];
+                        body.Remove("_issued_at");
+                        long currentTime = (long)context.Variables["currentTime"];
+                        long age = currentTime - issuedAt;
+                        long expiresIn = initExpiresIn - age;
+                        if (expiresIn > 5) {
+                            body["expires_in"] = expiresIn;
+                            return body.ToString();
+                        } else {
+                            return null;
+                        }
+                    } catch {
+                        return null;
+                    }
+                }" />
+                <choose>
+                    <when condition="@(context.Variables.ContainsKey("updatedResponse") && context.Variables["updatedResponse"] != null)">
+                        <return-response>
+                            <set-status code="200" />
+                            <set-header name="Content-Type" exists-action="override">
+                                <value>application/json</value>
+                            </set-header>
+                            <set-body>@((string)context.Variables["updatedResponse"])</set-body>
+                        </return-response>
+                    </when>
+                </choose>
+            </when>
+        </choose>
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
+        <choose>
+            <when condition="@(context.Response.StatusCode == 200)">
+                <set-variable name="issuedAt" value="@(DateTimeOffset.UtcNow.ToUnixTimeSeconds())" />
+                <set-variable name="responseBody" value="@(context.Response.Body.As<string>(preserveContent: true))" />
+                <set-variable name="cacheDuration" value="@{
+                    try {
+                        var body = JObject.Parse((string)context.Variables["responseBody"]);
+                        if ((long)body["expires_in"] > Int32.MaxValue) {
+                            return Int32.MaxValue;
+                        }
+                        if ((long)body["expires_in"] < 5) {
+                            return 0;
+                        }
+                        return (int)body["expires_in"];
+                    } catch {
+                        return 0;
+                    }
+                }" />
+                <set-variable name="responseBodyToCache" value="@{
+                    try {
+                        var body = JObject.Parse((string)context.Variables["responseBody"]);
+                        body["_issued_at"] = (long)context.Variables["issuedAt"];
+                        body["_expires_in"] = body["expires_in"];
+                        return body.ToString();
+                    } catch {
+                        return (string)context.Variables["responseBody"];
+                    }
+                }" />
+                <cache-store-value key="@((string)context.Variables["cacheKey"])" value="@((string)context.Variables["responseBodyToCache"])" duration="@((int)context.Variables["cacheDuration"])" />
+            </when>
+        </choose>
         <base />
     </outbound>
     <on-error>
