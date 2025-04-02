@@ -380,3 +380,12 @@ resource "azurerm_private_dns_zone_virtual_network_link" "container_app_link" {
   virtual_network_id    = each.value.id
   tags                  = var.tags
 }
+
+# ------------------------------------------------------------------------------
+# Private DNS zone for key vaults.
+# ------------------------------------------------------------------------------
+resource "azurerm_private_dns_zone" "key_vault" {
+  name                = "privatelink.vaultcore.azure.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  tags                = var.tags
+}
