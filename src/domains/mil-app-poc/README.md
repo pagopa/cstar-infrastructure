@@ -25,6 +25,7 @@
 | <a name="module_emd_payment_core"></a> [emd\_payment\_core](#module\_emd\_payment\_core) | ./.terraform/modules/__v4__/api_management_api | n/a |
 | <a name="module_emd_retrieval_api_product"></a> [emd\_retrieval\_api\_product](#module\_emd\_retrieval\_api\_product) | ./.terraform/modules/__v4__/api_management_product | n/a |
 | <a name="module_emd_tpp"></a> [emd\_tpp](#module\_emd\_tpp) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_tpp_product"></a> [emd\_tpp\_product](#module\_emd\_tpp\_product) | ./.terraform/modules/__v4__/api_management_product | n/a |
 | <a name="module_kubernetes_service_account"></a> [kubernetes\_service\_account](#module\_kubernetes\_service\_account) | ./.terraform/modules/__v4__/kubernetes_service_account | n/a |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | ./.terraform/modules/__v4__/tls_checker | n/a |
 | <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | ./.terraform/modules/__v4__/kubernetes_workload_identity_configuration | n/a |
