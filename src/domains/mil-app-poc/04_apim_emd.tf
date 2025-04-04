@@ -71,8 +71,8 @@ module "emd_tpp_product" {
 
   policy_xml = templatefile("./api_product/emd/tpp/policy_emd.xml", {
     rate_limit_emd = var.rate_limit_emd_product
-  }
- )
+    }
+  )
 
   groups = ["developers"]
 }
