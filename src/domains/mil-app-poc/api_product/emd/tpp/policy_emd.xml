@@ -1,0 +1,37 @@
+<policies>
+  <inbound>
+    <base />
+    <rate-limit calls="${rate_limit_emd}" renewal-period="60" />
+        <include-fragment fragment-id="emd-validate-token-mil" />
+        <choose>
+          <when condition="@(((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("groups", "") == "emd-tpp" || ((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("groups", "") == "emd-pagopa")">
+              <!-- If 'groups' claim equals "emd-tpp", set your policy logic here -->
+              <!-- For example, you can continue with your policy flow -->
+              <set-variable name="groups" value="@(((Jwt)context.Variables["milToken"]).Claims.GetValueOrDefault("groups", ""))" />
+          </when>
+          <otherwise>
+            <!-- Handle cases where 'groups' claim does not equal "emd-tpp" -->
+            <return-response>
+              <set-status code="401" reason="Unauthorized" />
+              <set-body>
+                @{
+                var responseJson = new JObject();
+                responseJson["statusCode"] = 401;
+                responseJson["message"] = "Access denied: User does not have required permissions.";
+                return responseJson.ToString();
+                }
+              </set-body>
+            </return-response>
+          </otherwise>
+    </choose>
+</inbound>
+<backend>
+<base />
+</backend>
+<outbound>
+<base />
+</outbound>
+<on-error>
+<base />
+</on-error>
+  </policies>

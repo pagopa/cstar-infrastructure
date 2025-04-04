@@ -52,6 +52,31 @@ module "emd_mil_api_product" {
   groups = ["developers"]
 }
 
+module "emd_tpp_product" {
+  source = "./.terraform/modules/__v4__/api_management_product"
+
+
+  product_id   = "emd_tpp_product"
+  display_name = "EMD_TPP_PRODUCT"
+  description  = "EMD_TPP_PRODUCT"
+
+  api_management_name = data.azurerm_api_management.apim_core.name
+  resource_group_name = data.azurerm_api_management.apim_core.resource_group_name
+
+  published             = true
+  subscription_required = false
+  approval_required     = false
+
+  subscriptions_limit = 0
+
+  policy_xml = templatefile("./api_product/emd/tpp/policy_emd.xml", {
+    rate_limit_emd = var.rate_limit_emd_product
+  }
+ )
+
+  groups = ["developers"]
+}
+
 module "emd_retrieval_api_product" {
   source = "./.terraform/modules/__v4__/api_management_product"
 
@@ -98,7 +123,7 @@ module "emd_tpp" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_api_product.product_id]
+  product_ids           = [module.emd_tpp_product.product_id]
   subscription_required = false
 
   api_operation_policies = [
