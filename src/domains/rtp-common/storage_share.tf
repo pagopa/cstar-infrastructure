@@ -1,3 +1,4 @@
+
 resource "azurerm_resource_group" "rtp_rg_storage_share" {
   name     = "${local.project}-storage-share-rg"
   location = var.location
@@ -15,7 +16,7 @@ resource "azurerm_storage_account" "rtp_files_storage_account" {
 }
 
 resource "azurerm_storage_share" "rtp_jks_file_share" {
-  name                 = "${local.project}-ks-file-share"
+  name                 = "${local.project}-jks-file-share"
   storage_account_name = azurerm_storage_account.rtp_files_storage_account.name
   quota                = 1
 }
