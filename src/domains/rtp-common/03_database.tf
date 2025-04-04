@@ -9,7 +9,7 @@ resource "azurerm_cosmosdb_account" "rtp" {
   offer_type          = var.cosmos_mongo_db_params.offer_type
 
   mongo_server_version          = var.cosmos_mongo_db_params.server_version
-  enable_free_tier              = var.cosmos_mongo_db_params.enable_free_tier
+  free_tier_enabled             = var.cosmos_mongo_db_params.enable_free_tier
   tags                          = var.tags
   public_network_access_enabled = var.cosmos_mongo_db_params.public_network_access_enabled
 
