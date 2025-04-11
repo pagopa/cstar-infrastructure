@@ -105,7 +105,7 @@ module "app_gw_maz" {
           "cstar-${var.env_short}-rtp-nexi-cb-chain"
         ] : [])
       ])
-      verify_client_cert_issuer_dn = true
+      verify_client_cert_issuer_dn = false
       ssl_policy = {
         disabled_protocols = []
         policy_type        = "Custom"
