@@ -101,6 +101,7 @@ module "app_gw_maz" {
           "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
         ],
         (var.env != "prod" ? [
+          "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
           "cstar-${var.env_short}-rtp-nexi-cb-chain"
         ] : [])
       ])
@@ -150,9 +151,13 @@ module "app_gw_maz" {
       {
         secret_name  = "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain"
         key_vault_id = module.key_vault.id
-      },
+      }
     ],
     (var.env != "prod" ? [
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-posteitaliane-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
       {
         secret_name  = "cstar-${var.env_short}-rtp-nexi-cb-chain"
         key_vault_id = module.key_vault.id
@@ -428,17 +433,32 @@ module "app_gw_maz" {
               negate      = true
             }
           ]
-          request_header_configurations = [
-            {
-              header_name  = "X-Client-Certificate-Serial"
-              header_value = "\\{client_certificate_serial\\}"
-            }
-          ]
+          request_header_configurations  = []
           response_header_configurations = []
           url = {
             path         = "notfound"
             query_string = null
           }
+        },
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "rtp/cb/*"
+              ignore_case = true
+              negate      = false
+            }
+          ]
+          request_header_configurations = [
+            {
+              header_name  = "X-Client-Certificate-Serial"
+              header_value = "{var_client_certificate_serial}"
+            }
+          ]
+          response_header_configurations = []
+          url                            = null
         }
       ]
     },

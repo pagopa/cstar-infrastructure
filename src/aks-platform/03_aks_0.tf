@@ -42,6 +42,10 @@ module "aks" {
   workload_identity_enabled = true
   oidc_issuer_enabled       = true
 
+  ## Prometheus managed
+  # ffppa: ⚠️ Installed on all ENV please do not change
+  enable_prometheus_monitor_metrics = true
+
   #
   # 🤖 System node pool
   #
