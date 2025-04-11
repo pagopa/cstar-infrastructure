@@ -433,17 +433,32 @@ module "app_gw_maz" {
               negate      = true
             }
           ]
-          request_header_configurations = [
-            {
-              header_name  = "X-Client-Certificate-Serial"
-              header_value = "\\{client_certificate_serial\\}"
-            }
-          ]
+          request_header_configurations = []
           response_header_configurations = []
           url = {
             path         = "notfound"
             query_string = null
           }
+        },
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "rtp/cb/*"
+              ignore_case = true
+              negate      = false
+            }
+          ]
+          request_header_configurations = [
+            {
+              header_name  = "X-Client-Certificate-Serial"
+              header_value = "{var_client_certificate_serial}"
+            }
+          ]
+          response_header_configurations = []
+          url = null
         }
       ]
     },
