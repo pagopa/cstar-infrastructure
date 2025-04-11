@@ -433,7 +433,7 @@ module "app_gw_maz" {
               negate      = true
             }
           ]
-          request_header_configurations = []
+          request_header_configurations  = []
           response_header_configurations = []
           url = {
             path         = "notfound"
@@ -458,7 +458,7 @@ module "app_gw_maz" {
             }
           ]
           response_header_configurations = []
-          url = null
+          url                            = null
         }
       ]
     },
