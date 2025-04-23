@@ -32,7 +32,6 @@
 | <a name="module_rtd_senderack_correct_download_ack"></a> [rtd\_senderack\_correct\_download\_ack](#module\_rtd\_senderack\_correct\_download\_ack) | ./.terraform/modules/__v3__/api_management_api | n/a |
 | <a name="module_rtd_senderack_download_file"></a> [rtd\_senderack\_download\_file](#module\_rtd\_senderack\_download\_file) | ./.terraform/modules/__v3__/api_management_api | n/a |
 | <a name="module_rtd_senderadeack_filename_list"></a> [rtd\_senderadeack\_filename\_list](#module\_rtd\_senderadeack\_filename\_list) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | ./.terraform/modules/__v3__/tls_checker | n/a |
 | <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | ./.terraform/modules/__v3__/kubernetes_workload_identity_configuration | n/a |
 
 ## Resources
