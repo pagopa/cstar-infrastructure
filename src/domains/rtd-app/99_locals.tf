@@ -26,8 +26,6 @@ locals {
   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
 
-  domain_aks_hostname = var.env == "prod" ? "${var.instance}.${var.domain}.internal.cstar.pagopa.it" : "${var.instance}.${var.domain}.internal.${var.env}.cstar.pagopa.it"
-
   appgw_api_hostname    = var.env_short == "p" ? "api.cstar.pagopa.it" : "api.${var.env}.cstar.pagopa.it"
   appgw_api_io_hostname = var.env_short == "p" ? "api-io.cstar.pagopa.it" : "api-io.${var.env}.cstar.pagopa.it"
 
