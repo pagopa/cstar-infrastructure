@@ -34,3 +34,8 @@ resource "azurerm_storage_container" "rtp_debtor_service_provider" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_container" "rtp_payees_registry" {
+  name                  = "rtp-payees-registry"
+  storage_account_name  = azurerm_storage_account.rtp_blob_storage_account.name
+  container_access_type = "private"
+}
