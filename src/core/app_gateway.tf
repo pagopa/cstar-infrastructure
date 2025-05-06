@@ -99,6 +99,8 @@ module "app_gw_maz" {
           "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain",
           "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain",
           "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
+          "cstar-${var.env_short}-rtp-digicert-cb-chain",
+          "cstar-${var.env_short}-rtp-thawte-cb-chain",
         ],
         (var.env != "prod" ? [
           "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
@@ -150,6 +152,14 @@ module "app_gw_maz" {
       },
       {
         secret_name  = "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-digicert-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-thawte-cb-chain"
         key_vault_id = module.key_vault.id
       }
     ],
