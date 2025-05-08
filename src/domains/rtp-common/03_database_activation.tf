@@ -55,7 +55,7 @@ resource "azurerm_cosmosdb_mongo_database" "db_activation" {
 # ------------------------------------------------------------------------------
 # Create a collection for the activations inside the db activation.
 # ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_mongo_collection" "activations" {
+resource "azurerm_cosmosdb_mongo_collection" "collection_activations" {
   name                = "activations"
   resource_group_name = azurerm_resource_group.data.name
   account_name        = azurerm_cosmosdb_account.activation.name
