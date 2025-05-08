@@ -1,6 +1,6 @@
 module "app_gw_maz" {
-  # source = "./.terraform/modules/__v3__/app_gateway"
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=PAYMCLOUD-398-app-gw-aggiornamento-property-rule-set-version-3-2-pci"
+  source = "./.terraform/modules/__v3__/app_gateway"
+  # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=PAYMCLOUD-398-app-gw-aggiornamento-property-rule-set-version-3-2-pci"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -313,7 +313,7 @@ module "app_gw_maz" {
     api = {
       listener              = "app_io"
       backend               = "apim"
-      rewrite_rule_set_name = null
+      rewrite_rule_set_name = "rewrite-rule-set-api-io"
       priority              = 10
     }
 
@@ -506,6 +506,29 @@ module "app_gw_maz" {
             {
               variable    = "var_uri_path"
               pattern     = "/emd/.*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-io"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "/idpay/.*"
               ignore_case = true
               negate      = true
             }
