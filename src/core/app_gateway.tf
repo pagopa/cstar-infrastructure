@@ -1,5 +1,6 @@
 module "app_gw_maz" {
-  source = "./.terraform/modules/__v3__/app_gateway"
+  # source = "./.terraform/modules/__v3__/app_gateway"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=PAYMCLOUD-398-app-gw-aggiornamento-property-rule-set-version-3-2-pci"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -415,7 +416,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "rtp/*"
+              pattern     = "/rtp/.*"
               ignore_case = true
               negate      = true
             }
@@ -438,7 +439,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "rtp/cb/*"
+              pattern     = "/rtp/cb/.*"
               ignore_case = true
               negate      = true
             }
@@ -456,7 +457,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "rtp/cb/*"
+              pattern     = "/rtp/cb/.*"
               ignore_case = true
               negate      = false
             }
@@ -481,7 +482,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "auth/*"
+              pattern     = "/auth/.*"
               ignore_case = true
               negate      = true
             }
@@ -504,7 +505,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "emd/*"
+              pattern     = "/emd/.*"
               ignore_case = true
               negate      = true
             }
