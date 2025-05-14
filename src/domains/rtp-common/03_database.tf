@@ -44,7 +44,7 @@ resource "azurerm_key_vault_secret" "cosmosdb_account_rtp_connection_string" {
 }
 
 # ------------------------------------------------------------------------------
-# Create a CosmosDB sql database.
+# CosmosDB Mongo database for rtp
 # ------------------------------------------------------------------------------
 resource "azurerm_cosmosdb_mongo_database" "db_rtp" {
   name                = "rtp"
@@ -87,4 +87,33 @@ resource "azurerm_cosmosdb_mongo_collection" "rtps" {
     unique = true
   }
 
+}
+
+# ------------------------------------------------------------------------------
+# CosmosDB Mongo database for activation
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_mongo_database" "db_activation" {
+  name                = "activation"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.rtp.name
+}
+
+# ------------------------------------------------------------------------------
+# Create a collection for the activations inside the db activation.
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_mongo_collection" "collection_activations" {
+  name                = "activations"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.rtp.name
+  database_name       = azurerm_cosmosdb_mongo_database.db_activation.name
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+
+  index {
+    keys   = ["fiscalCode"]
+    unique = true
+  }
 }
