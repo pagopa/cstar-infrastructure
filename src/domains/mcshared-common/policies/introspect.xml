@@ -1,6 +1,5 @@
 <policies>
     <inbound>
-        <base />
         <set-variable name="calls" value="${calls}" />
         <set-variable name="period" value="${period}" />
         <include-fragment fragment-id="rate-limit-by-clientid-claim" />

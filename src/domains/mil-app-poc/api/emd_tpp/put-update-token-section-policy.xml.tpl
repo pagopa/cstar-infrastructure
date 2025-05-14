@@ -13,8 +13,17 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdtpp" />
-        <rewrite-uri template="@("/emd/tpp/update/{tppId}/token")" />
+        <choose>
+            <when condition="@(((string)context.Variables["groups"]).Contains("emd-pagopa"))">
+                <set-backend-service base-url="https://${ingress_load_balancer_hostname}/emdtpp" />
+                <rewrite-uri template="@("/emd/tpp/update/{tppId}/token")" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="401" reason="Operation Unauthorized" />
+                </return-response>
+            </otherwise>
+        </choose>
     </inbound>
     <backend>
         <base />

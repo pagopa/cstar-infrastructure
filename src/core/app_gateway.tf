@@ -1,5 +1,6 @@
 module "app_gw_maz" {
   source = "./.terraform/modules/__v3__/app_gateway"
+  # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=PAYMCLOUD-398-app-gw-aggiornamento-property-rule-set-version-3-2-pci"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -99,12 +100,15 @@ module "app_gw_maz" {
           "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain",
           "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain",
           "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
+          "cstar-${var.env_short}-rtp-digicert-cb-chain",
+          "cstar-${var.env_short}-rtp-thawte-cb-chain",
         ],
         (var.env != "prod" ? [
+          "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
           "cstar-${var.env_short}-rtp-nexi-cb-chain"
         ] : [])
       ])
-      verify_client_cert_issuer_dn = true
+      verify_client_cert_issuer_dn = false
       ssl_policy = {
         disabled_protocols = []
         policy_type        = "Custom"
@@ -151,8 +155,20 @@ module "app_gw_maz" {
         secret_name  = "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain"
         key_vault_id = module.key_vault.id
       },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-digicert-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-thawte-cb-chain"
+        key_vault_id = module.key_vault.id
+      }
     ],
     (var.env != "prod" ? [
+      {
+        secret_name  = "cstar-${var.env_short}-rtp-posteitaliane-cb-chain"
+        key_vault_id = module.key_vault.id
+      },
       {
         secret_name  = "cstar-${var.env_short}-rtp-nexi-cb-chain"
         key_vault_id = module.key_vault.id
@@ -297,7 +313,7 @@ module "app_gw_maz" {
     api = {
       listener              = "app_io"
       backend               = "apim"
-      rewrite_rule_set_name = null
+      rewrite_rule_set_name = "rewrite-rule-set-api-io"
       priority              = 10
     }
 
@@ -400,7 +416,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "rtp/*"
+              pattern     = "/rtp/.*"
               ignore_case = true
               negate      = true
             }
@@ -423,22 +439,37 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "rtp/cb/*"
+              pattern     = "/rtp/cb/.*"
               ignore_case = true
               negate      = true
             }
           ]
-          request_header_configurations = [
-            {
-              header_name  = "X-Client-Certificate-Serial"
-              header_value = "\\{client_certificate_serial\\}"
-            }
-          ]
+          request_header_configurations  = []
           response_header_configurations = []
           url = {
             path         = "notfound"
             query_string = null
           }
+        },
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "/rtp/cb/.*"
+              ignore_case = true
+              negate      = false
+            }
+          ]
+          request_header_configurations = [
+            {
+              header_name  = "X-Client-Certificate-Serial"
+              header_value = "{var_client_certificate_serial}"
+            }
+          ]
+          response_header_configurations = []
+          url                            = null
         }
       ]
     },
@@ -451,7 +482,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "auth/*"
+              pattern     = "/auth/.*"
               ignore_case = true
               negate      = true
             }
@@ -474,7 +505,30 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "emd/*"
+              pattern     = "/emd/.*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-io"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "/idpay/.*"
               ignore_case = true
               negate      = true
             }

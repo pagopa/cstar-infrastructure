@@ -2,6 +2,8 @@
 # Private DNS zone for ACA.
 # ------------------------------------------------------------------------------
 resource "azurerm_private_dns_zone" "aca" {
+  # Change to "privatelink.mcshared.westeurope.azurecontainerapps.io"
+  # and review APIM service URLs
   name                = azurerm_container_app_environment.mcshared.default_domain
   resource_group_name = azurerm_resource_group.network.name
   tags                = local.tags
@@ -41,28 +43,36 @@ resource "azurerm_private_dns_a_record" "aca" {
 }
 
 # ------------------------------------------------------------------------------
-# Private DNS zone for key vaults.
-#
-# TODO: To be moved to core.
+# Private DNS zone VNET link for key vaults.
 # ------------------------------------------------------------------------------
-resource "azurerm_private_dns_zone" "key_vault" {
+
+#
+# Moved to core.
+#
+#resource "azurerm_private_dns_zone" "key_vault" {
+#  name                = "privatelink.vaultcore.azure.net"
+#  resource_group_name = azurerm_resource_group.network.name
+#  tags                = local.tags
+#}
+
+data "azurerm_private_dns_zone" "key_vault" {
   name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = azurerm_resource_group.network.name
-  tags                = local.tags
+  resource_group_name = var.core_virtual_network_resource_group_name
 }
+
 
 resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_intern" {
   name                  = "key_vault_to_intern"
-  resource_group_name   = azurerm_private_dns_zone.key_vault.resource_group_name
-  private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
+  resource_group_name   = data.azurerm_private_dns_zone.key_vault.resource_group_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.key_vault.name
   virtual_network_id    = data.azurerm_virtual_network.intern.id
   tags                  = local.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_to_core" {
   name                  = "key_vault_to_core"
-  resource_group_name   = azurerm_private_dns_zone.key_vault.resource_group_name
-  private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
+  resource_group_name   = data.azurerm_private_dns_zone.key_vault.resource_group_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.key_vault.name
   virtual_network_id    = data.azurerm_virtual_network.core.id
   tags                  = local.tags
 }

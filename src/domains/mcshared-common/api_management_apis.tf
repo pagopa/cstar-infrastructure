@@ -21,6 +21,10 @@ variable "get_access_token_rate_limit" {
   }
 }
 
+variable "get_access_token_allowed_origins" {
+  type = list(string)
+}
+
 variable "get_jwks_rate_limit" {
   type = object({
     calls  = number
@@ -106,16 +110,19 @@ resource "azurerm_api_management_policy_fragment" "rate_limit_by_clientid_formpa
 # ------------------------------------------------------------------------------
 # Policies.
 # ------------------------------------------------------------------------------
+locals {
+  allowed_origins = join("", formatlist("<origin>%s</origin>", var.get_access_token_allowed_origins))
+}
 resource "azurerm_api_management_api_operation_policy" "get_access_token" {
   api_name            = azurerm_api_management_api.auth.name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
-  operation_id        = "getAccessToken"
+  operation_id        = "getAccessTokens"
   depends_on          = [azurerm_api_management_policy_fragment.rate_limit_by_clientid_formparam]
-  xml_content = templatefile(
-    var.env_short == "d" ? "policies/getAccessToken-dev.xml" : "policies/getAccessToken.xml", {
-      calls  = var.get_access_token_rate_limit.calls
-      period = var.get_access_token_rate_limit.period
+  xml_content = templatefile("policies/getAccessToken.xml", {
+    calls           = var.get_access_token_rate_limit.calls
+    period          = var.get_access_token_rate_limit.period
+    allowed_origins = local.allowed_origins
   })
 }
 

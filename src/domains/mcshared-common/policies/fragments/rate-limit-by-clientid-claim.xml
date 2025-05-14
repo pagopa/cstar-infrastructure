@@ -16,6 +16,10 @@
             }
             return "DEFAULT";
         }" />
+    <trace source="APIM" severity="information">
+        <message>@((string)context.Variables["counterKey"])</message>
+        <metadata name="key" value="counterKey"/>
+    </trace>
     <rate-limit-by-key
         calls="@(context.Variables.ContainsKey("calls") ? int.Parse((string)context.Variables["calls"]) : 10)"
         renewal-period="@(context.Variables.ContainsKey("period") ? int.Parse((string)context.Variables["period"]) : 60)"

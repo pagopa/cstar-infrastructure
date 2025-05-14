@@ -22,3 +22,10 @@ resource "azurerm_key_vault_secret" "appinsights-instrumentation-key" {
   value        = "InstrumentationKey=${data.azurerm_application_insights.application_insights.instrumentation_key}"
   content_type = "text/plain"
 }
+
+resource "azurerm_key_vault_secret" "appinsights-connection-string" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  name         = "appinsights-connection-string"
+  value        = data.azurerm_application_insights.application_insights.connection_string
+  content_type = "text/plain"
+}

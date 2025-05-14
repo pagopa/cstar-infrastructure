@@ -4,31 +4,30 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.50.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.111.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.12.1 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | <= 2.30.2 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.2 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.23 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.17 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.36 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 47ac1373640adf1653d19898e2c4237d25bcf861 |
-| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | ./.terraform/modules/__v3__/cert_mounter | n/a |
-| <a name="module_emd_api_product"></a> [emd\_api\_product](#module\_emd\_api\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
-| <a name="module_emd_citizen"></a> [emd\_citizen](#module\_emd\_citizen) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_emd_message_core"></a> [emd\_message\_core](#module\_emd\_message\_core) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_emd_mil_api_product"></a> [emd\_mil\_api\_product](#module\_emd\_mil\_api\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
-| <a name="module_emd_mil_citizen"></a> [emd\_mil\_citizen](#module\_emd\_mil\_citizen) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_emd_mil_tpp_testing"></a> [emd\_mil\_tpp\_testing](#module\_emd\_mil\_tpp\_testing) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_emd_payment_core"></a> [emd\_payment\_core](#module\_emd\_payment\_core) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_emd_retrieval_api_product"></a> [emd\_retrieval\_api\_product](#module\_emd\_retrieval\_api\_product) | ./.terraform/modules/__v3__/api_management_product | n/a |
-| <a name="module_emd_tpp"></a> [emd\_tpp](#module\_emd\_tpp) | ./.terraform/modules/__v3__/api_management_api | n/a |
-| <a name="module_kubernetes_service_account"></a> [kubernetes\_service\_account](#module\_kubernetes\_service\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_service_account | v8.22.0 |
-| <a name="module_pod_identity"></a> [pod\_identity](#module\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v8.22.0 |
-| <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | ./.terraform/modules/__v3__/tls_checker | n/a |
-| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | ./.terraform/modules/__v3__/kubernetes_workload_identity_configuration | n/a |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 600d098b157af89e839fee4ffcead663b2b36830 |
+| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | ./.terraform/modules/__v4__/cert_mounter | n/a |
+| <a name="module_emd_api_product"></a> [emd\_api\_product](#module\_emd\_api\_product) | ./.terraform/modules/__v4__/api_management_product | n/a |
+| <a name="module_emd_citizen"></a> [emd\_citizen](#module\_emd\_citizen) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_message_core"></a> [emd\_message\_core](#module\_emd\_message\_core) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_mil_api_product"></a> [emd\_mil\_api\_product](#module\_emd\_mil\_api\_product) | ./.terraform/modules/__v4__/api_management_product | n/a |
+| <a name="module_emd_mil_citizen"></a> [emd\_mil\_citizen](#module\_emd\_mil\_citizen) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_mil_tpp_testing"></a> [emd\_mil\_tpp\_testing](#module\_emd\_mil\_tpp\_testing) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_payment_core"></a> [emd\_payment\_core](#module\_emd\_payment\_core) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_retrieval_api_product"></a> [emd\_retrieval\_api\_product](#module\_emd\_retrieval\_api\_product) | ./.terraform/modules/__v4__/api_management_product | n/a |
+| <a name="module_emd_tpp"></a> [emd\_tpp](#module\_emd\_tpp) | ./.terraform/modules/__v4__/api_management_api | n/a |
+| <a name="module_emd_tpp_product"></a> [emd\_tpp\_product](#module\_emd\_tpp\_product) | ./.terraform/modules/__v4__/api_management_product | n/a |
+| <a name="module_kubernetes_service_account"></a> [kubernetes\_service\_account](#module\_kubernetes\_service\_account) | ./.terraform/modules/__v4__/kubernetes_service_account | n/a |
+| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | ./.terraform/modules/__v4__/kubernetes_workload_identity_configuration | n/a |
 
 ## Resources
 
@@ -55,17 +54,12 @@
 | [azurerm_api_management.apim_core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/api_management) | data source |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
-| [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/dns_zone) | data source |
 | [azurerm_eventhub_namespace.eventhub_mil](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/eventhub_namespace) | data source |
 | [azurerm_key_vault.kv_domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_kubernetes_cluster.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/kubernetes_cluster) | data source |
-| [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
-| [azurerm_private_dns_zone.internal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
-| [azurerm_resource_group.apim_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
-| [azurerm_resources.aks_mc_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resources) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
@@ -96,6 +90,7 @@
 | <a name="input_mil_openid_url"></a> [mil\_openid\_url](#input\_mil\_openid\_url) | OpenId MIL url | `string` | n/a | yes |
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
+| <a name="input_rate_limit_emd_message"></a> [rate\_limit\_emd\_message](#input\_rate\_limit\_emd\_message) | Rate limit for send message | `number` | n/a | yes |
 | <a name="input_rate_limit_emd_product"></a> [rate\_limit\_emd\_product](#input\_rate\_limit\_emd\_product) | Rate limit for MIN INT product | `number` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
 

@@ -2,11 +2,11 @@ resource "azurerm_resource_group" "sec_rg" {
   name     = "${local.project}-sec-rg"
   location = var.location
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "key_vault_core" {
-  source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v4__/key_vault"
 
   name                       = "${local.project}-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -14,11 +14,11 @@ module "key_vault_core" {
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days = 90
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "key_vault_auth" {
-  source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v4__/key_vault"
 
   name                       = "${local.project}-auth-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -26,11 +26,11 @@ module "key_vault_auth" {
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days = 90
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "key_vault_idpay" {
-  source = "./.terraform/modules/__v3__/key_vault"
+  source = "./.terraform/modules/__v4__/key_vault"
 
   name                       = "${local.project}-idpay-kv"
   location                   = azurerm_resource_group.sec_rg.location
@@ -38,7 +38,7 @@ module "key_vault_idpay" {
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days = 90
 
-  tags = var.tags
+  tags = local.tags
 }
 
 #
@@ -121,19 +121,4 @@ resource "azurerm_key_vault_access_policy" "azdevops_iac_managed_identities" {
   secret_permissions      = ["Get", "List", "Set"]
   certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get"]
   storage_permissions     = []
-}
-
-################
-##   Secrets  ##
-################
-
-# create json letsencrypt inside kv
-# requierd: Docker
-module "letsencrypt_mil" {
-  source = "./.terraform/modules/__v3__/letsencrypt_credential"
-
-  prefix            = var.prefix
-  env               = var.env_short
-  key_vault_name    = module.key_vault_core.name
-  subscription_name = local.subscription_name
 }

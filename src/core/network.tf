@@ -26,31 +26,10 @@ module "vnet_peering" {
   source_resource_group_name       = azurerm_resource_group.rg_vnet.name
   source_virtual_network_name      = module.vnet.name
   source_remote_virtual_network_id = module.vnet.id
-  source_allow_gateway_transit     = true
   # needed by vpn gateway for enabling routing from vnet to vnet_integration
   target_resource_group_name       = azurerm_resource_group.rg_vnet.name
   target_virtual_network_name      = module.vnet_integration.name
   target_remote_virtual_network_id = module.vnet_integration.id
-  target_use_remote_gateways       = false # needed by vnet peering with SIA
-}
-
-module "vnet_core_peering_secure_hub" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.13.0"
-
-  for_each = local.secure_hub_vnets
-
-  # Parametri relativi alla VNET sorgente (core)
-  source_resource_group_name       = azurerm_resource_group.rg_vnet.name
-  source_virtual_network_name      = module.vnet.name
-  source_remote_virtual_network_id = module.vnet.id
-  source_allow_gateway_transit     = true
-
-
-  # Parametri target prelevati dal data source per ciascuna VNET secure hub
-  target_resource_group_name       = each.value.resource_group_name
-  target_virtual_network_name      = each.value.name
-  target_remote_virtual_network_id = each.value.id
-  target_use_remote_gateways       = true
 }
 
 #

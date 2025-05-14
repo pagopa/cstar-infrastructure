@@ -106,6 +106,12 @@ resource "azurerm_dns_caa_record" "cstar_pagopa_it" {
 
   record {
     flags = 0
+    tag   = "issue"
+    value = "actalis.it"
+  }
+
+  record {
+    flags = 0
     tag   = "iodef"
     value = "mailto:security+caa@pagopa.it"
   }
@@ -168,6 +174,15 @@ resource "azurerm_dns_a_record" "dns_a_appgw_api_rtp_cb" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = var.dns_default_ttl_sec
   records             = [azurerm_public_ip.appgateway_public_ip.ip_address]
+  tags                = var.tags
+}
+
+resource "azurerm_dns_a_record" "dns_a_natgw_out_rtp" {
+  name                = "out-rtp"
+  zone_name           = azurerm_dns_zone.public[0].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = [azurerm_public_ip.mc_public_ip.ip_address]
   tags                = var.tags
 }
 

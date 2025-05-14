@@ -11,7 +11,7 @@ resource "azurerm_private_endpoint" "auth_key_vault" {
 
   private_dns_zone_group {
     name                 = "${local.project}-auth-kv-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
@@ -47,7 +47,7 @@ resource "azurerm_private_endpoint" "auth_key_vault_vpn" {
 
   private_dns_zone_group {
     name                 = "${local.project}-auth-kv-vpn-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
@@ -73,7 +73,7 @@ resource "azurerm_private_endpoint" "general_key_vault" {
 
   private_dns_zone_group {
     name                 = "${local.project}-gen-kv-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
@@ -99,7 +99,7 @@ resource "azurerm_private_endpoint" "general_key_vault_vpn" {
 
   private_dns_zone_group {
     name                 = "${local.project}-gen-kv-vpn-pdzg"
-    private_dns_zone_ids = [azurerm_private_dns_zone.key_vault.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.key_vault.id]
   }
 
   private_service_connection {
