@@ -34,3 +34,9 @@ resource "azurerm_role_assignment" "storage_account_to_activator_identity" {
   role_definition_name = "Storage Blob Data Reader"
   principal_id         = azurerm_user_assigned_identity.activator.principal_id
 }
+
+resource "azurerm_role_assignment" "apim_blob_reader" {
+  scope                = data.azurerm_storage_account.rtp_blob_storage_account.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = data.azurerm_api_management.apim_core.identity[0].principal_id
+}
