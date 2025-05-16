@@ -1,3 +1,65 @@
+locals {
+
+  # List of trusted client certificate names for RTP circuit breaker mTLS
+  # To add new certificate write the secret name below.
+  rtp_cb_trusted_client_certificate_names = [
+    "cstar-${var.env_short}-rtp-aruba-cb-chain",
+    "cstar-${var.env_short}-rtp-actalis-cb-chain",
+    "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain",
+    "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain",
+    "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
+    "cstar-${var.env_short}-rtp-digicert-cb-chain",
+    "cstar-${var.env_short}-rtp-thawte-cb-chain",
+    "cstar-${var.env_short}-rtp-le-r10-cb-chain",
+    "cstar-${var.env_short}-rtp-le-r11-cb-chain"
+  ]
+
+  # Additional trusted certificates for non-production environments
+  # To add new certificate ( not in production environment ) write the secret name below.
+  not_prod_trusted_client_certificate_names = [
+    "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
+    "cstar-${var.env_short}-rtp-nexi-cb-chain"
+  ]
+
+  # Combined list of all trusted certificates based on environment
+  all_trusted_client_certificate_names = flatten([
+    local.rtp_cb_trusted_client_certificate_names,
+    var.env != "prod" ? local.not_prod_trusted_client_certificate_names : []
+  ])
+
+  # Issuer mutual authentication profile certificates from Key Vault
+  issuer_mauth_profile_trusted_client_certificates = [
+    {
+      secret_name  = "cstar-${var.env_short}-issuer-chain"
+      key_vault_id = module.key_vault.id
+    },
+    {
+      secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
+      key_vault_id = module.key_vault.id
+    }
+  ]
+  main_trusted_client_certificates_full = concat(
+    local.issuer_mauth_profile_trusted_client_certificates,
+    [for name in local.rtp_cb_trusted_client_certificate_names : {
+      secret_name  = name
+      key_vault_id = module.key_vault.id
+    }]
+  )
+  not_prod_trusted_client_certificates = [
+    for name in local.not_prod_trusted_client_certificate_names : {
+      secret_name  = name
+      key_vault_id = module.key_vault.id
+    }
+  ]
+
+  all_trusted_client_certificates = flatten([
+    local.main_trusted_client_certificates_full,
+    var.env != "prod" ? local.not_prod_trusted_client_certificates : []
+  ])
+}
+
+
+# Application Gateway module configuration for multi-AZ deployment
 module "app_gw_maz" {
   source = "./.terraform/modules/__v3__/app_gateway"
   # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=PAYMCLOUD-398-app-gw-aggiornamento-property-rule-set-version-3-2-pci"
@@ -92,23 +154,9 @@ module "app_gw_maz" {
       }
     },
     {
-      name = "${local.project}-rtp-cb-mauth-profile"
-      trusted_client_certificate_names = flatten([
-        [
-          "cstar-${var.env_short}-rtp-aruba-cb-chain",
-          "cstar-${var.env_short}-rtp-actalis-cb-chain",
-          "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain",
-          "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain",
-          "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain",
-          "cstar-${var.env_short}-rtp-digicert-cb-chain",
-          "cstar-${var.env_short}-rtp-thawte-cb-chain",
-        ],
-        (var.env != "prod" ? [
-          "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
-          "cstar-${var.env_short}-rtp-nexi-cb-chain"
-        ] : [])
-      ])
-      verify_client_cert_issuer_dn = false
+      name                             = "${local.project}-rtp-cb-mauth-profile"
+      trusted_client_certificate_names = local.all_trusted_client_certificate_names
+      verify_client_cert_issuer_dn     = false
       ssl_policy = {
         disabled_protocols = []
         policy_type        = "Custom"
@@ -125,56 +173,7 @@ module "app_gw_maz" {
     }
   ]
 
-  trusted_client_certificates = flatten([
-    [
-      {
-        secret_name  = "cstar-${var.env_short}-issuer-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-issuer-chain-${var.internal_ca_intermediate}"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-aruba-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-actalis-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-actalis-eu-qa-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-infocert-ca3-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-infocert-ca4-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-digicert-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-thawte-cb-chain"
-        key_vault_id = module.key_vault.id
-      }
-    ],
-    (var.env != "prod" ? [
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-posteitaliane-cb-chain"
-        key_vault_id = module.key_vault.id
-      },
-      {
-        secret_name  = "cstar-${var.env_short}-rtp-nexi-cb-chain"
-        key_vault_id = module.key_vault.id
-      }
-    ] : [])
-  ])
+  trusted_client_certificates = local.all_trusted_client_certificates
 
   # Configure listeners
   listeners = {
