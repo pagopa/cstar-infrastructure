@@ -117,3 +117,18 @@ resource "azurerm_cosmosdb_mongo_collection" "collection_activations" {
     unique = true
   }
 }
+
+# ------------------------------------------------------------------------------
+# Create a collection for the deleted activations inside the db activation.
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_mongo_collection" "collection_deleted_activations" {
+  name                = "deleted_activations"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.rtp.name
+  database_name       = azurerm_cosmosdb_mongo_database.db_activation.name
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+}
