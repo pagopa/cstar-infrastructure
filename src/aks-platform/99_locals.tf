@@ -7,6 +7,9 @@ locals {
   aks_cluster_name = "${local.project}-aks"
 
   # VNET
+  vnet_hub_name                = "${local.product}-itn-core-hub-vnet"
+  vnet_hub_resource_group_name = "${local.product}-itn-core-network-rg"
+
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
   vnet_core_name                = "${local.product}-vnet"
 
