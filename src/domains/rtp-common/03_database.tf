@@ -90,6 +90,21 @@ resource "azurerm_cosmosdb_mongo_collection" "rtps" {
 }
 
 # ------------------------------------------------------------------------------
+# Create a collection for the deleted activations inside the db rtp.
+# ------------------------------------------------------------------------------
+resource "azurerm_cosmosdb_mongo_collection" "collection_deleted_activations_rtp" {
+  name                = "deleted_activations"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.rtp.name
+  database_name       = azurerm_cosmosdb_mongo_database.db_rtp.name
+
+  index {
+    keys   = ["_id"]
+    unique = true
+  }
+}
+
+# ------------------------------------------------------------------------------
 # CosmosDB Mongo database for activation
 # ------------------------------------------------------------------------------
 resource "azurerm_cosmosdb_mongo_database" "db_activation" {
