@@ -527,7 +527,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "/idpay/.*"
+              pattern     = "(idpay/.*|idpay-itn/.*)"
               ignore_case = true
               negate      = true
             }

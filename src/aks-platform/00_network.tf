@@ -1,4 +1,12 @@
 #
+# 🇮🇹 Hub ITN
+#
+data "azurerm_virtual_network" "vnet_hub" {
+  name                = local.vnet_hub_name
+  resource_group_name = local.vnet_hub_resource_group_name
+}
+
+#
 # Core
 #
 data "azurerm_resource_group" "vnet_core_rg" {
@@ -34,20 +42,9 @@ data "azurerm_virtual_network" "vnet_aks" {
   resource_group_name = data.azurerm_resource_group.vnet_aks_rg.name
 }
 
-#
-# Vnet pair
-#
-data "azurerm_resource_group" "vnet_pair_rg" {
-  name = local.vnet_pair_resource_group_name
-}
-
-data "azurerm_virtual_network" "vnet_pair" {
-  name                = local.vnet_pair_name
-  resource_group_name = data.azurerm_resource_group.vnet_pair_rg.name
-}
 
 #
-# Pip
+# Pip aks
 #
 data "azurerm_public_ip" "pip_aks_outboud" {
   name                = var.public_ip_aksoutbound_name
