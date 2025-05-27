@@ -12,6 +12,9 @@ locals {
   repositories = [
     {
       repository : "rtp-activator"
+    },
+    {
+      repository : "rtp-sender"
     }
   ]
 
