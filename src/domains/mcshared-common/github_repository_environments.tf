@@ -11,10 +11,6 @@ resource "github_repository_environment" "gh_env" {
   environment         = local.project
   can_admins_bypass   = true
   prevent_self_review = true
-  deployment_branch_policy {
-    custom_branch_policies = false
-    protected_branches     = var.env_short == "d" ? false : true
-  }
 
   reviewers {
     teams = var.env_short == "d" ? [] : [data.github_team.admin.id]
