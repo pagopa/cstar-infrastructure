@@ -5,7 +5,7 @@ resource "github_repository_environment" "gh_env" {
   repository          = each.value.repository
   prevent_self_review = true
   deployment_branch_policy {
-    protected_branches     = true
+    protected_branches     = var.env_short == "d" ? false : true
     custom_branch_policies = false
   }
 }
