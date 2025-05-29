@@ -4,9 +4,12 @@ resource "github_repository_environment" "gh_env" {
   environment         = local.project
   repository          = each.value.repository
   prevent_self_review = true
-  deployment_branch_policy {
-    protected_branches     = var.env_short == "d" ? false : true
-    custom_branch_policies = false
+  dynamic "deployment_branch_policy" {
+    for_each = var.env_short == "d" ? [] : [1]
+    content {
+      custom_branch_policies = false
+      protected_branches     = true
+    }
   }
 }
 
