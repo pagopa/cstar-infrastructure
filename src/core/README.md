@@ -166,11 +166,15 @@
 | [azurerm_private_dns_zone_virtual_network_link.integration_internal_env_cstar_pagopa_it_2_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.internal_cstar_to_secure_hub_vnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.internal_cstar_to_vnet_pair](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.key_vault_private_endpoint_to_secure_hub_vnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.kusto_link_to_vnet_frontend](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.kusto_private_endpoint_to_secure_hub_vnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.postgres_to_pair](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.postgres_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.private_integration_dns_zone_virtual_network_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.private_private_dns_zone_virtual_network_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.prometheus_dns_zone_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.prometheus_weu_private_endpoint_to_secure_hub_vnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.queue_private_endpoint_to_secure_hub_vnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.redis_link_to_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.redis_link_to_vnet_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
@@ -287,7 +291,6 @@
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [azurerm_user_assigned_identity.iac_federated_azdo](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/user_assigned_identity) | data source |
 | [azurerm_virtual_network.securehub_hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
-| [azurerm_virtual_network.securehub_platform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 | [local_file.tc_html](https://registry.terraform.io/providers/hashicorp/local/latest/docs/data-sources/file) | data source |
 | [local_file.tc_pdf](https://registry.terraform.io/providers/hashicorp/local/latest/docs/data-sources/file) | data source |
 
