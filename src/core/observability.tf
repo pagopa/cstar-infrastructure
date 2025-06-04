@@ -41,20 +41,6 @@ resource "azurerm_monitor_workspace" "monitor_workspace" {
   tags                          = var.tags
 }
 
-# Create workspace private DNS zone
-resource "azurerm_private_dns_zone" "prometheus_dns_zone" {
-  name                = "privatelink.${var.location}.prometheus.monitor.azure.com"
-  resource_group_name = module.vnet.resource_group_name
-}
-
-# Create virtual network link for workspace private dns zone
-resource "azurerm_private_dns_zone_virtual_network_link" "prometheus_dns_zone_vnet_link" {
-  name                  = module.vnet.name
-  resource_group_name   = module.vnet.resource_group_name
-  virtual_network_id    = module.vnet.id
-  private_dns_zone_name = azurerm_private_dns_zone.prometheus_dns_zone.name
-}
-
 resource "azurerm_private_endpoint" "monitor_workspace_private_endpoint" {
   name                = "${var.prefix}-monitor-workspace-pe"
   location            = azurerm_monitor_workspace.monitor_workspace.location
