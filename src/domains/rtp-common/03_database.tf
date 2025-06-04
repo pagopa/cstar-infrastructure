@@ -54,26 +54,6 @@ resource "azurerm_cosmosdb_mongo_database" "db_rtp" {
 
 
 # ------------------------------------------------------------------------------
-# Create a collection for the activations inside the db.
-# ------------------------------------------------------------------------------
-resource "azurerm_cosmosdb_mongo_collection" "activations" {
-  name                = "activations"
-  resource_group_name = azurerm_resource_group.data.name
-  account_name        = azurerm_cosmosdb_account.rtp.name
-  database_name       = azurerm_cosmosdb_mongo_database.db_rtp.name
-
-  index {
-    keys   = ["_id"]
-    unique = true
-  }
-
-  index {
-    keys   = ["fiscalCode"]
-    unique = true
-  }
-}
-
-# ------------------------------------------------------------------------------
 # Create a collection for the rtps inside the db.
 # ------------------------------------------------------------------------------
 resource "azurerm_cosmosdb_mongo_collection" "rtps" {
