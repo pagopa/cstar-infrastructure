@@ -67,6 +67,11 @@ resource "azurerm_cosmosdb_mongo_collection" "rtps" {
     unique = true
   }
 
+  index {
+    keys   = ["operationId", "eventDispatcher"]
+    unique = true
+  }
+
 }
 
 # ------------------------------------------------------------------------------
