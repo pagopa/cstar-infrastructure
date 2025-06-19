@@ -70,24 +70,42 @@ resource "azurerm_private_dns_a_record" "private_dns_a_record_management" {
 #
 # Private DNS Zone for Postgres Databases
 #
-resource "azurerm_private_dns_zone" "postgres" {
-  name                = "private.postgres.database.azure.com"
+# resource "azurerm_private_dns_zone" "postgres" {
+#   name                = "private.postgres.database.azure.com"
+#   resource_group_name = azurerm_resource_group.rg_vnet.name
+# }
+#
+# resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet" {
+#   name                  = "${local.project}-postgres-vnet-private-dns-zone-link"
+#   resource_group_name   = azurerm_resource_group.rg_vnet.name
+#   private_dns_zone_name = azurerm_private_dns_zone.postgres.name
+#   virtual_network_id    = module.vnet.id
+# }
+#
+# resource "azurerm_private_dns_zone_virtual_network_link" "postgres_to_pair" {
+#   name                  = module.vnet_pair.name
+#   resource_group_name   = azurerm_resource_group.rg_vnet.name
+#   private_dns_zone_name = azurerm_private_dns_zone.postgres.name
+#   virtual_network_id    = module.vnet_pair.id
+# }
+
+#---------------------------------------------------------------
+# Postgres Flexible Server private dns zone
+#---------------------------------------------------------------
+resource "azurerm_private_dns_zone" "postgres_flexible" {
+  name                = "privatelink.postgres.database.azure.com"
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "postgres_vnet" {
-  name                  = "${local.project}-postgres-vnet-private-dns-zone-link"
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres_flexible_private_endpoint_to_secure_hub_vnets" {
+  for_each = local.secure_hub_vnets
+
+  name                  = "${each.value.name}-private-dns-zone-link"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.postgres.name
-  virtual_network_id    = module.vnet.id
+  private_dns_zone_name = azurerm_private_dns_zone.postgres_flexible.name
+  virtual_network_id    = each.value.id
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "postgres_to_pair" {
-  name                  = module.vnet_pair.name
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.postgres.name
-  virtual_network_id    = module.vnet_pair.id
-}
 
 #
 # Private DNS Zone for Storage Accounts
