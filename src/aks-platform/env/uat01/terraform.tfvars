@@ -79,6 +79,4 @@ keda_helm_version        = "2.14.0"
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
 reloader_helm = {
   chart_version = "v1.0.30"
-  image_name    = "stakater/reloader"
-  image_tag     = "v1.0.30"
 }

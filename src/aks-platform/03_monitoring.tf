@@ -22,14 +22,6 @@ resource "helm_release" "monitoring_reloader" {
     name  = "reloader.watchGlobally"
     value = "false"
   }
-  set {
-    name  = "reloader.deployment.image.name"
-    value = var.reloader_helm.image_name
-  }
-  set {
-    name  = "reloader.deployment.image.tag"
-    value = var.reloader_helm.image_tag
-  }
 }
 
 # Refer: Resource created on next-core observability.tf
