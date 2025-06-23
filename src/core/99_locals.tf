@@ -56,7 +56,7 @@ locals {
   secure_hub_vnets = { for r in data.azurerm_resources.vnets_secure_hub.resources : r.id => r }
   all_vnets        = { for vnet in data.azurerm_resources.vnets.resources : vnet.id => vnet }
 
-    # pagopa peered vnet
+  # pagopa peered vnet
   pagopa_cstar_integration_vnet_name    = "pagopa-${var.env_short}-itn-cstar-integration-vnet"
   pagopa_cstar_integration_vnet_rg_name = "pagopa-${var.env_short}-itn-vnet-rg"
 }
