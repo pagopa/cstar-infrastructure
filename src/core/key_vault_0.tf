@@ -216,3 +216,12 @@ data "azurerm_key_vault_secret" "opsgenie_cstar_infra_webhook_key" {
 
   key_vault_id = module.key_vault.id
 }
+
+data "azurerm_key_vault_secret" "pagopa_subscritpion_id" {
+  name         = "pagopa-subscription-id"
+  key_vault_id = module.key_vault.id
+}
+data "azurerm_key_vault_secret" "pagopa_rtp_eventhub_pip" {
+  name         = "peered-rtp-eventhub-pip"
+  key_vault_id = module.key_vault.id
+}
