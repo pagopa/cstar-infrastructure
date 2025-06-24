@@ -42,6 +42,10 @@ aca_subnet_name                                 = "cstar-p-mcshared-aca-snet"
 aca_subnet_resource_group_name                  = "cstar-p-weu-prod01-vnet-rg"
 aca_virtual_network_name                        = "cstar-p-weu-prod01-vnet"
 
+cae_name                = "cstar-p-mcshared-cae"
+cae_resource_group_name = "cstar-p-mcshared-app-rg"
+id_name                 = "cstar-p-weu-rtp-sender-id"
+id_resource_group_name  = "cstar-p-weu-rtp-identity-rg"
 
 
 ## Cosmos DB
