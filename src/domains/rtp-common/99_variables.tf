@@ -89,6 +89,28 @@ variable "cdn_rtp" {
   })
 }
 
+# ------------------------------------------------------------------------------
+# Container Apps Environment.
+# ------------------------------------------------------------------------------
+variable "cae_name" {
+  type = string
+}
+
+variable "cae_resource_group_name" {
+  type = string
+}
+
+# ------------------------------------------------------------------------------
+# Identity for this Container App.
+# ------------------------------------------------------------------------------
+variable "id_name" {
+  type = string
+}
+
+variable "id_resource_group_name" {
+  type = string
+}
+
 
 # Cosmos DB
 variable "cosmos_mongo_db_params" {

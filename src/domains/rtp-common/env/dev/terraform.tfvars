@@ -42,6 +42,11 @@ aca_subnet_name                                 = "cstar-d-mcshared-aca-snet"
 aca_subnet_resource_group_name                  = "cstar-d-weu-dev01-vnet-rg"
 aca_virtual_network_name                        = "cstar-d-weu-dev01-vnet"
 
+cae_name                = "cstar-d-mcshared-cae"
+cae_resource_group_name = "cstar-d-mcshared-app-rg"
+id_name                 = "cstar-d-weu-rtp-sender-id"
+id_resource_group_name  = "cstar-d-weu-rtp-identity-rg"
+
 ## Cosmos DB
 cosmos_mongo_db_params = {
   enabled      = true
