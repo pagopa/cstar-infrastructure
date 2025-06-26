@@ -9,15 +9,9 @@ info:
     email: cstar@pagopa.it
 
 servers:
-  - description: Development Test
-    url: https://api-emd.dev.cstar.pagopa.it/emd/message-core
+  - description: PSP Endpoint
+    url: ${endpointPSP}
     x-internal: true
-  - description: User Acceptance Test
-    url: https://api-emd.uat.cstar.pagopa.it/emd/message-core
-    x-internal: true
-  - description: Prod
-    url: https://api-emd.cstar.pagopa.it/emd/message-core
-    x-internal: false
 
 tags:
   - name: submit
@@ -39,9 +33,6 @@ paths:
       responses:
         "200":
           #description: No channels enabled
-          $ref: '#/components/responses/SendMessageNoChannelsEnabled'
-        "202":
-          #description: Accepted
           $ref: '#/components/responses/SendMessageOk'
         "400":
           #description: Bad request
@@ -135,12 +126,6 @@ components:
         - OK
       example: "OK"
 
-    OutcomeNoChannelsEnabled:
-      description: Outcome of submit operation
-      type: string
-      enum:
-        - NO_CHANNELS_ENABLED
-      example: "NO_CHANNELS_ENABLED"
 
     RateLimitLimit:
       description: The number of allowed requests in the current period
@@ -330,36 +315,6 @@ components:
               outcome:
                 $ref: '#/components/schemas/OutcomeOk'
 
-    SendMessageNoChannelsEnabled:
-      description: Response to send message request when no channels are enabled
-      headers:
-        Access-Control-Allow-Origin:
-          description: Indicates whether the response can be shared with requesting code from the given origin
-          required: false
-          schema:
-            $ref: '#/components/schemas/AccessControlAllowOrigin'
-        RateLimit-Limit:
-          description: The number of allowed requests in the current period
-          required: false
-          schema:
-            $ref: '#/components/schemas/RateLimitLimit'
-        RateLimit-Reset:
-          description: The number of seconds left in the current period
-          required: false
-          schema:
-            $ref: '#/components/schemas/RateLimitReset'
-        Retry-After:
-          description: The number of seconds to wait before allowing a follow-up request
-          required: false
-          schema:
-            $ref: '#/components/schemas/RetryAfter'
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              outcome:
-                $ref: '#/components/schemas/OutcomeNoChannelsEnabled'
 
   # ============================================================================
   # Security schemes.
