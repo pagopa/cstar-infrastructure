@@ -16,4 +16,8 @@ locals {
 
   external_domain = "pagopa.it"
   rtp_cdn_domain  = "rtp.${var.dns_zone_prefix}.${local.external_domain}"
+
+  rtp_resource_group_storage_share_name = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}-storage-share-rg"
+  rtp_files_storage_account_name        = "${var.prefix}${var.env_short}${var.location_short}${var.domain}storageshare"
+  rtp_jks_file_share_name               = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}-jks-file-share"
 }

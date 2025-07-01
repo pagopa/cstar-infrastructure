@@ -18,6 +18,7 @@
 
 | Name | Type |
 |------|------|
+| [azurerm_container_app_environment_storage.rtp_sender_file_share_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_storage) | resource |
 | [azurerm_cosmosdb_account.rtp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_account) | resource |
 | [azurerm_cosmosdb_mongo_collection.collection_activations](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_mongo_collection) | resource |
 | [azurerm_cosmosdb_mongo_collection.collection_deleted_activations](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_mongo_collection) | resource |
@@ -41,13 +42,17 @@
 | [azurerm_storage_share.rtp_jks_file_share](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_share) | resource |
 | [azurerm_application_insights.appinsights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [azurerm_container_app_environment.rtp-cae](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/container_app_environment) | data source |
 | [azurerm_dns_zone.cstar_public_dns_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/dns_zone) | data source |
 | [azurerm_key_vault.kv_domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_private_dns_zone.cosmos_mongo](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
+| [azurerm_storage_account.rtp_files_storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
+| [azurerm_storage_share.rtp_jks_file_share](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_share) | data source |
 | [azurerm_subnet.aca](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subnet.private_endpoints](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [azurerm_user_assigned_identity.rtp-sender](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/user_assigned_identity) | data source |
 | [azurerm_virtual_network.core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 | [azurerm_virtual_network.integr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 | [azurerm_virtual_network.intern](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
@@ -59,6 +64,8 @@
 | <a name="input_aca_subnet_name"></a> [aca\_subnet\_name](#input\_aca\_subnet\_name) | ------------------------------------------------------------------------------ Subnet for ACA. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_aca_subnet_resource_group_name"></a> [aca\_subnet\_resource\_group\_name](#input\_aca\_subnet\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_aca_virtual_network_name"></a> [aca\_virtual\_network\_name](#input\_aca\_virtual\_network\_name) | n/a | `string` | n/a | yes |
+| <a name="input_cae_name"></a> [cae\_name](#input\_cae\_name) | ------------------------------------------------------------------------------ Container Apps Environment. ------------------------------------------------------------------------------ | `string` | n/a | yes |
+| <a name="input_cae_resource_group_name"></a> [cae\_resource\_group\_name](#input\_cae\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_cdn_rtp"></a> [cdn\_rtp](#input\_cdn\_rtp) | n/a | <pre>object({<br/>    storage_account_replication_type   = string<br/>    advanced_threat_protection_enabled = bool<br/>  })</pre> | n/a | yes |
 | <a name="input_core_integr_virtual_network_name"></a> [core\_integr\_virtual\_network\_name](#input\_core\_integr\_virtual\_network\_name) | ------------------------------------------------------------------------------ Virtual network which hosts APIM. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_core_integr_virtual_network_resource_group_name"></a> [core\_integr\_virtual\_network\_resource\_group\_name](#input\_core\_integr\_virtual\_network\_resource\_group\_name) | n/a | `string` | n/a | yes |
@@ -72,6 +79,8 @@
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
+| <a name="input_id_name"></a> [id\_name](#input\_id\_name) | ------------------------------------------------------------------------------ Identity for this Container App. ------------------------------------------------------------------------------ | `string` | n/a | yes |
+| <a name="input_id_resource_group_name"></a> [id\_resource\_group\_name](#input\_id\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | One of wue, neu | `string` | n/a | yes |

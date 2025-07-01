@@ -436,8 +436,6 @@ variable "keda_helm_version" {
 variable "reloader_helm" {
   type = object({
     chart_version = string,
-    image_name    = string,
-    image_tag     = string
   })
   description = "reloader helm chart configuration"
 }
