@@ -481,7 +481,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "/auth/.*"
+              pattern     = "(auth/.*|auth-itn/.*)"
               ignore_case = true
               negate      = true
             }
