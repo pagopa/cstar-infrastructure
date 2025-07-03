@@ -1,0 +1,36 @@
+{
+    "name": "LookupAggregates",
+    "description": "This Lookup activity reads aggregate records from the specified CSV file.",
+    "type": "Lookup",
+    "dependsOn": [],
+    "policy": {
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+                "type": "AzureBlobStorageReadSettings",
+                "recursive": true,
+                "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+                "type": "DelimitedTextReadSettings",
+                "columnDelimiter": ",",
+                "compressionProperties" : null
+            }
+        },
+        "dataset": {
+            "referenceName": "InvalidatedAggregates",
+            "type": "DatasetReference",
+            "parameters": {
+                "file": "@pipeline().parameters.fileName"
+            }
+        },
+        "firstRowOnly": false
+    }
+}
