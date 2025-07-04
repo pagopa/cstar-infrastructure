@@ -527,7 +527,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "(idpay/.*|idpay-itn/.*)"
+              pattern     = "(idpay/.*|idpay-itn/.*|rtd/mock-io/.*)"
               ignore_case = true
               negate      = true
             }
@@ -540,7 +540,8 @@ module "app_gw_maz" {
           }
         }
       ]
-    }
+    },
+
   ]
 
   # TLS
