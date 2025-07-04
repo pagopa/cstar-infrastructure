@@ -541,7 +541,6 @@ module "app_gw_maz" {
         }
       ]
     },
-
   ]
 
   # TLS
