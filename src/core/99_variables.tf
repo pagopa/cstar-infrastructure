@@ -873,3 +873,9 @@ variable "operations_logs_account_replication_type" {
   type        = string
   description = "Account replication type"
 }
+
+variable "srtp_enable_itn_rewrite" {
+  type        = string
+  description = ""
+  default     = "false"
+}
