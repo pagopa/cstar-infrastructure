@@ -44,7 +44,6 @@ No modules.
 | [azurerm_key_vault_secret.key_vault_auth_vault_uri](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_query_pack.mcshared](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack) | resource |
 | [azurerm_log_analytics_query_pack_query.auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
-| [azurerm_management_lock.mcshared_cae_lock](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_lock) | resource |
 | [azurerm_nat_gateway.mc_nat_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway) | resource |
 | [azurerm_nat_gateway_public_ip_association.mc_nat_gateway_public_ip_association](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway_public_ip_association) | resource |
 | [azurerm_private_dns_a_record.aca](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
@@ -123,6 +122,7 @@ No modules.
 | <a name="input_core_private_endpoints_subnet_name"></a> [core\_private\_endpoints\_subnet\_name](#input\_core\_private\_endpoints\_subnet\_name) | ------------------------------------------------------------------------------ Private endpoints subnet. ------------------------------------------------------------------------------ | `string` | `"private-endpoint-snet"` | no |
 | <a name="input_core_virtual_network_name"></a> [core\_virtual\_network\_name](#input\_core\_virtual\_network\_name) | ------------------------------------------------------------------------------ Virtual network which hosts VPN gateway. ------------------------------------------------------------------------------ | `string` | n/a | yes |
 | <a name="input_core_virtual_network_resource_group_name"></a> [core\_virtual\_network\_resource\_group\_name](#input\_core\_virtual\_network\_resource\_group\_name) | n/a | `string` | n/a | yes |
+| <a name="input_disable_expose_mil_auth"></a> [disable\_expose\_mil\_auth](#input\_disable\_expose\_mil\_auth) | [APIM] Disable expose mil-auth on path /auth | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_get_access_token_allowed_origins"></a> [get\_access\_token\_allowed\_origins](#input\_get\_access\_token\_allowed\_origins) | n/a | `list(string)` | n/a | yes |

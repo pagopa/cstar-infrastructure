@@ -18,6 +18,8 @@ data "azurerm_api_management" "core" {
 # Product.
 # ------------------------------------------------------------------------------
 resource "azurerm_api_management_product" "mcshared" {
+  count = var.disable_expose_mil_auth ? 0 : 1
+
   resource_group_name   = data.azurerm_api_management.core.resource_group_name
   product_id            = "mcshared"
   api_management_name   = data.azurerm_api_management.core.name
