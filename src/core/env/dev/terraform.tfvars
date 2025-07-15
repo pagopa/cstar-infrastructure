@@ -391,4 +391,4 @@ operations_logs_account_replication_type = "GRS"
 
 internal_ca_intermediate = "06"
 
-srtp_enable_itn_rewrite = true
+srtp_enable_itn_rewrite = false
