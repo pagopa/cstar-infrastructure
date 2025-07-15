@@ -415,7 +415,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = var.srtp_enable_itn_rewrite ? "(rtp/.*|rtp-itn/.*)" : "/rtp/.*"
+              pattern     = "/rtp/.*"
               ignore_case = true
               negate      = true
             }
@@ -481,7 +481,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = var.srtp_enable_itn_rewrite ? "(auth/.*|auth-itn/.*|mil-auth-itn/.*)" : "(auth/.*|auth-itn/.*)"
+              pattern     = "(auth/.*|auth-itn/.*)"
               ignore_case = true
               negate      = true
             }
