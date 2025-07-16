@@ -386,3 +386,6 @@ backupstorage_account_replication_type   = "RAGZRS"
 operations_logs_account_replication_type = "RAGZRS"
 
 internal_ca_intermediate = "07"
+
+bonus_elettrodomestici_hostname = "bonuselettrodomestici.it"
+
