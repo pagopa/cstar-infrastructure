@@ -873,3 +873,9 @@ variable "operations_logs_account_replication_type" {
   type        = string
   description = "Account replication type"
 }
+
+variable "bonus_elettrodomestici_hostname" {
+  type        = string
+  description = ""
+  default     = "false"
+}
