@@ -31,13 +31,6 @@ resource "azurerm_container_app_environment" "mcshared" {
   }
 }
 
-resource "azurerm_management_lock" "mcshared_cae_lock" {
-  name       = "${local.project}-cae-lock"
-  scope      = azurerm_container_app_environment.mcshared.id
-  lock_level = "CanNotDelete"
-  notes      = "This Container App Environment should not be deleted"
-}
-
 resource "azurerm_private_endpoint" "private_endpoint_mcshared_cae" {
   name                = azurerm_container_app_environment.mcshared.name
   location            = azurerm_resource_group.app.location

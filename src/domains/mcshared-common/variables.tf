@@ -61,3 +61,9 @@ variable "aca_snet_cidr" {
 variable "cidr_mcshared_cae_subnet" {
   type = string
 }
+
+variable "disable_expose_mil_auth" {
+  type        = bool
+  default     = false
+  description = "[APIM] Disable expose mil-auth on path /auth"
+}

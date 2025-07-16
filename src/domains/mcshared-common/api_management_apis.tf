@@ -59,6 +59,8 @@ variable "introspect_rate_limit" {
 }
 
 resource "azurerm_api_management_api" "auth" {
+  count = var.disable_expose_mil_auth ? 0 : 1
+
   name                = "${local.project}-auth"
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   api_management_name = data.azurerm_api_management.core.name
@@ -82,8 +84,10 @@ resource "azurerm_api_management_api" "auth" {
 }
 
 resource "azurerm_api_management_product_api" "auth" {
-  product_id          = azurerm_api_management_product.mcshared.product_id
-  api_name            = azurerm_api_management_api.auth.name
+  count = var.disable_expose_mil_auth ? 0 : 1
+
+  product_id          = azurerm_api_management_product.mcshared[count.index].product_id
+  api_name            = azurerm_api_management_api.auth[count.index].name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
 }
@@ -92,6 +96,8 @@ resource "azurerm_api_management_product_api" "auth" {
 # Policy fragments.
 # ------------------------------------------------------------------------------
 resource "azurerm_api_management_policy_fragment" "rate_limit_by_clientid_claim" {
+  count = var.disable_expose_mil_auth ? 0 : 1
+
   name              = "rate-limit-by-clientid-claim"
   description       = "Rate limit by client id value received as claim of the access token"
   api_management_id = data.azurerm_api_management.core.id
@@ -100,6 +106,8 @@ resource "azurerm_api_management_policy_fragment" "rate_limit_by_clientid_claim"
 }
 
 resource "azurerm_api_management_policy_fragment" "rate_limit_by_clientid_formparam" {
+  count = var.disable_expose_mil_auth ? 0 : 1
+
   name              = "rate-limit-by-clientid-formparam"
   description       = "Rate limit by client id value received as form param"
   api_management_id = data.azurerm_api_management.core.id
@@ -114,7 +122,9 @@ locals {
   allowed_origins = join("", formatlist("<origin>%s</origin>", var.get_access_token_allowed_origins))
 }
 resource "azurerm_api_management_api_operation_policy" "get_access_token" {
-  api_name            = azurerm_api_management_api.auth.name
+  count = var.disable_expose_mil_auth ? 0 : 1
+
+  api_name            = azurerm_api_management_api.auth[count.index].name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getAccessTokens"
@@ -127,7 +137,9 @@ resource "azurerm_api_management_api_operation_policy" "get_access_token" {
 }
 
 resource "azurerm_api_management_api_operation_policy" "get_jwks" {
-  api_name            = azurerm_api_management_api.auth.name
+  count = var.disable_expose_mil_auth ? 0 : 1
+
+  api_name            = azurerm_api_management_api.auth[count.index].name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getJwks"
@@ -138,7 +150,9 @@ resource "azurerm_api_management_api_operation_policy" "get_jwks" {
 }
 
 resource "azurerm_api_management_api_operation_policy" "get_open_id_conf" {
-  api_name            = azurerm_api_management_api.auth.name
+  count = var.disable_expose_mil_auth ? 0 : 1
+
+  api_name            = azurerm_api_management_api.auth[count.index].name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "getOpenIdConf"
@@ -149,7 +163,9 @@ resource "azurerm_api_management_api_operation_policy" "get_open_id_conf" {
 }
 
 resource "azurerm_api_management_api_operation_policy" "introspect" {
-  api_name            = azurerm_api_management_api.auth.name
+  count = var.disable_expose_mil_auth ? 0 : 1
+
+  api_name            = azurerm_api_management_api.auth[count.index].name
   api_management_name = data.azurerm_api_management.core.name
   resource_group_name = data.azurerm_api_management.core.resource_group_name
   operation_id        = "introspect"
