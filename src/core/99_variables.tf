@@ -879,3 +879,9 @@ variable "srtp_enable_itn_rewrite" {
   description = ""
   default     = "false"
 }
+
+variable "bonus_elettrodomestici_hostname" {
+  type        = string
+  description = ""
+  default     = "false"
+}

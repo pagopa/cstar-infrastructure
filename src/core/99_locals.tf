@@ -41,10 +41,11 @@ locals {
 
   hostname_suffix = "%{if var.env_short == "p"}.%{else}.${var.env}.%{endif}cstar.pagopa.it"
 
-  apim_name        = "${local.project}-apim"
-  apim_hostname    = "api${local.hostname_suffix}"
-  rtp_endpoint     = "https://rtp${local.hostname_suffix}"
-  welfare_endpoint = "https://welfare${local.hostname_suffix}"
+  apim_name                      = "${local.project}-apim"
+  apim_hostname                  = "api${local.hostname_suffix}"
+  rtp_endpoint                   = "https://rtp${local.hostname_suffix}"
+  welfare_endpoint               = "https://welfare${local.hostname_suffix}"
+  bonuselettrodomestici_endpoint = "https://${var.bonus_elettrodomestici_hostname}"
 
   azdo_managed_identity_rg_name = "${var.prefix}-${var.env_short}-identity-rg"
   azdo_iac_managed_identities   = toset(["azdo-${var.env}-${var.prefix}-iac-deploy-v2", "azdo-${var.env}-${var.prefix}-iac-plan-v2"])

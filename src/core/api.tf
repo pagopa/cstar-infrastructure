@@ -61,7 +61,8 @@ module "apim" {
       "https://${local.portal_domain}",
       "https://${local.management_domain}",
       local.rtp_endpoint,
-      local.welfare_endpoint
+      local.welfare_endpoint,
+      local.bonuselettrodomestici_endpoint
     ]
   }))
 
