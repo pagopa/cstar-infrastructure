@@ -69,3 +69,6 @@ get_access_token_allowed_origins = [
 # ACA
 #
 aca_env_zones_enabled = true
+
+
+disable_expose_mil_auth = true
