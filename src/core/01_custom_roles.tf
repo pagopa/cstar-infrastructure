@@ -64,6 +64,7 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.Network/virtualNetworks/subnets/read",
       "Microsoft.App/*/read", #container app envs
       # "Microsoft.App/managedEnvironments/read", #container app envs
+      "Microsoft.App/*/listSecrets/action",
       "Microsoft.Security/*/read",
       # "Microsoft.Security/advancedThreatProtectionSettings/read",
       "Microsoft.Authorization/*/read",
