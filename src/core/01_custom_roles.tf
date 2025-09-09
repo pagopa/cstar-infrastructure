@@ -64,6 +64,7 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.Network/virtualNetworks/subnets/read",
       "Microsoft.App/*/read", #container app envs
       # "Microsoft.App/managedEnvironments/read", #container app envs
+      "Microsoft.App/*/listSecrets/action",
       "Microsoft.Security/*/read",
       # "Microsoft.Security/advancedThreatProtectionSettings/read",
       "Microsoft.Authorization/*/read",
@@ -90,6 +91,8 @@ resource "azurerm_role_definition" "iac_reader" {
       # "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/read", #cosmos mongodb
       # "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/read", #cosmosdb mongodb
       "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action", #aks
+      "Microsoft.ContainerService/managedClusters/listClusterUserCredential/action",
+      "Microsoft.ContainerService/managedClusters/listClusterAdminCredential/action",
       "Microsoft.Kusto/clusters/read",
       "Microsoft.Kusto/clusters/*/read",
       # "Microsoft.Kusto/clusters/databases/read",                                         #DAX
@@ -117,7 +120,10 @@ resource "azurerm_role_definition" "iac_reader" {
       "Microsoft.Compute/virtualMachineScaleSets/write", #scale the VMSS
       "Microsoft.AppConfiguration/configurationStores/*/read",
       "Microsoft.AppConfiguration/configurationStores/*/action",
-      "Microsoft.ContainerInstance/containerGroups/read"
+      "Microsoft.ContainerInstance/containerGroups/read",
+      "Microsoft.Dashboard/grafana/read",
+      "Microsoft.Dashboard/grafana/*/read",
+      "Microsoft.AlertsManagement/prometheusRuleGroups/read"
 
     ]
 
