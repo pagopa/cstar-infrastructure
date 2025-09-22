@@ -61,12 +61,11 @@ module "apim" {
       "https://${local.portal_domain}",
       "https://${local.management_domain}",
       local.rtp_endpoint,
-      local.welfare_endpoint,
-      local.bonuselettrodomestici_endpoint
+      local.welfare_endpoint
     ]
   }))
 
-  tags = var.tags
+  tags = module.tag_config.tags
 
   depends_on = [
     azurerm_application_insights.application_insights
@@ -77,7 +76,7 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   api_management_id = module.apim.id
 
   gateway {
-    host_name = local.api_domain
+    host_name = local.app_gateway_api_hostname
     key_vault_id = replace(
       data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
       "/${data.azurerm_key_vault_certificate.app_gw_cstar.version}",

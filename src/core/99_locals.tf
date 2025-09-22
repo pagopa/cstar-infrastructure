@@ -60,4 +60,29 @@ locals {
   # pagopa peered vnet
   pagopa_cstar_integration_vnet_name    = "pagopa-${var.env_short}-itn-cstar-integration-vnet"
   pagopa_cstar_integration_vnet_rg_name = "pagopa-${var.env_short}-itn-vnet-rg"
+
+  # DNS
+  prefix_dns_zone_name = "${var.env == "prod" ? "" : "${var.env}."}${var.prefix}.pagopa.it"
+
+  # Certificates
+  app_gateway_api_certificate_name        = replace(local.app_gateway_api_hostname, ".", "-")
+  app_gateway_portal_certificate_name     = replace(local.app_gateway_portal_hostname, ".", "-")
+  app_gateway_management_certificate_name = replace(local.app_gateway_management_hostname, ".", "-")
+  app_gateway_api_io_certificate_name     = replace(local.app_gateway_api_io_hostname, ".", "-")
+  app_gateway_api_emd_certificate_name    = replace(local.app_gateway_api_emd_hostname, ".", "-")
+  app_gateway_api_rtp_certificate_name    = replace(local.app_gateway_api_rtp_hostname, ".", "-")
+  app_gateway_api_rtp_cb_certificate_name = replace(local.app_gateway_api_rtp_cb_hostname, ".", "-")
+  app_gateway_mcshared_certificate_name   = replace(local.app_gateway_mcshared_hostname, ".", "-")
+
+  # Hostname:
+  app_gateway_api_hostname        = "api${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_portal_hostname     = "portal${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_management_hostname = "management${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_api_io_hostname     = "api-io${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_api_emd_hostname    = "api-emd${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_api_rtp_hostname    = "api-rtp${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_api_rtp_cb_hostname = "api-rtp-cb${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+  app_gateway_mcshared_hostname   = "api-mcshared${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
+
+
 }
