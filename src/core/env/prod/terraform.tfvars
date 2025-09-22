@@ -1,4 +1,5 @@
 prefix              = "cstar"
+domain              = "core"
 location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
@@ -269,21 +270,11 @@ app_gateway_sku_name                    = "WAF_v2"
 app_gateway_sku_tier                    = "WAF_v2"
 app_gateway_waf_enabled                 = true
 app_gateway_alerts_enabled              = true
-app_gateway_api_certificate_name        = "api-cstar-pagopa-it"
-app_gateway_api_io_certificate_name     = "api-io-cstar-pagopa-it"
-app_gateway_portal_certificate_name     = "portal-cstar-pagopa-it"
-app_gateway_management_certificate_name = "management-cstar-pagopa-it"
-app_gateway_rtp_certificate_name        = "api-rtp-cstar-pagopa-it"
-app_gateway_rtp_cb_certificate_name     = "api-rtp-cb-cstar-pagopa-it"
-app_gateway_mcshared_certificate_name   = "api-mcshared-cstar-pagopa-it"
-app_gateway_api_emd_certificate_name    = "api-emd-cstar-pagopa-it"
 app_gateway_min_capacity                = 1
 app_gateway_max_capacity                = 10
 app_gateway_public_ip_availability_zone = "Zone-Redundant"
 
 lock_enable = true
-
-enable_iac_pipeline = true
 
 cdc_api_params = {
   host = "https://api.sogei.it/interop/carta-cultura"

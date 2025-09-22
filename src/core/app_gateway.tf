@@ -62,7 +62,6 @@ locals {
 # Application Gateway module configuration for multi-AZ deployment
 module "app_gw_maz" {
   source = "./.terraform/modules/__v3__/app_gateway"
-  # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=PAYMCLOUD-398-app-gw-aggiornamento-property-rule-set-version-3-2-pci"
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
   location            = azurerm_resource_group.rg_vnet.location
@@ -179,13 +178,13 @@ module "app_gw_maz" {
   listeners = {
     app_io = {
       protocol           = "Https"
-      host               = "api-io.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_api_io_hostname
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_api_io_certificate_name
+        name = local.app_gateway_api_io_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.app_gw_io_cstar[0].secret_id,
           data.azurerm_key_vault_certificate.app_gw_io_cstar[0].version
@@ -195,13 +194,13 @@ module "app_gw_maz" {
 
     issuer_acquirer = {
       protocol           = "Https"
-      host               = "api.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_api_hostname
       port               = 443
       ssl_profile_name   = "${local.project}-issuer-mauth-profile"
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_api_certificate_name
+        name = local.app_gateway_api_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.app_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.app_gw_cstar.version
@@ -211,13 +210,13 @@ module "app_gw_maz" {
 
     portal = {
       protocol           = "Https"
-      host               = "portal.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_portal_hostname
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_portal_certificate_name
+        name = local.app_gateway_portal_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.portal_cstar.secret_id,
           data.azurerm_key_vault_certificate.portal_cstar.version
@@ -227,13 +226,13 @@ module "app_gw_maz" {
 
     management = {
       protocol           = "Https"
-      host               = "management.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_management_hostname
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_management_certificate_name
+        name = local.app_gateway_management_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.management_cstar.secret_id,
           data.azurerm_key_vault_certificate.management_cstar.version
@@ -243,13 +242,13 @@ module "app_gw_maz" {
 
     rtp = {
       protocol           = "Https"
-      host               = "api-rtp.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_api_rtp_hostname
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_rtp_certificate_name
+        name = local.app_gateway_api_rtp_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.rtp_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.rtp_gw_cstar.version
@@ -259,13 +258,13 @@ module "app_gw_maz" {
 
     rtp-cb = {
       protocol           = "Https"
-      host               = "api-rtp-cb.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_api_rtp_cb_hostname
       port               = 443
       ssl_profile_name   = "${local.project}-rtp-cb-mauth-profile"
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_rtp_cb_certificate_name
+        name = local.app_gateway_api_rtp_cb_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.rtp_cb_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.rtp_cb_gw_cstar.version
@@ -275,13 +274,13 @@ module "app_gw_maz" {
 
     mcshared = {
       protocol           = "Https"
-      host               = "api-mcshared.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_mcshared_hostname
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_mcshared_certificate_name
+        name = local.app_gateway_mcshared_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.mcshared_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.mcshared_gw_cstar.version
@@ -291,13 +290,13 @@ module "app_gw_maz" {
 
     emd = {
       protocol           = "Https"
-      host               = "api-emd.${var.dns_zone_prefix}.${var.external_domain}"
+      host               = local.app_gateway_api_emd_hostname
       port               = 443
       ssl_profile_name   = null
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_api_emd_certificate_name
+        name = local.app_gateway_api_emd_certificate_name
         id = trimsuffix(
           data.azurerm_key_vault_certificate.emd_gw_cstar.secret_id,
           data.azurerm_key_vault_certificate.emd_gw_cstar.version
@@ -652,5 +651,5 @@ module "app_gw_maz" {
 
   }
 
-  tags = var.tags
+  tags = module.tag_config.tags
 }

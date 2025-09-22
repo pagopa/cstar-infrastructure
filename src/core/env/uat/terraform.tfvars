@@ -1,4 +1,5 @@
 prefix              = "cstar"
+domain              = "core"
 location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
@@ -273,20 +274,10 @@ reverse_proxy_ip               = "10.1.0.250"
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "uat01.rtd.internal.uat.cstar.pagopa.it"
 
-app_gateway_sku_name                    = "Standard_v2"
-app_gateway_sku_tier                    = "Standard_v2"
-app_gateway_waf_enabled                 = false
-app_gateway_alerts_enabled              = false
-app_gateway_api_certificate_name        = "api-uat-cstar-pagopa-it"
-app_gateway_api_io_certificate_name     = "api-io-uat-cstar-pagopa-it"
-app_gateway_portal_certificate_name     = "portal-uat-cstar-pagopa-it"
-app_gateway_management_certificate_name = "management-uat-cstar-pagopa-it"
-app_gateway_rtp_certificate_name        = "api-rtp-uat-cstar-pagopa-it"
-app_gateway_rtp_cb_certificate_name     = "api-rtp-cb-uat-cstar-pagopa-it"
-app_gateway_mcshared_certificate_name   = "api-mcshared-uat-cstar-pagopa-it"
-app_gateway_api_emd_certificate_name    = "api-emd-uat-cstar-pagopa-it"
-
-enable_iac_pipeline = true
+app_gateway_sku_name       = "Standard_v2"
+app_gateway_sku_tier       = "Standard_v2"
+app_gateway_waf_enabled    = false
+app_gateway_alerts_enabled = false
 
 cdc_api_params = {
   host = "https://apitest.agenziaentrate.gov.it/interop/carta-cultura/"

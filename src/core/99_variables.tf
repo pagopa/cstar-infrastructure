@@ -22,6 +22,16 @@ variable "prefix" {
   type = string
 }
 
+variable "domain" {
+  type = string
+  validation {
+    condition = (
+      length(var.domain) <= 12
+    )
+    error_message = "Max length is 12 chars."
+  }
+}
+
 variable "env_short" {
   type = string
 }
@@ -136,11 +146,6 @@ variable "cidr_subnet_azdoa" {
 #
 # VPN
 #
-variable "vpn_sku" {
-  type        = string
-  default     = "VpnGw1"
-  description = "VPN Gateway SKU"
-}
 
 variable "vpn_pip_sku" {
   type        = string
@@ -188,53 +193,6 @@ variable "dns_storage_account_tkm" {
 variable "cidr_subnet_k8s" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
-}
-
-variable "aks_availability_zones" {
-  type        = list(number)
-  description = "A list of Availability Zones across which the Node Pool should be spread."
-  default     = []
-}
-
-variable "aks_vm_size" {
-  type        = string
-  default     = "Standard_DS3_v2"
-  description = "The size of the AKS Virtual Machine in the Node Pool."
-}
-
-variable "aks_node_count" {
-  type        = number
-  description = "The initial number of the AKS nodes which should exist in this Node Pool."
-  default     = 1
-}
-
-variable "aks_enable_auto_scaling" {
-  type        = bool
-  description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool?"
-  default     = false
-}
-
-variable "aks_min_node_count" {
-  type        = number
-  description = "The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
-  default     = null
-}
-
-variable "aks_max_node_count" {
-  type        = number
-  description = "The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
-  default     = null
-}
-
-variable "kubernetes_version" {
-  type    = string
-  default = null
-}
-
-variable "aks_sku_tier" {
-  type        = string
-  description = "The SKU Tier that should be used for this Kubernetes Cluster."
-  default     = "Free"
 }
 
 variable "reverse_proxy_ip" {
@@ -395,12 +353,6 @@ variable "app_gateway_public_ip_availability_zone" {
   description = "Number of az to allocate the public ip."
 }
 
-variable "enable_custom_dns" {
-  type        = bool
-  default     = false
-  description = "Enable application gateway custom domain."
-}
-
 variable "devops_service_connection_object_id" {
   type        = string
   description = "Azure deveops service connection id."
@@ -423,148 +375,9 @@ variable "app_gateway_max_capacity" {
   default = 2
 }
 
-variable "app_gateway_api_certificate_name" {
-  type        = string
-  description = "Application gateway api certificate name on Key Vault"
-}
-
-variable "app_gateway_portal_certificate_name" {
-  type        = string
-  description = "Application gateway developer portal certificate name on Key Vault"
-}
-
-variable "app_gateway_management_certificate_name" {
-  type        = string
-  description = "Application gateway api management certificate name on Key Vault"
-}
-
-variable "app_gateway_api_io_certificate_name" {
-  type        = string
-  description = "Application gateway api io certificate name on Key Vault"
-}
-
-variable "app_gateway_api_emd_certificate_name" {
-  type        = string
-  description = "Application gateway api emd certificate name on Key Vault. https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway"
-}
-
-variable "app_gateway_rtp_certificate_name" {
-  type        = string
-  description = "Application gateway rtp certificate name on Key Vault"
-}
-
-variable "app_gateway_rtp_cb_certificate_name" {
-  type        = string
-  description = "Application gateway rtp-cb certificate name on Key Vault"
-}
-
-variable "app_gateway_mcshared_certificate_name" {
-  type        = string
-  description = "Application gateway mcshared certificate name on Key Vault"
-}
-
-variable "app_gw_load_client_certificate" {
-  type        = bool
-  default     = true
-  description = "Load client certificate in app gateway"
-}
-
 variable "internal_ca_intermediate" {
   type        = string
   description = "Internal CA intermediate. See this page: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway"
-}
-
-## Database server postgresl
-variable "db_sku_name" {
-  type        = string
-  description = "Specifies the SKU Name for this PostgreSQL Server."
-}
-
-variable "db_geo_redundant_backup_enabled" {
-  type        = bool
-  default     = false
-  description = "Turn Geo-redundant server backups on/off."
-}
-
-variable "db_enable_replica" {
-  type        = bool
-  default     = false
-  description = "Create a PostgreSQL Server Replica."
-}
-
-variable "db_storage_mb" {
-  type        = number
-  description = "Max storage allowed for a server"
-  default     = 5120
-}
-
-variable "db_configuration" {
-  type        = map(string)
-  description = "PostgreSQL Server configuration"
-  default     = {}
-}
-
-variable "db_alerts_enabled" {
-  type        = bool
-  default     = false
-  description = "Database alerts enabled?"
-}
-
-variable "db_network_rules" {
-  type = object({
-    ip_rules                       = list(string)
-    allow_access_to_azure_services = bool
-  })
-  default = {
-    ip_rules = []
-    # dblink
-    allow_access_to_azure_services = true
-  }
-  description = "Database network rules"
-}
-
-variable "db_replica_network_rules" {
-  type = object({
-    ip_rules                       = list(string)
-    allow_access_to_azure_services = bool
-  })
-  default = {
-    ip_rules = []
-    # dblink
-    allow_access_to_azure_services = true
-  }
-  description = "Database network rules"
-}
-
-variable "db_metric_alerts" {
-  default = {}
-
-  description = <<EOD
-Map of name = criteria objects, see these docs for options
-https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers
-https://docs.microsoft.com/en-us/azure/postgresql/concepts-limits#maximum-connections
-EOD
-
-  type = map(object({
-    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
-    aggregation = string
-    metric_name = string
-    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
-    operator  = string
-    threshold = number
-    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
-    frequency = string
-    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
-    window_size = string
-
-    dimension = list(object(
-      {
-        name     = string
-        operator = string
-        values   = list(string)
-      }
-    ))
-  }))
 }
 
 ## Redis cache

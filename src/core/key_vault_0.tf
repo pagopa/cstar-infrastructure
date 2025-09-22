@@ -78,43 +78,44 @@ resource "azurerm_key_vault_certificate" "apim_internal_custom_domain_cert" {
 }
 
 data "azurerm_key_vault_certificate" "app_gw_io_cstar" {
-  count        = var.app_gateway_api_io_certificate_name != null ? 1 : 0
-  name         = var.app_gateway_api_io_certificate_name
+  count = 1
+
+  name         = local.app_gateway_api_io_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "app_gw_cstar" {
-  name         = var.app_gateway_api_certificate_name
+  name         = local.app_gateway_api_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "portal_cstar" {
-  name         = var.app_gateway_portal_certificate_name
+  name         = local.app_gateway_portal_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "management_cstar" {
-  name         = var.app_gateway_management_certificate_name
+  name         = local.app_gateway_management_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "mcshared_gw_cstar" {
-  name         = var.app_gateway_mcshared_certificate_name
+  name         = local.app_gateway_mcshared_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "emd_gw_cstar" {
-  name         = var.app_gateway_api_emd_certificate_name
+  name         = local.app_gateway_api_emd_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "rtp_gw_cstar" {
-  name         = var.app_gateway_rtp_certificate_name
+  name         = local.app_gateway_api_rtp_certificate_name
   key_vault_id = module.key_vault.id
 }
 
 data "azurerm_key_vault_certificate" "rtp_cb_gw_cstar" {
-  name         = var.app_gateway_rtp_cb_certificate_name
+  name         = local.app_gateway_api_rtp_cb_certificate_name
   key_vault_id = module.key_vault.id
 }
 

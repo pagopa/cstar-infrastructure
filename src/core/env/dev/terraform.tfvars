@@ -1,4 +1,5 @@
 prefix              = "cstar"
+domain              = "core"
 location            = "westeurope"
 location_pair       = "northeurope"
 location_short      = "weu"
@@ -145,19 +146,6 @@ sftp_account_replication_type = "LRS"
 sftp_enable_private_endpoint  = true
 sftp_disable_network_rules    = true
 
-db_sku_name       = "GP_Gen5_2"
-db_enable_replica = false
-db_configuration = {
-  autovacuum_work_mem         = "-1"
-  effective_cache_size        = "655360"
-  log_autovacuum_min_duration = "5000"
-  log_connections             = "off"
-  log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
-  log_temp_files              = "4096"
-  maintenance_work_mem        = "524288"
-  max_wal_size                = "4096"
-}
-
 db_alerts_enabled = false
 db_metric_alerts = {
   cpu = {
@@ -279,21 +267,10 @@ ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "dev01.rtd.internal.dev.cstar.pagopa.it"
 
 
-app_gateway_sku_name                    = "Standard_v2"
-app_gateway_sku_tier                    = "Standard_v2"
-app_gateway_waf_enabled                 = false
-app_gateway_alerts_enabled              = false
-app_gateway_api_certificate_name        = "api-dev-cstar-pagopa-it"
-app_gateway_api_io_certificate_name     = "api-io-dev-cstar-pagopa-it"
-app_gateway_portal_certificate_name     = "portal-dev-cstar-pagopa-it"
-app_gateway_management_certificate_name = "management-dev-cstar-pagopa-it"
-app_gateway_rtp_certificate_name        = "api-rtp-dev-cstar-pagopa-it"
-app_gateway_rtp_cb_certificate_name     = "api-rtp-cb-dev-cstar-pagopa-it"
-app_gateway_mcshared_certificate_name   = "api-mcshared-dev-cstar-pagopa-it"
-app_gateway_api_emd_certificate_name    = "api-emd-dev-cstar-pagopa-it"
-app_gw_load_client_certificate          = false
-
-enable_iac_pipeline = true
+app_gateway_sku_name       = "Standard_v2"
+app_gateway_sku_tier       = "Standard_v2"
+app_gateway_waf_enabled    = false
+app_gateway_alerts_enabled = false
 
 enable_api_fa                              = true
 enable_blob_storage_event_grid_integration = true
