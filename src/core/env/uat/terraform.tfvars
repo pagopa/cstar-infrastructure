@@ -382,4 +382,3 @@ operations_logs_account_replication_type = "GRS"
 internal_ca_intermediate = "06"
 
 bonus_elettrodomestici_hostname = "uat.bonuselettrodomestici.it"
-cert_diff_enabled               = false
