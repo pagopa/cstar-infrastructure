@@ -380,3 +380,4 @@ internal_ca_intermediate = "07"
 
 bonus_elettrodomestici_hostname = "bonuselettrodomestici.it"
 
+cert_diff_enabled = false

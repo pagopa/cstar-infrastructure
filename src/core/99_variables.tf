@@ -692,3 +692,9 @@ variable "bonus_elettrodomestici_hostname" {
   description = ""
   default     = "false"
 }
+
+variable "cert_diff_enabled" {
+  type        = bool
+  description = "Enable cert"
+  default     = true
+}
