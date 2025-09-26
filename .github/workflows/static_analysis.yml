@@ -1,4 +1,4 @@
-name: Static Analysis
+name: 🔍 Static Analysis MA
 
 on:
   push:
@@ -7,10 +7,92 @@ on:
 
 jobs:
   static_analysis:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    env:
+      TF_PLUGIN_CACHE_DIR: /tmp/.terraform.d/plugin-cache
 
     steps:
-      - name: Static Analysis
-        uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@5c7e5f690ad0f07f3bd945bdebf2a6c7a575b33f # v1.20.0
+      - name: ⚡ Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: 📖 Read Terraform version
+        run: |
+          echo "TERRAFORM_VERSION=$(cat .terraform-version)" >> $GITHUB_ENV
+
+      - name: 🔨 Setup Terraform
+        uses: hashicorp/setup-terraform@97f030cf6dc0b4f5e0da352c7bca9cca34579800 # v3.1.0
         with:
-          precommit_version: 'v1.96.2@sha256:01f870b7689b5a09c1a370914fcddcac42c4b6478c9d369e1d2590dd0a66ffd0'
+          terraform_version: "${{ env.TERRAFORM_VERSION }}"
+
+      - name: 💾 Cache Terraform plugins
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
+        with:
+          path: $TF_PLUGIN_CACHE_DIR
+          key: ${{ runner.os }}-terraform-${{ env.TERRAFORM_VERSION }}-${{ hashFiles('**/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-${{ env.TERRAFORM_VERSION }}-
+            ${{ runner.os }}-terraform-
+
+      - name: 🔧 Setup Terraform plugin cache
+        run: |
+          mkdir -p $TF_PLUGIN_CACHE_DIR
+          echo 'plugin_cache_dir = "/tmp/.terraform.d/plugin-cache"' > ~/.terraformrc
+
+      - name: 🏁 Init Terraform folders
+        shell: bash
+        run: |
+          echo "📢 Show space"
+          df -h
+
+          echo -e "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-"
+          echo    "+ 🏁 INIT TERRAFORM FOLDERS 🏁   +"
+          echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n"
+
+          # Generate a unique list of folders containing `.tf` files, excluding the 90_aws folder
+          FOLDERS=$(find . -type f -name "*.tf" ! -path "*/.terraform/*" ! -path "*/90_aws/*" -exec dirname {} \; | sort -u)
+          echo "FOLDERS=${FOLDERS}"
+
+          for f in $FOLDERS; do
+            echo -e "\n📂 Processing: ${f}"
+            (
+              cd "${f}" || exit
+              # Check for any necessary changes to backend configurations
+              if [[ -f "99_main.tf" ]]; then
+                sed -i -e 's/  backend "azurerm" {}//g' 99_main.tf || true
+              fi
+              # Initialize Terraform and lock providers for all platforms
+              terraform init -upgrade -lockfile=true &&
+              terraform providers lock \
+                -platform=darwin_arm64 \
+                -platform=darwin_amd64 \
+                -platform=linux_amd64 \
+                -platform=linux_arm64
+            ) || echo "⚠️ Initialization failed for ${f}"
+          done
+
+      - name: Show precommit version
+        shell: bash
+        run: |
+          echo -e "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+          echo    "+ 1️⃣  SHOW PRECOMMIT VERSION 1️⃣  +"
+          echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n"
+
+          TAG=v1.99.2@sha256:34f6cef8b944d571ea22be316a960d8353fcc0571adea35302cbd9ab80bf2758
+          docker run --rm --entrypoint cat ghcr.io/antonbabenko/pre-commit-terraform:$TAG /usr/bin/tools_versions_info
+
+      - name: 🚨 Run precommit
+        shell: bash
+        run: |
+          echo -e "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+          echo    "+- 🚨 PRECOMMIT TERRAFORM 🚨 -+"
+          echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n"
+
+          TARGET_FILES=$(find . -type f -name "*.tf" ! -path "*/.terraform/*" ! -path "./src/90_aws/*")
+
+          TAG=v1.99.2@sha256:34f6cef8b944d571ea22be316a960d8353fcc0571adea35302cbd9ab80bf2758
+          docker run \
+            -v "$(pwd)":/lint \
+            -v /tmp/.terraform.d/plugin-cache:/tmp/.terraform.d/plugin-cache \
+            -w /lint \
+            ghcr.io/antonbabenko/pre-commit-terraform:$TAG \
+            run --files $TARGET_FILES --show-diff-on-failure

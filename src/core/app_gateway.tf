@@ -303,6 +303,23 @@ module "app_gw_maz" {
         )
       }
     }
+
+    platform = {
+      protocol           = "Https"
+      host               = local.app_gateway_platform_hostname
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
+      certificate = {
+        name = local.app_gateway_platform_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.platform_gw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.platform_gw_cstar.version
+        )
+      }
+    }
+
   }
 
   # maps listener to backend
@@ -363,6 +380,13 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api-emd"
       priority              = 70
+    }
+
+    platform = {
+      listener              = "platform"
+      backend               = "apim"
+      rewrite_rule_set_name = "rewrite-rule-set-platform"
+      priority              = 80
     }
   }
 
@@ -540,6 +564,29 @@ module "app_gw_maz" {
         }
       ]
     },
+    {
+      name = "rewrite-rule-set-platform"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = var.env == "prod" ? "___never_match___" : "/platform-influxdb/.*"
+              ignore_case = true
+              negate      = true
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    }
   ]
 
   # TLS

@@ -104,6 +104,12 @@ data "azurerm_key_vault_certificate" "mcshared_gw_cstar" {
   key_vault_id = module.key_vault.id
 }
 
+data "azurerm_key_vault_certificate" "platform_gw_cstar" {
+
+  name         = local.app_gateway_platform_certificate_name
+  key_vault_id = module.key_vault.id
+}
+
 data "azurerm_key_vault_certificate" "emd_gw_cstar" {
   name         = local.app_gateway_api_emd_certificate_name
   key_vault_id = module.key_vault.id
