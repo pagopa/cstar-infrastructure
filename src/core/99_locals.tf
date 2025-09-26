@@ -73,6 +73,7 @@ locals {
   app_gateway_api_rtp_certificate_name    = replace(local.app_gateway_api_rtp_hostname, ".", "-")
   app_gateway_api_rtp_cb_certificate_name = replace(local.app_gateway_api_rtp_cb_hostname, ".", "-")
   app_gateway_mcshared_certificate_name   = replace(local.app_gateway_mcshared_hostname, ".", "-")
+  app_gateway_platform_certificate_name   = replace(local.app_gateway_platform_hostname, ".", "-")
 
   # Hostname:
   app_gateway_api_hostname        = "api${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
@@ -83,6 +84,6 @@ locals {
   app_gateway_api_rtp_hostname    = "api-rtp${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
   app_gateway_api_rtp_cb_hostname = "api-rtp-cb${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
   app_gateway_mcshared_hostname   = "api-mcshared${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
-
+  app_gateway_platform_hostname   = "platform${replace(".${local.prefix_dns_zone_name}", "-", ".")}"
 
 }
