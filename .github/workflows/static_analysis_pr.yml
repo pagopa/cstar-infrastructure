@@ -21,7 +21,7 @@ jobs:
           start_folder: "src"
           include_folders: "tag_config"
           include_patterns: "src"
-          stopper_folders: "env,tests,api,api_product,helm,argocd,secrets"
+          stopper_folders: "env,tests,api,api_product,helm,argocd,secrets,legacy"
 
       - name: 👀 See folders downloaded
         if: env.dir_changes_detected == 'true'
