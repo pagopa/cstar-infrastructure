@@ -65,7 +65,7 @@ locals {
   prefix_dns_zone_name = "${var.env == "prod" ? "" : "${var.env}."}${var.prefix}.pagopa.it"
 
   # Certificates
-  app_gateway_api_certificate_name        = var.cert_diff_enabled ? replace("${local.app_gateway_api_hostname}-stable", ".", "-") : replace(local.app_gateway_api_hostname, ".", "-")
+  app_gateway_api_certificate_name        = replace("${local.app_gateway_api_hostname}-stable", ".", "-")
   app_gateway_portal_certificate_name     = replace(local.app_gateway_portal_hostname, ".", "-")
   app_gateway_management_certificate_name = replace(local.app_gateway_management_hostname, ".", "-")
   app_gateway_api_io_certificate_name     = replace(local.app_gateway_api_io_hostname, ".", "-")
