@@ -71,6 +71,11 @@ module "app_gw_maz" {
   sku_name = var.app_gateway_sku_name
   sku_tier = var.app_gateway_sku_tier
 
+  # Scaling
+  app_gateway_min_capacity = var.app_gateway_min_capacity
+  app_gateway_max_capacity = var.app_gateway_max_capacity
+
+
   # WAF
   waf_enabled = var.app_gateway_waf_enabled
   waf_disabled_rule_group = [
@@ -591,10 +596,6 @@ module "app_gw_maz" {
 
   # TLS
   identity_ids = [azurerm_user_assigned_identity.appgateway.id]
-
-  # Scaling
-  app_gateway_min_capacity = var.app_gateway_min_capacity
-  app_gateway_max_capacity = var.app_gateway_max_capacity
 
   alerts_enabled = var.app_gateway_alerts_enabled
 

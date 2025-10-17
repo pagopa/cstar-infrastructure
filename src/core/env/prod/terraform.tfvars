@@ -51,6 +51,16 @@ cidr_subnet_eventhub  = ["10.230.6.64/26"]
 cidr_pair_vnet                = ["10.101.0.0/16"]
 cidr_subnet_pair_dnsforwarder = ["10.101.134.0/29"]
 
+### APP Gateway
+app_gateway_min_capacity = 8  #bonus elettrodomestici peak load
+app_gateway_max_capacity = 50 #bonus elettrodomestici peak load
+
+app_gateway_sku_name                    = "WAF_v2"
+app_gateway_sku_tier                    = "WAF_v2"
+app_gateway_waf_enabled                 = true
+app_gateway_alerts_enabled              = true
+app_gateway_public_ip_availability_zone = "Zone-Redundant"
+
 ### ☁️ APIM
 cidr_subnet_apim_temp = ["10.230.6.128/26"]
 
@@ -129,6 +139,20 @@ apim_v2_subnet_nsg_security_rules = [
   }
 ]
 
+apim_v2_autoscale = {
+    enabled                       = true
+    default_instances             = 1
+    minimum_instances             = 1
+    maximum_instances             = 5
+    scale_out_capacity_percentage = 40
+    scale_out_time_window         = "PT10M"
+    scale_out_value               = "2"
+    scale_out_cooldown            = "PT45M"
+    scale_in_capacity_percentage  = 30
+    scale_in_time_window          = "PT30M"
+    scale_in_value                = "1"
+    scale_in_cooldown             = "PT30M"
+  }
 
 #
 # ⛴ AKS Vnet
@@ -265,14 +289,6 @@ redis_family   = "P"
 reverse_proxy_ip               = "10.1.0.250"
 ingress_load_balancer_ip       = "10.11.100.250"
 ingress_load_balancer_hostname = "prod01.rtd.internal.cstar.pagopa.it"
-
-app_gateway_sku_name                    = "WAF_v2"
-app_gateway_sku_tier                    = "WAF_v2"
-app_gateway_waf_enabled                 = true
-app_gateway_alerts_enabled              = true
-app_gateway_min_capacity                = 1
-app_gateway_max_capacity                = 10
-app_gateway_public_ip_availability_zone = "Zone-Redundant"
 
 lock_enable = true
 

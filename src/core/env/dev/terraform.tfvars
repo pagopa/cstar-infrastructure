@@ -51,6 +51,10 @@ cidr_subnet_eventhub  = ["10.230.11.64/26"]
 cidr_pair_vnet                = ["10.101.0.0/16"]
 cidr_subnet_pair_dnsforwarder = ["10.101.199.0/29"]
 
+### APP Gateway
+app_gateway_min_capacity = 0
+app_gateway_max_capacity = 2
+
 ### ☁️ APIM
 cidr_subnet_apim_temp = ["10.230.11.128/26"]
 
