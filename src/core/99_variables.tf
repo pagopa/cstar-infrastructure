@@ -240,7 +240,9 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
+#-------------------------------------------------------------------------------
 ## apim
+#-------------------------------------------------------------------------------
 variable "cidr_subnet_apim" {
   type        = list(string)
   description = "Address prefixes subnet api management."
@@ -280,6 +282,42 @@ variable "apim_v2_zones" {
   description = "(Required) Zones in which the apim will be deployed"
 }
 
+variable "apim_v2_autoscale" {
+  type = object(
+    {
+      enabled                       = bool
+      default_instances             = number
+      minimum_instances             = number
+      maximum_instances             = number
+      scale_out_capacity_percentage = number
+      scale_out_time_window         = string
+      scale_out_value               = string
+      scale_out_cooldown            = string
+      scale_in_capacity_percentage  = number
+      scale_in_time_window          = string
+      scale_in_value                = string
+      scale_in_cooldown             = string
+    }
+  )
+  default = {
+    enabled                       = false
+    default_instances             = 1
+    minimum_instances             = 1
+    maximum_instances             = 5
+    scale_out_capacity_percentage = 60
+    scale_out_time_window         = "PT10M"
+    scale_out_value               = "2"
+    scale_out_cooldown            = "PT45M"
+    scale_in_capacity_percentage  = 30
+    scale_in_time_window          = "PT30M"
+    scale_in_value                = "1"
+    scale_in_cooldown             = "PT30M"
+  }
+  description = "Configure Apim autoscale on capacity metric"
+}
+
+
+#-------------------------------------------------------------------------------
 variable "internal_private_domain" {
   type    = string
   default = "internal.cstar.pagopa.it"
@@ -365,14 +403,15 @@ variable "azdo_sp_tls_cert_enabled" {
   default     = false
 }
 
+#-------------------------------------------------------------------------------
+# APP Gateway
+#-------------------------------------------------------------------------------
 variable "app_gateway_min_capacity" {
-  type    = number
-  default = 0
+  type = number
 }
 
 variable "app_gateway_max_capacity" {
-  type    = number
-  default = 2
+  type = number
 }
 
 variable "internal_ca_intermediate" {
