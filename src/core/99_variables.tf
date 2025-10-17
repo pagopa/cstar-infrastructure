@@ -407,11 +407,11 @@ variable "azdo_sp_tls_cert_enabled" {
 # APP Gateway
 #-------------------------------------------------------------------------------
 variable "app_gateway_min_capacity" {
-  type    = number
+  type = number
 }
 
 variable "app_gateway_max_capacity" {
-  type    = number
+  type = number
 }
 
 variable "internal_ca_intermediate" {
