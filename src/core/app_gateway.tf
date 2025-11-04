@@ -702,7 +702,7 @@ module "app_gw_maz" {
   tags = merge(
     module.tag_config.tags,
     {
-        "grafana" = "yes"
+      "grafana" = "yes"
     }
   )
 }
