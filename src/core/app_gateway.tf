@@ -699,5 +699,10 @@ module "app_gw_maz" {
 
   }
 
-  tags = module.tag_config.tags
+  tags = merge(
+    module.tag_config.tags,
+    {
+        "grafana" = "yes"
+    }
+  )
 }
