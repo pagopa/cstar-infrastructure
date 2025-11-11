@@ -520,6 +520,24 @@ module "app_gw_maz" {
             path         = "notfound"
             query_string = null
           }
+        },
+        {
+          name          = "deny-query-string-client-id"
+          rule_sequence = 20
+          conditions = [
+            {
+              variable    = "var_query_string"
+              pattern     = "client_id=security-admin-console"
+              ignore_case = true
+              negate      = false
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
         }
       ]
     },
