@@ -67,6 +67,10 @@ module "apim" {
 
   tags = module.tag_config.tags
 
+  autoscale = var.apim_v2_autoscale
+
+  alerts_enabled = var.apim_v2_alerts_enabled
+
   depends_on = [
     azurerm_application_insights.application_insights
   ]
