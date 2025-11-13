@@ -138,7 +138,7 @@ apim_v2_subnet_nsg_security_rules = [
     destination_address_prefix = "AzureKeyVault"
   }
 ]
-
+apim_v2_alerts_enabled = true
 apim_v2_autoscale = {
   enabled                       = true
   default_instances             = 1

@@ -48,8 +48,8 @@ cidr_pair_vnet                = ["10.101.0.0/16"]
 cidr_subnet_pair_dnsforwarder = ["10.101.133.0/29"]
 
 ### APP Gateway
-app_gateway_min_capacity = 0
-app_gateway_max_capacity = 2
+app_gateway_min_capacity = 20
+app_gateway_max_capacity = 50
 
 ### ☁️ APIM
 cidr_subnet_apim_temp = ["10.230.7.128/26"]
@@ -129,6 +129,21 @@ apim_v2_subnet_nsg_security_rules = [
     destination_address_prefix = "AzureKeyVault"
   }
 ]
+apim_v2_alerts_enabled = false
+apim_v2_autoscale = {
+  enabled                       = true
+  default_instances             = 1
+  minimum_instances             = 1
+  maximum_instances             = 5
+  scale_out_capacity_percentage = 40
+  scale_out_time_window         = "PT10M"
+  scale_out_value               = "2"
+  scale_out_cooldown            = "PT45M"
+  scale_in_capacity_percentage  = 30
+  scale_in_time_window          = "PT30M"
+  scale_in_value                = "1"
+  scale_in_cooldown             = "PT30M"
+}
 
 #
 # ⛴ AKS Vnet
