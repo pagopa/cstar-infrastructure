@@ -282,6 +282,11 @@ variable "apim_v2_zones" {
   description = "(Required) Zones in which the apim will be deployed"
 }
 
+variable "apim_v2_alerts_enabled" {
+  type        = bool
+  description = "Enable alerts"
+}
+
 variable "apim_v2_autoscale" {
   type = object(
     {
