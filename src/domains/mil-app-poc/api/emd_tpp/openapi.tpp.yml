@@ -236,7 +236,7 @@ paths:
               required: false
               schema:
                 $ref: '#/components/schemas/RetryAfter'
-  '/isPaymentEnabled':
+  '/{tppId}/payment-enabled':
     put:
       tags:
         - TPP
@@ -258,23 +258,28 @@ paths:
             example: it-IT
             default: it-IT
           required: true
+        - name: tppId
+          in: path
+          description: 'ENG: Unique ID that identify TPP on PagoPA systems - IT: Identificativo univoco della TPP sui sistemi PagoPA'
+          required: true
+          schema:
+            type: string
+            pattern: "^[ -~]{1,50}$"
+            minLength: 50
+            maxLength: 50
+            example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
       requestBody:
-        description: 'ENG: TPP identifier and isPaymentEnabled - IT: Identificativo univoco della TPP e isPaymentEnabled'
+        description: 'ENG: isPaymentEnabled flag - IT: Flag isPaymentEnabled'
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TppUpdateIsPaymentEnabled'
+              $ref: '#/components/schemas/TppUpdateIsPaymentEnabledRequest'
             example:
-              tppId: 0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900
-              state: false
+              isPaymentEnabled: false
       responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TppDTO'
+        '204':
+          description: No Content - Update successful
           headers:
             Access-Control-Allow-Origin:
               description: Indicates whether the response can be shared with requesting code from the given origin
@@ -1791,20 +1796,12 @@ components:
           description: "Status active/inactive"
           example: true
 
-    TppUpdateIsPaymentEnabled:
+    TppUpdateIsPaymentEnabledRequest:
       type: object
       required:
-        - tppId
         - isPaymentEnabled
-      description: "TPP information(Third Party Provider)"
+      description: "Request to update payment enabled flag"
       properties:
-        tppId:
-          type: string
-          description: "Unique ID that identify TPP on PagoPA systems"
-          pattern: "^[ -~]{1,50}$"
-          minLength: 50
-          maxLength: 50
-          example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
         isPaymentEnabled:
           type: boolean
           description: "Status enabled/disabled"
