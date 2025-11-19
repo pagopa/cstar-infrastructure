@@ -14,13 +14,13 @@ info:
 
 servers:
   - description: Development Test
-    url: https://api-emd.dev.cstar.pagopa.it/emd/citizen
+    url: https://api-emd.dev.cstar.pagopa.it/emd/mil/citizen
     x-internal: true
   - description: User Acceptance Test
-    url: https://api-emd.uat.cstar.pagopa.it/emd/citizen
+    url: https://api-emd.uat.cstar.pagopa.it/emd/mil/citizen
     x-internal: true
   - description: Prod
-    url: https://api-emd.cstar.pagopa.it/emd/citizen
+    url: https://api-emd.cstar.pagopa.it/emd/mil/citizen
     x-internal: false
 
 tags:
