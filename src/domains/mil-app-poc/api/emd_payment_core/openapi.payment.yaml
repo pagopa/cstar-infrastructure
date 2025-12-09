@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: EMD Payment API
-  version: '1.0.5-SNAPSHOT'
+  version: '1.4.0'
   description: |-
     EMD Payment
   contact:
@@ -742,6 +742,11 @@ components:
           minLength: 24
           maxLength: 36
           example: "XRUZ-GZAJ-ZUEJ-202407-W-1"
+        linkVersion:
+          type: string
+          description: "Identificatore univoco della versione del deeplink. Non obbligatorio. Se non fornito, verrà utilizzata la versione predefinita in accordo con la TPP."
+          minLength: 1
+          example: "v1"
 
     RetrievaIdResponseDTO:
       type: object
