@@ -24,7 +24,7 @@ tags:
   - name: Payment
     description: 'Payment operation'
 paths:
-  '/retrievalTokens/{entityId}':
+  '/retrievalTokens':
     post:
       tags:
         - Payment
@@ -57,7 +57,7 @@ paths:
             maxLength: 50
             example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
       requestBody:
-        description: 'ENG: Agent and originId - IT: Agent e originId'
+        description: 'ENG: Agent, originId and (optional) linkVersion - IT: Agent, originId e (opzionale) linkVersion'
         required: true
         content:
           application/json:
