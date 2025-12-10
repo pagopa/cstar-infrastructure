@@ -46,16 +46,6 @@ paths:
             example: it-IT
             default: it-IT
           required: true
-        - name: entityId
-          in: path
-          description: 'ENG: Unique ID of TPP - IT:  Identificativo univoco del TPP'
-          required: true
-          schema:
-            type: string
-            pattern: "^[ -~]{1,50}$"
-            minLength: 50
-            maxLength: 50
-            example: "0e3bee29-8753-447c-b0da-1f7965558ec2-1706867960900"
       requestBody:
         description: 'ENG: Agent, originId and (optional) linkVersion - IT: Agent, originId e (opzionale) linkVersion'
         required: true
