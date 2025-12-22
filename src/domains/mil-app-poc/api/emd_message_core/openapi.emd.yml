@@ -180,9 +180,9 @@ components:
         senderDescription:
           description: Description of the subject who originated the message
           type: string
-          pattern: "^[ -~]{1,50}$"
+          pattern: "^[ -~]{1,88}$"
           minLength: 1
-          maxLength: 50
+          maxLength: 88
         messageUrl:
           description: URL to retrieve the original message
           type: string
