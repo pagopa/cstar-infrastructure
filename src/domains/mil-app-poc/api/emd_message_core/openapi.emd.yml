@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Messages dispatcher
-  version: 1.2.4-SNAPSHOT
+  version: 1.3.1-SNAPSHOT
   description: Service which acts as dispatcher for messages to end-users through 3rd-party application
   contact:
     name: PagoPA S.p.A.
