@@ -31,13 +31,22 @@ locals {
   cosmos_dns_zone_name                = "privatelink.mongo.cosmos.azure.com"
   cosmos_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
-  azdo_managed_identity_rg_name = "cstar-${var.env_short}-identity-rg"
-  azdo_iac_managed_identities   = toset(["azdo-${var.env}-cstar-iac-deploy", "azdo-${var.env}-cstar-iac-plan"])
-
   eventhub_resource_group_name = "${local.project}-evh-rg"
 
   # KV
   kv_domain_name    = "cstar-${var.env_short}-weu-mil-kv"
   kv_domain_rg_name = "cstar-${var.env_short}-weu-mil-sec-rg"
 
+  # AZDO
+  azdo_managed_identity_rg_name = "${var.prefix}-${var.env_short}-identity-rg"
+  azdo_iac_managed_identities_read = [
+    "azdo-${var.env}-${var.prefix}-iac-plan-v2",
+    "azdo-${var.env}-${var.prefix}-app-plan-v2",
+  ]
+
+  azdo_iac_managed_identities_write = [
+    "azdo-${var.env}-${var.prefix}-iac-deploy-v2",
+    "azdo-${var.env}-${var.prefix}-app-deploy-v2"
+  ]
 }
+
