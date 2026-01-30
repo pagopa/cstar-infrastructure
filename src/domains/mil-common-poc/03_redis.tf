@@ -27,8 +27,6 @@ module "mil_redis" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.privatelink_redis.id]
   }
 
-  zones = [1, 2, 3]
-
   tags = local.tags
 }
 

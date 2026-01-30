@@ -15,13 +15,13 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 4734d13adfeddd42f26f108b29f67c65f9b8ef9b |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 420ca008174e36667fe6bf80444facf7238b3be8 |
 | <a name="module_cosmosdb_account_mongodb"></a> [cosmosdb\_account\_mongodb](#module\_cosmosdb\_account\_mongodb) | ./.terraform/modules/__v4__/cosmosdb_account | n/a |
 | <a name="module_cosmosdb_mil_collections"></a> [cosmosdb\_mil\_collections](#module\_cosmosdb\_mil\_collections) | ./.terraform/modules/__v4__/cosmosdb_mongodb_collection | n/a |
 | <a name="module_cosmosdb_mil_snet"></a> [cosmosdb\_mil\_snet](#module\_cosmosdb\_mil\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_evenhub_mil_snet"></a> [evenhub\_mil\_snet](#module\_evenhub\_mil\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_eventhub_mil_configuration"></a> [eventhub\_mil\_configuration](#module\_eventhub\_mil\_configuration) | ./.terraform/modules/__v4__/eventhub_configuration | n/a |
-| <a name="module_eventhub_mil_namespace"></a> [eventhub\_mil\_namespace](#module\_eventhub\_mil\_namespace) | ./.terraform/modules/__v4__/eventhub | n/a |
+| <a name="module_eventhub_mil_namespace"></a> [eventhub\_mil\_namespace](#module\_eventhub\_mil\_namespace) | ./.terraform/modules/__v4__/eventhub_legacy | n/a |
 | <a name="module_mil_redis"></a> [mil\_redis](#module\_mil\_redis) | ./.terraform/modules/__v4__/redis_cache | n/a |
 | <a name="module_redis_mil_snet"></a> [redis\_mil\_snet](#module\_redis\_mil\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_storage_mil_snet"></a> [storage\_mil\_snet](#module\_storage\_mil\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
@@ -32,6 +32,8 @@
 | Name | Type |
 |------|------|
 | [azurerm_cosmosdb_mongo_database.mil](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_mongo_database) | resource |
+| [azurerm_key_vault_access_policy.azdevops_iac_managed_identities_read_only](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_key_vault_access_policy.azdevops_iac_managed_identities_write](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_secret.cosmosdb_account_mongodb_connection_strings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.emd_redis_primary_access_key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.emd_redis_primary_connection_hostname](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
@@ -58,6 +60,7 @@
 | [azurerm_private_dns_zone.privatelink_redis](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
 | [azurerm_resource_group.monitor_weu_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [azurerm_user_assigned_identity.iac_federated_azdo](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/user_assigned_identity) | data source |
 | [azurerm_virtual_network.vnet_core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
