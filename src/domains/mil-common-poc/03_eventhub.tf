@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "eventhub_ita_rg" {
 }
 
 module "eventhub_mil_namespace" {
-  source = "./.terraform/modules/__v4__/eventhub"
+  source = "./.terraform/modules/__v4__/eventhub_legacy"
 
   count = var.is_feature_enabled.eventhub ? 1 : 0
 
