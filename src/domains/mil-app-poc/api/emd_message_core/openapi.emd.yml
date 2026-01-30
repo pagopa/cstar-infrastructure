@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Messages dispatcher
-  version: 1.0.0
+  version: 1.3.1-SNAPSHOT
   description: Service which acts as dispatcher for messages to end-users through 3rd-party application
   contact:
     name: PagoPA S.p.A.
@@ -32,17 +32,17 @@ paths:
       operationId: submitMessage
       description: Submit a message
       security:
-        - oAuth2: []
+        - oAuth2: [ ]
       tags: [ submit ]
       requestBody:
         $ref: '#/components/requestBodies/SendMessage'
       responses:
         "200":
-          #description: No channels enabled
-          $ref: '#/components/responses/SendMessageNoChannelsEnabled'
-        "202":
           #description: Accepted
-          $ref: '#/components/responses/SendMessageOk'
+          $ref: '#/components/responses/SendMessageResponse'
+        "202":
+          #description: No channels enabled
+          $ref: '#/components/responses/SendMessageResponse'
         "400":
           #description: Bad request
           $ref: '#/components/responses/Error'
@@ -128,19 +128,13 @@ components:
           - code: "001000001"
             description: "Unexpected error from server"
 
-    OutcomeOk:
+    Outcome:
       description: Outcome of submit operation
       type: string
       enum:
         - OK
-      example: "OK"
-
-    OutcomeNoChannelsEnabled:
-      description: Outcome of submit operation
-      type: string
-      enum:
         - NO_CHANNELS_ENABLED
-      example: "NO_CHANNELS_ENABLED"
+      example: "OK"
 
     RateLimitLimit:
       description: The number of allowed requests in the current period
@@ -167,79 +161,93 @@ components:
       type: object
       properties:
         messageId:
-          description: Unique ID of the message
+          description: Unique ID of the message.
           type: string
-          pattern: "^[ -~]{24,64}$"
-          minLength: 24
-          maxLength: 64
+          minLength: 1
+          maxLength: 100
         recipientId:
-          description: ID of the recipient
+          description: ID of the recipient (Fiscal Code).
           type: string
-          pattern: "^[ -~]{8,64}$"
-          minLength: 8
-          maxLength: 64
+          minLength: 1
+          maxLength: 100
         triggerDateTime:
-          description: When (date and time) the subject who originated the message requested to send it
+          description: When (date and time) the subject who originated the message requested to send it (ISO 8601).
           type: string
           format: date-time
-          minLength: 19
-          maxLength: 19
         senderDescription:
-          description: Description of the subject who originated the message
+          description: Description of the subject who originated the message. Supports UTF-8.
           type: string
-          pattern: "^[ -~]{1,50}$"
           minLength: 1
-          maxLength: 50
+          maxLength: 250
         messageUrl:
-          description: URL to retrieve the original message
+          description: URL to retrieve the original message.
           type: string
           format: uri
-          pattern: "^[ -~]{1,2048}$"
           minLength: 1
           maxLength: 2048
         originId:
-          description: ID of the original message
+          description: ID of the original message.
           type: string
-          pattern: "^[ -~]{24,36}$"
-          minLength: 24
-          maxLength: 36
-        content:
-          description: Content of the message
-          type: string
-          pattern: "^[ -~]{1,140}$"
           minLength: 1
-          maxLength: 140
-        notes:
-          description: Content of the message
+          maxLength: 100
+        title:
+          description: Header of the message. Supports UTF-8.
           type: string
-          pattern: "^[ -~]{1,}$"
+          minLength: 1
+          maxLength: 250
+        content:
+          description: |
+            Message content in Markdown format, dynamic based on workflowType (ANALOG/DIGITAL).
+
+            - ANALOG: includes deadline for accessing notification to avoid postal delivery
+            - DIGITAL: standard message without deadline, includes legal delivery information
+          type: string
           minLength: 1
           maxLength: 100000
         associatedPayment:
-          description: Associated Payment flag
+          description: Associated Payment flag.
           type: boolean
+        analogSchedulingDate:
+          description: |
+            Expiry date for the 5-day deadline (ISO 8601).
+            Required only when workflowType is ANALOG.
+          type: string
+          format: date-time
+        workflowType:
+          description: Identifies the notification type (ANALOG or DIGITAL).
+          type: string
+          enum:
+            - ANALOG
+            - DIGITAL
         channel:
-          description: channel where the message comes from
+          description: Channel source.
           type: string
           enum:
             - SEND
       required:
         - messageId
         - recipientId
-        - content
+        - title
         - triggerDateTime
         - senderDescription
         - messageUrl
         - originId
+        - content
+        - workflowType
       example:
         messageId: "8a32fa8a-5036-4b39-8f2e-47d3a6d23f9e"
         recipientId: "RSSMRA85T10A562S"
-        triggerDateTime: "2024-06-21T12:34:56"
+        triggerDateTime: "2024-06-21T12:34:56.000Z"
         senderDescription: "Comune di Pontecagnano"
         messageUrl: "http://wwww.google.it"
         originId: "XRUZ-GZAJ-ZUEJ-202407-W-1"
-        content: "Nuovo messaggio!"
-        notes: "Ciao, hai ricevuto una nuova notifica SEND"
+        title: "Nuovo messaggio!"
+        content: "Ciao,
+                hai ricevuto una notifica SEND, cioè una comunicazione a valore legale emessa da un’amministrazione.
+
+                Per leggerla e conoscere tutti i dettagli, accedi al sito web di SEND direttamente da questo messaggio entro il 2024-06-21 alle 12:34 eviterai una raccomandata cartacea e i relativi costi."
+        analogSchedulingDate: "2024-06-26T12:34:56.000Z"
+        workflowType: "ANALOG"
         associatedPayment: true
         channel: SEND
 
@@ -297,8 +305,8 @@ components:
           schema:
             $ref: '#/components/schemas/Errors'
 
-    SendMessageOk:
-      description: Response to send message request when it is accepted
+    SendMessageResponse:
+      description: Response to send message request 200 OK or 202 NO_CHANNELS_ENABLED
       headers:
         Access-Control-Allow-Origin:
           description: Indicates whether the response can be shared with requesting code from the given origin
@@ -326,38 +334,7 @@ components:
             type: object
             properties:
               outcome:
-                $ref: '#/components/schemas/OutcomeOk'
-
-    SendMessageNoChannelsEnabled:
-      description: Response to send message request when no channels are enabled
-      headers:
-        Access-Control-Allow-Origin:
-          description: Indicates whether the response can be shared with requesting code from the given origin
-          required: false
-          schema:
-            $ref: '#/components/schemas/AccessControlAllowOrigin'
-        RateLimit-Limit:
-          description: The number of allowed requests in the current period
-          required: false
-          schema:
-            $ref: '#/components/schemas/RateLimitLimit'
-        RateLimit-Reset:
-          description: The number of seconds left in the current period
-          required: false
-          schema:
-            $ref: '#/components/schemas/RateLimitReset'
-        Retry-After:
-          description: The number of seconds to wait before allowing a follow-up request
-          required: false
-          schema:
-            $ref: '#/components/schemas/RetryAfter'
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              outcome:
-                $ref: '#/components/schemas/OutcomeNoChannelsEnabled'
+                $ref: '#/components/schemas/Outcome'
 
   # ============================================================================
   # Security schemes.

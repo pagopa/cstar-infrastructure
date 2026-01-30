@@ -1,9 +1,13 @@
 openapi: 3.0.3
 info:
-  title: EMD CITIZEN OPERATION API
-  version: '1.0'
+  title: EMD CITIZEN CONSENT API - TPP Integration
+  version: '1.0.4'
   description: |-
-    EMD CITIZEN OPERATION API
+    **ENG:** TPP integration - Citizen consent operations scoped by tppId.
+       Manage consents for citizens who authorized your service.
+
+    **IT:** Integrazione TPP - Operazioni sui consensi limitati dal tppId.
+    Gestione consensi dei cittadini che hanno autorizzato il vostro servizio.
   contact:
     name: PagoPA S.p.A.
     email: cstar@pagopa.it
@@ -21,7 +25,9 @@ servers:
 
 tags:
   - name: Citizen operation
-    description: 'Citizen operation'
+    description: |-
+      ENG: TPP integration - Citizen consent operations <br>
+      IT: Integrazione TPP - Operazioni sui consensi del cittadino
 paths:
 
   '/{fiscalCode}/{tppId}':

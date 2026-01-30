@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: EMD Payment API
-  version: '1.0'
+  version: '1.4.0'
   description: |-
     EMD Payment
   contact:
@@ -47,7 +47,7 @@ paths:
             default: it-IT
           required: true
       requestBody:
-        description: 'ENG: Agent and originId - IT: Agent e originId'
+        description: 'ENG: Agent, originId and (optional) linkVersion - IT: Agent, originId e (opzionale) linkVersion'
         required: true
         content:
           application/json:
@@ -265,6 +265,7 @@ paths:
             minLength: 50
             maxLength: 50
             example: "0e4c6629-8753-234s-b0da-1f796999ec2-15038637960920"
+            
       responses:
         '200':
           description: Ok
@@ -492,7 +493,7 @@ paths:
           required: true
           schema:
             type: string
-            description: Unique payment identifier (IUV)
+            description: Unique payment identifier
             pattern: "^[A-Za-z0-9]\\d{2}[A-Za-z0-9]{15,17}$"
             minLength: 18
             maxLength: 20
@@ -731,6 +732,11 @@ components:
           minLength: 24
           maxLength: 36
           example: "XRUZ-GZAJ-ZUEJ-202407-W-1"
+        linkVersion:
+          type: string
+          description: "Identificatore univoco della versione del deeplink. Non obbligatorio. Se non fornito, verrà utilizzata la versione predefinita in accordo con la TPP."
+          minLength: 1
+          example: "v1"
 
     RetrievaIdResponseDTO:
       type: object
@@ -773,7 +779,7 @@ components:
           minLength: 10
           maxLength: 128
           example: "https://example.com/deeplink/123e4567-e89b-12d3-a456-426614174000?userId=1234567890&session=abcdef"
-        paymentButton:
+        pspDenomination:
           type: string
           description: "Etichetta del pulsante di pagamento (ad es. il nome del provider di pagamento)."
           pattern: "^[a-zA-Z0-9 ]{1,15}$"
@@ -787,6 +793,10 @@ components:
           minLength: 24
           maxLength: 36
           example: "XRUZ-GZAJ-ZUEJ-202407-W-1"
+        isPaymentEnabled:
+          type: boolean
+          description: "ENG: Flag indicating whether the TPP is integrated with the payment system. - IT: Flag che indica se il TPP è integrato con il sistema di pagamento."
+          example: true
 
 
 

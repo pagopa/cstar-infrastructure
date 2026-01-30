@@ -1,9 +1,11 @@
 openapi: 3.0.3
 info:
-  title: EMD CITIZEN CONSENT API
-  version: '1.0'
+  title: EMD CITIZEN CONSENT API - Internal PagoPA
+  version: '1.0.4'
   description: |-
-    EMD CITIZEN CONSENT
+    **ENG:** Internal PagoPA - Full citizen consent management operations.
+
+     **IT:** Internal PagoPA - Operazioni complete di gestione consensi.
   contact:
     name: PagoPA S.p.A.
     email: cstar@pagopa.it
@@ -21,7 +23,9 @@ servers:
 
 tags:
   - name: Citizen consent
-    description: 'Citizen consent operation'
+    description: |-
+      ENG: Internal PagoPA - Citizen consent operations <br>
+      IT: Internal PagoPA - Operazioni sui consensi del cittadino
 paths:
 
   '/{fiscalCode}/{tppId}':
