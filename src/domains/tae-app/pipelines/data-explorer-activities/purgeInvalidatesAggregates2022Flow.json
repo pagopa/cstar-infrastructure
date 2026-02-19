@@ -1,0 +1,31 @@
+{
+    "name": "Purge_Aggregates2022",
+    "description": "This activity takes a file name as parameter. Aggregates in the target file with \"valid\" field null (thus not invalidated) are purged from the database.",
+    "type": "AzureDataExplorerCommand",
+    "dependsOn": [
+        {
+            "activity": "Purge_Aggregates",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "policy": {
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "command": {
+            "value": ".purge table Aggregates2022 records in database tae with (noregrets='true') <|\nwhere id == '@{item().id}' and isnull(valid)",
+            "type": "Expression"
+        },
+        "commandTimeout": "00:20:00"
+    },
+    "linkedServiceName": {
+        "referenceName": "${linked_service_name}",
+        "type": "LinkedServiceReference"
+    }
+}
