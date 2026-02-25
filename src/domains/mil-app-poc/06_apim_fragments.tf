@@ -1,4 +1,6 @@
 resource "azurerm_api_management_policy_fragment" "apim-validate-token-mil" {
+  count = var.env_short == "p" ? 1 : 0
+
   name              = "emd-validate-token-mil"
   api_management_id = data.azurerm_api_management.apim_core.id
 
