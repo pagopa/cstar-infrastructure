@@ -4,6 +4,7 @@
 
 module "emd_api_product" {
   source = "./.terraform/modules/__v4__/api_management_product"
+  count  = var.env_short == "p" ? 1 : 0
 
 
   product_id   = "emd_api_product"
@@ -29,7 +30,7 @@ module "emd_api_product" {
 
 module "emd_mil_api_product" {
   source = "./.terraform/modules/__v4__/api_management_product"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   product_id   = "emd_mil_api_product"
   display_name = "EMD_MIL_PRODUCT"
@@ -54,7 +55,7 @@ module "emd_mil_api_product" {
 
 module "emd_tpp_product" {
   source = "./.terraform/modules/__v4__/api_management_product"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   product_id   = "emd_tpp_product"
   display_name = "EMD_TPP_PRODUCT"
@@ -79,7 +80,7 @@ module "emd_tpp_product" {
 
 module "emd_retrieval_api_product" {
   source = "./.terraform/modules/__v4__/api_management_product"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   product_id   = "emd_retrieval_api_product"
   display_name = "EMD_RETRIEVAL_PRODUCT"
@@ -105,7 +106,7 @@ module "emd_retrieval_api_product" {
 ## EMD TPP ##
 module "emd_tpp" {
   source = "./.terraform/modules/__v4__/api_management_api"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   name                = "${var.env_short}-emd-tpp"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -123,7 +124,7 @@ module "emd_tpp" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_tpp_product.product_id]
+  product_ids           = [module.emd_tpp_product[0].product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -182,7 +183,7 @@ module "emd_tpp" {
 ## EMD CITIZEN ##
 module "emd_citizen" {
   source = "./.terraform/modules/__v4__/api_management_api"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   name                = "${var.env_short}-emd-citizen"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -200,7 +201,7 @@ module "emd_citizen" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_api_product.product_id]
+  product_ids           = [module.emd_api_product[0].product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -252,7 +253,7 @@ module "emd_citizen" {
 ## EMD MESSAGE CORE ##
 module "emd_message_core" {
   source = "./.terraform/modules/__v4__/api_management_api"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   name                = "${var.env_short}-emd-message-core"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -270,7 +271,7 @@ module "emd_message_core" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_api_product.product_id]
+  product_ids           = [module.emd_api_product[0].product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -287,7 +288,7 @@ module "emd_message_core" {
 ## EMD PAYMENT CORE ##
 module "emd_payment_core" {
   source = "./.terraform/modules/__v4__/api_management_api"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   name                = "${var.env_short}-emd_payment_core"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -305,7 +306,7 @@ module "emd_payment_core" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_retrieval_api_product.product_id]
+  product_ids           = [module.emd_retrieval_api_product[0].product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -335,7 +336,7 @@ module "emd_payment_core" {
 ## EMD MIL CITIZEN API ##
 module "emd_mil_citizen" {
   source = "./.terraform/modules/__v4__/api_management_api"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   name                = "${var.env_short}-emd-mil-citizen"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -353,7 +354,7 @@ module "emd_mil_citizen" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_mil_api_product.product_id]
+  product_ids           = [module.emd_mil_api_product[0].product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -392,7 +393,7 @@ module "emd_mil_citizen" {
 ## EMD MIL TPP NETWORK TESTING ##
 module "emd_mil_tpp_testing" {
   source = "./.terraform/modules/__v4__/api_management_api"
-
+  count  = var.env_short == "p" ? 1 : 0
 
   name                = "${var.env_short}-emd-mil-tpp-testing"
   api_management_name = data.azurerm_api_management.apim_core.name
@@ -410,7 +411,7 @@ module "emd_mil_tpp_testing" {
 
   xml_content = file("./api/base_policy.xml")
 
-  product_ids           = [module.emd_mil_api_product.product_id]
+  product_ids           = [module.emd_mil_api_product[0].product_id]
   subscription_required = false
 
   api_operation_policies = [
@@ -422,5 +423,4 @@ module "emd_mil_tpp_testing" {
       })
     }
   ]
-
 }
