@@ -11,13 +11,13 @@ locals {
     "cstar-${var.env_short}-rtp-digicert-cb-chain",
     "cstar-${var.env_short}-rtp-thawte-cb-chain",
     "cstar-${var.env_short}-rtp-le-r10-cb-chain",
-    "cstar-${var.env_short}-rtp-le-r11-cb-chain"
+    "cstar-${var.env_short}-rtp-le-r11-cb-chain",
+    "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
   ]
 
   # Additional trusted certificates for non-production environments
   # To add new certificate ( not in production environment ) write the secret name below.
   not_prod_trusted_client_certificate_names = [
-    "cstar-${var.env_short}-rtp-posteitaliane-cb-chain",
     "cstar-${var.env_short}-rtp-nexi-cb-chain"
   ]
 
