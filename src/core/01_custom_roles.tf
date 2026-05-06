@@ -25,6 +25,8 @@ resource "azurerm_role_definition" "iac_reader" {
       "Microsoft.Cache/*/listKeys/action", # Redis List
       "Microsoft.Cache/redis/read",        # Redis
       "Microsoft.Cache/redis/*/read",      # redis
+      "Microsoft.Cache/redisEnterprise/read",
+      "Microsoft.Cache/redisEnterprise/*/read",
       # "Microsoft.Cache/redis/patchSchedules/read", # redis
       # "Microsoft.Cache/redis/listKeys/action", # Redis List
       "Microsoft.Web/sites/*/listkeys/action",
