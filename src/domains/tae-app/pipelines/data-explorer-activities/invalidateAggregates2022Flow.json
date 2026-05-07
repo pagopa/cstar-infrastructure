@@ -1,0 +1,31 @@
+{
+    "name": "Append_Aggregates2022",
+    "description": "This activity sequentially cycles through an array of flows given as pipeline's parameter. Each flow is invalidated.",
+    "type": "AzureDataExplorerCommand",
+    "dependsOn": [
+        {
+            "activity": "Append_Aggregates",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "policy": {
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "command": {
+            "value": ".append Aggregates2022 <|\nAggregates2022\n| where id == '@{item().id}'\n| where isnull(valid)\n| extend valid = false\n| extend pipelineRun = strcat(pipelineRun, '_', '@{pipeline().RunId}')",
+            "type": "Expression"
+        },
+        "commandTimeout": "00:20:00"
+    },
+    "linkedServiceName": {
+        "referenceName": "${linked_service_name}",
+        "type": "LinkedServiceReference"
+    }
+}
