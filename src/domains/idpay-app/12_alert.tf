@@ -401,35 +401,35 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "Availability" {
   tags = var.tags
 }
 
-resource "azurerm_monitor_metric_alert" "ErrorsTopic" {
-  count               = var.idpay_alert_enabled ? 1 : 0
-  name                = "${local.project}-ErrorsTopic"
-  resource_group_name = data.azurerm_resource_group.monitor_rg.name
-
-  scopes      = [data.azurerm_eventhub_namespace.evh_01_namespace.id]
-  severity    = 0
-  frequency   = "PT1H"
-  window_size = "PT1H"
-  criteria {
-    metric_namespace = "Microsoft.EventHub/namespaces"
-    metric_name      = "IncomingMessages"
-    dimension {
-      name     = "EntityName"
-      operator = "Include"
-      values = [
-        "idpay-errors"
-      ]
-    }
-    aggregation = "Count"
-    threshold   = 0
-    operator    = "GreaterThan"
-  }
-
-  description = "Trigger alert when idpay-errors has some messages"
-  enabled     = true
-  action {
-    action_group_id = azurerm_monitor_action_group.slackIdpay[0].id
-  }
-
-  tags = var.tags
-}
+# resource "azurerm_monitor_metric_alert" "ErrorsTopic" {
+#   count               = var.idpay_alert_enabled ? 1 : 0
+#   name                = "${local.project}-ErrorsTopic"
+#   resource_group_name = data.azurerm_resource_group.monitor_rg.name
+#
+#   scopes      = [data.azurerm_eventhub_namespace.evh_01_namespace.id]
+#   severity    = 0
+#   frequency   = "PT1H"
+#   window_size = "PT1H"
+#   criteria {
+#     metric_namespace = "Microsoft.EventHub/namespaces"
+#     metric_name      = "IncomingMessages"
+#     dimension {
+#       name     = "EntityName"
+#       operator = "Include"
+#       values = [
+#         "idpay-errors"
+#       ]
+#     }
+#     aggregation = "Count"
+#     threshold   = 0
+#     operator    = "GreaterThan"
+#   }
+#
+#   description = "Trigger alert when idpay-errors has some messages"
+#   enabled     = true
+#   action {
+#     action_group_id = azurerm_monitor_action_group.slackIdpay[0].id
+#   }
+#
+#   tags = var.tags
+# }
