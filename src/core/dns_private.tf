@@ -136,13 +136,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "storage_link_to_pair" 
   virtual_network_id    = module.vnet_pair.id
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_aks_link" {
-  for_each              = { for vnet_aks_domain in module.vnet_aks : vnet_aks_domain.name => vnet_aks_domain.id }
-  name                  = "${each.key}-blobstorage-private-dns-zone-link"
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
-  virtual_network_id    = each.value
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_aks_link" {
+#   for_each              = { for vnet_aks_domain in module.vnet_aks : vnet_aks_domain.name => vnet_aks_domain.id }
+#   name                  = "${each.key}-blobstorage-private-dns-zone-link"
+#   resource_group_name   = azurerm_resource_group.rg_vnet.name
+#   private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+#   virtual_network_id    = each.value
+# }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "storage_private_endpoint_to_secure_hub_vnets" {
   for_each = local.secure_hub_vnets
@@ -233,13 +233,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_link_to_pair" {
   tags = var.tags
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "aks_cosmosdb_private_virtual_network_link" {
-  for_each              = { for n in var.aks_networks : n.domain_name => n }
-  name                  = "${local.project}-aks-comosdb-${each.key}-private-dns-zone-link"
-  resource_group_name   = azurerm_private_dns_zone.cosmos_mongo[0].resource_group_name
-  private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo[0].name
-  virtual_network_id    = module.vnet_aks[each.key].id
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "aks_cosmosdb_private_virtual_network_link" {
+#   for_each              = { for n in var.aks_networks : n.domain_name => n }
+#   name                  = "${local.project}-aks-comosdb-${each.key}-private-dns-zone-link"
+#   resource_group_name   = azurerm_private_dns_zone.cosmos_mongo[0].resource_group_name
+#   private_dns_zone_name = azurerm_private_dns_zone.cosmos_mongo[0].name
+#   virtual_network_id    = module.vnet_aks[each.key].id
+# }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_private_endpoint_to_secure_hub_vnets" {
   for_each = local.secure_hub_vnets
@@ -307,13 +307,13 @@ data "azurerm_private_dns_zone" "eventhub_private_dns_zone" {
 }
 
 # *-vnet and *-integration-vnet private network links are already created by "eventhub" pagopa module
-resource "azurerm_private_dns_zone_virtual_network_link" "aks_eventhub_private_virtual_network_link" {
-  for_each              = { for n in var.aks_networks : n.domain_name => n }
-  name                  = "${local.project}-aks-eventhub-${each.key}-private-dns-zone-link"
-  resource_group_name   = data.azurerm_private_dns_zone.eventhub_private_dns_zone.resource_group_name
-  private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns_zone.name
-  virtual_network_id    = module.vnet_aks[each.key].id
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "aks_eventhub_private_virtual_network_link" {
+#   for_each              = { for n in var.aks_networks : n.domain_name => n }
+#   name                  = "${local.project}-aks-eventhub-${each.key}-private-dns-zone-link"
+#   resource_group_name   = data.azurerm_private_dns_zone.eventhub_private_dns_zone.resource_group_name
+#   private_dns_zone_name = data.azurerm_private_dns_zone.eventhub_private_dns_zone.name
+#   virtual_network_id    = module.vnet_aks[each.key].id
+# }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "event_hub_link_to_pair" {
   name                  = module.vnet_pair.name
@@ -355,13 +355,13 @@ resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_pai
   virtual_network_id    = module.vnet_pair.id
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_aks" {
-  for_each              = { for n in var.aks_networks : n.domain_name => n }
-  name                  = module.vnet_aks[each.key].name
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.redis.name
-  virtual_network_id    = module.vnet_aks[each.key].id
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "redis_link_to_vnet_aks" {
+#   for_each              = { for n in var.aks_networks : n.domain_name => n }
+#   name                  = module.vnet_aks[each.key].name
+#   resource_group_name   = azurerm_resource_group.rg_vnet.name
+#   private_dns_zone_name = azurerm_private_dns_zone.redis.name
+#   virtual_network_id    = module.vnet_aks[each.key].id
+# }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "redis_private_endpoint_to_secure_hub_vnets" {
   for_each = local.secure_hub_vnets

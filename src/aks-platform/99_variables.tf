@@ -186,7 +186,7 @@ variable "aks_kubernetes_version" {
 variable "aks_sku_tier" {
   type        = string
   description = "The SKU Tier that should be used for this Kubernetes Cluster."
-  default     = "Free"
+  default     = "Standard"
 }
 
 variable "aks_reverse_proxy_ip" {

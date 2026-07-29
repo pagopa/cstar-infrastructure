@@ -70,7 +70,7 @@ module "aks" {
   user_node_pool_vm_size            = var.aks_user_node_pool.vm_size
   user_node_pool_os_disk_type       = var.aks_user_node_pool.os_disk_type
   user_node_pool_os_disk_size_gb    = var.aks_user_node_pool.os_disk_size_gb
-  user_node_pool_node_count_min     = var.aks_user_node_pool.node_count_min
+  user_node_pool_node_count_min     = 2
   user_node_pool_node_count_max     = var.aks_user_node_pool.node_count_max
   user_node_pool_availability_zones = var.aks_user_node_pool.zones
   ### K8s node configuration
@@ -143,22 +143,22 @@ module "aks" {
 #
 # Pod identity permissions
 #
-resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
-  scope                = azurerm_resource_group.rg_aks.id
-  role_definition_name = "Managed Identity Operator"
-  principal_id         = module.aks[0].identity_principal_id
-}
-
+# resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
+#   scope                = azurerm_resource_group.rg_aks.id
+#   role_definition_name = "Managed Identity Operator"
+#   principal_id         = module.aks[0].identity_principal_id
+# }
 #
-# ACR connection
+# #
+# # ACR connection
+# #
+# # add the role to the identity the kubernetes cluster was assigned
+# resource "azurerm_role_assignment" "aks_to_acr" {
+#   scope                = data.azurerm_container_registry.acr.id
+#   role_definition_name = "AcrPull"
+#   principal_id         = module.aks[0].kubelet_identity_id
+# }
 #
-# add the role to the identity the kubernetes cluster was assigned
-resource "azurerm_role_assignment" "aks_to_acr" {
-  scope                = data.azurerm_container_registry.acr.id
-  role_definition_name = "AcrPull"
-  principal_id         = module.aks[0].kubelet_identity_id
-}
-
-module "aks_storage_class" {
-  source = "./.terraform/modules/__v3__/kubernetes_storage_class"
-}
+# module "aks_storage_class" {
+#   source = "./.terraform/modules/__v3__/kubernetes_storage_class"
+# }

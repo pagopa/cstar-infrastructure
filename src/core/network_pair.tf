@@ -47,9 +47,9 @@ module "vnet_peering_pair_vs_integration" {
 #----------------------------------------------------------------
 # Peer from <env>01 vs pagopa integration cstar vnet
 #----------------------------------------------------------------
-resource "azurerm_virtual_network_peering" "peer_spoke_compute_to_pagopa_integration_cstar" {
-  name                      = "${module.vnet_aks[format("%s01", var.env)].name}-to-${local.pagopa_cstar_integration_vnet_name}"
-  resource_group_name       = module.vnet_aks[format("%s01", var.env)].resource_group_name
-  virtual_network_name      = module.vnet_aks[format("%s01", var.env)].name
-  remote_virtual_network_id = "/subscriptions/${data.azurerm_key_vault_secret.pagopa_subscritpion_id.value}/resourceGroups/${local.pagopa_cstar_integration_vnet_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.pagopa_cstar_integration_vnet_name}"
-}
+# resource "azurerm_virtual_network_peering" "peer_spoke_compute_to_pagopa_integration_cstar" {
+#   name                      = "${module.vnet_aks[format("%s01", var.env)].name}-to-${local.pagopa_cstar_integration_vnet_name}"
+#   resource_group_name       = module.vnet_aks[format("%s01", var.env)].resource_group_name
+#   virtual_network_name      = module.vnet_aks[format("%s01", var.env)].name
+#   remote_virtual_network_id = "/subscriptions/${data.azurerm_key_vault_secret.pagopa_subscritpion_id.value}/resourceGroups/${local.pagopa_cstar_integration_vnet_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.pagopa_cstar_integration_vnet_name}"
+# }
