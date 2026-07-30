@@ -572,8 +572,9 @@ module "app_gw_maz" {
           rule_sequence = 1
           conditions = [
             {
-              variable    = "var_uri_path"
-              pattern     = var.env_short != "p" ? "(idpay/.*|idpay-itn/.*|rtd/mock-io/.*)" : "(idpay/.*|idpay-itn/.*)"
+              variable = "var_uri_path"
+              # In production environment, we don't want to allow access to shared paths (no microservices are exposed)
+              pattern     = var.env_short != "p" ? "(idpay/.*|idpay-itn/.*|shared/.*)" : "(idpay/.*|idpay-itn/.*)"
               ignore_case = true
               negate      = true
             }
