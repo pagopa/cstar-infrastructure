@@ -208,13 +208,7 @@ data "azurerm_key_vault_secret" "opsgenie_webhook_url" {
   key_vault_id = module.key_vault.id
 }
 
-#
-# RTD Domain KV
-#
-data "azurerm_key_vault" "rtd_domain_kv" {
-  name                = local.rtd_keyvault_name
-  resource_group_name = local.rtd_rg_keyvault_name
-}
+
 
 # INFRA OpsGenie Cstar_Azure_infra_prod webhook key
 data "azurerm_key_vault_secret" "opsgenie_cstar_infra_webhook_key" {

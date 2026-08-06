@@ -154,16 +154,6 @@ apim_v2_autoscale = {
   scale_in_cooldown             = "PT30M"
 }
 
-#
-# ⛴ AKS Vnet
-#
-aks_networks = [
-  {
-    domain_name = "prod01"
-    vnet_cidr   = ["10.11.0.0/16"]
-  }
-]
-
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 

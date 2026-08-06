@@ -5,16 +5,6 @@ resource "azurerm_resource_group" "rg_api" {
   tags = var.tags
 }
 
-locals {
-  apim_cert_name_proxy_endpoint   = "${local.project}-proxy-endpoint-cert"
-  portal_cert_name_proxy_endpoint = "portal-proxy-endpoint-cert"
-
-  api_domain        = "api.${var.dns_zone_prefix}.${var.external_domain}"
-  developer_domain  = "${local.apim_name}.developer.azure-api.net"
-  portal_domain     = "portal.${var.dns_zone_prefix}.${var.external_domain}"
-  management_domain = "management.${var.dns_zone_prefix}.${var.external_domain}"
-}
-
 
 ###########################
 ## Api Management (apim) ##
@@ -155,26 +145,4 @@ module "monitor" {
       xml_content  = file("./api/monitor/mock_policy.xml")
     }
   ]
-}
-
-
-module "app_io_product" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.13.0"
-
-  product_id   = "app-io-product"
-  display_name = "APP_IO_PRODUCT"
-  description  = "APP_IO_PRODUCT"
-
-  api_management_name = module.apim.name
-  resource_group_name = azurerm_resource_group.rg_api.name
-
-  published             = true
-  subscription_required = false
-  approval_required     = false
-
-  policy_xml = templatefile("./api_product/app_io/policy.xml", {
-    env_short             = var.env_short
-    ingress_load_balancer = local.ingress_load_balancer_hostname_https
-    appio_timeout_sec     = var.appio_timeout_sec
-  })
 }

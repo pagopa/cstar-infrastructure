@@ -211,16 +211,6 @@ variable "ingress_load_balancer_hostname" {
   description = "AKS load balancer internal hostname."
 }
 
-variable "aks_networks" {
-  type = list(
-    object({
-      domain_name = string
-      vnet_cidr   = list(string)
-    })
-  )
-  description = "VNETs configuration for AKS"
-}
-
 ## Monitor
 variable "law_sku" {
   type        = string

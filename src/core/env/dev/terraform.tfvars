@@ -148,16 +148,6 @@ apim_v2_autoscale = {
   scale_in_cooldown             = "PT30M"
 }
 
-#
-# ⛴ AKS Vnet
-#
-aks_networks = [
-  {
-    domain_name = "dev01"
-    vnet_cidr   = ["10.11.0.0/16"]
-  }
-]
-
 devops_service_connection_object_id = "2ba3cc79-7714-4297-867a-ed354a085bf0"
 azdo_sp_tls_cert_enabled            = false # will be enabled when TLS cert will be generated with new acme tiny
 
