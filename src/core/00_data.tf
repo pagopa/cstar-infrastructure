@@ -1,8 +1,3 @@
-data "azurerm_virtual_network" "securehub_hub" {
-  name                = local.vnet_securehub_core_hub_name
-  resource_group_name = local.vnet_securehub_rg_name
-}
-
 data "azurerm_resources" "vnets" {
   type = "Microsoft.Network/virtualNetworks"
 }

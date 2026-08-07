@@ -62,7 +62,6 @@ app_gateway_alerts_enabled              = true
 app_gateway_public_ip_availability_zone = "Zone-Redundant"
 
 ### ☁️ APIM
-cidr_subnet_apim_temp = ["10.230.6.128/26"]
 
 apim_notification_sender_email = "info@pagopa.it"
 cstar_support_email            = "cstar@assistenza.pagopa.it"
@@ -157,85 +156,6 @@ apim_v2_autoscale = {
 devops_service_connection_object_id = "239c15f9-6d56-4b9e-b08d-5f7779446174"
 azdo_sp_tls_cert_enabled            = false
 
-sftp_account_replication_type = "GRS"
-sftp_enable_private_endpoint  = true
-sftp_ip_rules                 = ["217.175.54.31", "217.175.48.25", "89.119.254.64", "78.6.225.228", "185.198.117.27", "185.198.118.27"]
-
-db_sku_name                     = "GP_Gen5_2"
-db_enable_replica               = false
-db_storage_mb                   = 5242880 # 5TB
-db_geo_redundant_backup_enabled = false
-
-db_network_rules = {
-  ip_rules = [
-    "18.192.147.151/32" #PDND
-  ]
-  # dblink
-  allow_access_to_azure_services = true
-}
-
-db_metric_alerts = {
-  cpu = {
-    aggregation = "Average"
-    metric_name = "cpu_percent"
-    operator    = "GreaterThan"
-    threshold   = 70
-    frequency   = "PT1M"
-    window_size = "PT5M"
-    dimension   = []
-  }
-  memory = {
-    aggregation = "Average"
-    metric_name = "memory_percent"
-    operator    = "GreaterThan"
-    threshold   = 75
-    frequency   = "PT1M"
-    window_size = "PT5M"
-    dimension   = []
-  }
-  io = {
-    aggregation = "Average"
-    metric_name = "io_consumption_percent"
-    operator    = "GreaterThan"
-    threshold   = 55
-    frequency   = "PT1M"
-    window_size = "PT5M"
-    dimension   = []
-  }
-  # https://docs.microsoft.com/it-it/azure/postgresql/concepts-limits
-  # GP_Gen5_2 -| 145 / 100 * 80 = 116
-  # GP_Gen5_4 -| 245 / 100 * 80 = 196
-  # GP_Gen5_8 -| 475 / 100 * 80 = 380
-  # GP_Gen5_32 -| 1495 / 100 * 80 = 1196
-  max_active_connections = {
-    aggregation = "Average"
-    metric_name = "active_connections"
-    operator    = "GreaterThan"
-    threshold   = 116
-    frequency   = "PT5M"
-    window_size = "PT5M"
-    dimension   = []
-  }
-  min_active_connections = {
-    aggregation = "Average"
-    metric_name = "active_connections"
-    operator    = "LessThanOrEqual"
-    threshold   = 0
-    frequency   = "PT5M"
-    window_size = "PT15M"
-    dimension   = []
-  }
-  failed_connections = {
-    aggregation = "Total"
-    metric_name = "connections_failed"
-    operator    = "GreaterThan"
-    threshold   = 10
-    frequency   = "PT5M"
-    window_size = "PT15M"
-    dimension   = []
-  }
-}
-
 dns_zone_prefix         = "cstar"
 dns_zone_welfare_prefix = "welfare"
 
@@ -264,86 +184,18 @@ enable_azdoa = true
 
 external_domain = "pagopa.it"
 
-pm_backend_url      = "https://api.platform.pagopa.it"
-pagopa_platform_url = "https://api.platform.pagopa.it"
-
-pm_ip_filter_range = {
-  from = "10.230.1.1"
-  to   = "10.230.1.255"
-}
-
-redis_sku_name = "Premium"
-redis_family   = "P"
-
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip               = "10.1.0.250"
-ingress_load_balancer_ip       = "10.11.100.250"
-ingress_load_balancer_hostname = "prod01.rtd.internal.cstar.pagopa.it"
+reverse_proxy_ip         = "10.1.0.250"
+ingress_load_balancer_ip = "10.11.100.250"
 
-lock_enable = true
-
-cdc_api_params = {
-  host = "https://api.sogei.it/interop/carta-cultura"
-}
-
-enable_api_fa                              = false
-enable_blob_storage_event_grid_integration = true
 
 enable = {
   core = {
     private_endpoints_subnet = true
   }
-  bpd = {
-    db     = true
-    api    = true
-    api_pm = true
-  }
-  rtd = {
-    blob_storage_event_grid_integration = true
-    internal_api                        = true
-    batch_service_api                   = true
-    payment_instrument                  = false
-    mongodb_storage                     = true
-    hashed_pans_container               = true
-    pm_wallet_ext_api                   = true
-    tkm_integration                     = false
-  }
-  fa = {
-    api = false
-  }
-  cdc = {
-    api = true
-  }
   tae = {
-    api             = true
-    db_collections  = true
-    blob_containers = true
-    adf             = true
+    adf = true
   }
-  idpay = {
-    eventhub_idpay = true
-  }
-}
-
-# cstarblobstorage
-cstarblobstorage_account_replication_type = "RAGRS"
-
-#
-# Azure devops
-#
-azdoa_image_name               = "cstar-p-azdo-agent-ubuntu2204-image-v20241203"
-enable_azdoa_agent_performance = true
-azdoa_agent_performance_vm_sku = "Standard_B2ms"
-azdoa_agent_app_vm_sku         = "Standard_B2ms"
-azdoa_agent_infra_vm_sku       = "Standard_B2ms"
-
-bkp_sa_soft_delete = {
-  blob      = 365
-  container = 365
-}
-
-sftp_ade_ack_archive_policy = {
-  to_archive_days = 90
 }
 
 law_retention_in_days = 90
@@ -376,12 +228,4 @@ web_test_api_io = {
   enable = true
 }
 
-#
-# Storage
-#
-backupstorage_account_replication_type   = "RAGZRS"
-operations_logs_account_replication_type = "RAGZRS"
-
 internal_ca_intermediate = "07"
-
-bonus_elettrodomestici_hostname = "bonuselettrodomestici.it"

@@ -1,9 +1,6 @@
 locals {
   project = "${var.prefix}-${var.env_short}"
 
-  # Temporary fallback to old ingress over non-dev environments
-  ingress_load_balancer_hostname_https = "https://${var.ingress_load_balancer_hostname}"
-
   developer_domain  = "${local.apim_name}.developer.azure-api.net"
   portal_domain     = "portal.${var.dns_zone_prefix}.${var.external_domain}"
   management_domain = "management.${var.dns_zone_prefix}.${var.external_domain}"

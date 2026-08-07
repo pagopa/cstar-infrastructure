@@ -143,16 +143,6 @@ variable "cidr_subnet_azdoa" {
   description = "Azure DevOps agent network address space."
 }
 
-#
-# VPN
-#
-
-variable "vpn_pip_sku" {
-  type        = string
-  default     = "Basic"
-  description = "VPN GW PIP SKU"
-}
-
 ## Public DNS Zone ##
 variable "dns_zone_prefix" {
   type        = string
@@ -204,11 +194,6 @@ variable "reverse_proxy_ip" {
 variable "ingress_load_balancer_ip" {
   type        = string
   description = "AKS load balancer internal ip."
-}
-
-variable "ingress_load_balancer_hostname" {
-  type        = string
-  description = "AKS load balancer internal hostname."
 }
 
 ## Monitor
@@ -318,35 +303,6 @@ variable "internal_private_domain" {
   default = "internal.cstar.pagopa.it"
 }
 
-variable "appio_timeout_sec" {
-  type        = number
-  description = "AppIo timeout (sec)"
-  default     = 5
-}
-
-variable "pm_backend_url" {
-  type        = string
-  description = "Payment manager backend url"
-}
-
-variable "pagopa_platform_url" {
-  type        = string
-  description = "PagoPA Platform APIM url"
-}
-
-variable "pm_timeout_sec" {
-  type        = number
-  description = "Payment manager timeout (sec)"
-  default     = 5
-}
-
-variable "pm_ip_filter_range" {
-  type = object({
-    from = string
-    to   = string
-  })
-}
-
 variable "cstar_support_email" {
   type        = string
   description = "Email for CSTAR support, read by the CSTAR team and Operations team"
@@ -414,47 +370,10 @@ variable "internal_ca_intermediate" {
   description = "Internal CA intermediate. See this page: https://pagopa.atlassian.net/wiki/spaces/DEVOPS/pages/1578500101/MTLS+su+application+gateway"
 }
 
-## Redis cache
-variable "redis_capacity" {
-  type    = number
-  default = 1
-}
-
-variable "redis_sku_name" {
-  type    = string
-  default = "Standard"
-}
-
-variable "redis_family" {
-  type    = string
-  default = "C"
-}
-
-variable "lock_enable" {
-  type        = bool
-  default     = false
-  description = "Apply locks to block accedentaly deletions."
-}
-
-variable "enable_iac_pipeline" {
-  type        = bool
-  description = "If true create the key vault policy to allow used by azure devops iac pipelines."
-  default     = false
-}
-
 variable "cosmos_mongo_db_params" {
   type = object({
     enabled = bool
   })
-}
-
-variable "cdc_api_params" {
-  type = object({
-    host = string
-  })
-  default = {
-    host = "https://httpbin.org"
-  }
 }
 
 variable "dexp_params" {
@@ -476,28 +395,6 @@ variable "dexp_params" {
   })
 }
 
-variable "sftp_account_replication_type" {
-  type        = string
-  description = "Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS. Changing this forces a new resource to be created when types LRS, GRS and RAGRS are changed to ZRS, GZRS or RAGZRS and vice versa"
-}
-
-variable "sftp_disable_network_rules" {
-  type        = bool
-  description = "If false, allow any connection from outside the vnet"
-  default     = false
-}
-
-variable "sftp_ip_rules" {
-  type        = list(string)
-  description = "List of public IP or IP ranges in CIDR Format allowed to access the storage account. Only IPV4 addresses are allowed"
-  default     = []
-}
-
-variable "sftp_enable_private_endpoint" {
-  type        = bool
-  description = "If true, create a private endpoint for the SFTP storage account"
-}
-
 variable "tags" {
   type = map(any)
   default = {
@@ -505,51 +402,13 @@ variable "tags" {
   }
 }
 
-variable "enable_api_fa" {
-  type        = bool
-  description = "If true, allows to generate the APIs for FA."
-  default     = false
-}
-
-variable "enable_blob_storage_event_grid_integration" {
-  type        = bool
-  description = "If true, allows to send Blob Storage events to a queue."
-  default     = false
-}
-
 variable "enable" {
   type = object({
     core = object({
       private_endpoints_subnet = bool
     })
-    bpd = object({
-      db     = bool
-      api    = bool
-      api_pm = bool
-    })
-    rtd = object({
-      blob_storage_event_grid_integration = bool
-      internal_api                        = bool
-      batch_service_api                   = bool
-      payment_instrument                  = bool
-      hashed_pans_container               = bool
-      pm_wallet_ext_api                   = bool
-      tkm_integration                     = bool
-    })
-    fa = object({
-      api = bool
-    })
-    cdc = object({
-      api = bool
-    })
     tae = object({
-      api             = bool
-      db_collections  = bool
-      blob_containers = bool
-      adf             = bool
-    })
-    idpay = object({
-      eventhub_idpay = bool
+      adf = bool
     })
   })
   description = "Feature flags"
@@ -558,104 +417,18 @@ variable "enable" {
       private_endpoints_subnet = false
       aks                      = false
     }
-    bpd = {
-      db     = false
-      api    = false
-      api_pm = false
-    }
-    rtd = {
-      blob_storage_event_grid_integration = false
-      internal_api                        = false
-      batch_service_api                   = false
-      payment_instrument                  = false
-      hashed_pans_container               = false
-      pm_wallet_ext_api                   = false
-      tkm_integration                     = false
-    }
-    fa = {
-      api = false
-    }
-    cdc = {
-      api = false
-    }
     tae = {
-      api             = false
-      db_collections  = false
-      blob_containers = false
-      adf             = false
-    }
-    idpay = {
-      eventhub_idpay = false
+      adf = false
     }
   }
-}
-
-variable "cstarblobstorage_account_replication_type" {
-  type        = string
-  description = "(Required) Defines the type of replication to use for this storage account. Valid options are LRS, GRS, RAGRS, ZRS, GZRS and RAGZRS."
 }
 
 #
 # Azure Devops
 #
-variable "azdoa_image_name" {
-  type        = string
-  description = "Azure DevOps Agent image name for scaleset"
-}
-
 variable "enable_azdoa" {
   type        = bool
   description = "Enable Azure DevOps agent."
-}
-
-variable "enable_azdoa_agent_performance" {
-  type        = bool
-  description = "Enable Azure DevOps agent for performance."
-}
-
-variable "azdoa_agent_performance_vm_sku" {
-  type        = string
-  description = "Azure DevOps Agent performance VM SKU"
-}
-
-variable "azdoa_agent_app_vm_sku" {
-  type        = string
-  description = "Azure DevOps Agent APP VM SKU"
-}
-
-variable "azdoa_agent_infra_vm_sku" {
-  type        = string
-  description = "Azure DevOps Agent INFRA VM SKU"
-}
-
-variable "bkp_sa_soft_delete" {
-  type = object({
-    blob      = number
-    container = number
-  })
-  default = {
-    blob      = 7
-    container = 7
-  }
-  description = "Set Retention Days of Deleted Blob and Containers on Backup Storage Account"
-}
-
-variable "sftp_ade_ack_archive_policy" {
-  type = object({
-    to_archive_days = number
-  })
-  default = {
-    to_archive_days = 1
-  }
-  description = "Set Archive Policy for Blobs contained in ade/ack dir in SFTP server"
-}
-
-#
-# APIM TEMP
-#
-variable "cidr_subnet_apim_temp" {
-  type        = list(string)
-  description = "(Required) APIM v2 subnet cidr"
 }
 
 variable "web_test_api" {
@@ -706,23 +479,4 @@ variable "metric_alert_api_io" {
     window_size = "PT5M"
   }
   description = "Set params for metric alert api io"
-}
-
-#
-# Storage
-#
-variable "backupstorage_account_replication_type" {
-  type        = string
-  description = "Account replication type"
-}
-
-variable "operations_logs_account_replication_type" {
-  type        = string
-  description = "Account replication type"
-}
-
-variable "bonus_elettrodomestici_hostname" {
-  type        = string
-  description = ""
-  default     = "false"
 }
