@@ -61,19 +61,6 @@ module "db_snet" {
   private_endpoint_network_policies_enabled = false
 }
 
-module "cosmos_mongodb_snet" {
-  count = var.cosmos_mongo_db_params.enabled ? 1 : 0
-
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
-  name                 = "${local.project}-cosmos-mongodb-snet"
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
-  address_prefixes     = var.cidr_subnet_cosmos_mongodb
-
-  private_endpoint_network_policies_enabled = false
-  service_endpoints                         = ["Microsoft.Web"]
-}
-
 module "private_endpoint_snet" {
   count = var.enable.core.private_endpoints_subnet ? 1 : 0
 
@@ -87,40 +74,6 @@ module "private_endpoint_snet" {
   service_endpoints = [
     "Microsoft.Web", "Microsoft.AzureCosmosDB", "Microsoft.EventHub"
   ]
-}
-
-module "redis_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
-  count                = var.redis_sku_name == "Premium" && length(var.cidr_subnet_redis) > 0 ? 1 : 0
-  name                 = "${local.project}-redis-snet"
-  address_prefixes     = var.cidr_subnet_redis
-  resource_group_name  = azurerm_resource_group.rg_vnet.name
-  virtual_network_name = module.vnet.name
-}
-
-# k8s cluster subnet
-module "k8s_snet" {
-
-  count = 0
-
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
-  name                                      = "${local.project}-k8s-snet"
-  address_prefixes                          = var.cidr_subnet_k8s
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = false
-
-  service_endpoints = [
-    "Microsoft.Web",
-    "Microsoft.Storage",
-    "Microsoft.AzureCosmosDB",
-    "Microsoft.EventHub"
-  ]
-}
-
-moved {
-  from = module.k8s_snet
-  to   = module.k8s_snet[0]
 }
 
 ## Subnet jumpbox
@@ -167,43 +120,7 @@ module "apim_snet" {
   private_endpoint_network_policies_enabled = false
 }
 
-## Eventhub subnet
-module "eventhub_snet" {
 
-  count = 1
-
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
-  name                                      = "${local.project}-eventhub-snet"
-  address_prefixes                          = var.cidr_subnet_eventhub
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet_integration.name
-  service_endpoints                         = ["Microsoft.EventHub"]
-  private_endpoint_network_policies_enabled = false
-}
-
-moved {
-  from = module.eventhub_snet
-  to   = module.eventhub_snet[0]
-}
-
-# Subnet for Azure Data Factory
-module "adf_snet" {
-
-  count = var.enable.tae.adf ? 1 : 0
-
-
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
-  name                                      = "${local.project}-adf-snet"
-  address_prefixes                          = var.cidr_subnet_adf
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = false
-
-  service_endpoints = [
-    "Microsoft.AzureCosmosDB",
-    "Microsoft.EventHub"
-  ]
-}
 
 #
 # PUBLIC IP
@@ -232,20 +149,6 @@ resource "azurerm_public_ip" "apim_v2_management_public_ip" {
   allocation_method   = "Static"
 
   zones = var.apim_v2_zones
-
-  tags = var.tags
-}
-
-resource "azurerm_public_ip" "mc_public_ip" {
-
-  name                = "${local.project}-weu-mc-pip"
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  location            = var.location
-  sku                 = "Standard"
-  domain_name_label   = "mc-cstar-weu-${var.env}"
-  allocation_method   = "Static"
-
-  zones = [1, 2, 3]
 
   tags = var.tags
 }
@@ -337,39 +240,6 @@ module "route_table_peering_sia" {
   ]
 
   tags = var.tags
-}
-
-# Azure Blob Storage subnet
-module "storage_account_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
-  name                                      = "${local.project}-storage-account-snet"
-  address_prefixes                          = var.cidr_subnet_storage_account
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet.name
-  service_endpoints                         = ["Microsoft.Storage"]
-  private_endpoint_network_policies_enabled = false
-}
-
-#
-# Private endpoint
-#
-resource "azurerm_private_endpoint" "blob_storage_pe" {
-  name                = "${local.project}-blob-storage-pe"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  subnet_id           = module.storage_account_snet.id
-
-  private_dns_zone_group {
-    name                 = azurerm_private_dns_zone.storage_account.name
-    private_dns_zone_ids = [azurerm_private_dns_zone.storage_account.id]
-  }
-  private_service_connection {
-    name                           = "${local.project}-blob-storage-private-service-connection"
-    is_manual_connection           = false
-    private_connection_resource_id = module.cstarblobstorage.id
-    subresource_names              = ["blob"]
-  }
-
 }
 
 resource "azurerm_private_endpoint" "dexp_pe" {

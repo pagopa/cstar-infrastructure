@@ -125,16 +125,6 @@ data "azurerm_key_vault_certificate" "rtp_cb_gw_cstar" {
   key_vault_id = module.key_vault.id
 }
 
-data "azurerm_key_vault_secret" "bpd_pm_client_certificate_thumbprint" {
-  name         = "BPD-PM-client-certificate-thumbprint"
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "rtd_pm_client-certificate-thumbprint" {
-  name         = "RTD-PM-client-certificate-thumbprint"
-  key_vault_id = module.key_vault.id
-}
-
 data "azurerm_key_vault_secret" "monitor_notification_slack_email" {
   name         = "monitor-notification-slack-email"
   key_vault_id = module.key_vault.id
@@ -170,33 +160,11 @@ data "azurerm_key_vault_secret" "apim_publisher_email" {
   key_vault_id = module.key_vault.id
 }
 
-data "azurerm_key_vault_secret" "apim_internal_user_email" {
-  name         = "apim-internal-user-email"
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "cruscotto-basic-auth-pwd" {
-  name         = "CRUSCOTTO-Basic-Auth-Pwd"
-  key_vault_id = module.key_vault.id
-}
-
 #
 # Security Subscription
 #
 data "azurerm_key_vault_secret" "sec_sub_id" {
   name         = "sec-subscription-id"
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "sec_workspace_id" {
-  count        = var.env_short == "p" ? 1 : 0
-  name         = "sec-workspace-id"
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "sec_storage_id" {
-  count        = var.env_short == "p" ? 1 : 0
-  name         = "sec-storage-id"
   key_vault_id = module.key_vault.id
 }
 
@@ -208,27 +176,11 @@ data "azurerm_key_vault_secret" "opsgenie_webhook_url" {
   key_vault_id = module.key_vault.id
 }
 
-#
-# RTD Domain KV
-#
-data "azurerm_key_vault" "rtd_domain_kv" {
-  name                = local.rtd_keyvault_name
-  resource_group_name = local.rtd_rg_keyvault_name
-}
 
 # INFRA OpsGenie Cstar_Azure_infra_prod webhook key
 data "azurerm_key_vault_secret" "opsgenie_cstar_infra_webhook_key" {
   count = var.env_short == "p" ? 1 : 0
   name  = "opsgenie-cstar-infra-webhook-token"
 
-  key_vault_id = module.key_vault.id
-}
-
-data "azurerm_key_vault_secret" "pagopa_subscritpion_id" {
-  name         = "pagopa-subscription-id"
-  key_vault_id = module.key_vault.id
-}
-data "azurerm_key_vault_secret" "pagopa_rtp_eventhub_pip" {
-  name         = "peered-rtp-eventhub-pip"
   key_vault_id = module.key_vault.id
 }
