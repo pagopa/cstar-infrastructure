@@ -163,23 +163,6 @@ cosmos_mongo_db_params = {
   enabled = true
 }
 
-dexp_params = {
-  enabled = true
-  sku = {
-    name     = "Standard_D11_v2"
-    capacity = 2
-  }
-  autoscale = {
-    enabled       = true
-    min_instances = 2
-    max_instances = 5
-  }
-  public_network_access_enabled = false
-  double_encryption_enabled     = true
-  disk_encryption_enabled       = true
-  purge_enabled                 = true
-}
-
 enable_azdoa = true
 
 external_domain = "pagopa.it"
@@ -192,9 +175,6 @@ ingress_load_balancer_ip = "10.11.100.250"
 enable = {
   core = {
     private_endpoints_subnet = true
-  }
-  tae = {
-    adf = true
   }
 }
 

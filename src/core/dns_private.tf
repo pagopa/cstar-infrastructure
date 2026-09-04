@@ -206,18 +206,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_private_endpoin
 # Data Factory - Private DNS Zone
 #
 resource "azurerm_private_dns_zone" "adf" {
-  count = var.enable.tae.adf ? 1 : 0
 
   name                = "privatelink.datafactory.azure.net"
   resource_group_name = azurerm_resource_group.rg_vnet.name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "adf_vnet" {
-  count = var.enable.tae.adf ? 1 : 0
-
   name                  = "${local.project}-adf-private-dns-zone-link"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.adf[count.index].name
+  private_dns_zone_name = azurerm_private_dns_zone.adf.name
   virtual_network_id    = module.vnet.id
 }
 
@@ -226,7 +223,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "datafactory_private_en
 
   name                  = "${each.value.name}-private-dns-zone-link"
   resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.adf[0].name
+  private_dns_zone_name = azurerm_private_dns_zone.adf.name
   virtual_network_id    = each.value.id
 }
 
