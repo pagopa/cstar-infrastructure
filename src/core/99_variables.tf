@@ -376,25 +376,6 @@ variable "cosmos_mongo_db_params" {
   })
 }
 
-variable "dexp_params" {
-  type = object({
-    enabled = bool
-    sku = object({
-      name     = string
-      capacity = number
-    })
-    autoscale = object({
-      enabled       = bool
-      min_instances = number
-      max_instances = number
-    })
-    public_network_access_enabled = bool
-    double_encryption_enabled     = bool
-    disk_encryption_enabled       = bool
-    purge_enabled                 = bool
-  })
-}
-
 variable "tags" {
   type = map(any)
   default = {
@@ -407,18 +388,12 @@ variable "enable" {
     core = object({
       private_endpoints_subnet = bool
     })
-    tae = object({
-      adf = bool
-    })
   })
   description = "Feature flags"
   default = {
     core = {
       private_endpoints_subnet = false
       aks                      = false
-    }
-    tae = {
-      adf = false
     }
   }
 }
