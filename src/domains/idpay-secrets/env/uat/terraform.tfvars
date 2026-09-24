@@ -1,6 +1,0 @@
-prefix         = "cstar"
-env_short      = "u"
-env            = "uat"
-domain         = "idpay"
-location       = "westeurope"
-location_short = "weu"

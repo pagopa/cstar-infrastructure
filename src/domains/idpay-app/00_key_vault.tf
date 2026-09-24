@@ -1,6 +1,6 @@
 data "azurerm_key_vault" "kv" {
-  name                = "${local.product}-${var.domain}-kv"
-  resource_group_name = "${local.product}-${var.domain}-sec-rg"
+  name                = "cstar-d-itn-idpay-kv"
+  resource_group_name = "cstar-d-itn-idpay-security-rg"
 }
 
 
