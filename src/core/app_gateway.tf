@@ -104,6 +104,18 @@ module "app_gw_maz" {
       pick_host_name_from_backend = false
     }
 
+    apim-mcshared-sse = {
+      protocol                    = "Https"
+      host                        = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+      port                        = 443
+      ip_addresses                = module.apim.private_ip_addresses
+      fqdns                       = [azurerm_dns_a_record.dns_a_appgw_api.fqdn]
+      probe                       = "/status-0123456789abcdef"
+      probe_name                  = "probe-apim-mcshared-sse"
+      request_timeout             = 180
+      pick_host_name_from_backend = false
+    }
+
     portal = {
       protocol     = "Https"
       host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
@@ -373,13 +385,6 @@ module "app_gw_maz" {
       priority              = 50
     }
 
-    mcshared-api = {
-      listener              = "mcshared"
-      backend               = "apim"
-      rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
-      priority              = 60
-    }
-
     api-emd = {
       listener              = "emd"
       backend               = "apim"
@@ -392,6 +397,28 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-platform"
       priority              = 80
+    }
+  }
+
+  routes_path_based = {
+    mcshared-api = {
+      listener     = "mcshared"
+      url_map_name = "mcshared-api"
+      priority     = 60
+    }
+  }
+
+  url_path_map = {
+    mcshared-api = {
+      default_backend               = "apim"
+      default_rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
+      path_rule = {
+        auth_itn = {
+          paths                 = ["/auth-itn/*"]
+          backend               = "apim-mcshared-sse"
+          rewrite_rule_set_name = "rewrite-rule-set-api-mcshared"
+        }
+      }
     }
   }
 
