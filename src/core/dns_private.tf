@@ -341,28 +341,3 @@ resource "azurerm_private_dns_zone_virtual_network_link" "key_vault_private_endp
   private_dns_zone_name = azurerm_private_dns_zone.key_vault.name
   virtual_network_id    = each.value.id
 }
-
-#
-# Prometheus Private DNS Zone
-#
-resource "azurerm_private_dns_zone" "prometheus_dns_zone" {
-  name                = "privatelink.${var.location}.prometheus.monitor.azure.com"
-  resource_group_name = module.vnet.resource_group_name
-}
-
-# Create virtual network link for workspace private dns zone
-resource "azurerm_private_dns_zone_virtual_network_link" "prometheus_dns_zone_vnet_link" {
-  name                  = module.vnet.name
-  resource_group_name   = module.vnet.resource_group_name
-  virtual_network_id    = module.vnet.id
-  private_dns_zone_name = azurerm_private_dns_zone.prometheus_dns_zone.name
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "prometheus_weu_private_endpoint_to_secure_hub_vnets" {
-  for_each = local.secure_hub_vnets
-
-  name                  = "${each.value.name}-private-dns-zone-link"
-  resource_group_name   = azurerm_resource_group.rg_vnet.name
-  private_dns_zone_name = azurerm_private_dns_zone.prometheus_dns_zone.name
-  virtual_network_id    = each.value.id
-}
