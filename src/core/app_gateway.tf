@@ -104,6 +104,18 @@ module "app_gw_maz" {
       pick_host_name_from_backend = false
     }
 
+    apim-sse = {
+      protocol                    = "Https"
+      host                        = trim(azurerm_dns_a_record.dns_a_appgw_api.fqdn, ".")
+      port                        = 443
+      ip_addresses                = module.apim.private_ip_addresses
+      fqdns                       = [azurerm_dns_a_record.dns_a_appgw_api.fqdn]
+      probe                       = "/status-0123456789abcdef"
+      probe_name                  = "probe-apim-sse"
+      request_timeout             = 180
+      pick_host_name_from_backend = false
+    }
+
     portal = {
       protocol     = "Https"
       host         = trim(azurerm_dns_a_record.dns_a_apim_dev_portal.fqdn, ".")
@@ -293,6 +305,22 @@ module "app_gw_maz" {
       }
     }
 
+    itw = {
+      protocol           = "Https"
+      host               = local.app_gateway_itw_hostname
+      port               = 443
+      ssl_profile_name   = null
+      firewall_policy_id = null
+
+      certificate = {
+        name = local.app_gateway_itw_certificate_name
+        id = trimsuffix(
+          data.azurerm_key_vault_certificate.itw_cstar.secret_id,
+          data.azurerm_key_vault_certificate.itw_cstar.version
+        )
+      }
+    }
+
     emd = {
       protocol           = "Https"
       host               = local.app_gateway_api_emd_hostname
@@ -392,6 +420,14 @@ module "app_gw_maz" {
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-platform"
       priority              = 80
+    }
+
+    itw-api = {
+      listener              = "itw"
+      listener              = "itw"
+      backend               = "apim-sse"
+      rewrite_rule_set_name = "rewrite-rule-set-api-itw"
+      priority              = 90
     }
   }
 
@@ -530,6 +566,29 @@ module "app_gw_maz" {
               pattern     = "client_id=security-admin-console"
               ignore_case = true
               negate      = false
+            }
+          ]
+          request_header_configurations  = []
+          response_header_configurations = []
+          url = {
+            path         = "notfound"
+            query_string = null
+          }
+        }
+      ]
+    },
+    {
+      name = "rewrite-rule-set-api-itw"
+      rewrite_rules = [
+        {
+          name          = "http-allow-path"
+          rule_sequence = 1
+          conditions = [
+            {
+              variable    = "var_uri_path"
+              pattern     = "(auth-itn/.*)"
+              ignore_case = true
+              negate      = true
             }
           ]
           request_header_configurations  = []
