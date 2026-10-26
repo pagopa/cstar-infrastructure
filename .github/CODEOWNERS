@@ -1,0 +1,4 @@
+# CODEOWNERS protection
+
+/.github/CODEOWNERS @pagopa/payments-cloud-admin
+/.github/ @pagopa/payments-cloud-admin
