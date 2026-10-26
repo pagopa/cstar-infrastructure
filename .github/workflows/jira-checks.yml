@@ -1,0 +1,77 @@
+name: Check JIRA Ticket
+
+# Brief Description:
+# This GitHub Action checks if the branch name in a pull request contains a valid JIRA ticket.
+# It accepts a list of project acronyms (e.g., "RTD,ABC,XYZ") as input, ensuring that the branch
+# name follows the format <ACRONYM>-<NUMBER> (e.g., RTD-123). If the JIRA ticket exists,
+# the PR can proceed; otherwise, the merge is blocked.
+#
+# Required configuration : 
+# 1. **Variables** 
+#  -  `PROJECT_ACRONYMS`: A comma-separated list of project acronyms (e.g., "RTD,ABC,XYZ").
+#  -  `JIRA_BASE_URL`: The base URL of your JIRA instance (e.g., "https://yourcompany.atlassian.net").
+# 2- ** Secrets**
+#    - `JIRA_EMAIL`: The email address associated with the JIRA API token.
+#    - `JIRA_API_TOKEN`: The JIRA API token to authenticate requests.
+# 
+# The action will block a PR merge if the branch name doesn't contain a valid JIRA ticket or if the JIRA ticket doesn't exist.
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  jira-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+# Step to process the input acronyms and prepare the regex
+    - name: Set input for project acronyms
+      id: set_acronyms
+
+      run: |
+  
+        # Assume acronyms are passed in as a comma-separated input, e.g. "RTD,ABC,XYZ"
+        PROJECT_ACRONYMS="${{ vars.project_acronyms }}"
+        # Convert the input into a regex pattern, e.g. "(RTD|ABC|XYZ)"
+        PROJECT_ACRONYMS_REGEX=$(echo "$PROJECT_ACRONYMS" | sed 's/,/|/g')
+        echo "PROJECT_ACRONYMS_REGEX=($PROJECT_ACRONYMS_REGEX)" >> $GITHUB_ENV
+ 
+ # Step to extract the JIRA ticket from the branch name based on the acronyms regex
+   
+    - name: Extract JIRA ticket from branch name
+      id: extract_ticket
+      run: |
+        
+        echo "Current branch ${{ github.head_ref }}"
+        BRANCH_NAME=${{ github.head_ref }}
+        
+        # Use regex to find the JIRA ticket pattern (e.g., RTD-123)
+         if [[ "$BRANCH_NAME" =~ (${PROJECT_ACRONYMS_REGEX}-[0-9]+) ]]; then
+          echo "JIRA_TICKET=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+          echo "Found JIRA ticket: ${BASH_REMATCH[1]}"
+        else
+          echo "No JIRA ticket found in branch name : $BRANCH_NAME "
+          exit 1
+        fi
+
+ # Step to validate the extracted JIRA ticket via the JIRA API
+    - name: Validate JIRA Ticket
+      env:
+        JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
+        JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        JIRA_TICKET: ${{ env.JIRA_TICKET }}
+      run: |
+        ISSUE_URL="$JIRA_BASE_URL/rest/api/3/issue/$JIRA_TICKET"
+        RESPONSE=$(curl -s -u $JIRA_EMAIL:$JIRA_API_TOKEN -X GET $ISSUE_URL)
+        
+        if echo "$RESPONSE" | grep -q "errorMessages"; then
+          echo "JIRA ticket $JIRA_TICKET not found"
+          exit 1
+        else
+          echo "JIRA ticket $JIRA_TICKET found"
+        fi
