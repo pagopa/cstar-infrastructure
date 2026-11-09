@@ -509,7 +509,7 @@ module "app_gw_maz" {
           conditions = [
             {
               variable    = "var_uri_path"
-              pattern     = "(auth/.*|auth-itn/.*)"
+              pattern     = "(auth/.*|auth-itn/.*|^/listmonk/.*)"
               ignore_case = true
               negate      = true
             }
