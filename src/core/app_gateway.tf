@@ -508,8 +508,9 @@ module "app_gw_maz" {
           rule_sequence = 1
           conditions = [
             {
+              # First rollout: expose Listmonk through the gateway in DEV only.
               variable    = "var_uri_path"
-              pattern     = "(auth/.*|auth-itn/.*)"
+              pattern     = var.env == "dev" ? "(auth/.*|auth-itn/.*|^/listmonk/.*)" : "(auth/.*|auth-itn/.*)"
               ignore_case = true
               negate      = true
             }
