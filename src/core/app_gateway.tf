@@ -18,7 +18,8 @@ locals {
   # Additional trusted certificates for non-production environments
   # To add new certificate ( not in production environment ) write the secret name below.
   not_prod_trusted_client_certificate_names = [
-    "cstar-${var.env_short}-rtp-nexi-cb-chain"
+    "cstar-${var.env_short}-rtp-nexi-cb-chain",
+    "cstar-${var.env_short}-rtp-tas-group-ca-root"
   ]
 
   # Combined list of all trusted certificates based on environment
